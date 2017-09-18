@@ -1,4 +1,4 @@
-/*
+package models;/*
 http://www1.cs.columbia.edu/~bert/courses/3137/hw3_files/
 Simple graph drawing class
 Bert Huang
