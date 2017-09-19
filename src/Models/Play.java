@@ -167,7 +167,7 @@ class RiskGame {
      * possible between all of the players.
      */
     public void distributeTerritories() {
-
+        System.out.println("git test");
     }
 
 }
