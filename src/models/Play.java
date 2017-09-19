@@ -161,7 +161,7 @@ class RiskGame {
      * Sets the number of cards in the deck according to the total number of territories in the map
      */
     public void setDeck() {
-
+        System.out.println("git test");
     }
 
     /**
