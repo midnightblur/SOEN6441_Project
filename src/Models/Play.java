@@ -1,8 +1,5 @@
-package models;
+package Models;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
-
-import java.net.SocketPermission;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
