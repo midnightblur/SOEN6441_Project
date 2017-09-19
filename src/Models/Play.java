@@ -29,23 +29,23 @@ public class Play {
  * 6) end of game
  */
 class RiskGame {
-    private boolean is_playing;
-    private int curr_players;
-    private int human_players;
-    private int num_of_territories;
-    private int num_of_continents;
+    private boolean isPlaying;
+    private int currPlayers;
+    private int humanPlayers;
+    private int numOfTerritories;
+    private int numOfContinents;
 
     /**
      * Constructor for RiskGame. Starts the game and initializes class attributes.
      */
     public RiskGame() {
-        is_playing = true;
+        isPlaying = true;
 
-        welcome_msg();
+        welcomeMsg();
 
         // TODO: 1) load map -- map import & parsing feature
-        num_of_territories = 10;
-        num_of_continents = 3;
+        numOfTerritories = 10;
+        numOfContinents = 3;
 
         countPlayers();
 
@@ -57,51 +57,51 @@ class RiskGame {
     /**
      * Getters and Setters methods for class RiskGame's private attributes
      */
-    public boolean getIs_playing() {
-        return this.is_playing;
+    public boolean getPlaying() {
+        return this.isPlaying;
     }
 
-    public void setIs_playing(boolean is_playing) {
-        this.is_playing = is_playing;
+    public void setPlaying(boolean playing) {
+        this.isPlaying = playing;
     }
 
-    public int getCurr_players() {
-        return this.curr_players;
+    public int getCurrPlayers() {
+        return this.currPlayers;
     }
 
-    public void setCurr_players(int curr_players) {
-        this.curr_players = curr_players;
+    public void setCurrPlayers(int currPlayers) {
+        this.currPlayers = currPlayers;
     }
 
-    public int getHuman_players() {
-        return this.human_players;
+    public int getHumanPlayers() {
+        return this.humanPlayers;
     }
 
-    public void setHuman_players(int human_players) {
-        this.human_players = human_players;
+    public void setHumanPlayers(int humanPlayers) {
+        this.humanPlayers = humanPlayers;
     }
 
-    public int getNum_of_territories() {
-        return this.num_of_territories;
+    public int getNumOfTerritories() {
+        return this.numOfTerritories;
     }
 
-    public void setNum_of_territories(int num_of_territories) {
-        this.num_of_territories = num_of_territories;
+    public void setNumOfTerritories(int numOfTerritories) {
+        this.numOfTerritories = numOfTerritories;
     }
 
-    public int getNum_of_continents() {
-        return this.num_of_continents;
+    public int getNumOfContinents() {
+        return this.numOfContinents;
     }
 
-    public void setNum_of_continents(int num_of_continents) {
-        this.num_of_continents = num_of_continents;
+    public void setNumOfContinents(int numOfContinents) {
+        this.numOfContinents = numOfContinents;
     }
 
 
     /**
      * Prints out the welcome message at the beginning of the game
      */
-    private void welcome_msg() {
+    private void welcomeMsg() {
         System.out.println();
         System.out.println("==================================");
         System.out.println("-  Welcome to Team2's Risk Game  -");
@@ -121,16 +121,16 @@ class RiskGame {
         do {
             try {
                 System.out.print("Please enter the number of players: ");
-                curr_players = sc.nextInt();
-                if (curr_players >= 2 && curr_players <= num_of_territories) {
+                currPlayers = sc.nextInt();
+                if (currPlayers >= 2 && currPlayers <= numOfTerritories) {
                     flag = true;
                 }
                 else {
-                    System.out.print("Number of players must be between 2 and " + num_of_territories + ". ");
+                    System.out.print("Number of players must be between 2 and " + numOfTerritories + ". ");
                 }
             } catch (InputMismatchException e) {
                 sc.nextLine();
-                System.out.print("Number of players must be between 2 and " + num_of_territories + ". ");
+                System.out.print("Number of players must be between 2 and " + numOfTerritories + ". ");
                 flag = false;
             }
         } while (!flag);
@@ -139,16 +139,16 @@ class RiskGame {
         do {
             try {
                 System.out.print("Please enter the number of human players: ");
-                human_players = sc.nextInt();
-                if (human_players >= 0 && human_players <= curr_players) {
+                humanPlayers = sc.nextInt();
+                if (humanPlayers >= 0 && humanPlayers <= currPlayers) {
                     flag = true;
                 }
                 else {
-                    System.out.print("Please enter an integer between 0 and " + curr_players + ". ");
+                    System.out.print("Please enter an integer between 0 and " + currPlayers + ". ");
                 }
             } catch (InputMismatchException e) {
                 sc.nextLine();
-                System.out.print("Please enter an integer between 0 and " + curr_players + ". ");
+                System.out.print("Please enter an integer between 0 and " + currPlayers + ". ");
                 flag = false;
             }
         } while (!flag);
