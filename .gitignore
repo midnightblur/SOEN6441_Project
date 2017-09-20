@@ -125,3 +125,6 @@ Temporary Items
 
 # Image files
 *.bmp
+
+# Test code
+Test
