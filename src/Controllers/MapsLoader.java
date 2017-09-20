@@ -1,5 +1,9 @@
-package Models;
+package Controllers;
 
+import Models.Adjacency;
+import Models.Continent;
+import Models.GameMap;
+import Models.Territory;
 import Utils.Config;
 
 import java.io.BufferedReader;
@@ -13,7 +17,7 @@ public class MapsLoader {
     /**
      * Input: map text file name path
      * Output: A GameMap object containing map's info including territories, continents, adjacency
-     * Operation: validate and read the text file content line by line to get map info
+     * Operation: read the map text file content line by line to get map info
      * @param filePath
      * @return
      */
@@ -26,12 +30,37 @@ public class MapsLoader {
             String line;
             Map<String, Continent> continentsMap = new HashMap<>();
             while ((line = bufferedReader.readLine()) != null) {
-//                if (line.compareTo(Config.MAPS_FLAG_MAP) == 0) {
-//                    while ((line = bufferedReader.readLine()).compareTo("") != 0) {
-//
-//                    }
-//                }
-                if (line.compareTo(Config.MAPS_FLAG_CONTINENTS) == 0) {
+                if (line.compareTo(Config.MAPS_FLAG_MAP) == 0) {
+                    while ((line = bufferedReader.readLine()).compareTo("") != 0) {
+                        String[] lineContent = line.split(Config.MAPS_DELIMETER_MAP);
+                        switch (lineContent[0]) {
+                            case Config.MAPS_AUTHOR:
+                                gameMap.setAuthor(lineContent[1]);
+                                break;
+                            case Config.MAPS_IMAGE:
+                                gameMap.setImage(lineContent[1]);
+                                break;
+                            case Config.MAPS_WRAP:
+                                if (lineContent[1].compareTo(Config.MAPS_NO) == 0)
+                                    gameMap.setWrapping(false);
+                                else
+                                    gameMap.setWrapping(true);
+                                break;
+                            case Config.MAPS_SCROLL:
+                                gameMap.setScroll(lineContent[1]);
+                                break;
+                            case Config.MAPS_WARN:
+                                if (lineContent[1].compareTo(Config.MAPS_NO) == 0)
+                                    gameMap.setWarning(false);
+                                else
+                                    gameMap.setWarning(true);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                else if (line.compareTo(Config.MAPS_FLAG_CONTINENTS) == 0) {
                     while ((line = bufferedReader.readLine()).compareTo("") != 0) {
                         String[] continentInfo = line.split(Config.MAPS_DELIMETER_CONTINENTS);
                         Continent continent = new Continent(continentInfo[0], Integer.parseInt(continentInfo[1]));
