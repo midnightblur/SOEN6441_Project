@@ -16,7 +16,7 @@ import java.util.Vector;
  *      c) fortifications phase
  * 5) end of game
  */
-class RiskGame {
+public class RiskGame {
     private boolean isPlaying;
     private int currPlayers;
     private int humanPlayers;
@@ -30,7 +30,7 @@ class RiskGame {
      */
     public RiskGame(GameMap gameMap) {
         isPlaying = true;
-        numOfTerritories = gameMap.getTerritoryCount();
+        numOfTerritories = gameMap.getTerritoriesNumber();
 
         welcomeMsg();
 

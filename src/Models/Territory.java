@@ -129,6 +129,10 @@ public class Territory {
             throw new IllegalArgumentException();
     }
 
+    public int getNeighborsNumber() {
+        return neighbors.size();
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null)

@@ -1,6 +1,5 @@
 package Controllers;
 
-import Models.Adjacency;
 import Models.Continent;
 import Models.GameMap;
 import Models.Territory;
@@ -10,10 +9,27 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class MapsLoader {
+public class GameMapHandler {
+    private String validateMsg = "";
+    private GameMap gameMap;
+
+    /* Ctors & Dtors */
+    public GameMapHandler(String filePath) {
+        readMapFile(filePath);
+    }
+
+    /* Getters & Setters */
+    public String getValidateMsg() {
+        return validateMsg;
+    }
+
+    public GameMap getGameMap() {
+        return gameMap;
+    }
+
+    /* Private methods */
     /**
      * Input: map text file name path
      * Output: A GameMap object containing map's info including territories, continents, adjacency
@@ -21,8 +37,7 @@ public class MapsLoader {
      * @param filePath
      * @return
      */
-    public GameMap readMapFile(String filePath) {
-        GameMap gameMap;
+    private GameMap readMapFile(String filePath) {
         try {
             gameMap = new GameMap(filePath);
             File file = new File(filePath);
@@ -56,7 +71,7 @@ public class MapsLoader {
                                     gameMap.setWarning(true);
                                 break;
                             default:
-                                break;
+                                throw new IllegalArgumentException(Config.MSG_MAPFILE_INVALID_FORMAT);
                         }
                     }
                 }
@@ -73,20 +88,84 @@ public class MapsLoader {
                         if (line.compareTo("") != 0) {
                             String[] territoryInfo = line.split(Config.MAPS_DELIMETER_TERRITORIES);
                             Territory territory = new Territory(territoryInfo[0], Integer.parseInt(territoryInfo[1]), Integer.parseInt(territoryInfo[2]), continentsMap.get(territoryInfo[3]));
-                            for (int i = 4; i < territoryInfo.length; i++) {
+                            for (int i = 4; i < territoryInfo.length; i++)
                                 territory.addNeighbor(territoryInfo[i]);
-                                gameMap.addEdge(new Adjacency(territoryInfo[0], territoryInfo[i]));
-                            }
                             gameMap.addTerritory(territory);
                         }
                     }
                 }
             }
+
+            validateMsg = validateMap();
+            if (validateMsg.compareTo(Config.MSG_MAPFILE_VALID) != 0)
+                throw new IllegalArgumentException(validateMsg);
         } catch (IOException e) {
             e.printStackTrace(System.err);
-            System.err.println(Config.MSG_INVALID_MAP_FILE);
+            return null;
+        } catch (IllegalArgumentException e) {
+//            e.printStackTrace(System.err);
+//            System.err.println(e.getMessage());
             return null;
         }
         return gameMap;
+    }
+
+    /**
+     * Validate the Map file. Check if
+     * 1. The map has no more than 255 territories
+     * 2. The map has no more than 32 continents
+     * 3. Each and every territory has the number of neighbors from 1 to 10
+     * 4. The whole map is a connected graph
+     * @param
+     * @return
+     */
+    private String validateMap() {
+        /* 1. The map has no more than 255 territories */
+        if (gameMap.getTerritoriesNumber() > Config.MAPS_MAX_TERRITORIES)
+            return Config.MSG_MAPFILE_TOO_MANY_TERRITORIES;
+        /* 2. The map has no more than 32 continents */
+        if (gameMap.getContinentsNumber() > Config.MAPS_MAX_CONTINENTS)
+            return Config.MSG_MAPFILE_TOO_MANY_CONTINENTS;
+        /* 3. Each and every territory has the number of neighbors from 1 to 10 */
+        for (Territory territory : gameMap.getTerritories().values()) {
+            if (territory.getNeighborsNumber() == 0)
+                return String.format(Config.MSG_MAPFILE_NO_NEIGHBORS, territory.getName());
+            if (territory.getNeighborsNumber() > Config.MAPS_MAX_NEIGHBORS)
+                return Config.MSG_MAPFILE_TOO_MANY_NEIGHBORS;
+        }
+        /* 4. The whole map is a connected graph */
+        if (!isGraphConnected())
+            return Config.MSG_MAPFILE_DISCONNECTED_GRAPH;
+
+        return Config.MSG_MAPFILE_VALID;
+    }
+
+    /**
+     * Using Breadth-First-Search algorithm to check if the graph is connected
+     * @param
+     * @return
+     */
+    private boolean isGraphConnected() {
+        Set<String> nodeSet = new HashSet<>();
+        Queue<String> nodeQueue = new LinkedList<>();
+
+        nodeSet.add(gameMap.getArbitraryTerritory().getName());
+        nodeQueue.add(gameMap.getArbitraryTerritory().getName());
+
+        while (!nodeQueue.isEmpty()) {
+            String currentNode = nodeQueue.poll();
+            Territory territory = gameMap.getATerritory(currentNode);
+            for (Iterator<String> iterator = territory.getNeighbors().iterator(); iterator.hasNext();) {
+                String neighborName = iterator.next();
+                if (!nodeSet.contains(neighborName)) {
+                    nodeSet.add(neighborName);
+                    nodeQueue.add(neighborName);
+                }
+            }
+        }
+
+        if (nodeSet.size() == gameMap.getTerritoriesNumber())
+            return true;
+        return false;
     }
 }

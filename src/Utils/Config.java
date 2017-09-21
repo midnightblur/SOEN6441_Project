@@ -3,7 +3,10 @@ package Utils;
 import java.awt.*;
 
 public class Config {
-    // Constants for reading Models.GameMap Text File
+    // Constants for reading GameMap Text File
+    public static final int MAPS_MAX_TERRITORIES = 255;
+    public static final int MAPS_MAX_CONTINENTS = 32;
+    public static final int MAPS_MAX_NEIGHBORS = 10;
     public static final String MAPS_AUTHOR = "author";
     public static final String MAPS_IMAGE = "image";
     public static final String MAPS_WRAP = "wrap";
@@ -28,11 +31,25 @@ public class Config {
     public static final Color GRAPH_NODE_COLOR = Color.YELLOW;
     public static final Color GRAPH_EDGE_COLOR = Color.BLACK;
     public static final Color GRAPH_BORDER_COLOR = Color.BLACK;
-    public static final int GRAPH_FRAME_WIDTH = 1440;
-    public static final int GRAPH_FRAME_HEIGHT = 850;
+    public static final int UI_FRAME_WIDTH = 1440;
+    public static final int UI_FRAME_HEIGHT = 850;
     public static final double GRAPH_WIDTH_SCALE = 1.5;
     public static final double GRAPH_HEIGHT_SCALE = 2;
+    public static final Color GRAPH_COLOR_P1 = Color.GREEN;
+    public static final Color GRAPH_COLOR_P2 = Color.BLUE;
+    public static final Color GRAPH_COLOR_P3 = Color.RED;
+    public static final Color GRAPH_COLOR_P4 = Color.ORANGE;
+    public static final Color GRAPH_COLOR_P5 = Color.PINK;
+    public static final Color GRAPH_COLOR_P6 = Color.MAGENTA;
 
     // Messages' content for users
-    public static final String MSG_INVALID_MAP_FILE = "Invalid map file";
+    public static final String MSG_MAPFILE_ERROR_TITLE = "The map file has error";
+    public static final String MSG_MAPFILE_VALID = "The file map is valid";
+    public static final String MSG_MAPFILE_INVALID_FORMAT = "Invalid format text file";
+    public static final String MSG_MAPFILE_TOO_MANY_TERRITORIES = "Too many territories. Maximum number is " + MAPS_MAX_TERRITORIES;
+    public static final String MSG_MAPFILE_TOO_MANY_CONTINENTS = "Too many continents. Maximum number is " + MAPS_MAX_CONTINENTS;
+    public static final String MSG_MAPFILE_TOO_MANY_NEIGHBORS = "%s has too many neighbors. Maximum number is " + MAPS_MAX_NEIGHBORS;
+    public static final String MSG_MAPFILE_NO_NEIGHBORS = "%s has no neighbor";
+    public static final String MSG_MAPFILE_DISCONNECTED_GRAPH = "The graph is not connected";
+    public static final String MSG_MAPFILE_NO_IMAGE = "The map image is missing";
 }
