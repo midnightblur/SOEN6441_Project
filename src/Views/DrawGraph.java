@@ -32,7 +32,6 @@ public class DrawGraph extends JFrame {
         if (gameMap != null) {
             try {
                 FontMetrics fontMetrics = g.getFontMetrics();
-                int nodeHeight = Math.max(height, fontMetrics.getHeight());
                 Map<String, Territory> territoryMap = gameMap.getTerritories();
 
             /* draw the image */
@@ -42,11 +41,8 @@ public class DrawGraph extends JFrame {
             /* draw the nodes */
                 for (Map.Entry<String, Territory> entry : territoryMap.entrySet()) {
                     Territory territory = entry.getValue();
-                    int nodeWidth = Math.max(width, fontMetrics.stringWidth(String.valueOf(territory.getArmies())) + width / 2);
-                    int xOval = territory.getX() - nodeWidth / 2;
-                    int yOval = territory.getY() - nodeHeight / 2;
-                    int xString = xOval + width / 2 - fontMetrics.stringWidth(String.valueOf(territory.getArmies())) / 2;
-                    int yString = yOval + height / 2 + fontMetrics.getHeight() / 2;
+                    int xString = territory.getX() - fontMetrics.stringWidth(String.valueOf(territory.getArmies())) / 2;
+                    int yString = territory.getY() + fontMetrics.getHeight() / 2;
                     g.drawString(String.valueOf(territory.getArmies()), xString, yString);
                 }
             } catch (IOException e) {
