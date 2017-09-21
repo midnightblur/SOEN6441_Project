@@ -23,7 +23,7 @@ public class TestRunner {
       //OR
       
 	  //run all classes stated in a set of test cases
-      result = JUnitCore.runClasses(TestJunit1.class, TestJunit5.class);
+      result = JUnitCore.runClasses(TestJunit1.class, TestJunit1.class);
       //Result collects the results of each test
       for (Failure failure : result.getFailures()) {
     	 //print out the result of each result that is a failure
