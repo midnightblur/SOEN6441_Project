@@ -38,10 +38,11 @@ public class GameMapHandler {
      * @return
      */
     private GameMap readMapFile(String filePath) {
+        BufferedReader bufferedReader = null;
         try {
             gameMap = new GameMap(filePath);
             File file = new File(filePath);
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            bufferedReader = new BufferedReader(new FileReader(file));
             String line;
             Map<String, Continent> continentsMap = new HashMap<>();
             while ((line = bufferedReader.readLine()) != null) {
@@ -106,6 +107,13 @@ public class GameMapHandler {
 //            e.printStackTrace(System.err);
 //            System.err.println(e.getMessage());
             return null;
+        } finally {
+            if (bufferedReader != null)
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace(System.err);
+                }
         }
         return gameMap;
     }
