@@ -18,7 +18,7 @@ public class PlayUI extends JFrame {
     public PlayUI() {
         gameMapHandler = new GameMapHandler(Config.MAPS_PATH);
         mapPanel = new MapPanel(gameMapHandler.getGameMap());
-        if (gameMapHandler.getValidateMsg() != Config.MSG_MAPFILE_VALID)
+        if (gameMapHandler.getValidateMsg().compareTo(Config.MSG_MAPFILE_VALID) != 0)
             JOptionPane.showMessageDialog(this, gameMapHandler.getValidateMsg(), Config.MSG_MAPFILE_ERROR_TITLE, JOptionPane.ERROR_MESSAGE);
     }
 
