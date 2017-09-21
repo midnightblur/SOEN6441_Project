@@ -42,6 +42,9 @@ public class Config {
     public static final Color GRAPH_COLOR_P5 = Color.PINK;
     public static final Color GRAPH_COLOR_P6 = Color.MAGENTA;
 
+    // Constants for dice
+    public static final int MAX_PIPS = 6;
+
     // Messages' content for users
     public static final String MSG_MAPFILE_ERROR_TITLE = "The map file has error";
     public static final String MSG_MAPFILE_VALID = "The file map is valid";
