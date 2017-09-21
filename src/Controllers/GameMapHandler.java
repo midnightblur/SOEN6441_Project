@@ -30,10 +30,12 @@ public class GameMapHandler {
     }
 
     /* Private methods */
+
     /**
      * Input: map text file name path
      * Output: A GameMap object containing map's info including territories, continents, adjacency
      * Operation: read the map text file content line by line to get map info
+     *
      * @param filePath
      * @return
      */
@@ -75,16 +77,14 @@ public class GameMapHandler {
                                 throw new IllegalArgumentException(Config.MSG_MAPFILE_INVALID_FORMAT);
                         }
                     }
-                }
-                else if (line.compareTo(Config.MAPS_FLAG_CONTINENTS) == 0) {
+                } else if (line.compareTo(Config.MAPS_FLAG_CONTINENTS) == 0) {
                     while ((line = bufferedReader.readLine()).compareTo("") != 0) {
                         String[] continentInfo = line.split(Config.MAPS_DELIMETER_CONTINENTS);
                         Continent continent = new Continent(continentInfo[0], Integer.parseInt(continentInfo[1]));
                         continentsMap.putIfAbsent(continent.getName(), continent);
                         gameMap.addContinent(continent);
                     }
-                }
-                else if (line.compareTo(Config.MAPS_FLAG_TERRITORIES) == 0) {
+                } else if (line.compareTo(Config.MAPS_FLAG_TERRITORIES) == 0) {
                     while ((line = bufferedReader.readLine()) != null) {
                         if (line.compareTo("") != 0) {
                             String[] territoryInfo = line.split(Config.MAPS_DELIMETER_TERRITORIES);
@@ -124,6 +124,7 @@ public class GameMapHandler {
      * 2. The map has no more than 32 continents
      * 3. Each and every territory has the number of neighbors from 1 to 10
      * 4. The whole map is a connected graph
+     *
      * @param
      * @return
      */
@@ -150,6 +151,7 @@ public class GameMapHandler {
 
     /**
      * Using Breadth-First-Search algorithm to check if the graph is connected
+     *
      * @param
      * @return
      */
@@ -163,7 +165,7 @@ public class GameMapHandler {
         while (!nodeQueue.isEmpty()) {
             String currentNode = nodeQueue.poll();
             Territory territory = gameMap.getATerritory(currentNode);
-            for (Iterator<String> iterator = territory.getNeighbors().iterator(); iterator.hasNext();) {
+            for (Iterator<String> iterator = territory.getNeighbors().iterator(); iterator.hasNext(); ) {
                 String neighborName = iterator.next();
                 if (!nodeSet.contains(neighborName)) {
                     nodeSet.add(neighborName);
