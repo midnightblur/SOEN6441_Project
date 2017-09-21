@@ -17,6 +17,7 @@ public class GameMap {
     private Map<String, Territory> territories;
     private Vector<Continent> continents;
     private int minX, maxX, minY, maxY;
+    private int imageWidth, imageHeight;
 
     /* Ctors & Dtors */
     public GameMap(String mapPath) {
@@ -78,6 +79,22 @@ public class GameMap {
 
     public Vector<Continent> getContinents() {
         return continents;
+    }
+
+    public int getImageWidth() {
+        return imageWidth;
+    }
+
+    public void setImageWidth(int imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public int getImageHeight() {
+        return imageHeight;
+    }
+
+    public void setImageHeight(int imageHeight) {
+        this.imageHeight = imageHeight;
     }
 
     /* Public methods */

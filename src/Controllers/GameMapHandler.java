@@ -13,13 +13,23 @@ import java.util.*;
 
 public class GameMapHandler {
     private String validateMsg = "";
+    private GameMap gameMap;
+
+    /* Ctors & Dtors */
+    public GameMapHandler(String filePath) {
+        readMapFile(filePath);
+    }
 
     /* Getters & Setters */
-
     public String getValidateMsg() {
         return validateMsg;
     }
 
+    public GameMap getGameMap() {
+        return gameMap;
+    }
+
+    /* Private methods */
     /**
      * Input: map text file name path
      * Output: A GameMap object containing map's info including territories, continents, adjacency
@@ -27,8 +37,7 @@ public class GameMapHandler {
      * @param filePath
      * @return
      */
-    public GameMap readMapFile(String filePath) {
-        GameMap gameMap;
+    private GameMap readMapFile(String filePath) {
         try {
             gameMap = new GameMap(filePath);
             File file = new File(filePath);
@@ -87,7 +96,7 @@ public class GameMapHandler {
                 }
             }
 
-            validateMsg = validateMap(gameMap);
+            validateMsg = validateMap();
             if (validateMsg.compareTo(Config.MSG_MAPFILE_VALID) != 0)
                 throw new IllegalArgumentException(validateMsg);
         } catch (IOException e) {
@@ -107,10 +116,10 @@ public class GameMapHandler {
      * 2. The map has no more than 32 continents
      * 3. Each and every territory has the number of neighbors from 1 to 10
      * 4. The whole map is a connected graph
-     * @param gameMap
+     * @param
      * @return
      */
-    private String validateMap(GameMap gameMap) {
+    private String validateMap() {
         /* 1. The map has no more than 255 territories */
         if (gameMap.getTerritoriesNumber() > Config.MAPS_MAX_TERRITORIES)
             return Config.MSG_MAPFILE_TOO_MANY_TERRITORIES;
@@ -125,18 +134,18 @@ public class GameMapHandler {
                 return Config.MSG_MAPFILE_TOO_MANY_NEIGHBORS;
         }
         /* 4. The whole map is a connected graph */
-        if (!isGraphConnected(gameMap))
-            return Config.MSG_DISCONNECTED_GRAPH;
+        if (!isGraphConnected())
+            return Config.MSG_MAPFILE_DISCONNECTED_GRAPH;
 
         return Config.MSG_MAPFILE_VALID;
     }
 
     /**
      * Using Breadth-First-Search algorithm to check if the graph is connected
-     * @param gameMap
+     * @param
      * @return
      */
-    private boolean isGraphConnected(GameMap gameMap) {
+    private boolean isGraphConnected() {
         Set<String> nodeSet = new HashSet<>();
         Queue<String> nodeQueue = new LinkedList<>();
 
