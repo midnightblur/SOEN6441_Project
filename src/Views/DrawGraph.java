@@ -81,13 +81,4 @@ public class DrawGraph extends JFrame {
     public void draw() {
         this.repaint();
     }
-
-    public static void main(String[] args) {
-        MapsLoader mapsLoader = new MapsLoader();
-        GameMap gameMap = mapsLoader.readMapFile(Config.MAPS_PATH);
-        DrawGraph frame = new DrawGraph(gameMap);
-        frame.setSize(Config.GRAPH_FRAME_WIDTH, Config.GRAPH_FRAME_HEIGHT);
-        frame.setVisible(true);
-        frame.draw();
-    }
 }

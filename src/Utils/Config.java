@@ -18,9 +18,9 @@ public class Config {
     public static final String MAPS_DELIMETER_CONTINENTS = "=";
     public static final String MAPS_DELIMETER_TERRITORIES = ",";
     public static final String MAPS_FOLDER = "Maps/";
-//    public static final String MAPS_PATH = "Maps/World.map";
+    public static final String MAPS_PATH = "Maps/World.map";
 //    public static final String MAPS_PATH = "Maps/001_I72_Ghtroc 720.map";
-    public static final String MAPS_PATH = "Maps/99 Mens Morris.map";
+//    public static final String MAPS_PATH = "Maps/99 Mens Morris.map";
 
     // Constants for drawing graph
     public static final int GRAPH_NODE_WIDTH = 50;

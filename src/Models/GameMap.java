@@ -84,6 +84,11 @@ public class GameMap {
         this.warning = warning;
     }
 
+    public int getTerritoryCount() {
+        int territoryCount = this.territories.size();
+        return territoryCount;
+    }
+
     public void addEdge(Adjacency adjacency) {
         if (!adjacencies.contains(adjacency))
             adjacencies.add(adjacency);
