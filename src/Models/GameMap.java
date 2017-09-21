@@ -1,6 +1,7 @@
 package Models;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -14,32 +15,19 @@ public class GameMap {
     private boolean warning;
 
     private Map<String, Territory> territories;
-    private Vector<Adjacency> adjacencies;
     private Vector<Continent> continents;
     private int minX, maxX, minY, maxY;
 
-    // Public methods
+    /* Ctors & Dtors */
     public GameMap(String mapPath) {
         this.mapPath = mapPath;
         this.territories = new HashMap<>();
-        this.adjacencies = new Vector<>();
         this.continents = new Vector<>();
         minX = minY = Integer.MAX_VALUE;
         maxX = maxY = Integer.MIN_VALUE;
     }
 
-    public Map<String, Territory> getTerritories() {
-        return territories;
-    }
-
-    public Vector<Adjacency> getAdjacencies() {
-        return adjacencies;
-    }
-
-    public Vector<Continent> getContinents() {
-        return continents;
-    }
-
+    /* Getters & Setters */
     public String getMapPath() {
         return mapPath;
     }
@@ -84,16 +72,15 @@ public class GameMap {
         this.warning = warning;
     }
 
-    public void addEdge(Adjacency adjacency) {
-        if (!adjacencies.contains(adjacency))
-            adjacencies.add(adjacency);
+    public Map<String, Territory> getTerritories() {
+        return territories;
     }
 
-    public void removeEdge(Adjacency adjacency) {
-        if (adjacencies.contains(adjacency))
-            adjacencies.remove(adjacency);
+    public Vector<Continent> getContinents() {
+        return continents;
     }
 
+    /* Public methods */
     public void addTerritory(Territory territory) {
         if (!territories.containsKey(territory.getName())) {
             territories.put(territory.getName(), territory);
@@ -110,13 +97,33 @@ public class GameMap {
 
     }
 
-    public void removeTerritory(Territory territory) {
-        if (territories.containsKey(territory.getName()))
-            territories.remove(territory);
-    }
-
     public void addContinent(Continent continent) {
         if (!continents.contains(continent))
             continents.add(continent);
+    }
+
+    public int getTerritoriesNumber() {
+        return territories.size();
+    }
+
+    public int getContinentsNumber() {
+        return continents.size();
+    }
+
+    public Territory getATerritory(String territoryName) {
+        return territories.getOrDefault(territoryName, null);
+    }
+
+    public Continent getAContinent(String continentName) {
+        for (Iterator<Continent> iterator = continents.iterator(); iterator.hasNext();) {
+            Continent continent = iterator.next();
+            if (continent.getName().compareTo(continentName) == 0)
+                return continent;
+        }
+        return null;
+    }
+
+    public Territory getArbitraryTerritory() {
+        return territories.values().iterator().next();
     }
 }
