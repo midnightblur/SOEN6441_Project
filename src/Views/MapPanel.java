@@ -12,19 +12,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-public class DrawGraph extends JPanel {
+public class MapPanel extends JPanel {
     private GameMap gameMap;
     private BufferedImage image;
     private FontMetrics fontMetrics;
     private Map<String, Territory> territoryMap;
 
-    public DrawGraph(GameMap gameMap) {
+    public MapPanel(GameMap gameMap) {
         if (gameMap != null) {
             this.gameMap = gameMap;
             try {
                 territoryMap = gameMap.getTerritories();
                 image = ImageIO.read(new File(Config.MAPS_FOLDER + gameMap.getImage()));
-                this.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+                this.setPreferredSize(new Dimension(image.getWidth() + 20, image.getHeight()));
             } catch (IOException e) {
                 e.printStackTrace(System.err);
                 JOptionPane.showMessageDialog(this, Config.MSG_MAPFILE_NO_IMAGE, Config.MSG_MAPFILE_ERROR_TITLE, JOptionPane.ERROR_MESSAGE);
