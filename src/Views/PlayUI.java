@@ -1,6 +1,7 @@
 package Views;
 
 import Controllers.GameMapHandler;
+import Models.RiskGame;
 import Utils.Config;
 
 import javax.swing.*;
@@ -33,5 +34,7 @@ public class PlayUI extends JFrame {
         playUI.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         playUI.setContentPane(playUI.mainArea);
         playUI.setVisible(true);
+
+        RiskGame game = new RiskGame(playUI.gameMapHandler.getGameMap());
     }
 }
