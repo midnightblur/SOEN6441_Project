@@ -33,6 +33,8 @@ public class PlayUI extends JFrame {
         PlayUI playUI = new PlayUI();
         playUI.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         playUI.setContentPane(playUI.mainArea);
+        playUI.pack();
+        playUI.setResizable(false);
         playUI.setVisible(true);
 
         RiskGame game = new RiskGame(playUI.gameMapHandler.getGameMap());
