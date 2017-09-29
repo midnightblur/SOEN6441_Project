@@ -1,4 +1,4 @@
-package Models;
+package model;
 
 /**
  * Each Player in a new game has a unique ID number (starting from 1) and the isBot status
@@ -7,7 +7,7 @@ package Models;
 public class Player {
     private static int nextID = 0;
 
-    // Private data member of Models.Player class
+    // Private data member of model.Player class
     private int playerID;
     private String playerName;
     private boolean isBot;

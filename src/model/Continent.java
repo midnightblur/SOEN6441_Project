@@ -1,4 +1,4 @@
-package Models;
+package model;
 
 import java.util.Vector;
 
@@ -6,7 +6,7 @@ import java.util.Vector;
  *
  */
 public class Continent {
-    // Private data member of Models.Continent class
+    // Private data member of model.Continent class
     private String name;
     private Vector<String> territories; // might have many territories inside, use integer id to save memory
     private int controlValue;

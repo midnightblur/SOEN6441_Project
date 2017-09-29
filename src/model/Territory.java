@@ -1,4 +1,4 @@
-package Models;
+package model;
 
 import java.util.Vector;
 
@@ -45,7 +45,7 @@ public class Territory {
         }
     }
 
-    // Private data members of Models.Territory class
+    // Private data members of model.Territory class
     private String name;
     private Coordinate coordinate;
     private Continent continent;

@@ -1,8 +1,8 @@
-package Views;
+package view;
 
-import Controllers.GameMapHandler;
-import Models.RiskGame;
-import Utils.Config;
+import controller.GameMapHandler;
+import model.RiskGame;
+import util.Config;
 
 import javax.swing.*;
 import java.awt.*;

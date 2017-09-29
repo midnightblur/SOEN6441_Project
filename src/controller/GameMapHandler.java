@@ -1,9 +1,9 @@
-package Controllers;
+package controller;
 
-import Models.Continent;
-import Models.GameMap;
-import Models.Territory;
-import Utils.Config;
+import model.Continent;
+import model.GameMap;
+import model.Territory;
+import util.Config;
 
 import java.io.BufferedReader;
 import java.io.File;

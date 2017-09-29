@@ -1,6 +1,6 @@
-package Models;
+package model;
 
-import Utils.Config;
+import util.Config;
 
 public class Dice {
     private int[] dice;

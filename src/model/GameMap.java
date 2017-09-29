@@ -1,4 +1,4 @@
-package Models;
+package model;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Vector;
 
 public class GameMap {
-    // Private data member of Models.GameMap class
+    // Private data member of model.GameMap class
     private String mapPath;
     private String author;
     private String image;

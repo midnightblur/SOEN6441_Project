@@ -1,8 +1,8 @@
-package Views;
+package view;
 
-import Models.GameMap;
-import Models.Territory;
-import Utils.Config;
+import model.GameMap;
+import model.Territory;
+import util.Config;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

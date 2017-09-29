@@ -1,4 +1,4 @@
-package Models;
+package model;
 
 /**
  * Cards in the deck consist of 3 different types: Infantry, Cavalry, and Artillery.
