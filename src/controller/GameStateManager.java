@@ -1,18 +1,12 @@
 package controller;
 
+import model.GameState;
 import view.PlayUI;
 
 /**
  * Game State Manager helps drive the flow of the game from stage to stage
  */
 public class GameStateManager {
-    
-    /**
-     * The game states
-     */
-    public enum GameState {
-        ENTRY_MENU, MAP_EDITOR, STARTUP_PHASE, REINFORCEMENT_PHASE, ATTACK_PHASE, FORTIFICATION_PHASE
-    }
     
     /**
      * Objects for each state game controller
