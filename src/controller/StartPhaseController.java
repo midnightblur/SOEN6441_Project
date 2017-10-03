@@ -12,6 +12,4 @@ public class StartPhaseController {
     public StartPhaseController(PlayUI playUI) {
         this.playUI = playUI;
     }
-
-
 }

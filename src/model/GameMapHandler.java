@@ -1,8 +1,5 @@
 package model;
 
-import model.Continent;
-import model.GameMap;
-import model.Territory;
 import util.Config;
 
 import java.io.BufferedReader;
@@ -11,11 +8,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * GameMapHandler is responsible for reading the map text file from computer storage
+ * Validate the validity of the map file
+ * Then store all retrieved information to data structure
+ * In case of editing an existing map or creating a brand new one
+ * This class helps write map's information to a text file
+ */
 public class GameMapHandler {
+    /* Data members of model.GameMapHandler class */
     private String validateMsg = "";
     private GameMap gameMap;
 
-    /* Ctors & Dtors */
+    /* Constructors */
     public GameMapHandler(String filePath) {
         readMapFile(filePath);
     }
@@ -30,7 +35,6 @@ public class GameMapHandler {
     }
 
     /* Private methods */
-
     /**
      * Input: map text file name path
      * Output: A GameMap object containing map's info including territories, continents, adjacency
@@ -56,7 +60,7 @@ public class GameMapHandler {
                                 gameMap.setAuthor(lineContent[1]);
                                 break;
                             case Config.MAPS_IMAGE:
-                                gameMap.setImage(lineContent[1]);
+                                // Intentionally do nothing
                                 break;
                             case Config.MAPS_WRAP:
                                 if (lineContent[1].compareTo(Config.MAPS_NO) == 0)
@@ -88,7 +92,7 @@ public class GameMapHandler {
                     while ((line = bufferedReader.readLine()) != null) {
                         if (line.compareTo("") != 0) {
                             String[] territoryInfo = line.split(Config.MAPS_DELIMETER_TERRITORIES);
-                            Territory territory = new Territory(territoryInfo[0], Integer.parseInt(territoryInfo[1]), Integer.parseInt(territoryInfo[2]), continentsMap.get(territoryInfo[3]));
+                            Territory territory = new Territory(territoryInfo[0], continentsMap.get(territoryInfo[3]));
                             for (int i = 4; i < territoryInfo.length; i++)
                                 territory.addNeighbor(territoryInfo[i]);
                             gameMap.addTerritory(territory);
@@ -130,13 +134,13 @@ public class GameMapHandler {
      */
     private String validateMap() {
         /* 1. The map has no more than 255 territories */
-        if (gameMap.getTerritoriesNumber() > Config.MAPS_MAX_TERRITORIES)
+        if (gameMap.getTerritoriesCount() > Config.MAPS_MAX_TERRITORIES)
             return Config.MSG_MAPFILE_TOO_MANY_TERRITORIES;
         /* 2. The map has no more than 32 continents */
-        if (gameMap.getContinentsNumber() > Config.MAPS_MAX_CONTINENTS)
+        if (gameMap.getContinentsCount() > Config.MAPS_MAX_CONTINENTS)
             return Config.MSG_MAPFILE_TOO_MANY_CONTINENTS;
         /* 3. Each and every territory has the number of neighbors from 1 to 10 */
-        for (Territory territory : gameMap.getTerritories().values()) {
+        for (Territory territory : gameMap.getTerritoriesMap().values()) {
             if (territory.getNeighborsNumber() == 0)
                 return String.format(Config.MSG_MAPFILE_NO_NEIGHBORS, territory.getName());
             if (territory.getNeighborsNumber() > Config.MAPS_MAX_NEIGHBORS)
@@ -174,7 +178,7 @@ public class GameMapHandler {
             }
         }
 
-        if (nodeSet.size() == gameMap.getTerritoriesNumber())
+        if (nodeSet.size() == gameMap.getTerritoriesCount())
             return true;
         return false;
     }

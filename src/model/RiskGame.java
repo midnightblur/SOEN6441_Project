@@ -23,14 +23,14 @@ public class RiskGame {
     private int numOfTerritories;
     private int numOfContinents;
     private int numOfCards;
-    private Vector<Card> deck = new Vector<Card>();
+    private Vector<Card> deck = new Vector<>();
 
     /**
      * Constructor for RiskGame. Starts the game and initializes class attributes.
      */
     public RiskGame(GameMap gameMap) {
         isPlaying = true;
-        numOfTerritories = gameMap.getTerritoriesNumber();
+        numOfTerritories = gameMap.getTerritoriesCount();
 
         welcomeMsg();
 

@@ -3,15 +3,25 @@ package model;
 import java.util.Vector;
 
 /**
- *
+ * Continent is a connected subgraph of the whole map
+ * One continent contains several territories
+ * Continents don't share mutual territory
+ * Each continent has a control value as an integer
  */
 public class Continent {
-    // Private data member of model.Continent class
+    /* Private data member of model.Continent class */
     private String name;
     private Vector<String> territories; // might have many territories inside, use integer id to save memory
     private int controlValue;
 
-    // Getters & Setters
+    /* Constructors */
+    public Continent(String name, int controlValue) {
+        this.name = name;
+        this.controlValue = controlValue;
+        this.territories = new Vector<>();
+    }
+
+    /* Getters & Setters */
     public String getName() {
         return name;
     }
@@ -32,13 +42,7 @@ public class Continent {
         return territories;
     }
 
-    // Public methods
-    public Continent(String name, int controlValue) {
-        this.name = name;
-        this.controlValue = controlValue;
-        this.territories = new Vector<>();
-    }
-
+    /* Public methods */
     public void addTerritory(String territoryName) {
         if (!territories.contains(territoryName))
             territories.add(territoryName);

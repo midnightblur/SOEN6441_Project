@@ -11,59 +11,24 @@ import java.util.Vector;
  * A territory must contain one or more armies
  */
 public class Territory {
-    /**
-     * The coordinate of the node representing the territory
-     * Helps locate the position of the node in the graph
-     */
-    private class Coordinate {
-        private int x, y;
-
-        public Coordinate(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-
-        @Override
-        public String toString() {
-            return "(" + x + ", " + y + ")";
-        }
-    }
-
-    // Private data members of model.Territory class
+    /* Private data members of model.Territory class */
     private String name;
-    private Coordinate coordinate;
     private Continent continent;
     private Player owner;
     private int armies;
-    private Vector<String> neighbors; // might have many neighbors, use integer id to save memory
+    private Vector<String> neighbors;
 
-    // Getters & Setters
+    /* Constructors */
+    public Territory(String name, Continent continent) {
+        this.name = name;
+        this.continent = continent;
+        this.neighbors = new Vector<>();
+        this.owner = new Player();
+    }
+
+    /* Getters & Setters */
     public String getName() {
         return name;
-    }
-
-    public int getX() {
-        return coordinate.getX();
-    }
-
-    public int getY() {
-        return coordinate.getY();
     }
 
     public Continent getContinent() {
@@ -90,15 +55,7 @@ public class Territory {
         this.armies = armies;
     }
 
-    // Public methods
-    public Territory(String name, int xLoc, int yLoc, Continent continent) {
-        this.name = name;
-        this.coordinate = new Coordinate(xLoc, yLoc);
-        this.continent = continent;
-        this.neighbors = new Vector<>();
-        this.owner = new Player();
-    }
-
+    /* Public methods */
     public void addNeighbor(String territoryID) {
         if (!neighbors.contains(territoryID)) neighbors.add(territoryID);
     }
