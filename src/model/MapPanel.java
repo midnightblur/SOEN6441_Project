@@ -1,4 +1,4 @@
-package view;
+package model;
 
 import model.GameMap;
 import model.Territory;

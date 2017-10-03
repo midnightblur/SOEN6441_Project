@@ -1,6 +1,7 @@
 package view;
 
-import controller.GameMapHandler;
+import model.GameMapHandler;
+import model.MapPanel;
 import model.RiskGame;
 import util.Config;
 
@@ -20,6 +21,14 @@ public class PlayUI extends JFrame {
         mapPanel = new MapPanel(gameMapHandler.getGameMap());
         if (gameMapHandler.getValidateMsg().compareTo(Config.MSG_MAPFILE_VALID) != 0)
             JOptionPane.showMessageDialog(this, gameMapHandler.getValidateMsg(), Config.MSG_MAPFILE_ERROR_TITLE, JOptionPane.ERROR_MESSAGE);
+
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setContentPane(this.mainArea);
+        this.pack();
+        this.setResizable(false);
+        this.setVisible(true);
+
+        RiskGame game = new RiskGame(this.gameMapHandler.getGameMap());
     }
 
     public void paint(Graphics g) {
@@ -27,16 +36,5 @@ public class PlayUI extends JFrame {
         mapDisplay.add(mapPanel);
         mainArea.setSize(new Dimension(mapDisplay.getWidth() + controlArea.getWidth() + 20, Math.max(mapDisplay.getHeight(), controlArea.getHeight()) + 40));
         this.setSize(mainArea.getSize());
-    }
-
-    public static void main(String[] args) {
-        PlayUI playUI = new PlayUI();
-        playUI.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        playUI.setContentPane(playUI.mainArea);
-        playUI.pack();
-        playUI.setResizable(false);
-        playUI.setVisible(true);
-
-        RiskGame game = new RiskGame(playUI.gameMapHandler.getGameMap());
     }
 }
