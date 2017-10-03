@@ -71,7 +71,7 @@ public class Dice {
 
         /* rolling the dice */
         for (int i : dice) {
-            dice[i] = (int) (Math.random() * Config.MAX_PIPS) + 1;
+            i = (int) (Math.random() * Config.MAX_PIPS) + 1;
         }
 
         /* sorting ascending */
