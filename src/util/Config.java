@@ -21,8 +21,8 @@ public class Config {
     public static final String MAPS_DELIMETER_CONTINENTS = "=";
     public static final String MAPS_DELIMETER_TERRITORIES = ",";
     public static final String MAPS_FOLDER = "Maps/";
-//    public static final String MAPS_PATH = "Maps/World.map";
-    public static final String MAPS_PATH = "Maps/001_I72_Ghtroc 720.map";
+    public static final String MAPS_PATH = "Maps/World.map";
+//    public static final String MAPS_PATH = "Maps/001_I72_Ghtroc 720.map";
 //    public static final String MAPS_PATH = "Maps/99 Mens Morris.map";
 
     // Constants for drawing graph
@@ -48,11 +48,12 @@ public class Config {
     // Messages' content for users
     public static final String MSG_MAPFILE_ERROR_TITLE = "The map file has error";
     public static final String MSG_MAPFILE_VALID = "The file map is valid";
-    public static final String MSG_MAPFILE_INVALID_FORMAT = "Invalid format text file";
+    public static final String MSG_MAPFILE_INVALID_FORMAT = "Invalid format text file: line %s";
     public static final String MSG_MAPFILE_TOO_MANY_TERRITORIES = "Too many territories. Maximum number is " + MAPS_MAX_TERRITORIES;
     public static final String MSG_MAPFILE_TOO_MANY_CONTINENTS = "Too many continents. Maximum number is " + MAPS_MAX_CONTINENTS;
     public static final String MSG_MAPFILE_TOO_MANY_NEIGHBORS = "%s has too many neighbors. Maximum number is " + MAPS_MAX_NEIGHBORS;
     public static final String MSG_MAPFILE_NO_NEIGHBORS = "%s has no neighbor";
     public static final String MSG_MAPFILE_DISCONNECTED_GRAPH = "The graph is not connected";
+    public static final String MSG_MAPFILE_1_WAY_RELATIONSHIP = "%s - %s is not a 2 ways relationship";
     public static final String MSG_MAPFILE_NO_IMAGE = "The map image is missing";
 }

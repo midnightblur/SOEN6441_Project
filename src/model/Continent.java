@@ -44,7 +44,7 @@ public class Continent {
 
     /* Public methods */
     public void addTerritory(String territoryName) {
-        if (!territories.contains(territoryName))
+        if (!isContain(territoryName))
             territories.add(territoryName);
     }
 

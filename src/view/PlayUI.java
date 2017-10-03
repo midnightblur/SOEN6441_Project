@@ -11,20 +11,19 @@ public class PlayUI extends JFrame {
     private JPanel mapDisplay;
     private JPanel mainArea;
     private JPanel controlArea;
-    private GameMapHandler gameMapHandler;
 
     public PlayUI() {
-        gameMapHandler = new GameMapHandler(Config.MAPS_PATH);
-        if (gameMapHandler.getValidateMsg().compareTo(Config.MSG_MAPFILE_VALID) != 0)
-            JOptionPane.showMessageDialog(this, gameMapHandler.getValidateMsg(), Config.MSG_MAPFILE_ERROR_TITLE, JOptionPane.ERROR_MESSAGE);
-
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setContentPane(this.mainArea);
         this.pack();
         this.setResizable(false);
         this.setVisible(true);
-
-        RiskGame game = new RiskGame(this.gameMapHandler.getGameMap());
+    
+        try {
+            RiskGame game = new RiskGame(GameMapHandler.loadGameMap(Config.MAPS_PATH));
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
     }
 
     public void paint(Graphics g) {
