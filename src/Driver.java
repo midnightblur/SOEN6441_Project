@@ -22,7 +22,7 @@ public class Driver {
         GameStateManager newGame = GameStateManager.getInstance();
         
         /* these are only tests that put the game in a specific state, in reality the game will start from ENTRY_PHASE */
-        newGame.setGameState(GameStates.MAP_EDITOR);
+        newGame.setGameState(GameStates.STARTUP_PHASE);
         newGame.update();
         
         // views

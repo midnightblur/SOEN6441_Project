@@ -11,7 +11,7 @@ public class PlayUI extends JFrame {
     private JPanel mapDisplay;
     private JPanel mainArea;
     private JPanel controlArea;
-
+    
     public PlayUI() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setContentPane(this.mainArea);
