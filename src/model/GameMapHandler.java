@@ -15,12 +15,30 @@ import java.util.*;
  * This class helps write map's information to a text file
  */
 public class GameMapHandler {
+    /**
+     * Initial instance of the map handler
+     */
+    private static GameMapHandler instance = null;
+    
     /* Constructors */
     // Intentionally make ctor private
     private GameMapHandler() {
     }
 
     /* Public methods */
+    
+    /**
+     * Static instance method to determine if an object of GameMapHandler already exists
+     *
+     * @return instance of the singleton object
+     */
+    public static GameMapHandler getInstance() {
+        if (instance == null) {
+            instance = new GameMapHandler();
+        }
+        return instance;
+    }
+    
     
     /**
      * Input: map text file name path
