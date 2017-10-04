@@ -1,9 +1,7 @@
 package model;
 
-import java.util.InputMismatchException;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Vector;
+import java.util.*;
+
 import model.GameMapHandler;
 import util.Config;
 
@@ -89,7 +87,7 @@ public class RiskGame {
         }
         
         initPlayers();
-        //setDeck();
+        setDeck();
         distributeTerritories();
     }
     
@@ -141,15 +139,32 @@ public class RiskGame {
 //        System.out.println("card type: " + drawn.getType());
 //        */
 //    }
-
+    
     /**
      * Distributes the territories in the map randomly to the players. Although the territories
      * are distributed randomly, the number of territories should be as evenly distributed as
      * possible between all of the players.
      */
-    public void distributeTerritories() {
-    
-
+    public void distributeTerritories(GameMap gameMap) {
+        System.out.println("Distributing territories...");
+        
+        ArrayList<String> territoryArrList = new ArrayList<>();
+        for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
+            territoryArrList.add(entry.getValue().getName());
+        }
+        
+        Random rand = new Random();
+        int playerIndex = 0;
+        for (int i=0; i<numOfTerritories; i++) {
+            int territoryIndex = rand.nextInt(territoryArrList.size());
+            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
+            if (playerIndex < numOfPlayers)
+                playerIndex++;
+            else
+                playerIndex = 0;
+            System.out.print("player Index: " + playerIndex);
+            territoryArrList.remove(territoryIndex);
+        }
     }
 
 }
