@@ -1,28 +1,63 @@
 package controller;
 
-import model.GameState;
+import model.GameStates;
 import view.PlayUI;
 
 /**
  * Game State Manager helps drive the flow of the game from stage to stage
+ * It is implemented as a singleton class
  */
 public class GameStateManager {
     
     /**
-     * Objects for each state game controller
+     * Initial instance of the game
      */
-    public static GameState gameState = GameState.ENTRY_MENU;   // initial game state
-    public static EntryMenu entryMenu;
-    public static MapEditor mapEditor;
-    public static StartupPhase startupPhase;
-    public static ReinforcementPhase reinforcementPhase;
-    public static AttackPhase attackPhase;
-    public static FortificationPhase fortificationPhase;
+    private static GameStateManager instance = null;
+    
+    /**
+     * The initial state of the game
+     */
+    private GameStates gameState = GameStates.ENTRY_MENU;
+    
+    /* Objects for each state game controller */
+    private EntryMenu entryMenu;
+    private MapEditor mapEditor;
+    private StartupPhase startupPhase;
+    private ReinforcementPhase reinforcementPhase;
+    private AttackPhase attackPhase;
+    private FortificationPhase fortificationPhase;
+    
+    /* Getters and setters */
+    public GameStates getGameState() {
+        return gameState;
+    }
+    
+    public void setGameState(GameStates gameState) {
+        this.gameState = gameState;
+    }
+    
+    /**
+     * private constructor preventing any other class from instantiating.
+     */
+    private GameStateManager() {
+    }
+    
+    /**
+     * Static instance method to determine if an object of GameStateManager already exists
+     *
+     * @return instance of the singleton object
+     */
+    public static GameStateManager getInstance() {
+        if (instance == null) {
+            instance = new GameStateManager();
+        }
+        return instance;
+    }
     
     /**
      * Updating the game by switching to respective controller
      */
-    public static void update() {
+    public void update() {
         switch (gameState) {
             case ENTRY_MENU:
                 if (entryMenu == null) {
@@ -56,4 +91,5 @@ public class GameStateManager {
                 break;
         }
     }
+    
 }
