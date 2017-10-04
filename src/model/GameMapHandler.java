@@ -157,7 +157,7 @@ public class GameMapHandler {
         if (gameMap.getContinentsCount() > Config.MAPS_MAX_CONTINENTS)
             return Config.MSG_MAPFILE_TOO_MANY_CONTINENTS;
         /* 3. Each and every territory has the number of neighbors from 1 to 10 */
-        for (Territory territory : gameMap.getTerritoriesMap().values()) {
+        for (Territory territory : gameMap.getTerritories().values()) {
             if (territory.getNeighborsNumber() == 0)
                 return String.format(Config.MSG_MAPFILE_NO_NEIGHBORS, territory.getName());
             if (territory.getNeighborsNumber() > Config.MAPS_MAX_NEIGHBORS)

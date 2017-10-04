@@ -2,9 +2,6 @@ package model;
 
 import java.util.*;
 
-import model.GameMapHandler;
-import util.Config;
-
 /**
  * Class initiates Risk Game with the welcome message, followed by the following features:
  * 1) determine number of players
@@ -87,7 +84,7 @@ public class RiskGame {
         }
         
         initPlayers();
-        setDeck();
+        initDeck();
         distributeTerritories();
     }
     
@@ -96,6 +93,8 @@ public class RiskGame {
      * the number of players (currPlayers).
      */
     private void initPlayers() {
+        System.out.println("Initializing players...");
+        
         for (int i = 0; i < currPlayers; i++) {
             players.add(new Player());
         }
@@ -106,13 +105,13 @@ public class RiskGame {
      * The total number of cards is set to the closest value to the total number of territories
      * that is a factor of three, and is greater or equal to the total number of territories.
      */
-    private void setDeck() {
+    private void initDeck() {
         System.out.println("Initializing deck...");
-        int cardTypes = Card.getTypesCount();
-        numOfCards = numOfTerritories + (numOfTerritories % cardTypes) * cardTypes;
-        System.out.println("numOfCards: " + numOfCards);
-        for (int i=0; i<numOfCards; i++) {
-            deck.add(new Card(i%cardTypes));
+        
+        numOfCards = gameMap.getTerritoriesCount() +
+                (gameMap.getTerritoriesCount() % Card.getTypesCount()) * Card.getTypesCount();
+        for (int i = 0; i < numOfCards; i++) {
+            deck.add(new Card(i % Card.getTypesCount()));
         }
 
         /*
@@ -145,7 +144,7 @@ public class RiskGame {
      * are distributed randomly, the number of territories should be as evenly distributed as
      * possible between all of the players.
      */
-    public void distributeTerritories(GameMap gameMap) {
+    public void distributeTerritories() {
         System.out.println("Distributing territories...");
         
         ArrayList<String> territoryArrList = new ArrayList<>();
@@ -158,13 +157,16 @@ public class RiskGame {
         for (int i=0; i<numOfTerritories; i++) {
             int territoryIndex = rand.nextInt(territoryArrList.size());
             gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
-            if (playerIndex < numOfPlayers)
+            if (playerIndex < currPlayers) {
                 playerIndex++;
-            else
+            } else {
                 playerIndex = 0;
+            }
             System.out.print("player Index: " + playerIndex);
             territoryArrList.remove(territoryIndex);
         }
+        
+        // TODO: test for territory distribution
     }
 
 }
