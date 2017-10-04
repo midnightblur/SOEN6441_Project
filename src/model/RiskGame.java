@@ -24,11 +24,15 @@ public class RiskGame {
     private int numOfContinents;
     private int numOfCards;
     private Vector<Card> deck = new Vector<>();
+    private GameState gameState;
 
     /**
      * Constructor for RiskGame. Starts the game and initializes class attributes.
      */
-    public RiskGame(GameMap gameMap) {
+    public RiskGame() {
+        this.gameState = GameState.ENTRY_MENU;
+
+        /*
         isPlaying = true;
         numOfTerritories = gameMap.getTerritoriesCount();
 
@@ -38,15 +42,16 @@ public class RiskGame {
         displayGameInfo();
 
         setDeck();
-        /*
-        // test random card draw
-        for (int i=0; i<42; i++) {
-            drawCard();
-        }
-        */
+
+//        // test random card draw
+//        for (int i=0; i<42; i++) {
+//            drawCard();
+//        }
+
 
 
         distributeTerritories();
+        */
     }
 
     /**
@@ -93,6 +98,16 @@ public class RiskGame {
     public void setNumOfContinents(int numOfContinents) {
         this.numOfContinents = numOfContinents;
     }
+
+    public GameState getGameState() {
+        return this.gameState;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+
 
 
     /**

@@ -1,5 +1,6 @@
 package controller;
 
+import model.RiskGame;
 import view.PlayUI;
 
 /**
@@ -8,6 +9,7 @@ import view.PlayUI;
  */
 public class StartupPhase {
     private PlayUI playUI;
+    private RiskGame riskGame;
 
     public StartupPhase(PlayUI playUI) {
         this.playUI = playUI;
