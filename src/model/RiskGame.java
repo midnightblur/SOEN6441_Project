@@ -89,7 +89,7 @@ public class RiskGame {
         }
         
         initPlayers();
-        setDeck();
+        //setDeck();
         distributeTerritories();
     }
     
@@ -148,7 +148,7 @@ public class RiskGame {
      * possible between all of the players.
      */
     public void distributeTerritories() {
-        
+    
 
     }
 
