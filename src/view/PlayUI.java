@@ -1,9 +1,5 @@
 package view;
 
-import model.GameMapHandler;
-import model.RiskGame;
-import util.Config;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -18,12 +14,6 @@ public class PlayUI extends JFrame {
         this.pack();
         this.setResizable(false);
         this.setVisible(true);
-    
-        try {
-            RiskGame game = new RiskGame(GameMapHandler.loadGameMap(Config.MAPS_PATH));
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-        }
     }
 
     public void paint(Graphics g) {

@@ -4,6 +4,8 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
+import model.GameMapHandler;
+import util.Config;
 
 /**
  * Class initiates Risk Game with the welcome message, followed by the following features:
@@ -17,68 +19,26 @@ import java.util.Vector;
  * 5) end of game
  */
 public class RiskGame {
-    private boolean isPlaying;
     private int currPlayers;
-    private int humanPlayers;
     private int numOfTerritories;
     private int numOfContinents;
     private int numOfCards;
     private Vector<Card> deck = new Vector<>();
-    private GameState gameState;
+    private GameStates gameStates;
+    private GameMap gameMap;
 
-    /**
-     * Constructor for RiskGame. Starts the game and initializes class attributes.
-     */
     public RiskGame() {
-        this.gameState = GameState.ENTRY_MENU;
-
-        /*
-        isPlaying = true;
-        numOfTerritories = gameMap.getTerritoriesCount();
-
-        welcomeMsg();
-
-        countPlayers();
-        displayGameInfo();
-
-        setDeck();
-
-//        // test random card draw
-//        for (int i=0; i<42; i++) {
-//            drawCard();
-//        }
-
-
-
-        distributeTerritories();
-        */
     }
 
     /**
      * Getters and Setters methods for class RiskGame's private attributes
      */
-    public boolean getPlaying() {
-        return this.isPlaying;
-    }
-
-    public void setPlaying(boolean playing) {
-        this.isPlaying = playing;
-    }
-
     public int getCurrPlayers() {
         return this.currPlayers;
     }
 
     public void setCurrPlayers(int currPlayers) {
         this.currPlayers = currPlayers;
-    }
-
-    public int getHumanPlayers() {
-        return this.humanPlayers;
-    }
-
-    public void setHumanPlayers(int humanPlayers) {
-        this.humanPlayers = humanPlayers;
     }
 
     public int getNumOfTerritories() {
@@ -99,16 +59,36 @@ public class RiskGame {
         this.numOfContinents = numOfContinents;
     }
 
-    public GameState getGameState() {
-        return this.gameState;
+    public GameStates getGameStates() {
+        return this.gameStates;
     }
 
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
+    public void setGameStates(GameStates gameStates) {
+        this.gameStates = gameStates;
     }
 
+    public void setGameMap(String filepath) {
+        try {
+            gameMap = GameMapHandler.loadGameMap(filepath);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+    }
 
-
+    /**
+     * Initiates the game map according to the filepath, and sets the number of
+     * players playing the game.
+     * @param filepath: String value of the path to a valid map file.
+     * @param currPlayers: int value of the initial number of players.
+     */
+    public void initStartup(String filepath, int currPlayers) {
+        try {
+            this.gameMap = GameMapHandler.loadGameMap(filepath);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+        this.currPlayers = currPlayers;
+    }
 
     /**
      * Prints out the welcome message at the beginning of the game
