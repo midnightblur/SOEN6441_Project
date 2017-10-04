@@ -66,6 +66,10 @@ public class GameMap {
         return territoriesMap;
     }
     
+    public Map<String, Territory> getTerritories() {
+        return territories;
+    }
+    
     public Vector<Continent> getContinentsVector() {
         return continentsVector;
     }
