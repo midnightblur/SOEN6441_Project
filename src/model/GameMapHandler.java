@@ -131,6 +131,11 @@ public class GameMapHandler {
                                 throw new IllegalArgumentException(String.format(Config.MSG_MAPFILE_CONTINENT_NOT_DEFINED, lineCounter));
                             }
                             
+                            /* Check if the territory is declared in advanced */
+                            if (gameMap.getATerritory(territoryInfo[0].trim()) != null) {
+                                throw new IllegalArgumentException(String.format(Config.MSG_MAPFILE_TERRITORY_DUPLICATED, lineCounter));
+                            }
+                            
                             Territory territory = new Territory(territoryInfo[0].trim(), continent);
                             for (int i = 4; i < territoryInfo.length; i++) {
                                 territory.addNeighbor(territoryInfo[i].trim());
