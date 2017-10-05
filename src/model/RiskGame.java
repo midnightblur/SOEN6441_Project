@@ -1,9 +1,6 @@
 package model;
 
-import java.util.InputMismatchException;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * Class initiates Risk Game with the welcome message, followed by the following features:
@@ -17,63 +14,27 @@ import java.util.Vector;
  * 5) end of game
  */
 public class RiskGame {
-    private boolean isPlaying;
     private int currPlayers;
-    private int humanPlayers;
     private int numOfTerritories;
     private int numOfContinents;
     private int numOfCards;
     private Vector<Card> deck = new Vector<>();
+    private Vector<Player> players = new Vector<>();
+    private GameStates gameStates;
+    private GameMap gameMap;
 
-    /**
-     * Constructor for RiskGame. Starts the game and initializes class attributes.
-     */
-    public RiskGame(GameMap gameMap) {
-        isPlaying = true;
-        numOfTerritories = gameMap.getTerritoriesCount();
-
-        welcomeMsg();
-
-        countPlayers();
-        displayGameInfo();
-
-        setDeck();
-        /*
-        // test random card draw
-        for (int i=0; i<42; i++) {
-            drawCard();
-        }
-        */
-
-
-        distributeTerritories();
+    public RiskGame() {
     }
 
     /**
      * Getters and Setters methods for class RiskGame's private attributes
      */
-    public boolean getPlaying() {
-        return this.isPlaying;
-    }
-
-    public void setPlaying(boolean playing) {
-        this.isPlaying = playing;
-    }
-
     public int getCurrPlayers() {
         return this.currPlayers;
     }
 
     public void setCurrPlayers(int currPlayers) {
         this.currPlayers = currPlayers;
-    }
-
-    public int getHumanPlayers() {
-        return this.humanPlayers;
-    }
-
-    public void setHumanPlayers(int humanPlayers) {
-        this.humanPlayers = humanPlayers;
     }
 
     public int getNumOfTerritories() {
@@ -94,82 +55,63 @@ public class RiskGame {
         this.numOfContinents = numOfContinents;
     }
 
+    public GameStates getGameStates() {
+        return this.gameStates;
+    }
 
-    /**
-     * Prints out the welcome message at the beginning of the game
-     */
-    private void welcomeMsg() {
-        System.out.println();
-        System.out.println("==================================");
-        System.out.println("-  Welcome to Team2's Risk Game  -");
-        System.out.println("==================================");
-        System.out.println();
+    public void setGameStates(GameStates gameStates) {
+        this.gameStates = gameStates;
     }
 
     /**
-     * Prompts the users to determine the total number of players in the game
-     * and the number of human players. The number of players must be between
-     * 2 to number of territories in the map. The number of human players must
-     * be less than the number of players.
+     * Initiates the game map according to the filepath, sets the number of
+     * players playing the game, sets the deck of cards, and distributes
+     * territories to the players randomly.
+     * @param filepath: String value of the path to a valid map file.
+     * @param currPlayers: int value of the initial number of players.
      */
-    private void countPlayers() {
-        Scanner sc = new Scanner(System.in);
-        boolean flag = false;
-        do {
-            try {
-                System.out.print("Please enter the number of players: ");
-                currPlayers = sc.nextInt();
-                if (currPlayers >= 2 && currPlayers <= numOfTerritories) {
-                    flag = true;
-                }
-                else {
-                    System.out.print("Number of players must be between 2 and " + numOfTerritories + ". ");
-                }
-            } catch (InputMismatchException e) {
-                sc.nextLine();
-                System.out.print("Number of players must be between 2 and " + numOfTerritories + ". ");
-                flag = false;
-            }
-        } while (!flag);
-
-        flag = false;
-        do {
-            try {
-                System.out.print("Please enter the number of human players: ");
-                humanPlayers = sc.nextInt();
-                if (humanPlayers >= 0 && humanPlayers <= currPlayers) {
-                    flag = true;
-                }
-                else {
-                    System.out.print("Please enter an integer between 0 and " + currPlayers + ". ");
-                }
-            } catch (InputMismatchException e) {
-                sc.nextLine();
-                System.out.print("Please enter an integer between 0 and " + currPlayers + ". ");
-                flag = false;
-            }
-        } while (!flag);
+    public void initStartup(String filepath, int currPlayers) {
+        try {
+            this.gameMap = GameMapHandler.loadGameMap(filepath);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+        
+        if (currPlayers > 1 && currPlayers <= gameMap.getTerritoriesCount()) {
+            this.currPlayers = currPlayers;
+        } else {
+            System.err.println("Invalid number of players. Should catch it in the view.");
+        }
+        
+        initPlayers();
+        initDeck();
+        distributeTerritories();
     }
-
-    public void displayGameInfo() {
-        System.out.println();
-        System.out.println("Total number of territories: " + numOfTerritories);
-        System.out.println("Total number of players: " + currPlayers + " (human players: " + humanPlayers + ")");
-        System.out.println();
+    
+    /**
+     * private void method to initialize the players according to
+     * the number of players (currPlayers).
+     */
+    private void initPlayers() {
+        System.out.println("Initializing players...");
+        
+        for (int i = 0; i < currPlayers; i++) {
+            players.add(new Player());
+        }
     }
-
+    
     /**
      * Sets a deck that contains cards from Card class with equal distribution of all the three card types.
      * The total number of cards is set to the closest value to the total number of territories
      * that is a factor of three, and is greater or equal to the total number of territories.
      */
-    public void setDeck() {
+    private void initDeck() {
         System.out.println("Initializing deck...");
-        int cardTypes = Card.getTypesCount();
-        numOfCards = numOfTerritories + (numOfTerritories % cardTypes) * cardTypes;
-        System.out.println("numOfCards: " + numOfCards);
-        for (int i=0; i<numOfCards; i++) {
-            deck.add(new Card(i%cardTypes));
+        
+        numOfCards = gameMap.getTerritoriesCount() +
+                (gameMap.getTerritoriesCount() % Card.getTypesCount()) * Card.getTypesCount();
+        for (int i = 0; i < numOfCards; i++) {
+            deck.add(new Card(i % Card.getTypesCount()));
         }
 
         /*
@@ -181,22 +123,22 @@ public class RiskGame {
         */
     }
 
-    /**
-     * Draws a random card from the deck.
-     */
-    public void drawCard() {
-        Random rand = new Random();
-        int index = rand.nextInt(deck.size());
-        Card drawn = deck.elementAt(index);
-        deck.remove(deck.elementAt(index));
-        deck.trimToSize();
-
-        /*
-        // test print card type
-        System.out.println("card type: " + drawn.getType());
-        */
-    }
-
+//    /**
+//     * Draws a random card from the deck.
+//     */
+//    public void drawCard() {
+//        Random rand = new Random();
+//        int index = rand.nextInt(deck.size());
+//        Card drawn = deck.elementAt(index);
+//        deck.remove(deck.elementAt(index));
+//        deck.trimToSize();
+//
+//        /*
+//        // test print card type
+//        System.out.println("card type: " + drawn.getType());
+//        */
+//    }
+    
     /**
      * Distributes the territories in the map randomly to the players. Although the territories
      * are distributed randomly, the number of territories should be as evenly distributed as
@@ -204,7 +146,27 @@ public class RiskGame {
      */
     public void distributeTerritories() {
         System.out.println("Distributing territories...");
-
+        
+        ArrayList<String> territoryArrList = new ArrayList<>();
+        for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
+            territoryArrList.add(entry.getValue().getName());
+        }
+        
+        Random rand = new Random();
+        int playerIndex = 0;
+        for (int i=0; i<numOfTerritories; i++) {
+            int territoryIndex = rand.nextInt(territoryArrList.size());
+            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
+            if (playerIndex < currPlayers) {
+                playerIndex++;
+            } else {
+                playerIndex = 0;
+            }
+            System.out.print("player Index: " + playerIndex);
+            territoryArrList.remove(territoryIndex);
+        }
+        
+        // TODO: test for territory distribution
     }
 
 }

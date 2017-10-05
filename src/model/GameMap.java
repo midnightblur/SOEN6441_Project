@@ -15,14 +15,14 @@ public class GameMap {
     private boolean wrapping;
     private String scroll;
     private boolean warning;
-    private Map<String, Territory> territoriesMap;
-    private Vector<Continent> continentsVector;
+    private Map<String, Territory> territories;
+    private Vector<Continent> continents;
     
     /* Constructors */
     public GameMap(String mapPath) {
         this.mapPath = mapPath;
-        this.territoriesMap = new HashMap<>();
-        this.continentsVector = new Vector<>();
+        this.territories = new HashMap<>();
+        this.continents = new Vector<>();
     }
     
     /* Getters & Setters */
@@ -62,41 +62,40 @@ public class GameMap {
         this.warning = warning;
     }
     
-    public Map<String, Territory> getTerritoriesMap() {
-        return territoriesMap;
+    public Map<String, Territory> getTerritories() {
+        return territories;
     }
     
-    public Vector<Continent> getContinentsVector() {
-        return continentsVector;
+    public Vector<Continent> getContinents() {
+        return continents;
     }
     
     /* Public methods */
     public void addTerritory(Territory territory) {
-        if (!territoriesMap.containsKey(territory.getName())) {
-            territoriesMap.put(territory.getName(), territory);
+        if (!territories.containsKey(territory.getName())) {
+            territories.put(territory.getName(), territory);
         }
-        
     }
     
     public void addContinent(Continent continent) {
-        if (!continentsVector.contains(continent))
-            continentsVector.add(continent);
+        if (!continents.contains(continent))
+            continents.add(continent);
     }
     
     public int getTerritoriesCount() {
-        return territoriesMap.size();
+        return territories.size();
     }
     
     public int getContinentsCount() {
-        return continentsVector.size();
+        return continents.size();
     }
     
     public Territory getATerritory(String territoryName) {
-        return territoriesMap.getOrDefault(territoryName, null);
+        return territories.getOrDefault(territoryName, null);
     }
     
     public Continent getAContinent(String continentName) {
-        for (Iterator<Continent> iterator = continentsVector.iterator(); iterator.hasNext(); ) {
+        for (Iterator<Continent> iterator = continents.iterator(); iterator.hasNext(); ) {
             Continent continent = iterator.next();
             if (continent.getName().compareTo(continentName) == 0)
                 return continent;
@@ -105,6 +104,6 @@ public class GameMap {
     }
     
     public Territory getArbitraryTerritory() {
-        return territoriesMap.values().iterator().next();
+        return territories.values().iterator().next();
     }
 }

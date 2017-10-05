@@ -10,25 +10,14 @@ public class Player {
     // Private data member of model.Player class
     private int playerID;
     private String playerName;
-    private boolean isBot;
 
     public Player() {
         this.playerID = ++Player.nextID;
-        this.isBot = true;
-    }
-
-    public Player(boolean isBot) {
-        this.playerID = ++Player.nextID;
-        this.isBot = isBot;
     }
 
     // Getters & Setters
-
     public int getID() {
         return this.playerID;
     }
-
-    public boolean getIsBot() {
-        return this.isBot;
-    }
+    
 }
