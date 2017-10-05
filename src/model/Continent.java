@@ -51,6 +51,10 @@ public class Continent {
     public boolean isContain(String territoryName) {
         return (territories.contains(territoryName));
     }
+    
+    public int getTerritoriesCount() {
+        return territories.size();
+    }
 
     @Override
     public boolean equals(Object other) {

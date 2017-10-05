@@ -44,4 +44,5 @@ public class Config {
     public static final String MSG_MAPFILE_CONTINENT_DUPLICATED = "The continent already exist: line %s";
     public static final String MSG_MAPFILE_TERRITORY_NOT_DEFINED = "A territory is not defined";
     public static final String MSG_MAPFILE_TERRITORY_DUPLICATED = "The territory already exist: line %s";
+    public static final String MSG_MAPFILE_CONTINENT_NO_TERRITORY = "The %s continent has no territory";
 }

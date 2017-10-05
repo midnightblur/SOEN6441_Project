@@ -117,11 +117,13 @@ public class GameMapHandler {
                                 throw new IllegalArgumentException(String.format(Config.MSG_MAPFILE_TERRITORY_DUPLICATED, lineCounter));
                             }
                             
+                            /* If no problem, continue to process */
                             Territory territory = new Territory(territoryInfo[0].trim(), continent);
                             for (int i = 4; i < territoryInfo.length; i++) {
                                 territory.addNeighbor(territoryInfo[i].trim());
                                 allNeighbours.add(territoryInfo[i].trim());
                             }
+                            continent.addTerritory(territory.getName());
                             gameMap.addTerritory(territory);
                         }
                     }
@@ -151,7 +153,9 @@ public class GameMapHandler {
      * 1. The map has no more than 255 territories
      * 2. The map has no more than 32 continents
      * 3. Each and every territory has the number of neighbors from 1 to 10
-     * 4. The whole map is a connected graph
+     * 4. Every relationship between territories is 2-ways
+     * 5. Each continent has at least one territory
+     * 6. The whole map is a connected graph
      *
      * @param
      *
@@ -166,13 +170,30 @@ public class GameMapHandler {
         if (gameMap.getContinentsCount() > Config.MAPS_MAX_CONTINENTS || gameMap.getContinentsCount() < Config.MAPS_MIN_CONTINENTS) {
             return Config.MSG_MAPFILE_INVALID_CONTINENTS_COUNT;
         }
-        /* 3. Each and every territory has the number of neighbors from 1 to 10 */
+        
         for (Territory territory : gameMap.getTerritories().values()) {
+            /* 3. Each and every territory has the number of neighbors from 1 to 10 */
             if (territory.getNeighborsNumber() > Config.MAPS_MAX_NEIGHBORS || territory.getNeighborsNumber() < Config.MAPS_MIN_NEIGHBORS) {
                 return Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT;
             }
+            
+            /* 4. Every relationship between territories is 2-ways */
+            for (String neighborName : territory.getNeighbors()) {
+                Territory neighbor = gameMap.getATerritory(neighborName);
+                if (!neighbor.getNeighbors().contains(territory.getName())) {
+                    return String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, territory.getName(), neighborName);
+                }
+            }
         }
-        /* 4. The whole map is a connected graph */
+        
+        /* 5. Each continent has at least one territory */
+        for (Continent continent : gameMap.getContinents()) {
+            if (continent.getTerritoriesCount() == 0) {
+                return String.format(Config.MSG_MAPFILE_CONTINENT_NO_TERRITORY, continent.getName());
+            }
+        }
+        
+        /* 6. The whole map is a connected graph */
         if (!isConnectedGraph(gameMap)) {
             return Config.MSG_MAPFILE_DISCONNECTED_GRAPH;
         }
@@ -206,13 +227,6 @@ public class GameMapHandler {
             Iterator<String> neighborsIter = currentNode.getNeighbors().iterator();
             while (neighborsIter.hasNext()) {
                 String neighborName = neighborsIter.next();
-                
-                /* Check if it is a 2 ways relationship */
-                Territory neighbor = gameMap.getATerritory(neighborName);
-                if (!neighbor.getNeighbors().contains(currentNode.getName())) {
-                    System.err.println(String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, currentNode.getName(), neighborName));
-                    return false;
-                }
                 
                 if (!visitedNodesSet.contains(neighborName)) {
                     visitedNodesSet.add(neighborName);
