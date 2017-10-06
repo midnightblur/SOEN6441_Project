@@ -1,6 +1,15 @@
 package util;
 
 public class Config {
+    public enum GAME_STATES {
+        ENTRY_MENU,
+        MAP_EDITOR,
+        STARTUP_PHASE,
+        REINFORCEMENT_PHASE,
+        ATTACK_PHASE,
+        FORTIFICATION_PHASE
+    }
+    
     // Constants for reading GameMap Text File
     public static final int MAPS_MIN_TERRITORIES = 1;
     public static final int MAPS_MAX_TERRITORIES = 255;
@@ -14,8 +23,6 @@ public class Config {
     public static final String MAPS_WRAP = "wrap";
     public static final String MAPS_SCROLL = "scroll";
     public static final String MAPS_WARN = "warn";
-    public static final String MAPS_YES = "yes";
-    public static final String MAPS_NO = "no";
     public static final String MAPS_FLAG_MAP = "[Map]";
     public static final String MAPS_FLAG_CONTINENTS = "[Continents]";
     public static final String MAPS_FLAG_TERRITORIES = "[Territories]";
@@ -24,9 +31,8 @@ public class Config {
     public static final String MAPS_DELIMETER_TERRITORIES = ",";
     public static final String MAPS_DEFAULT_COORDINATION = "0,0";
     public static final String MAPS_FOLDER = "Maps/";
-    public static final String DEFAULT_MAP = "World.map";
-//    public static final String DEFAULT_MAP = "Maps/001_I72_Ghtroc 720.map";
-//    public static final String DEFAULT_MAP = "Maps/99 Mens Morris.map";
+//    public static final String DEFAULT_MAP = "World.map";
+    public static final String DEFAULT_MAP = "99 Mens Morris.map";
     
     // Constants for dice
     public static final int MAX_PIPS = 6;

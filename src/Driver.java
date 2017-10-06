@@ -1,7 +1,7 @@
 import controller.MapEditorController;
 import controller.StartupPhaseController;
-import model.GameStates;
 import model.RiskGame;
+import util.Config;
 import view.PlayUI;
 
 
@@ -23,10 +23,10 @@ public class Driver {
 
         /* these are only tests that put the game in a specific state, in reality the game will start from ENTRY_PHASE */
         
-        game.setGameState(GameStates.MAP_EDITOR);
+        game.setGameState(Config.GAME_STATES.MAP_EDITOR);
         new MapEditorController();
         
-        game.setGameState(GameStates.STARTUP_PHASE);
+        game.setGameState(Config.GAME_STATES.STARTUP_PHASE);
         new StartupPhaseController(new PlayUI(), RiskGame.getInstance());
     }
 }

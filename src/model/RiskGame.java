@@ -1,5 +1,7 @@
 package model;
 
+import util.Config;
+
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
@@ -25,7 +27,7 @@ public class RiskGame {
     private Vector<Player> players = new Vector<>();
     private GameMap gameMap;
     private static RiskGame instance = null;
-    private GameStates gameState = GameStates.ENTRY_MENU;
+    private Config.GAME_STATES gameState = Config.GAME_STATES.ENTRY_MENU;
     
     /**
      * private constructor preventing any other class from instantiating.
@@ -74,12 +76,12 @@ public class RiskGame {
         this.numOfContinents = numOfContinents;
     }
     
-    public GameStates getGameState() {
+    public Config.GAME_STATES getGameState() {
         return this.gameState;
     }
     
-    public void setGameState(GameStates gameStates) {
-        this.gameState = gameStates;
+    public void setGameState(Config.GAME_STATES GAMESTATES) {
+        this.gameState = GAMESTATES;
     }
     
     /**
