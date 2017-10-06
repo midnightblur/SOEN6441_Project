@@ -4,7 +4,6 @@ import util.BidiArrayComparator;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Observable;
 
 /**

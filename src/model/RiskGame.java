@@ -1,16 +1,19 @@
 package model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
+import java.util.Vector;
 
 /**
- * Class initiates Risk Game with the welcome message, followed by the following features:
+ * Class initiates RiskGame with the welcome message, followed by the following features:
  * 1) determine number of players
  * 2) set number of cards in deck
  * 3) randomly (but fairly) distribute countries among all players
  * 4) start turn (repeated in round-robin fashion until only one active player remains)
- *      a) reinforcement phase
- *      b) attack phase
- *      c) fortifications phase
+ * a) reinforcement phase
+ * b) attack phase
+ * c) fortifications phase
  * 5) end of game
  */
 public class RiskGame {
@@ -20,23 +23,39 @@ public class RiskGame {
     private int numOfCards;
     private Vector<Card> deck = new Vector<>();
     private Vector<Player> players = new Vector<>();
-    private GameStates gameStates;
     private GameMap gameMap;
-
-    public RiskGame() {
+    private static RiskGame instance = null;
+    private GameStates gameState = GameStates.ENTRY_MENU;
+    
+    /**
+     * private constructor preventing any other class from instantiating.
+     */
+    private RiskGame() {
     }
-
+    
+    /**
+     * Static instance method to determine if an object of RiskGame already exists
+     *
+     * @return instance of the singleton object
+     */
+    public static RiskGame getInstance() {
+        if (instance == null) {
+            instance = new RiskGame();
+        }
+        return instance;
+    }
+    
     /**
      * Getters and Setters methods for class RiskGame's private attributes
      */
     public int getCurrPlayers() {
         return this.currPlayers;
     }
-
+    
     public void setCurrPlayers(int currPlayers) {
         this.currPlayers = currPlayers;
     }
-
+    
     public int getNumOfTerritories() {
         return this.numOfTerritories;
     }
@@ -46,28 +65,29 @@ public class RiskGame {
         this.numOfTerritories = numOfTerritories;
     }
     */
-
+    
     public int getNumOfContinents() {
         return this.numOfContinents;
     }
-
+    
     public void setNumOfContinents(int numOfContinents) {
         this.numOfContinents = numOfContinents;
     }
-
-    public GameStates getGameStates() {
-        return this.gameStates;
+    
+    public GameStates getGameState() {
+        return this.gameState;
     }
-
-    public void setGameStates(GameStates gameStates) {
-        this.gameStates = gameStates;
+    
+    public void setGameState(GameStates gameStates) {
+        this.gameState = gameStates;
     }
-
+    
     /**
      * Initiates the game map according to the filepath, sets the number of
      * players playing the game, sets the deck of cards, and distributes
      * territories to the players randomly.
-     * @param filepath: String value of the path to a valid map file.
+     *
+     * @param filepath:    String value of the path to a valid map file.
      * @param currPlayers: int value of the initial number of players.
      */
     public void initStartup(String filepath, int currPlayers) {
@@ -154,7 +174,7 @@ public class RiskGame {
         
         Random rand = new Random();
         int playerIndex = 0;
-        for (int i=0; i<numOfTerritories; i++) {
+        for (int i = 0; i < numOfTerritories; i++) {
             int territoryIndex = rand.nextInt(territoryArrList.size());
             gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
             if (playerIndex < currPlayers) {
@@ -168,5 +188,5 @@ public class RiskGame {
         
         // TODO: test for territory distribution
     }
-
+    
 }
