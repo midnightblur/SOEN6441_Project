@@ -5,7 +5,7 @@ import util.Config;
 import view.PlayUI;
 
 /**
- * Controller to read and set map filepath to the model, and update
+ * Controller to read and set map filepath to the model, and dispatchToController
  * the view to display the map.
  */
 public class StartupPhase {
