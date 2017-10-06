@@ -1,5 +1,6 @@
 package view;
 
+import model.GameMap;
 import model.MapTableModel;
 
 import javax.swing.*;
@@ -9,16 +10,28 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import static model.GameMapHandler.loadGameMap;
+
 public class MapEditor extends JFrame implements Observer {
     private JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(), new JPanel());
     private JScrollPane scrollPane = new JScrollPane();
     private JPanel controlPane = new JPanel();
     private JLabel pathLabel = new JLabel("Map location: ");
-    private JTextField path = new JTextField("World.map");
+    private JTextField path = new JTextField("C:\\Users\\eugen\\Documents\\git\\soen6441\\Maps\\World.map");
     private JButton loadMap = new JButton("Load Map");
     private JTable myTable = new JTable();
     
     public MapEditor() {
+        
+        /* this must be removes supposedly the observer pattern takes care of it */
+        try {
+            myTable.setModel(new MapTableModel(loadGameMap(path.getText())).getModel());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        /* ------------------------------ */
+        
+        
         /* put together the elements */
         controlPane.add(pathLabel);
         controlPane.add(path);
@@ -45,7 +58,7 @@ public class MapEditor extends JFrame implements Observer {
         myFrame.setVisible(true);
     }
     
-    public void setModel(DefaultTableModel tableModel) {
+    public void setTableModel(DefaultTableModel tableModel) {
         myTable.setModel(tableModel);
     }
     
@@ -75,6 +88,7 @@ public class MapEditor extends JFrame implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
+        System.out.println(o.hasChanged());
         myTable.setModel(((MapTableModel) o).getModel());
     }
 }
