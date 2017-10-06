@@ -181,7 +181,7 @@ public class GameMapHandler {
             /* 4. Every relationship between territories is 2-ways */
             for (String neighborName : territory.getNeighbors()) {
                 Territory neighbor = gameMap.getATerritory(neighborName);
-                if (!neighbor.getNeighbors().contains(territory.getName())) {
+                if (!neighbor.isNeighbor(territory.getName())) {
                     return String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, territory.getName(), neighborName);
                 }
             }

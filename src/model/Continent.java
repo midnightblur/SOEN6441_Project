@@ -11,7 +11,7 @@ import java.util.Vector;
 public class Continent {
     /* Private data member of model.Continent class */
     private String name;
-    private Vector<String> territories; // might have many territories inside, use integer id to save memory
+    private Vector<String> territories;
     private int controlValue;
 
     /* Constructors */
@@ -41,7 +41,11 @@ public class Continent {
     public Vector<String> getTerritories() {
         return territories;
     }
-
+    
+    public void setTerritories(Vector<String> territories) {
+        this.territories = territories;
+    }
+    
     /* Public methods */
     public void addTerritory(String territoryName) {
         if (!isContain(territoryName))

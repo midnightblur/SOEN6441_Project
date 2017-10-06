@@ -30,25 +30,37 @@ public class Territory {
     public String getName() {
         return name;
     }
-
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public Continent getContinent() {
         return continent;
     }
-
+    
+    public void setContinent(Continent continent) {
+        this.continent = continent;
+    }
+    
     public Player getOwner() {
         return owner;
+    }
+    
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+    
+    public Vector<String> getNeighbors() {
+        return neighbors;
+    }
+    
+    public void setNeighbors(Vector<String> neighbors) {
+        this.neighbors = neighbors;
     }
 
     public int getArmies() {
         return armies;
-    }
-
-    public Vector<String> getNeighbors() {
-        return neighbors;
-    }
-
-    public void setOwner(Player owner) {
-        this.owner = owner;
     }
 
     public void setArmies(int armies) {
@@ -59,9 +71,14 @@ public class Territory {
     public void addNeighbor(String territoryID) {
         if (!neighbors.contains(territoryID)) neighbors.add(territoryID);
     }
-
-    public boolean isNeighbor(int territoryID) {
-        return (neighbors.contains(territoryID));
+    
+    /**
+     * Check if the given Territory is a neighbour
+     * @param territoryName
+     * @return
+     */
+    public boolean isNeighbor(String territoryName) {
+        return (neighbors.contains(territoryName));
     }
 
     public boolean belongToContinent(Continent continent) {
