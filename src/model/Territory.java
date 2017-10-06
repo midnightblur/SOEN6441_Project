@@ -107,7 +107,7 @@ public class Territory {
      * @return
      */
     public boolean isOwnedBy(int playerID) {
-        return (owner.getID() == playerID);
+        return (owner.getPlayerID() == playerID);
     }
     
     /**

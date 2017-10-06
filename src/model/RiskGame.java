@@ -108,6 +108,27 @@ public class RiskGame {
         initPlayers();
         initDeck();
         distributeTerritories();
+        giveArmiesToPlayers();
+        placeArmies();
+        
+        
+        System.out.println("number of territories: " + gameMap.getTerritoriesCount());
+        // testing count players
+        for (int i=0; i<players.size(); i++) {
+            System.out.println("player " + players.get(i).getPlayerID());
+        }
+        // testing deck initialization
+        System.out.println("deck size: " + deck.size());
+        // testing territory dist
+        for (int i=0; i<players.size(); i++) {
+            System.out.println("player " + players.get(i).getPlayerID());
+        }
+        for (int i=0; i<gameMap.getTerritoriesCount(); i++) {
+            System.out.println("territory name: " + gameMap.g)
+        }
+        System.out.println("")
+        for (int i=0; i<)
+        System.out.println()
     }
     
     /**
@@ -191,4 +212,17 @@ public class RiskGame {
         // TODO: test for territory distribution
     }
     
+    /**
+     * (# of terriroties) * (2.75) / (# of players) = number of armies per player
+     */
+    public void giveArmiesToPlayers() {
+    
+    }
+    
+    /**
+     *
+     */
+    public void placeArmies() {
+    
+    }
 }

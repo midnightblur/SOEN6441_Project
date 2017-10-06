@@ -16,6 +16,7 @@ public class Player {
     // Private data member of model.Player class
     private int playerID;
     private String playerName;
+    private int unallocatedArmies;
     
     public Player() {
         this.playerID = ++Player.nextID;
@@ -23,7 +24,7 @@ public class Player {
     }
     
     /* Getters & Setters */
-    public int getID() {
+    public int getPlayerID() {
         return this.playerID;
     }
     
@@ -39,6 +40,14 @@ public class Player {
         this.playerName = playerName;
     }
     
+    public void setUnallocatedArmies(int unallocatedArmies) {
+        this.unallocatedArmies = unallocatedArmies;
+    }
+    
+    public int getUnallocatedArmies() {
+        return this.unallocatedArmies;
+    }
+    
     /**
      * Player color is randomly generated when a new player object is created
      */
@@ -48,5 +57,21 @@ public class Player {
         g = (float) (rand.nextFloat() / 2f + 0.5);
         b = (float) (rand.nextFloat() / 2f + 0.5);
         this.color = new Color(r, g, b);
+    }
+    
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || other == this) {
+            return false;
+        }
+        
+        Player tempPlayer = (Player) other;
+        if (this.playerID == tempPlayer.playerID
+                && this.playerName.compareTo(tempPlayer.playerName) == 0
+                && this.unallocatedArmies == tempPlayer.unallocatedArmies) {
+            return true;
+        }
+        
+        return false;
     }
 }
