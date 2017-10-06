@@ -1,6 +1,10 @@
 package model;
 
+import util.BidiArrayComparator;
+
 import javax.swing.table.DefaultTableModel;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Observable;
 
 /**
@@ -60,6 +64,8 @@ public class MapTableModel extends Observable {
     
     /* Public methods */
     private void groupRows() {
+        // perform sort on Continents column first */
+        Arrays.sort(rows, new BidiArrayComparator(0));
         String prevGroup = "";
         for (String[] row : rows) {
             if (row[0].equals(prevGroup)) {
