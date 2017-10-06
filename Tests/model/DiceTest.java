@@ -1,13 +1,13 @@
 package model;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class DiceTest {
+public class DiceTest {
 
     @Test
-    void rollForTreeDice() {
+    public void rollForTreeDice() {
         int diceCount = 3;
         System.out.println("\nTesting with " + diceCount + " dice ...");
         Dice myDice = new Dice(diceCount);
@@ -22,7 +22,7 @@ class DiceTest {
     }
 
     @Test
-    void rollForOneDice() {
+    public void rollForOneDice() {
         int diceCount = 1;
         System.out.println("\nTesting with " + diceCount + " dice ...");
         Dice myDice = new Dice(diceCount);
@@ -37,7 +37,7 @@ class DiceTest {
     }
 
     @Test
-    void rollForZeroDice() {
+    public void rollForZeroDice() {
         int diceCount = 0;
         System.out.println("\nTesting with " + diceCount + " dice ... \nWe expect that Dice constructor validates and makes one die array");
         Dice myDice = new Dice(diceCount);
