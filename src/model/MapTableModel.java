@@ -16,25 +16,29 @@ public class MapTableModel extends Observable {
     
     /* Constructors */
     public MapTableModel(GameMap map) {
-        rows = new String[map.getTerritoriesCount()][columns.length];
-        int i = 0;
-        for (Territory t : map.getTerritories().values()) {
-            rows[i][0] = t.getContinent().getName();
-            rows[i][1] = t.getName();
-            rows[i][2] = t.getNeighbors().toString();
-            rows[i][3] = t.getOwner().getPlayerName();
-            rows[i][4] = Integer.toString(t.getArmies());
-            i++;
-        }
-        
-        this.model.setColumnIdentifiers(columns);
-        groupRows();
+        this.updateMapTableModel(map);
     }
     
+    /**
+     * Updating the table model and notifying the subscribers
+     * This method is also used by the constructor
+     *
+     * @param map
+     *
+     * @return a table model to be used to generate the view
+     */
     public DefaultTableModel updateMapTableModel(GameMap map) {
         model.setRowCount(0);   // clears the model data
-        rows = new String[map.getTerritoriesCount()][columns.length];
+        rows = new String[map.getTerritoriesCount() + map.getContinentsCount()][columns.length];
         int i = 0;
+        /* add continents */
+        for (Continent c : map.getContinents()) {
+            rows[i][0] = c.getName();
+            rows[i][3] = "No owner yet";              // TODO: calculate the owner for a continent once all territories within are conquered
+            rows[i][4] = Integer.toString(9999);    // TODO: calculate dynamically the armies on one continent
+            i++;
+        }
+        /* add countries and their information */
         for (Territory t : map.getTerritories().values()) {
             rows[i][0] = t.getContinent().getName();
             rows[i][1] = t.getName();
@@ -45,7 +49,8 @@ public class MapTableModel extends Observable {
         }
         
         this.model.setColumnIdentifiers(columns);
-        groupRows();
+        Arrays.sort(rows, new BidiArrayComparator(0));        // perform sort on Continents column
+        groupRows();                                                  // 'group' the rows
         
         // specify that model state changed
         setChanged();
@@ -62,9 +67,11 @@ public class MapTableModel extends Observable {
     }
     
     /* Public methods */
+    
+    /**
+     * If rows have same continent as previous row, clear the continent name
+     */
     private void groupRows() {
-        // perform sort on Continents column first */
-        Arrays.sort(rows, new BidiArrayComparator(0));
         String prevGroup = "";
         for (String[] row : rows) {
             if (row[0].equals(prevGroup)) {
