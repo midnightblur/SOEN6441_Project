@@ -20,7 +20,7 @@ public class GameMapHandlerTest {
     @Test
     public void one_way_relationship() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/1_way_relationship.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/1_way_relationship.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -32,7 +32,7 @@ public class GameMapHandlerTest {
     @Test
     public void continent_has_no_control_value() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/continent_has_no_control_value.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/continent_has_no_control_value.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -44,7 +44,7 @@ public class GameMapHandlerTest {
     @Test
     public void continent_has_no_territory() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/continent_has_no_territory.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/continent_has_no_territory.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -56,7 +56,7 @@ public class GameMapHandlerTest {
     @Test
     public void duplicated_continent() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/duplicated_continents.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/duplicated_continents.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -68,7 +68,7 @@ public class GameMapHandlerTest {
     @Test
     public void duplicated_territories() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/duplicated_territories.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/duplicated_territories.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -80,7 +80,7 @@ public class GameMapHandlerTest {
     @Test
     public void invalid_format_1() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/invalid_format_1.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/invalid_format_1.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -92,7 +92,7 @@ public class GameMapHandlerTest {
     @Test
     public void invalid_format_2() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/invalid_format_2.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/invalid_format_2.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -104,7 +104,7 @@ public class GameMapHandlerTest {
     @Test
     public void invalid_format_3() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/invalid_format_3.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/invalid_format_3.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -116,7 +116,7 @@ public class GameMapHandlerTest {
     @Test
     public void invalid_format_4() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/invalid_format_4.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/invalid_format_4.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -128,7 +128,7 @@ public class GameMapHandlerTest {
     @Test
     public void missing_coordination() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/missing_coordination.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/missing_coordination.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -140,7 +140,7 @@ public class GameMapHandlerTest {
     @Test
     public void no_continent() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/no_continent.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/no_continent.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -152,7 +152,7 @@ public class GameMapHandlerTest {
     @Test
     public void no_neighbour() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/no_neighbour.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/no_neighbour.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -164,7 +164,7 @@ public class GameMapHandlerTest {
     @Test
     public void no_territory() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/no_territory.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/no_territory.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -176,7 +176,7 @@ public class GameMapHandlerTest {
     @Test
     public void territory_has_no_continent() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/territory_has_no_continent.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/territory_has_no_continent.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -188,7 +188,7 @@ public class GameMapHandlerTest {
     @Test
     public void too_many_neighbours() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/too_many_neighbours.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/too_many_neighbours.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -200,7 +200,7 @@ public class GameMapHandlerTest {
     @Test
     public void undefined_continent() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/undefined_continent.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/undefined_continent.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -212,7 +212,7 @@ public class GameMapHandlerTest {
     @Test
     public void undefined_territory() throws Exception {
         try {
-            gameMap = GameMapHandler.loadGameMap("Maps/invalid_maps/undefined_territory.map");
+            gameMap = GameMapHandler.loadGameMap("invalid_maps/undefined_territory.map");
         } catch (Exception e) {
             message = e.getMessage();
         }

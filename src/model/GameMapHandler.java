@@ -2,9 +2,7 @@ package model;
 
 import util.Config;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -26,21 +24,22 @@ public class GameMapHandler {
      * Output: A GameMap object containing map's info including territories, continents, adjacency
      * Operation: read the map text file content line by line to get map info
      *
-     * @param filePath
+     * @param mapName
      *
      * @return
      *
      * @throws Exception
      */
-    public static GameMap loadGameMap(String filePath) throws Exception {
+    public static GameMap loadGameMap(String mapName) throws Exception {
         GameMap gameMap;
         BufferedReader bufferedReader;
-        File file = new File(filePath);
+        String mapPath = Config.MAPS_FOLDER + mapName;
+        File file = new File(mapPath);
         bufferedReader = new BufferedReader(new FileReader(file));
         String line;
         int lineCounter = 0;
         
-        gameMap = new GameMap(filePath);
+        gameMap = new GameMap(mapName);
         Map<String, Continent> continentsMap = new HashMap<>();
         Set<String> allNeighbours = new HashSet<>(); // Used to check Territories and Neighbours declaration match
         while ((line = bufferedReader.readLine()) != null) {
@@ -203,6 +202,58 @@ public class GameMapHandler {
         return Config.MSG_MAPFILE_VALID;
     }
     
+    public static void writeToFile(GameMap gameMap) throws IOException {
+        String mapPath = Config.MAPS_FOLDER + gameMap.getMapName();
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(mapPath, false));
+            
+            /* Write Continents */
+            writer.append(Config.MAPS_FLAG_CONTINENTS + System.lineSeparator());
+            for (Continent continent : gameMap.getContinents()) {
+                writer.append(continent.getName());
+                writer.append(Config.MAPS_DELIMETER_CONTINENTS);
+                writer.append(String.valueOf(continent.getControlValue()));
+                writer.append(System.lineSeparator());
+            }
+            writer.append(System.lineSeparator());
+            
+            /* Write Territories */
+            writer.append(Config.MAPS_FLAG_TERRITORIES + System.lineSeparator());
+    
+            for (Continent continent : gameMap.getContinents()) {
+                for (String territoryName : continent.getTerritories()) {
+                    Territory territory = gameMap.getATerritory(territoryName);
+                    
+                    // Write Territory name
+                    writer.append(territory.getName());
+    
+                    // Write coordination
+                    writer.append(Config.MAPS_DELIMETER_TERRITORIES);
+                    writer.append(Config.MAPS_DEFAULT_COORDINATION);
+                    writer.append(Config.MAPS_DELIMETER_TERRITORIES);
+    
+                    // Write Continent name
+                    writer.append(territory.getContinent().getName());
+    
+                    // Write Neighbours name
+                    for (String neighbourName : territory.getNeighbors()) {
+                        writer.append(Config.MAPS_DELIMETER_TERRITORIES);
+                        writer.append(neighbourName);
+                    }
+                    
+                    writer.append(System.lineSeparator());
+                }
+                writer.append(System.lineSeparator());
+            }
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
+    }
+    
+    /* Private methods */
     /**
      * The game map is supposed to be a connected graph
      * Meaning there is a path between any two territories in the map

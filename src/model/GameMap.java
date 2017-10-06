@@ -10,7 +10,7 @@ import java.util.Vector;
  */
 public class GameMap {
     /* Private data member of model.GameMap class */
-    private String mapPath;
+    private String mapName;
     private String author;
     private boolean wrapping;
     private String scroll;
@@ -19,15 +19,15 @@ public class GameMap {
     private Vector<Continent> continents;
     
     /* Constructors */
-    public GameMap(String mapPath) {
-        this.mapPath = mapPath;
+    public GameMap(String mapName) {
+        this.mapName = mapName;
         this.territories = new HashMap<>();
         this.continents = new Vector<>();
     }
     
     /* Getters & Setters */
-    public String getMapPath() {
-        return mapPath;
+    public String getMapName() {
+        return mapName;
     }
     
     public String getAuthor() {
