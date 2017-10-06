@@ -1,8 +1,10 @@
 package view;
 
+import model.DropDownModel;
 import model.MapTableModel;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -11,30 +13,39 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import static util.Config.DEFAULT_MAP;
+
 public class MapEditor extends JFrame implements Observer {
     private JPanel menuPanel = new JPanel();
     
-    private JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(), new JPanel());
+    private JSplitPane mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(), new JPanel());
+    private JSplitPane controlSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JPanel(), new JPanel(new GridLayout(0, 1)));
+    
     private JScrollPane scrollPane = new JScrollPane();
-    private JPanel controlPane = new JPanel();
+    private JPanel controlPane = new JPanel(new GridLayout(0, 1));
+    
     private JLabel pathLabel = new JLabel("Chose map: ");
-    private JTextField path = new JTextField("World.map");
+    public JComboBox mapsDropdown = new JComboBox();
     private JButton loadMap = new JButton("Load Map");
     private JTable myTable = getTable();    // gets a table that changes row colors depending on cell content
     
     public MapEditor() {
-        
         /* put together the elements */
         controlPane.add(pathLabel);
-        controlPane.add(path);
+        controlPane.add(mapsDropdown);
         controlPane.add(loadMap);
-        scrollPane.add(myTable);
-        splitPane.setResizeWeight(.85d);
-        splitPane.setDividerLocation(1200);
-        splitPane.setRightComponent(controlPane);
-        splitPane.setLeftComponent(new JScrollPane(myTable));
-        splitPane.setSize(1600, 900);
         myTable.setAutoCreateRowSorter(false);
+        scrollPane.add(myTable);
+        
+        mainSplit.setResizeWeight(.85d);
+        mainSplit.setDividerLocation(1200);
+        mainSplit.setRightComponent(controlSplit);
+        mainSplit.setLeftComponent(new JScrollPane(myTable));
+        mainSplit.setSize(1600, 900);
+        
+        controlSplit.setTopComponent(controlPane);
+        controlSplit.setBorder(new EmptyBorder(10, 10, 10, 10));
+        controlSplit.setDividerLocation(200);
         
         this.display();
     }
@@ -42,7 +53,7 @@ public class MapEditor extends JFrame implements Observer {
     private void display() {
         JFrame myFrame = new JFrame("Map Editor");
         myFrame.add(menuPanel);
-        myFrame.add(splitPane);
+        myFrame.add(mainSplit);
         myFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         myFrame.pack();
         myFrame.setSize(1600, 1200);
@@ -51,8 +62,8 @@ public class MapEditor extends JFrame implements Observer {
     }
     
     /* Getters and Setters */
-    public String getPath() {
-        return path.getText();
+    public String getMap() {
+        return mapsDropdown.getSelectedItem().toString();
     }
     
     /**
@@ -60,9 +71,14 @@ public class MapEditor extends JFrame implements Observer {
      *
      * @param tableModel
      */
-    public void setModel(DefaultTableModel tableModel) {
+    public void setTableModel(DefaultTableModel tableModel) {
         myTable.setModel(tableModel);
         resizeColumns(myTable);
+    }
+    
+    public void setDropdownModel(DropDownModel dropdownModel) {
+        mapsDropdown.setModel(dropdownModel);
+        mapsDropdown.setSelectedItem(DEFAULT_MAP);
     }
     
     /**
@@ -105,7 +121,7 @@ public class MapEditor extends JFrame implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        setModel(((MapTableModel) o).getModel());
+        setTableModel(((MapTableModel) o).getModel());
     }
     
     /* change color depending on owner */

@@ -52,10 +52,8 @@ public class MapTableModel extends Observable {
         Arrays.sort(rows, new BidiArrayComparator(0));        // perform sort on Continents column
         groupRows();                                                  // 'group' the rows
         
-        // specify that model state changed
+        /* specify that model state changed and notify observers */
         setChanged();
-        
-        // notify observers
         notifyObservers();
         
         return model;

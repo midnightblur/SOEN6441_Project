@@ -19,10 +19,10 @@ public class StartupPhaseController {
         // TODO: the following method calls should be moved to be part of StartupListener class which implements the ActionListener class
         /*
         initStartUp should only take 1 param like 'new StartupListener()'.
-        Config.MAPS_NAME should be retrieved from the view's filepath value,
+        Config.DEFAULT_MAP should be retrieved from the view's filepath value,
         6 (number of players) should be retrieved from the view's number of players value
          */
-        riskGame.initStartup(Config.MAPS_NAME, 6);
+        riskGame.initStartup(Config.DEFAULT_MAP, 6);
 
     }
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import model.DropDownModel;
 import model.MapTableModel;
 import view.MapEditor;
 
@@ -7,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static model.GameMapHandler.loadGameMap;
+import static util.Config.DEFAULT_MAP;
 
 
 /**
@@ -16,7 +18,8 @@ import static model.GameMapHandler.loadGameMap;
 public class MapEditorController implements ActionListener {
     
     private MapEditor theView;
-    private MapTableModel theModel;
+    private MapTableModel theMapTableModel;
+    private DropDownModel mapDropDownModel;
     
     public MapEditorController() {
         
@@ -25,24 +28,31 @@ public class MapEditorController implements ActionListener {
         
         //create the Model object
         try {
-            theModel = new MapTableModel(loadGameMap(theView.getPath()));
-            theView.setModel(theModel.getModel());
+            theMapTableModel = new MapTableModel(loadGameMap(DEFAULT_MAP));
         } catch (Exception e) {
             e.printStackTrace();
         }
         
-        // Subscribe the view as observer to model changes
-        theModel.addObserver(theView);
+        // set the table model for the view
+        theView.setTableModel(theMapTableModel.getModel());
         
-        // register an instance of the event handler class as a listener
+        // Subscribe the view as observer to model changes
+        theMapTableModel.addObserver(theView);
+        
+        // register this instance of controller as listener to the view
         theView.addActionListener(this);
+        
+        /* Get the available maps and populate the dropdown */
+        mapDropDownModel = new DropDownModel(util.Config.MAP_FILES);
+        theView.setDropdownModel(mapDropDownModel);
+        mapDropDownModel.addListDataListener(theView.mapsDropdown);
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
             // update the model when button is clicked
-            theModel.updateMapTableModel(loadGameMap(theView.getPath()));
+            theMapTableModel.updateMapTableModel(loadGameMap(theView.getMap()));
             
         } catch (NumberFormatException ex) {
             System.out.println(ex);

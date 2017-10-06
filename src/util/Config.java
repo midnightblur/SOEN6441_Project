@@ -1,5 +1,8 @@
 package util;
 
+import java.io.File;
+import java.util.ArrayList;
+
 public class Config {
     // Constants for reading GameMap Text File
     public static final int MAPS_MIN_TERRITORIES = 1;
@@ -23,13 +26,14 @@ public class Config {
     public static final String MAPS_DELIMETER_TERRITORIES = ",";
     public static final String MAPS_DEFAULT_COORDINATION = "0,0";
     public static final String MAPS_FOLDER = "Maps/";
-    public static final String MAPS_NAME = "World.map";
-//    public static final String MAPS_NAME = "Maps/001_I72_Ghtroc 720.map";
-//    public static final String MAPS_NAME = "Maps/99 Mens Morris.map";
-
+    public static final String[] MAP_FILES = getMapsInFolder(MAPS_FOLDER);
+    public static final String DEFAULT_MAP = "World.map";
+//    public static final String DEFAULT_MAP = "Maps/001_I72_Ghtroc 720.map";
+//    public static final String DEFAULT_MAP = "Maps/99 Mens Morris.map";
+    
     // Constants for dice
     public static final int MAX_PIPS = 6;
-
+    
     // Messages' content for users
     public static final String MSG_MAPFILE_ERROR_TITLE = "The map file has error";
     public static final String MSG_MAPFILE_VALID = "The file map is valid";
@@ -46,4 +50,20 @@ public class Config {
     public static final String MSG_MAPFILE_TERRITORY_NOT_DEFINED = "A territory is not defined";
     public static final String MSG_MAPFILE_TERRITORY_DUPLICATED = "The territory already exist: line %s";
     public static final String MSG_MAPFILE_CONTINENT_NO_TERRITORY = "The %s continent has no territory";
+    
+    /**
+     * Find the files with *.map extension in given folder
+     * @param directory
+     * @return
+     */
+    public static String[] getMapsInFolder(String directory) {
+        ArrayList<String> mapFiles = new ArrayList<String>();
+        File dir = new File(directory);
+        for (File file : dir.listFiles()) {
+            if (file.getName().toLowerCase().endsWith((".map"))) {
+                mapFiles.add(file.getName());
+            }
+        }
+        return mapFiles.toArray(new String[mapFiles.size()]);
+    }
 }
