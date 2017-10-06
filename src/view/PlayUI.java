@@ -11,9 +11,9 @@ public class PlayUI extends JFrame {
    /* public PlayUI() {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setContentPane(this.mainArea);
-        this.pack();
         this.setResizable(false);
         this.setVisible(true);
+
     }
 
     public void paint(Graphics g) {
