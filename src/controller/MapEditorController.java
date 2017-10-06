@@ -1,10 +1,8 @@
 package controller;
 
-import model.GameMap;
 import model.MapTableModel;
 import view.MapEditor;
 
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

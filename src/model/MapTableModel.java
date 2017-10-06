@@ -68,8 +68,9 @@ public class MapTableModel extends Observable {
         String prevGroup = "";
         for (String[] row : rows) {
             if (row[0].equals(prevGroup)) {
-                row[0] = "   -> same as above";
+                row[0] = "  ";
             } else {
+                // add a row and shift down the rest
                 prevGroup = row[0];
             }
             this.model.addRow(row);

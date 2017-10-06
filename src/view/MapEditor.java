@@ -20,7 +20,7 @@ public class MapEditor extends JFrame implements Observer {
     private JLabel pathLabel = new JLabel("Chose map: ");
     private JTextField path = new JTextField("World.map");
     private JButton loadMap = new JButton("Load Map");
-    private JTable myTable = new JTable();
+    private JTable myTable = getTable();    // gets a table that changes row colors depending on cell content
     
     public MapEditor() {
         
@@ -85,7 +85,6 @@ public class MapEditor extends JFrame implements Observer {
         }
     }
     
-    
     /**
      * When the button is clicked execute a method in the Controller named loadGameMap
      *
@@ -106,7 +105,29 @@ public class MapEditor extends JFrame implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        myTable.setModel(((MapTableModel) o).getModel());
+        setModel(((MapTableModel) o).getModel());
     }
     
+    /* change color depending on owner */
+    private static final int STATUS_COL = 0;
+    
+    private static JTable getTable() {
+        
+        return new JTable() {
+            
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+                Component c = super.prepareRenderer(renderer, row, col);
+                String status = (String) getValueAt(row, STATUS_COL);
+                if (!"  ".equals(status)) {
+                    c.setBackground(Color.BLACK);
+                    c.setForeground(Color.WHITE);
+                } else {
+                    c.setBackground(super.getBackground());
+                    c.setForeground(super.getForeground());
+                }
+                return c;
+            }
+        };
+    }
 }
