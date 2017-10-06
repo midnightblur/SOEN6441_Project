@@ -1,7 +1,12 @@
-Quoc Minh Vu
+[Map]
+author=Sean O'Connor
+image=world.bmp
+wrap=no
+scroll=horizontal
+warn=yes
 
 [Continents]
-North America=5
+North America=5=10
 South America=2
 Africa=3
 Europe=5

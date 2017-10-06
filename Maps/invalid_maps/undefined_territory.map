@@ -6,6 +6,7 @@ scroll=horizontal
 warn=yes
 
 [Continents]
+North America=5
 South America=2
 Africa=3
 Europe=5
@@ -14,7 +15,6 @@ Australia=2
 
 [Territories]
 Alaska,70,126,North America,Northwest Territory,Alberta,Kamchatka,Vietnam
-Alaska,0,0,Africa,Northwest Territory
 Northwest Territory,148,127,North America,Alaska,Alberta,Ontario,Greenland
 Alberta,147,163,North America,Alaska,Northwest Territory,Ontario,Western United States
 Greenland,324,76,North America,Northwest Territory,Ontario,Quebec,Iceland

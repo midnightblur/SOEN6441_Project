@@ -1,9 +1,12 @@
-[Map]
-author=Sean O'Connor
-image=world.bmp
-wrap=no
-scroll=horizontal
-warn=yes
+Quoc Minh Vu
+
+[Continents]
+North America=5
+South America=2
+Africa=3
+Europe=5
+Asia=7
+Australia=2
 
 [Territories]
 Alaska,70,126,North America,Northwest Territory,Alberta,Kamchatka
@@ -54,13 +57,7 @@ New Guinea,768,325,Australia,Indonesia,Western Australia,Eastern Australia
 Western Australia,729,373,Australia,Indonesia,New Guinea,Eastern Australia
 Eastern Australia,779,381,Australia,Western Australia,New Guinea
 
-[Continents]
-North America=5
-South America=2
-Africa=3
-Europe=5
-Asia=7
-Australia=2
+
 
 
 

@@ -12,10 +12,10 @@ Africa=3
 Europe=5
 Asia=7
 Australia=2
-North America=2
 
 [Territories]
 Alaska,70,126,North America,Northwest Territory,Alberta,Kamchatka
+Alaska,0,0,Africa,Northwest Territory
 Northwest Territory,148,127,North America,Alaska,Alberta,Ontario,Greenland
 Alberta,147,163,North America,Alaska,Northwest Territory,Ontario,Western United States
 Greenland,324,76,North America,Northwest Territory,Ontario,Quebec,Iceland
