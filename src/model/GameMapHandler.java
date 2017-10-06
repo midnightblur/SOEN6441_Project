@@ -174,7 +174,7 @@ public class GameMapHandler {
         
         for (Territory territory : gameMap.getTerritories().values()) {
             /* 3. Each and every territory has the number of neighbors from 1 to 10 */
-            if (territory.getNeighborsNumber() > Config.MAPS_MAX_NEIGHBORS || territory.getNeighborsNumber() < Config.MAPS_MIN_NEIGHBORS) {
+            if (territory.getNeighborsCount() > Config.MAPS_MAX_NEIGHBORS || territory.getNeighborsCount() < Config.MAPS_MIN_NEIGHBORS) {
                 return String.format(Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT, territory.getName());
             }
             

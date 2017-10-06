@@ -77,9 +77,24 @@ public class GameMap {
         }
     }
     
+    public void removeTerritory(String territoryName) {
+        if (territories.containsKey(territoryName)) {
+            territories.remove(territoryName);
+        }
+    }
+    
     public void addContinent(Continent continent) {
         if (!continents.contains(continent))
             continents.add(continent);
+    }
+    
+    public void removeContinent(String continentName) {
+        for (Iterator<Continent> iterator = continents.iterator(); iterator.hasNext(); ) {
+            Continent continent = iterator.next();
+            if (continent.getName().compareTo(continentName) == 0) {
+                continents.remove(continent);
+            }
+        }
     }
     
     public int getTerritoriesCount() {
@@ -97,8 +112,9 @@ public class GameMap {
     public Continent getAContinent(String continentName) {
         for (Iterator<Continent> iterator = continents.iterator(); iterator.hasNext(); ) {
             Continent continent = iterator.next();
-            if (continent.getName().compareTo(continentName) == 0)
+            if (continent.getName().compareTo(continentName) == 0) {
                 return continent;
+            }
         }
         return null;
     }

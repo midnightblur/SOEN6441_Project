@@ -19,6 +19,12 @@ public class Territory {
     private Vector<String> neighbors;
 
     /* Constructors */
+    
+    /**
+     * Instantiate a new territory object given its name and the continent it belongs to
+     * @param name
+     * @param continent
+     */
     public Territory(String name, Continent continent) {
         this.name = name;
         this.continent = continent;
@@ -68,8 +74,13 @@ public class Territory {
     }
 
     /* Public methods */
-    public void addNeighbor(String territoryID) {
-        if (!neighbors.contains(territoryID)) neighbors.add(territoryID);
+    
+    /**
+     * Add a territory as new neighbour
+     * @param territoryName
+     */
+    public void addNeighbor(String territoryName) {
+        if (!neighbors.contains(territoryName)) neighbors.add(territoryName);
     }
     
     /**
@@ -80,45 +91,80 @@ public class Territory {
     public boolean isNeighbor(String territoryName) {
         return (neighbors.contains(territoryName));
     }
-
+    
+    /**
+     * Check if the territory is in a given continent
+     * @param continent
+     * @return
+     */
     public boolean belongToContinent(Continent continent) {
         return (this.continent == continent);
     }
-
+    
+    /**
+     * Check if the owner of the territory is a given player
+     * @param playerID
+     * @return
+     */
     public boolean isOwnedBy(int playerID) {
         return (owner.getID() == playerID);
     }
-
+    
+    /**
+     * Add a number of armies into the territory
+     * @param addedArmies
+     * @throws IllegalArgumentException
+     */
     public void addArmies(int addedArmies) throws IllegalArgumentException {
-        if (addedArmies > 0)
+        if (addedArmies > 0) {
             armies += addedArmies;
-        else
+        } else {
             throw new IllegalArgumentException();
+        }
     }
-
+    
+    /**
+     * Withdraw a number of armies from the territory
+     * @param deductedArmies
+     * @throws IllegalArgumentException
+     */
     public void reduceArmies(int deductedArmies) throws IllegalArgumentException {
-        if (armies > 0)
+        if (armies > 0) {
             armies -= deductedArmies;
-        else
+        } else {
             throw new IllegalArgumentException();
+        }
     }
-
-    public int getNeighborsNumber() {
+    
+    /**
+     * Get the number of neighbours of the territory
+     * @return
+     */
+    public int getNeighborsCount() {
         return neighbors.size();
     }
-
+    
+    /**
+     * Facilitate comparision between two territory objects
+     * @param other
+     * @return
+     */
     @Override
     public boolean equals(Object other) {
-        if (other == null)
+        if (other == null) {
             return false;
-        if (other == this)
+        }
+        if (other == this) {
             return true;
-        if (!(other instanceof Territory))
+        }
+        if (!(other instanceof Territory)) {
             return false;
+        }
 
         Territory territory = (Territory) other;
-        if (this.name.compareTo(territory.name) == 0)
+        if (this.name.compareTo(territory.name) == 0) {
             return true;
+        }
 
         return false;
     }
