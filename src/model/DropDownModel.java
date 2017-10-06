@@ -1,9 +1,10 @@
 package model;
 
 import javax.swing.*;
+import java.util.Vector;
 
 public class DropDownModel extends DefaultComboBoxModel<String> {
-    public DropDownModel(String[] items) {
+    public DropDownModel(Vector<String> items) {
         super(items);
     }
     

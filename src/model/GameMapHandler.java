@@ -255,6 +255,22 @@ public class GameMapHandler {
         }
     }
     
+    /**
+     * Find the files with *.map extension in given folder
+     * @param directory
+     * @return
+     */
+    public static Vector<String> getMapsInFolder(String directory) {
+        Vector<String> mapFiles = new Vector<>();
+        File dir = new File(directory);
+        for (File file : dir.listFiles()) {
+            if (file.getName().toLowerCase().endsWith((Config.MAPS_EXTENSION))) {
+                mapFiles.add(file.getName());
+            }
+        }
+        return mapFiles;
+    }
+    
     /* Private methods */
     /**
      * The game map is supposed to be a connected graph

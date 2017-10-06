@@ -1,7 +1,9 @@
 package controller;
 
 import model.DropDownModel;
+import model.GameMapHandler;
 import model.MapTableModel;
+import util.Config;
 import view.MapEditor;
 
 import java.awt.event.ActionEvent;
@@ -43,7 +45,7 @@ public class MapEditorController implements ActionListener {
         theView.addActionListener(this);
         
         /* Get the available maps and populate the dropdown */
-        mapDropDownModel = new DropDownModel(util.Config.MAP_FILES);
+        mapDropDownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
         theView.setDropdownModel(mapDropDownModel);
         mapDropDownModel.addListDataListener(theView.mapsDropdown);
     }
