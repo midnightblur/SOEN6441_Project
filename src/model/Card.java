@@ -5,33 +5,23 @@ package model;
  * The deck consist of 3 different types: Infantry, Cavalry, and Artillery.
  */
 public class Card {
-    private static final int typesCount = 3;
-    private String type;
-
+    public enum CARD_TYPE {INFANTRY, CAVALRY, ARTILLERY}
+    private CARD_TYPE cardType;
+    
     /**
-     * The Card sets the type of a card in the deck according to the typeNumber.
+     * The Card sets the cardType of a card in the deck according to the typeNumber.
      *
-     * @param typeNumber: integer value with respect to the card type, starts from index 0.
+     * @param cardType
      */
-    public Card(int typeNumber) {
-        switch(typeNumber) {
-            case 0:
-                this.type = "Infantry";
-                break;
-            case 1:
-                this.type = "Cavalry";
-                break;
-            case 2:
-                this.type = "Artillery";
-                break;
-        }
+    public Card(CARD_TYPE cardType) {
+        this.cardType = cardType;
     }
 
-    public String getType() {
-        return this.type;
+    public CARD_TYPE getCardType() {
+        return this.cardType;
     }
 
     public static int getTypesCount() {
-        return typesCount;
+        return CARD_TYPE.values().length;
     }
 }

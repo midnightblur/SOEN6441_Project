@@ -130,15 +130,15 @@ public class RiskGame {
         
         numOfCards = gameMap.getTerritoriesCount() +
                 (gameMap.getTerritoriesCount() % Card.getTypesCount()) * Card.getTypesCount();
-        for (int i = 0; i < numOfCards; i++) {
-            deck.add(new Card(i % Card.getTypesCount()));
+        for (Card.CARD_TYPE cardType : Card.CARD_TYPE.values()) {
+            deck.add(new Card(cardType));
         }
 
         /*
         // test deck initialization
         System.out.println("card total count: " + numOfCards);
         for (int i=0; i<numOfCards; i++) {
-            System.out.println("card " + (i+1) + ": " + deck.get(i).getType());
+            System.out.println("card " + (i+1) + ": " + deck.get(i).getCardType());
         }
         */
     }
@@ -155,7 +155,7 @@ public class RiskGame {
 //
 //        /*
 //        // test print card type
-//        System.out.println("card type: " + drawn.getType());
+//        System.out.println("card type: " + drawn.getCardType());
 //        */
 //    }
     
