@@ -12,8 +12,6 @@ public class Driver {
      * The game starts by creating an instance of the Game:
      * <list>
      * <li> Initially the game is by default set to ENTRY_PHASE
-     * <li> As the user changes the game states, the Game observes the changes in model
-     * and triggers the game dispatchToController() method, effectively passing the control to respective controller
      * </list>
      *
      * @param args

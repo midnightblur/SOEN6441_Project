@@ -43,13 +43,9 @@ public class MapEditorController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            System.out.println(theModel.toString());
-            String path = theView.getPath();
-            GameMap myMap = loadGameMap(path);
-            
             // update the model when button is clicked
-            theModel.updateMapTableModel(myMap);
-    
+            theModel.updateMapTableModel(loadGameMap(theView.getPath()));
+            
         } catch (NumberFormatException ex) {
             System.out.println(ex);
             theView.displayErrorMessage("Invalid path...");

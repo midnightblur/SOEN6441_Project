@@ -14,7 +14,7 @@ public class MapEditor extends JFrame implements Observer {
     private JScrollPane scrollPane = new JScrollPane();
     private JPanel controlPane = new JPanel();
     private JLabel pathLabel = new JLabel("Map location: ");
-    private JTextField path = new JTextField("C:\\Users\\eugen\\Documents\\git\\soen6441\\Maps\\World.map");
+    private JTextField path = new JTextField("World.map");
     private JButton loadMap = new JButton("Load Map");
     private JTable myTable = new JTable();
     
