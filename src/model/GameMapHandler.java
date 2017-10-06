@@ -2,9 +2,7 @@ package model;
 
 import util.Config;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -26,21 +24,22 @@ public class GameMapHandler {
      * Output: A GameMap object containing map's info including territories, continents, adjacency
      * Operation: read the map text file content line by line to get map info
      *
-     * @param filePath
+     * @param mapName
      *
      * @return
      *
      * @throws Exception
      */
-    public static GameMap loadGameMap(String filePath) throws Exception {
+    public static GameMap loadGameMap(String mapName) throws Exception {
         GameMap gameMap;
         BufferedReader bufferedReader;
-        File file = new File(filePath);
+        String mapPath = Config.MAPS_FOLDER + mapName;
+        File file = new File(mapPath);
         bufferedReader = new BufferedReader(new FileReader(file));
         String line;
         int lineCounter = 0;
         
-        gameMap = new GameMap(filePath);
+        gameMap = new GameMap(mapName);
         Map<String, Continent> continentsMap = new HashMap<>();
         Set<String> allNeighbours = new HashSet<>(); // Used to check Territories and Neighbours declaration match
         while ((line = bufferedReader.readLine()) != null) {
@@ -125,7 +124,6 @@ public class GameMapHandler {
                                 territory.addNeighbor(territoryInfo[i].trim());
                                 allNeighbours.add(territoryInfo[i].trim());
                             }
-                            continent.addTerritory(territory.getName());
                             gameMap.addTerritory(territory);
                         }
                     }
@@ -175,14 +173,14 @@ public class GameMapHandler {
         
         for (Territory territory : gameMap.getTerritories().values()) {
             /* 3. Each and every territory has the number of neighbors from 1 to 10 */
-            if (territory.getNeighborsNumber() > Config.MAPS_MAX_NEIGHBORS || territory.getNeighborsNumber() < Config.MAPS_MIN_NEIGHBORS) {
+            if (territory.getNeighborsCount() > Config.MAPS_MAX_NEIGHBORS || territory.getNeighborsCount() < Config.MAPS_MIN_NEIGHBORS) {
                 return String.format(Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT, territory.getName());
             }
             
             /* 4. Every relationship between territories is 2-ways */
             for (String neighborName : territory.getNeighbors()) {
                 Territory neighbor = gameMap.getATerritory(neighborName);
-                if (!neighbor.getNeighbors().contains(territory.getName())) {
+                if (!neighbor.isNeighbor(territory.getName())) {
                     return String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, territory.getName(), neighborName);
                 }
             }
@@ -203,6 +201,61 @@ public class GameMapHandler {
         return Config.MSG_MAPFILE_VALID;
     }
     
+    /**
+     * Write a gamemap info to a .map text file
+     */
+    public static void writeToFile(GameMap gameMap) throws IOException {
+        String mapPath = Config.MAPS_FOLDER + gameMap.getMapName();
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(mapPath, false));
+            
+            /* Write Continents */
+            writer.append(Config.MAPS_FLAG_CONTINENTS + System.lineSeparator());
+            for (Continent continent : gameMap.getContinents()) {
+                writer.append(continent.getName());
+                writer.append(Config.MAPS_DELIMETER_CONTINENTS);
+                writer.append(String.valueOf(continent.getControlValue()));
+                writer.append(System.lineSeparator());
+            }
+            writer.append(System.lineSeparator());
+            
+            /* Write Territories */
+            writer.append(Config.MAPS_FLAG_TERRITORIES + System.lineSeparator());
+    
+            for (Continent continent : gameMap.getContinents()) {
+                for (String territoryName : continent.getTerritories()) {
+                    Territory territory = gameMap.getATerritory(territoryName);
+                    
+                    // Write Territory name
+                    writer.append(territory.getName());
+    
+                    // Write coordination
+                    writer.append(Config.MAPS_DELIMETER_TERRITORIES);
+                    writer.append(Config.MAPS_DEFAULT_COORDINATION);
+                    writer.append(Config.MAPS_DELIMETER_TERRITORIES);
+    
+                    // Write Continent name
+                    writer.append(territory.getContinent().getName());
+    
+                    // Write Neighbours name
+                    for (String neighbourName : territory.getNeighbors()) {
+                        writer.append(Config.MAPS_DELIMETER_TERRITORIES);
+                        writer.append(neighbourName);
+                    }
+                    
+                    writer.append(System.lineSeparator());
+                }
+                writer.append(System.lineSeparator());
+            }
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
+    }
+    
+    /* Private methods */
     /**
      * The game map is supposed to be a connected graph
      * Meaning there is a path between any two territories in the map

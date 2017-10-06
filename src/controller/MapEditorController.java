@@ -28,7 +28,7 @@ public class MapEditorController implements ActionListener {
         //create the Model object
         try {
             theModel = new MapTableModel(loadGameMap(theView.getPath()));
-            System.out.println("myMap.getTerritoriesCount() = " + loadGameMap(theView.getPath()).getTerritoriesCount());
+            theView.setModel(theModel.getModel());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,12 +43,8 @@ public class MapEditorController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            String path = theView.getPath();
-            GameMap myMap = loadGameMap(path);
-            System.out.println("UPDATED MAP HAS NOW " + myMap.getTerritoriesCount());
-            
-            // make a MapTableModel model object using the path
-            theModel = new MapTableModel(myMap);
+            // update the model when button is clicked
+            theModel.updateMapTableModel(loadGameMap(theView.getPath()));
             
         } catch (NumberFormatException ex) {
             System.out.println(ex);
@@ -57,35 +53,4 @@ public class MapEditorController implements ActionListener {
             e1.printStackTrace();
         }
     }
-        
-        
- /*
-    public MapEditorController() throws Exception {
-        // get the path from the view
-        String path = "Maps/World.map";
-        // load the map
-        GameMap myMap = loadGameMap(path);
-        
-        // display or refresh the view
-        this.display();
-        
-        
-        DefaultTableModel tableModel = new MapTableModel(myMap).getModel();
-        JTable myTable = new JTable();
-        // adding the view as listener to the model
-        myTable.setModel(tableModel);
-    
-        this.setLayout(new GridLayout());
-    
-        myTable.setFont(new Font("Verdana", Font.PLAIN, 20));
-        myTable.setAutoCreateRowSorter(true);
-        myTable.setRowHeight(24);
-        myTable.setBackground(Color.orange);
-        myTable.setForeground(Color.blue);
-        this.add(new JScrollPane(myTable));
-    }
-    
-    
-    */
-    
 }
