@@ -102,7 +102,7 @@ public class MapEditor extends JFrame implements Observer {
     }
     
     /**
-     * When the button is clicked execute a method in the Controller named loadGameMap
+     * Inform controller of changes
      *
      * @param
      */

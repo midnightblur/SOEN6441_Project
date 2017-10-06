@@ -12,4 +12,5 @@ public class DropDownModel extends DefaultComboBoxModel<String> {
         String selectedJob = (String) super.getSelectedItem();
         return selectedJob;
     }
+    
 }
