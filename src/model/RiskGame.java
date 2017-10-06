@@ -108,10 +108,12 @@ public class RiskGame {
         initPlayers();
         initDeck();
         distributeTerritories();
-        giveArmiesToPlayers();
+        giveInitialArmies();
         placeArmies();
         
         
+        
+        // TESTING... TO BE PUT INTO JUNIT TESTING LATER ON
         System.out.println("number of territories: " + gameMap.getTerritoriesCount());
         // testing count players
         for (int i=0; i<players.size(); i++) {
@@ -120,15 +122,16 @@ public class RiskGame {
         // testing deck initialization
         System.out.println("deck size: " + deck.size());
         // testing territory dist
-        for (int i=0; i<players.size(); i++) {
-            System.out.println("player " + players.get(i).getPlayerID());
+        for (Player player : players) {
+            System.out.println("player " + player.getPlayerID() + ": ");
+            for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
+                System.out.println(entry.getKey()+" : "+entry.getValue());
+            }
         }
-        for (int i=0; i<gameMap.getTerritoriesCount(); i++) {
-            System.out.println("territory name: " + gameMap.g)
+        // testing players armies
+        for (Player player : players) {
+            System.out.println("player " + player.getPlayerID() + " armies: " + player.getUnallocatedArmies());
         }
-        System.out.println("")
-        for (int i=0; i<)
-        System.out.println()
     }
     
     /**
@@ -208,15 +211,17 @@ public class RiskGame {
             System.out.print("player Index: " + playerIndex);
             territoryArrList.remove(territoryIndex);
         }
-        
-        // TODO: test for territory distribution
     }
     
     /**
-     * (# of terriroties) * (2.75) / (# of players) = number of armies per player
+     * This method gives initial armies per player according to the following algorithm:
+     * [# of initial armies = (# of territories) * (2.75) / (# of players)]
      */
-    public void giveArmiesToPlayers() {
-    
+    public void giveInitialArmies() {
+        int armiesToGive = (int) (gameMap.getTerritoriesCount() * Config.INITIAL_ARMY_RATIO / players.size());
+        for (Player player : players) {
+            player.setUnallocatedArmies(armiesToGive);
+        }
     }
     
     /**

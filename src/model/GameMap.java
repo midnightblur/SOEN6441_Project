@@ -37,6 +37,23 @@ public class GameMap {
     /* Public methods */
     
     /**
+     * Takes a player object as a parameter and returns a hash map of the territories
+     * that belong to that player object.
+     * @param player
+     * @return {@literal Map<String, Territory>}
+     */
+    public Map<String, Territory> getTerritoriesOfPlayer(Player player) {
+        Map<String, Territory> playersTerritories = new HashMap<>();
+        for (Map.Entry<String, Territory> entry : territories.entrySet())
+        {
+            if (player.equals(entry.getValue().getOwner())) {
+                playersTerritories.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return playersTerritories;
+    }
+    
+    /**
      * Add a new territory
      * @param territory
      */

@@ -37,6 +37,9 @@ public class Config {
     // Constants for dice
     public static final int MAX_PIPS = 6;
     
+    // Constants for RiskGame
+    public static final double INITIAL_ARMY_RATIO = 2.75;
+    
     // Messages' content for users
     public static final String MSG_MAPFILE_ERROR_TITLE = "The map file has error";
     public static final String MSG_MAPFILE_VALID = "The file map is valid";
