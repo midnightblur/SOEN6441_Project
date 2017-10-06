@@ -124,7 +124,6 @@ public class GameMapHandler {
                                 territory.addNeighbor(territoryInfo[i].trim());
                                 allNeighbours.add(territoryInfo[i].trim());
                             }
-                            continent.addTerritory(territory.getName());
                             gameMap.addTerritory(territory);
                         }
                     }
@@ -202,6 +201,9 @@ public class GameMapHandler {
         return Config.MSG_MAPFILE_VALID;
     }
     
+    /**
+     * Write a gamemap info to a .map text file
+     */
     public static void writeToFile(GameMap gameMap) throws IOException {
         String mapPath = Config.MAPS_FOLDER + gameMap.getMapName();
         BufferedWriter writer = null;
