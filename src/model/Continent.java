@@ -11,10 +11,16 @@ import java.util.Vector;
 public class Continent {
     /* Private data member of model.Continent class */
     private String name;
-    private Vector<String> territories; // might have many territories inside, use integer id to save memory
+    private Vector<String> territories;
     private int controlValue;
 
     /* Constructors */
+    
+    /**
+     * Instantiate new continent object given its name and its control value
+     * @param name
+     * @param controlValue
+     */
     public Continent(String name, int controlValue) {
         this.name = name;
         this.controlValue = controlValue;
@@ -41,21 +47,58 @@ public class Continent {
     public Vector<String> getTerritories() {
         return territories;
     }
-
+    
+    public void setTerritories(Vector<String> territories) {
+        this.territories = territories;
+    }
+    
     /* Public methods */
+    
+    /**
+     * Add a territory to the list of territories belonging to the continent
+     * @param territoryName
+     */
     public void addTerritory(String territoryName) {
         if (!isContain(territoryName))
             territories.add(territoryName);
     }
-
+    
+    /**
+     * Remove a territory from the list of territories belong to the continent
+     * @param territoryName
+     */
+    public void removeTerritory(String territoryName) {
+        int i = 0;
+        for (String name : territories) {
+            if (name.compareTo(territoryName) == 0) {
+                territories.remove(i);
+            }
+            i++;
+        }
+    }
+    
+    /**
+     * Check if the continent contain a given territory
+     * @param territoryName
+     * @return
+     */
     public boolean isContain(String territoryName) {
         return (territories.contains(territoryName));
     }
     
+    /**
+     * Get the number of territories belong to the continent
+     * @return
+     */
     public int getTerritoriesCount() {
         return territories.size();
     }
-
+    
+    /**
+     * Facilitate the comparision between two continent objects
+     * @param other
+     * @return
+     */
     @Override
     public boolean equals(Object other) {
         if (other == null)

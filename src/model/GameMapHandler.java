@@ -124,7 +124,6 @@ public class GameMapHandler {
                                 territory.addNeighbor(territoryInfo[i].trim());
                                 allNeighbours.add(territoryInfo[i].trim());
                             }
-                            continent.addTerritory(territory.getName());
                             gameMap.addTerritory(territory);
                         }
                     }
@@ -174,14 +173,14 @@ public class GameMapHandler {
         
         for (Territory territory : gameMap.getTerritories().values()) {
             /* 3. Each and every territory has the number of neighbors from 1 to 10 */
-            if (territory.getNeighborsNumber() > Config.MAPS_MAX_NEIGHBORS || territory.getNeighborsNumber() < Config.MAPS_MIN_NEIGHBORS) {
+            if (territory.getNeighborsCount() > Config.MAPS_MAX_NEIGHBORS || territory.getNeighborsCount() < Config.MAPS_MIN_NEIGHBORS) {
                 return String.format(Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT, territory.getName());
             }
             
             /* 4. Every relationship between territories is 2-ways */
             for (String neighborName : territory.getNeighbors()) {
                 Territory neighbor = gameMap.getATerritory(neighborName);
-                if (!neighbor.getNeighbors().contains(territory.getName())) {
+                if (!neighbor.isNeighbor(territory.getName())) {
                     return String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, territory.getName(), neighborName);
                 }
             }
@@ -202,6 +201,9 @@ public class GameMapHandler {
         return Config.MSG_MAPFILE_VALID;
     }
     
+    /**
+     * Write a gamemap info to a .map text file
+     */
     public static void writeToFile(GameMap gameMap) throws IOException {
         String mapPath = Config.MAPS_FOLDER + gameMap.getMapName();
         BufferedWriter writer = null;
