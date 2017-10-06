@@ -20,4 +20,7 @@ public class Player {
         return this.playerID;
     }
     
+    public String getPlayerName() {
+        return playerName;
+    }
 }

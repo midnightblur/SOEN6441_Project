@@ -29,6 +29,8 @@ public class GameMapHandler {
      * @param filePath
      *
      * @return
+     *
+     * @throws Exception
      */
     public static GameMap loadGameMap(String filePath) throws Exception {
         GameMap gameMap;
