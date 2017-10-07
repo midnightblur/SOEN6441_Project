@@ -1,6 +1,5 @@
 package model;
 
-import com.sun.security.auth.SolarisNumericUserPrincipal;
 import util.Config;
 
 import java.util.*;
