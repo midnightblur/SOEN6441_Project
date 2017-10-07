@@ -51,7 +51,11 @@ public class RiskGame {
     public int getNumOfTerritories() {
         return this.numOfTerritories;
     }
-
+    
+    public GameMap getGameMap() {
+        return gameMap;
+    }
+    
     /*
     public void setNumOfTerritories(int numOfTerritories) {
         this.numOfTerritories = numOfTerritories;

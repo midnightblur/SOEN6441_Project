@@ -44,7 +44,7 @@ public class MapTableModel extends Observable {
             rows[i][1] = t.getName();
             rows[i][2] = t.getNeighbors().toString().replace("[", "").replace("]", "");
             if (t.getOwner() != null) {
-                rows[i][3] = t.getOwner().getPlayerName();
+                rows[i][3] = "Player " + Integer.toString(t.getOwner().getPlayerID());
             }
             rows[i][4] = Integer.toString(t.getArmies());
             i++;
