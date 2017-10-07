@@ -1,11 +1,9 @@
 package model;
 
+import com.sun.security.auth.SolarisNumericUserPrincipal;
 import util.Config;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * Class initiates RiskGame with the welcome message, followed by the following features:
@@ -101,7 +99,14 @@ public class RiskGame {
         initDeck();
         distributeTerritories();
         giveInitialArmies();
-        //placeArmies();
+        
+        // testing players armies
+        for (Player player : players) {
+            System.out.println("player " + player.getPlayerID() + "'s unallocated armies before allocation: "
+                    + player.getUnallocatedArmies());
+        }
+        
+        placeArmies();
         
         
         
@@ -122,13 +127,14 @@ public class RiskGame {
                 System.out.println("\t" + entry.getValue().getName());
             }
         }
-        // testing players armies
-        for (Player player : players) {
-            System.out.println("player " + player.getPlayerID() + "'s unallocated armies: "
-                    + player.getUnallocatedArmies());
-        }
         // testing army placement
-        
+        for (Player player : players) {
+            System.out.println("player " + player.getPlayerID() + ":");
+            for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
+                System.out.println("\t" + entry.getValue().getName()
+                        + " (num of armies: " + entry.getValue().getArmies() + ")." );
+            }
+        }
     }
     
     /**
@@ -223,57 +229,37 @@ public class RiskGame {
         }
     }
     
-//    /**
-//     * This method allows the players to allocate all of the unallocated armies in a
-//     * round-robin fashion.
-//     */
-//    public void placeArmies() {
-//        int allUnallocatedArmies = 0;
-//        for (Player player : players) {
-//            allUnallocatedArmies += player.getUnallocatedArmies();
-//        }
-//
-//        Random rand = new Random();
-//        int playerIndex = 0;
-//        for (int i = 0; i < allUnallocatedArmies; i++) {
-//            if (!(playerIndex < players.size())) {
-//                playerIndex = 0;
-//            }
-//
-//            int territoryIndex = rand.nextInt(gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).size());
-//            gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).
-//
-//            ArrayList<String> territoryArrList = new ArrayList<>();
-//            for (Map.Entry<String, Territory> entry :
-//                    gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).entrySet()) {
-//                territoryArrList.add(entry.getValue().getName());
-//            }
-//
-//            int territoryIndex = rand.nextInt(territoryArrList.size());
-//            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
-//            playerIndex++;
-//            territoryArrList.remove(territoryIndex);
-//        }
-//
-//        for (Player player : players) {
-//            if (player.getPlayerID() == 1) {
-//
-//            } else {
-//                ArrayList<String> territoryArrList = new ArrayList<>();
-//                for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
-//                    territoryArrList.add(entry.getValue().getName());
-//                }
-//
-//                while (player.getUnallocatedArmies() != 0) {
-//                    Random rand = new Random();
-//                    int territoryIndex = rand.nextInt(territoryArrList.size());
-//                    int numOfArmies = rand.nextInt(player.getUnallocatedArmies());
-//
-//                    territoryArrList.remove(territoryIndex);
-//                    // TODO: direct scanner control to the controller once the game view is complete.
-//
-//                }
-//            }
-//        }
-//    }
+    /**
+     * This method allows the players to allocate all of the unallocated armies in a
+     * round-robin fashion.
+     */
+    public void placeArmies() {
+        boolean noMoreArmies = false;
+        Random rand = new Random();
+        int playerIndex = 0;
+        while (!noMoreArmies) {
+            ArrayList<Territory> territoryList = new ArrayList<>();
+            if (!(playerIndex < players.size())) {
+                playerIndex = 0;
+            }
+            // TODO: get rid of this line following print out line.
+            System.out.println("player " + players.elementAt(playerIndex).getPlayerID() + "'s turn to allocate army.");
+            for (Map.Entry<String, Territory> entry :
+                    gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).entrySet()) {
+                if (entry.getValue().getOwner().equals(players.elementAt(playerIndex))) {
+                    territoryList.add(entry.getValue());
+                }
+            }
+            int territoryIndex = rand.nextInt(territoryList.size());
+            territoryList.get(territoryIndex).addArmies(1);
+            players.elementAt(playerIndex).reduceUnallocatedArmies(1);
+            playerIndex++;
+            noMoreArmies = true;
+            for (Player player : players) {
+                if (player.getUnallocatedArmies() != 0) {
+                    noMoreArmies = false;
+                }
+            }
+        }
+    }
 }

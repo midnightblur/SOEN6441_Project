@@ -51,6 +51,22 @@ public class Player {
     // public methods
     
     /**
+     * Reduces the number of unallocated armies for this player by the specified number.
+     * @param num
+     */
+    public void reduceUnallocatedArmies(int num) {
+        this.unallocatedArmies -= num;
+    }
+    
+    /**
+     * Increases the number of unallocated armies for this player by the specified number.
+     * @param num
+     */
+    public void addUnallocatedArmies(int num) {
+        this.unallocatedArmies += num;
+    }
+    
+    /**
      * Player color is randomly generated when a new player object is created
      */
     private void setColor() {
