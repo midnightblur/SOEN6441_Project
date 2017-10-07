@@ -62,6 +62,7 @@ public class GameMapHandler {
             
             if (mapParts != null) {
                 if (line.trim().compareTo("") != 0) {
+                    line = line.trim().toLowerCase();
                     switch (mapParts) {
                         case MAP:
                             String[] lineContent = line.split(Config.MAPS_DELIMETER_MAP);

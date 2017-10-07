@@ -16,6 +16,7 @@ Orange=10
 Yellow=10
 Brown=10
 
+
 [Territories]
 Man01,59,79,Red,Man02,Man04
 Man02,139,79,Red,Man01,Man03,Man05
