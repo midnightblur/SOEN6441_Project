@@ -61,19 +61,23 @@ public class Player {
         this.color = new Color(r, g, b);
     }
     
+    /**
+     *
+     * @param other
+     * @return
+     */
     @Override
     public boolean equals(Object other) {
-        if (other == null || other == this) {
+        if (other == null) {
             return false;
         }
-        
         Player tempPlayer = (Player) other;
         if (this.playerID == tempPlayer.playerID
-                && this.playerName.compareTo(tempPlayer.playerName) == 0
+                && ((this.playerName == null && tempPlayer.playerName == null)
+                || this.playerName.equals(tempPlayer.playerName))
                 && this.unallocatedArmies == tempPlayer.unallocatedArmies) {
             return true;
         }
-        
         return false;
     }
 }

@@ -12,6 +12,7 @@ public class GameMap {
     /* Private data member of model.GameMap class */
     private String mapName;
     private Map<String, Territory> territories;
+    private Map<String, Territory> playersTerritories;
     private Vector<Continent> continents;
     
     /* Constructors */
@@ -43,7 +44,7 @@ public class GameMap {
      * @return {@literal Map<String, Territory>}
      */
     public Map<String, Territory> getTerritoriesOfPlayer(Player player) {
-        Map<String, Territory> playersTerritories = new HashMap<>();
+        playersTerritories = new HashMap<>();
         for (Map.Entry<String, Territory> entry : territories.entrySet())
         {
             if (player.equals(entry.getValue().getOwner())) {

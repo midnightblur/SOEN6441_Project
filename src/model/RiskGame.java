@@ -19,10 +19,8 @@ import java.util.Vector;
  * 5) end of game
  */
 public class RiskGame {
-    private int currPlayers;
     private int numOfTerritories;
     private int numOfContinents;
-    private int numOfCards;
     private Vector<Card> deck = new Vector<>();
     private Vector<Player> players = new Vector<>();
     private GameMap gameMap;
@@ -50,14 +48,6 @@ public class RiskGame {
     /**
      * Getters and Setters methods for class RiskGame's private attributes
      */
-    public int getCurrPlayers() {
-        return this.currPlayers;
-    }
-    
-    public void setCurrPlayers(int currPlayers) {
-        this.currPlayers = currPlayers;
-    }
-    
     public int getNumOfTerritories() {
         return this.numOfTerritories;
     }
@@ -101,13 +91,13 @@ public class RiskGame {
             e.printStackTrace(System.err);
         }
         
-        if (currPlayers > 1 && currPlayers <= gameMap.getTerritoriesCount()) {
-            this.currPlayers = currPlayers;
-        } else {
+        // TODO: handle this error someplace else?
+        if (!(currPlayers > 1 && currPlayers <= gameMap.getTerritoriesCount())) {
             System.err.println("Invalid number of players. Should catch it in the view.");
+            return;
         }
         
-        initPlayers();
+        initPlayers(currPlayers);
         initDeck();
         distributeTerritories();
         giveInitialArmies();
@@ -118,21 +108,24 @@ public class RiskGame {
         // TESTING... TO BE PUT INTO JUNIT TESTING LATER ON
         System.out.println("number of territories: " + gameMap.getTerritoriesCount());
         // testing count players
+        System.out.println("list of players:");
         for (int i=0; i<players.size(); i++) {
-            System.out.println("player " + players.get(i).getPlayerID());
+            System.out.println("\tplayer " + players.get(i).getPlayerID());
         }
         // testing deck initialization
         System.out.println("deck size: " + deck.size());
         // testing territory dist
         for (Player player : players) {
-            System.out.println("player " + player.getPlayerID() + ": ");
+            System.out.println("player " + player.getPlayerID() + "'s territories: (total: "
+                    + gameMap.getTerritoriesOfPlayer(player).size() + ")");
             for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
-                System.out.println(entry.getKey()+" : "+entry.getValue());
+                System.out.println("\t" + entry.getKey()+": "+entry.getValue().getName());
             }
         }
         // testing players armies
         for (Player player : players) {
-            System.out.println("player " + player.getPlayerID() + " armies: " + player.getUnallocatedArmies());
+            System.out.println("player " + player.getPlayerID() + "'s unallocated armies: "
+                    + player.getUnallocatedArmies());
         }
     }
     
@@ -140,7 +133,7 @@ public class RiskGame {
      * private void method to initialize the players according to
      * the number of players (currPlayers).
      */
-    private void initPlayers() {
+    private void initPlayers(int currPlayers) {
         System.out.println("Initializing players...");
         
         for (int i = 0; i < currPlayers; i++) {
@@ -206,15 +199,13 @@ public class RiskGame {
         
         Random rand = new Random();
         int playerIndex = 0;
-        for (int i = 0; i < numOfTerritories; i++) {
-            int territoryIndex = rand.nextInt(territoryArrList.size());
-            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
-            if (playerIndex < currPlayers) {
-                playerIndex++;
-            } else {
+        for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
+            if (!(playerIndex < players.size())) {
                 playerIndex = 0;
             }
-            System.out.print("player Index: " + playerIndex);
+            int territoryIndex = rand.nextInt(territoryArrList.size());
+            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
+            playerIndex++;
             territoryArrList.remove(territoryIndex);
         }
     }
