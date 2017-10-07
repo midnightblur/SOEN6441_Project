@@ -22,11 +22,12 @@ public class Driver {
         RiskGame game = RiskGame.getInstance();
 
         /* these are only tests that put the game in a specific state, in reality the game will start from ENTRY_PHASE */
+        game.setGameState(Config.GAME_STATES.STARTUP_PHASE);
+        new StartupPhaseController(new PlayUI(), RiskGame.getInstance());
         
         game.setGameState(Config.GAME_STATES.MAP_EDITOR);
         new MapEditorController();
         
-        game.setGameState(Config.GAME_STATES.STARTUP_PHASE);
-        new StartupPhaseController(new PlayUI(), RiskGame.getInstance());
+        
     }
 }

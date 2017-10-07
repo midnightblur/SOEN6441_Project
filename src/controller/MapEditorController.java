@@ -3,6 +3,7 @@ package controller;
 import model.DropDownModel;
 import model.GameMapHandler;
 import model.MapTableModel;
+import model.RiskGame;
 import util.Config;
 import view.MapEditor;
 
@@ -10,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static model.GameMapHandler.loadGameMap;
-import static util.Config.DEFAULT_MAP;
 
 
 /**
@@ -30,7 +30,8 @@ public class MapEditorController implements ActionListener {
         
         //create the Model object
         try {
-            theMapTableModel = new MapTableModel(loadGameMap(DEFAULT_MAP));
+            //theMapTableModel = new MapTableModel(loadGameMap(DEFAULT_MAP));
+            theMapTableModel = new MapTableModel(RiskGame.getInstance().getGameMap());
         } catch (Exception e) {
             e.printStackTrace();
         }
