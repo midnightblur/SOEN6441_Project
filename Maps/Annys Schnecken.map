@@ -1,0 +1,67 @@
+[Map]
+author=Anna Klindworth
+image=Annys Schnecken.bmp
+wrap=no
+scroll=none
+warn=no
+
+[Continents]
+Schnecke Blau=5
+Schnecke Gelb=3
+Schnecke Orange=4
+Raupe=5
+
+[Territories]
+Territory01,72,68,Schnecke Blau,Territory02
+Territory02,92,81,Schnecke Blau,Territory01,Territory03
+Territory03,120,92,Schnecke Blau,Territory02,Territory04
+Territory04,161,97,Schnecke Blau,Territory03,Territory05
+Territory05,211,119,Schnecke Blau,Territory04,Territory06
+Territory06,261,130,Schnecke Blau,Territory05,Territory07
+Territory07,296,137,Schnecke Blau,Territory06,Territory08
+Territory08,354,153,Schnecke Blau,Territory07,Territory09
+Territory09,428,210,Schnecke Blau,Territory39,Territory43,Territory10,Territory11,Territory12,Territory13,Territory14,Territory08
+Territory10,343,44,Schnecke Blau,Territory09
+Territory11,384,262,Schnecke Blau,Territory09
+Territory12,270,261,Schnecke Blau,Territory09
+Territory13,187,267,Schnecke Blau,Territory09
+Territory14,308,484,Schnecke Gelb,Territory09,Territory15,Territory16,Territory26
+Territory15,350,396,Schnecke Gelb,Territory14
+Territory16,245,472,Schnecke Gelb,Territory14,Territory17,Territory23
+Territory17,229,427,Schnecke Gelb,Territory18,Territory16
+Territory18,202,406,Schnecke Gelb,Territory17,Territory19
+Territory19,155,384,Schnecke Gelb,Territory18,Territory20
+Territory20,109,388,Schnecke Gelb,Territory19
+Territory21,88,412,Schnecke Gelb,Territory22
+Territory22,121,452,Schnecke Gelb,Territory21,Territory23
+Territory23,163,477,Schnecke Gelb,Territory22,Territory16,Territory24
+Territory24,197,440,Schnecke Gelb,Territory25,Territory23
+Territory25,144,408,Schnecke Gelb,Territory24
+Territory26,754,394,Schnecke Orange,Territory27,Territory28,Territory14
+Territory27,804,315,Schnecke Orange,Territory52,Territory26
+Territory28,667,482,Schnecke Orange,Territory26,Territory29
+Territory29,649,439,Schnecke Orange,Territory28,Territory30
+Territory30,611,413,Schnecke Orange,Territory29,Territory31
+Territory31,558,397,Schnecke Orange,Territory30,Territory32
+Territory32,512,425,Schnecke Orange,Territory31,Territory33
+Territory33,509,465,Schnecke Orange,Territory32,Territory34
+Territory34,544,492,Schnecke Orange,Territory33,Territory35
+Territory35,580,485,Schnecke Orange,Territory34,Territory36
+Territory36,596,459,Schnecke Orange,Territory35,Territory37
+Territory37,557,442,Schnecke Orange,Territory36
+Territory39,513,254,Raupe,Territory09,Territory54,Territory40,Territory41,Territory42
+Territory40,562,226,Raupe,Territory39
+Territory41,504,215,Raupe,Territory39
+Territory42,518,157,Raupe,Territory39
+Territory43,489,46,Raupe,Territory09,Territory44
+Territory44,537,40,Raupe,Territory43,Territory45
+Territory45,582,49,Raupe,Territory44,Territory46
+Territory46,647,87,Raupe,Territory45,Territory47
+Territory47,713,45,Raupe,Territory46,Territory48
+Territory48,770,83,Raupe,Territory47,Territory49
+Territory49,813,124,Raupe,Territory48,Territory50
+Territory50,788,200,Raupe,Territory49,Territory51
+Territory51,764,230,Raupe,Territory50,Territory52
+Territory52,718,262,Raupe,Territory51,Territory53,Territory27
+Territory53,665,284,Raupe,Territory52,Territory54
+Territory54,614,293,Raupe,Territory53,Territory39

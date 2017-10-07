@@ -84,8 +84,8 @@ public class GameMapHandlerTest {
         } catch (Exception e) {
             message = e.getMessage();
         }
-        
-        assertEquals(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, 8), message);
+    
+        assertEquals(String.format(Config.MSG_MAPFILE_CONTINENT_NOT_DEFINED, 17), message);
         assertNull(gameMap);
     }
     
@@ -110,18 +110,6 @@ public class GameMapHandlerTest {
         }
         
         assertEquals(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, 9), message);
-        assertNull(gameMap);
-    }
-    
-    @Test
-    public void invalid_format_4() throws Exception {
-        try {
-            gameMap = GameMapHandler.loadGameMap("invalid_maps/invalid_format_4.map");
-        } catch (Exception e) {
-            message = e.getMessage();
-        }
-        
-        assertEquals(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, 14), message);
         assertNull(gameMap);
     }
     

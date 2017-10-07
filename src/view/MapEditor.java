@@ -124,8 +124,9 @@ public class MapEditor extends JFrame implements Observer {
         setTableModel(((MapTableModel) o).getModel());
     }
     
-    /* change color depending on owner */
-    private static final int STATUS_COL = 0;
+    /* change color depending on continent and player ID */
+    private static final int CONTINENT_COL = 0;
+    private static final int OWNER_COL = 3;
     
     private static JTable getTable() {
         
@@ -134,14 +135,25 @@ public class MapEditor extends JFrame implements Observer {
             @Override
             public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
                 Component c = super.prepareRenderer(renderer, row, col);
-                String status = (String) getValueAt(row, STATUS_COL);
-                if (!"  ".equals(status)) {
+                String continent = (String) getValueAt(row, CONTINENT_COL);
+                String owner = (String) getValueAt(row, OWNER_COL);
+                if (!"  ".equals(continent)) {
+                    c.setFont(new Font("Sans Serif", Font.ITALIC, 14));
                     c.setBackground(Color.BLACK);
                     c.setForeground(Color.WHITE);
                 } else {
                     c.setBackground(super.getBackground());
                     c.setForeground(super.getForeground());
                 }
+                
+                Color[] colors = { Color.BLUE, Color.RED, Color.MAGENTA, Color.GREEN, Color.GRAY, Color.PINK };
+                for (int i = 0; i < colors.length; i++) {
+                    if (("Player " + Integer.toString(i + 1)).equals(owner)) {
+                        c.setBackground(Color.WHITE);
+                        c.setForeground(colors[i]);
+                    }
+                }
+                
                 return c;
             }
         };

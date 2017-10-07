@@ -13,12 +13,15 @@ import java.util.*;
  * This class helps write map's information to a text file
  */
 public class GameMapHandler {
+    private enum MAP_PARTS {MAP, CONTINENTS, TERRITORIES}
+    
     /* Constructors */
     // Intentionally make ctor private
     private GameMapHandler() {
     }
 
     /* Public methods */
+    
     /**
      * Input: map text file name path
      * Output: A GameMap object containing map's info including territories, continents, adjacency
@@ -42,56 +45,59 @@ public class GameMapHandler {
         gameMap = new GameMap(mapName);
         Map<String, Continent> continentsMap = new HashMap<>();
         Set<String> allNeighbours = new HashSet<>(); // Used to check Territories and Neighbours declaration match
+        MAP_PARTS mapParts = null;
         while ((line = bufferedReader.readLine()) != null) {
             lineCounter++;
-            switch (line.trim()) {
+            switch (line = line.trim()) {
                 case Config.MAPS_FLAG_MAP:
-                    while ((line = bufferedReader.readLine()).compareTo("") != 0) {
-                        lineCounter++;
-                        String[] lineContent = line.split(Config.MAPS_DELIMETER_MAP);
-                        switch (lineContent[0].trim()) {
-                            case Config.MAPS_AUTHOR:
-                            case Config.MAPS_IMAGE:
-                            case Config.MAPS_WRAP:
-                            case Config.MAPS_SCROLL:
-                            case Config.MAPS_WARN:
-                                // Intentionally do nothing
-                                break;
-                            default:
-                                throw new IllegalArgumentException(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, lineCounter));
-                        }
-                    }
-                    lineCounter++; // Increase line counter by 1 since it's empty line
-                    break;
+                    mapParts = MAP_PARTS.MAP;
+                    continue;
                 case Config.MAPS_FLAG_CONTINENTS:
-                    while ((line = bufferedReader.readLine()).compareTo("") != 0) {
-                        lineCounter++;
-                        try {
-                            String[] continentInfo = line.split(Config.MAPS_DELIMETER_CONTINENTS);
+                    mapParts = MAP_PARTS.CONTINENTS;
+                    continue;
+                case Config.MAPS_FLAG_TERRITORIES:
+                    mapParts = MAP_PARTS.TERRITORIES;
+                    continue;
+            }
+            
+            if (mapParts != null) {
+                if (line.trim().compareTo("") != 0) {
+                    line = line.trim().toLowerCase();
+                    switch (mapParts) {
+                        case MAP:
+                            String[] lineContent = line.split(Config.MAPS_DELIMETER_MAP);
+                            switch (lineContent[0].trim()) {
+                                case Config.MAPS_AUTHOR:
+                                case Config.MAPS_IMAGE:
+                                case Config.MAPS_WRAP:
+                                case Config.MAPS_SCROLL:
+                                case Config.MAPS_WARN:
+                                    // Intentionally do nothing
+                                    break;
+                            }
+                            break;
+                        case CONTINENTS:
+                            try {
+                                String[] continentInfo = line.split(Config.MAPS_DELIMETER_CONTINENTS);
                             
                             /* Check if info is missing or redundant */
-                            if (continentInfo.length != 2) {
-                                throw new IllegalArgumentException(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, lineCounter));
-                            }
+                                if (continentInfo.length != 2) {
+                                    throw new IllegalArgumentException(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, lineCounter));
+                                }
     
                             /* Check for duplicated continents declaration */
-                            if (continentsMap.containsKey(continentInfo[0].trim())) {
-                                throw new IllegalArgumentException(String.format(Config.MSG_MAPFILE_CONTINENT_DUPLICATED, lineCounter));
+                                if (continentsMap.containsKey(continentInfo[0].trim())) {
+                                    throw new IllegalArgumentException(String.format(Config.MSG_MAPFILE_CONTINENT_DUPLICATED, lineCounter));
+                                }
+                
+                                Continent continent = new Continent(continentInfo[0].trim(), Integer.parseInt(continentInfo[1].trim()));
+                                continentsMap.put(continent.getName(), continent);
+                                gameMap.addContinent(continent);
+                            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                                throw new IllegalArgumentException(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, lineCounter));
                             }
-                            
-                            Continent continent = new Continent(continentInfo[0].trim(), Integer.parseInt(continentInfo[1].trim()));
-                            continentsMap.put(continent.getName(), continent);
-                            gameMap.addContinent(continent);
-                        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                            throw new IllegalArgumentException(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, lineCounter));
-                        }
-                    }
-                    lineCounter++; // Increase line counter by 1 since it's empty line
-                    break;
-                case Config.MAPS_FLAG_TERRITORIES:
-                    while ((line = bufferedReader.readLine()) != null) {
-                        lineCounter++;
-                        if (line.compareTo("") != 0) {
+                            break;
+                        case TERRITORIES:
                             String[] territoryInfo = line.split(Config.MAPS_DELIMETER_TERRITORIES);
                             
                             /* Check if the territory has no neighbors or is missing some info */
@@ -125,12 +131,13 @@ public class GameMapHandler {
                                 allNeighbours.add(territoryInfo[i].trim());
                             }
                             gameMap.addTerritory(territory);
-                        }
+                            break;
+                        default:
+                            break;
                     }
-                    lineCounter++; // Increase line counter by 1 since it's empty line
-                    break;
-                default:
-                    throw new IllegalArgumentException(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, lineCounter));
+                }
+            } else {
+                throw new IllegalArgumentException(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, lineCounter));
             }
         }
         
@@ -222,22 +229,22 @@ public class GameMapHandler {
             
             /* Write Territories */
             writer.append(Config.MAPS_FLAG_TERRITORIES + System.lineSeparator());
-    
+            
             for (Continent continent : gameMap.getContinents()) {
                 for (String territoryName : continent.getTerritories()) {
                     Territory territory = gameMap.getATerritory(territoryName);
                     
                     // Write Territory name
                     writer.append(territory.getName());
-    
+                    
                     // Write coordination
                     writer.append(Config.MAPS_DELIMETER_TERRITORIES);
                     writer.append(Config.MAPS_DEFAULT_COORDINATION);
                     writer.append(Config.MAPS_DELIMETER_TERRITORIES);
-    
+                    
                     // Write Continent name
                     writer.append(territory.getContinent().getName());
-    
+                    
                     // Write Neighbours name
                     for (String neighbourName : territory.getNeighbors()) {
                         writer.append(Config.MAPS_DELIMETER_TERRITORIES);
@@ -257,7 +264,9 @@ public class GameMapHandler {
     
     /**
      * Find the files with *.map extension in given folder
+     *
      * @param directory
+     *
      * @return
      */
     public static Vector<String> getMapsInFolder(String directory) {
@@ -272,6 +281,7 @@ public class GameMapHandler {
     }
     
     /* Private methods */
+    
     /**
      * The game map is supposed to be a connected graph
      * Meaning there is a path between any two territories in the map
@@ -280,7 +290,9 @@ public class GameMapHandler {
      * BFS will create a new graph from any arbitrary node (territory) in the graph (map)
      * If the newly created graph has the same number of nodes as in the original graph
      * Then the original graph is connected
+     *
      * @param gameMap: the GameMap object needs to be validated
+     *
      * @return true if the gameMap is a connected graph, false if it is not
      */
     private static boolean isConnectedGraph(GameMap gameMap) {
