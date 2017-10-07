@@ -1,27 +1,35 @@
 package model;
 
+import util.Config;
+
+import java.util.Arrays;
+import java.util.Vector;
+
 /**
- * Card class contains all the different types that are available of cards in the deck.
- * The deck consist of 3 different types: Infantry, Cavalry, and Artillery.
+ * Card class contains all the different types that are available of cards in the deck in
+ * cardType vector.
  */
 public class Card {
-    public enum CARD_TYPE {INFANTRY, CAVALRY, ARTILLERY}
-    private CARD_TYPE cardType;
+    public static Vector<String> cardTypes =
+            new Vector<>(Arrays.asList(Config.CARD_TYPE1, Config.CARD_TYPE2, Config.CARD_TYPE3));
+    
+    public String cardType;
+
     
     /**
      * The Card sets the cardType of a card in the deck according to the typeNumber.
      *
-     * @param cardType
+     * @param typeNumber
      */
-    public Card(CARD_TYPE cardType) {
-        this.cardType = cardType;
+    public Card(int typeNumber) {
+        this.cardType = cardTypes.elementAt(typeNumber);
     }
 
-    public CARD_TYPE getCardType() {
+    public String getCardType() {
         return this.cardType;
     }
 
     public static int getTypesCount() {
-        return CARD_TYPE.values().length;
+        return cardTypes.size();
     }
 }

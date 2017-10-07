@@ -37,8 +37,13 @@ public class Config {
     // Constants for dice
     public static final int MAX_PIPS = 6;
     
-    // Constants for RiskGame
+    // Constants for army in RiskGame
     public static final double INITIAL_ARMY_RATIO = 2.75;
+    
+    // Constants for card in Card
+    public static final String CARD_TYPE1 = "Infantry";
+    public static final String CARD_TYPE2 = "Cavalry";
+    public static final String CARD_TYPE3 = "Artillery";
     
     // Messages' content for users
     public static final String MSG_MAPFILE_ERROR_TITLE = "The map file has error";

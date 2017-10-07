@@ -29,7 +29,7 @@ public class Territory {
         this.name = name;
         this.continent = continent;
         this.neighbors = new Vector<>();
-        this.owner = new Player();
+//        this.owner = new Player();
     }
 
     /* Getters & Setters */

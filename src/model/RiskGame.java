@@ -76,6 +76,8 @@ public class RiskGame {
         this.numOfContinents = numOfContinents;
     }
     
+    /* Public methods */
+    
     public Config.GAME_STATES getGameState() {
         return this.gameState;
     }
@@ -153,11 +155,15 @@ public class RiskGame {
      */
     private void initDeck() {
         System.out.println("Initializing deck...");
-        
-        numOfCards = gameMap.getTerritoriesCount() +
+        int typeNumber = 0;
+        int numOfCards = gameMap.getTerritoriesCount() +
                 (gameMap.getTerritoriesCount() % Card.getTypesCount()) * Card.getTypesCount();
-        for (Card.CARD_TYPE cardType : Card.CARD_TYPE.values()) {
-            deck.add(new Card(cardType));
+        for (int i = 0; i < numOfCards; i++) {
+            if (!(typeNumber < Card.getTypesCount())) {
+                typeNumber = 0;
+            }
+            deck.add(new Card(typeNumber));
+            typeNumber++;
         }
 
         /*

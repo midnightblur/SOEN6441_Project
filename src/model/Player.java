@@ -48,6 +48,8 @@ public class Player {
         return this.unallocatedArmies;
     }
     
+    // public methods
+    
     /**
      * Player color is randomly generated when a new player object is created
      */

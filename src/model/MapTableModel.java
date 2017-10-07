@@ -43,7 +43,9 @@ public class MapTableModel extends Observable {
             rows[i][0] = t.getContinent().getName();
             rows[i][1] = t.getName();
             rows[i][2] = t.getNeighbors().toString().replace("[", "").replace("]", "");
-            rows[i][3] = t.getOwner().getPlayerName();
+            if (t.getOwner() != null) {
+                rows[i][3] = t.getOwner().getPlayerName();
+            }
             rows[i][4] = Integer.toString(t.getArmies());
             i++;
         }
