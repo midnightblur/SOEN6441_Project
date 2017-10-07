@@ -1,0 +1,110 @@
+[Map]
+author=Anna Klindworth
+image=Annys Spinne.bmp
+wrap=yes
+scroll=none
+warn=yes
+
+[Continents]
+Beinchen 1=7
+Beinchen 2=6
+Beinchen 3=5
+Beinchen 4=8
+Beinchen 5=8
+Beinchen 6=5
+Beinchen 7=8
+Beinchen 8=8
+Beinchen 9=8
+Beinchen 10=8
+Spinnenkörper=1
+
+[Territories]
+Territory01,184,40,Beinchen 1,Territory02
+Territory02,232,31,Beinchen 1,Territory03,Territory01
+Territory03,267,33,Beinchen 1,Territory04,Territory02
+Territory04,318,27,Beinchen 1,Territory05,Territory03
+Territory05,366,31,Beinchen 1,Territory06,Territory04
+Territory06,417,33,Beinchen 1,Territory07,Territory05
+Territory07,457,53,Beinchen 1,Territory08,Territory06
+Territory08,439,93,Beinchen 1,Territory09,Territory07
+Territory09,417,139,Beinchen 1,Territory10,Territory08
+Territory10,417,156,Beinchen 1,Territory88,Territory09
+Territory11,34,156,Beinchen 2,Territory12
+Territory12,33,101,Beinchen 2,Territory13,Territory11
+Territory13,51,63,Beinchen 2,Territory14,Territory12
+Territory14,95,83,Beinchen 2,Territory15,Territory13
+Territory15,125,99,Beinchen 2,Territory16,Territory14
+Territory16,202,104,Beinchen 2,Territory17,Territory15
+Territory17,242,94,Beinchen 2,Territory18,Territory16
+Territory18,294,94,Beinchen 2,Territory19,Territory17
+Territory19,331,141,Beinchen 2,Territory88,Territory18
+Territory20,33,272,Beinchen 3,Territory21
+Territory21,83,278,Beinchen 3,Territory22,Territory20
+Territory22,113,231,Beinchen 3,Territory23,Territory21
+Territory23,112,189,Beinchen 3,Territory24,Territory22
+Territory24,226,183,Beinchen 3,Territory25,Territory23
+Territory25,263,186,Beinchen 3,Territory88,Territory24
+Territory26,29,515,Beinchen 4,Territory27
+Territory27,34,470,Beinchen 4,Territory26,Territory28
+Territory28,48,428,Beinchen 4,Territory27,Territory29
+Territory29,63,384,Beinchen 4,Territory28,Territory30
+Territory30,117,395,Beinchen 4,Territory29,Territory31
+Territory31,135,358,Beinchen 4,Territory30,Territory32
+Territory32,160,310,Beinchen 4,Territory31,Territory33
+Territory33,189,287,Beinchen 4,Territory32,Territory34
+Territory34,252,261,Beinchen 4,Territory88,Territory33
+Territory35,102,491,Beinchen 5,Territory36
+Territory36,131,511,Beinchen 5,Territory37,Territory35
+Territory37,182,504,Beinchen 5,Territory38,Territory36
+Territory38,215,486,Beinchen 5,Territory39,Territory37
+Territory39,222,432,Beinchen 5,Territory40,Territory38
+Territory40,249,386,Beinchen 5,Territory41,Territory39
+Territory41,283,338,Beinchen 5,Territory89,Territory40
+Territory42,593,507,Beinchen 6,Territory43
+Territory43,540,502,Beinchen 6,Territory44,Territory42
+Territory44,503,502,Beinchen 6,Territory45,Territory43
+Territory45,454,496,Beinchen 6,Territory46,Territory44
+Territory46,391,466,Beinchen 6,Territory47,Territory45
+Territory47,351,422,Beinchen 6,Territory48,Territory46
+Territory48,341,379,Beinchen 6,Territory89,Territory47
+Territory49,803,535,Beinchen 7,Territory52
+Territory50,807,446,Beinchen 7,Territory51
+Territory51,796,395,Beinchen 7,Territory50,Territory55
+Territory52,745,520,Beinchen 7,Territory53,Territory49
+Territory53,727,492,Beinchen 7,Territory54,Territory52
+Territory54,707,440,Beinchen 7,Territory56,Territory53
+Territory55,751,377,Beinchen 7,Territory56,Territory51
+Territory56,705,390,Beinchen 7,Territory57,Territory55,Territory54
+Territory57,651,390,Beinchen 7,Territory58,Territory56
+Territory58,616,399,Beinchen 7,Territory59,Territory57
+Territory59,576,411,Beinchen 7,Territory58,Territory60
+Territory60,530,443,Beinchen 7,Territory61,Territory59
+Territory61,482,415,Beinchen 7,Territory62,Territory60
+Territory62,432,392,Beinchen 7,Territory89,Territory61
+Territory63,793,281,Beinchen 8,Territory64
+Territory64,756,240,Beinchen 8,Territory65,Territory63
+Territory65,715,238,Beinchen 8,Territory66,Territory64
+Territory66,662,269,Beinchen 8,Territory67,Territory65
+Territory67,636,288,Beinchen 8,Territory68,Territory66
+Territory68,591,310,Beinchen 8,Territory69,Territory67
+Territory69,528,335,Beinchen 8,Territory68,Territory70
+Territory70,490,341,Beinchen 8,Territory89,Territory69
+Territory71,792,128,Beinchen 9,Territory72
+Territory72,742,119,Beinchen 9,Territory73,Territory71
+Territory73,704,132,Beinchen 9,Territory74,Territory72
+Territory74,663,166,Beinchen 9,Territory75,Territory73
+Territory75,616,185,Beinchen 9,Territory76,Territory74
+Territory76,579,214,Beinchen 9,Territory77,Territory75
+Territory77,539,261,Beinchen 9,Territory76,Territory78
+Territory78,498,275,Beinchen 9,Territory89,Territory77
+Territory79,754,28,Beinchen 10,Territory80
+Territory80,713,31,Beinchen 10,Territory81,Territory79
+Territory81,652,39,Beinchen 10,Territory82,Territory80
+Territory82,614,46,Beinchen 10,Territory83,Territory81
+Territory83,586,82,Beinchen 10,Territory84,Territory82
+Territory84,571,108,Beinchen 10,Territory85,Territory83
+Territory85,533,157,Beinchen 10,Territory86,Territory84
+Territory86,495,186,Beinchen 10,Territory87,Territory85
+Territory87,456,223,Beinchen 10,Territory88,Territory86
+Territory88,357,229,Spinnenkörper,Territory19,Territory10,Territory87,Territory34,Territory25,Territory89
+Territory89,395,327,Spinnenkörper,Territory88,Territory41,Territory48,Territory62,Territory70,Territory78
