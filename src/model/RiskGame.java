@@ -101,7 +101,7 @@ public class RiskGame {
         initDeck();
         distributeTerritories();
         giveInitialArmies();
-        placeArmies();
+        //placeArmies();
         
         
         
@@ -119,7 +119,7 @@ public class RiskGame {
             System.out.println("player " + player.getPlayerID() + "'s territories: (total: "
                     + gameMap.getTerritoriesOfPlayer(player).size() + ")");
             for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
-                System.out.println("\t" + entry.getKey()+": "+entry.getValue().getName());
+                System.out.println("\t" + entry.getValue().getName());
             }
         }
         // testing players armies
@@ -127,6 +127,8 @@ public class RiskGame {
             System.out.println("player " + player.getPlayerID() + "'s unallocated armies: "
                     + player.getUnallocatedArmies());
         }
+        // testing army placement
+        
     }
     
     /**
@@ -221,10 +223,57 @@ public class RiskGame {
         }
     }
     
-    /**
-     *
-     */
-    public void placeArmies() {
-    
-    }
+//    /**
+//     * This method allows the players to allocate all of the unallocated armies in a
+//     * round-robin fashion.
+//     */
+//    public void placeArmies() {
+//        int allUnallocatedArmies = 0;
+//        for (Player player : players) {
+//            allUnallocatedArmies += player.getUnallocatedArmies();
+//        }
+//
+//        Random rand = new Random();
+//        int playerIndex = 0;
+//        for (int i = 0; i < allUnallocatedArmies; i++) {
+//            if (!(playerIndex < players.size())) {
+//                playerIndex = 0;
+//            }
+//
+//            int territoryIndex = rand.nextInt(gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).size());
+//            gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).
+//
+//            ArrayList<String> territoryArrList = new ArrayList<>();
+//            for (Map.Entry<String, Territory> entry :
+//                    gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).entrySet()) {
+//                territoryArrList.add(entry.getValue().getName());
+//            }
+//
+//            int territoryIndex = rand.nextInt(territoryArrList.size());
+//            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
+//            playerIndex++;
+//            territoryArrList.remove(territoryIndex);
+//        }
+//
+//        for (Player player : players) {
+//            if (player.getPlayerID() == 1) {
+//
+//            } else {
+//                ArrayList<String> territoryArrList = new ArrayList<>();
+//                for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
+//                    territoryArrList.add(entry.getValue().getName());
+//                }
+//
+//                while (player.getUnallocatedArmies() != 0) {
+//                    Random rand = new Random();
+//                    int territoryIndex = rand.nextInt(territoryArrList.size());
+//                    int numOfArmies = rand.nextInt(player.getUnallocatedArmies());
+//
+//                    territoryArrList.remove(territoryIndex);
+//                    // TODO: direct scanner control to the controller once the game view is complete.
+//
+//                }
+//            }
+//        }
+//    }
 }
