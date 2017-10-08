@@ -125,12 +125,16 @@ public class Territory {
      *
      * @throws IllegalArgumentException
      */
-    public void addArmies(int addedArmies) throws IllegalArgumentException {
+    public void addArmies(int addedArmies) throws NullPointerException {
         if (addedArmies > 0) {
             armies += addedArmies;
         } else {
             throw new IllegalArgumentException();
         }
+    }
+    
+    public boolean isOwned() {
+        return owner != null;
     }
     
     /**

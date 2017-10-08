@@ -104,9 +104,11 @@ public class Continent {
     /**
      * Calculate the number of armies within the territory
      *
-     * @return
+     * @return the count of all armies within a given continent
+     *
+     * @throws NullPointerException if territories are not yet allocated to players
      */
-    public int getContinentArmies() {
+    public int getContinentArmies() throws NullPointerException {
         int count = 0;
         for (String t : territories) {
             count += RiskGame.getInstance().getGameMap().getATerritory(t).getArmies();
@@ -118,15 +120,19 @@ public class Continent {
      * Determine if a continent was fully conquered and return the id of the owner if so
      *
      * @return the id of the owner having conquered all territories within this continent
+     *
+     * @throws NullPointerException if territories are not yet allocated to players
      */
-    public String getContinentOwner() {
-        String continentOwner = "Player " + RiskGame.getInstance().getGameMap().getATerritory(territories.firstElement()).getOwner().getPlayerID();
-        for (String t : territories) {
-            if (!Objects.equals(continentOwner, "Player " + RiskGame.getInstance().getGameMap().getATerritory(t).getOwner().getPlayerID()))
-                return "nobody owns it yet";
+    public String getContinentOwner() throws NullPointerException {
+        String continentOwner = "";
+        if (RiskGame.getInstance().getGameMap().getATerritory(territories.firstElement()).isOwned()) {
+            continentOwner = "Player " + RiskGame.getInstance().getGameMap().getATerritory(territories.firstElement()).getOwner().getPlayerID();
+            for (String t : territories) {
+                if (!Objects.equals(continentOwner, "Player " + RiskGame.getInstance().getGameMap().getATerritory(t).getOwner().getPlayerID()))
+                    return "nobody owns it yet";
+            }
         }
         return continentOwner;
-        
     }
     
     /**
