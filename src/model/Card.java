@@ -13,8 +13,7 @@ public class Card {
     public static Vector<String> cardTypes =
             new Vector<>(Arrays.asList(Config.CARD_TYPE1, Config.CARD_TYPE2, Config.CARD_TYPE3));
     
-    public String cardType;
-
+    private String cardType;
     
     /**
      * The Card sets the cardType of a card in the deck according to the typeNumber.
@@ -25,6 +24,8 @@ public class Card {
         this.cardType = cardTypes.elementAt(typeNumber);
     }
 
+    // Getters and Setters
+    
     public String getCardType() {
         return this.cardType;
     }
