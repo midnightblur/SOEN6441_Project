@@ -1,14 +1,26 @@
 package view;
 
+import util.Config.SCREEN_NAME;
+
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
-public class ScrollableTable extends JScrollPane {
+public class TableScrollPane extends JScrollPane {
+    private SCREEN_NAME tableName;
     private JTable table;
     
-    public ScrollableTable() {
-        this.table = getTable();
+    public TableScrollPane(SCREEN_NAME screenName) {
+        this.tableName = screenName;
+        
+        switch (screenName) {
+            case MAP_EDITOR:
+                this.table = getTable();
+                break;
+            case GAME_PLAY:
+                break;
+        }
+        
         this.table.setAutoCreateRowSorter(false);
         this.add(table);
     }

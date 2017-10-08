@@ -1,6 +1,11 @@
 package util;
 
 public class Config {
+    public enum SCREEN_NAME {
+        MAP_EDITOR,
+        GAME_PLAY
+    }
+    
     public enum GAME_STATES {
         ENTRY_MENU,
         MAP_EDITOR,
