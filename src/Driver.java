@@ -11,9 +11,9 @@ import view.PlayUI;
 public class Driver {
     /**
      * The game starts by creating an instance of the RiskGame:
-     * <list>
+     * <ul>
      * <li> Initially the game is by default set to ENTRY_PHASE
-     * </list>
+     * </ul>
      *
      * @param args
      */

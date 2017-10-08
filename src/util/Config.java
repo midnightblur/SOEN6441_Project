@@ -2,12 +2,22 @@ package util;
 
 public class Config {
     public enum GAME_STATES {
-        ENTRY_MENU,
-        MAP_EDITOR,
-        STARTUP_PHASE,
-        REINFORCEMENT_PHASE,
-        ATTACK_PHASE,
-        FORTIFICATION_PHASE
+        ENTRY_MENU(1),
+        MAP_EDITOR(2),
+        STARTUP_PHASE(3),   // distribute territories and armies
+        REINFORCEMENT_PHASE(4),
+        ATTACK_PHASE(5),
+        FORTIFICATION_PHASE(6);
+        
+        int value;
+        
+        GAME_STATES(int value) {
+            this.value = value;
+        }
+        
+        public int getValue() {
+            return value;
+        }
     }
     
     // Constants for reading GameMap Text File

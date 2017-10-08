@@ -5,7 +5,6 @@ import model.MapTableModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
@@ -34,14 +33,8 @@ public class MapEditor extends JFrame implements Observer {
         JMenu mnNewMenu = new JMenu("Map");
         menuBar.add(mnNewMenu);
         
-        JMenuItem mntmNewMenuItem = new JMenuItem("Load Map");
-        mnNewMenu.add(mntmNewMenuItem);
-        
         JMenuItem mntmNewMenuItem_2 = new JMenuItem("New Map");
         mnNewMenu.add(mntmNewMenuItem_2);
-        
-        JMenuItem mntmNewMenuItem_3 = new JMenuItem("Edit Map");
-        mnNewMenu.add(mntmNewMenuItem_3);
         
         JMenuItem mntmNewMenuItem_4 = new JMenuItem("Save Map");
         mnNewMenu.add(mntmNewMenuItem_4);
@@ -52,22 +45,21 @@ public class MapEditor extends JFrame implements Observer {
         JMenuItem mntmNewMenuItem_5 = new JMenuItem("New menu item");
         mnNewMenu_1.add(mntmNewMenuItem_5);
         
-        JMenuItem mntmNewMenuItem_1 = new JMenuItem("New menu item");
-        mnNewMenu_1.add(mntmNewMenuItem_1);
-        
         JMenu mnNewMenu_2 = new JMenu("Play");
         menuBar.add(mnNewMenu_2);
         
         JMenuItem mntmNewMenuItem_6 = new JMenuItem("New menu item");
         mnNewMenu_2.add(mntmNewMenuItem_6);
         
-        JMenu mnNewMenu_3 = new JMenu("Statics");
+        JMenu mnNewMenu_3 = new JMenu("Statistics");
         menuBar.add(mnNewMenu_3);
         
         JMenuItem mntmNewMenuItem_7 = new JMenuItem("New menu item");
         mnNewMenu_3.add(mntmNewMenuItem_7);
+        
         /* put together the elements */
         myTable.setAutoCreateRowSorter(false);
+        
         scrollPane.add(myTable);
         
         controlArea.add(pathLabel);
@@ -112,21 +104,11 @@ public class MapEditor extends JFrame implements Observer {
     /* Public methods */
     
     /**
-     * Sets the table model (data source)
-     *
-     * @param tableModel
-     */
-    public void setTableModel(DefaultTableModel tableModel) {
-        myTable.setModel(tableModel);
-        resizeColumns(myTable);
-    }
-    
-    
-    /**
      * Sets the data for the dropdown
      *
      * @param dropdownModel representing the model for the dropdown
      */
+    
     public void setDropdownModel(DropDownModel dropdownModel) {
         mapsDropdown.setModel(dropdownModel);
         mapsDropdown.setSelectedItem(DEFAULT_MAP);
@@ -179,7 +161,8 @@ public class MapEditor extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        setTableModel(((MapTableModel) o).getModel());
+        myTable.setModel(((MapTableModel) o).getModel());
+        resizeColumns(myTable);
     }
     
     /* identify the continent and owner columns (to be used in makeTable() */
@@ -188,14 +171,22 @@ public class MapEditor extends JFrame implements Observer {
     
     /**
      * Makes a new table
-     * It overriding the super class so that it colors the continent headers
+     * Overrides the super class so that it colors the continent headers
      * as well as each player's territories
+     *
+     * Overrides the super class and makes the cells not editable
      *
      * @return a new table
      */
+    
     private static JTable makeTable() {
         
         return new JTable() {
+            
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
             
             @Override
             public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
@@ -218,7 +209,6 @@ public class MapEditor extends JFrame implements Observer {
                         c.setForeground(colors[i]);
                     }
                 }
-                
                 return c;
             }
         };
