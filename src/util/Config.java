@@ -31,13 +31,14 @@ public class Config {
     public static final String MAPS_DELIMETER_TERRITORIES = ",";
     public static final String MAPS_DEFAULT_COORDINATION = "0,0";
     public static final String MAPS_FOLDER = "Maps/";
-//    public static final String DEFAULT_MAP = "World.map";
-    public static final String DEFAULT_MAP = "World.map"; //"99 Mens Morris.map";
+    public static final String DEFAULT_MAP = "World.map";
+//    public static final String DEFAULT_MAP = "99 Mens Morris.map";
     
     // Constants for dice
     public static final int MAX_PIPS = 6;
     
     // Constants for army in RiskGame
+    public static final int DEFAULT_NUM_OF_PLAYERS = 6;
     public static final double INITIAL_ARMY_RATIO = 2.75;
     
     // Constants for card in Card

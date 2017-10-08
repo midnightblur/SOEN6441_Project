@@ -67,6 +67,14 @@ public class RiskGame {
         this.numOfContinents = numOfContinents;
     }
     
+    public Vector<Player> getPlayers() {
+        return this.players;
+    }
+    
+    public Vector<Card> getDeck() {
+        return this.deck;
+    }
+    
     /* Public methods */
     
     public Config.GAME_STATES getGameState() {
@@ -141,10 +149,10 @@ public class RiskGame {
     }
     
     /**
-     * private void method to initialize the players according to
+     * Method to initialize the players according to
      * the number of players (currPlayers).
      */
-    private void initPlayers(int currPlayers) {
+    public void initPlayers(int currPlayers) {
         System.out.println("Initializing players...");
         
         for (int i = 0; i < currPlayers; i++) {
@@ -157,7 +165,7 @@ public class RiskGame {
      * The total number of cards is set to the closest value to the total number of territories
      * that is a factor of three, and is greater or equal to the total number of territories.
      */
-    private void initDeck() {
+    public void initDeck() {
         System.out.println("Initializing deck...");
         int typeNumber = 0;
         int numOfCards = gameMap.getTerritoriesCount() +
