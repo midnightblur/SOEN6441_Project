@@ -14,7 +14,7 @@ public class MapEditor1 extends JFrame implements ActionListener{
     private JTextField txtEditCountry;
 
     /**
-     * Create the frame.
+     * this method Creates the frame.
      */
     public MapEditor1() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,7 +67,10 @@ public class MapEditor1 extends JFrame implements ActionListener{
         scrollPane.setBounds(10, 0, 239, 224);
         contentPane.add(scrollPane);
 
-        //Add RowData here
+        /**
+         *This Adds RowData here.
+         */
+
         String column[] ={"Country","Neighbours"};
         String rowData[][]={
                 {"row 1 counrty","row 1 neighbour"},
