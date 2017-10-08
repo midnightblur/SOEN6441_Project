@@ -113,7 +113,7 @@ public class RiskGame {
      * Initiates the actual game play. Consists of the round-robin fashion of
      * players' turns that include reinforcement phase, attack phase, and fortification phase.
      */
-    public void initGamePlay() {
+    public void playPhases() {
         playing = true;
         while(playing) {
             for (Player player : players) {
