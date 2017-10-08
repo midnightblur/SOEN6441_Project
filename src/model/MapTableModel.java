@@ -15,6 +15,8 @@ public class MapTableModel extends Observable {
     private String[][] rows;
     
     /* Constructors */
+    public MapTableModel() {}
+    
     public MapTableModel(GameMap map) {
         this.updateMapTableModel(map);
     }

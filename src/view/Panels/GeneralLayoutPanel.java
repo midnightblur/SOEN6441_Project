@@ -21,8 +21,7 @@ public class GeneralLayoutPanel extends JPanel {
     public GeneralLayoutPanel(SCREEN_NAME screenName) {
         this.screenName = screenName;
         this.setLayout(new GridLayout(ROWS, COLUMNS));
-    
-        JPanel leftPanel = new JPanel();
+        
         switch (screenName) {
             case MAP_EDITOR:
                 tablePanel = new MapTablePanel();
@@ -34,14 +33,11 @@ public class GeneralLayoutPanel extends JPanel {
                 break;
         }
         JScrollPane scrollPane = new JScrollPane(tablePanel);
-        leftPanel.add(scrollPane);
-    
-        JPanel rightPanel = new JPanel();
+        
         mapEditControlPanel = new MapEditControlPanel();
-        rightPanel.add(mapEditControlPanel);
     
-        this.add(leftPanel);
-        this.add(rightPanel);
+        this.add(scrollPane);
+        this.add(mapEditControlPanel);
     }
     
     /* Getters & Setters */

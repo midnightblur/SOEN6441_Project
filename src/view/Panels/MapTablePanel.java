@@ -1,17 +1,16 @@
 package view.Panels;
 
-import model.MapEditorModel;
-
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.util.Observable;
 
 public class MapTablePanel extends TablePanel {
     /* Constructors */
     public MapTablePanel() {
         table = buildTable();
         table.setAutoCreateRowSorter(false);
+        table.setPreferredScrollableViewportSize(table.getPreferredSize());
+        table.setFillsViewportHeight(true);
     }
     
     private static JTable buildTable() {
@@ -43,10 +42,5 @@ public class MapTablePanel extends TablePanel {
                 return c;
             }
         };
-    }
-    
-    @Override
-    public void update(Observable o, Object arg) {
-        updateTable(((MapEditorModel) o).getMapTableModel().getModel());
     }
 }

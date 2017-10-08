@@ -10,8 +10,8 @@ public class MapEditorFrame extends JFrame {
     private GeneralLayoutPanel generalLayoutPanel;
     
     private static final String TITLE = "Map Editor";
-    private static final int WIDTH = 1600;
-    private static final int HEIGHT = 900;
+    private static final int WIDTH = 1400;
+    private static final int HEIGHT = 800;
     
     /* Constructors */
     public MapEditorFrame() {
@@ -19,9 +19,10 @@ public class MapEditorFrame extends JFrame {
         this.setTitle(TITLE);
         this.setContentPane(generalLayoutPanel);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setSize(WIDTH, HEIGHT);
-        this.setLocationRelativeTo(null);
         this.pack();
+        this.setSize(WIDTH, HEIGHT);
+        generalLayoutPanel.setPreferredSize(this.getPreferredSize());
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
     

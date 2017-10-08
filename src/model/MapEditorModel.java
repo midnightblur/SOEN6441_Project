@@ -9,7 +9,8 @@ public class MapEditorModel extends Observable {
     private MapTableModel mapTableModel;
     
     public MapEditorModel() {
-        mapSelectionModel = new MapSelectionModel();
+        this.mapTableModel = new MapTableModel();
+        this.mapSelectionModel = new MapSelectionModel();
     }
     
     public void updateGameMap(String mapName) throws Exception {
