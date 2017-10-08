@@ -78,8 +78,8 @@ public class Player {
     }
     
     /**
-     *
-     * @param other
+     * Overriden equals method to check whether or not two Player objects are the same.
+     * @param other: the other object to compare with the Player object.
      * @return
      */
     @Override
