@@ -18,6 +18,16 @@ import java.awt.Point;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
+
+/** This class contains frame for the configuration of
+ * game where player can edit the map and add continents
+ * and corresponding countries to it. The player can also
+ * delete or edit. The player can also choose from the
+ * existing Maps.
+ *
+ * @author Yashleen Kaur Virk
+ * @version 1.0
+ */
 public class MapEditor1 extends JFrame {
 
 	private JPanel contentPane;
@@ -42,7 +52,8 @@ public class MapEditor1 extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * This method is a constructor where GUI has
+	 * been designed.
 	 */
 	public MapEditor1() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,9 +165,6 @@ public class MapEditor1 extends JFrame {
 
 		JButton btnDelete = new JButton("DELETE");
 		panel_1.add(btnDelete);
-
-
-
 
 	}
 }
