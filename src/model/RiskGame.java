@@ -16,7 +16,6 @@ import java.util.*;
  * 5) end of game
  */
 public class RiskGame {
-    private int numOfTerritories;
     private int numOfContinents;
     private Vector<Card> deck = new Vector<>();
     private Vector<Player> players = new Vector<>();
@@ -45,10 +44,6 @@ public class RiskGame {
     /**
      * Getters and Setters methods for class RiskGame's private attributes
      */
-    public int getNumOfTerritories() {
-        return this.numOfTerritories;
-    }
-    
     public GameMap getGameMap() {
         return gameMap;
     }
@@ -120,16 +115,6 @@ public class RiskGame {
         placeArmies();
         
         
-        
-        // TESTING... TO BE PUT INTO JUNIT TESTING LATER ON
-        System.out.println("number of territories: " + gameMap.getTerritoriesCount());
-        // testing count players
-        System.out.println("list of players:");
-        for (int i=0; i<players.size(); i++) {
-            System.out.println("\tplayer " + players.get(i).getPlayerID());
-        }
-        // testing deck initialization
-        System.out.println("deck size: " + deck.size());
         // testing territory dist
         for (Player player : players) {
             System.out.println("player " + player.getPlayerID() + "'s territories: (total: "
@@ -177,14 +162,6 @@ public class RiskGame {
             deck.add(new Card(typeNumber));
             typeNumber++;
         }
-
-        /*
-        // test deck initialization
-        System.out.println("card total count: " + numOfCards);
-        for (int i=0; i<numOfCards; i++) {
-            System.out.println("card " + (i+1) + ": " + deck.get(i).getCardType());
-        }
-        */
     }
 
 //    /**

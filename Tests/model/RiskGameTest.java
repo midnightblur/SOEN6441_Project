@@ -21,7 +21,6 @@ public class RiskGameTest {
 
     @Test
     public void initializePlayers() throws Exception {
-        GameMap gameMap = GameMapHandler.loadGameMap(Config.DEFAULT_MAP);
         RiskGame riskGame = RiskGame.getInstance();
         riskGame.initPlayers(Config.DEFAULT_NUM_OF_PLAYERS);
         
@@ -31,14 +30,27 @@ public class RiskGameTest {
             System.out.println("\tplayer " + riskGame.getPlayers().get(i).getPlayerID());
         }
         assertEquals(6, riskGame.getPlayers().size());
+        System.out.println();
+    }
+    
+    @Test
+    public void initializeDeck() throws Exception {
+        RiskGame riskGame = RiskGame.getInstance();
+        int numOfCards = riskGame.getGameMap().getTerritoriesCount() +
+                (riskGame.getGameMap().getTerritoriesCount() % Card.getTypesCount()) * Card.getTypesCount();
+        riskGame.initDeck();
+    
+        // testing deck initialization
+        System.out.println("Testing to see if count of the deck of cards is correct:");
+        System.out.println("deck size: " + riskGame.getDeck().size());
+        for (int i = 0; i < numOfCards; i++) {
+            System.out.println("card " + (i + 1) + ": " + riskGame.getDeck().get(i).getCardType());
+        }
+        assertEquals(numOfCards, riskGame.getDeck().size());
+        System.out.println();
     }
     
     /*
-    // TESTING... TO BE PUT INTO JUNIT TESTING LATER ON
-        System.out.println("number of territories: " + gameMap.getTerritoriesCount());
-    
-    // testing deck initialization
-        System.out.println("deck size: " + deck.size());
     // testing territory dist
         for (Player player : players) {
         System.out.println("player " + player.getPlayerID() + "'s territories: (total: "
