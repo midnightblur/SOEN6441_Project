@@ -1,6 +1,5 @@
 package view;
 
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -45,11 +44,6 @@ public class MainPage1 extends JFrame implements ActionListener {
         contentPane.add(btnplay);
 
         JButton btneditmap = new JButton("Edit Map");
-
-//		btneditmap.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//			}
-//		});
         btneditmap.setBounds(163, 93, 97, 25);
         btneditmap.addActionListener(this);
         btneditmap.setActionCommand("Open");
@@ -60,6 +54,7 @@ public class MainPage1 extends JFrame implements ActionListener {
         contentPane.add(btnquit);
         btnquit.addActionListener(new CloseListener());
 
+        setVisible(true);
     }
 
     @Override
@@ -84,5 +79,7 @@ public class MainPage1 extends JFrame implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
         }
+
+
     }
 }

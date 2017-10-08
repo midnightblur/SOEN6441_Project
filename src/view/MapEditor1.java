@@ -3,8 +3,10 @@ package view;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MapEditor1 extends JFrame {
+public class MapEditor1 extends JFrame implements ActionListener{
 
     private JPanel contentPane;
     private JTable table_1;
@@ -142,8 +144,26 @@ public class MapEditor1 extends JFrame {
         btndelete.setBounds(39, 176, 75, 22);
         panel_1.add(btndelete);
 
+        JButton btnback = new JButton("Back");
+        btnback.setBounds(10, 255, 97, 25);
+        btnback.addActionListener(this);
+        btnback.setActionCommand("BackToMain");
+        contentPane.add(btnback);
+
+
 
         setVisible(true);
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+        String cmd = e.getActionCommand();
+        if(cmd.equals("BackToMain")) {
+            dispose();
+            new MainPage1();
+        }
 
     }
 }
