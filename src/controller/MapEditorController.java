@@ -30,7 +30,7 @@ public class MapEditorController implements ActionListener {
         
         //create the Model object
         try {
-            //theMapTableModel = new MapTableModel(loadGameMap(DEFAULT_MAP));
+            //theMapTableModel = new MapTableModel(loadGameMap(Config.DEFAULT_MAP));
             theMapTableModel = new MapTableModel(RiskGame.getInstance().getGameMap());
         } catch (Exception e) {
             e.printStackTrace();

@@ -34,8 +34,11 @@ public class MapTableModel extends Observable {
         /* add continents */
         for (Continent c : map.getContinents()) {
             rows[i][0] = c.getName();
-            rows[i][3] = c.getContinentOwner();
-            rows[i][4] = Integer.toString(c.getContinentArmies());
+            //TODO: handle exception and comment out these 2 lines or make them be called only after allocation of territories/armies
+            //rows[i][3] = c.getContinentOwner();
+            //rows[i][4] = Integer.toString(c.getContinentArmies());
+            rows[i][3] = "no owner yet";
+            rows[i][4] = "9999";
             i++;
         }
         /* add countries and their information */

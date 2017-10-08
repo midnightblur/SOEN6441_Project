@@ -27,7 +27,7 @@ public class MapEditor extends JFrame implements Observer {
     private JTable myTable = getTable();    // gets a table that changes row colors depending on cell content
     
     public MapEditor() {
-    
+        
         JMenu mnNewMenu = new JMenu("Map");
         menuBar.add(mnNewMenu);
         
@@ -76,7 +76,7 @@ public class MapEditor extends JFrame implements Observer {
         mainSplit.setDividerLocation(1200);
         mainSplit.setRightComponent(controlArea);
         mainSplit.setLeftComponent(new JScrollPane(myTable));
-    
+        
         mainPane.add(mainSplit);
         
         this.display();
