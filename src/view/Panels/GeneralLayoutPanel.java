@@ -15,7 +15,7 @@ public class GeneralLayoutPanel extends JPanel {
     private TablePanel tablePanel;
     private ControlPanel controlPanel;
     
-    private MapEditorControlPanel mapEditorControlPanel;
+    private MapEditControlPanel mapEditControlPanel;
     
     /* Constructors */
     public GeneralLayoutPanel(SCREEN_NAME screenName) {
@@ -26,7 +26,7 @@ public class GeneralLayoutPanel extends JPanel {
         switch (screenName) {
             case MAP_EDITOR:
                 tablePanel = new MapTablePanel();
-                controlPanel = new MapEditorControlPanel();
+                controlPanel = new MapEditControlPanel();
                 break;
             case GAME_PLAY:
                 tablePanel = new GameTablePanel();
@@ -37,8 +37,8 @@ public class GeneralLayoutPanel extends JPanel {
         leftPanel.add(scrollPane);
     
         JPanel rightPanel = new JPanel();
-        mapEditorControlPanel = new MapEditorControlPanel();
-        rightPanel.add(mapEditorControlPanel);
+        mapEditControlPanel = new MapEditControlPanel();
+        rightPanel.add(mapEditControlPanel);
     
         this.add(leftPanel);
         this.add(rightPanel);
@@ -57,8 +57,8 @@ public class GeneralLayoutPanel extends JPanel {
         return screenName;
     }
     
-    public MapEditorControlPanel getMapEditorControlPanel() {
-        return mapEditorControlPanel;
+    public MapEditControlPanel getMapEditControlPanel() {
+        return mapEditControlPanel;
     }
     
     public TablePanel getTablePanel() {

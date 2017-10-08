@@ -4,15 +4,14 @@ import util.Config;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
-public class MapEditorControlPanel extends ControlPanel {
+public class MapEditControlPanel extends ControlPanel {
     private JPanel topPanel;
     private MapSelectionPanel mapSelectionPanel;
     private JButton loadMapButton;
     
     /* Constructors */
-    public MapEditorControlPanel() {
+    public MapEditControlPanel() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     
         topPanel = new JPanel();
@@ -31,9 +30,5 @@ public class MapEditorControlPanel extends ControlPanel {
     
     public JButton getLoadMapButton() {
         return loadMapButton;
-    }
-    
-    public void addLoadMapButtonListener(ActionListener listenerForLoadMapButton) {
-        loadMapButton.addActionListener(listenerForLoadMapButton);
     }
 }

@@ -3,8 +3,9 @@ package view.Panels;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.Observer;
 
-public abstract class TablePanel extends Panel {
+public abstract class TablePanel extends Panel implements Observer {
     protected JTable table;
     
     public JTable getTable() {

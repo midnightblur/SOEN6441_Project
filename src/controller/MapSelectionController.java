@@ -14,4 +14,8 @@ public class MapSelectionController {
         this.mapSelectionModel.addObserver(this.mapSelectionPanel);
         this.mapSelectionModel.updateDropDownModel();
     }
+    
+    public String getSelectedMap() {
+        return mapSelectionPanel.getChooseMapDropdown().getSelectedItem().toString();
+    }
 }

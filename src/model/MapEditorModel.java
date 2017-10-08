@@ -6,22 +6,28 @@ public class MapEditorModel extends Observable {
     /* Models */
     private GameMap gameMap;
     private MapSelectionModel mapSelectionModel;
+    private MapTableModel mapTableModel;
     
     public MapEditorModel() {
         mapSelectionModel = new MapSelectionModel();
     }
     
-    public MapEditorModel(GameMap gameMap) {
-        this.gameMap = gameMap;
-    }
-    
     public void updateGameMap(String mapName) throws Exception {
         this.gameMap = GameMapHandler.loadGameMap(mapName);
+        mapTableModel = new MapTableModel(gameMap);
         setChanged();
         notifyObservers();
     }
     
     public MapSelectionModel getMapSelectionModel() {
         return mapSelectionModel;
+    }
+    
+    public GameMap getGameMap() {
+        return gameMap;
+    }
+    
+    public MapTableModel getMapTableModel() {
+        return mapTableModel;
     }
 }

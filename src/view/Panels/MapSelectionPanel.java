@@ -26,13 +26,14 @@ public class MapSelectionPanel extends JPanel implements Observer {
     }
     
     /* Getters & Setters */
-    public String getSelectedItem() {
-        return chooseMapDropdown.getSelectedItem().toString();
+    public JComboBox<String> getChooseMapDropdown() {
+        return chooseMapDropdown;
     }
     
     /* Public methods */
     @Override
     public void update(Observable o, Object arg) {
         chooseMapDropdown.setModel(((MapSelectionModel) o).getDropDownModel());
+        chooseMapDropdown.setSelectedIndex(0);
     }
 }

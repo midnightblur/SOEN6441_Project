@@ -31,8 +31,8 @@ public class MapEditorFrame extends JFrame {
     }
     
     /* Public methods */
-    public void addLoadMapBtnListener(ActionListener listenForLoadMapButton) {
-        this.generalLayoutPanel.getMapEditorControlPanel().getLoadMapButton().addActionListener(listenForLoadMapButton);
+    public void addLoadMapButtonListener(ActionListener listenForLoadMapButton) {
+        this.generalLayoutPanel.getMapEditControlPanel().getLoadMapButton().addActionListener(listenForLoadMapButton);
     }
     
     public void displayErrorMessage(String errorMessage) {

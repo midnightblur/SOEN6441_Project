@@ -1,14 +1,13 @@
 package view.Panels;
 
-import model.MapTableModel;
+import model.MapEditorModel;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.Observable;
-import java.util.Observer;
 
-public class MapTablePanel extends TablePanel implements Observer {
+public class MapTablePanel extends TablePanel {
     /* Constructors */
     public MapTablePanel() {
         table = buildTable();
@@ -48,6 +47,6 @@ public class MapTablePanel extends TablePanel implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-      updateTable(((MapTableModel) o).getModel());
+        updateTable(((MapEditorModel) o).getMapTableModel().getModel());
     }
 }
