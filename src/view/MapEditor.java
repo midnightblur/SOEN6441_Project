@@ -16,45 +16,77 @@ import java.util.Observer;
 import static util.Config.DEFAULT_MAP;
 
 public class MapEditor extends JFrame implements Observer {
-    private JPanel menuPanel = new JPanel();
-    
-    private JSplitPane mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(), new JPanel());
-    private JSplitPane controlSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JPanel(), new JPanel(new GridLayout(0, 1)));
-    
-    private JScrollPane scrollPane = new JScrollPane();
-    private JPanel controlPane = new JPanel(new GridLayout(0, 1));
-    
+    private JMenuBar menuBar;
+    private JSplitPane mainSplit;
+    private JPanel controlArea = new JPanel(new GridLayout(20, 1, 5, 5));
+    private JScrollPane scrollPane;
+    private JPanel mainPane = new JPanel(new GridLayout(0, 1));
     private JLabel pathLabel = new JLabel("Chose map: ");
     public JComboBox mapsDropdown = new JComboBox();
     private JButton loadMap = new JButton("Load Map");
     private JTable myTable = getTable();    // gets a table that changes row colors depending on cell content
     
     public MapEditor() {
+    
+        JMenu mnNewMenu = new JMenu("Map");
+        menuBar.add(mnNewMenu);
+        
+        JMenuItem mntmNewMenuItem = new JMenuItem("Load Map");
+        mnNewMenu.add(mntmNewMenuItem);
+        
+        JMenuItem mntmNewMenuItem_2 = new JMenuItem("New Map");
+        mnNewMenu.add(mntmNewMenuItem_2);
+        
+        JMenuItem mntmNewMenuItem_3 = new JMenuItem("Edit Map");
+        mnNewMenu.add(mntmNewMenuItem_3);
+        
+        JMenuItem mntmNewMenuItem_4 = new JMenuItem("Save Map");
+        mnNewMenu.add(mntmNewMenuItem_4);
+        
+        JMenu mnNewMenu_1 = new JMenu("Player");
+        menuBar.add(mnNewMenu_1);
+        
+        JMenuItem mntmNewMenuItem_5 = new JMenuItem("New menu item");
+        mnNewMenu_1.add(mntmNewMenuItem_5);
+        
+        JMenuItem mntmNewMenuItem_1 = new JMenuItem("New menu item");
+        mnNewMenu_1.add(mntmNewMenuItem_1);
+        
+        JMenu mnNewMenu_2 = new JMenu("Play");
+        menuBar.add(mnNewMenu_2);
+        
+        JMenuItem mntmNewMenuItem_6 = new JMenuItem("New menu item");
+        mnNewMenu_2.add(mntmNewMenuItem_6);
+        
+        JMenu mnNewMenu_3 = new JMenu("Statics");
+        menuBar.add(mnNewMenu_3);
+        
+        JMenuItem mntmNewMenuItem_7 = new JMenuItem("New menu item");
+        mnNewMenu_3.add(mntmNewMenuItem_7);
         /* put together the elements */
-        controlPane.add(pathLabel);
-        controlPane.add(mapsDropdown);
-        controlPane.add(loadMap);
         myTable.setAutoCreateRowSorter(false);
         scrollPane.add(myTable);
         
+        controlArea.add(pathLabel);
+        controlArea.add(mapsDropdown);
+        controlArea.add(loadMap);
+        controlArea.setBorder(new EmptyBorder(5, 5, 5, 5));
+        
         mainSplit.setResizeWeight(.85d);
         mainSplit.setDividerLocation(1200);
-        mainSplit.setRightComponent(controlSplit);
+        mainSplit.setRightComponent(controlArea);
         mainSplit.setLeftComponent(new JScrollPane(myTable));
-        mainSplit.setSize(1600, 900);
-        
-        controlSplit.setTopComponent(controlPane);
-        controlSplit.setBorder(new EmptyBorder(10, 10, 10, 10));
-        controlSplit.setDividerLocation(200);
+    
+        mainPane.add(mainSplit);
         
         this.display();
     }
     
     private void display() {
         JFrame myFrame = new JFrame("Map Editor");
-        myFrame.add(menuPanel);
-        myFrame.add(mainSplit);
         myFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        myFrame.setJMenuBar(menuBar);
+        myFrame.add(mainPane);
         myFrame.pack();
         myFrame.setSize(1600, 1200);
         myFrame.setLocationRelativeTo(null);
