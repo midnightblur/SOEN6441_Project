@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Objects;
 import java.util.Vector;
 
 /**
@@ -18,6 +19,7 @@ public class Continent {
     
     /**
      * Instantiate new continent object given its name and its control value
+     *
      * @param name
      * @param controlValue
      */
@@ -26,24 +28,24 @@ public class Continent {
         this.controlValue = controlValue;
         this.territories = new Vector<>();
     }
-
+    
     /* Getters & Setters */
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public int getControlValue() {
         return controlValue;
     }
-
+    
     public void setControlValue(int controlValue) {
         this.controlValue = controlValue;
     }
-
+    
     public Vector<String> getTerritories() {
         return territories;
     }
@@ -56,6 +58,7 @@ public class Continent {
     
     /**
      * Add a territory to the list of territories belonging to the continent
+     *
      * @param territoryName
      */
     public void addTerritory(String territoryName) {
@@ -65,6 +68,7 @@ public class Continent {
     
     /**
      * Remove a territory from the list of territories belong to the continent
+     *
      * @param territoryName
      */
     public void removeTerritory(String territoryName) {
@@ -79,7 +83,9 @@ public class Continent {
     
     /**
      * Check if the continent contain a given territory
+     *
      * @param territoryName
+     *
      * @return
      */
     public boolean isContain(String territoryName) {
@@ -88,6 +94,7 @@ public class Continent {
     
     /**
      * Get the number of territories belong to the continent
+     *
      * @return
      */
     public int getTerritoriesCount() {
@@ -95,8 +102,38 @@ public class Continent {
     }
     
     /**
+     * Calculate the number of armies within the territory
+     *
+     * @return
+     */
+    public int getContinentArmies() {
+        int count = 0;
+        for (String t : territories) {
+            count += RiskGame.getInstance().getGameMap().getATerritory(t).getArmies();
+        }
+        return count;
+    }
+    
+    /**
+     * Determine if a continent was fully conquered and return the id of the owner if so
+     *
+     * @return the id of the owner having conquered all territories within this continent
+     */
+    public String getContinentOwner() {
+        String continentOwner = "Player " + RiskGame.getInstance().getGameMap().getATerritory(territories.firstElement()).getOwner().getPlayerID();
+        for (String t : territories) {
+            if (!Objects.equals(continentOwner, "Player " + RiskGame.getInstance().getGameMap().getATerritory(t).getOwner().getPlayerID()))
+                return "nobody owns it yet";
+        }
+        return continentOwner;
+        
+    }
+    
+    /**
      * Facilitate the comparision between two continent objects
+     *
      * @param other
+     *
      * @return
      */
     @Override
@@ -107,11 +144,11 @@ public class Continent {
             return true;
         if (!(other instanceof Continent))
             return false;
-
+        
         Continent continent = (Continent) other;
         if (this.name.compareTo(continent.name) == 0)
             return true;
-
+        
         return false;
     }
 }
