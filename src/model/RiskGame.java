@@ -123,11 +123,24 @@ public class RiskGame {
     }
     
     /**
+     * The reinforcement phase includes allowing the players to hand in their cards for
+     * armies (or force them to if they have more than or equal to 5 cards), assign
+     * to-be-allocated armies to the players according to the number of territories they
+     * control (to a minimum of 3), and allows players to place those armies.
      *
+     * @param player
      */
     public void reinforcementPhase(Player player) {
-    
-       
+        // Force players to trade in cards if they have more than or equal to 5 cards.
+        if (player.getPlayersHand().size() >= 5) {
+            // TODO
+        }
+        int armiesToGive = gameMap.getTerritoriesOfPlayer(player).size() / 3;
+        if (armiesToGive < 3) {
+            armiesToGive = 3;
+        }
+        player.setUnallocatedArmies(armiesToGive);
+        placeArmies();
     }
     
     /**
@@ -227,14 +240,14 @@ public class RiskGame {
             if (!(playerIndex < players.size())) {
                 playerIndex = 0;
             }
-            // add a player's territories to list if they do not contain any armies
+            // Add a player's territories to list if they do not contain any armies
             for (Map.Entry<String, Territory> entry :
                     gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).entrySet()) {
                 if (entry.getValue().getArmies() == 0) {
                     territoryList.add(entry.getValue());
                 }
             }
-            // if there are no territories without any armies, then add all of player's territories to the list.
+            // If there are no territories without any armies, then add all of player's territories to the list.
             if (territoryList.size() == 0) {
                 for (Map.Entry<String, Territory> entry :
                         gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).entrySet()) {

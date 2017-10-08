@@ -2,6 +2,7 @@ package model;
 
 import java.awt.*;
 import java.util.Random;
+import java.util.Vector;
 
 /**
  * Each Player in a new game has a unique ID number (starting from 1) and the isBot status
@@ -17,6 +18,7 @@ public class Player {
     private int playerID;
     private String playerName;
     private int unallocatedArmies;
+    private Vector<Card> playersHand;
     
     public Player() {
         this.playerID = ++Player.nextID;
@@ -48,6 +50,10 @@ public class Player {
         return this.unallocatedArmies;
     }
     
+    public Vector<Card> getPlayersHand() {
+        return this.playersHand;
+    }
+    
     // public methods
     
     /**
@@ -64,6 +70,14 @@ public class Player {
      */
     public void addUnallocatedArmies(int num) {
         this.unallocatedArmies += num;
+    }
+    
+    /**
+     * Adds a card to the player's hand.
+     * @param card
+     */
+    public void addCardToPlayersHand(Card card) {
+        this.playersHand.add(card);
     }
     
     /**
