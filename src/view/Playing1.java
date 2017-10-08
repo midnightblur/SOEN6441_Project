@@ -3,8 +3,10 @@ package view;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Playing1 extends JFrame {
+public class Playing1 extends JFrame implements ActionListener{
 
     private JPanel contentPane;
     private JTable table;
@@ -82,7 +84,25 @@ public class Playing1 extends JFrame {
         table = new JTable(rowData, column);
         scrollPane.setViewportView(table);
 
+
+        JButton btnback = new JButton("Back");
+        btnback.setBounds(10, 255, 97, 25);
+        btnback.addActionListener(this);
+        btnback.setActionCommand("BackToMapEditor");
+        contentPane.add(btnback);
+
         setVisible(true);
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String cmd = e.getActionCommand();
+        if(cmd.equals("BackToMapEditor")) {
+            dispose();
+            new MapEditor1();
+        }
+
     }
 
 }

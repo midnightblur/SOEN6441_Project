@@ -7,9 +7,6 @@ import model.RiskGame;
 import util.Config;
 import view.MapEditor;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import static model.GameMapHandler.loadGameMap;
 
 
@@ -17,7 +14,7 @@ import static model.GameMapHandler.loadGameMap;
  * Controller class holding methods used in Map Editor module of the game
  */
 
-public class MapEditorController implements ActionListener {
+public class MapEditorController {
     
     private MapEditor theView;
     private MapTableModel theMapTableModel;
@@ -37,13 +34,24 @@ public class MapEditorController implements ActionListener {
         }
         
         // set the table model for the view
-        theView.setTableModel(theMapTableModel.getModel());
+        theView.getMyTable().setModel(theMapTableModel.getModel());
+        theView.resizeColumns(theView.getMyTable());
         
         // Subscribe the view as observer to model changes
         theMapTableModel.addObserver(theView);
         
         // register this instance of controller as listener to the view
-        theView.addActionListener(this);
+        theView.addActionListener(e -> {
+            try {
+                // update the model when button is clicked
+                theMapTableModel.updateMapTableModel(loadGameMap(theView.getMap()));
+                
+            } catch (Exception e1) {
+                System.out.println(e1.getLocalizedMessage());
+                theView.displayErrorMessage("Invalid path...");
+                
+            }
+        });
         
         /* Get the available maps and populate the dropdown */
         mapDropDownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
@@ -51,17 +59,4 @@ public class MapEditorController implements ActionListener {
         mapDropDownModel.addListDataListener(theView.mapsDropdown);
     }
     
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        try {
-            // update the model when button is clicked
-            theMapTableModel.updateMapTableModel(loadGameMap(theView.getMap()));
-            
-        } catch (NumberFormatException ex) {
-            System.out.println(ex);
-            theView.displayErrorMessage("Invalid path...");
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-    }
 }

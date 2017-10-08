@@ -24,8 +24,11 @@ public class MapEditor extends JFrame implements Observer {
     private JLabel pathLabel = new JLabel("Chose map: ");
     public JComboBox mapsDropdown = new JComboBox();
     private JButton loadMap = new JButton("Load Map");
-    private JTable myTable = getTable();    // gets a table that changes row colors depending on cell content
+    private JTable myTable = makeTable();    // gets a table that changes row colors depending on cell content
     
+    /**
+     * Constructor making a new MapEditor view
+     */
     public MapEditor() {
         
         JMenu mnNewMenu = new JMenu("Map");
@@ -82,6 +85,9 @@ public class MapEditor extends JFrame implements Observer {
         this.display();
     }
     
+    /**
+     * Displays the frame
+     */
     private void display() {
         JFrame myFrame = new JFrame("Map Editor");
         myFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -94,9 +100,16 @@ public class MapEditor extends JFrame implements Observer {
     }
     
     /* Getters and Setters */
+    
     public String getMap() {
         return mapsDropdown.getSelectedItem().toString();
     }
+    
+    public JTable getMyTable() {
+        return myTable;
+    }
+    
+    /* Public methods */
     
     /**
      * Sets the table model (data source)
@@ -108,6 +121,12 @@ public class MapEditor extends JFrame implements Observer {
         resizeColumns(myTable);
     }
     
+    
+    /**
+     * Sets the data for the dropdown
+     *
+     * @param dropdownModel representing the model for the dropdown
+     */
     public void setDropdownModel(DropDownModel dropdownModel) {
         mapsDropdown.setModel(dropdownModel);
         mapsDropdown.setSelectedItem(DEFAULT_MAP);
@@ -118,7 +137,7 @@ public class MapEditor extends JFrame implements Observer {
      *
      * @param table
      */
-    private void resizeColumns(JTable table) {
+    public void resizeColumns(JTable table) {
         final TableColumnModel columnModel = table.getColumnModel();
         for (int c = 0; c < table.getColumnCount(); c++) {
             int width = 10; // minimum width
@@ -134,7 +153,8 @@ public class MapEditor extends JFrame implements Observer {
     }
     
     /**
-     * Inform controller of changes
+     * Inform controller of actions on this view
+     * Additional objects can subscribe other controllers within this method
      *
      * @param
      */
@@ -151,16 +171,29 @@ public class MapEditor extends JFrame implements Observer {
         JOptionPane.showMessageDialog(this, errorMessage);
     }
     
+    /**
+     * Changes the model when the model notifies its subscribers
+     *
+     * @param o   the observable model
+     * @param arg additional arguments (not used)
+     */
     @Override
     public void update(Observable o, Object arg) {
         setTableModel(((MapTableModel) o).getModel());
     }
     
-    /* change color depending on continent and player ID */
+    /* identify the continent and owner columns (to be used in makeTable() */
     private static final int CONTINENT_COL = 0;
     private static final int OWNER_COL = 3;
     
-    private static JTable getTable() {
+    /**
+     * Makes a new table
+     * It overriding the super class so that it colors the continent headers
+     * as well as each player's territories
+     *
+     * @return a new table
+     */
+    private static JTable makeTable() {
         
         return new JTable() {
             
