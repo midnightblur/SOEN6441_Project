@@ -1,24 +1,8 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.TableColumn;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import java.awt.Choice;
-import javax.swing.JTable;
-import java.awt.ScrollPane;
-import java.awt.Panel;
-import java.awt.Point;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
+import java.awt.*;
 
 public class MapEditor1 extends JFrame {
 
@@ -97,27 +81,30 @@ public class MapEditor1 extends JFrame {
         panel.setBounds(261, 0, 171, 227);
         contentPane.add(panel);
 
-        Choice choice = new Choice();
-        panel.add(choice);
+        Choice choiceadd = new Choice();
+        panel.add(choiceadd);
+
+        Choice choiceeditdelete = new Choice();
+        panel.add(choiceeditdelete);
 
         JPanel panel_2 = new JPanel();
         panel_2.setBounds(444, 0, 171, 227);
         contentPane.add(panel_2);
 
         txtEnterCountry = new JTextField();
-        txtEnterCountry.setText("enter country");
+        txtEnterCountry.setText("new country");
         panel_2.add(txtEnterCountry);
         txtEnterCountry.setColumns(10);
 
-        Choice choice_1 = new Choice();
-        choice_1.setLocation(new Point(0, 56));
-        panel_2.add(choice_1);
+        Choice choiceaddtocontinent = new Choice();
+        choiceaddtocontinent.setLocation(new Point(0, 56));
+        panel_2.add(choiceaddtocontinent);
 
-        JComboBox comboBox = new JComboBox();
-        panel_2.add(comboBox);
+        JComboBox comboboxneighbours = new JComboBox();
+        panel_2.add(comboboxneighbours);
 
-        JButton btnAdd = new JButton("Add");
-        panel_2.add(btnAdd);
+        JButton btnadd = new JButton("Add");
+        panel_2.add(btnadd);
 
         JPanel panel_1 = new JPanel();
         panel_1.setBounds(631, 0, 171, 227);
@@ -128,18 +115,18 @@ public class MapEditor1 extends JFrame {
         txtEditCountry.setColumns(10);
         panel_1.add(txtEditCountry);
 
-        Choice choice_2 = new Choice();
-        choice_2.setLocation(new Point(0, 56));
-        panel_1.add(choice_2);
+        Choice choicecontinent = new Choice();
+        choicecontinent.setLocation(new Point(0, 56));
+        panel_1.add(choicecontinent);
 
-        JComboBox comboBox_1 = new JComboBox();
-        panel_1.add(comboBox_1);
+        JComboBox comboBoxNeighbors = new JComboBox();
+        panel_1.add(comboBoxNeighbors);
 
-        JButton btnOk = new JButton("OK");
-        panel_1.add(btnOk);
+        JButton btnok = new JButton("OK");
+        panel_1.add(btnok);
 
-        JButton btnDelete = new JButton("DELETE");
-        panel_1.add(btnDelete);
+        JButton btndelete = new JButton("DELETE");
+        panel_1.add(btndelete);
 
 
         setVisible(true);
