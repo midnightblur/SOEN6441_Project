@@ -1,13 +1,11 @@
 package view;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
 
 public class MainPage1 extends JFrame implements ActionListener {
 
@@ -42,15 +40,19 @@ public class MainPage1 extends JFrame implements ActionListener {
 
         JButton btnplay = new JButton("Play");
         btnplay.setBounds(163, 33, 97, 25);
-
+        btnplay.addActionListener(this);
+        btnplay.setActionCommand("OpenPlay");
         contentPane.add(btnplay);
 
         JButton btneditmap = new JButton("Edit Map");
+
+//		btneditmap.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//			}
+//		});
         btneditmap.setBounds(163, 93, 97, 25);
         btneditmap.addActionListener(this);
         btneditmap.setActionCommand("Open");
-
-
         contentPane.add(btneditmap);
 
         JButton btnquit = new JButton("Quit");
@@ -67,6 +69,12 @@ public class MainPage1 extends JFrame implements ActionListener {
         if(cmd.equals("Open")) {
             dispose();
             new MapEditor1();
+        }
+
+        String cmd1 = e.getActionCommand();
+        if(cmd.equals("OpenPlay")) {
+            dispose();
+            new Playing1();
         }
 
     }
