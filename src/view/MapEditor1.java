@@ -1,170 +1,149 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+package view;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.TableColumn;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import java.awt.Choice;
-import javax.swing.JTable;
-import java.awt.ScrollPane;
-import java.awt.Panel;
-import java.awt.Point;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
+import java.awt.*;
 
-
-/** This class contains frame for the configuration of
- * game where player can edit the map and add continents
- * and corresponding countries to it. The player can also
- * delete or edit. The player can also choose from the
- * existing Maps.
- *
- * @author Yashleen Kaur Virk
- * @version 1.0
- */
 public class MapEditor1 extends JFrame {
 
-	private JPanel contentPane;
-	private JTable table_1;
-	private JTextField txtEnterCountry;
-	private JTextField txtEditCountry;
+    private JPanel contentPane;
+    private JTable table_1;
+    private JTextField txtEnterCountry;
+    private JTextField txtEditCountry;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MapEditor1 frame = new MapEditor1();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    /**
+     * Create the frame.
+     */
+    public MapEditor1() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 832, 506);
 
-	/**
-	 * This method is a constructor where GUI has
-	 * been designed.
-	 */
-	public MapEditor1() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 832, 506);
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
 
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
+        JMenu mnNewMenu = new JMenu("Map");
+        menuBar.add(mnNewMenu);
 
-		JMenu mnNewMenu = new JMenu("Map");
-		menuBar.add(mnNewMenu);
+        JMenuItem mntmNewMenuItem = new JMenuItem("Load Map");
+        mnNewMenu.add(mntmNewMenuItem);
 
-		JMenuItem mntmNewMenuItem = new JMenuItem("Load Map");
-		mnNewMenu.add(mntmNewMenuItem);
+        JMenuItem mntmNewMenuItem_2 = new JMenuItem("New Map");
+        mnNewMenu.add(mntmNewMenuItem_2);
 
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("New Map");
-		mnNewMenu.add(mntmNewMenuItem_2);
+        JMenuItem mntmNewMenuItem_3 = new JMenuItem("Edit Map");
+        mnNewMenu.add(mntmNewMenuItem_3);
 
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Edit Map");
-		mnNewMenu.add(mntmNewMenuItem_3);
+        JMenuItem mntmNewMenuItem_4 = new JMenuItem("Save Map");
+        mnNewMenu.add(mntmNewMenuItem_4);
 
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Save Map");
-		mnNewMenu.add(mntmNewMenuItem_4);
+        JMenu mnNewMenu_1 = new JMenu("Player");
+        menuBar.add(mnNewMenu_1);
 
-		JMenu mnNewMenu_1 = new JMenu("Player");
-		menuBar.add(mnNewMenu_1);
+        JMenuItem mntmNewMenuItem_5 = new JMenuItem("New menu item");
+        mnNewMenu_1.add(mntmNewMenuItem_5);
 
-		JMenuItem mntmNewMenuItem_5 = new JMenuItem("New menu item");
-		mnNewMenu_1.add(mntmNewMenuItem_5);
+        JMenuItem mntmNewMenuItem_1 = new JMenuItem("New menu item");
+        mnNewMenu_1.add(mntmNewMenuItem_1);
 
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("New menu item");
-		mnNewMenu_1.add(mntmNewMenuItem_1);
+        JMenu mnNewMenu_2 = new JMenu("Play");
+        menuBar.add(mnNewMenu_2);
 
-		JMenu mnNewMenu_2 = new JMenu("Play");
-		menuBar.add(mnNewMenu_2);
+        JMenuItem mntmNewMenuItem_6 = new JMenuItem("New menu item");
+        mnNewMenu_2.add(mntmNewMenuItem_6);
 
-		JMenuItem mntmNewMenuItem_6 = new JMenuItem("New menu item");
-		mnNewMenu_2.add(mntmNewMenuItem_6);
+        JMenu mnNewMenu_3 = new JMenu("Statics");
+        menuBar.add(mnNewMenu_3);
 
-		JMenu mnNewMenu_3 = new JMenu("Statics");
-		menuBar.add(mnNewMenu_3);
+        JMenuItem mntmNewMenuItem_7 = new JMenuItem("New menu item");
+        mnNewMenu_3.add(mntmNewMenuItem_7);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
 
-		JMenuItem mntmNewMenuItem_7 = new JMenuItem("New menu item");
-		mnNewMenu_3.add(mntmNewMenuItem_7);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(10, 0, 239, 224);
+        contentPane.add(scrollPane);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 0, 239, 224);
-		contentPane.add(scrollPane);
+        //Add RowData here
+        String column[] ={"Country","Neighbours"};
+        String rowData[][]={
+                {"row 1 counrty","row 1 neighbour"},
+                {"row 2 counrty","row 2 neighbour"}
 
-		//Add RowData here
-		String column[] ={"Country","Neighbours"};
-		String rowData[][]={
-				{"row 1 counrty","row 1 neighbour"},
-				{"row 2 counrty","row 2 neighbour"}
-
-		};
+        };
 
 
-		table_1 = new JTable(rowData, column);
-		scrollPane.setViewportView(table_1);
+        table_1 = new JTable(rowData, column);
+        scrollPane.setViewportView(table_1);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(261, 0, 171, 227);
-		contentPane.add(panel);
+        JPanel panel = new JPanel();
+        panel.setBounds(261, 0, 171, 227);
+        contentPane.add(panel);
+        panel.setLayout(null);
 
-		Choice choice = new Choice();
-		panel.add(choice);
+        Choice choiceadd = new Choice();
+        choiceadd.setBounds(55, 20, 50, 22);
+        panel.add(choiceadd);
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(444, 0, 171, 227);
-		contentPane.add(panel_2);
+        Choice choiceeditdelete = new Choice();
+        choiceeditdelete.setBounds(55, 66, 50, 22);
+        panel.add(choiceeditdelete);
 
-		txtEnterCountry = new JTextField();
-		txtEnterCountry.setText("enter country");
-		panel_2.add(txtEnterCountry);
-		txtEnterCountry.setColumns(10);
+        JPanel panel_2 = new JPanel();
+        panel_2.setBounds(444, 0, 171, 227);
+        contentPane.add(panel_2);
+        panel_2.setLayout(null);
 
-		Choice choice_1 = new Choice();
-		choice_1.setLocation(new Point(0, 56));
-		panel_2.add(choice_1);
+        txtEnterCountry = new JTextField();
+        txtEnterCountry.setBounds(11, 5, 116, 22);
+        txtEnterCountry.setText("new country");
+        panel_2.add(txtEnterCountry);
+        txtEnterCountry.setColumns(10);
 
-		JComboBox comboBox = new JComboBox();
-		panel_2.add(comboBox);
+        Choice choiceaddtocontinent = new Choice();
+        choiceaddtocontinent.setSize(64, 22);
+        choiceaddtocontinent.setLocation(new Point(50, 50));
+        panel_2.add(choiceaddtocontinent);
 
-		JButton btnAdd = new JButton("Add");
-		panel_2.add(btnAdd);
+        JComboBox comboboxneighbours = new JComboBox();
+        comboboxneighbours.setBounds(50, 90, 64, 25);
+        panel_2.add(comboboxneighbours);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(631, 0, 171, 227);
-		contentPane.add(panel_1);
+        JButton btnadd = new JButton("Add");
+        btnadd.setBounds(50, 170, 64, 25);
+        panel_2.add(btnadd);
 
-		txtEditCountry = new JTextField();
-		txtEditCountry.setText("edit country");
-		txtEditCountry.setColumns(10);
-		panel_1.add(txtEditCountry);
+        JPanel panel_1 = new JPanel();
+        panel_1.setBounds(631, 0, 171, 227);
+        contentPane.add(panel_1);
+        panel_1.setLayout(null);
 
-		Choice choice_2 = new Choice();
-		choice_2.setLocation(new Point(0, 56));
-		panel_1.add(choice_2);
+        txtEditCountry = new JTextField();
+        txtEditCountry.setBounds(11, 5, 116, 22);
+        txtEditCountry.setText("edit country");
+        txtEditCountry.setColumns(10);
+        panel_1.add(txtEditCountry);
 
-		JComboBox comboBox_1 = new JComboBox();
-		panel_1.add(comboBox_1);
+        Choice choicecontinent = new Choice();
+        choicecontinent.setSize(62, 28);
+        choicecontinent.setLocation(new Point(39, 47));
+        panel_1.add(choicecontinent);
 
-		JButton btnOk = new JButton("OK");
-		panel_1.add(btnOk);
+        JComboBox comboBoxNeighbors = new JComboBox();
+        comboBoxNeighbors.setBounds(39, 87, 62, 22);
+        panel_1.add(comboBoxNeighbors);
 
-		JButton btnDelete = new JButton("DELETE");
-		panel_1.add(btnDelete);
+        JButton btnok = new JButton("OK");
+        btnok.setBounds(39, 141, 69, 22);
+        panel_1.add(btnok);
 
-	}
+        JButton btndelete = new JButton("DELETE");
+        btndelete.setBounds(39, 176, 75, 22);
+        panel_1.add(btndelete);
+
+
+        setVisible(true);
+
+    }
 }
