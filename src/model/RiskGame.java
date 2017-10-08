@@ -126,16 +126,7 @@ public class RiskGame {
      *
      */
     public void reinforcementPhase(Player player) {
-       int playerIndex = 0;
-       for () {
-           if (!(playerIndex < players.size())) {
-               playerIndex = 0;
-           }
-           
-           
-           
-           playerIndex++;
-       }
+    
        
     }
     
@@ -214,7 +205,7 @@ public class RiskGame {
     
     /**
      * This method gives initial armies per player according to the following algorithm:
-     * [# of initial armies = (# of territories) * (2.75) / (# of players)]
+     * [# of initial armies = (total# of territories) * (2.75) / (total# of players)]
      */
     public void giveInitialArmies() {
         int armiesToGive = (int) (gameMap.getTerritoriesCount() * Config.INITIAL_ARMY_RATIO / players.size());
@@ -236,12 +227,20 @@ public class RiskGame {
             if (!(playerIndex < players.size())) {
                 playerIndex = 0;
             }
-            // TODO: get rid of this line following print out line.
-            System.out.println("player " + players.elementAt(playerIndex).getPlayerID() + "'s turn to allocate army.");
+            // add a player's territories to list if they do not contain any armies
             for (Map.Entry<String, Territory> entry :
                     gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).entrySet()) {
-                if (entry.getValue().getOwner().equals(players.elementAt(playerIndex))) {
+                if (entry.getValue().getArmies() == 0) {
                     territoryList.add(entry.getValue());
+                }
+            }
+            // if there are no territories without any armies, then add all of player's territories to the list.
+            if (territoryList.size() == 0) {
+                for (Map.Entry<String, Territory> entry :
+                        gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).entrySet()) {
+                    if (entry.getValue().getOwner().equals(players.elementAt(playerIndex))) {
+                        territoryList.add(entry.getValue());
+                    }
                 }
             }
             int territoryIndex = rand.nextInt(territoryList.size());

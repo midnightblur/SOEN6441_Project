@@ -70,5 +70,7 @@ public class RiskGameTest {
                     + " (num of armies: " + entry.getValue().getArmies() + ")." );
         }
     }
+    // print out to test round-robin fashion of players' turn
+    System.out.println("player " + players.elementAt(playerIndex).getPlayerID() + "'s turn to allocate army.");
     */
 }
