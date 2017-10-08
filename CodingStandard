@@ -1,0 +1,244 @@
+<Coding Standard>
+This document lists the standard methods of coding that is followed by
+all of the developers in the team for the Risk game.
+
+-----------------
+File organization
+-----------------
+- Source code files should be organized into four different package folders
+(controller, model, and view folders) according to the appropriate
+functions in regards to the Model-View-Controller architectural pattern,
+in addition to the util package folder which should contain miscellaneous
+code that is designed to store various configurations.
+- A source file structure should be in a way that the file should display the
+package statements, then import statements, and then the class declarations.
+- The class declaration of a source file should first list its variables, then
+the constructors, then the getter and setter methods, and then any other methods
+and functions related to that class.
+
+Example:
+
+package ProjectPractice;
+
+import java.util.Scanner;
+
+/**
+ * Some overall info about this class
+ */
+public class Player {
+    private static int counter;
+    private int playerID;
+
+    public Player() {
+        ...
+    }
+
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
+    }
+
+    public int getPlayerID() {
+        return this.playerID;
+    }
+
+    ...
+}
+
+-----------
+Indentation
+-----------
+- All new lines wrapped inside the body of a class/function should be indented by
+4 spaces or by a tab space (see example) with respect to its header or the first line.
+- Lengthy line of code can be written in multiple continuous lines, but all lines
+succeeding the first line should be indented with respect to the first line.
+- In a file with multiple classes and or methods, an empty space should be present
+between the end of one and the start of the other.
+- Curly brackets must be used following if, while, for, switch statements.
+- The brackets following the if, while, for, switch can be separated from the key words
+and the succeeding curly brackets (see example).
+- All comments should start with a single space from the comment symbol (// or *)
+- Line or lines of code can be separated by an empty line in order to improve readability
+for major sections of a long and complicated function (see example).
+
+Example:
+
+/**
+ * some comment
+ */
+public class Player {
+    private static int count;
+    private int playerID;
+
+    public Player(int id) {
+        // some comment
+        if (id < 5) {
+            System.out.println("This line is divided in multiple" +
+                    "lines because it is too long.");
+            System.out.println("this is a short line.");
+        } else if(id == 10) {
+            System.out.println("This is an example of another line");
+        } else {
+            while (id == 100) {
+                ++id;
+            }
+
+            System.out.println("Example of empty line spacing for better readability");
+            return;
+        }
+    }
+
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
+    }
+
+    public int getPlayerID() {
+        return this.playerID;
+    }
+
+    public static int getCount() {
+        return count;
+    }
+
+    ...
+}
+
+/**
+ * some comment for this class
+ */
+class Team {
+    private String teamName;
+
+    public Team() {
+        ...
+    }
+
+    ...
+}
+
+--------
+Comments
+--------
+- Comments should be used to provide code understandability of classes,
+methods, and complex algorithms, etc.
+- At the beginning of each public class and public methods, there should be
+a brief comment to explain the purpose of that class or method in the project.
+- The comments in the beginning of each class, and methods should be in
+Javadoc format (/** ... */).
+- The comments for specific lines of code within a block of a method or a
+function should be in block comment (/* ... */) format for multi-line comments,
+or in regular comment (// ...) format for single line comments.
+
+Example:
+
+package ProjectPractice;
+
+import java.util.Scanner;
+
+/**
+ * This is a comment describing the Player class which displays
+ * a general idea of what this class is for and what it does.
+ */
+public class Player {
+    private static int count;
+    private int playerID;
+
+    /**
+     * This is a comment describing the Constructor
+     * (or other methods and functions) with the list of parameters.
+     *
+     * @param id: this is a meaningful id description
+     */
+    public Player(int id) {
+        /*
+        This is a multi-line comment inside a class or a method
+        about the following line(s).
+         */
+        if (id < 5) {
+            System.out.println("This line is divided in multiple" +
+                    "lines because it is too long.");
+            System.out.println("this is a short line.");
+        } else if (id == 10) {
+            System.out.println("this is another line");
+        } else {
+            // This is a single line comment about the following line(s).
+            while (id == 100) {
+                System.out.println("This is an example for nested indentation");
+            }
+            return;
+        }
+    }
+
+    ...
+}
+
+------------
+Declarations
+------------
+- Semicolons should mark the end of code of that line. Succeeding line of code following a
+semicolon should be written in a new line.
+- Curly bracket used for wrapping blocks of code should be used in a way that the opening
+bracket is present on the same line as the wrapper line, followed by the block of code written
+starting on the next line after the opening bracket, and then the closing bracket that should be
+on its own on a new line following the end of the block of code, unless there are more else if,
+else, catch, while, etc statements that follow after it (see example).
+- A single line for, if/else, while, switch statements cannot be written without curly brackets.
+- All classes should start with an uppercase letter, followed by lowercase letters. For names
+that consist of multiple words, the first letter of all the words after the first letter should
+be capitalized (see example).
+- All variable names should be in lowercase letters (and/or numbers). If a variable name consists
+of multiple words, then the first letter of the words (except for the starting letter of the
+variable name) should be in uppercase letter (see example).
+- All final variables and enum variables should be in all capital letters.
+- All variables, function declarations should indicate their access specifiers.
+
+Example:
+
+class Example {
+    ...
+}
+
+public class MultiWordClassName {
+    public int variable;
+    private int variableWithMultipleWords;
+
+    public MultiWordClassName() {
+        if () {
+            for (int i = 0; i < 10; i++) {
+                ...
+            }
+        } else () {
+            ...
+            ...
+            ...
+        }
+
+        System.out.println("...");
+    }
+
+    public void exampleMethod() {
+        ...
+    }
+}
+
+
+
+
+------
+Naming
+------
+- All class, method, variable names should be meaningful names, and single letter names should
+be refrained from use, unless in the case of temporary variables used within a for loop (see Example).
+- File names used in import statements should be in all lowercase letters.
+
+Example:
+
+import filename;
+
+public int playerID;
+public int exampleCounter;
+private String playerFirstName;
+private String playerLastName;
+
+for (int i=0; i<exampleCounter; i++) {
+    System.out.println("Player " + playerID);
+}

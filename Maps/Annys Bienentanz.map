@@ -1,0 +1,120 @@
+[Map]
+author=Anna Klindworth
+image=Annys Bienentanz.bmp
+wrap=no
+scroll=none
+warn=no
+
+[Continents]
+Humelarsch=8
+Hummelkopf=4
+Bienenpopo=4
+Bienengesicht=7
+Sönkesonnenschein=4
+Raupelein=5
+Sonnenblume 1=4
+Sonnenblume 2=4
+Sonnenblume 3=4
+Sonnenblume 4=4
+Sonnenblume Mitte=4
+Blume 1 + 2=5
+Blume 3=4
+Blume 4=4
+Blume 5=4
+Stiel und Mitte=4
+
+[Territories]
+Territory01,45,413,Humelarsch,Territory94!,Territory02
+Territory02,49,378,Humelarsch,Territory01,Territory03
+Territory03,61,321,Humelarsch,Territory10,Territory02,Territory04,Territory07
+Territory04,67,261,Humelarsch,Territory10,Territory03,Territory05,Territory07
+Territory05,91,207,Humelarsch,Territory10,Territory04,Territory14!,Territory07
+Territory07,33,151,Humelarsch,Territory05,Territory04,Territory03,Territory08
+Territory08,28,120,Humelarsch,Territory07,Territory09
+Territory09,47,87,Humelarsch,Territory08
+Territory10,198,296,Humelarsch,Territory33,Territory04,Territory05,Territory03
+Territory11,241,309,Humelarsch,Territory33
+Territory12,233,230,Humelarsch,Territory33
+Territory13,267,214,Humelarsch,Territory33
+Territory14,271,293,Humelarsch,Territory33
+Territory14!,137,148,Hummelkopf,Territory05,Territory15,Territory16
+Territory15,128,39,Hummelkopf,Territory14!
+Territory16,269,87,Hummelkopf,Territory14!
+Territory17,521,157,Bienenpopo,Territory18,Territory25,Territory23,Territory31,Territory41
+Territory18,577,129,Bienenpopo,Territory17
+Territory19,420,139,Bienenpopo,Territory20,Territory23,Territory24
+Territory20,376,114,Bienenpopo,Territory21,Territory19
+Territory21,383,72,Bienenpopo,Territory22,Territory20
+Territory22,383,40,Bienenpopo,Territory21
+Territory23,440,170,Bienenpopo,Territory17,Territory24,Territory19
+Territory24,419,237,Bienenpopo,Territory23,Territory19,Territory28
+Territory25,581,266,Bienenpopo,Territory26,Territory17
+Territory26,622,231,Bienenpopo,Territory27,Territory25
+Territory27,652,266,Bienenpopo,Territory74,Territory26,Territory72
+Territory28,330,335,Bienengesicht,Territory24,Territory42,Territory43,Territory34,Territory33
+Territory33,229,274,Bienengesicht,Territory28,Territory12,Territory13,Territory14,Territory11,Territory10
+Territory34,268,379,Bienengesicht,Territory28,Territory95!
+Territory31,669,142,Sönkesonnenschein,Territory41,Territory40,Territory38,Territory39,Territory33!,Territory17,Territory36,Territory37
+Territory32,687,93,Sönkesonnenschein,Territory33!
+Territory33!,714,70,Sönkesonnenschein,Territory31,Territory35,Territory34!,Territory32
+Territory34!,611,24,Sönkesonnenschein,Territory33!
+Territory35,826,49,Sönkesonnenschein,Territory33!
+Territory36,800,166,Sönkesonnenschein,Territory31,Territory37
+Territory37,782,230,Sönkesonnenschein,Territory31,Territory38,Territory36
+Territory38,721,258,Sönkesonnenschein,Territory76,Territory37,Territory31
+Territory39,741,137,Sönkesonnenschein,Territory31
+Territory40,557,58,Sönkesonnenschein,Territory31
+Territory41,522,90,Sönkesonnenschein,Territory31,Territory17
+Territory42,488,331,Raupelein,Territory96!,Territory28
+Territory43,436,396,Raupelein,Territory96!,Territory28
+Territory45,515,458,Raupelein,Territory91,Territory46,Territory96!
+Territory46,539,514,Raupelein,Territory45,Territory47
+Territory47,537,556,Raupelein,Territory46,Territory64
+Territory48,73,544,Sonnenblume 1,Territory94!
+Territory50,105,512,Sonnenblume 1,Territory94!
+Territory51,112,554,Sonnenblume 1,Territory94!
+Territory53,166,429,Sonnenblume 2,Territory57
+Territory54,223,432,Sonnenblume 2,Territory57
+Territory55,187,467,Sonnenblume 2,Territory57
+Territory56,141,470,Sonnenblume 2,Territory57
+Territory57,160,494,Sonnenblume 2,Territory66,Territory55,Territory56,Territory53,Territory54
+Territory58,328,455,Sonnenblume 3,Territory95!
+Territory60,394,457,Sonnenblume 3,Territory95!
+Territory61,372,486,Sonnenblume 3,Territory95!
+Territory63,432,521,Sonnenblume 4,Territory64
+Territory64,452,500,Sonnenblume 4,Territory47,Territory66,Territory63,Territory65
+Territory65,471,548,Sonnenblume 4,Territory64
+Territory66,274,507,Sonnenblume Mitte,Territory95!,Territory64,Territory57,Territory94!,Territory69,Territory68,Territory67,Territory71
+Territory67,289,536,Sonnenblume Mitte,Territory66,Territory70,Territory68,Territory71
+Territory68,248,541,Sonnenblume Mitte,Territory66,Territory70,Territory69,Territory67
+Territory69,201,564,Sonnenblume Mitte,Territory66,Territory70,Territory68
+Territory70,287,564,Sonnenblume Mitte,Territory71,Territory67,Territory68,Territory69
+Territory71,335,549,Sonnenblume Mitte,Territory66,Territory70,Territory67
+Territory72,619,359,Blume 1 + 2,Territory74,Territory73,Territory27
+Territory73,673,356,Blume 1 + 2,Territory95,Territory74,Territory72
+Territory74,681,324,Blume 1 + 2,Territory75,Territory73,Territory72,Territory27
+Territory75,730,321,Blume 1 + 2,Territory76,Territory77,Territory78,Territory74
+Territory76,759,295,Blume 1 + 2,Territory75,Territory38,Territory77
+Territory77,755,333,Blume 1 + 2,Territory75,Territory76,Territory78
+Territory78,726,358,Blume 1 + 2,Territory95,Territory75,Territory77
+Territory79,743,391,Blume 3,Territory80,Territory81
+Territory80,768,418,Blume 3,Territory95,Territory79,Territory82,Territory83
+Territory81,785,383,Blume 3,Territory79,Territory82
+Territory82,814,414,Blume 3,Territory80,Territory81,Territory83
+Territory83,786,451,Blume 3,Territory95,Territory82,Territory80
+Territory84,674,484,Blume 4,Territory95,Territory86,Territory85,Territory90
+Territory85,722,484,Blume 4,Territory95,Territory86,Territory84,Territory87
+Territory86,701,511,Blume 4,Territory85,Territory87,Territory88,Territory89,Territory90,Territory84
+Territory87,739,523,Blume 4,Territory86,Territory88,Territory85
+Territory88,705,543,Blume 4,Territory86,Territory89,Territory87
+Territory89,656,538,Blume 4,Territory86,Territory90,Territory88
+Territory90,652,504,Blume 4,Territory86,Territory84,Territory89
+Territory91,580,470,Blume 5,Territory92,Territory45
+Territory92,617,443,Blume 5,Territory95,Territory93,Territory91,Territory94
+Territory93,591,426,Blume 5,Territory92
+Territory94,633,474,Blume 5,Territory92
+Territory95,689,415,Stiel und Mitte,Territory73,Territory96,Territory92,Territory84,Territory80,Territory78,Territory85,Territory83
+Territory96,818,525,Stiel und Mitte,Territory95
+Territory96!,498,397,Raupelein,Territory45,Territory42,Territory43
+Territory95!,272,466,Sonnenblume 3,Territory66,Territory58,Territory61,Territory60,Territory34
+Territory94!,72,505,Sonnenblume 1,Territory66,Territory50,Territory48,Territory51,Territory01
