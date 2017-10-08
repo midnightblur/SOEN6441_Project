@@ -24,7 +24,7 @@ public class MapEditor extends JFrame implements Observer {
     private JLabel pathLabel = new JLabel("Chose map: ");
     public JComboBox mapsDropdown = new JComboBox();
     private JButton loadMap = new JButton("Load Map");
-    private JTable myTable = getTable();    // gets a table that changes row colors depending on cell content
+    private JTable myTable = makeTable();    // gets a table that changes row colors depending on cell content
     
     public MapEditor() {
         
@@ -108,6 +108,10 @@ public class MapEditor extends JFrame implements Observer {
         resizeColumns(myTable);
     }
     
+    public JTable getMyTable() {
+        return myTable;
+    }
+    
     public void setDropdownModel(DropDownModel dropdownModel) {
         mapsDropdown.setModel(dropdownModel);
         mapsDropdown.setSelectedItem(DEFAULT_MAP);
@@ -118,7 +122,7 @@ public class MapEditor extends JFrame implements Observer {
      *
      * @param table
      */
-    private void resizeColumns(JTable table) {
+    public void resizeColumns(JTable table) {
         final TableColumnModel columnModel = table.getColumnModel();
         for (int c = 0; c < table.getColumnCount(); c++) {
             int width = 10; // minimum width
@@ -160,7 +164,7 @@ public class MapEditor extends JFrame implements Observer {
     private static final int CONTINENT_COL = 0;
     private static final int OWNER_COL = 3;
     
-    private static JTable getTable() {
+    private static JTable makeTable() {
         
         return new JTable() {
             
