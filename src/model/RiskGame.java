@@ -238,9 +238,7 @@ public class RiskGame {
             if (territoryList.size() == 0) {
                 for (Map.Entry<String, Territory> entry :
                         gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).entrySet()) {
-                    if (entry.getValue().getOwner().equals(players.elementAt(playerIndex))) {
-                        territoryList.add(entry.getValue());
-                    }
+                    territoryList.add(entry.getValue());
                 }
             }
             int territoryIndex = rand.nextInt(territoryList.size());
