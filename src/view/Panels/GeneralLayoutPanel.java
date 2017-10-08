@@ -1,0 +1,73 @@
+package view.Panels;
+
+import util.Config.SCREEN_NAME;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class GeneralLayoutPanel extends JPanel {
+    /* Constants used for setting up General Layout */
+    private static final int ROWS = 1;
+    private static final int COLUMNS = 2;
+    
+    /* Data members */
+    private SCREEN_NAME screenName;
+    private TablePanel tablePanel;
+    private ControlPanel controlPanel;
+    
+    private MapEditorControlPanel mapEditorControlPanel;
+    
+    /* Constructors */
+    public GeneralLayoutPanel(SCREEN_NAME screenName) {
+        this.screenName = screenName;
+        this.setLayout(new GridLayout(ROWS, COLUMNS));
+    
+        JPanel leftPanel = new JPanel();
+        switch (screenName) {
+            case MAP_EDITOR:
+                tablePanel = new MapTablePanel();
+                controlPanel = new MapEditorControlPanel();
+                break;
+            case GAME_PLAY:
+                tablePanel = new GameTablePanel();
+                controlPanel = new GamePlayControlPanel();
+                break;
+        }
+        JScrollPane scrollPane = new JScrollPane(tablePanel);
+        leftPanel.add(scrollPane);
+    
+        JPanel rightPanel = new JPanel();
+        mapEditorControlPanel = new MapEditorControlPanel();
+        rightPanel.add(mapEditorControlPanel);
+    
+        this.add(leftPanel);
+        this.add(rightPanel);
+    }
+    
+    /* Getters & Setters */
+    public static int getROWS() {
+        return ROWS;
+    }
+    
+    public static int getCOLUMNS() {
+        return COLUMNS;
+    }
+    
+    public SCREEN_NAME getScreenName() {
+        return screenName;
+    }
+    
+    public MapEditorControlPanel getMapEditorControlPanel() {
+        return mapEditorControlPanel;
+    }
+    
+    public TablePanel getTablePanel() {
+        return tablePanel;
+    }
+    
+    public ControlPanel getControlPanel() {
+        return controlPanel;
+    }
+    
+    /* Public methods */
+}

@@ -1,13 +1,14 @@
-package view;
+package view.Panels;
 
-import model.DropDownModel;
-import model.GameMapHandler;
+import model.MapSelectionModel;
 import util.Config;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 
-public class MapSelectionPanel extends JPanel {
+public class MapSelectionPanel extends JPanel implements Observer {
     private JLabel chooseMapLabel;
     private JComboBox<String> chooseMapDropdown;
     
@@ -19,10 +20,19 @@ public class MapSelectionPanel extends JPanel {
         chooseMapLabel.setText(Config.UI_LABEL_CHOOSE_MAP);
         
         chooseMapDropdown = new JComboBox<>();
-        DropDownModel dropDownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
-        chooseMapDropdown.setModel(dropDownModel);
         
         this.add(chooseMapLabel);
         this.add(chooseMapDropdown);
+    }
+    
+    /* Getters & Setters */
+    public String getSelectedItem() {
+        return chooseMapDropdown.getSelectedItem().toString();
+    }
+    
+    /* Public methods */
+    @Override
+    public void update(Observable o, Object arg) {
+        chooseMapDropdown.setModel(((MapSelectionModel) o).getDropDownModel());
     }
 }

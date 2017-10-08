@@ -1,8 +1,10 @@
-package view;
+package view.Screens;
 
 import util.Config;
+import view.Panels.GeneralLayoutPanel;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public class MapEditorFrame extends JFrame {
     private GeneralLayoutPanel generalLayoutPanel;
@@ -21,5 +23,19 @@ public class MapEditorFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.pack();
         this.setVisible(true);
+    }
+    
+    /* Getters & Setters */
+    public GeneralLayoutPanel getGeneralLayoutPanel() {
+        return generalLayoutPanel;
+    }
+    
+    /* Public methods */
+    public void addLoadMapBtnListener(ActionListener listenForLoadMapButton) {
+        this.generalLayoutPanel.getMapEditorControlPanel().getLoadMapButton().addActionListener(listenForLoadMapButton);
+    }
+    
+    public void displayErrorMessage(String errorMessage) {
+        JOptionPane.showMessageDialog(this, errorMessage);
     }
 }

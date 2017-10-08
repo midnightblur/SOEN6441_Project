@@ -1,4 +1,4 @@
-package view;
+package view.Panels;
 
 import util.Config.SCREEN_NAME;
 
@@ -26,9 +26,7 @@ public class TableScrollPane extends JScrollPane {
     }
     
     private static JTable getTable() {
-        
         return new JTable() {
-            
             @Override
             public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
                 Component c = super.prepareRenderer(renderer, row, col);
