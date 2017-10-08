@@ -49,6 +49,11 @@ public class RiskGameTest {
     }
     
     /*
+    // testing players armies
+        for (Player player : players) {
+            System.out.println("player " + player.getPlayerID() + "'s unallocated armies before allocation: "
+                    + player.getUnallocatedArmies());
+        }
     // testing territory dist
         for (Player player : players) {
         System.out.println("player " + player.getPlayerID() + "'s territories: (total: "

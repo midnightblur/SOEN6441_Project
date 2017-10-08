@@ -20,9 +20,9 @@ public class StartupPhaseController {
         /*
         initStartUp should only take 1 param like 'new StartupListener()'.
         Config.DEFAULT_MAP should be retrieved from the view's filepath value,
-        6 (number of players) should be retrieved from the view's number of players value
+        default number of players should be retrieved from the view's number of players value
          */
-        riskGame.initStartup(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
+        riskGame.startupPhase(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
 
     }
 }

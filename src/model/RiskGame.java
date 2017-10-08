@@ -22,6 +22,7 @@ public class RiskGame {
     private GameMap gameMap;
     private static RiskGame instance = null;
     private Config.GAME_STATES gameState = Config.GAME_STATES.ENTRY_MENU;
+    private boolean playing = false;
     
     /**
      * private constructor preventing any other class from instantiating.
@@ -81,14 +82,14 @@ public class RiskGame {
     }
     
     /**
-     * Initiates the game map according to the filepath, sets the number of
-     * players playing the game, sets the deck of cards, and distributes
-     * territories to the players randomly.
+     * Initiates the startup phase before game play. Sets the game map according
+     * to the filepath, sets the number of players playing the game, sets the
+     * deck of cards, and distributes territories to the players randomly.
      *
      * @param filepath:    String value of the path to a valid map file.
      * @param currPlayers: int value of the initial number of players.
      */
-    public void initStartup(String filepath, int currPlayers) {
+    public void startupPhase(String filepath, int currPlayers) {
         try {
             this.gameMap = GameMapHandler.loadGameMap(filepath);
         } catch (Exception e) {
@@ -105,32 +106,37 @@ public class RiskGame {
         initDeck();
         distributeTerritories();
         giveInitialArmies();
-        
-        // testing players armies
-        for (Player player : players) {
-            System.out.println("player " + player.getPlayerID() + "'s unallocated armies before allocation: "
-                    + player.getUnallocatedArmies());
-        }
-        
         placeArmies();
-        
-        
-        // testing territory dist
-        for (Player player : players) {
-            System.out.println("player " + player.getPlayerID() + "'s territories: (total: "
-                    + gameMap.getTerritoriesOfPlayer(player).size() + ")");
-            for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
-                System.out.println("\t" + entry.getValue().getName());
+    }
+    
+    /**
+     * Initiates the actual game play. Consists of the round-robin fashion of
+     * players' turns that include reinforcement phase, attack phase, and fortification phase.
+     */
+    public void initGamePlay() {
+        playing = true;
+        while(playing) {
+            for (Player player : players) {
+                reinforcementPhase(player);
             }
         }
-        // testing army placement
-        for (Player player : players) {
-            System.out.println("player " + player.getPlayerID() + ":");
-            for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
-                System.out.println("\t" + entry.getValue().getName()
-                        + " (num of armies: " + entry.getValue().getArmies() + ")." );
-            }
-        }
+    }
+    
+    /**
+     *
+     */
+    public void reinforcementPhase(Player player) {
+       int playerIndex = 0;
+       for () {
+           if (!(playerIndex < players.size())) {
+               playerIndex = 0;
+           }
+           
+           
+           
+           playerIndex++;
+       }
+       
     }
     
     /**
