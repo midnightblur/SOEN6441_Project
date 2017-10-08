@@ -22,6 +22,7 @@ public class Territory {
     
     /**
      * Instantiate a new territory object given its name and the continent it belongs to
+     *
      * @param name
      * @param continent
      */
@@ -31,7 +32,7 @@ public class Territory {
         this.neighbors = new Vector<>();
 //        this.owner = new Player();
     }
-
+    
     /* Getters & Setters */
     public String getName() {
         return name;
@@ -64,11 +65,11 @@ public class Territory {
     public void setNeighbors(Vector<String> neighbors) {
         this.neighbors = neighbors;
     }
-
+    
     public int getArmies() {
         return armies;
     }
-
+    
     public void setArmies(int armies) {
         this.armies = armies;
     }
@@ -77,6 +78,7 @@ public class Territory {
     
     /**
      * Add a territory as new neighbour
+     *
      * @param territoryName
      */
     public void addNeighbor(String territoryName) {
@@ -85,7 +87,9 @@ public class Territory {
     
     /**
      * Check if the given Territory is a neighbour
+     *
      * @param territoryName
+     *
      * @return
      */
     public boolean isNeighbor(String territoryName) {
@@ -94,7 +98,9 @@ public class Territory {
     
     /**
      * Check if the territory is in a given continent
+     *
      * @param continent
+     *
      * @return
      */
     public boolean belongToContinent(Continent continent) {
@@ -103,7 +109,9 @@ public class Territory {
     
     /**
      * Check if the owner of the territory is a given player
+     *
      * @param playerID
+     *
      * @return
      */
     public boolean isOwnedBy(int playerID) {
@@ -112,7 +120,9 @@ public class Territory {
     
     /**
      * Add a number of armies into the territory
+     *
      * @param addedArmies
+     *
      * @throws IllegalArgumentException
      */
     public void addArmies(int addedArmies) throws IllegalArgumentException {
@@ -125,7 +135,9 @@ public class Territory {
     
     /**
      * Withdraw a number of armies from the territory
+     *
      * @param deductedArmies
+     *
      * @throws IllegalArgumentException
      */
     public void reduceArmies(int deductedArmies) throws IllegalArgumentException {
@@ -138,6 +150,7 @@ public class Territory {
     
     /**
      * Get the number of neighbours of the territory
+     *
      * @return
      */
     public int getNeighborsCount() {
@@ -146,7 +159,9 @@ public class Territory {
     
     /**
      * Facilitate comparision between two territory objects
+     *
      * @param other
+     *
      * @return
      */
     @Override
@@ -160,12 +175,12 @@ public class Territory {
         if (!(other instanceof Territory)) {
             return false;
         }
-
+        
         Territory territory = (Territory) other;
         if (this.name.compareTo(territory.name) == 0) {
             return true;
         }
-
+        
         return false;
     }
 }
