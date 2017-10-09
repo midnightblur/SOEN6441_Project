@@ -1,20 +1,20 @@
 package view.screens;
 
 import model.DropDownModel;
-import view.helpers.JFrameHelper;
+import view.helpers.UIHelper;
 import view.ui_components.EditMapControlPanel;
 import view.ui_components.EditMapTable;
 
 import javax.swing.*;
 
 public class MapEditorFrame extends JFrame {
-    private JSplitPane contentPane;
-    private EditMapTable editMapTable;
-    private EditMapControlPanel editMapControlPanel;
-    
     private static final String TITLE = "Map Editor";
     private static final int WIDTH = 1600;
     private static final int HEIGHT = 800;
+    
+    private JSplitPane contentPane;
+    private EditMapTable editMapTable;
+    private EditMapControlPanel editMapControlPanel;
     
     /* Constructors */
     public MapEditorFrame() {
@@ -31,7 +31,7 @@ public class MapEditorFrame extends JFrame {
         contentPane.setRightComponent(editMapControlPanel);
         
         /* Setup & Display frame */
-        JFrameHelper.display(this, TITLE, WIDTH, HEIGHT);
+        UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
     }
     
     /* Getters & Setters */

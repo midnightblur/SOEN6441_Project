@@ -11,7 +11,7 @@ import java.util.Observable;
 import java.util.Vector;
 
 /**
- * Model to hold the map data in order to display it within a JTable
+ * Model to hold the map data in order to displayJFrame it within a JTable
  */
 public class MapTableModel extends Observable {
     private DefaultTableModel model = new DefaultTableModel();
