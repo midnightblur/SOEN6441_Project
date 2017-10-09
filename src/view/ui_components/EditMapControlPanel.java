@@ -19,8 +19,6 @@ public class EditMapControlPanel extends JPanel {
     private JComboBox<String> chooseMapDropdown;
     private JButton newMapButton;
     private JButton saveMapButton;
-    private JComboBox addDropdown;
-    private JComboBox editDropdown;
     private JButton backButton;
     private EditContinentPanel continentEditPanel;
     
@@ -32,15 +30,6 @@ public class EditMapControlPanel extends JPanel {
     
         setupEditingArea();
         
-//        /* Editing buttons */
-//        // TODO: set their visibility (in controller) when a map is loaded
-//        JPanel panel_3 = new JPanel(new FlowLayout());
-//        addDropdown = new JComboBox<>();
-//        editDropdown = new JComboBox<>();
-//        panel_3.add(addDropdown);
-//        panel_3.add(editDropdown);
-//        add(panel_3);
-        
         /* Navigation buttons */
         JPanel panel_4 = new JPanel(new FlowLayout());
         backButton = new JButton(BACK_BUTTON_LABEL);
@@ -48,21 +37,12 @@ public class EditMapControlPanel extends JPanel {
         panel_4.add(backButton);
         panel_4.add(saveMapButton);
         add(panel_4);
-        
     }
     
     /* Getters & Setters */
     public JComboBox<String> getChooseMapDropdown() {
         return chooseMapDropdown;
     }
-    
-//    public JComboBox<String> getAddDropdown() {
-//        return addDropdown;
-//    }
-//
-//    public JComboBox<String> getEditDropdown() {
-//        return editDropdown;
-//    }
     
     public EditContinentPanel getContinentEditPanel() {
         return continentEditPanel;
@@ -76,14 +56,6 @@ public class EditMapControlPanel extends JPanel {
     public void addNewMapButtonListener(ActionListener listenerForNewMapButton) {
         newMapButton.addActionListener(listenerForNewMapButton);
     }
-    
-//    public void addAddDropdownListener(ActionListener listenerForAddDropdown) {
-//        addDropdown.addActionListener(listenerForAddDropdown);
-//    }
-    
-//    public void addEditDropdownListener(ActionListener listenerForEditDropdown) {
-//        editDropdown.addActionListener(listenerForEditDropdown);
-//    }
     
     public void addBackButtonListener(ActionListener listenerForBackButton) {
         backButton.addActionListener(listenerForBackButton);

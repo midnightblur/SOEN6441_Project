@@ -29,6 +29,10 @@ public class MapEditorModel extends Observable {
         return mapTableModel;
     }
     
+    public DropDownModel getContinentsDropdownModel() {
+        return continentsDropdownModel;
+    }
+    
     /**
      * Update the MapTableModel and notify the Observer
      */

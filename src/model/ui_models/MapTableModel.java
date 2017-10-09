@@ -12,29 +12,28 @@ import java.util.Observable;
 import java.util.Vector;
 
 /**
- * Model to hold the map data in order to displayJFrame it within a JTable
+ * Model to hold the gameMap data in order to displayJFrame it within a JTable
  */
 public class MapTableModel extends Observable {
-    private DefaultTableModel model = new DefaultTableModel();
+    private DefaultTableModel model;
     private String[][] rows;
-    private Vector<String> columns = new Vector<>();
-    private GameMap map;
+    private Vector<String> columns;
     
     /* Constructors */
     public MapTableModel() {
         model = new DefaultTableModel();
+        columns = new Vector<>();
     }
     
     /**
      * Updating the table model and notifying the subscribers
      * This method is also used by the constructor
      *
-     * @param map the map object that provides the data
+     * @param gameMap the gameMap object that provides the data
      *
      * @return a table model to be used to generate the view
      */
-    public DefaultTableModel updateMapTableModel(GameMap map) {
-        this.map = map;
+    public DefaultTableModel updateMapTableModel(GameMap gameMap) {
         /* clears the model data and reinitialize it with new values */
         model.setRowCount(0);
         columns.clear();
@@ -46,10 +45,10 @@ public class MapTableModel extends Observable {
             columns.add("Armies");
         }
     
-        rows = new String[this.map.getTerritoriesCount() + this.map.getContinentsCount()][columns.size()];
+        rows = new String[gameMap.getTerritoriesCount() + gameMap.getContinentsCount()][columns.size()];
         int i = 0;
         /* add continents */
-        for (Continent continent : this.map.getContinents().values()) {
+        for (Continent continent : gameMap.getContinents().values()) {
             rows[i][0] = continent.getName();
             if (RiskGame.getInstance().getGameState().getValue() > 3) {
                 rows[i][3] = continent.getContinentOwner();
@@ -58,7 +57,7 @@ public class MapTableModel extends Observable {
             i++;
         }
     
-        for (Territory territory : this.map.getTerritories().values()) {
+        for (Territory territory : gameMap.getTerritories().values()) {
             rows[i][0] = territory.getContinent().getName();
             rows[i][1] = territory.getName();
             rows[i][2] = territory.getNeighbors().toString().replace("[", "").replace("]", "");
@@ -86,10 +85,6 @@ public class MapTableModel extends Observable {
     
     public DefaultTableModel getModel() {
         return model;
-    }
-    
-    public GameMap getMap() {
-        return map;
     }
     
     /* Public methods */
