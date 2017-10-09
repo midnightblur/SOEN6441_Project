@@ -4,9 +4,12 @@ import model.DropDownModel;
 import model.MapEditorModel;
 import model.helpers.GameMapHandler;
 import utilities.Config;
+import view.helpers.SaveDialog;
 import view.screens.MapEditorFrame;
 
+import javax.swing.*;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 public class MapEditorController {
     private MapEditorFrame mapEditorFrame;
@@ -31,8 +34,12 @@ public class MapEditorController {
         this.mapEditorFrame.getEditMapControlPanel().addLoadMapButtonListener(e -> loadMap());
         this.mapEditorFrame.getEditMapControlPanel().addBackButtonListener(e -> backToMainMenu());
         this.mapEditorFrame.getEditMapControlPanel().addNewMapButtonListener(e -> initiateNewGameMap());
+<<<<<<< HEAD
         this.mapEditorFrame.getEditMapControlPanel().getContinentEditPanel().addContinentsListDropdownListener(e -> prepareContinentEditArea());
         this.mapEditorFrame.getEditMapControlPanel().getContinentEditPanel().addSaveButtonListener(e -> saveContientInfo());
+=======
+        this.mapEditorFrame.getEditMapControlPanel().addSaveMapButtonListener(e -> saveMap());
+>>>>>>> cef9d5e985c1abae366545a5c0ce78d1469970b3
     }
     
     /* Private methods */
@@ -76,5 +83,20 @@ public class MapEditorController {
      */
     private void saveContientInfo() {
     
+    }
+    
+    private void saveMap() {
+        SaveDialog fileChooser = new SaveDialog();
+        int selection = fileChooser.showSaveDialog(fileChooser.getParent());
+        if (selection == JFileChooser.APPROVE_OPTION) {
+            File mapFileToSave = fileChooser.getSelectedFile();
+            try {
+                GameMapHandler.writeToFile(this.mapEditorModel.getGameMap(), mapFileToSave.getAbsolutePath());
+                mapEditorFrame.displayErrorMessage("The map file was saved at \n" + mapFileToSave.getAbsolutePath());
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
+                mapEditorFrame.displayErrorMessage(e.toString());
+            }
+        }
     }
 }
