@@ -5,33 +5,29 @@ import view.panels.EditMapControlPanel;
 import view.panels.EditMapTable;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MapEditorFrame extends JFrame {
-    private JPanel contentPane;
+    private JSplitPane contentPane;
     private EditMapTable editMapTable;
     private EditMapControlPanel editMapControlPanel;
     
     private static final String TITLE = "Map Editor";
-    private static final int WIDTH = 1400;
+    private static final int WIDTH = 1600;
     private static final int HEIGHT = 800;
-    private static final int GRIDLAYOUT_ROWS = 1;
-    private static final int GRIDLAYOUT_COLS = 2;
     
     /* Constructors */
     public MapEditorFrame() {
         /* Setup main container */
-        contentPane = new JPanel(new GridLayout(GRIDLAYOUT_ROWS, GRIDLAYOUT_COLS));
-        contentPane.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setupContentPaneLayout();
         setContentPane(contentPane);
         
         /* Setup table area */
         editMapTable = new EditMapTable();
-        contentPane.add(new JScrollPane(editMapTable));
+        contentPane.setLeftComponent(new JScrollPane(editMapTable));
         
         /* Setup control panel area */
         editMapControlPanel = new EditMapControlPanel();
-        contentPane.add(editMapControlPanel);
+        contentPane.setRightComponent(editMapControlPanel);
         
         /* Setup & Display frame */
         display();
@@ -39,7 +35,7 @@ public class MapEditorFrame extends JFrame {
     
     /* Getters & Setters */
     @Override
-    public JPanel getContentPane() {
+    public JSplitPane getContentPane() {
         return contentPane;
     }
     
@@ -65,7 +61,32 @@ public class MapEditorFrame extends JFrame {
         this.setTitle(TITLE);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.pack();
+        this.setSize(WIDTH, HEIGHT);
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+    
+    private void setupContentPaneLayout() {
+//        contentPane = new JPanel(new GridLayout(GRIDLAYOUT_ROWS, GRIDLAYOUT_COLS));
+        contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
+            private final int location = 1100;
+            {
+                setDividerLocation(location);
+            }
+            
+            @Override
+            public int getDividerLocation() {
+                return location;
+            }
+            
+            @Override
+            public int getLastDividerLocation() {
+                return location;
+            }
+        };
+        contentPane.setDividerLocation(1100);
+        contentPane.setResizeWeight(.75d);
+//        contentPane.setPreferredSize(new Dimension(WIDTH, HEIGHT));
     }
 }
