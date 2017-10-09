@@ -3,13 +3,26 @@ package view.ui_components;
 import javax.swing.*;
 
 public class AddCountry extends JPanel {
-    private static final String ADD_BUTTON_LABEL = "Add Country";
-    private static final String DELETE_BUTTON_LABEL = "Delete Country";
+    private JLabel title = new JLabel("Adding a new country");
+    private JLabel addToContinentLabel = new JLabel("Select a continent");
+    private JLabel selectNeigborsLabel = new JLabel("Select the neighbors");
+    private JTextField name = new JTextField("Enter a name");
+    private JComboBox<String> addToContinentDropdown = new JComboBox<>();
+    private JList<String> selectNeighbors = new JList<>();
+    private JButton addCountry = new JButton("ADD");
     
-    private JButton addCountry;
-    private JButton deleteCountry;
-    private JComboBox<String> chooseContinentDropdown;
-    
+    /* Constructors */
+    public AddCountry() {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        
+        add(title);
+        add(name);
+        add(addToContinentLabel);
+        add(addToContinentDropdown);
+        add(selectNeigborsLabel);
+        add(selectNeighbors);
+        add(addCountry);
+    }
     
     
 }
