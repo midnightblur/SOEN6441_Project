@@ -1,6 +1,9 @@
 package model;
 
-import util.BidiArrayComparator;
+import model.game_entities.Continent;
+import model.game_entities.GameMap;
+import model.game_entities.Territory;
+import utilities.BidiArrayComparator;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.Arrays;
@@ -10,38 +13,36 @@ import java.util.Observable;
  * Model to hold the map data in order to display it within a JTable
  */
 public class MapTableModel extends Observable {
-    private DefaultTableModel model = new DefaultTableModel();
+    private DefaultTableModel model;
     private String[] columns = { "Continent", "Territory", "Neighbors", "Owner", "Armies" };
     private String[][] rows;
     
     /* Constructors */
-    public MapTableModel() {}
-    
-    public MapTableModel(GameMap map) {
-        this.updateMapTableModel(map);
+    public MapTableModel() {
+        model = new DefaultTableModel();
     }
     
     /**
      * Updating the table model and notifying the subscribers
      * This method is also used by the constructor
      *
-     * @param map
+     * @param gameMap
      *
      * @return a table model to be used to generate the view
      */
-    public DefaultTableModel updateMapTableModel(GameMap map) {
+    public DefaultTableModel updateMapTableModel(GameMap gameMap) {
         model.setRowCount(0);   // clears the model data
-        rows = new String[map.getTerritoriesCount() + map.getContinentsCount()][columns.length];
+        rows = new String[gameMap.getTerritoriesCount() + gameMap.getContinentsCount()][columns.length];
         int i = 0;
         /* add continents */
-        for (Continent c : map.getContinents()) {
+        for (Continent c : gameMap.getContinents()) {
             rows[i][0] = c.getName();
             rows[i][3] = (RiskGame.getInstance().getGameState().getValue() > 3) ? c.getContinentOwner() : "";
             rows[i][4] = (RiskGame.getInstance().getGameState().getValue() > 3) ? Integer.toString(c.getContinentArmies()) : "0";
             i++;
         }
         /* add countries and their information */
-        for (Territory t : map.getTerritories().values()) {
+        for (Territory t : gameMap.getTerritories().values()) {
             rows[i][0] = t.getContinent().getName();
             rows[i][1] = t.getName();
             rows[i][2] = t.getNeighbors().toString().replace("[", "").replace("]", "");

@@ -8,7 +8,7 @@ File organization
 - Source code files should be organized into four different package folders
 (controller, model, and view folders) according to the appropriate
 functions in regards to the Model-View-Controller architectural pattern,
-in addition to the util package folder which should contain miscellaneous
+in addition to the utilities package folder which should contain miscellaneous
 code that is designed to store various configurations.
 - A source file structure should be in a way that the file should display the
 package statements, then import statements, and then the class declarations.
@@ -20,7 +20,7 @@ Example:
 
 package ProjectPractice;
 
-import java.util.Scanner;
+import java.utilities.Scanner;
 
 /**
  * Some overall info about this class
@@ -132,7 +132,7 @@ Example:
 
 package ProjectPractice;
 
-import java.util.Scanner;
+import java.utilities.Scanner;
 
 /**
  * This is a comment describing the Player class which displays

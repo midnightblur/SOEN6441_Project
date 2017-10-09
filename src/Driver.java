@@ -1,8 +1,8 @@
 import controller.MapEditorController;
 import controller.StartupPhaseController;
 import model.RiskGame;
-import util.Config;
-import view.PlayUI;
+import utilities.Config;
+import view.screens.PlayUI;
 
 
 /**

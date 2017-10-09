@@ -1,13 +1,12 @@
 package controller;
 
 import model.DropDownModel;
-import model.GameMapHandler;
+import model.helpers.GameMapHandler;
 import model.MapTableModel;
-import model.RiskGame;
-import util.Config;
-import view.MapEditor;
+import utilities.Config;
+import view.screens.MapEditor;
 
-import static model.GameMapHandler.loadGameMap;
+import static model.helpers.GameMapHandler.loadGameMap;
 
 
 /**
@@ -28,7 +27,7 @@ public class MapEditorController {
         //create the Model object
         try {
             //theMapTableModel = new MapTableModel(loadGameMap(Config.DEFAULT_MAP));
-            theMapTableModel = new MapTableModel(RiskGame.getInstance().getGameMap());
+//            theMapTableModel = new MapTableModel(RiskGame.getInstance().getGameMap());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,27 +1,24 @@
 package model;
 
+import model.game_entities.GameMap;
+import model.helpers.GameMapHandler;
+
 import java.util.Observable;
 
 public class MapEditorModel extends Observable {
     /* Models */
     private GameMap gameMap;
-    private MapSelectionModel mapSelectionModel;
     private MapTableModel mapTableModel;
     
     public MapEditorModel() {
         this.mapTableModel = new MapTableModel();
-        this.mapSelectionModel = new MapSelectionModel();
     }
     
     public void updateGameMap(String mapName) throws Exception {
-        this.gameMap = GameMapHandler.loadGameMap(mapName);
-        mapTableModel = new MapTableModel(gameMap);
+        gameMap = GameMapHandler.loadGameMap(mapName);
+        mapTableModel.updateMapTableModel(gameMap);
         setChanged();
         notifyObservers();
-    }
-    
-    public MapSelectionModel getMapSelectionModel() {
-        return mapSelectionModel;
     }
     
     public GameMap getGameMap() {
