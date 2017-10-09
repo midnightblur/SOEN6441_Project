@@ -14,14 +14,13 @@ public class EditContinentPanel extends JPanel implements Observer {
     private static final String CONTIENT_NAME_LABEL = "Continent Name";
     private static final String CONTINENT_CONTROL_VALUE_LABEL = "Control Value";
     private static final String CONTINENT_TERRITORIES_LABEL = "Choose Territories";
-    private static final String NEW_CONTNENT_ITEM = "Create New Continent";
     private static final int LAYOUT_ROWS = 3;
     private static final int LAYOUT_COLS = 2;
     
     private JComboBox<String> continentsListDropdown;
     private JTextField continentNameText;
     private JTextField contientControlValueText;
-    private JCheckBox continentTerritoriesListRadio;
+    private JCheckBox continentTerritoriesCheckbox;
     private JButton saveButton;
     
     public EditContinentPanel() {
@@ -51,8 +50,8 @@ public class EditContinentPanel extends JPanel implements Observer {
         return contientControlValueText;
     }
     
-    public JCheckBox getContinentTerritoriesListRadio() {
-        return continentTerritoriesListRadio;
+    public JCheckBox getContinentTerritoriesCheckbox() {
+        return continentTerritoriesCheckbox;
     }
     
     /* Private methods */
@@ -83,9 +82,9 @@ public class EditContinentPanel extends JPanel implements Observer {
         JLabel continentTerritoriesLabel = new JLabel(CONTINENT_TERRITORIES_LABEL);
         continentTerritoriesLabel.setAlignmentX(CENTER_ALIGNMENT);
         add(continentTerritoriesLabel);
-        continentTerritoriesListRadio = new JCheckBox();
-        continentTerritoriesListRadio.setAlignmentX(CENTER_ALIGNMENT);
-        add(continentTerritoriesListRadio);
+        continentTerritoriesCheckbox = new JCheckBox();
+        continentTerritoriesCheckbox.setAlignmentX(CENTER_ALIGNMENT);
+        add(continentTerritoriesCheckbox);
         
         /* Setup Save button */
         saveButton = new JButton(SAVE_BUTTON_LABEL);

@@ -30,6 +30,7 @@ public class MapEditorController {
         /* Register Observer to Observable */
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapTable());
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel());
+        this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel());
         
         /* Register to be ActionListeners */
         this.mapEditorFrame.getEditMapControlPanel().addLoadMapButtonListener(e -> loadMap());
