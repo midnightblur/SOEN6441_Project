@@ -16,6 +16,7 @@ public class EditMapTable extends JTable implements Observer {
         this.setFillsViewportHeight(true);
     }
     
+    
     @Override
     public void update(Observable o, Object arg) {
         setModel(((MapTableModel) o).getModel());

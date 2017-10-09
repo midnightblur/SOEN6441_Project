@@ -30,28 +30,29 @@ public class MapEditorController {
         /* Register to be ActionListeners */
         this.mapEditorFrame.getEditMapControlPanel().addLoadMapButtonListener(e -> loadMap());
         this.mapEditorFrame.getEditMapControlPanel().addBackButtonListener(e -> backToMainMenu());
-        this.mapEditorFrame.getEditMapControlPanel().addAddDropdownListener(e -> addContinentCountry());
-        this.mapEditorFrame.getEditMapControlPanel().addEditDropdownListener(e -> editContinentCountry());
+//        this.mapEditorFrame.getEditMapControlPanel().addAddDropdownListener(e -> addContinentCountry());
+//        this.mapEditorFrame.getEditMapControlPanel().addEditDropdownListener(e -> editContinentCountry());
         this.mapEditorFrame.getEditMapControlPanel().addNewMapButtonListener(e -> initiateNewGameMap());
+        this.mapEditorFrame.getEditMapControlPanel().getContinentEditPanel().addContinentsListDropdownListener(e -> prepareContinentEditArea());
+        this.mapEditorFrame.getEditMapControlPanel().getContinentEditPanel().addSaveButtonListener(e -> saveContientInfo());
     }
     
     /* Private methods */
-    
     /**
      * Display the map content to the table
      */
     private void loadMap() {
         try {
-            mapName = mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().getSelectedItem().toString();
+            mapName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().getSelectedItem());
             mapEditorModel.updateGameMap(mapName);
             
-            /* Display list of options to add countries or continents */
-            DropDownModel addDropdownModel = new DropDownModel(GameMapHandler.getEntities());
-            this.mapEditorFrame.getEditMapControlPanel().getAddDropdown().setModel(addDropdownModel);
-     
-            /* Display list of maps to load to edit */
-            DropDownModel editDropdownModel = new DropDownModel(GameMapHandler.getContinentsCountries(mapEditorModel.getGameMap()));
-            this.mapEditorFrame.getEditMapControlPanel().getEditDropdown().setModel(editDropdownModel);
+//            /* Display list of options to add countries or continents */
+//            DropDownModel addDropdownModel = new DropDownModel(GameMapHandler.getEntities());
+//            this.mapEditorFrame.getEditMapControlPanel().getAddDropdown().setModel(addDropdownModel);
+//
+//            /* Display list of maps to load to edit */
+//            DropDownModel editDropdownModel = new DropDownModel(GameMapHandler.getContinentsCountries(mapEditorModel.getGameMap()));
+//            this.mapEditorFrame.getEditMapControlPanel().getEditDropdown().setModel(editDropdownModel);
             
         } catch (Exception e) {
             e.printStackTrace(System.err);
@@ -86,5 +87,19 @@ public class MapEditorController {
      */
     private void initiateNewGameMap() {
         // TODO: implement method
+    }
+    
+    /**
+     *  Prepare the content for Continent Editing area
+     */
+    private void prepareContinentEditArea() {
+    
+    }
+    
+    /**
+     *  Get information from Continent Editing area and save to GameMap object
+     */
+    private void saveContientInfo() {
+    
     }
 }
