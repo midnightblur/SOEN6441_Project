@@ -2,60 +2,41 @@ package controller;
 
 import model.DropDownModel;
 import model.helpers.GameMapHandler;
-import model.MapTableModel;
+import model.MapEditorModel;
 import utilities.Config;
-import view.screens.MapEditor;
-
-import static model.helpers.GameMapHandler.loadGameMap;
-
-
-/**
- * Controller class holding methods used in Map Editor module of the game
- */
+import view.screens.MapEditorFrame;
 
 public class MapEditorController {
+    private MapEditorFrame mapEditorFrame;
+    private MapEditorModel mapEditorModel;
     
-    private MapEditor theView;
-    private MapTableModel theMapTableModel;
-    private DropDownModel mapDropDownModel;
-    
+    /* Constructors */
     public MapEditorController() {
+        this.mapEditorFrame = new MapEditorFrame();
+        this.mapEditorModel = new MapEditorModel();
+    
+        /* Display list of maps to load to edit */
+        DropDownModel dropDownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
+        this.mapEditorFrame.loadMapsList(dropDownModel);
         
-        //create the View object
-        theView = new MapEditor();
+        /* Register Observer to Observable */
+        this.mapEditorModel.getMapTableModel().addObserver(this.mapEditorFrame.getEditMapTable());
         
-        //create the Model object
-        try {
-            //theMapTableModel = new MapTableModel(loadGameMap(Config.DEFAULT_MAP));
-//            theMapTableModel = new MapTableModel(RiskGame.getInstance().getGameMap());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        // set the table model for the view
-        theView.getMyTable().setModel(theMapTableModel.getModel());
-        theView.resizeColumns(theView.getMyTable());
-        
-        // Subscribe the view as observer to model changes
-        theMapTableModel.addObserver(theView);
-        
-        // register this instance of controller as listener to the view
-        theView.addActionListener(e -> {
-            try {
-                // update the model when button is clicked
-                theMapTableModel.updateMapTableModel(loadGameMap(theView.getMap()));
-                
-            } catch (Exception e1) {
-                System.out.println(e1.getLocalizedMessage());
-                theView.displayErrorMessage("Invalid path...");
-                
-            }
-        });
-        
-        /* Get the available maps and populate the dropdown */
-        mapDropDownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
-        theView.setDropdownModel(mapDropDownModel);
-        mapDropDownModel.addListDataListener(theView.mapsDropdown);
+        /* Register to be ActionListeners */
+        this.mapEditorFrame.getEditMapControlPanel().addLoadMapButtonListener(e -> loadMap());
     }
     
+    /* Private methods */
+    /**
+     * Display the map content to the table
+     */
+    private void loadMap() {
+        try {
+            String mapName = mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().getSelectedItem().toString();
+            mapEditorModel.updateGameMap(mapName);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            mapEditorFrame.displayErrorMessage(e.getMessage());
+        }
+    }
 }
