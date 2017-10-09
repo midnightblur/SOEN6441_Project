@@ -32,6 +32,7 @@ public class MapEditorController {
     }
     
     /* Private methods */
+    
     /**
      * Display the map content to the table
      */

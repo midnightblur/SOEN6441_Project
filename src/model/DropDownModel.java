@@ -10,7 +10,6 @@ public class DropDownModel extends DefaultComboBoxModel<String> {
     
     @Override
     public String getSelectedItem() {
-        String selectedJob = (String) super.getSelectedItem();
-        return selectedJob;
+        return (String) super.getSelectedItem();
     }
 }

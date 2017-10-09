@@ -31,7 +31,7 @@ public class MapEditorFrame extends JFrame {
         contentPane.setRightComponent(editMapControlPanel);
         
         /* Setup & Display frame */
-        UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
+        UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
     }
     
     /* Getters & Setters */
@@ -49,10 +49,20 @@ public class MapEditorFrame extends JFrame {
     }
     
     /* Public methods */
+    
+    /**
+     * Displays error messages on UI
+     *
+     * @param errorMessage Error message string
+     */
     public void displayErrorMessage(String errorMessage) {
         JOptionPane.showMessageDialog(this, errorMessage);
     }
     
+    /**
+     *
+     * @param dropDownModel
+     */
     public void loadMapsList(DropDownModel dropDownModel) {
         editMapControlPanel.getChooseMapDropdown().setModel(dropDownModel);
     }
@@ -60,9 +70,9 @@ public class MapEditorFrame extends JFrame {
     /* Private methods */
     
     private void setupContentPaneLayout() {
-//        contentPane = new JPanel(new GridLayout(GRIDLAYOUT_ROWS, GRIDLAYOUT_COLS));
         contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
             private final int location = 1100;
+            
             {
                 setDividerLocation(location);
             }
@@ -79,6 +89,5 @@ public class MapEditorFrame extends JFrame {
         };
         contentPane.setDividerLocation(1100);
         contentPane.setResizeWeight(.75d);
-//        contentPane.setPreferredSize(new Dimension(WIDTH, HEIGHT));
     }
 }

@@ -12,7 +12,6 @@ import java.util.Observer;
 public class EditMapTable extends JTable implements Observer {
     /* Constructors */
     public EditMapTable() {
-        this.setAutoCreateRowSorter(false);
         this.setPreferredScrollableViewportSize(this.getPreferredSize());
         this.setFillsViewportHeight(true);
     }
