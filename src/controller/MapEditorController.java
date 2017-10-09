@@ -10,7 +10,6 @@ import view.screens.SaveDialog;
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
 
 public class MapEditorController {
     private MapEditorFrame mapEditorFrame;
@@ -100,11 +99,11 @@ public class MapEditorController {
             File mapFileToSave = fileChooser.getSelectedFile();
             try {
                 GameMapHandler.writeToFile(this.mapEditorModel.getGameMap(), mapFileToSave.getAbsolutePath());
-            } catch (IOException e) {
+                mapEditorFrame.displayErrorMessage("The map file was saved at \n" + mapFileToSave.getAbsolutePath());
+            } catch (Exception e) {
                 e.printStackTrace(System.err);
-                mapEditorFrame.displayErrorMessage(e.getMessage());
+                mapEditorFrame.displayErrorMessage(e.toString());
             }
-            mapEditorFrame.displayErrorMessage("The map file was saved at \n" + mapFileToSave.getAbsolutePath());
         }
     }
 }
