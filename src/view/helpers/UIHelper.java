@@ -19,7 +19,7 @@ public class UIHelper {
         }
         frame.pack();
         frame.setSize(width, height);
-        frame.setResizable(true);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
