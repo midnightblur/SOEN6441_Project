@@ -20,7 +20,7 @@ public class EditContinentPanel extends JPanel implements Observer {
     private JComboBox<String> continentsListDropdown;
     private JTextField continentNameText;
     private JTextField contientControlValueText;
-    private JCheckBox continentTerritoriesCheckbox;
+    private JPanel checkBoxPanel;
     private JButton saveButton;
     
     public EditContinentPanel() {
@@ -50,8 +50,8 @@ public class EditContinentPanel extends JPanel implements Observer {
         return contientControlValueText;
     }
     
-    public JCheckBox getContinentTerritoriesCheckbox() {
-        return continentTerritoriesCheckbox;
+    public JPanel getCheckBoxPanel() {
+        return checkBoxPanel;
     }
     
     /* Private methods */
@@ -82,9 +82,8 @@ public class EditContinentPanel extends JPanel implements Observer {
         JLabel continentTerritoriesLabel = new JLabel(CONTINENT_TERRITORIES_LABEL);
         continentTerritoriesLabel.setAlignmentX(CENTER_ALIGNMENT);
         add(continentTerritoriesLabel);
-        continentTerritoriesCheckbox = new JCheckBox();
-        continentTerritoriesCheckbox.setAlignmentX(CENTER_ALIGNMENT);
-        add(continentTerritoriesCheckbox);
+        checkBoxPanel = new JPanel(new GridLayout(0, 3));
+        add(new JScrollPane(checkBoxPanel));
         
         /* Setup Save button */
         saveButton = new JButton(SAVE_BUTTON_LABEL);

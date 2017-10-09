@@ -7,8 +7,8 @@ import java.util.Observable;
 import java.util.Vector;
 
 public class MapEditorModel extends Observable {
-    private static final String CREATE_NEW_CONTINENT_ITEM = "<Create New Continent>";
-    private static final String CREATE_NEW_TERRITORY_ITEM = "<Create New Territory>";
+    public static final String CREATE_NEW_CONTINENT_ITEM = "<Create New Continent>";
+    public static final String CREATE_NEW_TERRITORY_ITEM = "<Create New Territory>";
     private GameMap gameMap;
     private MapTableModel mapTableModel;
     private DropDownModel continentsDropdownModel;
@@ -37,6 +37,10 @@ public class MapEditorModel extends Observable {
         return continentsDropdownModel;
     }
     
+    public DropDownModel getTerritoriesDropdownModel() {
+        return territoriesDropdownModel;
+    }
+    
     /**
      * Update the MapTableModel and notify the Observer
      */
@@ -56,7 +60,7 @@ public class MapEditorModel extends Observable {
         Vector<String> territoriesList = new Vector<>();
         territoriesList.add(CREATE_NEW_TERRITORY_ITEM);
         territoriesList.addAll(gameMap.getTerritoriesNames());
-        continentsDropdownModel = new DropDownModel(territoriesList);
+        territoriesDropdownModel = new DropDownModel(territoriesList);
     }
     
     private void updateModels() {

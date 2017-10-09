@@ -75,13 +75,16 @@ public class GameMap {
      */
     public void removeTerritory(String territoryName) {
         if (territories.containsKey(territoryName)) {
-            territories.remove(territoryName);
+            Territory territory = territories.get(territoryName);
             
             for (Continent continent : continents.values()) {
-                if (continent.isContain(territoryName)) {
-                    continent.removeTerritory(territoryName);
+                if (continent.isContain(territory)) {
+                    continent.removeTerritory(territory.getName());
+                    break;
                 }
             }
+    
+            territories.remove(territory.getName());
         }
     }
     
@@ -170,5 +173,10 @@ public class GameMap {
             result.add(territory.getName());
         }
         return result;
+    }
+    
+    public Vector<Territory> getTerritoriesByContinent(String continentName) {
+        Continent continent = getAContinent(continentName);
+        return continent.getTerritories();
     }
 }
