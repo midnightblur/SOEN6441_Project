@@ -4,8 +4,8 @@ import model.DropDownModel;
 import model.MapEditorModel;
 import model.helpers.GameMapHandler;
 import utilities.Config;
+import view.helpers.SaveDialog;
 import view.screens.MapEditorFrame;
-import view.screens.SaveDialog;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;

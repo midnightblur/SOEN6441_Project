@@ -1,4 +1,4 @@
-package view.screens;
+package view.helpers;
 
 import utilities.Config;
 
