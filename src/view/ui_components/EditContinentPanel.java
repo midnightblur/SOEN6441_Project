@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Vector;
 
 public class EditContinentPanel extends JPanel implements Observer {
     private static final String SAVE_BUTTON_LABEL = "Save Continent";
@@ -20,7 +21,8 @@ public class EditContinentPanel extends JPanel implements Observer {
     private JComboBox<String> continentsListDropdown;
     private JTextField continentNameText;
     private JTextField contientControlValueText;
-    private JCheckBox continentTerritoriesCheckbox;
+    private JPanel checkBoxPanel;
+    private Vector<JCheckBox> continentTerritoriesCheckbox;
     private JButton saveButton;
     
     public EditContinentPanel() {
@@ -50,8 +52,12 @@ public class EditContinentPanel extends JPanel implements Observer {
         return contientControlValueText;
     }
     
-    public JCheckBox getContinentTerritoriesCheckbox() {
-        return continentTerritoriesCheckbox;
+    public Vector<JCheckBox> getContinentTerritoriesCheckbox() {
+        return this.continentTerritoriesCheckbox;
+    }
+    
+    public JPanel getCheckBoxPanel() {
+        return checkBoxPanel;
     }
     
     /* Private methods */
@@ -82,9 +88,8 @@ public class EditContinentPanel extends JPanel implements Observer {
         JLabel continentTerritoriesLabel = new JLabel(CONTINENT_TERRITORIES_LABEL);
         continentTerritoriesLabel.setAlignmentX(CENTER_ALIGNMENT);
         add(continentTerritoriesLabel);
-        continentTerritoriesCheckbox = new JCheckBox();
-        continentTerritoriesCheckbox.setAlignmentX(CENTER_ALIGNMENT);
-        add(continentTerritoriesCheckbox);
+        checkBoxPanel = new JPanel(new GridLayout(0, 3));
+        add(new JScrollPane(checkBoxPanel));
         
         /* Setup Save button */
         saveButton = new JButton(SAVE_BUTTON_LABEL);

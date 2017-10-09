@@ -87,12 +87,12 @@ public class Continent {
     /**
      * Check if the continent contain a given territory
      *
-     * @param territoryName
+     * @param territory
      *
      * @return
      */
-    public boolean isContain(String territoryName) {
-        return (territories.contains(territoryName));
+    public boolean isContain(Territory territory) {
+        return (territories.contains(territory));
     }
     
     /**

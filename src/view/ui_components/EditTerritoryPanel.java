@@ -29,8 +29,8 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     }
     
     /* MVC & Observer pattern methods */
-    public void addContinentsListDropdownListener(ActionListener listenerForContinentsListDropdown) {
-        territoriesListDropdown.addActionListener(listenerForContinentsListDropdown);
+    public void addTerritoryListDropdownListener(ActionListener listenerForTerritoryListDropdown) {
+        territoriesListDropdown.addActionListener(listenerForTerritoryListDropdown);
     }
     
     public void addSaveButtonListener(ActionListener listenerForSaveButton) {
