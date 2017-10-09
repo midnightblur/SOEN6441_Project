@@ -1,6 +1,6 @@
 package view.screens;
 
-import view.helpers.JFrameHelper;
+import view.helpers.UIHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +21,7 @@ public class MainMenuFrame extends JFrame {
     
     public MainMenuFrame() {
         setupContentPane();
-        JFrameHelper.display(this, TITLE, WIDTH, HEIGHT);
+        UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
     }
     
     /* MVC methods */

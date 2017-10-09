@@ -2,8 +2,8 @@ package view.helpers;
 
 import javax.swing.*;
 
-public class JFrameHelper {
-    private JFrameHelper() {}
+public class UIHelper {
+    private UIHelper() {}
     
     /**
      * Display a frame to screen
@@ -12,9 +12,11 @@ public class JFrameHelper {
      * @param width width of the frame
      * @param height height of the frame
      */
-    public static void display(JFrame frame, String title, int width, int height) {
+    public static void displayJFrame(JFrame frame, String title, int width, int height, boolean defaultCloseOperation) {
         frame.setTitle(title);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        if (defaultCloseOperation) {
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        }
         frame.pack();
         frame.setSize(width, height);
         frame.setResizable(false);

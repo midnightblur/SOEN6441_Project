@@ -9,6 +9,15 @@ public class MainGameController {
     
     public MainGameController() {
         mainMenuFrame = new MainMenuFrame();
+        registerToBeListener();
+    }
+    
+    public void invokeFrame() {
+        mainMenuFrame.setVisible(true);
+        mainMenuFrame.setEnabled(true);
+    }
+    
+    private void registerToBeListener() {
         mainMenuFrame.addMapEditorButtonListener(e -> openMapEditorScreen());
         mainMenuFrame.addPlayGameButtonListener(e -> openPlayGameScreen());
         mainMenuFrame.addQuitButtonListener(e -> exitGame());
@@ -18,7 +27,7 @@ public class MainGameController {
         mainMenuFrame.setVisible(false);
         mainMenuFrame.setEnabled(false);
         
-        MapEditorController mapEditorController = new MapEditorController();
+        MapEditorController mapEditorController = new MapEditorController(this);
     }
     
     private void openPlayGameScreen() {

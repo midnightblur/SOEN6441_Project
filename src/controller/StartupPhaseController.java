@@ -6,7 +6,7 @@ import view.screens.PlayUI;
 
 /**
  * Controller to read and set map filepath to the model, and dispatchToController
- * the view to display the map.
+ * the view to displayJFrame the map.
  */
 public class StartupPhaseController {
     private PlayUI playUI;
