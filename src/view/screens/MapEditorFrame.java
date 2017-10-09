@@ -1,6 +1,7 @@
 package view.screens;
 
 import model.DropDownModel;
+import view.helpers.JFrameHelper;
 import view.ui_components.EditMapControlPanel;
 import view.ui_components.EditMapTable;
 
@@ -30,7 +31,7 @@ public class MapEditorFrame extends JFrame {
         contentPane.setRightComponent(editMapControlPanel);
         
         /* Setup & Display frame */
-        display();
+        JFrameHelper.display(this, TITLE, WIDTH, HEIGHT);
     }
     
     /* Getters & Setters */
@@ -57,15 +58,6 @@ public class MapEditorFrame extends JFrame {
     }
     
     /* Private methods */
-    private void display() {
-        this.setTitle(TITLE);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.pack();
-        this.setSize(WIDTH, HEIGHT);
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-    }
     
     private void setupContentPaneLayout() {
 //        contentPane = new JPanel(new GridLayout(GRIDLAYOUT_ROWS, GRIDLAYOUT_COLS));
