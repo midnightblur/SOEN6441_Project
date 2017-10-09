@@ -1,4 +1,4 @@
-package view.panels;
+package view.ui_components;
 
 import javax.swing.*;
 

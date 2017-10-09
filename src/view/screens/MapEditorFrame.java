@@ -1,8 +1,8 @@
 package view.screens;
 
 import model.DropDownModel;
-import view.panels.EditMapControlPanel;
-import view.panels.EditMapTable;
+import view.ui_components.EditMapControlPanel;
+import view.ui_components.EditMapTable;
 
 import javax.swing.*;
 
