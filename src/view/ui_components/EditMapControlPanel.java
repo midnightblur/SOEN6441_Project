@@ -3,7 +3,6 @@ package view.ui_components;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
 public class EditMapControlPanel extends JPanel {
     private static final int MAP_SELECTION_LAYOUT_ROWS = 1;
@@ -22,11 +21,9 @@ public class EditMapControlPanel extends JPanel {
     private JComboBox addDropdown;
     private JComboBox editDropdown;
     private JButton backButton;
-    private Vector<JComponent> editComponentsList;
     
     /* Constructors */
     public EditMapControlPanel() {
-        editComponentsList = new Vector<>();
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         /* Setup map selection area */

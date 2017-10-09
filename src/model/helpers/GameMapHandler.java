@@ -238,11 +238,10 @@ public class GameMapHandler {
     /**
      * Write a gamemap info to a .map text file
      */
-    public static void writeToFile(GameMap gameMap) throws IOException {
-        String mapPath = Config.MAPS_FOLDER + gameMap.getMapName();
+    public static void writeToFile(GameMap gameMap, String path) throws IOException {
         BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter(mapPath, false));
+            writer = new BufferedWriter(new FileWriter(path, false));
             
             /* Write Continents */
             writer.append(Config.MAPS_FLAG_CONTINENTS + System.lineSeparator());

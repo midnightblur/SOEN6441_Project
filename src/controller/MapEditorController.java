@@ -5,8 +5,12 @@ import model.MapEditorModel;
 import model.helpers.GameMapHandler;
 import utilities.Config;
 import view.screens.MapEditorFrame;
+import view.screens.SaveDialog;
 
+import javax.swing.*;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class MapEditorController {
     private MapEditorFrame mapEditorFrame;
@@ -33,6 +37,7 @@ public class MapEditorController {
         this.mapEditorFrame.getEditMapControlPanel().addAddDropdownListener(e -> addContinentCountry());
         this.mapEditorFrame.getEditMapControlPanel().addEditDropdownListener(e -> editContinentCountry());
         this.mapEditorFrame.getEditMapControlPanel().addNewMapButtonListener(e -> initiateNewGameMap());
+        this.mapEditorFrame.getEditMapControlPanel().addSaveMapButtonListener(e -> saveMap());
     }
     
     /* Private methods */
@@ -86,5 +91,20 @@ public class MapEditorController {
      */
     private void initiateNewGameMap() {
         // TODO: implement method
+    }
+    
+    private void saveMap() {
+        SaveDialog fileChooser = new SaveDialog();
+        int selection = fileChooser.showSaveDialog(fileChooser.getParent());
+        if (selection == JFileChooser.APPROVE_OPTION) {
+            File mapFileToSave = fileChooser.getSelectedFile();
+            try {
+                GameMapHandler.writeToFile(this.mapEditorModel.getGameMap(), mapFileToSave.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace(System.err);
+                mapEditorFrame.displayErrorMessage(e.getMessage());
+            }
+            mapEditorFrame.displayErrorMessage("The map file was saved at \n" + mapFileToSave.getAbsolutePath());
+        }
     }
 }
