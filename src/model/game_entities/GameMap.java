@@ -15,7 +15,7 @@ public class GameMap {
     public GameMap(String mapName) {
         this.mapName = mapName;
         this.territories = new TreeMap<>();
-        this.continents = new HashMap<>();
+        this.continents = new TreeMap<>();
     }
     
     /* Getters & Setters */
