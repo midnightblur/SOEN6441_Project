@@ -50,6 +50,8 @@ public class MapEditorFrame extends JFrame implements Observer {
         return editMapControlPanel;
     }
     
+    
+    
     /* Public methods */
     
     /**

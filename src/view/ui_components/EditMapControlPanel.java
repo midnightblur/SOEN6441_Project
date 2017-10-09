@@ -21,6 +21,7 @@ public class EditMapControlPanel extends JPanel {
     private JButton saveMapButton;
     private JButton backButton;
     private EditContinentPanel editContinentPanel;
+    private EditTerritoryPanel editTerritoryPanel;
     
     /* Constructors */
     public EditMapControlPanel() {
@@ -46,6 +47,10 @@ public class EditMapControlPanel extends JPanel {
     
     public EditContinentPanel getEditContinentPanel() {
         return editContinentPanel;
+    }
+    
+    public EditTerritoryPanel getEditTerritoryPanel() {
+        return editTerritoryPanel;
     }
     
     /* MVC & Observer pattern methods */
@@ -98,8 +103,8 @@ public class EditMapControlPanel extends JPanel {
         editContinentPanel = new EditContinentPanel();
         editTabbedPane.addTab(TAB_CONTINENT_LABEL, editContinentPanel);
         editTabbedPane.setMnemonicAt(0, KeyEvent.VK_0);
-        JPanel territoryEditPanel = new JPanel();
-        editTabbedPane.addTab(TAB_TERRITORY_LABEL, territoryEditPanel);
+        editTerritoryPanel = new EditTerritoryPanel();
+        editTabbedPane.addTab(TAB_TERRITORY_LABEL, editTerritoryPanel);
         editTabbedPane.setMnemonicAt(1, KeyEvent.VK_1);
         add(editTabbedPane);
     }
