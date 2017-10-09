@@ -31,7 +31,7 @@ public class MapEditorFrame extends JFrame {
         contentPane.setRightComponent(editMapControlPanel);
         
         /* Setup & Display frame */
-        UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
+        UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
     }
     
     /* Getters & Setters */
