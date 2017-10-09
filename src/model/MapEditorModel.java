@@ -21,6 +21,10 @@ public class MapEditorModel extends Observable {
     }
     
     /* Getters & Setters */
+    public GameMap getGameMap() {
+        return gameMap;
+    }
+    
     public MapTableModel getMapTableModel() {
         return mapTableModel;
     }

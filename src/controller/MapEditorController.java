@@ -34,12 +34,9 @@ public class MapEditorController {
         this.mapEditorFrame.getEditMapControlPanel().addLoadMapButtonListener(e -> loadMap());
         this.mapEditorFrame.getEditMapControlPanel().addBackButtonListener(e -> backToMainMenu());
         this.mapEditorFrame.getEditMapControlPanel().addNewMapButtonListener(e -> initiateNewGameMap());
-<<<<<<< HEAD
         this.mapEditorFrame.getEditMapControlPanel().getContinentEditPanel().addContinentsListDropdownListener(e -> prepareContinentEditArea());
         this.mapEditorFrame.getEditMapControlPanel().getContinentEditPanel().addSaveButtonListener(e -> saveContientInfo());
-=======
         this.mapEditorFrame.getEditMapControlPanel().addSaveMapButtonListener(e -> saveMap());
->>>>>>> cef9d5e985c1abae366545a5c0ce78d1469970b3
     }
     
     /* Private methods */
