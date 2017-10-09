@@ -165,10 +165,6 @@ public class MapEditor extends JFrame implements Observer {
         resizeColumns(myTable);
     }
     
-    /* identify the continent and owner columns (to be used in makeTable() */
-    private static final int CONTINENT_COL = 0;
-    private static final int OWNER_COL = 3;
-    
     /**
      * Makes a new table
      * Overrides the super class so that it colors the continent headers
@@ -191,8 +187,7 @@ public class MapEditor extends JFrame implements Observer {
             @Override
             public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
                 Component c = super.prepareRenderer(renderer, row, col);
-                String continent = (String) getValueAt(row, CONTINENT_COL);
-                String owner = (String) getValueAt(row, OWNER_COL);
+                String continent = (String) getValueAt(row, 0);
                 if (!"  ".equals(continent)) {
                     c.setFont(new Font("Sans Serif", Font.ITALIC, 14));
                     c.setBackground(Color.BLACK);
@@ -201,12 +196,14 @@ public class MapEditor extends JFrame implements Observer {
                     c.setBackground(super.getBackground());
                     c.setForeground(super.getForeground());
                 }
-                
-                Color[] colors = { Color.BLUE, Color.RED, Color.MAGENTA, Color.GREEN, Color.GRAY, Color.PINK };
-                for (int i = 0; i < colors.length; i++) {
-                    if (("Player " + Integer.toString(i + 1)).equals(owner)) {
-                        c.setBackground(Color.WHITE);
-                        c.setForeground(colors[i]);
+                if (this.getColumnCount() > 3) {    // meaning we already have information for owner on 3rd column
+                    String owner = (String) getValueAt(row, 3);
+                    Color[] colors = { Color.BLUE, Color.RED, Color.MAGENTA, Color.GREEN, Color.GRAY, Color.PINK };
+                    for (int i = 0; i < colors.length; i++) {
+                        if (("Player " + Integer.toString(i + 1)).equals(owner)) {
+                            c.setBackground(Color.WHITE);
+                            c.setForeground(colors[i]);
+                        }
                     }
                 }
                 return c;

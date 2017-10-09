@@ -42,14 +42,10 @@ public class MapEditorController {
         
         // register this instance of controller as listener to the view
         theView.addActionListener(e -> {
-            try {
-                // update the model when button is clicked
+            try {   // update the model when button is clicked
                 theMapTableModel.updateMapTableModel(loadGameMap(theView.getMap()));
-                
             } catch (Exception e1) {
-                System.out.println(e1.getLocalizedMessage());
-                theView.displayErrorMessage("Invalid path...");
-                
+                theView.displayErrorMessage(e1.toString());
             }
         });
         

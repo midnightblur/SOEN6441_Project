@@ -4,7 +4,6 @@ import model.RiskGame;
 import util.Config;
 import view.PlayUI;
 
-
 /**
  * Main driver class.
  */
@@ -26,6 +25,7 @@ public class Driver {
         new StartupPhaseController(new PlayUI(), RiskGame.getInstance());
         
         game.setGameState(Config.GAME_STATES.MAP_EDITOR);
+        //game.setGameState(Config.GAME_STATES.ATTACK_PHASE);
         new MapEditorController();
         
         
