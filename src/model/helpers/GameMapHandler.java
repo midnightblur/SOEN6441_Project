@@ -24,12 +24,19 @@ public class GameMapHandler {
         return entities;
     }
     
-    public static Vector<String> getContinentsCountries() {
+    public static Vector<String> getContinentsCountries(GameMap map) {
         Vector<String> continentsCountries = new Vector<>();
         continentsCountries.add("SELECT TO EDIT/DELETE");
-        continentsCountries.add("test");
-        continentsCountries.add("test");
-        continentsCountries.add("test");
+        continentsCountries.add("--- CONTINENTS ---");
+        for (Continent c : map.getContinents()) {
+            continentsCountries.add(c.getName());
+        }
+        continentsCountries.add("--- COUNTRIES ---");
+        for (Territory t : map.getTerritories().values()) {
+            continentsCountries.add(t.getName());
+        }
+        
+        
         return continentsCountries;
     }
     

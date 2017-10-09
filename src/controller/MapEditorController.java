@@ -12,6 +12,7 @@ public class MapEditorController {
     private MapEditorFrame mapEditorFrame;
     private MapEditorModel mapEditorModel;
     private MainGameController callerController;
+    private String mapName;
     
     /* Constructors */
     public MapEditorController(MainGameController mainGameController) {
@@ -22,14 +23,6 @@ public class MapEditorController {
         /* Display list of maps to load to edit */
         DropDownModel mapDropdownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
         this.mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().setModel(mapDropdownModel);
-
-        /* Display list of options to add countries or continents */
-        DropDownModel addDropdownModel = new DropDownModel(GameMapHandler.getEntities());
-        this.mapEditorFrame.getEditMapControlPanel().getAddDropdown().setModel(addDropdownModel);
-     
-        /* Display list of maps to load to edit */
-        DropDownModel editDropdownModel = new DropDownModel(GameMapHandler.getContinentsCountries());
-        this.mapEditorFrame.getEditMapControlPanel().getEditDropdown().setModel(editDropdownModel);
         
         /* Register Observer to Observable */
         this.mapEditorModel.getMapTableModel().addObserver(this.mapEditorFrame.getEditMapTable());
@@ -49,8 +42,17 @@ public class MapEditorController {
      */
     private void loadMap() {
         try {
-            String mapName = mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().getSelectedItem().toString();
+            mapName = mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().getSelectedItem().toString();
             mapEditorModel.updateGameMap(mapName);
+            
+            /* Display list of options to add countries or continents */
+            DropDownModel addDropdownModel = new DropDownModel(GameMapHandler.getEntities());
+            this.mapEditorFrame.getEditMapControlPanel().getAddDropdown().setModel(addDropdownModel);
+     
+            /* Display list of maps to load to edit */
+            DropDownModel editDropdownModel = new DropDownModel(GameMapHandler.getContinentsCountries(mapEditorModel.getGameMap()));
+            this.mapEditorFrame.getEditMapControlPanel().getEditDropdown().setModel(editDropdownModel);
+            
         } catch (Exception e) {
             e.printStackTrace(System.err);
             mapEditorFrame.displayErrorMessage(e.getMessage());
