@@ -48,24 +48,24 @@ public class MapTableModel extends Observable {
         rows = new String[this.map.getTerritoriesCount() + this.map.getContinentsCount()][columns.size()];
         int i = 0;
         /* add continents */
-        for (Continent c : this.map.getContinents()) {
-            rows[i][0] = c.getName();
+        for (Continent continent : this.map.getContinents().values()) {
+            rows[i][0] = continent.getName();
             if (RiskGame.getInstance().getGameState().getValue() > 3) {
-                rows[i][3] = c.getContinentOwner();
-                rows[i][4] = Integer.toString(c.getContinentArmies());
+                rows[i][3] = continent.getContinentOwner();
+                rows[i][4] = Integer.toString(continent.getContinentArmies());
             }
             i++;
         }
     
-        for (Territory t : this.map.getTerritories().values()) {
-            rows[i][0] = t.getContinent().getName();
-            rows[i][1] = t.getName();
-            rows[i][2] = t.getNeighbors().toString().replace("[", "").replace("]", "");
+        for (Territory territory : this.map.getTerritories().values()) {
+            rows[i][0] = territory.getContinent().getName();
+            rows[i][1] = territory.getName();
+            rows[i][2] = territory.getNeighbors().toString().replace("[", "").replace("]", "");
             
             /* add countries and their information */
             if (RiskGame.getInstance().getGameState().getValue() > 3) {
-                rows[i][3] = "Player " + Integer.toString(t.getOwner().getPlayerID());
-                rows[i][4] = Integer.toString(t.getArmies());
+                rows[i][3] = "Player " + Integer.toString(territory.getOwner().getPlayerID());
+                rows[i][4] = Integer.toString(territory.getArmies());
             }
             
             i++;

@@ -67,7 +67,7 @@ public class Config {
     public static final String MSG_MAPFILE_INVALID_FORMAT = "Invalid format text file: line %s";
     public static final String MSG_MAPFILE_INVALID_TERRITORIES_COUNT = "Invalid number of territories. Minimum number is " + MAPS_MIN_TERRITORIES + ", maximum number is " + MAPS_MAX_TERRITORIES;
     public static final String MSG_MAPFILE_INVALID_CONTINENTS_COUNT = "Invalid number of continents. Minimum number is " + MAPS_MIN_CONTINENTS + ", maximum number is " + MAPS_MAX_CONTINENTS;
-    public static final String MSG_MAPFILE_INVALID_NEIGHBORS_COUNT = "%s has too many neighbors. Maximum number is " + MAPS_MAX_NEIGHBORS;
+    public static final String MSG_MAPFILE_INVALID_NEIGHBORS_COUNT = "%s has %s neighbors. Minumum number is " + MAPS_MIN_NEIGHBORS + ", maximum number is " + MAPS_MAX_NEIGHBORS;
     public static final String MSG_MAPFILE_NO_NEIGHBORS = "%s has no neighbor";
     public static final String MSG_MAPFILE_DISCONNECTED_GRAPH = "The graph is not connected";
     public static final String MSG_MAPFILE_1_WAY_RELATIONSHIP = "%s - %s is not a 2 ways relationship";

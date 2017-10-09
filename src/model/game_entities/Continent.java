@@ -14,7 +14,7 @@ import java.util.Vector;
 public class Continent {
     /* Private data member of model.game_entities.Continent class */
     private String name;
-    private Vector<String> territories;
+    private Vector<Territory> territories;
     private int controlValue;
 
     /* Constructors */
@@ -48,11 +48,11 @@ public class Continent {
         this.controlValue = controlValue;
     }
     
-    public Vector<String> getTerritories() {
+    public Vector<Territory> getTerritories() {
         return territories;
     }
     
-    public void setTerritories(Vector<String> territories) {
+    public void setTerritories(Vector<Territory> territories) {
         this.territories = territories;
     }
     
@@ -61,11 +61,11 @@ public class Continent {
     /**
      * Add a territory to the list of territories belonging to the continent
      *
-     * @param territoryName
+     * @param territory
      */
-    public void addTerritory(String territoryName) {
-        if (!isContain(territoryName))
-            territories.add(territoryName);
+    public void addTerritory(Territory territory) {
+        if (!territories.contains(territory))
+            territories.add(territory);
     }
     
     /**
@@ -75,9 +75,10 @@ public class Continent {
      */
     public void removeTerritory(String territoryName) {
         int i = 0;
-        for (String name : territories) {
-            if (name.compareTo(territoryName) == 0) {
+        for (Territory territory : territories) {
+            if (territory.getName().compareTo(territoryName) == 0) {
                 territories.remove(i);
+                return;
             }
             i++;
         }
@@ -112,8 +113,8 @@ public class Continent {
      */
     public int getContinentArmies() throws NullPointerException {
         int count = 0;
-        for (String t : territories) {
-            count += RiskGame.getInstance().getGameMap().getATerritory(t).getArmies();
+        for (Territory territory : territories) {
+            count += RiskGame.getInstance().getGameMap().getATerritory(territory.getName()).getArmies();
         }
         return count;
     }
@@ -127,10 +128,10 @@ public class Continent {
      */
     public String getContinentOwner() throws NullPointerException {
         String continentOwner = "";
-        if (RiskGame.getInstance().getGameMap().getATerritory(territories.firstElement()).isOwned()) {
-            continentOwner = "Player " + RiskGame.getInstance().getGameMap().getATerritory(territories.firstElement()).getOwner().getPlayerID();
-            for (String t : territories) {
-                if (!Objects.equals(continentOwner, "Player " + RiskGame.getInstance().getGameMap().getATerritory(t).getOwner().getPlayerID()))
+        if (RiskGame.getInstance().getGameMap().getATerritory(territories.get(0).getName()).isOwned()) {
+            continentOwner = "Player " + RiskGame.getInstance().getGameMap().getATerritory(territories.get(0).getName()).getOwner().getPlayerID();
+            for (Territory territory : territories) {
+                if (!Objects.equals(continentOwner, "Player " + RiskGame.getInstance().getGameMap().getATerritory(territory.getName()).getOwner().getPlayerID()))
                     return "nobody owns it yet";
             }
         }

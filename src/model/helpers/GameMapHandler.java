@@ -16,27 +16,17 @@ import java.util.*;
  * This class helps write map's information to a text file
  */
 public class GameMapHandler {
-    public static Vector<String> getEntities() {
-        Vector<String> entities = new Vector<>();
-        entities.add("SELECT WHAT YOU WANT TO ADD");
-        entities.add("Continent");
-        entities.add("Country");
-        return entities;
-    }
-    
-    public static Vector<String> getContinentsCountries(GameMap map) {
+    public static Vector<String> getContinentsCountries(GameMap gameMap) {
         Vector<String> continentsCountries = new Vector<>();
         continentsCountries.add("SELECT TO EDIT/DELETE");
         continentsCountries.add("--- CONTINENTS ---");
-        for (Continent c : map.getContinents()) {
-            continentsCountries.add(c.getName());
+        for (Continent continent : gameMap.getContinents().values()) {
+            continentsCountries.add(continent.getName());
         }
         continentsCountries.add("--- COUNTRIES ---");
-        for (Territory t : map.getTerritories().values()) {
-            continentsCountries.add(t.getName());
+        for (Territory territory : gameMap.getTerritories().values()) {
+            continentsCountries.add(territory.getName());
         }
-        
-        
         return continentsCountries;
     }
     
@@ -208,7 +198,7 @@ public class GameMapHandler {
         for (Territory territory : gameMap.getTerritories().values()) {
             /* 3. Each and every territory has the number of neighbors from 1 to 10 */
             if (territory.getNeighborsCount() > Config.MAPS_MAX_NEIGHBORS || territory.getNeighborsCount() < Config.MAPS_MIN_NEIGHBORS) {
-                return String.format(Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT, territory.getName());
+                return String.format(Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT, territory.getName(), territory.getNeighborsCount());
             }
             
             /* 4. Every relationship between territories is 2-ways */
@@ -221,7 +211,7 @@ public class GameMapHandler {
         }
         
         /* 5. Each continent has at least one territory */
-        for (Continent continent : gameMap.getContinents()) {
+        for (Continent continent : gameMap.getContinents().values()) {
             if (continent.getTerritoriesCount() == 0) {
                 return String.format(Config.MSG_MAPFILE_CONTINENT_NO_TERRITORY, continent.getName());
             }
@@ -246,7 +236,7 @@ public class GameMapHandler {
             
             /* Write Continents */
             writer.append(Config.MAPS_FLAG_CONTINENTS + System.lineSeparator());
-            for (Continent continent : gameMap.getContinents()) {
+            for (Continent continent : gameMap.getContinents().values()) {
                 writer.append(continent.getName());
                 writer.append(Config.MAPS_DELIMETER_CONTINENTS);
                 writer.append(String.valueOf(continent.getControlValue()));
@@ -257,9 +247,8 @@ public class GameMapHandler {
             /* Write Territories */
             writer.append(Config.MAPS_FLAG_TERRITORIES + System.lineSeparator());
             
-            for (Continent continent : gameMap.getContinents()) {
-                for (String territoryName : continent.getTerritories()) {
-                    Territory territory = gameMap.getATerritory(territoryName);
+            for (Continent continent : gameMap.getContinents().values()) {
+                for (Territory territory : continent.getTerritories()) {
                     
                     // Write Territory name
                     writer.append(territory.getName());

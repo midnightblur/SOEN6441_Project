@@ -1,9 +1,6 @@
 package model.game_entities;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * GameMap class is used to store a map information read from or to write to a map text file
@@ -12,13 +9,13 @@ public class GameMap {
     /* Private data member of model.game_entities.GameMap class */
     private String mapName;
     private Map<String, Territory> territories;
-    private Vector<Continent> continents;
+    private Map<String, Continent> continents;
     
     /* Constructors */
     public GameMap(String mapName) {
         this.mapName = mapName;
-        this.territories = new HashMap<>();
-        this.continents = new Vector<>();
+        this.territories = new TreeMap<>();
+        this.continents = new HashMap<>();
     }
     
     /* Getters & Setters */
@@ -26,11 +23,15 @@ public class GameMap {
         return mapName;
     }
     
+    public void setMapName(String mapName) {
+        this.mapName = mapName;
+    }
+    
     public Map<String, Territory> getTerritories() {
         return territories;
     }
     
-    public Vector<Continent> getContinents() {
+    public Map<String, Continent> getContinents() {
         return continents;
     }
     
@@ -61,7 +62,7 @@ public class GameMap {
         if (!territories.containsKey(territory.getName())) {
             /* Add the territory to its continent */
             Continent continent = getAContinent(territory.getContinent().getName());
-            continent.addTerritory(territory.getName());
+            continent.addTerritory(territory);
             
             /* Add the territory to the territories list */
             territories.put(territory.getName(), territory);
@@ -76,7 +77,7 @@ public class GameMap {
         if (territories.containsKey(territoryName)) {
             territories.remove(territoryName);
             
-            for (Continent continent : continents) {
+            for (Continent continent : continents.values()) {
                 if (continent.isContain(territoryName)) {
                     continent.removeTerritory(territoryName);
                 }
@@ -89,8 +90,7 @@ public class GameMap {
      * @param continent
      */
     public void addContinent(Continent continent) {
-        if (!continents.contains(continent))
-            continents.add(continent);
+        continents.putIfAbsent(continent.getName(), continent);
     }
     
     /**
@@ -98,7 +98,8 @@ public class GameMap {
      * @param continentName
      */
     public void removeContinent(String continentName) {
-        for (Iterator<Continent> iterator = continents.iterator(); iterator.hasNext(); ) {
+        Iterator<Continent> iterator = continents.values().iterator();
+        while (iterator.hasNext()) {
             Continent continent = iterator.next();
             if (continent.getName().compareTo(continentName) == 0) {
                 continents.remove(continent);
@@ -137,7 +138,8 @@ public class GameMap {
      * @return
      */
     public Continent getAContinent(String continentName) {
-        for (Iterator<Continent> iterator = continents.iterator(); iterator.hasNext(); ) {
+        Iterator<Continent> iterator = continents.values().iterator();
+        while (iterator.hasNext()) {
             Continent continent = iterator.next();
             if (continent.getName().compareTo(continentName) == 0) {
                 return continent;
@@ -152,5 +154,21 @@ public class GameMap {
      */
     public Territory getArbitraryTerritory() {
         return territories.values().iterator().next();
+    }
+    
+    public Vector<String> getContinentsNames() {
+        Vector<String> result = new Vector<>();
+        for (Continent continent : getContinents().values()) {
+            result.add(continent.getName());
+        }
+        return result;
+    }
+    
+    public Vector<String> getTerritoriesNames() {
+        Vector<String> result = new Vector<>();
+        for (Territory territory : getTerritories().values()) {
+            result.add(territory.getName());
+        }
+        return result;
     }
 }

@@ -9,23 +9,28 @@ public class MapEditorModel extends Observable {
     /* Models */
     private GameMap gameMap;
     private MapTableModel mapTableModel;
+    private DropDownModel continentsDropdownModel;
     
     public MapEditorModel() {
         this.mapTableModel = new MapTableModel();
     }
     
-    public void updateGameMap(String mapName) throws Exception {
+    public void loadNewGameMap(String mapName) throws Exception {
         gameMap = GameMapHandler.loadGameMap(mapName);
+        broadcastGameMapChanges();
+    }
+    
+    /* Getters & Setters */
+    public MapTableModel getMapTableModel() {
+        return mapTableModel;
+    }
+    
+    /**
+     * Update the MapTableModel and notify the Observer
+     */
+    private void broadcastGameMapChanges() {
         mapTableModel.updateMapTableModel(gameMap);
         setChanged();
         notifyObservers();
-    }
-    
-    public GameMap getGameMap() {
-        return gameMap;
-    }
-    
-    public MapTableModel getMapTableModel() {
-        return mapTableModel;
     }
 }

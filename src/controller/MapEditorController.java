@@ -30,8 +30,6 @@ public class MapEditorController {
         /* Register to be ActionListeners */
         this.mapEditorFrame.getEditMapControlPanel().addLoadMapButtonListener(e -> loadMap());
         this.mapEditorFrame.getEditMapControlPanel().addBackButtonListener(e -> backToMainMenu());
-//        this.mapEditorFrame.getEditMapControlPanel().addAddDropdownListener(e -> addContinentCountry());
-//        this.mapEditorFrame.getEditMapControlPanel().addEditDropdownListener(e -> editContinentCountry());
         this.mapEditorFrame.getEditMapControlPanel().addNewMapButtonListener(e -> initiateNewGameMap());
         this.mapEditorFrame.getEditMapControlPanel().getContinentEditPanel().addContinentsListDropdownListener(e -> prepareContinentEditArea());
         this.mapEditorFrame.getEditMapControlPanel().getContinentEditPanel().addSaveButtonListener(e -> saveContientInfo());
@@ -39,21 +37,12 @@ public class MapEditorController {
     
     /* Private methods */
     /**
-     * Display the map content to the table
+     * Update the GameMap object from the selected items from DropdownList
      */
     private void loadMap() {
         try {
             mapName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().getSelectedItem());
-            mapEditorModel.updateGameMap(mapName);
-            
-//            /* Display list of options to add countries or continents */
-//            DropDownModel addDropdownModel = new DropDownModel(GameMapHandler.getEntities());
-//            this.mapEditorFrame.getEditMapControlPanel().getAddDropdown().setModel(addDropdownModel);
-//
-//            /* Display list of maps to load to edit */
-//            DropDownModel editDropdownModel = new DropDownModel(GameMapHandler.getContinentsCountries(mapEditorModel.getGameMap()));
-//            this.mapEditorFrame.getEditMapControlPanel().getEditDropdown().setModel(editDropdownModel);
-            
+            mapEditorModel.loadNewGameMap(mapName);
         } catch (Exception e) {
             e.printStackTrace(System.err);
             mapEditorFrame.displayErrorMessage(e.getMessage());
@@ -66,20 +55,6 @@ public class MapEditorController {
     private void backToMainMenu() {
         callerController.invokeFrame();
         mapEditorFrame.dispatchEvent(new WindowEvent(mapEditorFrame, WindowEvent.WINDOW_CLOSING));
-    }
-    
-    /**
-     * Show the add panel to add a country or a continent
-     */
-    private void addContinentCountry() {
-        // TODO: implement method   
-    }
-    
-    /**
-     * show the edit panel to edit or delete a country or a continent
-     */
-    private void editContinentCountry() {
-        // TODO: implement method   
     }
     
     /**

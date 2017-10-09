@@ -27,7 +27,7 @@ public class GameMapHandlerTest {
             message = e.getMessage();
         }
         
-        assertEquals(String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, "Kamchatka", "Alaska"), message);
+        assertEquals(String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, "kamchatka", "alaska"), message);
         assertNull(gameMap);
     }
     
@@ -51,7 +51,7 @@ public class GameMapHandlerTest {
             message = e.getMessage();
         }
         
-        assertEquals(String.format(Config.MSG_MAPFILE_CONTINENT_NO_TERRITORY, "Asean"), message);
+        assertEquals(String.format(Config.MSG_MAPFILE_CONTINENT_NO_TERRITORY, "asean"), message);
         assertNull(gameMap);
     }
     
@@ -147,7 +147,7 @@ public class GameMapHandlerTest {
             message = e.getMessage();
         }
         
-        assertEquals(String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, "Alberta", "Alaska"), message);
+        assertEquals(String.format(Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT, "alaska", 0), message);
         assertNull(gameMap);
     }
     
@@ -183,7 +183,7 @@ public class GameMapHandlerTest {
             message = e.getMessage();
         }
         
-        assertEquals(String.format(Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT, "Alaska"), message);
+        assertEquals(String.format(Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT, "alaska", 11), message);
         assertNull(gameMap);
     }
     
