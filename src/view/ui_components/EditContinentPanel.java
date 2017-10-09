@@ -39,7 +39,6 @@ public class EditContinentPanel extends JPanel implements Observer {
     }
     
     /* Getters & Setters */
-    
     public JComboBox<String> getContinentsListDropdown() {
         return continentsListDropdown;
     }
@@ -99,6 +98,7 @@ public class EditContinentPanel extends JPanel implements Observer {
         /* When the GameMap object is updated */
         if (o instanceof MapEditorModel) {
             continentsListDropdown.setModel(((MapEditorModel) o).getContinentsDropdownModel());
+            continentsListDropdown.setSelectedIndex(0);
         }
     }
 }

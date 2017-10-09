@@ -4,9 +4,10 @@ import model.game_entities.GameMap;
 import model.helpers.GameMapHandler;
 
 import java.util.Observable;
+import java.util.Vector;
 
 public class MapEditorModel extends Observable {
-    /* Models */
+    private static final String CREATE_NEW_CONTINENT_ITEM = "<Create New Continent>";
     private GameMap gameMap;
     private MapTableModel mapTableModel;
     private DropDownModel continentsDropdownModel;
@@ -38,8 +39,15 @@ public class MapEditorModel extends Observable {
      */
     private void broadcastGameMapChanges() {
         mapTableModel.updateMapTableModel(gameMap);
-        continentsDropdownModel = new DropDownModel(gameMap.getContinentsNames());
+        updateListOfContinents();
         setChanged();
         notifyObservers();
+    }
+    
+    private void updateListOfContinents() {
+        Vector<String> continentsList = new Vector<>();
+        continentsList.add(CREATE_NEW_CONTINENT_ITEM);
+        continentsList.addAll(gameMap.getContinentsNames());
+        continentsDropdownModel = new DropDownModel(continentsList);
     }
 }
