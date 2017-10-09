@@ -6,8 +6,10 @@ import view.ui_components.EditMapControlPanel;
 import view.ui_components.EditMapTable;
 
 import javax.swing.*;
+import java.util.Observable;
+import java.util.Observer;
 
-public class MapEditorFrame extends JFrame {
+public class MapEditorFrame extends JFrame implements Observer {
     private static final String TITLE = "Map Editor";
     private static final int WIDTH = 1600;
     private static final int HEIGHT = 800;
@@ -88,5 +90,10 @@ public class MapEditorFrame extends JFrame {
         };
         contentPane.setDividerLocation(1100);
         contentPane.setResizeWeight(.75d);
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+//        if (o instanceof DropDownModel)
     }
 }

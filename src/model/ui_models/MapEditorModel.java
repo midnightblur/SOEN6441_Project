@@ -12,7 +12,7 @@ public class MapEditorModel extends Observable {
     private DropDownModel continentsDropdownModel;
     
     public MapEditorModel() {
-        this.mapTableModel = new MapTableModel();
+        mapTableModel = new MapTableModel();
     }
     
     public void loadNewGameMap(String mapName) throws Exception {
@@ -38,6 +38,7 @@ public class MapEditorModel extends Observable {
      */
     private void broadcastGameMapChanges() {
         mapTableModel.updateMapTableModel(gameMap);
+        continentsDropdownModel = new DropDownModel(gameMap.getContinentsNames());
         setChanged();
         notifyObservers();
     }

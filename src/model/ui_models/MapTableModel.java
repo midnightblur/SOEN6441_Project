@@ -8,13 +8,12 @@ import utilities.BidiArrayComparator;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.Arrays;
-import java.util.Observable;
 import java.util.Vector;
 
 /**
  * Model to hold the gameMap data in order to displayJFrame it within a JTable
  */
-public class MapTableModel extends Observable {
+public class MapTableModel {
     private DefaultTableModel model;
     private String[][] rows;
     private Vector<String> columns;
@@ -73,11 +72,6 @@ public class MapTableModel extends Observable {
         this.model.setColumnIdentifiers(columns);
         Arrays.sort(rows, new BidiArrayComparator(0));        // perform sort on Continents column
         groupRows();                                                  // 'group' the rows
-        
-        /* specify that model state changed and notify observers */
-        setChanged();
-        notifyObservers();
-        
         return model;
     }
     
