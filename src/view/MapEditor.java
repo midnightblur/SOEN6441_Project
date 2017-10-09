@@ -1,6 +1,5 @@
 package view;
 
-import model.DropDownModel;
 import model.MapTableModel;
 
 import javax.swing.*;
@@ -8,11 +7,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
-
-import static util.Config.DEFAULT_MAP;
 
 public class MapEditor extends JFrame implements Observer {
     private JMenuBar menuBar;
@@ -24,41 +20,22 @@ public class MapEditor extends JFrame implements Observer {
     public JComboBox mapsDropdown = new JComboBox();
     private JButton loadMap = new JButton("Load Map");
     private JTable myTable = makeTable();    // gets a table that changes row colors depending on cell content
+    private JMenu mapMenu = new JMenu("Map");
+    private JMenuItem newMap = new JMenuItem("New Map");
+    private JMenuItem saveMap = new JMenuItem("Save Map");
+    private JMenu statisticsMenu = new JMenu("Statistics");
+    private JMenuItem viewStatistics = new JMenuItem("New menu item");
     
     /**
      * Constructor making a new MapEditor view
      */
     public MapEditor() {
         
-        JMenu mnNewMenu = new JMenu("Map");
-        menuBar.add(mnNewMenu);
-        
-        JMenuItem mntmNewMenuItem_2 = new JMenuItem("New Map");
-        mnNewMenu.add(mntmNewMenuItem_2);
-        
-        JMenuItem mntmNewMenuItem_4 = new JMenuItem("Save Map");
-        mnNewMenu.add(mntmNewMenuItem_4);
-        
-        JMenu mnNewMenu_1 = new JMenu("Player");
-        menuBar.add(mnNewMenu_1);
-        
-        JMenuItem mntmNewMenuItem_5 = new JMenuItem("New menu item");
-        mnNewMenu_1.add(mntmNewMenuItem_5);
-        
-        JMenu mnNewMenu_2 = new JMenu("Play");
-        menuBar.add(mnNewMenu_2);
-        
-        JMenuItem mntmNewMenuItem_6 = new JMenuItem("New menu item");
-        mnNewMenu_2.add(mntmNewMenuItem_6);
-        
-        JMenu mnNewMenu_3 = new JMenu("Statistics");
-        menuBar.add(mnNewMenu_3);
-        
-        JMenuItem mntmNewMenuItem_7 = new JMenuItem("New menu item");
-        mnNewMenu_3.add(mntmNewMenuItem_7);
-        
-        /* put together the elements */
-        myTable.setAutoCreateRowSorter(false);
+        menuBar.add(mapMenu);
+        mapMenu.add(newMap);
+        mapMenu.add(saveMap);
+        menuBar.add(statisticsMenu);
+        statisticsMenu.add(viewStatistics);
         
         scrollPane.add(myTable);
         
@@ -101,18 +78,15 @@ public class MapEditor extends JFrame implements Observer {
         return myTable;
     }
     
-    /* Public methods */
-    
-    /**
-     * Sets the data for the dropdown
-     *
-     * @param dropdownModel representing the model for the dropdown
-     */
-    
-    public void setDropdownModel(DropDownModel dropdownModel) {
-        mapsDropdown.setModel(dropdownModel);
-        mapsDropdown.setSelectedItem(DEFAULT_MAP);
+    public JMenuItem getSaveMap() {
+        return saveMap;
     }
+    
+    public JButton getLoadMap() {
+        return loadMap;
+    }
+    
+    /* Public methods */
     
     /**
      * Resize the table columns to fit
@@ -132,16 +106,6 @@ public class MapEditor extends JFrame implements Observer {
                 width = 400;
             columnModel.getColumn(c).setPreferredWidth(width);
         }
-    }
-    
-    /**
-     * Inform controller of actions on this view
-     * Additional objects can subscribe other controllers within this method
-     *
-     * @param
-     */
-    public void addActionListener(ActionListener MapEditorController) {
-        loadMap.addActionListener(MapEditorController);
     }
     
     /**

@@ -7,6 +7,8 @@ import model.RiskGame;
 import util.Config;
 import view.MapEditor;
 
+import java.io.IOException;
+
 import static model.GameMapHandler.loadGameMap;
 
 
@@ -22,37 +24,52 @@ public class MapEditorController {
     
     public MapEditorController() {
         
-        //create the View object
+        // create the View object
         theView = new MapEditor();
         
-        //create the Model object
+        // create the Model object
         try {
             //theMapTableModel = new MapTableModel(loadGameMap(Config.DEFAULT_MAP));
             theMapTableModel = new MapTableModel(RiskGame.getInstance().getGameMap());
         } catch (Exception e) {
-            e.printStackTrace();
+            theView.displayErrorMessage(e.toString());
         }
         
-        // set the table model for the view
+        /* set the table model for the view */
         theView.getMyTable().setModel(theMapTableModel.getModel());
         theView.resizeColumns(theView.getMyTable());
         
         // Subscribe the view as observer to model changes
         theMapTableModel.addObserver(theView);
         
-        // register this instance of controller as listener to the view
-        theView.addActionListener(e -> {
-            try {   // update the model when button is clicked
+        /* set the model for the dropdown */
+        mapDropDownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
+        theView.mapsDropdown.setModel(mapDropDownModel);
+        theView.mapsDropdown.setSelectedItem(RiskGame.getInstance().getGameMap().getMapName());
+        
+        // Subscribe the mapDropdown as observer to dropdown model changes
+        mapDropDownModel.addListDataListener(theView.mapsDropdown);
+        
+        /* make the controller listen to changes in the view */
+        
+        // update the model when button to load map is clicked
+        theView.getLoadMap().addActionListener(e -> {
+            try {
                 theMapTableModel.updateMapTableModel(loadGameMap(theView.getMap()));
             } catch (Exception e1) {
                 theView.displayErrorMessage(e1.toString());
             }
         });
         
-        /* Get the available maps and populate the dropdown */
-        mapDropDownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
-        theView.setDropdownModel(mapDropDownModel);
-        mapDropDownModel.addListDataListener(theView.mapsDropdown);
+        // write the map to file once menu to save the map is selected
+        theView.getSaveMap().addActionListener(e -> {
+            try {
+                GameMapHandler.writeToFile(RiskGame.getInstance().getGameMap());
+            } catch (IOException e1) {
+                theView.displayErrorMessage(e1.toString());
+            }
+        });
+        
     }
     
 }

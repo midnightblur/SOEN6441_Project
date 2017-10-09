@@ -2,7 +2,10 @@ package model;
 
 import util.Config;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
+import java.util.Vector;
 
 /**
  * Class initiates RiskGame with the welcome message, followed by the following features:
@@ -115,7 +118,7 @@ public class RiskGame {
      */
     public void playPhases() {
         playing = true;
-        while(playing) {
+        while (playing) {
             for (Player player : players) {
                 reinforcementPhase(player);
             }
