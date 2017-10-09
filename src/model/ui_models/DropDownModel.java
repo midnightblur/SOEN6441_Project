@@ -1,4 +1,4 @@
-package model;
+package model.ui_models;
 
 import javax.swing.*;
 import java.util.Observable;

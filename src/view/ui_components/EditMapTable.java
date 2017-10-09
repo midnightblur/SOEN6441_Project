@@ -1,6 +1,6 @@
 package view.ui_components;
 
-import model.MapTableModel;
+import model.ui_models.MapTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;

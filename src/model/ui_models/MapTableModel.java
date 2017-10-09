@@ -1,5 +1,6 @@
-package model;
+package model.ui_models;
 
+import model.RiskGame;
 import model.game_entities.Continent;
 import model.game_entities.GameMap;
 import model.game_entities.Territory;

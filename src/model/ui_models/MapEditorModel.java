@@ -1,4 +1,4 @@
-package model;
+package model.ui_models;
 
 import model.game_entities.GameMap;
 import model.helpers.GameMapHandler;

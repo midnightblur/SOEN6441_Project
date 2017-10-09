@@ -1,7 +1,7 @@
 package controller;
 
-import model.DropDownModel;
-import model.MapEditorModel;
+import model.ui_models.DropDownModel;
+import model.ui_models.MapEditorModel;
 import model.helpers.GameMapHandler;
 import utilities.Config;
 import view.helpers.SaveDialog;

@@ -1,6 +1,6 @@
 package view.screens;
 
-import model.DropDownModel;
+import model.ui_models.DropDownModel;
 import view.helpers.UIHelper;
 import view.ui_components.EditMapControlPanel;
 import view.ui_components.EditMapTable;
