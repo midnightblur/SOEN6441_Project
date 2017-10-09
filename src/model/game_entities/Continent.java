@@ -1,4 +1,6 @@
-package model;
+package model.game_entities;
+
+import model.RiskGame;
 
 import java.util.Objects;
 import java.util.Vector;
@@ -10,7 +12,7 @@ import java.util.Vector;
  * Each continent has a control value as an integer
  */
 public class Continent {
-    /* Private data member of model.Continent class */
+    /* Private data member of model.game_entities.Continent class */
     private String name;
     private Vector<String> territories;
     private int controlValue;

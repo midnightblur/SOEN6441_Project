@@ -1,8 +1,7 @@
-import controller.MapEditorController;
 import controller.StartupPhaseController;
 import model.RiskGame;
-import util.Config;
-import view.PlayUI;
+import utilities.Config;
+import view.screens.PlayUI;
 
 /**
  * Main driver class.
@@ -26,7 +25,7 @@ public class Driver {
         
         game.setGameState(Config.GAME_STATES.MAP_EDITOR);
         //game.setGameState(Config.GAME_STATES.ATTACK_PHASE);
-        new MapEditorController();
+//        new MapEditorController();
         
         
     }

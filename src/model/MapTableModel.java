@@ -1,6 +1,9 @@
 package model;
 
-import util.BidiArrayComparator;
+import model.game_entities.Continent;
+import model.game_entities.GameMap;
+import model.game_entities.Territory;
+import utilities.BidiArrayComparator;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.Arrays;
@@ -16,19 +19,19 @@ public class MapTableModel extends Observable {
     private Vector<String> columns = new Vector<>();
     
     /* Constructors */
-    public MapTableModel(GameMap map) {
-        this.updateMapTableModel(map);
+    public MapTableModel() {
+        model = new DefaultTableModel();
     }
     
     /**
      * Updating the table model and notifying the subscribers
      * This method is also used by the constructor
      *
-     * @param map the map object that provides the data
+     * @param gameMap the gameMap object that provides the data
      *
      * @return a table model to be used to generate the view
      */
-    public DefaultTableModel updateMapTableModel(GameMap map) {
+    public DefaultTableModel updateMapTableModel(GameMap gameMap) {
         /* clears teh model data and reinitialize it with new values */
         model.setRowCount(0);
         columns.clear();
@@ -39,11 +42,11 @@ public class MapTableModel extends Observable {
             columns.add("Owner");
             columns.add("Armies");
         }
-        
-        rows = new String[map.getTerritoriesCount() + map.getContinentsCount()][columns.size()];
+    
+        rows = new String[gameMap.getTerritoriesCount() + gameMap.getContinentsCount()][columns.size()];
         int i = 0;
         /* add continents */
-        for (Continent c : map.getContinents()) {
+        for (Continent c : gameMap.getContinents()) {
             rows[i][0] = c.getName();
             if (RiskGame.getInstance().getGameState().getValue() > 3) {
                 rows[i][3] = c.getContinentOwner();
@@ -51,8 +54,8 @@ public class MapTableModel extends Observable {
             }
             i++;
         }
-        
-        for (Territory t : map.getTerritories().values()) {
+    
+        for (Territory t : gameMap.getTerritories().values()) {
             rows[i][0] = t.getContinent().getName();
             rows[i][1] = t.getName();
             rows[i][2] = t.getNeighbors().toString().replace("[", "").replace("]", "");

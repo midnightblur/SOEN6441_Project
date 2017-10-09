@@ -1,6 +1,6 @@
-package model;
+package model.game_entities;
 
-import util.Config;
+import utilities.Config;
 
 import java.util.Arrays;
 import java.util.Observable;

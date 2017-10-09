@@ -1,4 +1,4 @@
-package model;
+package model.game_entities;
 
 import java.util.Vector;
 
@@ -11,7 +11,7 @@ import java.util.Vector;
  * A territory must contain one or more armies
  */
 public class Territory {
-    /* Private data members of model.Territory class */
+    /* Private data members of model.game_entities.Territory class */
     private String name;
     private Continent continent;
     private Player owner;

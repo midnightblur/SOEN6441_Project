@@ -1,4 +1,4 @@
-package model;
+package model.game_entities;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,7 +9,7 @@ import java.util.Vector;
  * GameMap class is used to store a map information read from or to write to a map text file
  */
 public class GameMap {
-    /* Private data member of model.GameMap class */
+    /* Private data member of model.game_entities.GameMap class */
     private String mapName;
     private Map<String, Territory> territories;
     private Vector<Continent> continents;

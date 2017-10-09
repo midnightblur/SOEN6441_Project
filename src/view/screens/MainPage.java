@@ -1,13 +1,6 @@
-package view;
+package view.screens;
 
 
-
-import javax.swing.*;
-import java.awt.*;
-
-
-import model.RiskGame;
-import util.Config;
 
 import javax.swing.*;
 

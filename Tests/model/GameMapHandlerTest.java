@@ -1,8 +1,10 @@
 package model;
 
+import model.game_entities.GameMap;
+import model.helpers.GameMapHandler;
 import org.junit.Before;
 import org.junit.Test;
-import util.Config;
+import utilities.Config;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

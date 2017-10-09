@@ -1,6 +1,9 @@
-package model;
+package model.helpers;
 
-import util.Config;
+import model.game_entities.Continent;
+import model.game_entities.GameMap;
+import model.game_entities.Territory;
+import utilities.Config;
 
 import java.io.*;
 import java.util.*;

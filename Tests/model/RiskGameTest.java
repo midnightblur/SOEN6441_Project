@@ -1,7 +1,7 @@
 package model;
 
 import org.junit.Test;
-import util.Config;
+import utilities.Config;
 
 import static org.junit.Assert.*;
 

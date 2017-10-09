@@ -1,6 +1,8 @@
 package model;
 
-import util.Config;
+import model.game_entities.*;
+import model.helpers.GameMapHandler;
+import utilities.Config;
 
 import java.util.ArrayList;
 import java.util.Map;

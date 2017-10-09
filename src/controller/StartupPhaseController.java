@@ -1,8 +1,8 @@
 package controller;
 
 import model.RiskGame;
-import util.Config;
-import view.PlayUI;
+import utilities.Config;
+import view.screens.PlayUI;
 
 /**
  * Controller to read and set map filepath to the model, and dispatchToController

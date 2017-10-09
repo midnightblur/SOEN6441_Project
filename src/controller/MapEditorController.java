@@ -1,75 +1,42 @@
 package controller;
 
 import model.DropDownModel;
-import model.GameMapHandler;
-import model.MapTableModel;
-import model.RiskGame;
-import util.Config;
-import view.MapEditor;
-
-import java.io.IOException;
-
-import static model.GameMapHandler.loadGameMap;
-
-
-/**
- * Controller class holding methods used in Map Editor module of the game
- */
+import model.helpers.GameMapHandler;
+import model.MapEditorModel;
+import utilities.Config;
+import view.screens.MapEditorFrame;
 
 public class MapEditorController {
+    private MapEditorFrame mapEditorFrame;
+    private MapEditorModel mapEditorModel;
     
-    private MapEditor theView;
-    private MapTableModel theMapTableModel;
-    private DropDownModel mapDropDownModel;
-    
+    /* Constructors */
     public MapEditorController() {
+        this.mapEditorFrame = new MapEditorFrame();
+        this.mapEditorModel = new MapEditorModel();
+    
+        /* Display list of maps to load to edit */
+        DropDownModel dropDownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
+        this.mapEditorFrame.loadMapsList(dropDownModel);
         
-        // create the View object
-        theView = new MapEditor();
+        /* Register Observer to Observable */
+        this.mapEditorModel.getMapTableModel().addObserver(this.mapEditorFrame.getEditMapTable());
         
-        // create the Model object
-        try {
-            //theMapTableModel = new MapTableModel(loadGameMap(Config.DEFAULT_MAP));
-            theMapTableModel = new MapTableModel(RiskGame.getInstance().getGameMap());
-        } catch (Exception e) {
-            theView.displayErrorMessage(e.toString());
-        }
-        
-        /* set the table model for the view */
-        theView.getMyTable().setModel(theMapTableModel.getModel());
-        theView.resizeColumns(theView.getMyTable());
-        
-        // Subscribe the view as observer to model changes
-        theMapTableModel.addObserver(theView);
-        
-        /* set the model for the dropdown */
-        mapDropDownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
-        theView.mapsDropdown.setModel(mapDropDownModel);
-        theView.mapsDropdown.setSelectedItem(RiskGame.getInstance().getGameMap().getMapName());
-        
-        // Subscribe the mapDropdown as observer to dropdown model changes
-        mapDropDownModel.addListDataListener(theView.mapsDropdown);
-        
-        /* make the controller listen to changes in the view */
-        
-        // update the model when button to load map is clicked
-        theView.getLoadMap().addActionListener(e -> {
-            try {
-                theMapTableModel.updateMapTableModel(loadGameMap(theView.getMap()));
-            } catch (Exception e1) {
-                theView.displayErrorMessage(e1.toString());
-            }
-        });
-        
-        // write the map to file once menu to save the map is selected
-        theView.getSaveMap().addActionListener(e -> {
-            try {
-                GameMapHandler.writeToFile(RiskGame.getInstance().getGameMap());
-            } catch (IOException e1) {
-                theView.displayErrorMessage(e1.toString());
-            }
-        });
-        
+        /* Register to be ActionListeners */
+        this.mapEditorFrame.getEditMapControlPanel().addLoadMapButtonListener(e -> loadMap());
     }
     
+    /* Private methods */
+    /**
+     * Display the map content to the table
+     */
+    private void loadMap() {
+        try {
+            String mapName = mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().getSelectedItem().toString();
+            mapEditorModel.updateGameMap(mapName);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            mapEditorFrame.displayErrorMessage(e.getMessage());
+        }
+    }
 }

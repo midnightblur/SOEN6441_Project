@@ -1,4 +1,4 @@
-package model;
+package model.game_entities;
 
 import java.awt.*;
 import java.util.Random;
@@ -14,7 +14,7 @@ public class Player {
     // Will produce only bright / light colours:
     private Color color;
     
-    // Private data member of model.Player class
+    // Private data member of model.game_entities.Player class
     private int playerID;
     private String playerName;
     private int unallocatedArmies;

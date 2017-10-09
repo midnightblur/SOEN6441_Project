@@ -1,5 +1,6 @@
 package model;
 
+import model.game_entities.Dice;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
