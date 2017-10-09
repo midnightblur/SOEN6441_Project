@@ -19,9 +19,9 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     
     private JComboBox<String> territoriesListDropdown;
     private JTextField territoryNameText;
-    private JRadioButton continentsRadio;
-    private JCheckBox neighboursCheckbox;
     private JButton saveButton;
+    private JPanel radioButtonsPanel;
+    private JPanel checkBoxPanel;
     
     public EditTerritoryPanel() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -46,8 +46,12 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         return territoryNameText;
     }
     
-    public JCheckBox getNeighboursCheckbox() {
-        return neighboursCheckbox;
+    public JPanel getCheckBoxPanel() {
+        return checkBoxPanel;
+    }
+    
+    public JPanel getRadioButtonsPanel() {
+        return radioButtonsPanel;
     }
     
     /* Private methods */
@@ -72,17 +76,15 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         JLabel chooseContinentLabel = new JLabel(CHOOSE_CONTINENT_LABEL);
         chooseContinentLabel.setAlignmentX(CENTER_ALIGNMENT);
         add(chooseContinentLabel);
-        continentsRadio = new JRadioButton();
-        continentsRadio.setAlignmentX(CENTER_ALIGNMENT);
-        add(continentsRadio);
+        radioButtonsPanel = new JPanel(new GridLayout(0, 3));
+        add(new JScrollPane(radioButtonsPanel));
         
         /* Setup Territories Checkbox List */
-        JLabel choosingNeighboursLabel = new JLabel(CHOOSE_NEIGHBOURS_LABEL);
-        choosingNeighboursLabel.setAlignmentX(CENTER_ALIGNMENT);
-        add(choosingNeighboursLabel);
-        neighboursCheckbox = new JCheckBox();
-        neighboursCheckbox.setAlignmentX(CENTER_ALIGNMENT);
-        add(neighboursCheckbox);
+        JLabel chooseNeighboursLabel = new JLabel(CHOOSE_NEIGHBOURS_LABEL);
+        chooseNeighboursLabel.setAlignmentX(CENTER_ALIGNMENT);
+        add(chooseNeighboursLabel);
+        checkBoxPanel = new JPanel(new GridLayout(0, 3));
+        add(new JScrollPane(checkBoxPanel));
         
         /* Setup Save button */
         saveButton = new JButton(SAVE_BUTTON_LABEL);
@@ -94,7 +96,7 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         /* When the GameMap object is updated */
         if (o instanceof MapEditorModel) {
-            territoriesListDropdown.setModel(((MapEditorModel) o).getContinentsDropdownModel());
+            territoriesListDropdown.setModel(((MapEditorModel) o).getTerritoriesDropdownModel());
             territoriesListDropdown.setSelectedIndex(0);
         }
     }

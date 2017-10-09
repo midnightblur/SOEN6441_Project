@@ -21,7 +21,6 @@ public class MapEditorController {
     private MapEditorFrame mapEditorFrame;
     private MapEditorModel mapEditorModel;
     private MainGameController callerController;
-    private String mapName;
     private int newContinentID; // helps generate new continent name => faster demo
     private int newTerritoryID; // helps generate new territory name => faster demo
     
@@ -58,7 +57,7 @@ public class MapEditorController {
      */
     private void loadMap() {
         try {
-            mapName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().getSelectedItem());
+            String mapName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().getSelectedItem());
             mapEditorModel.loadNewGameMap(mapName);
         } catch (Exception e) {
             e.printStackTrace(System.err);
@@ -112,12 +111,57 @@ public class MapEditorController {
                 mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getCheckBoxPanel().add(checkBox);
             }
         }
-        mapEditorFrame.revalidate();
-        mapEditorFrame.repaint();
+        mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().revalidate();
+        mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().repaint();
     }
     
     private void prepareTerritoryEditArea() {
+        String selectedTerritories = String.valueOf(mapEditorModel.getTerritoriesDropdownModel().getSelectedItem());
+        mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getCheckBoxPanel().removeAll();
+        mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().removeAll();
+        if (selectedTerritories.compareTo(MapEditorModel.CREATE_NEW_TERRITORY_ITEM) == 0) {
+            String newTerritoryName = TERRITORY_NAME_GENERATOR + newTerritoryID;
+            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoryNameText().setText(newTerritoryName);
+            
+            for (Continent continent : mapEditorModel.getGameMap().getContinents().values()) {
+                JRadioButton radioButton = new JRadioButton(continent.getName());
+                radioButton.setSelected(false);
+                mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(radioButton);
+            }
+            
+            for (Territory territory : mapEditorModel.getGameMap().getTerritories().values()) {
+                JCheckBox checkBox = new JCheckBox();
+                checkBox.setText(territory.getName());
+                checkBox.setSelected(false);
+                mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getCheckBoxPanel().add(checkBox);
+            }
+        } else {
+            Territory currentTerritory = mapEditorModel.getGameMap().getATerritory(selectedTerritories);
+            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoryNameText().setText(currentTerritory.getName());
     
+            for (Continent continent : mapEditorModel.getGameMap().getContinents().values()) {
+                JRadioButton radioButton = new JRadioButton(continent.getName());
+                if (currentTerritory.belongToContinent(continent)) {
+                    radioButton.setSelected(true);
+                } else {
+                    radioButton.setSelected(false);
+                }
+                mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(radioButton);
+            }
+    
+            for (Territory territory : mapEditorModel.getGameMap().getTerritories().values()) {
+                JCheckBox checkBox = new JCheckBox();
+                checkBox.setText(territory.getName());
+                if (currentTerritory.isNeighbor(territory.getName())) {
+                    checkBox.setSelected(true);
+                } else {
+                    checkBox.setSelected(false);
+                }
+                mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getCheckBoxPanel().add(checkBox);
+            }
+        }
+        mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().revalidate();
+        mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().repaint();
     }
     
     /**

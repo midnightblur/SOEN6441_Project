@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Vector;
 
 public class EditContinentPanel extends JPanel implements Observer {
     private static final String SAVE_BUTTON_LABEL = "Save Continent";
@@ -22,7 +21,6 @@ public class EditContinentPanel extends JPanel implements Observer {
     private JTextField continentNameText;
     private JTextField contientControlValueText;
     private JPanel checkBoxPanel;
-    private Vector<JCheckBox> continentTerritoriesCheckbox;
     private JButton saveButton;
     
     public EditContinentPanel() {
@@ -50,10 +48,6 @@ public class EditContinentPanel extends JPanel implements Observer {
     
     public JTextField getContientControlValueText() {
         return contientControlValueText;
-    }
-    
-    public Vector<JCheckBox> getContinentTerritoriesCheckbox() {
-        return this.continentTerritoriesCheckbox;
     }
     
     public JPanel getCheckBoxPanel() {
