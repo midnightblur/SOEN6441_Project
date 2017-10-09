@@ -25,7 +25,7 @@ public class MapEditorController {
     
         /* Display list of maps to load to edit */
         DropDownModel mapDropdownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
-        this.mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().setModel(mapDropdownModel);
+        this.mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().setModel(mapDropdownModel.getComboBoxModel());
         
         /* Register Observer to Observable */
         this.mapEditorModel.getMapTableModel().addObserver(this.mapEditorFrame.getEditMapTable());

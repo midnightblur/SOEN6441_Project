@@ -1,16 +1,21 @@
 package model;
 
 import javax.swing.*;
+import java.util.Observable;
 import java.util.Vector;
 
-public class DropDownModel extends DefaultComboBoxModel<String> {
+public class DropDownModel extends Observable {
+    private DefaultComboBoxModel<String> comboBoxModel;
+    
     public DropDownModel(Vector<String> items) {
-        super(items);
+        this.comboBoxModel = new DefaultComboBoxModel<>(items);
     }
     
-    @Override
     public String getSelectedItem() {
-        return (String) super.getSelectedItem();
+        return String.valueOf(comboBoxModel.getSelectedItem());
     }
-
+    
+    public DefaultComboBoxModel<String> getComboBoxModel() {
+        return comboBoxModel;
+    }
 }
