@@ -1,15 +1,20 @@
 package view.ui_components;
 
+import model.ui_models.MapEditorModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
-public class EditContinentPanel extends JPanel {
+public class EditContinentPanel extends JPanel implements Observer {
     private static final String SAVE_BUTTON_LABEL = "Save Continent";
     private static final String CHOOSE_CONTINENT = "Choose Continent";
     private static final String CONTIENT_NAME_LABEL = "Continent Name";
     private static final String CONTINENT_CONTROL_VALUE_LABEL = "Control Value";
     private static final String CONTINENT_TERRITORIES_LABEL = "Choose Territories";
+    private static final String NEW_CONTNENT_ITEM = "Create New Continent";
     private static final int LAYOUT_ROWS = 3;
     private static final int LAYOUT_COLS = 2;
     
@@ -31,6 +36,24 @@ public class EditContinentPanel extends JPanel {
     
     public void addSaveButtonListener(ActionListener listenerForSaveButton) {
         saveButton.addActionListener(listenerForSaveButton);
+    }
+    
+    /* Getters & Setters */
+    
+    public JComboBox<String> getContinentsListDropdown() {
+        return continentsListDropdown;
+    }
+    
+    public JTextField getContinentNameText() {
+        return continentNameText;
+    }
+    
+    public JTextField getContientControlValueText() {
+        return contientControlValueText;
+    }
+    
+    public JCheckBox getContinentTerritoriesListRadio() {
+        return continentTerritoriesListRadio;
     }
     
     /* Private methods */
@@ -69,5 +92,13 @@ public class EditContinentPanel extends JPanel {
         saveButton = new JButton(SAVE_BUTTON_LABEL);
         saveButton.setAlignmentX(CENTER_ALIGNMENT);
         add(saveButton);
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        /* When the GameMap object is updated */
+        if (o instanceof MapEditorModel) {
+            continentsListDropdown.setModel(((MapEditorModel) o).getContinentsDropdownModel());
+        }
     }
 }

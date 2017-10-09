@@ -25,17 +25,18 @@ public class MapEditorController {
     
         /* Display list of maps to load to edit */
         DropDownModel mapDropdownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
-        this.mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().setModel(mapDropdownModel.getComboBoxModel());
+        this.mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().setModel(mapDropdownModel);
         
         /* Register Observer to Observable */
-        this.mapEditorModel.getMapTableModel().addObserver(this.mapEditorFrame.getEditMapTable());
+        this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapTable());
+        this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel());
         
         /* Register to be ActionListeners */
         this.mapEditorFrame.getEditMapControlPanel().addLoadMapButtonListener(e -> loadMap());
         this.mapEditorFrame.getEditMapControlPanel().addBackButtonListener(e -> backToMainMenu());
         this.mapEditorFrame.getEditMapControlPanel().addNewMapButtonListener(e -> initiateNewGameMap());
-        this.mapEditorFrame.getEditMapControlPanel().getContinentEditPanel().addContinentsListDropdownListener(e -> prepareContinentEditArea());
-        this.mapEditorFrame.getEditMapControlPanel().getContinentEditPanel().addSaveButtonListener(e -> saveContientInfo());
+        this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().addContinentsListDropdownListener(e -> prepareContinentEditArea());
+        this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().addSaveButtonListener(e -> saveContientInfo());
         this.mapEditorFrame.getEditMapControlPanel().addSaveMapButtonListener(e -> saveMap());
     }
     

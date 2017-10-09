@@ -1,6 +1,6 @@
 package view.ui_components;
 
-import model.ui_models.MapTableModel;
+import model.ui_models.MapEditorModel;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
@@ -19,7 +19,7 @@ public class EditMapTable extends JTable implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        setModel(((MapTableModel) o).getModel());
+        setModel(((MapEditorModel) o).getMapTableModel().getModel());
         resizeColumns();
     }
     
