@@ -77,8 +77,4 @@ public class Config {
     public static final String MSG_MAPFILE_TERRITORY_NOT_DEFINED = "A territory is not defined";
     public static final String MSG_MAPFILE_TERRITORY_DUPLICATED = "The territory already exist: line %s";
     public static final String MSG_MAPFILE_CONTINENT_NO_TERRITORY = "The %s continent has no territory";
-    
-    /* UI Content */
-    public static final String UI_LABEL_CHOOSE_MAP = "Choose Map";
-    public static final String UI_BUTTON_LOAD_MAP = "Load Map";
 }

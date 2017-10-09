@@ -1,16 +1,19 @@
 package view.ui_components;
 
-import utilities.Config;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
 public class EditMapControlPanel extends JPanel {
-    private static final String NEW_BUTTON_LABEL = "New Map";
+    private static final int MAP_SELECTION_LAYOUT_ROWS = 1;
+    private static final int MAP_SELECTION_LAYOUT_COLS = 2;
+    private static final String NEW_MAP_BUTTON_LABEL = "Create a new Map";
     private static final String SAVE_BUTTON_LABEL = "Save Map";
     private static final String BACK_BUTTON_LABEL = "Back";
+    private static final String LOAD_BUTTON_LABEL = "Load Map";
+    private static final String LABEL_OR = "or";
+    private static final String LABEL_CHOOSE_MAP = "Choose a Map to edit";
     
     private JButton loadMapButton;
     private JComboBox<String> chooseMapDropdown;
@@ -24,23 +27,31 @@ public class EditMapControlPanel extends JPanel {
     /* Constructors */
     public EditMapControlPanel() {
         editComponentsList = new Vector<>();
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         /* Setup map selection area */
         JPanel panel_1 = new JPanel(new FlowLayout());
-        JLabel chooseMapLabel = new JLabel(Config.UI_LABEL_CHOOSE_MAP);
-        chooseMapDropdown = new JComboBox<>();
-        loadMapButton = new JButton(Config.UI_BUTTON_LOAD_MAP);
-        panel_1.add(chooseMapLabel);
-        panel_1.add(chooseMapDropdown);
-        panel_1.add(loadMapButton);
-        add(panel_1);
+        JPanel panel_1_left = new JPanel();
+        newMapButton = new JButton(NEW_MAP_BUTTON_LABEL);
+        panel_1_left.add(newMapButton);
+        panel_1.add(panel_1_left);
+    
+        panel_1.add(new JLabel(LABEL_OR));
         
-        /* Setup buttons */
-        JPanel panel_2 = new JPanel(new FlowLayout());
-        newMapButton = new JButton(NEW_BUTTON_LABEL);
-        panel_2.add(newMapButton);
-        add(panel_2);
+        JPanel panel_1_right = new JPanel();
+        panel_1_right.setLayout(new BoxLayout(panel_1_right, BoxLayout.Y_AXIS));
+        JLabel chooseMapLabel = new JLabel(LABEL_CHOOSE_MAP);
+        chooseMapDropdown = new JComboBox<>();
+        loadMapButton = new JButton(LOAD_BUTTON_LABEL);
+        chooseMapLabel.setAlignmentX(CENTER_ALIGNMENT);
+        chooseMapDropdown.setAlignmentX(CENTER_ALIGNMENT);
+        loadMapButton.setAlignmentX(CENTER_ALIGNMENT);
+        panel_1_right.add(chooseMapLabel);
+        panel_1_right.add(chooseMapDropdown);
+        panel_1_right.add(loadMapButton);
+        panel_1.add(panel_1_right);
+        
+        add(panel_1);
         
         /* Editing buttons */
         // TODO: set their visibility (in controller) when a map is loaded
