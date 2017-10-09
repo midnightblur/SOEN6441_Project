@@ -64,7 +64,6 @@ public class MapEditorFrame extends JFrame {
      * @param dropDownModel
      */
     public void loadMapsList(DropDownModel dropDownModel) {
-        editMapControlPanel.getChooseMapDropdown().setModel(dropDownModel);
     }
     
     /* Private methods */

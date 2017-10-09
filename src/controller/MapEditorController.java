@@ -20,8 +20,16 @@ public class MapEditorController {
         this.mapEditorModel = new MapEditorModel();
     
         /* Display list of maps to load to edit */
-        DropDownModel dropDownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
-        this.mapEditorFrame.loadMapsList(dropDownModel);
+        DropDownModel mapDropdownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
+        this.mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().setModel(mapDropdownModel);
+
+        /* Display list of options to add countries or continents */
+        DropDownModel addDropdownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
+        this.mapEditorFrame.getEditMapControlPanel().getAddDropdown().setModel(addDropdownModel);
+     
+        /* Display list of maps to load to edit */
+        DropDownModel editDropdownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
+        this.mapEditorFrame.getEditMapControlPanel().getEditDropdown().setModel(editDropdownModel);
         
         /* Register Observer to Observable */
         this.mapEditorModel.getMapTableModel().addObserver(this.mapEditorFrame.getEditMapTable());
@@ -29,6 +37,8 @@ public class MapEditorController {
         /* Register to be ActionListeners */
         this.mapEditorFrame.getEditMapControlPanel().addLoadMapButtonListener(e -> loadMap());
         this.mapEditorFrame.getEditMapControlPanel().addBackButtonListener(e -> backToMainMenu());
+        this.mapEditorFrame.getEditMapControlPanel().addAddDropdownListener(e -> addContinentCountry());
+        this.mapEditorFrame.getEditMapControlPanel().addEditDropdownListener(e -> editContinentCountry());
     }
     
     /* Private methods */
@@ -53,4 +63,19 @@ public class MapEditorController {
         callerController.invokeFrame();
         mapEditorFrame.dispatchEvent(new WindowEvent(mapEditorFrame, WindowEvent.WINDOW_CLOSING));
     }
+    
+    /**
+     * Show the add panel to add a country or a continent
+     */
+    private void addContinentCountry() {
+        // TODO: implement method   
+    }
+    
+    /**
+     * show the edit panel to edit or delete a country or a continent
+     */
+    private void editContinentCountry() {
+        // TODO: implement method   
+    }
+    
 }
