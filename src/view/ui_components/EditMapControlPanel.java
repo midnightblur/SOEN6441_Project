@@ -5,6 +5,7 @@ import utilities.Config;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 public class EditMapControlPanel extends JPanel {
     private static final String NEW_BUTTON_LABEL = "New Map";
@@ -18,9 +19,11 @@ public class EditMapControlPanel extends JPanel {
     private JComboBox addDropdown;
     private JComboBox editDropdown;
     private JButton backButton;
+    private Vector<JComponent> editComponentsList;
     
     /* Constructors */
     public EditMapControlPanel() {
+        editComponentsList = new Vector<>();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         /* Setup map selection area */
@@ -46,7 +49,6 @@ public class EditMapControlPanel extends JPanel {
         editDropdown = new JComboBox<>();
         panel_3.add(addDropdown);
         panel_3.add(editDropdown);
-        //panel_3.setVisible(false);
         add(panel_3);
         
         /* Navigation buttons */
@@ -77,6 +79,10 @@ public class EditMapControlPanel extends JPanel {
         loadMapButton.addActionListener(listenerForLoadMapButton);
     }
     
+    public void addNewMapButtonListener(ActionListener listenerForNewMapButton) {
+        newMapButton.addActionListener(listenerForNewMapButton);
+    }
+    
     public void addAddDropdownListener(ActionListener listenerForAddDropdown) {
         addDropdown.addActionListener(listenerForAddDropdown);
     }
@@ -89,9 +95,13 @@ public class EditMapControlPanel extends JPanel {
         backButton.addActionListener(listenerForBackButton);
     }
     
-    public void addSaveMapButtonListener(ActionListener listenerSaveMapButton) {
-        saveMapButton.addActionListener(listenerSaveMapButton);
+    public void addSaveMapButtonListener(ActionListener listenerForSaveMapButton) {
+        saveMapButton.addActionListener(listenerForSaveMapButton);
     }
     
     /* Public methods */
+    public void setEditElementsEnable(boolean isEnable) {
+        addDropdown = new JComboBox<>();
+        editDropdown = new JComboBox<>();
+    }
 }

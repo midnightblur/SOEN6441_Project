@@ -39,6 +39,7 @@ public class MapEditorController {
         this.mapEditorFrame.getEditMapControlPanel().addBackButtonListener(e -> backToMainMenu());
         this.mapEditorFrame.getEditMapControlPanel().addAddDropdownListener(e -> addContinentCountry());
         this.mapEditorFrame.getEditMapControlPanel().addEditDropdownListener(e -> editContinentCountry());
+        this.mapEditorFrame.getEditMapControlPanel().addNewMapButtonListener(e -> initiateNewGameMap());
     }
     
     /* Private methods */
@@ -78,4 +79,10 @@ public class MapEditorController {
         // TODO: implement method   
     }
     
+    /**
+     * Create a new GameMap object for users to make their own map from scratch
+     */
+    private void initiateNewGameMap() {
+        // TODO: implement method
+    }
 }
