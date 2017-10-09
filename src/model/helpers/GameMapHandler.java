@@ -16,6 +16,23 @@ import java.util.*;
  * This class helps write map's information to a text file
  */
 public class GameMapHandler {
+    public static Vector<String> getEntities() {
+        Vector<String> entities = new Vector<>();
+        entities.add("SELECT WHAT YOU WANT TO ADD");
+        entities.add("Continent");
+        entities.add("Country");
+        return entities;
+    }
+    
+    public static Vector<String> getContinentsCountries() {
+        Vector<String> continentsCountries = new Vector<>();
+        continentsCountries.add("SELECT TO EDIT/DELETE");
+        continentsCountries.add("test");
+        continentsCountries.add("test");
+        continentsCountries.add("test");
+        return continentsCountries;
+    }
+    
     private enum MAP_PARTS {MAP, CONTINENTS, TERRITORIES}
     
     /* Constructors */
@@ -92,7 +109,7 @@ public class GameMapHandler {
                                 if (continentsMap.containsKey(continentInfo[0].trim())) {
                                     throw new IllegalArgumentException(String.format(Config.MSG_MAPFILE_CONTINENT_DUPLICATED, lineCounter));
                                 }
-                
+                                
                                 Continent continent = new Continent(continentInfo[0].trim(), Integer.parseInt(continentInfo[1].trim()));
                                 continentsMap.put(continent.getName(), continent);
                                 gameMap.addContinent(continent);

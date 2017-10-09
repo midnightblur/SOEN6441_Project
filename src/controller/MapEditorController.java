@@ -24,11 +24,11 @@ public class MapEditorController {
         this.mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().setModel(mapDropdownModel);
 
         /* Display list of options to add countries or continents */
-        DropDownModel addDropdownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
+        DropDownModel addDropdownModel = new DropDownModel(GameMapHandler.getEntities());
         this.mapEditorFrame.getEditMapControlPanel().getAddDropdown().setModel(addDropdownModel);
      
         /* Display list of maps to load to edit */
-        DropDownModel editDropdownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
+        DropDownModel editDropdownModel = new DropDownModel(GameMapHandler.getContinentsCountries());
         this.mapEditorFrame.getEditMapControlPanel().getEditDropdown().setModel(editDropdownModel);
         
         /* Register Observer to Observable */
