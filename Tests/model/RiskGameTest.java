@@ -1,7 +1,7 @@
 package model;
 
 import org.junit.Test;
-import util.Config;
+import utilities.Config;
 
 import static org.junit.Assert.*;
 
@@ -49,6 +49,11 @@ public class RiskGameTest {
     }
     
     /*
+    // testing players armies
+        for (Player player : players) {
+            System.out.println("player " + player.getPlayerID() + "'s unallocated armies before allocation: "
+                    + player.getUnallocatedArmies());
+        }
     // testing territory dist
         for (Player player : players) {
         System.out.println("player " + player.getPlayerID() + "'s territories: (total: "
@@ -65,5 +70,7 @@ public class RiskGameTest {
                     + " (num of armies: " + entry.getValue().getArmies() + ")." );
         }
     }
+    // print out to test round-robin fashion of players' turn
+    System.out.println("player " + players.elementAt(playerIndex).getPlayerID() + "'s turn to allocate army.");
     */
 }

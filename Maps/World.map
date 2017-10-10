@@ -1,70 +1,57 @@
-[Map]
-author=Sean O'Connor
-image=world.bmp
-wrap=no
-scroll=horizontal
-warn=yes
-
 [Continents]
-North America=5
-South America=2
-Africa=3
-Europe=5
-Asia=7
-Australia=2
+north america=5
+south america=2
+africa=3
+europe=5
+asia=7
+australia=2
 
 [Territories]
-Alaska,70,126,North America,Northwest Territory,Alberta,Kamchatka
-Northwest Territory,148,127,North America,Alaska,Alberta,Ontario,Greenland
-Alberta,147,163,North America,Alaska,Northwest Territory,Ontario,Western United States
-Greenland,324,76,North America,Northwest Territory,Ontario,Quebec,Iceland
-Ontario,199,167,North America,Northwest Territory,Alberta,Greenland,Quebec,Western United States,Eastern United States
-Quebec,253,166,North America,Greenland,Ontario,Eastern United States
-Western United States,159,204,North America,Alberta,Ontario,Eastern United States,Central America
-Eastern United States,219,216,North America,Ontario,Quebec,Western United States,Central America
-Central America,183,262,North America,Western United States,Eastern United States,Venezuala
+alaska,0,0,north america,northwest territory,alberta,kamchatka
+northwest territory,0,0,north america,alaska,alberta,ontario,greenland
+alberta,0,0,north america,alaska,northwest territory,ontario,western united states
+greenland,0,0,north america,northwest territory,ontario,quebec,iceland
+ontario,0,0,north america,northwest territory,alberta,greenland,quebec,western united states,eastern united states
+quebec,0,0,north america,greenland,ontario,eastern united states
+western united states,0,0,north america,alberta,ontario,eastern united states,central america
+eastern united states,0,0,north america,ontario,quebec,western united states,central america
+central america,0,0,north america,western united states,eastern united states,venezuala
 
-Venezuala,259,303,South America,Central America,Peru,Brazil
-Peru,262,349,South America,Venezuala,Brazil,Argentina
-Argentina,263,407,South America,Peru,Brazil
-Brazil,308,337,South America,Venezuala,Peru,Argentina,North Africa
+venezuala,0,0,south america,central america,peru,brazil
+peru,0,0,south america,venezuala,brazil,argentina
+argentina,0,0,south america,peru,brazil
+brazil,0,0,south america,venezuala,peru,argentina,north africa
 
-North Africa,420,264,Africa,Brazil,Western Europe,Southern Europe,Egypt,East Africa,Congo
-Congo,475,318,Africa,North Africa,East Africa,South Africa
-South Africa,483,371,Africa,Congo,East Africa,Madagascar
-Madagascar,536,361,Africa,East Africa,South Africa
-East Africa,517,298,Africa,Egypt,Middle East,Congo,North Africa,South Africa,Madagascar
-Egypt,480,249,Africa,Southern Europe,North Africa,Middle East,East Africa
+north africa,0,0,africa,brazil,western europe,southern europe,egypt,east africa,congo
+congo,0,0,africa,north africa,east africa,south africa
+south africa,0,0,africa,congo,east africa,madagascar
+madagascar,0,0,africa,east africa,south africa
+east africa,0,0,africa,egypt,middle east,congo,north africa,south africa,madagascar
+egypt,0,0,africa,southern europe,north africa,middle east,east africa
 
-Iceland,380,126,Europe,Greenland,Great Britain,Scandinavia
-Great Britain,419,169,Europe,Iceland,Scandinavia,Western Europe,Northern Europe
-Western Europe,423,202,Europe,Great Britain,Northern Europe,Southern Europe,North Africa
-Scandinavia,463,127,Europe,Iceland,Great Britain,Northern Europe,Ukraine
-Northern Europe,460,173,Europe,Great Britain,Scandinavia,Ukraine,Southern Europe,Western Europe
-Southern Europe,473,197,Europe,Northern Europe,Ukraine,Middle East,Egypt,North Africa,Western Europe
-Ukraine,524,157,Europe,Ural,Afghanistan,Middle East,Southern Europe,Northern Europe,Scandinavia
+iceland,0,0,europe,greenland,great britain,scandinavia
+great britain,0,0,europe,iceland,scandinavia,western europe,northern europe
+western europe,0,0,europe,great britain,northern europe,southern europe,north africa
+scandinavia,0,0,europe,iceland,great britain,northern europe,ukraine
+northern europe,0,0,europe,great britain,scandinavia,ukraine,southern europe,western europe
+southern europe,0,0,europe,northern europe,ukraine,middle east,egypt,north africa,western europe
+ukraine,0,0,europe,ural,afghanistan,middle east,southern europe,northern europe,scandinavia
 
-Middle East,530,234,Asia,Ukraine,Afghanistan,India,Southern Europe,Egypt,East Africa
-Ural,613,136,Asia,Siberia,China,Afghanistan,Ukraine
-Afghanistan,585,192,Asia,Ural,China,India,Middle East,Ukraine
-India,612,249,Asia,China,Siam,Afghanistan,Middle East
-Siberia,666,110,Asia,Yatusk,Irkutsk,Mongolia,China,Ural
-China,662,217,Asia,Ural,Siberia,Mongolia,Siam,India,Afghanistan
-Siam,671,270,Asia,China,India,Indonesia
-Mongolia,707,188,Asia,Siberia,Irkutsk,Japan,China,Kamchatka
-Irkutsk,698,152,Asia,Siberia,Yatusk,Kamchatka,Mongolia
-Yatusk,738,118,Asia,Siberia,Irkutsk,Kamchatka
-Kamchatka,806,125,Asia,Yatusk,Irkutsk,Japan,Alaska,Mongolia
-Japan,759,220,Asia,Kamchatka,Mongolia
+middle east,0,0,asia,ukraine,afghanistan,india,southern europe,egypt,east africa
+ural,0,0,asia,siberia,china,afghanistan,ukraine
+afghanistan,0,0,asia,ural,china,india,middle east,ukraine
+india,0,0,asia,china,siam,afghanistan,middle east
+siberia,0,0,asia,yatusk,irkutsk,mongolia,china,ural
+china,0,0,asia,ural,siberia,mongolia,siam,india,afghanistan
+siam,0,0,asia,china,india,indonesia
+mongolia,0,0,asia,siberia,irkutsk,japan,china,kamchatka
+irkutsk,0,0,asia,siberia,yatusk,kamchatka,mongolia
+yatusk,0,0,asia,siberia,irkutsk,kamchatka
+kamchatka,0,0,asia,yatusk,irkutsk,japan,alaska,mongolia
+japan,0,0,asia,kamchatka,mongolia
 
-Indonesia,698,314,Australia,Siam,New Guinea,Western Australia
-New Guinea,768,325,Australia,Indonesia,Western Australia,Eastern Australia
-Western Australia,729,373,Australia,Indonesia,New Guinea,Eastern Australia
-Eastern Australia,779,381,Australia,Western Australia,New Guinea
-
-
-
-
-
-
+indonesia,0,0,australia,siam,new guinea,western australia
+new guinea,0,0,australia,indonesia,western australia,eastern australia
+western australia,0,0,australia,indonesia,new guinea,eastern australia
+eastern australia,0,0,australia,western australia,new guinea
 

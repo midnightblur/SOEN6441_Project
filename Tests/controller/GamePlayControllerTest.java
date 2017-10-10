@@ -1,8 +1,8 @@
-package model;
+package controller;
 
 import org.junit.Test;
 
-public class GameStatesTest {
+public class GamePlayControllerTest {
     @Test
     public void someMethod() throws Exception {
     }

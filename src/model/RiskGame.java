@@ -1,6 +1,12 @@
 package model;
 
-import util.Config;
+import model.game_entities.Card;
+import model.game_entities.GameMap;
+import model.game_entities.Player;
+import model.game_entities.Territory;
+import model.helpers.GameMapHelper;
+import model.ui_models.MapTableModel;
+import utilities.Config;
 
 import java.util.*;
 
@@ -15,18 +21,22 @@ import java.util.*;
  * c) fortifications phase
  * 5) end of game
  */
-public class RiskGame {
+public class RiskGame extends Observable {
     private int numOfContinents;
     private Vector<Card> deck = new Vector<>();
     private Vector<Player> players = new Vector<>();
     private GameMap gameMap;
     private static RiskGame instance = null;
     private Config.GAME_STATES gameState = Config.GAME_STATES.ENTRY_MENU;
+    private boolean playing = false;
+    
+    private MapTableModel mapTableModel;
     
     /**
      * private constructor preventing any other class from instantiating.
      */
     private RiskGame() {
+        mapTableModel = new MapTableModel();
     }
     
     /**
@@ -53,6 +63,10 @@ public class RiskGame {
         this.numOfTerritories = numOfTerritories;
     }
     */
+    
+    public MapTableModel getMapTableModel() {
+        return mapTableModel;
+    }
     
     public int getNumOfContinents() {
         return this.numOfContinents;
@@ -81,16 +95,16 @@ public class RiskGame {
     }
     
     /**
-     * Initiates the game map according to the filepath, sets the number of
-     * players playing the game, sets the deck of cards, and distributes
-     * territories to the players randomly.
+     * Initiates the startup phase before game play. Sets the game map according
+     * to the filepath, sets the number of players playing the game, sets the
+     * deck of cards, and distributes territories to the players randomly.
      *
      * @param filepath:    String value of the path to a valid map file.
      * @param currPlayers: int value of the initial number of players.
      */
-    public void initStartup(String filepath, int currPlayers) {
+    public void startupPhase(String filepath, int currPlayers) {
         try {
-            this.gameMap = GameMapHandler.loadGameMap(filepath);
+            this.gameMap = GameMapHelper.loadGameMap(filepath);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -105,32 +119,44 @@ public class RiskGame {
         initDeck();
         distributeTerritories();
         giveInitialArmies();
-        
-        // testing players armies
-        for (Player player : players) {
-            System.out.println("player " + player.getPlayerID() + "'s unallocated armies before allocation: "
-                    + player.getUnallocatedArmies());
-        }
-        
         placeArmies();
         
-        
-        // testing territory dist
-        for (Player player : players) {
-            System.out.println("player " + player.getPlayerID() + "'s territories: (total: "
-                    + gameMap.getTerritoriesOfPlayer(player).size() + ")");
-            for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
-                System.out.println("\t" + entry.getValue().getName());
+        this.setGameState(Config.GAME_STATES.ATTACK_PHASE);
+        broadcastGamePlayChanges();
+    }
+    
+    /**
+     * Initiates the actual game play. Consists of the round-robin fashion of
+     * players' turns that include reinforcement phase, attack phase, and fortification phase.
+     */
+    public void playPhases() {
+        playing = true;
+        while (playing) {
+            for (Player player : players) {
+                reinforcementPhase(player);
             }
         }
-        // testing army placement
-        for (Player player : players) {
-            System.out.println("player " + player.getPlayerID() + ":");
-            for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
-                System.out.println("\t" + entry.getValue().getName()
-                        + " (num of armies: " + entry.getValue().getArmies() + ")." );
-            }
+    }
+    
+    /**
+     * The reinforcement phase includes allowing the players to hand in their cards for
+     * armies (or force them to if they have more than or equal to 5 cards), assign
+     * to-be-allocated armies to the players according to the number of territories they
+     * control (to a minimum of 3), and allows players to place those armies.
+     *
+     * @param player
+     */
+    public void reinforcementPhase(Player player) {
+        // Force players to trade in cards if they have more than or equal to 5 cards.
+        if (player.getPlayersHand().size() >= 5) {
+            // TODO
         }
+        int armiesToGive = gameMap.getTerritoriesOfPlayer(player).size() / 3;
+        if (armiesToGive < 3) {
+            armiesToGive = 3;
+        }
+        player.setUnallocatedArmies(armiesToGive);
+        placeArmies();
     }
     
     /**
@@ -208,7 +234,7 @@ public class RiskGame {
     
     /**
      * This method gives initial armies per player according to the following algorithm:
-     * [# of initial armies = (# of territories) * (2.75) / (# of players)]
+     * [# of initial armies = (total# of territories) * (2.75) / (total# of players)]
      */
     public void giveInitialArmies() {
         int armiesToGive = (int) (gameMap.getTerritoriesCount() * Config.INITIAL_ARMY_RATIO / players.size());
@@ -230,11 +256,17 @@ public class RiskGame {
             if (!(playerIndex < players.size())) {
                 playerIndex = 0;
             }
-            // TODO: get rid of this line following print out line.
-            System.out.println("player " + players.elementAt(playerIndex).getPlayerID() + "'s turn to allocate army.");
+            // Add a player's territories to list if they do not contain any armies
             for (Map.Entry<String, Territory> entry :
                     gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).entrySet()) {
-                if (entry.getValue().getOwner().equals(players.elementAt(playerIndex))) {
+                if (entry.getValue().getArmies() == 0) {
+                    territoryList.add(entry.getValue());
+                }
+            }
+            // If there are no territories without any armies, then add all of player's territories to the list.
+            if (territoryList.size() == 0) {
+                for (Map.Entry<String, Territory> entry :
+                        gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).entrySet()) {
                     territoryList.add(entry.getValue());
                 }
             }
@@ -250,4 +282,13 @@ public class RiskGame {
             }
         }
     }
+    
+    /**
+     * Update the GamePlayModel and notify the Observer
+     */
+    private void broadcastGamePlayChanges() {
+        setChanged();
+        notifyObservers();
+    }
+    
 }
