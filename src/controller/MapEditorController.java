@@ -310,6 +310,10 @@ public class MapEditorController {
             int selection = fileChooser.showSaveDialog(fileChooser.getParent());
             if (selection == JFileChooser.APPROVE_OPTION) {
                 File mapFileToSave = fileChooser.getSelectedFile();
+                // add file extension if user does not enters it
+                if (!mapFileToSave.getAbsolutePath().toLowerCase().endsWith(".map")) {
+                    mapFileToSave = new File(mapFileToSave.getAbsolutePath() + ".map");
+                }
                 try {
                     GameMapHelper.writeToFile(mapEditorModel.getGameMap(), mapFileToSave.getAbsolutePath());
                     mapEditorFrame.displayErrorMessage("The map file was saved at \n" + mapFileToSave.getAbsolutePath());

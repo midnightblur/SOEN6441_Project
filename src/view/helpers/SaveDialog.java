@@ -36,7 +36,7 @@ class MapFilter extends javax.swing.filechooser.FileFilter implements FileFilter
     
     @Override
     public String getDescription() {
-        return Config.MAPS_EXTENSION;
+        return "Map files (" + Config.MAPS_EXTENSION + ")";
     }
     
 }
