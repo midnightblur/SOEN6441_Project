@@ -31,7 +31,8 @@ public class Continent {
         this.territories = new Vector<>();
     }
     
-    /* Getters & Setters */
+    /**
+    Getters & Setters */
     public String getName() {
         return name;
     }
