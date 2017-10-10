@@ -87,7 +87,7 @@ public class MapEditorController {
      * Create a new GameMap object for users to make their own map from scratch
      */
     private void initiateNewGameMap() {
-        // TODO: implement method
+        mapEditorModel.initNewMap();
     }
     
     /**

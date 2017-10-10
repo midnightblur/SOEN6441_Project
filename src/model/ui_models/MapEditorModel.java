@@ -106,6 +106,12 @@ public class MapEditorModel extends Observable {
         return result;
     }
     
+    public void initNewMap() {
+        gameMap = new GameMap();
+        updateModels();
+        broadcastGameMapChanges();
+    }
+    
     /* Private methods */
     /**
      * Update the MapTableModel and notify the Observer
@@ -113,6 +119,12 @@ public class MapEditorModel extends Observable {
     private void broadcastGameMapChanges() {
         setChanged();
         notifyObservers();
+    }
+    
+    private void updateModels() {
+        mapTableModel.updateMapTableModel(gameMap);
+        updateListOfContinents();
+        updateListOfTerritories();
     }
     
     private void updateListOfContinents() {
@@ -129,9 +141,4 @@ public class MapEditorModel extends Observable {
         territoriesDropdownModel = new DropDownModel(territoriesList);
     }
     
-    private void updateModels() {
-        mapTableModel.updateMapTableModel(gameMap);
-        updateListOfContinents();
-        updateListOfTerritories();
-    }
 }

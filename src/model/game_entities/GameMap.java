@@ -29,6 +29,12 @@ public class GameMap {
         this.continents = new TreeMap<>();
     }
     
+    public GameMap() {
+        this.mapName = "";
+        this.territories = new TreeMap<>();
+        this.continents = new TreeMap<>();
+    }
+    
     /* Getters & Setters */
     public String getMapName() {
         return mapName;
