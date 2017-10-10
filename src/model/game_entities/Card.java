@@ -25,12 +25,9 @@ public class Card {
     }
 
     /**
-     *
-     * These are Getters and Setters.
+     *These are Getters and Setters.
      * this getter returns the card type.
      */
-
-    
     public String getCardType() {
         return this.cardType;
     }
