@@ -177,9 +177,11 @@ public class GameMapHelper {
      * 1. The map has no more than 255 territories
      * 2. The map has no more than 32 continents
      * 3. Each and every territory has the number of neighbors from 1 to 10
-     * 4. Every relationship between territories is 2-ways
-     * 5. Each continent has at least one territory
-     * 6. The whole map is a connected graph
+     * 4. Each territory has a continent
+     * 5. Every relationship between territories is 2-ways
+     * 6. Each continent has at least one territory
+     * 7. The whole map is a connected graph
+     *
      *
      * @param
      *
@@ -201,7 +203,12 @@ public class GameMapHelper {
                 return String.format(Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT, territory.getName(), territory.getNeighborsCount());
             }
             
-            /* 4. Every relationship between territories is 2-ways */
+            /* 4. Each territory has a continent */
+            if (territory.getContinent().compareTo("") == 0) {
+                return String.format(Config.MSG_MAPFILE_INVALID_CONTINENTS_COUNT, 0);
+            }
+            
+            /* 5. Every relationship between territories is 2-ways */
             for (String neighborName : territory.getNeighbors()) {
                 Territory neighbor = gameMap.getATerritory(neighborName);
                 if (!neighbor.isNeighbor(territory.getName())) {
@@ -210,14 +217,14 @@ public class GameMapHelper {
             }
         }
         
-        /* 5. Each continent has at least one territory */
+        /* 6. Each continent has at least one territory */
         for (Continent continent : gameMap.getContinents().values()) {
             if (continent.getTerritoriesCount() == 0) {
                 return String.format(Config.MSG_MAPFILE_CONTINENT_NO_TERRITORY, continent.getName());
             }
         }
         
-        /* 6. The whole map is a connected graph */
+        /* 7. The whole map is a connected graph */
         if (!isConnectedGraph(gameMap)) {
             return Config.MSG_MAPFILE_DISCONNECTED_GRAPH;
         }
