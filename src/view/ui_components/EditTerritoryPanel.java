@@ -10,6 +10,7 @@ import java.util.Observer;
 
 public class EditTerritoryPanel extends JPanel implements Observer {
     private static final String SAVE_BUTTON_LABEL = "Save Territory";
+    private static final String REMOVE_BUTTON_LABEL = "Save Territory";
     private static final String CHOOSE_TERRITORY = "Choose Territory";
     private static final String TERRITORY_NAME_LABEL = "Territory Name";
     private static final String CHOOSE_NEIGHBOURS_LABEL = "Choose Neighbours";
@@ -20,6 +21,7 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     private JComboBox<String> territoriesListDropdown;
     private JTextField territoryNameText;
     private JButton saveTerritoryButton;
+    private JButton removeTerritoryButton;
     private JPanel radioButtonsPanel;
     private JPanel checkBoxPanel;
     
@@ -35,6 +37,10 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     
     public void addSaveTerritoryButtonListener(ActionListener listenerForSaveTerritoryButton) {
         saveTerritoryButton.addActionListener(listenerForSaveTerritoryButton);
+    }
+    
+    public void addRemoveTerritoryButtonListener(ActionListener listenerForRemoveTerritoryButton) {
+        removeTerritoryButton.addActionListener(listenerForRemoveTerritoryButton);
     }
     
     /* Getters & Setters */
@@ -83,9 +89,12 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         add(new JScrollPane(checkBoxPanel));
         
         /* Setup Save button */
+        JPanel bottomPanel = new JPanel(new FlowLayout());
         saveTerritoryButton = new JButton(SAVE_BUTTON_LABEL);
-        saveTerritoryButton.setAlignmentX(CENTER_ALIGNMENT);
-        add(saveTerritoryButton);
+        removeTerritoryButton = new JButton(REMOVE_BUTTON_LABEL);
+        bottomPanel.add(saveTerritoryButton);
+        bottomPanel.add(removeTerritoryButton);
+        add(bottomPanel);
     }
     
     @Override

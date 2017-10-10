@@ -10,6 +10,7 @@ import java.util.Observer;
 
 public class EditContinentPanel extends JPanel implements Observer {
     private static final String SAVE_BUTTON_LABEL = "Save Continent";
+    private static final String REMOVE_BUTTON_LABEL = "Remove Continent";
     private static final String CHOOSE_CONTINENT = "Choose Continent";
     private static final String CONTIENT_NAME_LABEL = "Continent Name";
     private static final String CONTINENT_CONTROL_VALUE_LABEL = "Control Value";
@@ -22,6 +23,7 @@ public class EditContinentPanel extends JPanel implements Observer {
     private JTextField contientControlValueText;
     private JPanel checkBoxPanel;
     private JButton saveContinentButton;
+    private JButton removeContinentButton;
     
     public EditContinentPanel() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -35,6 +37,10 @@ public class EditContinentPanel extends JPanel implements Observer {
     
     public void addSaveContinentButtonListener(ActionListener listenerForSaveContinentButton) {
         saveContinentButton.addActionListener(listenerForSaveContinentButton);
+    }
+    
+    public void addRemoveContinentButtonListener(ActionListener listenerForRemoveContinentButton) {
+        removeContinentButton.addActionListener(listenerForRemoveContinentButton);
     }
     
     /* Getters & Setters */
@@ -82,9 +88,13 @@ public class EditContinentPanel extends JPanel implements Observer {
         add(new JScrollPane(checkBoxPanel));
         
         /* Setup Save button */
+        JPanel bottomPanel = new JPanel(new FlowLayout());
         saveContinentButton = new JButton(SAVE_BUTTON_LABEL);
-        saveContinentButton.setAlignmentX(CENTER_ALIGNMENT);
-        add(saveContinentButton);
+        removeContinentButton = new JButton(REMOVE_BUTTON_LABEL);
+        removeContinentButton.setForeground(Color.RED);
+        bottomPanel.add(saveContinentButton);
+        bottomPanel.add(removeContinentButton);
+        add(bottomPanel);
     }
     
     @Override

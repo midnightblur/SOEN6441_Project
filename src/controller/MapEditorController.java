@@ -52,6 +52,8 @@ public class MapEditorController {
         this.mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().addTerritoryListDropdownListener(e -> prepareTerritoryEditArea());
         this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().addSaveContinentButtonListener(e -> saveContinentInfo());
         this.mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().addSaveTerritoryButtonListener(e -> saveTerritoryInfo());
+        this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().addRemoveContinentButtonListener(e -> removeContinentInfo());
+        this.mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().addRemoveTerritoryButtonListener(e -> removeTerritoryInfo());
         this.mapEditorFrame.getEditMapControlPanel().addSaveMapButtonListener(e -> saveMap());
     }
     
@@ -199,6 +201,10 @@ public class MapEditorController {
     private void saveTerritoryInfo() {
     
     }
+    
+    private void removeContinentInfo() {}
+    
+    private void removeTerritoryInfo() {}
     
     private void saveMap() {
         SaveDialog fileChooser = new SaveDialog();
