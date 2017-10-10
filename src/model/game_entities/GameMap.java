@@ -137,8 +137,10 @@ public class GameMap {
         
         /* Update territory from its continent */
         Continent continent = getAContinent(oldTerritory.getContinent());
-        continent.removeTerritory(oldTerritory.getName());
-        continent.addTerritory(newTerritory.getName());
+        if (continent != null) { // continent might be null in case of adding new territory
+            continent.removeTerritory(oldTerritory.getName());
+            continent.addTerritory(newTerritory.getName());
+        }
         
         /* Remove territory from its old neighbours */
         for (String neighbourName : oldTerritory.getNeighbors()) {

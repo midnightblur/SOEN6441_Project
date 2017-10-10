@@ -184,6 +184,9 @@ public class MapEditorController {
                 buttonGroup.add(radioButton);
                 mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(radioButton);
             }
+            if (currentTerritory.getContinent().compareTo("") == 0) {
+                noneRadioBtn.setSelected(true);
+            }
             
             for (Territory territory : mapEditorModel.getGameMap().getTerritories().values()) {
                 JCheckBox checkBox = new JCheckBox();
@@ -252,10 +255,50 @@ public class MapEditorController {
      * Get information from Territory Editing area and save to GameMap object
      */
     private void saveTerritoryInfo() {
-    
+        String newTerritoryName = mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoryNameText().getText();
+        String chosenContinent = "";
+        for (Component component : mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().getComponents()) {
+            JRadioButton radioButton = (JRadioButton) component;
+            if (radioButton.isSelected()) {
+                chosenContinent = radioButton.getText();
+                break;
+            }
+        }
+        if (chosenContinent.compareTo(NONE_RADIO_BUTTON) == 0) {
+            chosenContinent = "";
+        }
+        Territory newTerritory = new Territory(newTerritoryName, chosenContinent);
+        Vector<String> neighbourVector = new Vector<>();
+        for (Component component : mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getCheckBoxPanel().getComponents()) {
+            JCheckBox checkBox = (JCheckBox) component;
+            if (checkBox.isSelected()) {
+                neighbourVector.add(checkBox.getText());
+            }
+        }
+        newTerritory.setNeighbors(neighbourVector);
+        
+        if (mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getSaveTerritoryButton().getText().compareTo(EditTerritoryPanel.getAddButtonLabel()) == 0) {
+            /* Adding new territory */
+            String result = mapEditorModel.addNewTerritory(newTerritory);
+            if (result.compareTo(String.format(GameMap.getMsgTerritoryAddSuccess(), newTerritoryName)) != 0) {
+                mapEditorFrame.displayErrorMessage(result);
+            }
+        } else {
+            /* Update existing territory */
+            String oldTerritoryName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoriesListDropdown().getSelectedItem());
+            String result = mapEditorModel.updateTerritory(oldTerritoryName, newTerritory);
+            if (result.compareTo(String.format(GameMap.getMsgTerritoryEditSuccess(), newTerritoryName)) != 0) {
+                mapEditorFrame.displayErrorMessage(result);
+            }
+        }
     }
     
     private void removeTerritoryInfo() {
+        String territoryName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoriesListDropdown().getSelectedItem());
+        String result = mapEditorModel.removeTerritory(territoryName);
+        if (result.compareTo(String.format(GameMap.getMsgTerritoryRemoveSuccess(), territoryName)) != 0) {
+            mapEditorFrame.displayErrorMessage(result);
+        }
     }
     
     private void saveMap() {

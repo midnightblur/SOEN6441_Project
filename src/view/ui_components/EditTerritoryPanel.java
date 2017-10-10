@@ -74,6 +74,10 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         return ADD_BUTTON_LABEL;
     }
     
+    public JComboBox<String> getTerritoriesListDropdown() {
+        return territoriesListDropdown;
+    }
+    
     /* Private methods */
     private void setupComponents() {
         /* Setup grid panel */
