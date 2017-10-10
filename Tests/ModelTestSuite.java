@@ -17,7 +17,7 @@ import org.junit.runners.Suite.SuiteClasses;
         MapEditorModelTest.class,
         model.PlayerTest.class,
         model.RiskGameTest.class,
-        model.TerritoryTest.class
+        model.TerritoryTest.class,
 })
 
 public class ModelTestSuite {

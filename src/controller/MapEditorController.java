@@ -40,7 +40,7 @@ public class MapEditorController {
         this.mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().setModel(mapDropdownModel);
         
         /* Register Observer to Observable */
-        this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapTable());
+        this.mapEditorModel.addObserver(this.mapEditorFrame.getMapTable());
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel());
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel());
         
