@@ -60,13 +60,14 @@ public class Continent {
     /* Public methods */
     
     /**
-     * Add a territory to the list of territories belonging to the continent
+     * Add a territoryName to the list of territories belonging to the continent
      *
      * @param territoryName
      */
     public void addTerritory(String territoryName) {
-        if (!isContain(territoryName))
+        if (!territories.contains(territoryName)) {
             territories.add(territoryName);
+        }
     }
     
     /**
@@ -75,17 +76,16 @@ public class Continent {
      * @param territoryName
      */
     public void removeTerritory(String territoryName) {
-        int i = 0;
-        for (String name : territories) {
-            if (name.compareTo(territoryName) == 0) {
-                territories.remove(i);
+        for (String territory : territories) {
+            if (territory.compareTo(territoryName) == 0) {
+                territories.remove(territory);
+                return;
             }
-            i++;
         }
     }
     
     /**
-     * Check if the continent contain a given territory
+     * Check if the continent contain a given territoryName
      *
      * @param territoryName
      *
@@ -105,7 +105,7 @@ public class Continent {
     }
     
     /**
-     * Calculate the number of armies within the territory
+     * Calculate the number of armies within the continent
      *
      * @return the count of all armies within a given continent
      *
@@ -113,8 +113,8 @@ public class Continent {
      */
     public int getContinentArmies() throws NullPointerException {
         int count = 0;
-        for (String t : territories) {
-            count += RiskGame.getInstance().getGameMap().getATerritory(t).getArmies();
+        for (String territoryName : territories) {
+            count += RiskGame.getInstance().getGameMap().getATerritory(territoryName).getArmies();
         }
         return count;
     }
@@ -128,10 +128,10 @@ public class Continent {
      */
     public String getContinentOwner() throws NullPointerException {
         String continentOwner = "";
-        if (RiskGame.getInstance().getGameMap().getATerritory(territories.firstElement()).isOwned()) {
-            continentOwner = "Player " + RiskGame.getInstance().getGameMap().getATerritory(territories.firstElement()).getOwner().getPlayerID();
-            for (String t : territories) {
-                if (!Objects.equals(continentOwner, "Player " + RiskGame.getInstance().getGameMap().getATerritory(t).getOwner().getPlayerID()))
+        if (RiskGame.getInstance().getGameMap().getATerritory(territories.get(0)).isOwned()) {
+            continentOwner = "Player " + RiskGame.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
+            for (String territoryName : territories) {
+                if (!Objects.equals(continentOwner, "Player " + RiskGame.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerID()))
                     return "nobody owns it yet";
             }
         }

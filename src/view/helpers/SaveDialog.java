@@ -31,12 +31,12 @@ class MapFilter extends javax.swing.filechooser.FileFilter implements FileFilter
             return true;
         }
         final String name = f.getName();
-        return name.toLowerCase().endsWith(".map");
+        return name.toLowerCase().endsWith(Config.MAPS_EXTENSION);
     }
     
     @Override
     public String getDescription() {
-        return ".map";
+        return "Map files (" + Config.MAPS_EXTENSION + ")";
     }
     
 }

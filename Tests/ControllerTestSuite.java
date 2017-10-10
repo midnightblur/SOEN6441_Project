@@ -1,5 +1,6 @@
 //JUnit 4 test suite
 
+import controller.GamePlayControllerTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -9,7 +10,7 @@ import org.junit.runners.Suite.SuiteClasses;
         controller.GameStateManagerTest.class,
         controller.GameTest.class,
         controller.MapEditorControllerTest.class,
-        controller.StartupPhaseTest.class
+        GamePlayControllerTest.class
 })
 
 public class ControllerTestSuite {

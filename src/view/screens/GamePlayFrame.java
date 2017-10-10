@@ -1,33 +1,36 @@
 package view.screens;
 
+import model.ui_models.DropDownModel;
 import view.helpers.UIHelper;
-import view.ui_components.EditMapControlPanel;
+import view.ui_components.GamePlayControlPanel;
 import view.ui_components.MapTable;
 
 import javax.swing.*;
+import java.util.Observable;
+import java.util.Observer;
 
-public class MapEditorFrame extends JFrame {
-    private static final String TITLE = "Map Editor";
+public class GamePlayFrame extends JFrame implements Observer {
+    private static final String TITLE = "Game Play";
     private static final int WIDTH = 1600;
     private static final int HEIGHT = 800;
     
     private JSplitPane contentPane;
-    private MapTable mapTable;
-    private EditMapControlPanel editMapControlPanel;
+    private MapTable gameMapTable;
+    private GamePlayControlPanel gamePlayControlPanel;
     
     /* Constructors */
-    public MapEditorFrame() {
+    public GamePlayFrame() {
         /* Setup main container */
         setupContentPaneLayout();
         setContentPane(contentPane);
         
         /* Setup table area */
-        mapTable = new MapTable();
-        contentPane.setLeftComponent(new JScrollPane(mapTable));
+        gameMapTable = new MapTable();
+        contentPane.setLeftComponent(new JScrollPane(gameMapTable));
         
         /* Setup control panel area */
-        editMapControlPanel = new EditMapControlPanel();
-        contentPane.setRightComponent(editMapControlPanel);
+        gamePlayControlPanel = new GamePlayControlPanel();
+        contentPane.setRightComponent(gamePlayControlPanel);
         
         /* Setup & Display frame */
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
@@ -39,13 +42,15 @@ public class MapEditorFrame extends JFrame {
         return contentPane;
     }
     
-    public MapTable getMapTable() {
-        return mapTable;
+    public MapTable getGameMapTable() {
+        return gameMapTable;
     }
     
-    public EditMapControlPanel getEditMapControlPanel() {
-        return editMapControlPanel;
+    public GamePlayControlPanel getGamePlayControlPanel() {
+        return gamePlayControlPanel;
     }
+    
+    
     
     /* Public methods */
     
@@ -58,7 +63,14 @@ public class MapEditorFrame extends JFrame {
         JOptionPane.showMessageDialog(this, errorMessage);
     }
     
+    /**
+     * @param dropDownModel
+     */
+    public void loadMapsList(DropDownModel dropDownModel) {
+    }
+    
     /* Private methods */
+    
     private void setupContentPaneLayout() {
         contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
             private final int location = 1100;
@@ -79,5 +91,10 @@ public class MapEditorFrame extends JFrame {
         };
         contentPane.setDividerLocation(1100);
         contentPane.setResizeWeight(.75d);
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+//        if (o instanceof DropDownModel)
     }
 }

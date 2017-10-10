@@ -1,6 +1,6 @@
 package view.ui_components;
 
-import model.MapTableModel;
+import model.ui_models.MapEditorModel;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
@@ -9,16 +9,17 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-public class EditMapTable extends JTable implements Observer {
+public class MapTable extends JTable implements Observer {
     /* Constructors */
-    public EditMapTable() {
+    public MapTable() {
         this.setPreferredScrollableViewportSize(this.getPreferredSize());
         this.setFillsViewportHeight(true);
     }
     
+    
     @Override
     public void update(Observable o, Object arg) {
-        setModel(((MapTableModel) o).getModel());
+        setModel(((MapEditorModel) o).getMapTableModel().getModel());
         resizeColumns();
     }
     

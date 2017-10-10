@@ -15,28 +15,18 @@ import java.util.*;
  * In case of editing an existing map or creating a brand new one
  * This class helps write map's information to a text file
  */
-public class GameMapHandler {
-    public static Vector<String> getEntities() {
-        Vector<String> entities = new Vector<>();
-        entities.add("SELECT WHAT YOU WANT TO ADD");
-        entities.add("Continent");
-        entities.add("Country");
-        return entities;
-    }
-    
-    public static Vector<String> getContinentsCountries(GameMap map) {
+public class GameMapHelper {
+    public static Vector<String> getContinentsCountries(GameMap gameMap) {
         Vector<String> continentsCountries = new Vector<>();
         continentsCountries.add("SELECT TO EDIT/DELETE");
         continentsCountries.add("--- CONTINENTS ---");
-        for (Continent c : map.getContinents()) {
-            continentsCountries.add(c.getName());
+        for (Continent continent : gameMap.getContinents().values()) {
+            continentsCountries.add(continent.getName());
         }
         continentsCountries.add("--- COUNTRIES ---");
-        for (Territory t : map.getTerritories().values()) {
-            continentsCountries.add(t.getName());
+        for (Territory territory : gameMap.getTerritories().values()) {
+            continentsCountries.add(territory.getName());
         }
-        
-        
         return continentsCountries;
     }
     
@@ -44,7 +34,7 @@ public class GameMapHandler {
     
     /* Constructors */
     // Intentionally make ctor private
-    private GameMapHandler() {
+    private GameMapHelper() {
     }
 
     /* Public methods */
@@ -152,7 +142,7 @@ public class GameMapHandler {
                             }
                             
                             /* If no problem, continue to process */
-                            Territory territory = new Territory(territoryInfo[0].trim(), continent);
+                            Territory territory = new Territory(territoryInfo[0].trim(), continent.getName());
                             for (int i = 4; i < territoryInfo.length; i++) {
                                 territory.addNeighbor(territoryInfo[i].trim());
                                 allNeighbours.add(territoryInfo[i].trim());
@@ -187,9 +177,11 @@ public class GameMapHandler {
      * 1. The map has no more than 255 territories
      * 2. The map has no more than 32 continents
      * 3. Each and every territory has the number of neighbors from 1 to 10
-     * 4. Every relationship between territories is 2-ways
-     * 5. Each continent has at least one territory
-     * 6. The whole map is a connected graph
+     * 4. Each territory has a continent
+     * 5. Every relationship between territories is 2-ways
+     * 6. Each continent has at least one territory
+     * 7. The whole map is a connected graph
+     *
      *
      * @param
      *
@@ -208,10 +200,15 @@ public class GameMapHandler {
         for (Territory territory : gameMap.getTerritories().values()) {
             /* 3. Each and every territory has the number of neighbors from 1 to 10 */
             if (territory.getNeighborsCount() > Config.MAPS_MAX_NEIGHBORS || territory.getNeighborsCount() < Config.MAPS_MIN_NEIGHBORS) {
-                return String.format(Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT, territory.getName());
+                return String.format(Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT, territory.getName(), territory.getNeighborsCount());
             }
             
-            /* 4. Every relationship between territories is 2-ways */
+            /* 4. Each territory has a continent */
+            if (territory.getContinent().compareTo("") == 0) {
+                return String.format(Config.MSG_MAPFILE_NO_CONTINENT, territory.getName());
+            }
+            
+            /* 5. Every relationship between territories is 2-ways */
             for (String neighborName : territory.getNeighbors()) {
                 Territory neighbor = gameMap.getATerritory(neighborName);
                 if (!neighbor.isNeighbor(territory.getName())) {
@@ -220,14 +217,14 @@ public class GameMapHandler {
             }
         }
         
-        /* 5. Each continent has at least one territory */
-        for (Continent continent : gameMap.getContinents()) {
+        /* 6. Each continent has at least one territory */
+        for (Continent continent : gameMap.getContinents().values()) {
             if (continent.getTerritoriesCount() == 0) {
                 return String.format(Config.MSG_MAPFILE_CONTINENT_NO_TERRITORY, continent.getName());
             }
         }
         
-        /* 6. The whole map is a connected graph */
+        /* 7. The whole map is a connected graph */
         if (!isConnectedGraph(gameMap)) {
             return Config.MSG_MAPFILE_DISCONNECTED_GRAPH;
         }
@@ -245,7 +242,7 @@ public class GameMapHandler {
             
             /* Write Continents */
             writer.append(Config.MAPS_FLAG_CONTINENTS + System.lineSeparator());
-            for (Continent continent : gameMap.getContinents()) {
+            for (Continent continent : gameMap.getContinents().values()) {
                 writer.append(continent.getName());
                 writer.append(Config.MAPS_DELIMETER_CONTINENTS);
                 writer.append(String.valueOf(continent.getControlValue()));
@@ -256,12 +253,11 @@ public class GameMapHandler {
             /* Write Territories */
             writer.append(Config.MAPS_FLAG_TERRITORIES + System.lineSeparator());
             
-            for (Continent continent : gameMap.getContinents()) {
+            for (Continent continent : gameMap.getContinents().values()) {
                 for (String territoryName : continent.getTerritories()) {
-                    Territory territory = gameMap.getATerritory(territoryName);
-                    
+                    Territory territory = gameMap.getTerritories().get(territoryName);
                     // Write Territory name
-                    writer.append(territory.getName());
+                    writer.append(territoryName);
                     
                     // Write coordination
                     writer.append(Config.MAPS_DELIMETER_TERRITORIES);
@@ -269,7 +265,7 @@ public class GameMapHandler {
                     writer.append(Config.MAPS_DELIMETER_TERRITORIES);
                     
                     // Write Continent name
-                    writer.append(territory.getContinent().getName());
+                    writer.append(territory.getContinent());
                     
                     // Write Neighbours name
                     for (String neighbourName : territory.getNeighbors()) {

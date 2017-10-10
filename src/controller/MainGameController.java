@@ -36,6 +36,8 @@ public class MainGameController {
     private void openPlayGameScreen() {
         mainMenuFrame.setVisible(false);
         mainMenuFrame.setEnabled(false);
+        
+        GamePlayController gamePlayController = new GamePlayController(this);
     }
     
     private void exitGame() {
