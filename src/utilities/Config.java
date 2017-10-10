@@ -12,7 +12,8 @@ public class Config {
         STARTUP_PHASE(3),   // distribute territories and armies
         REINFORCEMENT_PHASE(4),
         ATTACK_PHASE(5),
-        FORTIFICATION_PHASE(6);
+        FORTIFICATION_PHASE(6),
+        TRADE_IN_PHASE(7);
         
         int value;
         

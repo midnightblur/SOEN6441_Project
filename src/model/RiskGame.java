@@ -30,6 +30,7 @@ public class RiskGame extends Observable {
     private static RiskGame instance = null;
     private Config.GAME_STATES gameState = Config.GAME_STATES.ENTRY_MENU;
     private boolean playing = false;
+    private Random rand = new Random();
     
     private MapTableModel mapTableModel;
     
@@ -122,9 +123,7 @@ public class RiskGame extends Observable {
         giveInitialArmies();
         placeArmies();
         
-        //playPhases();
-        
-        this.setGameState(Config.GAME_STATES.ATTACK_PHASE);
+        this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
         broadcastGamePlayChanges();
     }
     
@@ -163,11 +162,15 @@ public class RiskGame extends Observable {
      * @param player
      */
     public void reinforcementPhase(Player player) {
-        // Force players to trade in cards if they have more than or equal to 5 cards.
-        while (player.getPlayersHand().size() >= 5) {
+        // TODO: assign "Trade Cards" button listener for the if condition
+        // Give option to trade cards for each player
+        while (player.getPlayersHand().size() >= 5 || true) {
+            this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
+            broadcastGamePlayChanges();
             tradeInCards(player);
         }
-        // Assign players number of armies to allocate depending on the players' territories.
+        
+        // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
         int armiesToGive = gameMap.getTerritoriesOfPlayer(player).size() / 3;
         if (armiesToGive < 3) {
             armiesToGive = 3;
@@ -224,7 +227,6 @@ public class RiskGame extends Observable {
      * @return Card object
      */
     public Card drawCard() {
-        Random rand = new Random();
         int index = rand.nextInt(deck.size());
         Card card = deck.elementAt(index);
         deck.remove(deck.elementAt(index));
@@ -237,7 +239,20 @@ public class RiskGame extends Observable {
      * @param player
      */
     public void tradeInCards(Player player) {
-    
+        System.out.println("-- Entered 'Trade In Cards' panel --");
+        
+        // TODO: change these button variables to appropriate listeners
+        int choice; // 0 -> no trade ; 1 -> three of a kind ; 2 -> one of each
+        choice = rand.nextInt(3);
+        
+        if (choice == 1) {
+        
+        } else if (choice == 2) {
+        
+        } else {
+            System.out.println("-- Exiting 'Trade In Cards' panel --");
+        }
+        
     }
     
     /**
@@ -253,7 +268,6 @@ public class RiskGame extends Observable {
             territoryArrList.add(entry.getValue().getName());
         }
         
-        Random rand = new Random();
         int playerIndex = 0;
         for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
             if (!(playerIndex < players.size())) {
@@ -283,7 +297,6 @@ public class RiskGame extends Observable {
      */
     public void placeArmies() {
         boolean noMoreArmies = false;
-        Random rand = new Random();
         int playerIndex = 0;
         while (!noMoreArmies) {
             ArrayList<Territory> territoryList = new ArrayList<>();
@@ -323,7 +336,6 @@ public class RiskGame extends Observable {
      * @param player
      */
     public void placeArmies(Player player) {
-        Random rand = new Random();
         while (player.getUnallocatedArmies() != 0) {
             ArrayList<Territory> territoryList = new ArrayList<>();
             // Add a player's territories to list if they do not contain any armies
