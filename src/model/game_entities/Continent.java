@@ -30,9 +30,13 @@ public class Continent {
         this.controlValue = controlValue;
         this.territories = new Vector<>();
     }
-    
+
     /**
-    Getters & Setters */
+     * These are getters and setters
+     * @return
+     */
+
+
     public String getName() {
         return name;
     }
@@ -61,8 +65,7 @@ public class Continent {
     
     /**
      * Add a territoryName to the list of territories belonging to the continent
-     *
-     * @param territoryName
+     * @param  the name of the territory
      */
     public void addTerritory(String territoryName) {
         if (!territories.contains(territoryName)) {
