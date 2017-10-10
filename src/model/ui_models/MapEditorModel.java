@@ -70,9 +70,36 @@ public class MapEditorModel extends Observable {
         return result;
     }
     
+    public String removeContinent(String continentName) {
+        String result = gameMap.removeContinent(continentName);
+        if (result.compareTo(String.format(GameMap.getMsgContinentRemoveSuccess(), continentName)) == 0) {
+            updateModels();
+            broadcastGameMapChanges();
+        }
+        return result;
+    }
+    
     public String addNewTerritory(Territory territory) {
         String result = gameMap.addTerritory(territory);
         if (result.compareTo(String.format(GameMap.getMsgTerritoryAddSuccess(), territory.getName())) == 0) {
+            updateModels();
+            broadcastGameMapChanges();
+        }
+        return result;
+    }
+    
+    public String updateTerritory(String oldTerritoryName, Territory newTerritory) {
+        String result = gameMap.updateTerritory(oldTerritoryName, newTerritory);
+        if (result.compareTo(String.format(GameMap.getMsgTerritoryEditSuccess(), newTerritory.getName())) == 0) {
+            updateModels();
+            broadcastGameMapChanges();
+        }
+        return result;
+    }
+    
+    public String removeTerritory(String territoryName) {
+        String result = gameMap.removeTerritory(territoryName);
+        if (result.compareTo(String.format(GameMap.getMsgTerritoryRemoveSuccess(), territoryName)) == 0) {
             updateModels();
             broadcastGameMapChanges();
         }

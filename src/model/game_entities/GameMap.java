@@ -107,10 +107,56 @@ public class GameMap {
             continent.addTerritory(territory.getName());
         }
         
+        /* Add the territory to be neighbour of its neighbours */
+        for (String neighbourName : territory.getNeighbors()) {
+            Territory neighbour = getATerritory(neighbourName);
+            if (neighbour != null) { // neighbour will be null in case of building new gamemap from a text file
+                neighbour.addNeighbor(territory.getName());
+            }
+        }
+        
         /* Add the territory to the territories list */
         territories.put(territory.getName(), territory);
         
         return String.format(MSG_TERRITORY_ADD_SUCCESS, territory.getName());
+    }
+    
+    /**
+     * Update an existing territory info
+     * @param oldTerritoryName
+     * @param newTerritory
+     * @return
+     */
+    public String updateTerritory(String oldTerritoryName, Territory newTerritory) {
+        /* Check if the territory already exists */
+        if (!territories.containsKey(oldTerritoryName)) {
+            return String.format(MSG_TERRITORY_NOT_EXIST, oldTerritoryName);
+        }
+        
+        Territory oldTerritory = getATerritory(oldTerritoryName);
+        
+        /* Update territory from its continent */
+        Continent continent = getAContinent(oldTerritory.getContinent());
+        continent.removeTerritory(oldTerritory.getName());
+        continent.addTerritory(newTerritory.getName());
+        
+        /* Remove territory from its old neighbours */
+        for (String neighbourName : oldTerritory.getNeighbors()) {
+            Territory neighbour = getATerritory(neighbourName);
+            neighbour.removeNeighbour(oldTerritory.getName());
+        }
+        
+        /* Add new territory to its new neighbours */
+        for (String neighbourName : newTerritory.getNeighbors()) {
+            Territory neighbour = getATerritory(neighbourName);
+            neighbour.addNeighbor(newTerritory.getName());
+        }
+        
+        /* Update the territory in the territories list */
+        territories.remove(oldTerritoryName);
+        territories.put(newTerritory.getName(), newTerritory);
+        
+        return String.format(MSG_TERRITORY_EDIT_SUCCESS, newTerritory.getName());
     }
     
     /**

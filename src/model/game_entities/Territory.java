@@ -32,6 +32,12 @@ public class Territory {
         this.neighbors = new Vector<>();
     }
     
+    public Territory(String name) {
+        this.name = name;
+        this.continent = "";
+        this.neighbors = new Vector<>();
+    }
+    
     /* Getters & Setters */
     public String getName() {
         return name;
@@ -90,6 +96,10 @@ public class Territory {
         if (neighbors.contains(territoryName)) {
             neighbors.remove(territoryName);
         }
+    }
+    
+    public void removeContinent() {
+        continent = "";
     }
     
     /**

@@ -74,8 +74,6 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         return ADD_BUTTON_LABEL;
     }
     
-    
-    
     /* Private methods */
     private void setupComponents() {
         /* Setup grid panel */

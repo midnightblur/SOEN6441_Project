@@ -19,6 +19,7 @@ import java.io.File;
 import java.util.Vector;
 
 public class MapEditorController {
+    private static final String NONE_RADIO_BUTTON = "NONE";
     private static final String CONTINENT_NAME_GENERATOR = "continent_";
     private static final String TERRITORY_NAME_GENERATOR = "territory_";
     private static final int DEFAULT_CONTROL_VALUE = 1;
@@ -105,6 +106,8 @@ public class MapEditorController {
                 checkBox.setSelected(false);
                 mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getCheckBoxPanel().add(checkBox);
             }
+            
+            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContinentNameText().setText(CONTINENT_NAME_GENERATOR + newContinentID++);
             mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getSaveContinentButton().setText(EditContinentPanel.getAddButtonLabel());
             mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getRemoveContinentButton().setEnabled(false);
         } else {
@@ -136,15 +139,22 @@ public class MapEditorController {
         String selectedTerritories = String.valueOf(mapEditorModel.getTerritoriesDropdownModel().getSelectedItem());
         mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getCheckBoxPanel().removeAll();
         mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().removeAll();
+        ButtonGroup buttonGroup = new ButtonGroup();
         if (selectedTerritories.compareTo(MapEditorModel.getCreateNewTerritoryItem()) == 0) {
             String newTerritoryName = TERRITORY_NAME_GENERATOR + newTerritoryID;
             mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoryNameText().setText(newTerritoryName);
             
+            // None radio button to choose no continent
+            JRadioButton noneRadioBtn = new JRadioButton(NONE_RADIO_BUTTON);
+            buttonGroup.add(noneRadioBtn);
+            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(noneRadioBtn);
             for (Continent continent : mapEditorModel.getGameMap().getContinents().values()) {
                 JRadioButton radioButton = new JRadioButton(continent.getName());
                 radioButton.setSelected(false);
+                buttonGroup.add(radioButton);
                 mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(radioButton);
             }
+            noneRadioBtn.setSelected(true);
             
             for (Territory territory : mapEditorModel.getGameMap().getTerritories().values()) {
                 JCheckBox checkBox = new JCheckBox();
@@ -153,13 +163,17 @@ public class MapEditorController {
                 mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getCheckBoxPanel().add(checkBox);
             }
             
-            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoryNameText().setText(CONTINENT_NAME_GENERATOR + newContinentID++);
+            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoryNameText().setText(TERRITORY_NAME_GENERATOR + newTerritoryID++);
             mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getSaveTerritoryButton().setText(EditTerritoryPanel.getAddButtonLabel());
             mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRemoveTerritoryButton().setEnabled(false);
         } else {
             Territory currentTerritory = mapEditorModel.getGameMap().getATerritory(selectedTerritories);
             mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoryNameText().setText(currentTerritory.getName());
             
+            // None radio button to choose no continent
+            JRadioButton noneRadioBtn = new JRadioButton(NONE_RADIO_BUTTON);
+            buttonGroup.add(noneRadioBtn);
+            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(noneRadioBtn);
             for (Continent continent : mapEditorModel.getGameMap().getContinents().values()) {
                 JRadioButton radioButton = new JRadioButton(continent.getName());
                 if (currentTerritory.belongToContinent(continent.getName())) {
@@ -167,6 +181,7 @@ public class MapEditorController {
                 } else {
                     radioButton.setSelected(false);
                 }
+                buttonGroup.add(radioButton);
                 mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(radioButton);
             }
             
@@ -196,7 +211,7 @@ public class MapEditorController {
             String newContinentName = mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContinentNameText().getText();
             int controlValue = Integer.parseInt(mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContientControlValueText().getText());
             Continent newContinent = new Continent(newContinentName, controlValue);
-    
+            
             Vector<String> territoryVector = new Vector<>();
             for (Component component : mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getCheckBoxPanel().getComponents()) {
                 JCheckBox checkBox = (JCheckBox) component;
@@ -225,6 +240,14 @@ public class MapEditorController {
         }
     }
     
+    private void removeContinentInfo() {
+        String continentName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContinentsListDropdown().getSelectedItem());
+        String result = mapEditorModel.removeContinent(continentName);
+        if (result.compareTo(String.format(GameMap.getMsgContinentRemoveSuccess(), continentName)) != 0) {
+            mapEditorFrame.displayErrorMessage(result);
+        }
+    }
+    
     /**
      * Get information from Territory Editing area and save to GameMap object
      */
@@ -232,9 +255,8 @@ public class MapEditorController {
     
     }
     
-    private void removeContinentInfo() {}
-    
-    private void removeTerritoryInfo() {}
+    private void removeTerritoryInfo() {
+    }
     
     private void saveMap() {
         SaveDialog fileChooser = new SaveDialog();
