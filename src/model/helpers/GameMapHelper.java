@@ -15,7 +15,7 @@ import java.util.*;
  * In case of editing an existing map or creating a brand new one
  * This class helps write map's information to a text file
  */
-public class GameMapHandler {
+public class GameMapHelper {
     public static Vector<String> getContinentsCountries(GameMap gameMap) {
         Vector<String> continentsCountries = new Vector<>();
         continentsCountries.add("SELECT TO EDIT/DELETE");
@@ -34,7 +34,7 @@ public class GameMapHandler {
     
     /* Constructors */
     // Intentionally make ctor private
-    private GameMapHandler() {
+    private GameMapHelper() {
     }
 
     /* Public methods */
@@ -142,7 +142,7 @@ public class GameMapHandler {
                             }
                             
                             /* If no problem, continue to process */
-                            Territory territory = new Territory(territoryInfo[0].trim(), continent);
+                            Territory territory = new Territory(territoryInfo[0].trim(), continent.getName());
                             for (int i = 4; i < territoryInfo.length; i++) {
                                 territory.addNeighbor(territoryInfo[i].trim());
                                 allNeighbours.add(territoryInfo[i].trim());
@@ -247,10 +247,10 @@ public class GameMapHandler {
             writer.append(Config.MAPS_FLAG_TERRITORIES + System.lineSeparator());
             
             for (Continent continent : gameMap.getContinents().values()) {
-                for (Territory territory : continent.getTerritories()) {
-                    
+                for (String territoryName : continent.getTerritories()) {
+                    Territory territory = gameMap.getTerritories().get(territoryName);
                     // Write Territory name
-                    writer.append(territory.getName());
+                    writer.append(territoryName);
                     
                     // Write coordination
                     writer.append(Config.MAPS_DELIMETER_TERRITORIES);
@@ -258,7 +258,7 @@ public class GameMapHandler {
                     writer.append(Config.MAPS_DELIMETER_TERRITORIES);
                     
                     // Write Continent name
-                    writer.append(territory.getContinent().getName());
+                    writer.append(territory.getContinent());
                     
                     // Write Neighbours name
                     for (String neighbourName : territory.getNeighbors()) {

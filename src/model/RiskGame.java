@@ -4,7 +4,7 @@ import model.game_entities.Card;
 import model.game_entities.GameMap;
 import model.game_entities.Player;
 import model.game_entities.Territory;
-import model.helpers.GameMapHandler;
+import model.helpers.GameMapHelper;
 import model.ui_models.MapTableModel;
 import utilities.Config;
 
@@ -104,7 +104,7 @@ public class RiskGame extends Observable {
      */
     public void startupPhase(String filepath, int currPlayers) {
         try {
-            this.gameMap = GameMapHandler.loadGameMap(filepath);
+            this.gameMap = GameMapHelper.loadGameMap(filepath);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }

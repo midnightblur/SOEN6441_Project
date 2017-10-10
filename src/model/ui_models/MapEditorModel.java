@@ -1,7 +1,7 @@
 package model.ui_models;
 
 import model.game_entities.GameMap;
-import model.helpers.GameMapHandler;
+import model.helpers.GameMapHelper;
 
 import java.util.Observable;
 import java.util.Vector;
@@ -19,7 +19,7 @@ public class MapEditorModel extends Observable {
     }
     
     public void loadNewGameMap(String mapName) throws Exception {
-        gameMap = GameMapHandler.loadGameMap(mapName);
+        gameMap = GameMapHelper.loadGameMap(mapName);
         updateModels();
         broadcastGameMapChanges();
     }
