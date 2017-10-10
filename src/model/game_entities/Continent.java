@@ -13,10 +13,8 @@ import java.util.Vector;
  */
 public class Continent {
     /* Private data member of model.game_entities.Continent class */
-    private static int IDGenerator = 0;
-    private int continentID;
     private String name;
-    private Vector<Territory> territories;
+    private Vector<String> territories;
     private int controlValue;
 
     /* Constructors */
@@ -28,7 +26,6 @@ public class Continent {
      * @param controlValue
      */
     public Continent(String name, int controlValue) {
-        this.continentID = IDGenerator++;
         this.name = name;
         this.controlValue = controlValue;
         this.territories = new Vector<>();
@@ -51,32 +48,25 @@ public class Continent {
         this.controlValue = controlValue;
     }
     
-    public Vector<Territory> getTerritories() {
+    public Vector<String> getTerritories() {
         return territories;
     }
     
-    public void setTerritories(Vector<Territory> territories) {
+    public void setTerritories(Vector<String> territories) {
         this.territories = territories;
-    }
-    
-    public static int getIDGenerator() {
-        return IDGenerator;
-    }
-    
-    public int getContinentID() {
-        return continentID;
     }
     
     /* Public methods */
     
     /**
-     * Add a territory to the list of territories belonging to the continent
+     * Add a territoryName to the list of territories belonging to the continent
      *
-     * @param territory
+     * @param territoryName
      */
-    public void addTerritory(Territory territory) {
-        if (!territories.contains(territory))
-            territories.add(territory);
+    public void addTerritory(String territoryName) {
+        if (!territories.contains(territoryName)) {
+            territories.add(territoryName);
+        }
     }
     
     /**
@@ -85,25 +75,23 @@ public class Continent {
      * @param territoryName
      */
     public void removeTerritory(String territoryName) {
-        int i = 0;
-        for (Territory territory : territories) {
-            if (territory.getName().compareTo(territoryName) == 0) {
-                territories.remove(i);
+        for (String territory : territories) {
+            if (territory.compareTo(territoryName) == 0) {
+                territories.remove(territory);
                 return;
             }
-            i++;
         }
     }
     
     /**
-     * Check if the continent contain a given territory
+     * Check if the continent contain a given territoryName
      *
-     * @param territory
+     * @param territoryName
      *
      * @return
      */
-    public boolean isContain(Territory territory) {
-        return (territories.contains(territory));
+    public boolean isContain(String territoryName) {
+        return (territories.contains(territoryName));
     }
     
     /**
@@ -116,7 +104,7 @@ public class Continent {
     }
     
     /**
-     * Calculate the number of armies within the territory
+     * Calculate the number of armies within the continent
      *
      * @return the count of all armies within a given continent
      *
@@ -124,8 +112,8 @@ public class Continent {
      */
     public int getContinentArmies() throws NullPointerException {
         int count = 0;
-        for (Territory territory : territories) {
-            count += RiskGame.getInstance().getGameMap().getATerritory(territory.getName()).getArmies();
+        for (String territoryName : territories) {
+            count += RiskGame.getInstance().getGameMap().getATerritory(territoryName).getArmies();
         }
         return count;
     }
@@ -139,10 +127,10 @@ public class Continent {
      */
     public String getContinentOwner() throws NullPointerException {
         String continentOwner = "";
-        if (RiskGame.getInstance().getGameMap().getATerritory(territories.get(0).getName()).isOwned()) {
-            continentOwner = "Player " + RiskGame.getInstance().getGameMap().getATerritory(territories.get(0).getName()).getOwner().getPlayerID();
-            for (Territory territory : territories) {
-                if (!Objects.equals(continentOwner, "Player " + RiskGame.getInstance().getGameMap().getATerritory(territory.getName()).getOwner().getPlayerID()))
+        if (RiskGame.getInstance().getGameMap().getATerritory(territories.get(0)).isOwned()) {
+            continentOwner = "Player " + RiskGame.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
+            for (String territoryName : territories) {
+                if (!Objects.equals(continentOwner, "Player " + RiskGame.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerID()))
                     return "nobody owns it yet";
             }
         }

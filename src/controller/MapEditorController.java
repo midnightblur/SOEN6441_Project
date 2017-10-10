@@ -3,7 +3,7 @@ package controller;
 import model.game_entities.Continent;
 import model.game_entities.GameMap;
 import model.game_entities.Territory;
-import model.helpers.GameMapHandler;
+import model.helpers.GameMapHelper;
 import model.ui_models.DropDownModel;
 import model.ui_models.MapEditorModel;
 import utilities.Config;
@@ -36,7 +36,7 @@ public class MapEditorController {
         this.mapEditorModel = new MapEditorModel();
     
         /* Display list of maps to load to edit */
-        DropDownModel mapDropdownModel = new DropDownModel(GameMapHandler.getMapsInFolder(Config.MAPS_FOLDER));
+        DropDownModel mapDropdownModel = new DropDownModel(GameMapHelper.getMapsInFolder(Config.MAPS_FOLDER));
         this.mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().setModel(mapDropdownModel);
         
         /* Register Observer to Observable */
@@ -108,7 +108,7 @@ public class MapEditorController {
             for (Territory territory : mapEditorModel.getGameMap().getTerritories().values()) {
                 JCheckBox checkBox = new JCheckBox();
                 checkBox.setText(territory.getName());
-                if (continent.isContain(territory)) {
+                if (continent.isContain(territory.getName())) {
                     checkBox.setSelected(true);
                 } else {
                     checkBox.setSelected(false);
@@ -146,7 +146,7 @@ public class MapEditorController {
             
             for (Continent continent : mapEditorModel.getGameMap().getContinents().values()) {
                 JRadioButton radioButton = new JRadioButton(continent.getName());
-                if (currentTerritory.belongToContinent(continent)) {
+                if (currentTerritory.belongToContinent(continent.getName())) {
                     radioButton.setSelected(true);
                 } else {
                     radioButton.setSelected(false);
@@ -177,13 +177,12 @@ public class MapEditorController {
             GameMap gameMap = mapEditorModel.getGameMap();
             String newContinentName = mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContinentNameText().getText();
             int controlValue = Integer.parseInt(mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContientControlValueText().getText());
-            Vector<Territory> territoryVector = new Vector<>();
+            Vector<String> territoryVector = new Vector<>();
             
             for (Component component : mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getCheckBoxPanel().getComponents()) {
                 JCheckBox checkBox = (JCheckBox) component;
                 if (checkBox.isSelected()) {
-                    Territory territory = gameMap.getATerritory(checkBox.getText());
-                    territoryVector.add(territory);
+                    territoryVector.add(checkBox.getText());
                 }
             }
             
@@ -207,7 +206,7 @@ public class MapEditorController {
         if (selection == JFileChooser.APPROVE_OPTION) {
             File mapFileToSave = fileChooser.getSelectedFile();
             try {
-                GameMapHandler.writeToFile(this.mapEditorModel.getGameMap(), mapFileToSave.getAbsolutePath());
+                GameMapHelper.writeToFile(this.mapEditorModel.getGameMap(), mapFileToSave.getAbsolutePath());
                 mapEditorFrame.displayErrorMessage("The map file was saved at \n" + mapFileToSave.getAbsolutePath());
             } catch (Exception e) {
                 e.printStackTrace(System.err);

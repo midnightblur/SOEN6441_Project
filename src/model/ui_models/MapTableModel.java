@@ -57,7 +57,7 @@ public class MapTableModel {
         }
     
         for (Territory territory : gameMap.getTerritories().values()) {
-            rows[i][0] = territory.getContinent().getName();
+            rows[i][0] = territory.getContinent();
             rows[i][1] = territory.getName();
             rows[i][2] = territory.getNeighbors().toString().replace("[", "").replace("]", "");
             

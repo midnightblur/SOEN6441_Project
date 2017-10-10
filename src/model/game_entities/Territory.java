@@ -12,10 +12,8 @@ import java.util.Vector;
  */
 public class Territory {
     /* Private data members of model.game_entities.Territory class */
-    private static int IDGenerator = 0;
-    private int territoryID;
     private String name;
-    private Continent continent;
+    private String continent;
     private Player owner;
     private int armies;
     private Vector<String> neighbors;
@@ -28,12 +26,10 @@ public class Territory {
      * @param name
      * @param continent
      */
-    public Territory(String name, Continent continent) {
-        this.territoryID = IDGenerator++;
+    public Territory(String name, String continent) {
         this.name = name;
         this.continent = continent;
         this.neighbors = new Vector<>();
-//        this.owner = new Player();
     }
     
     /* Getters & Setters */
@@ -45,11 +41,11 @@ public class Territory {
         this.name = name;
     }
     
-    public Continent getContinent() {
+    public String getContinent() {
         return continent;
     }
     
-    public void setContinent(Continent continent) {
+    public void setContinent(String continent) {
         this.continent = continent;
     }
     
@@ -77,14 +73,6 @@ public class Territory {
         this.armies = armies;
     }
     
-    public static int getIDGenerator() {
-        return IDGenerator;
-    }
-    
-    public int getTerritoryID() {
-        return territoryID;
-    }
-    
     /* Public methods */
     
     /**
@@ -93,7 +81,15 @@ public class Territory {
      * @param territoryName
      */
     public void addNeighbor(String territoryName) {
-        if (!neighbors.contains(territoryName)) neighbors.add(territoryName);
+        if (!neighbors.contains(territoryName)) {
+            neighbors.add(territoryName);
+        }
+    }
+    
+    public void removeNeighbour(String territoryName) {
+        if (neighbors.contains(territoryName)) {
+            neighbors.remove(territoryName);
+        }
     }
     
     /**
@@ -104,7 +100,7 @@ public class Territory {
      * @return
      */
     public boolean isNeighbor(String territoryName) {
-        return (neighbors.contains(territoryName));
+        return neighbors.contains(territoryName);
     }
     
     /**
@@ -114,8 +110,8 @@ public class Territory {
      *
      * @return
      */
-    public boolean belongToContinent(Continent continent) {
-        return (this.continent == continent);
+    public boolean belongToContinent(String continent) {
+        return (this.continent.compareTo(continent) == 0);
     }
     
     /**
@@ -133,10 +129,8 @@ public class Territory {
      * Add a number of armies into the territory
      *
      * @param addedArmies
-     *
-     * @throws IllegalArgumentException
      */
-    public void addArmies(int addedArmies) throws NullPointerException {
+    public void addArmies(int addedArmies) {
         if (addedArmies > 0) {
             armies += addedArmies;
         } else {
@@ -145,18 +139,16 @@ public class Territory {
     }
     
     public boolean isOwned() {
-        return owner != null;
+        return (owner != null);
     }
     
     /**
      * Withdraw a number of armies from the territory
      *
      * @param deductedArmies
-     *
-     * @throws IllegalArgumentException
      */
-    public void reduceArmies(int deductedArmies) throws IllegalArgumentException {
-        if (armies > 0) {
+    public void reduceArmies(int deductedArmies) {
+        if (deductedArmies > 0 && deductedArmies <= armies) {
             armies -= deductedArmies;
         } else {
             throw new IllegalArgumentException();

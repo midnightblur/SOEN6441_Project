@@ -1,7 +1,7 @@
 package model;
 
 import model.game_entities.*;
-import model.helpers.GameMapHandler;
+import model.helpers.GameMapHelper;
 import utilities.Config;
 
 import java.util.ArrayList;
@@ -96,7 +96,7 @@ public class RiskGame {
      */
     public void startupPhase(String filepath, int currPlayers) {
         try {
-            this.gameMap = GameMapHandler.loadGameMap(filepath);
+            this.gameMap = GameMapHelper.loadGameMap(filepath);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }

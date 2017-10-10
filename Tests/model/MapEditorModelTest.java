@@ -1,7 +1,7 @@
 package model;
 
 import model.game_entities.GameMap;
-import model.helpers.GameMapHandler;
+import model.helpers.GameMapHelper;
 import model.ui_models.MapTableModel;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -22,11 +22,11 @@ public class MapEditorModelTest {
     
     @BeforeClass
     public static void roundTripMapFile() throws Exception {
-        inputMap = GameMapHandler.loadGameMap(fileName);
+        inputMap = GameMapHelper.loadGameMap(fileName);
         mapTableModel = new MapTableModel();
         mapTableModel.updateMapTableModel(inputMap);
-        GameMapHandler.writeToFile(inputMap, MAPS_FOLDER + "/TEST.map");
-        outputMap = GameMapHandler.loadGameMap("TEST.map");
+        GameMapHelper.writeToFile(inputMap, MAPS_FOLDER + "/TEST.map");
+        outputMap = GameMapHelper.loadGameMap("TEST.map");
     }
     
     @AfterClass
