@@ -21,7 +21,7 @@ import java.util.Vector;
 public class MapEditorController {
     private static final String CONTINENT_NAME_GENERATOR = "continent_";
     private static final String TERRITORY_NAME_GENERATOR = "territory_";
-    private static final int DEFALUT_CONTROL_VALUE = 1;
+    private static final int DEFAULT_CONTROL_VALUE = 1;
     
     private MapEditorFrame mapEditorFrame;
     private MapEditorModel mapEditorModel;
@@ -98,7 +98,7 @@ public class MapEditorController {
         if (selectedContinents.compareTo(MapEditorModel.getCreateNewContinentItem()) == 0) {
             String newContinentName = CONTINENT_NAME_GENERATOR + newContinentID;
             mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContinentNameText().setText(newContinentName);
-            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContientControlValueText().setText(String.valueOf(DEFALUT_CONTROL_VALUE));
+            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContientControlValueText().setText(String.valueOf(DEFAULT_CONTROL_VALUE));
             for (Territory territory : mapEditorModel.getGameMap().getTerritories().values()) {
                 JCheckBox checkBox = new JCheckBox();
                 checkBox.setText(territory.getName());

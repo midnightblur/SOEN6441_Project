@@ -2,7 +2,7 @@ package controller;
 
 import org.junit.Test;
 
-public class StartupPhaseControllerTest {
+public class GamePlayControllerTest {
     @Test
     public void someMethod() throws Exception {
     }

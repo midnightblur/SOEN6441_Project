@@ -1,13 +1,14 @@
 package model;
 
-import model.game_entities.*;
+import model.game_entities.Card;
+import model.game_entities.GameMap;
+import model.game_entities.Player;
+import model.game_entities.Territory;
 import model.helpers.GameMapHelper;
+import model.ui_models.MapTableModel;
 import utilities.Config;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * Class initiates RiskGame with the welcome message, followed by the following features:
@@ -20,7 +21,7 @@ import java.util.Vector;
  * c) fortifications phase
  * 5) end of game
  */
-public class RiskGame {
+public class RiskGame extends Observable {
     private int numOfContinents;
     private Vector<Card> deck = new Vector<>();
     private Vector<Player> players = new Vector<>();
@@ -29,10 +30,13 @@ public class RiskGame {
     private Config.GAME_STATES gameState = Config.GAME_STATES.ENTRY_MENU;
     private boolean playing = false;
     
+    private MapTableModel mapTableModel;
+    
     /**
      * private constructor preventing any other class from instantiating.
      */
     private RiskGame() {
+        mapTableModel = new MapTableModel();
     }
     
     /**
@@ -59,6 +63,10 @@ public class RiskGame {
         this.numOfTerritories = numOfTerritories;
     }
     */
+    
+    public MapTableModel getMapTableModel() {
+        return mapTableModel;
+    }
     
     public int getNumOfContinents() {
         return this.numOfContinents;
@@ -112,6 +120,9 @@ public class RiskGame {
         distributeTerritories();
         giveInitialArmies();
         placeArmies();
+        
+        this.setGameState(Config.GAME_STATES.ATTACK_PHASE);
+        broadcastGamePlayChanges();
     }
     
     /**
@@ -271,4 +282,13 @@ public class RiskGame {
             }
         }
     }
+    
+    /**
+     * Update the GamePlayModel and notify the Observer
+     */
+    private void broadcastGamePlayChanges() {
+        setChanged();
+        notifyObservers();
+    }
+    
 }

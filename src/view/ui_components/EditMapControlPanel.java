@@ -10,7 +10,7 @@ public class EditMapControlPanel extends JPanel {
     private static final String SAVE_BUTTON_LABEL = "Save Map";
     private static final String BACK_BUTTON_LABEL = "Back";
     private static final String LOAD_BUTTON_LABEL = "Load Map";
-    private static final String LABEL_OR = "or";
+    private static final String LABEL_OR = " or ";
     private static final String LABEL_CHOOSE_MAP = "Choose a Map to edit";
     private static final String TAB_CONTINENT_LABEL = "Continent";
     private static final String TAB_TERRITORY_LABEL = "Territory";
