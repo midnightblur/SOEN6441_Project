@@ -4,7 +4,6 @@ import model.game_entities.Continent;
 import model.game_entities.GameMap;
 import model.game_entities.Territory;
 import model.helpers.GameMapHelper;
-import model.ui_models.DropDownModel;
 import model.ui_models.MapEditorModel;
 import utilities.Config;
 import view.helpers.SaveDialog;
@@ -37,20 +36,21 @@ public class MapEditorController {
         newTerritoryID = 0;
         this.mapEditorFrame = new MapEditorFrame();
         this.mapEditorModel = new MapEditorModel();
-    
-        /* Display list of maps to load to edit */
-        DropDownModel mapDropdownModel = new DropDownModel(GameMapHelper.getMapsInFolder(Config.MAPS_FOLDER));
-        this.mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().setModel(mapDropdownModel);
+        
+        /* update the model with a list of map files and set the model to view */
+        this.mapEditorModel.updateListOfMaps();
+        this.mapEditorFrame.getEditMapControlPanel().getMapLoadPanel().getChooseMapDropdown().setModel(mapEditorModel.getMapDropdownModel());
         
         /* Register Observer to Observable */
         this.mapEditorModel.addObserver(this.mapEditorFrame.getMapTable());
+        this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapControlPanel().getMapLoadPanel());
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel());
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel());
         
         /* Register to be ActionListeners */
-        this.mapEditorFrame.getEditMapControlPanel().addLoadMapButtonListener(e -> loadMap());
+        this.mapEditorFrame.getEditMapControlPanel().getMapLoadPanel().addLoadMapButtonListener(e -> loadMap());
         this.mapEditorFrame.getEditMapControlPanel().addBackButtonListener(e -> backToMainMenu());
-        this.mapEditorFrame.getEditMapControlPanel().addNewMapButtonListener(e -> initiateNewGameMap());
+        this.mapEditorFrame.getEditMapControlPanel().getMapLoadPanel().addNewMapButtonListener(e -> initiateNewGameMap());
         this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().addContinentsListDropdownListener(e -> prepareContinentEditArea());
         this.mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().addTerritoryListDropdownListener(e -> prepareTerritoryEditArea());
         this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().addSaveContinentButtonListener(e -> saveContinentInfo());
@@ -67,7 +67,7 @@ public class MapEditorController {
      */
     private void loadMap() {
         try {
-            String mapName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getChooseMapDropdown().getSelectedItem());
+            String mapName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getMapLoadPanel().getChooseMapDropdown().getSelectedItem());
             mapEditorModel.loadNewGameMap(mapName);
         } catch (Exception e) {
             e.printStackTrace(System.err);
@@ -302,6 +302,7 @@ public class MapEditorController {
     }
     
     private void saveMap() {
+        File mapFileToSave = null;
         String validateMessage = GameMapHelper.validateMap(mapEditorModel.getGameMap());
         if (validateMessage.compareTo(Config.MSG_MAPFILE_VALID) != 0) {
             mapEditorFrame.displayErrorMessage(validateMessage);
@@ -309,7 +310,7 @@ public class MapEditorController {
             SaveDialog fileChooser = new SaveDialog();
             int selection = fileChooser.showSaveDialog(fileChooser.getParent());
             if (selection == JFileChooser.APPROVE_OPTION) {
-                File mapFileToSave = fileChooser.getSelectedFile();
+                mapFileToSave = fileChooser.getSelectedFile();
                 // add file extension if user does not enters it
                 if (!mapFileToSave.getAbsolutePath().toLowerCase().endsWith(".map")) {
                     mapFileToSave = new File(mapFileToSave.getAbsolutePath() + ".map");
@@ -317,11 +318,18 @@ public class MapEditorController {
                 try {
                     GameMapHelper.writeToFile(mapEditorModel.getGameMap(), mapFileToSave.getAbsolutePath());
                     mapEditorFrame.displayErrorMessage("The map file was saved at \n" + mapFileToSave.getAbsolutePath());
+                
+                    /* reload the map dropdown list and make the saved map the current one */
+                    mapEditorModel.updateListOfMaps();
+                    mapEditorFrame.getEditMapControlPanel().getMapLoadPanel().getChooseMapDropdown().setSelectedItem(mapFileToSave.getName());
+                    loadMap();
                 } catch (Exception e) {
                     e.printStackTrace(System.err);
                     mapEditorFrame.displayErrorMessage(e.toString());
                 }
+                
             }
+            
         }
     }
 }
