@@ -19,7 +19,7 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     
     private JComboBox<String> territoriesListDropdown;
     private JTextField territoryNameText;
-    private JButton saveButton;
+    private JButton saveTerritoryButton;
     private JPanel radioButtonsPanel;
     private JPanel checkBoxPanel;
     
@@ -33,15 +33,11 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         territoriesListDropdown.addActionListener(listenerForTerritoryListDropdown);
     }
     
-    public void addSaveButtonListener(ActionListener listenerForSaveButton) {
-        saveButton.addActionListener(listenerForSaveButton);
+    public void addSaveTerritoryButtonListener(ActionListener listenerForSaveTerritoryButton) {
+        saveTerritoryButton.addActionListener(listenerForSaveTerritoryButton);
     }
     
     /* Getters & Setters */
-    public JComboBox<String> getTerritoriesListDropdown() {
-        return territoriesListDropdown;
-    }
-    
     public JTextField getTerritoryNameText() {
         return territoryNameText;
     }
@@ -59,13 +55,13 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         /* Setup grid panel */
         JPanel gridPanel = new JPanel(new GridLayout(LAYOUT_ROWS, LAYOUT_COLS));
         JLabel chooseTerritoryLabel = new JLabel(CHOOSE_TERRITORY);
-        chooseTerritoryLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        chooseTerritoryLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gridPanel.add(chooseTerritoryLabel);
         territoriesListDropdown = new JComboBox<>();
         gridPanel.add(territoriesListDropdown);
         
         JLabel territoryNameLabel = new JLabel(TERRITORY_NAME_LABEL);
-        territoryNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        territoryNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gridPanel.add(territoryNameLabel);
         territoryNameText = new JTextField();
         gridPanel.add(territoryNameText);
@@ -87,9 +83,9 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         add(new JScrollPane(checkBoxPanel));
         
         /* Setup Save button */
-        saveButton = new JButton(SAVE_BUTTON_LABEL);
-        saveButton.setAlignmentX(CENTER_ALIGNMENT);
-        add(saveButton);
+        saveTerritoryButton = new JButton(SAVE_BUTTON_LABEL);
+        saveTerritoryButton.setAlignmentX(CENTER_ALIGNMENT);
+        add(saveTerritoryButton);
     }
     
     @Override

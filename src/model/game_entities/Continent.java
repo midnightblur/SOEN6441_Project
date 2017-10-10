@@ -13,6 +13,8 @@ import java.util.Vector;
  */
 public class Continent {
     /* Private data member of model.game_entities.Continent class */
+    private static int IDGenerator = 0;
+    private int continentID;
     private String name;
     private Vector<Territory> territories;
     private int controlValue;
@@ -26,6 +28,7 @@ public class Continent {
      * @param controlValue
      */
     public Continent(String name, int controlValue) {
+        this.continentID = IDGenerator++;
         this.name = name;
         this.controlValue = controlValue;
         this.territories = new Vector<>();
@@ -54,6 +57,14 @@ public class Continent {
     
     public void setTerritories(Vector<Territory> territories) {
         this.territories = territories;
+    }
+    
+    public static int getIDGenerator() {
+        return IDGenerator;
+    }
+    
+    public int getContinentID() {
+        return continentID;
     }
     
     /* Public methods */

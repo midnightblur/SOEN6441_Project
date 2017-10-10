@@ -12,6 +12,8 @@ import java.util.Vector;
  */
 public class Territory {
     /* Private data members of model.game_entities.Territory class */
+    private static int IDGenerator = 0;
+    private int territoryID;
     private String name;
     private Continent continent;
     private Player owner;
@@ -27,6 +29,7 @@ public class Territory {
      * @param continent
      */
     public Territory(String name, Continent continent) {
+        this.territoryID = IDGenerator++;
         this.name = name;
         this.continent = continent;
         this.neighbors = new Vector<>();
@@ -73,7 +76,15 @@ public class Territory {
     public void setArmies(int armies) {
         this.armies = armies;
     }
-
+    
+    public static int getIDGenerator() {
+        return IDGenerator;
+    }
+    
+    public int getTerritoryID() {
+        return territoryID;
+    }
+    
     /* Public methods */
     
     /**

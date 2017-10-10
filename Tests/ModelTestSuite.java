@@ -1,5 +1,6 @@
 //JUnit 4 test suite
 
+import model.MapEditorModelTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -12,7 +13,7 @@ import org.junit.runners.Suite.SuiteClasses;
         model.GameMapTest.class,
         model.GameStatesTest.class,
         model.MapsLoaderTest.class,
-        model.MapTableModelTest.class,
+        MapEditorModelTest.class,
         model.PlayerTest.class,
         model.RiskGameTest.class,
         model.TerritoryTest.class

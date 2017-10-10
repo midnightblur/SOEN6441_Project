@@ -179,4 +179,9 @@ public class GameMap {
         Continent continent = getAContinent(continentName);
         return continent.getTerritories();
     }
+    
+    public void updateAContinent(String continentName) {
+        Continent continent = getAContinent(continentName);
+        
+    }
 }

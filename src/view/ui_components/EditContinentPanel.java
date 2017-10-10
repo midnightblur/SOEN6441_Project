@@ -21,7 +21,7 @@ public class EditContinentPanel extends JPanel implements Observer {
     private JTextField continentNameText;
     private JTextField contientControlValueText;
     private JPanel checkBoxPanel;
-    private JButton saveButton;
+    private JButton saveContinentButton;
     
     public EditContinentPanel() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -33,15 +33,11 @@ public class EditContinentPanel extends JPanel implements Observer {
         continentsListDropdown.addActionListener(listenerForContinentsListDropdown);
     }
     
-    public void addSaveButtonListener(ActionListener listenerForSaveButton) {
-        saveButton.addActionListener(listenerForSaveButton);
+    public void addSaveContinentButtonListener(ActionListener listenerForSaveContinentButton) {
+        saveContinentButton.addActionListener(listenerForSaveContinentButton);
     }
     
     /* Getters & Setters */
-    public JComboBox<String> getContinentsListDropdown() {
-        return continentsListDropdown;
-    }
-    
     public JTextField getContinentNameText() {
         return continentNameText;
     }
@@ -59,19 +55,19 @@ public class EditContinentPanel extends JPanel implements Observer {
         /* Setup grid panel */
         JPanel gridPanel = new JPanel(new GridLayout(LAYOUT_ROWS, LAYOUT_COLS));
         JLabel chooseContientLabel = new JLabel(CHOOSE_CONTINENT);
-        chooseContientLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        chooseContientLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gridPanel.add(chooseContientLabel);
         continentsListDropdown = new JComboBox<>();
         gridPanel.add(continentsListDropdown);
         
         JLabel continentNameLabel = new JLabel(CONTIENT_NAME_LABEL);
-        continentNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        continentNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gridPanel.add(continentNameLabel);
         continentNameText = new JTextField();
         gridPanel.add(continentNameText);
         
         JLabel contientControlValueLabel = new JLabel(CONTINENT_CONTROL_VALUE_LABEL);
-        contientControlValueLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        contientControlValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gridPanel.add(contientControlValueLabel);
         contientControlValueText = new JTextField();
         gridPanel.add(contientControlValueText);
@@ -86,9 +82,9 @@ public class EditContinentPanel extends JPanel implements Observer {
         add(new JScrollPane(checkBoxPanel));
         
         /* Setup Save button */
-        saveButton = new JButton(SAVE_BUTTON_LABEL);
-        saveButton.setAlignmentX(CENTER_ALIGNMENT);
-        add(saveButton);
+        saveContinentButton = new JButton(SAVE_BUTTON_LABEL);
+        saveContinentButton.setAlignmentX(CENTER_ALIGNMENT);
+        add(saveContinentButton);
     }
     
     @Override

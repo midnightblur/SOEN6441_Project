@@ -1,6 +1,7 @@
 package controller;
 
 import model.game_entities.Continent;
+import model.game_entities.GameMap;
 import model.game_entities.Territory;
 import model.helpers.GameMapHandler;
 import model.ui_models.DropDownModel;
@@ -10,8 +11,10 @@ import view.helpers.SaveDialog;
 import view.screens.MapEditorFrame;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.Vector;
 
 public class MapEditorController {
     private static final String CONTINENT_NAME_GENERATOR = "continent_";
@@ -47,11 +50,13 @@ public class MapEditorController {
         this.mapEditorFrame.getEditMapControlPanel().addNewMapButtonListener(e -> initiateNewGameMap());
         this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().addContinentsListDropdownListener(e -> prepareContinentEditArea());
         this.mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().addTerritoryListDropdownListener(e -> prepareTerritoryEditArea());
-        this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().addSaveButtonListener(e -> saveContientInfo());
+        this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().addSaveContinentButtonListener(e -> saveContinentInfo());
+        this.mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().addSaveTerritoryButtonListener(e -> saveTerritoryInfo());
         this.mapEditorFrame.getEditMapControlPanel().addSaveMapButtonListener(e -> saveMap());
     }
     
     /* Private methods */
+    
     /**
      * Update the GameMap object from the selected items from DropdownList
      */
@@ -81,7 +86,7 @@ public class MapEditorController {
     }
     
     /**
-     *  Prepare the content for Continent Editing area
+     * Prepare the content for Continent Editing area
      */
     private void prepareContinentEditArea() {
         String selectedContinents = String.valueOf(mapEditorModel.getContinentsDropdownModel().getSelectedItem());
@@ -138,7 +143,7 @@ public class MapEditorController {
         } else {
             Territory currentTerritory = mapEditorModel.getGameMap().getATerritory(selectedTerritories);
             mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoryNameText().setText(currentTerritory.getName());
-    
+            
             for (Continent continent : mapEditorModel.getGameMap().getContinents().values()) {
                 JRadioButton radioButton = new JRadioButton(continent.getName());
                 if (currentTerritory.belongToContinent(continent)) {
@@ -148,7 +153,7 @@ public class MapEditorController {
                 }
                 mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(radioButton);
             }
-    
+            
             for (Territory territory : mapEditorModel.getGameMap().getTerritories().values()) {
                 JCheckBox checkBox = new JCheckBox();
                 checkBox.setText(territory.getName());
@@ -165,9 +170,34 @@ public class MapEditorController {
     }
     
     /**
-     *  Get information from Continent Editing area and save to GameMap object
+     * Get information from Continent Editing area and save to GameMap object
      */
-    private void saveContientInfo() {
+    private void saveContinentInfo() {
+        try {
+            GameMap gameMap = mapEditorModel.getGameMap();
+            String newContinentName = mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContinentNameText().getText();
+            int controlValue = Integer.parseInt(mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContientControlValueText().getText());
+            Vector<Territory> territoryVector = new Vector<>();
+            
+            for (Component component : mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getCheckBoxPanel().getComponents()) {
+                JCheckBox checkBox = (JCheckBox) component;
+                if (checkBox.isSelected()) {
+                    Territory territory = gameMap.getATerritory(checkBox.getText());
+                    territoryVector.add(territory);
+                }
+            }
+            
+            Continent continent = new Continent(newContinentName, controlValue);
+            continent.setTerritories(territoryVector);
+        } catch (NumberFormatException e) {
+            mapEditorFrame.displayErrorMessage(e.getMessage());
+        }
+    }
+    
+    /**
+     * Get information from Territory Editing area and save to GameMap object
+     */
+    private void saveTerritoryInfo() {
     
     }
     
