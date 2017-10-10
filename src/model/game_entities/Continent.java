@@ -65,7 +65,7 @@ public class Continent {
     
     /**
      * Add a territoryName to the list of territories belonging to the continent
-     * @param  the name of the territory
+     * @param territoryName name of the territory
      */
     public void addTerritory(String territoryName) {
         if (!territories.contains(territoryName)) {
