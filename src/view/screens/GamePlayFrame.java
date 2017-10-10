@@ -10,7 +10,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class GamePlayFrame extends JFrame implements Observer {
-    private static final String TITLE = "Map Editor";
+    private static final String TITLE = "Game Play";
     private static final int WIDTH = 1600;
     private static final int HEIGHT = 800;
     
