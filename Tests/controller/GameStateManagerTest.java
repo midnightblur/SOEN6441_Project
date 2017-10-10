@@ -2,8 +2,9 @@ package controller;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
+/**
+ * This class is used to test the state of the manager.
+ */
 public class GameStateManagerTest {
     @Test
     public void getGameState() throws Exception {
