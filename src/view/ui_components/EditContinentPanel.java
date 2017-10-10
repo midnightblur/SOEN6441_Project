@@ -9,6 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class EditContinentPanel extends JPanel implements Observer {
+    private static final String ADD_BUTTON_LABEL = "Add Continent";
     private static final String SAVE_BUTTON_LABEL = "Save Continent";
     private static final String REMOVE_BUTTON_LABEL = "Remove Continent";
     private static final String CHOOSE_CONTINENT = "Choose Continent";
@@ -59,6 +60,22 @@ public class EditContinentPanel extends JPanel implements Observer {
     
     public JButton getRemoveContinentButton() {
         return removeContinentButton;
+    }
+    
+    public JButton getSaveContinentButton() {
+        return saveContinentButton;
+    }
+    
+    public JComboBox<String> getContinentsListDropdown() {
+        return continentsListDropdown;
+    }
+    
+    public static String getSaveButtonLabel() {
+        return SAVE_BUTTON_LABEL;
+    }
+    
+    public static String getAddButtonLabel() {
+        return ADD_BUTTON_LABEL;
     }
     
     /* Private methods */

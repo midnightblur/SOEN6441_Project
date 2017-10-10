@@ -13,6 +13,7 @@ public class GameMap {
     private static final String MSG_CONTINENT_EDIT_SUCCESS = "The %s continent has been edited successfully";
     private static final String MSG_CONTINENT_ADD_SUCCESS = "The %s continent has been added successfully";
     private static final String MSG_CONTINENT_REMOVE_SUCCESS = "The %s continent has been removed successfully";
+    private static final String MSG_TERRITORY_EDIT_SUCCESS = "The %s territory has been edited successfully";
     private static final String MSG_TERRITORY_ADD_SUCCESS = "The %s territory has been added successfully";
     private static final String MSG_TERRITORY_REMOVE_SUCCESS = "The %s territory has been removed successfully";
     
@@ -45,12 +46,38 @@ public class GameMap {
         return continents;
     }
     
+    public static String getMsgContinentEditSuccess() {
+        return MSG_CONTINENT_EDIT_SUCCESS;
+    }
+    
+    public static String getMsgContinentAddSuccess() {
+        return MSG_CONTINENT_ADD_SUCCESS;
+    }
+    
+    public static String getMsgContinentRemoveSuccess() {
+        return MSG_CONTINENT_REMOVE_SUCCESS;
+    }
+    
+    public static String getMsgTerritoryEditSuccess() {
+        return MSG_TERRITORY_EDIT_SUCCESS;
+    }
+    
+    public static String getMsgTerritoryAddSuccess() {
+        return MSG_TERRITORY_ADD_SUCCESS;
+    }
+    
+    public static String getMsgTerritoryRemoveSuccess() {
+        return MSG_TERRITORY_REMOVE_SUCCESS;
+    }
+    
     /* Public methods */
     
     /**
      * Takes a player object as a parameter and returns a hash map of the territories
      * that belong to that player object.
+     *
      * @param player
+     *
      * @return {@literal Map<String, Territory>}
      */
     public Map<String, Territory> getTerritoriesOfPlayer(Player player) {
@@ -65,6 +92,7 @@ public class GameMap {
     
     /**
      * Add a new territory
+     *
      * @param territory
      */
     public String addTerritory(Territory territory) {
@@ -87,6 +115,7 @@ public class GameMap {
     
     /**
      * Remove a territoryName from the GameMap
+     *
      * @param territoryName
      */
     public String removeTerritory(String territoryName) {
@@ -116,6 +145,7 @@ public class GameMap {
     
     /**
      * Add a new newContinent to the game map
+     *
      * @param newContinent
      */
     public String addContinent(Continent newContinent) {
@@ -137,7 +167,41 @@ public class GameMap {
     }
     
     /**
+     * Update info of an existing continent
+     *
+     * @param oldContinentName
+     * @param newContinent
+     *
+     * @return
+     */
+    public String updateContinent(String oldContinentName, Continent newContinent) {
+        if (!continents.containsKey(oldContinentName)) {
+            return String.format(MSG_CONTINENT_NOT_EXIST, oldContinentName);
+        }
+        
+        Continent oldContinent = getAContinent(oldContinentName);
+        
+        /* Remove the continent from its current territories */
+        for (String territoryName : oldContinent.getTerritories()) {
+            Territory territory = getATerritory(territoryName);
+            territory.setContinent("");
+        }
+        
+        /* Set the new continent to contain its territories */
+        for (String territoryName : newContinent.getTerritories()) {
+            Territory territory = getATerritory(territoryName);
+            territory.setContinent(newContinent.getName());
+        }
+    
+        continents.remove(oldContinent.getName());
+        continents.put(newContinent.getName(), newContinent);
+        
+        return String.format(MSG_CONTINENT_EDIT_SUCCESS, newContinent.getName());
+    }
+    
+    /**
      * Remove a continent from the game map given the continent's name
+     *
      * @param continentName
      */
     public String removeContinent(String continentName) {
@@ -161,6 +225,7 @@ public class GameMap {
     
     /**
      * Get the number of territories in the game map
+     *
      * @return
      */
     public int getTerritoriesCount() {
@@ -169,6 +234,7 @@ public class GameMap {
     
     /**
      * Get the number of continent in the game map
+     *
      * @return
      */
     public int getContinentsCount() {
@@ -177,7 +243,9 @@ public class GameMap {
     
     /**
      * Get a territory object from the game map given the territory name
+     *
      * @param territoryName
+     *
      * @return
      */
     public Territory getATerritory(String territoryName) {
@@ -186,7 +254,9 @@ public class GameMap {
     
     /**
      * Get a continent object from the game map given the continent name
+     *
      * @param continentName
+     *
      * @return
      */
     public Continent getAContinent(String continentName) {
@@ -202,6 +272,7 @@ public class GameMap {
     
     /**
      * Get an arbitrary territory object (the first one in the territories list)
+     *
      * @return
      */
     public Territory getArbitraryTerritory() {
@@ -228,23 +299,4 @@ public class GameMap {
         Continent continent = getAContinent(continentName);
         return continent.getTerritories();
     }
-    
-    public String updateContinent(String oldContinentName, Continent newContinent) {
-        if (continents.containsKey(newContinent.getName())) {
-            return String.format(MSG_CONTINENT_EXIST, newContinent.getName());
-        } else {
-            Continent oldContinent = getAContinent(oldContinentName);
-            continents.put(newContinent.getName(), newContinent);
-            
-            for (String territoryName : oldContinent.getTerritories()) {
-                Territory territory = getATerritory(territoryName);
-                territory.setContinent(newContinent.getName());
-            }
-            
-            continents.remove(oldContinent.getName());
-            
-            return String.format(MSG_CONTINENT_EDIT_SUCCESS, newContinent.getName());
-        }
-    }
-
 }

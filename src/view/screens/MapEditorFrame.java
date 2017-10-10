@@ -1,15 +1,12 @@
 package view.screens;
 
-import model.ui_models.DropDownModel;
 import view.helpers.UIHelper;
 import view.ui_components.EditMapControlPanel;
 import view.ui_components.MapTable;
 
 import javax.swing.*;
-import java.util.Observable;
-import java.util.Observer;
 
-public class MapEditorFrame extends JFrame implements Observer {
+public class MapEditorFrame extends JFrame {
     private static final String TITLE = "Map Editor";
     private static final int WIDTH = 1600;
     private static final int HEIGHT = 800;
@@ -50,8 +47,6 @@ public class MapEditorFrame extends JFrame implements Observer {
         return editMapControlPanel;
     }
     
-    
-    
     /* Public methods */
     
     /**
@@ -63,15 +58,7 @@ public class MapEditorFrame extends JFrame implements Observer {
         JOptionPane.showMessageDialog(this, errorMessage);
     }
     
-    /**
-     *
-     * @param dropDownModel
-     */
-    public void loadMapsList(DropDownModel dropDownModel) {
-    }
-    
     /* Private methods */
-    
     private void setupContentPaneLayout() {
         contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
             private final int location = 1100;
@@ -92,10 +79,5 @@ public class MapEditorFrame extends JFrame implements Observer {
         };
         contentPane.setDividerLocation(1100);
         contentPane.setResizeWeight(.75d);
-    }
-    
-    @Override
-    public void update(Observable o, Object arg) {
-//        if (o instanceof DropDownModel)
     }
 }

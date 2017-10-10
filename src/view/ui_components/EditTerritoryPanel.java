@@ -9,6 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class EditTerritoryPanel extends JPanel implements Observer {
+    private static final String ADD_BUTTON_LABEL = "Add Territory";
     private static final String SAVE_BUTTON_LABEL = "Save Territory";
     private static final String REMOVE_BUTTON_LABEL = "Remove Territory";
     private static final String CHOOSE_TERRITORY = "Choose Territory";
@@ -60,6 +61,20 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     public JButton getRemoveTerritoryButton() {
         return removeTerritoryButton;
     }
+    
+    public JButton getSaveTerritoryButton() {
+        return saveTerritoryButton;
+    }
+    
+    public static String getSaveButtonLabel() {
+        return SAVE_BUTTON_LABEL;
+    }
+    
+    public static String getAddButtonLabel() {
+        return ADD_BUTTON_LABEL;
+    }
+    
+    
     
     /* Private methods */
     private void setupComponents() {
