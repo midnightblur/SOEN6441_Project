@@ -28,6 +28,7 @@ public class EditContinentPanel extends JPanel implements Observer {
     public EditContinentPanel() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setupComponents();
+        setAllComponentsEnable(false);
     }
     
     /* MVC & Observer pattern methods */
@@ -54,6 +55,10 @@ public class EditContinentPanel extends JPanel implements Observer {
     
     public JPanel getCheckBoxPanel() {
         return checkBoxPanel;
+    }
+    
+    public JButton getRemoveContinentButton() {
+        return removeContinentButton;
     }
     
     /* Private methods */
@@ -91,10 +96,18 @@ public class EditContinentPanel extends JPanel implements Observer {
         JPanel bottomPanel = new JPanel(new FlowLayout());
         saveContinentButton = new JButton(SAVE_BUTTON_LABEL);
         removeContinentButton = new JButton(REMOVE_BUTTON_LABEL);
+        removeContinentButton.setEnabled(false);
         removeContinentButton.setForeground(Color.RED);
-        bottomPanel.add(saveContinentButton);
         bottomPanel.add(removeContinentButton);
+        bottomPanel.add(saveContinentButton);
         add(bottomPanel);
+    }
+    
+    private void setAllComponentsEnable(boolean isEnable) {
+        continentsListDropdown.setEnabled(isEnable);
+        continentNameText.setEnabled(isEnable);
+        contientControlValueText.setEnabled(isEnable);
+        saveContinentButton.setEnabled(isEnable);
     }
     
     @Override
@@ -103,6 +116,7 @@ public class EditContinentPanel extends JPanel implements Observer {
         if (o instanceof MapEditorModel) {
             continentsListDropdown.setModel(((MapEditorModel) o).getContinentsDropdownModel());
             continentsListDropdown.setSelectedIndex(0);
+            setAllComponentsEnable(true);
         }
     }
 }

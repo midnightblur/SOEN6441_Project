@@ -103,6 +103,7 @@ public class MapEditorController {
                 checkBox.setSelected(false);
                 mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getCheckBoxPanel().add(checkBox);
             }
+            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getRemoveContinentButton().setEnabled(false);
         } else {
             Continent continent = mapEditorModel.getGameMap().getAContinent(selectedContinents);
             mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContinentNameText().setText(continent.getName());
@@ -117,11 +118,16 @@ public class MapEditorController {
                 }
                 mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getCheckBoxPanel().add(checkBox);
             }
+            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getRemoveContinentButton().setEnabled(true);
         }
+        
         mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().revalidate();
         mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().repaint();
     }
     
+    /**
+     * Prepare the content for Territory Editing area
+     */
     private void prepareTerritoryEditArea() {
         String selectedTerritories = String.valueOf(mapEditorModel.getTerritoriesDropdownModel().getSelectedItem());
         mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getCheckBoxPanel().removeAll();
@@ -142,6 +148,7 @@ public class MapEditorController {
                 checkBox.setSelected(false);
                 mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getCheckBoxPanel().add(checkBox);
             }
+            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRemoveTerritoryButton().setEnabled(false);
         } else {
             Territory currentTerritory = mapEditorModel.getGameMap().getATerritory(selectedTerritories);
             mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoryNameText().setText(currentTerritory.getName());
@@ -166,6 +173,7 @@ public class MapEditorController {
                 }
                 mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getCheckBoxPanel().add(checkBox);
             }
+            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRemoveTerritoryButton().setEnabled(true);
         }
         mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().revalidate();
         mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().repaint();

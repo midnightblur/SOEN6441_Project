@@ -10,7 +10,7 @@ import java.util.Observer;
 
 public class EditTerritoryPanel extends JPanel implements Observer {
     private static final String SAVE_BUTTON_LABEL = "Save Territory";
-    private static final String REMOVE_BUTTON_LABEL = "Save Territory";
+    private static final String REMOVE_BUTTON_LABEL = "Remove Territory";
     private static final String CHOOSE_TERRITORY = "Choose Territory";
     private static final String TERRITORY_NAME_LABEL = "Territory Name";
     private static final String CHOOSE_NEIGHBOURS_LABEL = "Choose Neighbours";
@@ -28,6 +28,7 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     public EditTerritoryPanel() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setupComponents();
+        setAllComponentsEnable(false);
     }
     
     /* MVC & Observer pattern methods */
@@ -54,6 +55,10 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     
     public JPanel getRadioButtonsPanel() {
         return radioButtonsPanel;
+    }
+    
+    public JButton getRemoveTerritoryButton() {
+        return removeTerritoryButton;
     }
     
     /* Private methods */
@@ -92,9 +97,17 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         JPanel bottomPanel = new JPanel(new FlowLayout());
         saveTerritoryButton = new JButton(SAVE_BUTTON_LABEL);
         removeTerritoryButton = new JButton(REMOVE_BUTTON_LABEL);
-        bottomPanel.add(saveTerritoryButton);
+        removeTerritoryButton.setEnabled(false);
+        removeTerritoryButton.setForeground(Color.RED);
         bottomPanel.add(removeTerritoryButton);
+        bottomPanel.add(saveTerritoryButton);
         add(bottomPanel);
+    }
+    
+    private void setAllComponentsEnable(boolean isEnable) {
+        territoriesListDropdown.setEnabled(isEnable);
+        territoryNameText.setEnabled(isEnable);
+        saveTerritoryButton.setEnabled(isEnable);
     }
     
     @Override
@@ -103,6 +116,7 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         if (o instanceof MapEditorModel) {
             territoriesListDropdown.setModel(((MapEditorModel) o).getTerritoriesDropdownModel());
             territoriesListDropdown.setSelectedIndex(0);
+            setAllComponentsEnable(true);
         }
     }
 }
