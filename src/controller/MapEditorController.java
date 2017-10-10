@@ -305,18 +305,18 @@ public class MapEditorController {
         String validateMessage = GameMapHelper.validateMap(mapEditorModel.getGameMap());
         if (validateMessage.compareTo(Config.MSG_MAPFILE_VALID) != 0) {
             mapEditorFrame.displayErrorMessage(validateMessage);
-        }
-        
-        SaveDialog fileChooser = new SaveDialog();
-        int selection = fileChooser.showSaveDialog(fileChooser.getParent());
-        if (selection == JFileChooser.APPROVE_OPTION) {
-            File mapFileToSave = fileChooser.getSelectedFile();
-            try {
-                GameMapHelper.writeToFile(mapEditorModel.getGameMap(), mapFileToSave.getAbsolutePath() + Config.MAPS_EXTENSION);
-                mapEditorFrame.displayErrorMessage("The map file was saved at \n" + mapFileToSave.getAbsolutePath());
-            } catch (Exception e) {
-                e.printStackTrace(System.err);
-                mapEditorFrame.displayErrorMessage(e.toString());
+        } else {
+            SaveDialog fileChooser = new SaveDialog();
+            int selection = fileChooser.showSaveDialog(fileChooser.getParent());
+            if (selection == JFileChooser.APPROVE_OPTION) {
+                File mapFileToSave = fileChooser.getSelectedFile();
+                try {
+                    GameMapHelper.writeToFile(mapEditorModel.getGameMap(), mapFileToSave.getAbsolutePath() + Config.MAPS_EXTENSION);
+                    mapEditorFrame.displayErrorMessage("The map file was saved at \n" + mapFileToSave.getAbsolutePath());
+                } catch (Exception e) {
+                    e.printStackTrace(System.err);
+                    mapEditorFrame.displayErrorMessage(e.toString());
+                }
             }
         }
     }
