@@ -205,7 +205,7 @@ public class GameMapHelper {
             
             /* 4. Each territory has a continent */
             if (territory.getContinent().compareTo("") == 0) {
-                return String.format(Config.MSG_MAPFILE_INVALID_CONTINENTS_COUNT, 0);
+                return String.format(Config.MSG_MAPFILE_NO_CONTINENT, territory.getName());
             }
             
             /* 5. Every relationship between territories is 2-ways */

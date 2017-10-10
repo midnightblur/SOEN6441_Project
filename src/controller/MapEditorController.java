@@ -311,7 +311,7 @@ public class MapEditorController {
             if (selection == JFileChooser.APPROVE_OPTION) {
                 File mapFileToSave = fileChooser.getSelectedFile();
                 try {
-                    GameMapHelper.writeToFile(mapEditorModel.getGameMap(), mapFileToSave.getAbsolutePath() + Config.MAPS_EXTENSION);
+                    GameMapHelper.writeToFile(mapEditorModel.getGameMap(), mapFileToSave.getAbsolutePath());
                     mapEditorFrame.displayErrorMessage("The map file was saved at \n" + mapFileToSave.getAbsolutePath());
                 } catch (Exception e) {
                     e.printStackTrace(System.err);

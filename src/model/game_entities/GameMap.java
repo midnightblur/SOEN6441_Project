@@ -135,12 +135,13 @@ public class GameMap {
         
         Territory oldTerritory = getATerritory(oldTerritoryName);
         
-        /* Update territory from its continent */
-        Continent continent = getAContinent(oldTerritory.getContinent());
-        if (continent != null) { // continent might be null in case of adding new territory
-            continent.removeTerritory(oldTerritory.getName());
-            continent.addTerritory(newTerritory.getName());
+        /* Update territory from its oldContinent */
+        Continent oldContinent = getAContinent(oldTerritory.getContinent());
+        if (oldContinent != null) { // oldContinent might be null in case of adding new territory
+            oldContinent.removeTerritory(oldTerritory.getName());
         }
+        Continent newContinent = getAContinent(newTerritory.getContinent());
+        newContinent.addTerritory(newTerritory.getName());
         
         /* Remove territory from its old neighbours */
         for (String neighbourName : oldTerritory.getNeighbors()) {
@@ -205,6 +206,8 @@ public class GameMap {
         /* Add the continent to contain its territories */
         for (String territoryName : newContinent.getTerritories()) {
             Territory territory = territories.get(territoryName);
+            Continent oldContinent = getAContinent(territory.getContinent());
+            oldContinent.removeTerritory(territory.getName());
             territory.setContinent(newContinent.getName());
         }
         
@@ -238,6 +241,8 @@ public class GameMap {
         /* Set the new continent to contain its territories */
         for (String territoryName : newContinent.getTerritories()) {
             Territory territory = getATerritory(territoryName);
+            Continent continent = getAContinent(territory.getContinent());
+            continent.removeTerritory(territoryName);
             territory.setContinent(newContinent.getName());
         }
     
