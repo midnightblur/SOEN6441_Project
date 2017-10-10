@@ -45,7 +45,8 @@ public class GamePlayController {
         gamePlayFrame.getGameMapTable().setModel(tableModel.getModel());
 
         /* Register Observer to Observable */
-        this.gamePlayModel.addObserver(this.gamePlayFrame.getGameMapTable());
+        this.gamePlayModel.addObserver(this.gamePlayFrame);
+        //this.tableModel.addObserver(this.gamePlayFrame.getGameMapTable());
         
         /* Register to be ActionListeners */
         this.gamePlayFrame.getGamePlayControlPanel().addBackButtonListener(e -> backToMainMenu());
