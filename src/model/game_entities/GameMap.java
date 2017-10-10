@@ -207,7 +207,9 @@ public class GameMap {
         for (String territoryName : newContinent.getTerritories()) {
             Territory territory = territories.get(territoryName);
             Continent oldContinent = getAContinent(territory.getContinent());
-            oldContinent.removeTerritory(territory.getName());
+            if (oldContinent != null) {
+                oldContinent.removeTerritory(territory.getName());
+            }
             territory.setContinent(newContinent.getName());
         }
         
@@ -241,8 +243,10 @@ public class GameMap {
         /* Set the new continent to contain its territories */
         for (String territoryName : newContinent.getTerritories()) {
             Territory territory = getATerritory(territoryName);
-            Continent continent = getAContinent(territory.getContinent());
-            continent.removeTerritory(territoryName);
+            Continent currentContinent = getAContinent(territory.getContinent());
+            if (currentContinent != null) {
+                currentContinent.removeTerritory(territoryName);
+            }
             territory.setContinent(newContinent.getName());
         }
     
