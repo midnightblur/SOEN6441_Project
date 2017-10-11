@@ -1,5 +1,6 @@
 package view.ui_components;
 
+import model.RiskGame;
 import model.ui_models.PlayerTerritoriesModel;
 import utilities.Config;
 
@@ -99,6 +100,7 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
         return playerTerritoryTable;
     }
     
+    
     /* MVC & Observer pattern methods */
     public void addBackButtonListener(ActionListener listenerForBackButton) {
         backButton.addActionListener(listenerForBackButton);
@@ -119,6 +121,7 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
+        playerID.setText(Integer.toString(((RiskGame) o).getCurrPlayer().getPlayerID()));
     }
     
     /* Public methods */
