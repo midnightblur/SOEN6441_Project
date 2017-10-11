@@ -129,7 +129,7 @@ public class RiskGame extends Observable {
         distributeTerritories();
         giveInitialArmies();
         placeArmies();
-        
+        setCurrPlayer(players.firstElement());
         this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
         broadcastGamePlayChanges();
     }

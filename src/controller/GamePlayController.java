@@ -36,9 +36,8 @@ public class GamePlayController {
          */
         gamePlayModel.startupPhase(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
         
-        
         // TODO: get the correct player
-        currentPlayer = gamePlayModel.getPlayers().elementAt(1);
+        currentPlayer = gamePlayModel.getCurrPlayer();
 
         /* update the table model from a loaded map */
         try {
@@ -64,17 +63,27 @@ public class GamePlayController {
 
         /* Register Observer to Observable */
         gamePlayModel.addObserver(gamePlayFrame);
+        // TODO: determine if a second registration as observer is needed (next line)
         playerTerritoriesModel.addObserver(gamePlayFrame.getReinforcementControlPanel());
         
         /* Register to be ActionListeners */
-        this.gamePlayFrame.getReinforcementControlPanel().addBackButtonListener(e -> backToMainMenu());
-        this.gamePlayFrame.getReinforcementControlPanel().addPlaceArmiesButtonListener(e -> gamePlayModel.placeArmies(currentPlayer));
-        this.gamePlayFrame.getReinforcementControlPanel().addDoneButtonListener(e -> gamePlayModel.playPhases());
-        
+        gamePlayFrame.getReinforcementControlPanel().addTradeCardsButtonListener(e -> gamePlayModel.tradeInCards(currentPlayer));
+        gamePlayFrame.getReinforcementControlPanel().addPlaceArmiesButtonListener(e -> distributeArmies());
+        gamePlayFrame.getReinforcementControlPanel().addDoneButtonListener(e -> gamePlayModel.playPhases());
+        gamePlayFrame.getReinforcementControlPanel().addBackButtonListener(e -> backToMainMenu());
     }
     
     
     /* Private methods */
+    
+    /**
+     * Looping through view table, get the quantity of armies for each territory
+     * then place them using the placeArmies in the model
+     */
+    private void distributeArmies() {
+        // TODO: loop through view table and get the quantity of armies for each territory the place them using the placeArmies in the model
+        gamePlayModel.placeArmies(currentPlayer);
+    }
     
     /**
      * Close the current MapEditor screen and navigate back to the MainMenu screen

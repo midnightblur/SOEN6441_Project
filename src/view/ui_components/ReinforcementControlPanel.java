@@ -112,6 +112,10 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
         doneButton.addActionListener(listenerForDoneButton);
     }
     
+    public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
+        tradeCardsButton.addActionListener(listenerForTradeCardsButton);
+    }
+    
     @Override
     public void update(Observable o, Object arg) {
         playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
