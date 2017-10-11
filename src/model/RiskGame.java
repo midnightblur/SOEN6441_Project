@@ -52,19 +52,12 @@ public class RiskGame extends Observable {
         }
         return instance;
     }
-    
-    /**
-     * Getters and Setters methods for class RiskGame's private attributes
-     */
+
+    /* Getter and Setter methods for class RiskGame's private attributes */
+
     public GameMap getGameMap() {
         return gameMap;
     }
-    
-    /*
-    public void setNumOfTerritories(int numOfTerritories) {
-        this.numOfTerritories = numOfTerritories;
-    }
-    */
     
     public MapTableModel getMapTableModel() {
         return mapTableModel;
@@ -101,8 +94,8 @@ public class RiskGame extends Observable {
      * to the filepath, sets the number of players playing the game, sets the
      * deck of cards, and distributes territories to the players randomly.
      *
-     * @param filepath:    String value of the path to a valid map file.
-     * @param currPlayers: int value of the initial number of players.
+     * @param filepath The String value of the path to a valid map file
+     * @param currPlayers The int value of the initial number of players
      */
     public void startupPhase(String filepath, int currPlayers) {
         try {
@@ -334,7 +327,7 @@ public class RiskGame extends Observable {
     
     /**
      * This method gives initial armies per player according to the following algorithm:
-     * [# of initial armies = (total# of territories) * (2.75) / (total# of players)]
+     * [# of initial armies = (total# of territories) * (2.75) / (total# of players)].
      */
     public void giveInitialArmies() {
         int armiesToGive = (int) (gameMap.getTerritoriesCount() * Config.INITIAL_ARMY_RATIO / players.size());
@@ -385,7 +378,8 @@ public class RiskGame extends Observable {
     /**
      * Overloaded method to place armies for a specific player until the player
      * has no more armies to place.
-     * @param player
+     *
+     * @param player The object of Player class
      */
     public void placeArmies(Player player) {
         while (player.getUnallocatedArmies() != 0) {
@@ -411,11 +405,10 @@ public class RiskGame extends Observable {
     }
     
     /**
-     * Update the GamePlayModel and notify the Observer
+     * Method to update the GamePlayModel and notify the Observer.
      */
     private void broadcastGamePlayChanges() {
         setChanged();
         notifyObservers();
     }
-    
 }
