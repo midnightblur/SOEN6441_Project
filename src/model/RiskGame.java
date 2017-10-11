@@ -1,5 +1,6 @@
 package model;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import model.game_entities.Card;
 import model.game_entities.GameMap;
 import model.game_entities.Player;
@@ -54,6 +55,8 @@ public class RiskGame extends Observable {
         return instance;
     }
 
+    // region Getter and Setter methods for class RiskGame's private attributes
+
     /* Getter and Setter methods for class RiskGame's private attributes */
 
     public GameMap getGameMap() {
@@ -97,6 +100,8 @@ public class RiskGame extends Observable {
     public void setGameState(Config.GAME_STATES GAMESTATES) {
         this.gameState = GAMESTATES;
     }
+
+    // endregion
     
     /**
      * Initiates the startup phase before game play. Sets the game map according
@@ -165,13 +170,16 @@ public class RiskGame extends Observable {
      * @param player
      */
     public void reinforcementPhase(Player player) {
-        // TODO: assign "Trade Cards" button listener for the if condition
+        // TODO: assign "Trade Cards" button listener for the 'true' value in the while condition
         // Give option to trade cards for each player
         while (player.getPlayersHand().size() >= 5 || true) {
             this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
             broadcastGamePlayChanges();
             tradeInCards(player);
         }
+
+//        this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
+//        broadcastGamePlayChanges();
         
         // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
         int armiesToGive = gameMap.getTerritoriesOfPlayer(player).size() / 3;
@@ -179,6 +187,7 @@ public class RiskGame extends Observable {
             armiesToGive = 3;
         }
         player.setUnallocatedArmies(armiesToGive);
+
         // Place unallocated armies.
         placeArmies(player);
     }
@@ -188,8 +197,32 @@ public class RiskGame extends Observable {
      * @param player
      */
     public void fortificationPhase(Player player) {
-        for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
-        
+        // TODO: assign "Done" button listener for the 'true' value in the while condition
+        while (true) {
+            this.setGameState(Config.GAME_STATES.FORTIFICATION_PHASE);
+            broadcastGamePlayChanges();
+
+            boolean moved = false;
+            while (!moved) {  // show "Move Armies" button only while no valid move has been made.
+
+                // TODO: assign "From (Territory)" and "To (Territory)" and "Army/Armies" button listener for the two variables
+                Territory territoryFrom = gameMap.getArbitraryTerritory();  // TODO: one of the territories of player from button listener
+                Territory territoryTo = gameMap.getArbitraryTerritory();  // TODO: another one of the territories of player from button listener
+                int army = 1;  // TODO: army/armies value specified by the player from form listener
+
+                // validate if the two territories are owned by the player, are different, and are neighbours.
+                if (territoryFrom.isOwnedBy(player.getPlayerID()) && !territoryFrom.equals(territoryTo)
+                        && territoryFrom.isNeighbor(territoryTo.getName())) {
+                    if (territoryFrom.getArmies() != 1 && army < territoryFrom.getArmies()) {
+                        territoryFrom.reduceArmies(army);
+                        territoryTo.addArmies(army);
+                        moved = true;
+                    } else {
+                        System.out.println("You do not have enough armies in " + territoryFrom.getName()
+                                + " to make that move");
+                    }
+                }
+            }
         }
     }
     
@@ -204,7 +237,9 @@ public class RiskGame extends Observable {
             players.add(new Player());
         }
     }
-    
+
+    // region Card related helper methods
+
     /**
      * Sets a deck that contains cards from Card class with equal distribution of all the three card types.
      * The total number of cards is set to the closest value to the total number of territories
@@ -223,7 +258,7 @@ public class RiskGame extends Observable {
             typeNumber++;
         }
     }
-    
+
     /**
      * Draws a random card from the deck and returns it.
      *
@@ -309,7 +344,9 @@ public class RiskGame extends Observable {
             }
         }
     }
-    
+
+    // endregion
+
     /**
      * Distributes the territories in the map randomly to the players. Although the territories
      * are distributed randomly, the number of territories should be as evenly distributed as
