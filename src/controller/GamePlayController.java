@@ -1,7 +1,9 @@
 package controller;
 
 import model.RiskGame;
+import model.game_entities.Player;
 import model.ui_models.MapTableModel;
+import model.ui_models.PlayerTerritoriesModel;
 import utilities.Config;
 import view.screens.GamePlayFrame;
 
@@ -16,6 +18,7 @@ public class GamePlayController {
     private RiskGame gamePlayModel;
     private MainGameController callerController;
     private MapTableModel tableModel;
+    private PlayerTerritoriesModel playerTerritoriesModel;
     
     /* Constructors */
     public GamePlayController(MainGameController mainGameController) {
@@ -41,16 +44,23 @@ public class GamePlayController {
             gamePlayFrame.displayErrorMessage(e.toString());
         }
         
-        /* set the model for the table */
+        /* set the model for the main table */
         gamePlayFrame.getGameMapTable().setModel(tableModel.getModel());
+        
+        /* set the player ID label */
+        Player currentPlayer = RiskGame.getInstance().getPlayers().elementAt(1);
+        gamePlayFrame.getReinforcementControlPanel().setPlayerID(currentPlayer.getPlayerID());
+        
+        /* set the model for the player table */
+        this.playerTerritoriesModel = new PlayerTerritoriesModel(currentPlayer);
+        gamePlayFrame.getReinforcementControlPanel().getPlayerTerritoryTable().setModel(playerTerritoriesModel.getModel());
 
         /* Register Observer to Observable */
-        this.gamePlayModel.addObserver(this.gamePlayFrame);
-        //this.tableModel.addObserver(this.gamePlayFrame.getGameMapTable());
+        gamePlayModel.addObserver(gamePlayFrame);
+        playerTerritoriesModel.addObserver(gamePlayFrame.getReinforcementControlPanel());
         
         /* Register to be ActionListeners */
-        this.gamePlayFrame.getGamePlayControlPanel().addBackButtonListener(e -> backToMainMenu());
-        
+        this.gamePlayFrame.getReinforcementControlPanel().addBackButtonListener(e -> backToMainMenu());
         
     }
     

@@ -1,9 +1,8 @@
 package view.screens;
 
-import model.ui_models.DropDownModel;
 import view.helpers.UIHelper;
-import view.ui_components.GamePlayControlPanel;
 import view.ui_components.MapTable;
+import view.ui_components.ReinforcementControlPanel;
 
 import javax.swing.*;
 import java.util.Observable;
@@ -16,7 +15,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     
     private JSplitPane contentPane;
     private MapTable gameMapTable;
-    private GamePlayControlPanel gamePlayControlPanel;
+    private ReinforcementControlPanel reinforcementControlPanel;
     
     /* Constructors */
     public GamePlayFrame() {
@@ -29,8 +28,8 @@ public class GamePlayFrame extends JFrame implements Observer {
         contentPane.setLeftComponent(new JScrollPane(gameMapTable));
         
         /* Setup control panel area */
-        gamePlayControlPanel = new GamePlayControlPanel();
-        contentPane.setRightComponent(gamePlayControlPanel);
+        reinforcementControlPanel = new ReinforcementControlPanel();
+        contentPane.setRightComponent(reinforcementControlPanel);
         
         /* Setup & Display frame */
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
@@ -46,10 +45,9 @@ public class GamePlayFrame extends JFrame implements Observer {
         return gameMapTable;
     }
     
-    public GamePlayControlPanel getGamePlayControlPanel() {
-        return gamePlayControlPanel;
+    public ReinforcementControlPanel getReinforcementControlPanel() {
+        return reinforcementControlPanel;
     }
-    
     
     
     /* Public methods */
@@ -63,11 +61,6 @@ public class GamePlayFrame extends JFrame implements Observer {
         JOptionPane.showMessageDialog(this, errorMessage);
     }
     
-    /**
-     * @param dropDownModel
-     */
-    public void loadMapsList(DropDownModel dropDownModel) {
-    }
     
     /* Private methods */
     
