@@ -13,13 +13,16 @@ public class ContinentTest {
 
     Continent continent = new Continent("Asia", 5);
 
+    /**
+     * The Test case
+     */
     @Test
     public void getName() throws Exception {
 
-            int x = 7;
-            String continentCheck = "Asia";
-            assertEquals(continent,continentCheck);
-            assertTrue(x > 0);
+        int x = 7;
+        String continentCheck = "Asia";
+        assertEquals(continent, continentCheck);
+        assertTrue(x > 0);
 
     }
 
