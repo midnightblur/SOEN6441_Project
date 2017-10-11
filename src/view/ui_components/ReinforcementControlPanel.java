@@ -63,8 +63,11 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
         controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         
         JPanel panel_1 = new JPanel();
+        panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.PAGE_AXIS));
         panel_1.add(placeArmiesButton);
+        panel_1.add(Box.createRigidArea(new Dimension(0, 20)));
         panel_1.add(doneButton);
+        controlPanel.add(panel_1);
         controlPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         
         /* Navigation buttons */
