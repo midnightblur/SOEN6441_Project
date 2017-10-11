@@ -13,8 +13,7 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     private static final String GAME_STAGE_LABEL = "Game state: " + RiskGame.getInstance().getGameState().name();
     private static final String BACK_BUTTON_LABEL = "Back";
     private static final String PLACE_ARMIES_BUTTON_LABEL = "Place armies";
-    private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed ";
-    private static final String TOTAL_ARMIES_TO_PLACE_QTY = "";
+    private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
     private static final String DONE_BUTTON_LABEL = "Done";
     private static final String TRADE_CARDS_BUTTON_LABEL = "Trade Cards";
     private static final String ARMIES_TO_PLACE_LABEL = "How many armies you want to place in each territory?";
@@ -31,29 +30,26 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     
     /* Constructors */
     public ReinforcementControlPanel() {
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        
-        /* Control panel */
-        JPanel controlPanel = new JPanel();
-        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
-
         gameState = new JLabel(GAME_STAGE_LABEL);
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
         tradeCardsButton = new JButton(TRADE_CARDS_BUTTON_LABEL);
-        totalArmiesToPlace = new JLabel(TOTAL_ARMIES_TO_PLACE_LABEL + TOTAL_ARMIES_TO_PLACE_QTY);
+        totalArmiesToPlace = new JLabel();
         totalArmiesToPlace.setFont(new Font("Sans Serif", Font.BOLD, 16));
         howManyArmiesToPlace = new JLabel(ARMIES_TO_PLACE_LABEL);
         playerTerritoryTable = new JTable();
         doneButton = new JButton(DONE_BUTTON_LABEL);
         placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON_LABEL);
-    
-        JPanel panel_0 = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(playerTerritoryTable);
-        panel_0.add(scrollPane);
+        backButton = new JButton(BACK_BUTTON_LABEL);
         
-        controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
+        
+        /* Control panel */
+        JPanel controlPanel = new JPanel();
+        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
+        
         controlPanel.add(gameState);
         controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         controlPanel.add(playerID);
@@ -62,23 +58,20 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
         controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         controlPanel.add(totalArmiesToPlace);
         controlPanel.add(howManyArmiesToPlace);
-        controlPanel.add(panel_0);
+        controlPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        controlPanel.add(new JScrollPane(playerTerritoryTable));
         controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         
         JPanel panel_1 = new JPanel();
         panel_1.add(placeArmiesButton);
         panel_1.add(doneButton);
-        controlPanel.add(panel_1);
-        
         controlPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         
         /* Navigation buttons */
         JPanel navigationPanel = new JPanel();
         navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.PAGE_AXIS));
         
-        backButton = new JButton(BACK_BUTTON_LABEL);
         navigationPanel.add(backButton);
-        navigationPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         
         add(controlPanel);
         add(navigationPanel);
@@ -86,8 +79,8 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     
     /* Getters & Setters */
     
-    public static String getTotalArmiesToPlaceQty() {
-        return TOTAL_ARMIES_TO_PLACE_QTY;
+    public void setTotalArmiesToPlace(int totalArmiesToPlace) {
+        this.totalArmiesToPlace.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(totalArmiesToPlace));
     }
     
     public void setPlayerID(int playerID) {
@@ -96,10 +89,6 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     
     public JTable getPlayerTerritoryTable() {
         return playerTerritoryTable;
-    }
-    
-    public void setPlayerTerritoryTable(JTable playerTerritoryTable) {
-        this.playerTerritoryTable = playerTerritoryTable;
     }
     
     /* MVC & Observer pattern methods */

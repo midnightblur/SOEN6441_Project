@@ -88,6 +88,5 @@ public class GamePlayFrame extends JFrame implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-//        if (o instanceof DropDownModel)
     }
 }

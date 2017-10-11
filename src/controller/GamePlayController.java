@@ -26,7 +26,6 @@ public class GamePlayController {
         this.gamePlayFrame = new GamePlayFrame();
         this.gamePlayModel = RiskGame.getInstance();
         this.tableModel = gamePlayModel.getMapTableModel();
-        
         // TODO: the following method calls should be moved to be part of StartupListener class which implements the ActionListener class
         /*
         initStartUp should only take 1 param like 'new StartupListener()'.
@@ -54,6 +53,7 @@ public class GamePlayController {
         /* set the model for the player table */
         this.playerTerritoriesModel = new PlayerTerritoriesModel(currentPlayer);
         gamePlayFrame.getReinforcementControlPanel().getPlayerTerritoryTable().setModel(playerTerritoriesModel.getModel());
+        gamePlayFrame.getReinforcementControlPanel().setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
 
         /* Register Observer to Observable */
         gamePlayModel.addObserver(gamePlayFrame);
@@ -61,6 +61,8 @@ public class GamePlayController {
         
         /* Register to be ActionListeners */
         this.gamePlayFrame.getReinforcementControlPanel().addBackButtonListener(e -> backToMainMenu());
+        this.gamePlayFrame.getReinforcementControlPanel().addPlaceArmiesButtonListener(e -> backToMainMenu());
+        this.gamePlayFrame.getReinforcementControlPanel().addDoneButtonListener(e -> backToMainMenu());
         
     }
     
