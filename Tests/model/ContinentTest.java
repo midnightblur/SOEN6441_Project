@@ -8,6 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This test case is used to test the continent class.
+ *
+ * @author
+ * @version 1.0
  */
 public class ContinentTest {
 
