@@ -8,6 +8,8 @@ import org.junit.Test;
 public class ContinentTest {
     @Test
     public void getName() throws Exception {
+
+
     }
 
 }
