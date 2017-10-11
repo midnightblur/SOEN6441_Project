@@ -31,6 +31,7 @@ public class RiskGame extends Observable {
     private Config.GAME_STATES gameState = Config.GAME_STATES.ENTRY_MENU;
     private boolean playing = false;
     private Random rand = new Random();
+    private Player currPlayer;
     
     private MapTableModel mapTableModel;
     
@@ -77,6 +78,14 @@ public class RiskGame extends Observable {
     
     public Vector<Card> getDeck() {
         return this.deck;
+    }
+
+    public void setCurrPlayer(Player player) {
+        this.currPlayer = player;
+    }
+
+    public Player getCurrPlayer() {
+        return this.currPlayer;
     }
     
     /* Public methods */
@@ -137,6 +146,7 @@ public class RiskGame extends Observable {
         playing = true;
         while(playing) {
             for (Player player : players) {
+                setCurrPlayer(player);
                 reinforcementPhase(player);
 //                /* turn playing to false at the end of the attacking phase if player.size() is 1 */
 //                attackingPhase(player);
