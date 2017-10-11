@@ -54,6 +54,7 @@ public class RiskGame extends Observable {
         return instance;
     }
 
+    // region Getter and Setter methods for class RiskGame's private attributes
     /* Getter and Setter methods for class RiskGame's private attributes */
 
     public GameMap getGameMap() {
@@ -97,6 +98,8 @@ public class RiskGame extends Observable {
     public void setGameState(Config.GAME_STATES GAMESTATES) {
         this.gameState = GAMESTATES;
     }
+
+    // endregion
     
     /**
      * Initiates the startup phase before game play. Sets the game map according
