@@ -1,7 +1,7 @@
 package view.ui_components;
 
-import model.RiskGame;
 import model.ui_models.PlayerTerritoriesModel;
+import utilities.Config;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class ReinforcementControlPanel extends JPanel implements Observer {
-    private static final String GAME_STAGE_LABEL = "Game state: " + RiskGame.getInstance().getGameState().name();
+    
+    private static final String GAME_STAGE_LABEL = "Game state: ";
     private static final String BACK_BUTTON_LABEL = "Back";
     private static final String PLACE_ARMIES_BUTTON_LABEL = "Place armies";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
@@ -81,6 +82,10 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     }
     
     /* Getters & Setters */
+    
+    public void setGameState(Config.GAME_STATES gameState) {
+        this.gameState.setText(GAME_STAGE_LABEL + gameState.toString());
+    }
     
     public void setTotalArmiesToPlace(int totalArmiesToPlace) {
         this.totalArmiesToPlace.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(totalArmiesToPlace));
