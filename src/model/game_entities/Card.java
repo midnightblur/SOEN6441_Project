@@ -24,11 +24,18 @@ public class Card {
         this.cardType = cardTypes.elementAt(typeNumber);
     }
 
-    // Getters and Setters
-    
+    /**
+     *These are Getters and Setters.
+     * this getter returns the card type.
+     */
     public String getCardType() {
         return this.cardType;
     }
+
+    /**
+     *
+     * @return
+     */
 
     public static int getTypesCount() {
         return cardTypes.size();

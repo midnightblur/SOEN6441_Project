@@ -4,6 +4,7 @@ import model.game_entities.Continent;
 import model.game_entities.GameMap;
 import model.game_entities.Territory;
 import model.helpers.GameMapHelper;
+import utilities.Config;
 
 import java.util.Observable;
 import java.util.Vector;
@@ -13,6 +14,7 @@ public class MapEditorModel extends Observable {
     private static final String CREATE_NEW_TERRITORY_ITEM = "<Create New Territory>";
     private GameMap gameMap;
     private MapTableModel mapTableModel;
+    private DropDownModel mapDropdownModel;
     private DropDownModel continentsDropdownModel;
     private DropDownModel territoriesDropdownModel;
     
@@ -33,6 +35,10 @@ public class MapEditorModel extends Observable {
     
     public MapTableModel getMapTableModel() {
         return mapTableModel;
+    }
+    
+    public DropDownModel getMapDropdownModel() {
+        return mapDropdownModel;
     }
     
     public DropDownModel getContinentsDropdownModel() {
@@ -113,6 +119,7 @@ public class MapEditorModel extends Observable {
     }
     
     /* Private methods */
+    
     /**
      * Update the MapTableModel and notify the Observer
      */
@@ -123,8 +130,15 @@ public class MapEditorModel extends Observable {
     
     private void updateModels() {
         mapTableModel.updateMapTableModel(gameMap);
+        updateListOfMaps();
         updateListOfContinents();
         updateListOfTerritories();
+    }
+    
+    public void updateListOfMaps() {
+        Vector<String> mapList = new Vector<>();
+        mapList.addAll(GameMapHelper.getMapsInFolder(Config.MAPS_FOLDER));
+        mapDropdownModel = new DropDownModel(mapList);
     }
     
     private void updateListOfContinents() {

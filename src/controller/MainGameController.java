@@ -4,6 +4,9 @@ import view.screens.MainMenuFrame;
 
 import java.awt.event.WindowEvent;
 
+/**
+ *
+ */
 public class MainGameController {
     private MainMenuFrame mainMenuFrame;
     
