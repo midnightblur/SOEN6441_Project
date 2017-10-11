@@ -1,5 +1,6 @@
 package model;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import model.game_entities.Card;
 import model.game_entities.GameMap;
 import model.game_entities.Player;
@@ -176,6 +177,9 @@ public class RiskGame extends Observable {
             broadcastGamePlayChanges();
             tradeInCards(player);
         }
+
+//        this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
+//        broadcastGamePlayChanges();
         
         // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
         int armiesToGive = gameMap.getTerritoriesOfPlayer(player).size() / 3;
@@ -201,16 +205,22 @@ public class RiskGame extends Observable {
             boolean moved = false;
             while (!moved) {  // show "Move Armies" button only while no valid move has been made.
 
-                // TODO: assign "territoryFrom" and "territoryTo" button listener for the two variables
+                // TODO: assign "From (Territory)" and "To (Territory)" and "Army/Armies" button listener for the two variables
                 Territory territoryFrom = gameMap.getArbitraryTerritory();  // TODO: one of the territories of player from button listener
                 Territory territoryTo = gameMap.getArbitraryTerritory();  // TODO: another one of the territories of player from button listener
+                int army = 1;  // TODO: army/armies value specified by the player from form listener
 
-                if (territoryFrom.isOwnedBy(player.getPlayerID()) && !territoryFrom.equals(territoryTo) && territoryFrom.isNeighbor(territoryTo.getName())) {
-                    
-                }
-
-                for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
-
+                // validate if the two territories are owned by the player, are different, and are neighbours.
+                if (territoryFrom.isOwnedBy(player.getPlayerID()) && !territoryFrom.equals(territoryTo)
+                        && territoryFrom.isNeighbor(territoryTo.getName())) {
+                    if (territoryFrom.getArmies() != 1 && army < territoryFrom.getArmies()) {
+                        territoryFrom.reduceArmies(army);
+                        territoryTo.addArmies(army);
+                        moved = true;
+                    } else {
+                        System.out.println("You do not have enough armies in " + territoryFrom.getName()
+                                + " to make that move");
+                    }
                 }
             }
         }
