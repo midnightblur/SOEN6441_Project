@@ -1,6 +1,5 @@
 package model;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import model.game_entities.Card;
 import model.game_entities.GameMap;
 import model.game_entities.Player;
@@ -197,6 +196,10 @@ public class RiskGame extends Observable {
      * @param player
      */
     public void fortificationPhase(Player player) {
+        
+        // @Brian the model should not know anything about the view, therefore:
+        // we need an setter here in the model that takes ( array[terr][int armies])
+        //
         // TODO: assign "Done" button listener for the 'true' value in the while condition
         while (true) {
             this.setGameState(Config.GAME_STATES.FORTIFICATION_PHASE);
@@ -457,5 +460,10 @@ public class RiskGame extends Observable {
     private void broadcastGamePlayChanges() {
         setChanged();
         notifyObservers();
+    }
+    
+    
+    public void placeArmiesFroUserSelection(Map<Territory, Integer> armiesToPlace) {
+        // TODO: implement
     }
 }

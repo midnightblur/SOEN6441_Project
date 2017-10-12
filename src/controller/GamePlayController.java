@@ -2,12 +2,16 @@ package controller;
 
 import model.RiskGame;
 import model.game_entities.Player;
+import model.game_entities.Territory;
 import model.ui_models.MapTableModel;
 import model.ui_models.PlayerTerritoriesModel;
 import utilities.Config;
 import view.screens.GamePlayFrame;
 
+import javax.swing.table.TableModel;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Controller to read and set map filepath to the model, and dispatchToController
@@ -64,7 +68,7 @@ public class GamePlayController {
         /* Register Observer to Observable */
         gamePlayModel.addObserver(gamePlayFrame);
         // TODO: determine if a second registration as observer is needed (next line)
-        //playerTerritoriesModel.addObserver(gamePlayFrame.getReinforcementControlPanel());
+        // playerTerritoriesModel.addObserver(gamePlayFrame.getReinforcementControlPanel());
         
         /* Register to be ActionListeners */
         gamePlayFrame.getReinforcementControlPanel().addTradeCardsButtonListener(e -> gamePlayModel.tradeInCards(currentPlayer));
@@ -81,8 +85,20 @@ public class GamePlayController {
      * then place them using the placeArmies in the model
      */
     private void distributeArmies() {
-        // TODO: loop through view table and get the quantity of armies for each territory the place them using the placeArmies in the model
+        TableModel armiesData = gamePlayFrame.getReinforcementControlPanel().getPlayerTerritoryTable().getModel();
+        String territoryName;
+        int armies;
+        Map<Territory, Integer> armiesToPlace = new HashMap<>();
+        // TODO: validate the sum, make sure only positive numbers
+        for (int r = 0; r <= armiesData.getRowCount(); r++) {
+            territoryName = armiesData.getValueAt(r, 0).toString();
+            armies = Integer.parseInt(armiesData.getValueAt(r, 1).toString());
+            armiesToPlace.put(gamePlayModel.getGameMap().getATerritory(territoryName), armies);
+        }
+        gamePlayModel.placeArmiesFroUserSelection(armiesToPlace);
+        
         gamePlayModel.placeArmies(currentPlayer);
+        // TODO: reset table numbers to 0
     }
     
     /**

@@ -69,6 +69,7 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
         panel_1.add(placeArmiesButton);
         panel_1.add(Box.createRigidArea(new Dimension(0, 20)));
         panel_1.add(doneButton);
+        
         controlPanel.add(panel_1);
         controlPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         
@@ -107,7 +108,7 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     }
     
     public void addPlaceArmiesButtonListener(ActionListener listenerForPlaceArmiesButton) {
-        backButton.addActionListener(listenerForPlaceArmiesButton);
+        placeArmiesButton.addActionListener(listenerForPlaceArmiesButton);
     }
     
     public void addDoneButtonListener(ActionListener listenerForDoneButton) {
