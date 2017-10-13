@@ -479,9 +479,13 @@ public class RiskGame extends Observable {
      */
     public void placeArmies(Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
+            System.out.println("territory " + entry.getKey().getName() + "'s old army value: " + entry.getKey().getArmies());
+            System.out.println("previous unallocated armies: " + currPlayer.getUnallocatedArmies());
             entry.getKey().addArmies(entry.getValue());
             currPlayer.reduceUnallocatedArmies(entry.getValue());
-            broadcastGamePlayChanges();
+            System.out.println("territory " + entry.getKey().getName() + "'s new army value: " + entry.getKey().getArmies());
+            System.out.println("changed unallocated armies: " + currPlayer.getUnallocatedArmies());
         }
+        broadcastGamePlayChanges();
     }
 }
