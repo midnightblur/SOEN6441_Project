@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-public class EditMapControlPanel extends JPanel {
+public class EditMapPanel extends JPanel {
     private static final String SAVE_BUTTON_LABEL = "Save Map";
     private static final String BACK_BUTTON_LABEL = "Back";
     
@@ -19,7 +19,7 @@ public class EditMapControlPanel extends JPanel {
     private EditTerritoryPanel editTerritoryPanel;
     
     /* Constructors */
-    public EditMapControlPanel() {
+    public EditMapPanel() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         
         setupMapSelectionArea();

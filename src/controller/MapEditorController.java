@@ -39,25 +39,25 @@ public class MapEditorController {
         
         /* update the model with a list of map files and set the model to view */
         this.mapEditorModel.updateListOfMaps();
-        this.mapEditorFrame.getEditMapControlPanel().getMapLoadPanel().getChooseMapDropdown().setModel(mapEditorModel.getMapDropdownModel());
+        this.mapEditorFrame.getEditMapPanel().getMapLoadPanel().getChooseMapDropdown().setModel(mapEditorModel.getMapDropdownModel());
         
         /* Register Observer to Observable */
         this.mapEditorModel.addObserver(this.mapEditorFrame.getMapTable());
-        this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapControlPanel().getMapLoadPanel());
-        this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel());
-        this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel());
+        this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapPanel().getMapLoadPanel());
+        this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapPanel().getEditContinentPanel());
+        this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapPanel().getEditTerritoryPanel());
         
         /* Register to be ActionListeners */
-        this.mapEditorFrame.getEditMapControlPanel().getMapLoadPanel().addLoadMapButtonListener(e -> loadMap());
-        this.mapEditorFrame.getEditMapControlPanel().addBackButtonListener(e -> backToMainMenu());
-        this.mapEditorFrame.getEditMapControlPanel().getMapLoadPanel().addNewMapButtonListener(e -> initiateNewGameMap());
-        this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().addContinentsListDropdownListener(e -> prepareContinentEditArea());
-        this.mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().addTerritoryListDropdownListener(e -> prepareTerritoryEditArea());
-        this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().addSaveContinentButtonListener(e -> saveContinentInfo());
-        this.mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().addSaveTerritoryButtonListener(e -> saveTerritoryInfo());
-        this.mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().addRemoveContinentButtonListener(e -> removeContinentInfo());
-        this.mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().addRemoveTerritoryButtonListener(e -> removeTerritoryInfo());
-        this.mapEditorFrame.getEditMapControlPanel().addSaveMapButtonListener(e -> saveMap());
+        this.mapEditorFrame.getEditMapPanel().getMapLoadPanel().addLoadMapButtonListener(e -> loadMap());
+        this.mapEditorFrame.getEditMapPanel().addBackButtonListener(e -> backToMainMenu());
+        this.mapEditorFrame.getEditMapPanel().getMapLoadPanel().addNewMapButtonListener(e -> initiateNewGameMap());
+        this.mapEditorFrame.getEditMapPanel().getEditContinentPanel().addContinentsListDropdownListener(e -> prepareContinentEditArea());
+        this.mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().addTerritoryListDropdownListener(e -> prepareTerritoryEditArea());
+        this.mapEditorFrame.getEditMapPanel().getEditContinentPanel().addSaveContinentButtonListener(e -> saveContinentInfo());
+        this.mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().addSaveTerritoryButtonListener(e -> saveTerritoryInfo());
+        this.mapEditorFrame.getEditMapPanel().getEditContinentPanel().addRemoveContinentButtonListener(e -> removeContinentInfo());
+        this.mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().addRemoveTerritoryButtonListener(e -> removeTerritoryInfo());
+        this.mapEditorFrame.getEditMapPanel().addSaveMapButtonListener(e -> saveMap());
     }
     
     /* Private methods */
@@ -67,7 +67,7 @@ public class MapEditorController {
      */
     private void loadMap() {
         try {
-            String mapName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getMapLoadPanel().getChooseMapDropdown().getSelectedItem());
+            String mapName = String.valueOf(mapEditorFrame.getEditMapPanel().getMapLoadPanel().getChooseMapDropdown().getSelectedItem());
             mapEditorModel.loadNewGameMap(mapName);
         } catch (Exception e) {
             e.printStackTrace(System.err);
@@ -95,25 +95,25 @@ public class MapEditorController {
      */
     private void prepareContinentEditArea() {
         String selectedContinents = String.valueOf(mapEditorModel.getContinentsDropdownModel().getSelectedItem());
-        mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getCheckBoxPanel().removeAll();
+        mapEditorFrame.getEditMapPanel().getEditContinentPanel().getCheckBoxPanel().removeAll();
         if (selectedContinents.compareTo(MapEditorModel.getCreateNewContinentItem()) == 0) {
             String newContinentName = CONTINENT_NAME_GENERATOR + newContinentID;
-            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContinentNameText().setText(newContinentName);
-            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContientControlValueText().setText(String.valueOf(DEFAULT_CONTROL_VALUE));
+            mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentNameText().setText(newContinentName);
+            mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContientControlValueText().setText(String.valueOf(DEFAULT_CONTROL_VALUE));
             for (Territory territory : mapEditorModel.getGameMap().getTerritories().values()) {
                 JCheckBox checkBox = new JCheckBox();
                 checkBox.setText(territory.getName());
                 checkBox.setSelected(false);
-                mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getCheckBoxPanel().add(checkBox);
+                mapEditorFrame.getEditMapPanel().getEditContinentPanel().getCheckBoxPanel().add(checkBox);
             }
             
-            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContinentNameText().setText(CONTINENT_NAME_GENERATOR + newContinentID++);
-            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getSaveContinentButton().setText(EditContinentPanel.getAddButtonLabel());
-            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getRemoveContinentButton().setEnabled(false);
+            mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentNameText().setText(CONTINENT_NAME_GENERATOR + newContinentID++);
+            mapEditorFrame.getEditMapPanel().getEditContinentPanel().getSaveContinentButton().setText(EditContinentPanel.getAddButtonLabel());
+            mapEditorFrame.getEditMapPanel().getEditContinentPanel().getRemoveContinentButton().setEnabled(false);
         } else {
             Continent continent = mapEditorModel.getGameMap().getAContinent(selectedContinents);
-            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContinentNameText().setText(continent.getName());
-            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContientControlValueText().setText(String.valueOf(continent.getControlValue()));
+            mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentNameText().setText(continent.getName());
+            mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContientControlValueText().setText(String.valueOf(continent.getControlValue()));
             for (Territory territory : mapEditorModel.getGameMap().getTerritories().values()) {
                 JCheckBox checkBox = new JCheckBox();
                 checkBox.setText(territory.getName());
@@ -122,14 +122,14 @@ public class MapEditorController {
                 } else {
                     checkBox.setSelected(false);
                 }
-                mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getCheckBoxPanel().add(checkBox);
+                mapEditorFrame.getEditMapPanel().getEditContinentPanel().getCheckBoxPanel().add(checkBox);
             }
-            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getSaveContinentButton().setText(EditContinentPanel.getSaveButtonLabel());
-            mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getRemoveContinentButton().setEnabled(true);
+            mapEditorFrame.getEditMapPanel().getEditContinentPanel().getSaveContinentButton().setText(EditContinentPanel.getSaveButtonLabel());
+            mapEditorFrame.getEditMapPanel().getEditContinentPanel().getRemoveContinentButton().setEnabled(true);
         }
         
-        mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().revalidate();
-        mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().repaint();
+        mapEditorFrame.getEditMapPanel().getEditContinentPanel().revalidate();
+        mapEditorFrame.getEditMapPanel().getEditContinentPanel().repaint();
     }
     
     /**
@@ -137,22 +137,22 @@ public class MapEditorController {
      */
     private void prepareTerritoryEditArea() {
         String selectedTerritories = String.valueOf(mapEditorModel.getTerritoriesDropdownModel().getSelectedItem());
-        mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getCheckBoxPanel().removeAll();
-        mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().removeAll();
+        mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getCheckBoxPanel().removeAll();
+        mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getRadioButtonsPanel().removeAll();
         ButtonGroup buttonGroup = new ButtonGroup();
         if (selectedTerritories.compareTo(MapEditorModel.getCreateNewTerritoryItem()) == 0) {
             String newTerritoryName = TERRITORY_NAME_GENERATOR + newTerritoryID;
-            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoryNameText().setText(newTerritoryName);
+            mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoryNameText().setText(newTerritoryName);
             
             // None radio button to choose no continent
             JRadioButton noneRadioBtn = new JRadioButton(NONE_RADIO_BUTTON);
             buttonGroup.add(noneRadioBtn);
-            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(noneRadioBtn);
+            mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(noneRadioBtn);
             for (Continent continent : mapEditorModel.getGameMap().getContinents().values()) {
                 JRadioButton radioButton = new JRadioButton(continent.getName());
                 radioButton.setSelected(false);
                 buttonGroup.add(radioButton);
-                mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(radioButton);
+                mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(radioButton);
             }
             noneRadioBtn.setSelected(true);
             
@@ -160,20 +160,20 @@ public class MapEditorController {
                 JCheckBox checkBox = new JCheckBox();
                 checkBox.setText(territory.getName());
                 checkBox.setSelected(false);
-                mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getCheckBoxPanel().add(checkBox);
+                mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getCheckBoxPanel().add(checkBox);
             }
             
-            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoryNameText().setText(TERRITORY_NAME_GENERATOR + newTerritoryID++);
-            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getSaveTerritoryButton().setText(EditTerritoryPanel.getAddButtonLabel());
-            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRemoveTerritoryButton().setEnabled(false);
+            mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoryNameText().setText(TERRITORY_NAME_GENERATOR + newTerritoryID++);
+            mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getSaveTerritoryButton().setText(EditTerritoryPanel.getAddButtonLabel());
+            mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getRemoveTerritoryButton().setEnabled(false);
         } else {
             Territory currentTerritory = mapEditorModel.getGameMap().getATerritory(selectedTerritories);
-            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoryNameText().setText(currentTerritory.getName());
+            mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoryNameText().setText(currentTerritory.getName());
             
             // None radio button to choose no continent
             JRadioButton noneRadioBtn = new JRadioButton(NONE_RADIO_BUTTON);
             buttonGroup.add(noneRadioBtn);
-            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(noneRadioBtn);
+            mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(noneRadioBtn);
             for (Continent continent : mapEditorModel.getGameMap().getContinents().values()) {
                 JRadioButton radioButton = new JRadioButton(continent.getName());
                 if (currentTerritory.belongToContinent(continent.getName())) {
@@ -182,7 +182,7 @@ public class MapEditorController {
                     radioButton.setSelected(false);
                 }
                 buttonGroup.add(radioButton);
-                mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(radioButton);
+                mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(radioButton);
             }
             if (currentTerritory.getContinent().compareTo("") == 0) {
                 noneRadioBtn.setSelected(true);
@@ -196,14 +196,14 @@ public class MapEditorController {
                 } else {
                     checkBox.setSelected(false);
                 }
-                mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getCheckBoxPanel().add(checkBox);
+                mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getCheckBoxPanel().add(checkBox);
             }
-            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getSaveTerritoryButton().setText(EditTerritoryPanel.getSaveButtonLabel());
-            mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRemoveTerritoryButton().setEnabled(true);
+            mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getSaveTerritoryButton().setText(EditTerritoryPanel.getSaveButtonLabel());
+            mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getRemoveTerritoryButton().setEnabled(true);
         }
         
-        mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().revalidate();
-        mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().repaint();
+        mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().revalidate();
+        mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().repaint();
     }
     
     /**
@@ -211,12 +211,12 @@ public class MapEditorController {
      */
     private void saveContinentInfo() {
         try {
-            String newContinentName = mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContinentNameText().getText();
-            int controlValue = Integer.parseInt(mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContientControlValueText().getText());
+            String newContinentName = mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentNameText().getText();
+            int controlValue = Integer.parseInt(mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContientControlValueText().getText());
             Continent newContinent = new Continent(newContinentName, controlValue);
             
             Vector<String> territoryVector = new Vector<>();
-            for (Component component : mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getCheckBoxPanel().getComponents()) {
+            for (Component component : mapEditorFrame.getEditMapPanel().getEditContinentPanel().getCheckBoxPanel().getComponents()) {
                 JCheckBox checkBox = (JCheckBox) component;
                 if (checkBox.isSelected()) {
                     territoryVector.add(checkBox.getText());
@@ -224,7 +224,7 @@ public class MapEditorController {
             }
             newContinent.setTerritories(territoryVector);
             
-            if (mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getSaveContinentButton().getText().compareTo(EditContinentPanel.getAddButtonLabel()) == 0) {
+            if (mapEditorFrame.getEditMapPanel().getEditContinentPanel().getSaveContinentButton().getText().compareTo(EditContinentPanel.getAddButtonLabel()) == 0) {
                 /* Adding new continent */
                 String result = mapEditorModel.addNewContinent(newContinent);
                 if (result.compareTo(String.format(GameMap.getMsgContinentAddSuccess(), newContinentName)) != 0) {
@@ -232,7 +232,7 @@ public class MapEditorController {
                 }
             } else {
                 /* Update existing continent */
-                String oldContinentName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContinentsListDropdown().getSelectedItem());
+                String oldContinentName = String.valueOf(mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentsListDropdown().getSelectedItem());
                 String result = mapEditorModel.updateContinent(oldContinentName, newContinent);
                 if (result.compareTo(String.format(GameMap.getMsgContinentEditSuccess(), newContinentName)) != 0) {
                     mapEditorFrame.displayErrorMessage(result);
@@ -244,7 +244,7 @@ public class MapEditorController {
     }
     
     private void removeContinentInfo() {
-        String continentName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getEditContinentPanel().getContinentsListDropdown().getSelectedItem());
+        String continentName = String.valueOf(mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentsListDropdown().getSelectedItem());
         String result = mapEditorModel.removeContinent(continentName);
         if (result.compareTo(String.format(GameMap.getMsgContinentRemoveSuccess(), continentName)) != 0) {
             mapEditorFrame.displayErrorMessage(result);
@@ -255,9 +255,9 @@ public class MapEditorController {
      * Get information from Territory Editing area and save to GameMap object
      */
     private void saveTerritoryInfo() {
-        String newTerritoryName = mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoryNameText().getText();
+        String newTerritoryName = mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoryNameText().getText();
         String chosenContinent = "";
-        for (Component component : mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getRadioButtonsPanel().getComponents()) {
+        for (Component component : mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getRadioButtonsPanel().getComponents()) {
             JRadioButton radioButton = (JRadioButton) component;
             if (radioButton.isSelected()) {
                 chosenContinent = radioButton.getText();
@@ -269,7 +269,7 @@ public class MapEditorController {
         }
         Territory newTerritory = new Territory(newTerritoryName, chosenContinent);
         Vector<String> neighbourVector = new Vector<>();
-        for (Component component : mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getCheckBoxPanel().getComponents()) {
+        for (Component component : mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getCheckBoxPanel().getComponents()) {
             JCheckBox checkBox = (JCheckBox) component;
             if (checkBox.isSelected()) {
                 neighbourVector.add(checkBox.getText());
@@ -277,7 +277,7 @@ public class MapEditorController {
         }
         newTerritory.setNeighbors(neighbourVector);
         
-        if (mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getSaveTerritoryButton().getText().compareTo(EditTerritoryPanel.getAddButtonLabel()) == 0) {
+        if (mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getSaveTerritoryButton().getText().compareTo(EditTerritoryPanel.getAddButtonLabel()) == 0) {
             /* Adding new territory */
             String result = mapEditorModel.addNewTerritory(newTerritory);
             if (result.compareTo(String.format(GameMap.getMsgTerritoryAddSuccess(), newTerritoryName)) != 0) {
@@ -285,7 +285,7 @@ public class MapEditorController {
             }
         } else {
             /* Update existing territory */
-            String oldTerritoryName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoriesListDropdown().getSelectedItem());
+            String oldTerritoryName = String.valueOf(mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoriesListDropdown().getSelectedItem());
             String result = mapEditorModel.updateTerritory(oldTerritoryName, newTerritory);
             if (result.compareTo(String.format(GameMap.getMsgTerritoryEditSuccess(), newTerritoryName)) != 0) {
                 mapEditorFrame.displayErrorMessage(result);
@@ -294,7 +294,7 @@ public class MapEditorController {
     }
     
     private void removeTerritoryInfo() {
-        String territoryName = String.valueOf(mapEditorFrame.getEditMapControlPanel().getEditTerritoryPanel().getTerritoriesListDropdown().getSelectedItem());
+        String territoryName = String.valueOf(mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoriesListDropdown().getSelectedItem());
         String result = mapEditorModel.removeTerritory(territoryName);
         if (result.compareTo(String.format(GameMap.getMsgTerritoryRemoveSuccess(), territoryName)) != 0) {
             mapEditorFrame.displayErrorMessage(result);
@@ -321,7 +321,7 @@ public class MapEditorController {
                 
                     /* reload the map dropdown list and make the saved map the current one */
                     mapEditorModel.updateListOfMaps();
-                    mapEditorFrame.getEditMapControlPanel().getMapLoadPanel().getChooseMapDropdown().setSelectedItem(mapFileToSave.getName());
+                    mapEditorFrame.getEditMapPanel().getMapLoadPanel().getChooseMapDropdown().setSelectedItem(mapFileToSave.getName());
                     loadMap();
                 } catch (Exception e) {
                     e.printStackTrace(System.err);

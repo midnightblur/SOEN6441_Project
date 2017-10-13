@@ -3,10 +3,10 @@ package controller;
 import model.RiskGame;
 import model.game_entities.Player;
 import view.screens.GamePlayFrame;
-import view.ui_components.TradeCardsControlPanel;
+import view.ui_components.TradeCardsPanel;
 
 public class TradeCardsController {
-    private TradeCardsControlPanel tradeCardsControlPanel;
+    private TradeCardsPanel tradeCardsPanel;
     private GamePlayFrame gamePlayFrame;
     private RiskGame riskGame;
     private Player currentPlayer;
@@ -14,8 +14,8 @@ public class TradeCardsController {
     
     public TradeCardsController(GamePlayFrame gamePlayFrame) {
         this.gamePlayFrame = gamePlayFrame;
-        tradeCardsControlPanel = new TradeCardsControlPanel();
-        gamePlayFrame.getContentPane().setRightComponent(tradeCardsControlPanel);
+        tradeCardsPanel = new TradeCardsPanel();
+        gamePlayFrame.getContentPane().setRightComponent(tradeCardsPanel);
         riskGame = RiskGame.getInstance();
         currentPlayer = riskGame.getCurrPlayer();
         
@@ -23,7 +23,7 @@ public class TradeCardsController {
         populateTradeCardsPanel();
         
         /* Register Observer to Observable */
-        currentPlayer.addObserver(tradeCardsControlPanel);
+        currentPlayer.addObserver(tradeCardsPanel);
         
         /* Register to be ActionListeners */
         
@@ -32,7 +32,7 @@ public class TradeCardsController {
     /* Private methods */
     
     /**
-     * Populate the fortification control panel with updated model data
+     * Populate the trade cards control panel with updated model data
      */
     private void populateTradeCardsPanel() {
         /* set view elements */

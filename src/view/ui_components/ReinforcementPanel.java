@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ReinforcementControlPanel extends JPanel implements Observer {
+public class ReinforcementPanel extends JPanel implements Observer {
     
     private static final String PLACE_ARMIES_BUTTON_LABEL = "Place armies";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
@@ -29,7 +29,7 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     private JTable playerTerritoryTable;
     
     /* Constructors */
-    public ReinforcementControlPanel() {
+    public ReinforcementPanel() {
         gameState = new JLabel();
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         playerID = new JLabel();

@@ -3,18 +3,18 @@ package controller;
 import model.RiskGame;
 import model.game_entities.Player;
 import view.screens.GamePlayFrame;
-import view.ui_components.FortificationControlPanel;
+import view.ui_components.FortificationPanel;
 
 public class FortificationController {
-    private FortificationControlPanel fortificationControlPanel;
+    private FortificationPanel fortificationPanel;
     private GamePlayFrame gamePlayFrame;
     private RiskGame riskGame;
     private Player currentPlayer;
     
     public FortificationController(GamePlayFrame gamePlayFrame) {
         this.gamePlayFrame = gamePlayFrame;
-        fortificationControlPanel = new FortificationControlPanel();
-        gamePlayFrame.getContentPane().setRightComponent(fortificationControlPanel);
+        fortificationPanel = new FortificationPanel();
+        gamePlayFrame.getContentPane().setRightComponent(fortificationPanel);
         riskGame = RiskGame.getInstance();
         currentPlayer = riskGame.getCurrPlayer();
         
@@ -22,7 +22,7 @@ public class FortificationController {
         populateFortificationPanel();
         
         /* Register Observer to Observable */
-        currentPlayer.addObserver(fortificationControlPanel);
+        currentPlayer.addObserver(fortificationPanel);
         
         /* Register to be ActionListeners */
         

@@ -5,14 +5,14 @@ import model.game_entities.Player;
 import model.game_entities.Territory;
 import model.ui_models.PlayerTerritoriesModel;
 import view.screens.GamePlayFrame;
-import view.ui_components.ReinforcementControlPanel;
+import view.ui_components.ReinforcementPanel;
 
 import javax.swing.table.TableModel;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ReinforcementController {
-    private ReinforcementControlPanel reinforcementControlPanel;
+    private ReinforcementPanel reinforcementPanel;
     private GamePlayFrame gamePlayFrame;
     private RiskGame riskGame;
     private PlayerTerritoriesModel playerTerritoriesModel;
@@ -21,8 +21,8 @@ public class ReinforcementController {
     /* Constructors */
     public ReinforcementController(GamePlayFrame gamePlayFrame) {
         this.gamePlayFrame = gamePlayFrame;
-        reinforcementControlPanel = new ReinforcementControlPanel();
-        gamePlayFrame.getContentPane().setRightComponent(reinforcementControlPanel);
+        reinforcementPanel = new ReinforcementPanel();
+        gamePlayFrame.getContentPane().setRightComponent(reinforcementPanel);
         riskGame = RiskGame.getInstance();
         currentPlayer = riskGame.getCurrPlayer();
     
@@ -30,13 +30,13 @@ public class ReinforcementController {
         populateReinforcementPanel();
         
         /* Register Observer to Observable */
-        playerTerritoriesModel.addObserver(reinforcementControlPanel);
-        currentPlayer.addObserver(reinforcementControlPanel);
+        playerTerritoriesModel.addObserver(reinforcementPanel);
+        currentPlayer.addObserver(reinforcementPanel);
         
         /* Register to be ActionListeners */
-        reinforcementControlPanel.addTradeCardsButtonListener(e -> riskGame.tradeInCards());
-        reinforcementControlPanel.addPlaceArmiesButtonListener(e -> distributeArmies());
-        reinforcementControlPanel.addDoneButtonListener(e -> riskGame.fortificationPhase());
+        reinforcementPanel.addTradeCardsButtonListener(e -> riskGame.tradeInCards());
+        reinforcementPanel.addPlaceArmiesButtonListener(e -> distributeArmies());
+        reinforcementPanel.addDoneButtonListener(e -> riskGame.fortificationPhase());
     }
     
     /* Private methods */
@@ -47,18 +47,18 @@ public class ReinforcementController {
      */
     private void populateReinforcementPanel() {
         /* set the phase label */
-        reinforcementControlPanel.setGameState(riskGame.getGameState());
+        reinforcementPanel.setGameState(riskGame.getGameState());
         
         /* set the player ID label */
-        reinforcementControlPanel.setPlayerID(currentPlayer.getPlayerID());
+        reinforcementPanel.setPlayerID(currentPlayer.getPlayerID());
         
         /* set the unallocated armies */
-        reinforcementControlPanel.setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
+        reinforcementPanel.setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
         
         /* set the model for the player table */
         playerTerritoriesModel = new PlayerTerritoriesModel(currentPlayer);
-        reinforcementControlPanel.getPlayerTerritoryTable().setModel(playerTerritoriesModel.getModel());
-        reinforcementControlPanel.setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
+        reinforcementPanel.getPlayerTerritoryTable().setModel(playerTerritoriesModel.getModel());
+        reinforcementPanel.setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
     }
     
     /**
@@ -66,7 +66,7 @@ public class ReinforcementController {
      * then place them using the placeArmies in the model
      */
     private void distributeArmies() {
-        TableModel armiesData = reinforcementControlPanel.getPlayerTerritoryTable().getModel();
+        TableModel armiesData = reinforcementPanel.getPlayerTerritoryTable().getModel();
         String territoryName;
         int armies;
         int runningSum = 0;

@@ -1,7 +1,7 @@
 package view.screens;
 
 import view.helpers.UIHelper;
-import view.ui_components.EditMapControlPanel;
+import view.ui_components.EditMapPanel;
 import view.ui_components.MapTable;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ public class MapEditorFrame extends JFrame {
     
     private JSplitPane contentPane;
     private MapTable mapTable;
-    private EditMapControlPanel editMapControlPanel;
+    private EditMapPanel editMapPanel;
     
     /* Constructors */
     public MapEditorFrame() {
@@ -26,8 +26,8 @@ public class MapEditorFrame extends JFrame {
         contentPane.setLeftComponent(new JScrollPane(mapTable));
         
         /* Setup control panel area */
-        editMapControlPanel = new EditMapControlPanel();
-        contentPane.setRightComponent(editMapControlPanel);
+        editMapPanel = new EditMapPanel();
+        contentPane.setRightComponent(editMapPanel);
         
         /* Setup & Display frame */
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
@@ -43,8 +43,8 @@ public class MapEditorFrame extends JFrame {
         return mapTable;
     }
     
-    public EditMapControlPanel getEditMapControlPanel() {
-        return editMapControlPanel;
+    public EditMapPanel getEditMapPanel() {
+        return editMapPanel;
     }
     
     /* Public methods */
