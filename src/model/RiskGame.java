@@ -167,6 +167,7 @@ public class RiskGame extends Observable {
             armiesToGive = 3;
         }
         player.addUnallocatedArmies(armiesToGive);
+        broadcastGamePlayChanges();
         
         // TODO: assign "Trade Cards" button listener for the 'true' value in the while condition
         // Give option to trade cards for each player
