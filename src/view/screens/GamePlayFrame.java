@@ -1,5 +1,6 @@
 package view.screens;
 
+import model.ui_models.MapTableModel;
 import view.helpers.UIHelper;
 import view.ui_components.MapTable;
 import view.ui_components.ReinforcementControlPanel;
@@ -88,5 +89,6 @@ public class GamePlayFrame extends JFrame implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
+        gameMapTable.setModel(((MapTableModel) o).getModel());
     }
 }
