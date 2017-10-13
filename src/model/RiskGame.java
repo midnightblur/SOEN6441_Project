@@ -143,11 +143,11 @@ public class RiskGame extends Observable {
     public void playPhases() {
         /* Hand out cards for build 1 presentation. To be commented out for normal game play */
         for (Player player : players) {
-            System.out.println("player1's hand: (" + player.getPlayersHand().size() + ")");
             for (int i = 0; i < player.getPlayerID(); i++) {
                 player.addCardToPlayersHand(drawCard());
                 System.out.println("\t" + drawCard().getCardType() + " card");
             }
+            System.out.println("player1's hand: (" + player.getPlayersHand().size() + ")");
         }
         
         setIsPlaying(true);

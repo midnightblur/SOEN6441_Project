@@ -18,7 +18,7 @@ public class Player {
     private int playerID;
     private String playerName;
     private int unallocatedArmies;
-    private Vector<Card> playersHand;
+    private Vector<Card> playersHand = new Vector<>();
     
     public Player() {
         this.playerID = ++Player.nextID;
