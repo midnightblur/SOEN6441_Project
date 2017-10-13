@@ -1,6 +1,7 @@
 package model.game_entities;
 
 import java.awt.*;
+import java.util.Observable;
 import java.util.Random;
 import java.util.Vector;
 
@@ -8,7 +9,7 @@ import java.util.Vector;
  * Each Player in a new game has a unique ID number (starting from 1) and the isBot status
  * which determines whether or not that player is a bot or a human controlled Player.
  */
-public class Player {
+public class Player extends Observable {
     private static int nextID = 0;
     Random rand = new Random();
     // Will produce only bright / light colours:
@@ -113,5 +114,13 @@ public class Player {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Method to update the GamePlayModel and notify the Observer.
+     */
+    private void broadcastGamePlayChanges() {
+        setChanged();
+        notifyObservers();
     }
 }

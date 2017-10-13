@@ -1,5 +1,6 @@
 package model.game_entities;
 
+import java.util.Observable;
 import java.util.Vector;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Vector;
  * A territory must have at least one neighbor/adjacent territory
  * A territory must contain one or more armies
  */
-public class Territory {
+public class Territory extends Observable {
     /* Private data members of model.game_entities.Territory class */
     private String name;
     private String continent;
@@ -199,5 +200,13 @@ public class Territory {
         }
         
         return false;
+    }
+    
+    /**
+     * Method to update the GamePlayModel and notify the Observer.
+     */
+    private void broadcastGamePlayChanges() {
+        setChanged();
+        notifyObservers();
     }
 }

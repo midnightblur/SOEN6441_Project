@@ -464,14 +464,6 @@ public class RiskGame extends Observable {
     }
     
     /**
-     * Method to update the GamePlayModel and notify the Observer.
-     */
-    private void broadcastGamePlayChanges() {
-        setChanged();
-        notifyObservers();
-    }
-    
-    /**
      * A method that overrides placeArmies method to allow a player to place armies to the
      * Territories as specified from the Reinforcement Phase view panel.
      *
@@ -487,5 +479,13 @@ public class RiskGame extends Observable {
             System.out.println("changed unallocated armies: " + currPlayer.getUnallocatedArmies());
         }
         broadcastGamePlayChanges();
+    }
+    
+    /**
+     * Method to update the GamePlayModel and notify the Observer.
+     */
+    private void broadcastGamePlayChanges() {
+        setChanged();
+        notifyObservers();
     }
 }
