@@ -60,6 +60,10 @@ public class GamePlayController {
         /* set the player ID label */
         gamePlayFrame.getReinforcementControlPanel().setPlayerID(currentPlayer.getPlayerID());
         
+        /* set the unallocated armies */
+        gamePlayFrame.getReinforcementControlPanel().setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
+        System.out.println("currentPlayer.getUnallocatedArmies() = " + currentPlayer.getUnallocatedArmies());
+        
         /* set the model for the player table */
         playerTerritoriesModel = new PlayerTerritoriesModel(currentPlayer);
         gamePlayFrame.getReinforcementControlPanel().getPlayerTerritoryTable().setModel(playerTerritoriesModel.getModel());
