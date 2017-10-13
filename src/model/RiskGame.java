@@ -295,10 +295,8 @@ public class RiskGame extends Observable {
      * armies according to the army value. The army value is first set as '5' at the
      * beginning of the game, but increases every time a player successfully trades in
      * 3 pairs of cards.
-     *
-     * @param player The object of a Player class
      */
-    public void tradeInCards(Player player) {
+    public void tradeInCards() {
         System.out.println("-- Entered 'Trade In Cards' panel --");
         
         // TODO: change these button variables to appropriate listeners
@@ -309,24 +307,24 @@ public class RiskGame extends Observable {
         if (choice == 1) {  // check if there are three of the same kind (order of Infantry > Cavalry > Artillery).
             for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
                 counter = 0;
-                for (int i = 0; i < player.getPlayersHand().size(); i++) {
-                    if (player.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
+                for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
+                    if (currPlayer.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
                         counter++;
                     }
                 }
                 if (counter >= 3) {
                     int deleteCounter = 0;
-                    for (Card card : player.getPlayersHand()) {
+                    for (Card card : currPlayer.getPlayersHand()) {
                         if (card.getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
-                            player.getPlayersHand().remove(card);
+                            currPlayer.getPlayersHand().remove(card);
                             deleteCounter++;
                         }
                         if (deleteCounter >= 3) {
                             break;
                         }
                     }
-                    player.getPlayersHand().trimToSize();
-                    player.addUnallocatedArmies(armyValue);
+                    currPlayer.getPlayersHand().trimToSize();
+                    currPlayer.addUnallocatedArmies(armyValue);
                     armyValue += 5;
                     break;
                 }
@@ -334,8 +332,8 @@ public class RiskGame extends Observable {
         } else if (choice == 2) {  // check if there are one for each card type.
             for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
                 counter = 0;
-                for (int i = 0; i < player.getPlayersHand().size(); i++) {
-                    if (player.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
+                for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
+                    if (currPlayer.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
                         counter++;
                         break;
                     }
@@ -343,15 +341,15 @@ public class RiskGame extends Observable {
             }
             if (counter == 3) {
                 for (int i = 0; i < Card.getTypesCount(); i++) {
-                    for (Card card : player.getPlayersHand()) {
+                    for (Card card : currPlayer.getPlayersHand()) {
                         if (card.getCardType().equals(Card.cardTypes.elementAt(i))) {
-                            player.getPlayersHand().remove(card);
-                            player.getPlayersHand().trimToSize();
+                            currPlayer.getPlayersHand().remove(card);
+                            currPlayer.getPlayersHand().trimToSize();
                             break;
                         }
                     }
                 }
-                player.addUnallocatedArmies(armyValue);
+                currPlayer.addUnallocatedArmies(armyValue);
                 armyValue += 5;
             }
         }
