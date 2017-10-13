@@ -40,7 +40,7 @@ public class GamePlayController {
          */
         gamePlayModel.startupPhase(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
         
-        // TODO: get the correct player
+        // get the correct player
         currentPlayer = gamePlayModel.getCurrPlayer();
 
         /* update the table model from a loaded map */
@@ -88,17 +88,25 @@ public class GamePlayController {
         TableModel armiesData = gamePlayFrame.getReinforcementControlPanel().getPlayerTerritoryTable().getModel();
         String territoryName;
         int armies;
+        int runningSum = 0;
         Map<Territory, Integer> armiesToPlace = new HashMap<>();
-        // TODO: validate the sum, make sure only positive numbers
         for (int r = 0; r <= armiesData.getRowCount(); r++) {
             territoryName = armiesData.getValueAt(r, 0).toString();
             armies = Integer.parseInt(armiesData.getValueAt(r, 1).toString());
+            runningSum += armies;
             armiesToPlace.put(gamePlayModel.getGameMap().getATerritory(territoryName), armies);
         }
-        gamePlayModel.placeArmiesFroUserSelection(armiesToPlace);
-        
-        gamePlayModel.placeArmies(currentPlayer);
-        // TODO: reset table numbers to 0
+        if (runningSum <= currentPlayer.getUnallocatedArmies()) {
+            gamePlayModel.placeArmiesFroUserSelection(armiesToPlace);
+            gamePlayModel.placeArmies(currentPlayer);
+            gamePlayFrame.displayErrorMessage("The armies were placed successfully");
+            // reset the armies to zero
+            for (int r = 0; r <= armiesData.getRowCount(); r++) {
+                armiesData.setValueAt(0, r, 1);
+            }
+        } else {
+            gamePlayFrame.displayErrorMessage("The total armies to allocate must be lesser or equal to the indicated total armies to place");
+        }
     }
     
     /**
@@ -108,6 +116,5 @@ public class GamePlayController {
         callerController.invokeFrame();
         gamePlayFrame.dispatchEvent(new WindowEvent(gamePlayFrame, WindowEvent.WINDOW_CLOSING));
     }
-    
     
 }

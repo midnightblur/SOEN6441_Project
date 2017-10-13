@@ -14,7 +14,7 @@ import java.util.Vector;
  */
 public class PlayerTerritoriesModel extends Observable {
     private DefaultTableModel model;
-    private String[][] rows;
+    private Object[][] rows;
     private Vector<String> columns;
     
     /* Constructors */
@@ -31,22 +31,23 @@ public class PlayerTerritoriesModel extends Observable {
      *
      * @return a table model to be used to generate the view
      */
-    public DefaultTableModel updateMapTableModel(Player player) {
+    private DefaultTableModel updateMapTableModel(Player player) {
         /* clears the model data and reinitialize it with new values */
         model.setRowCount(0);
         columns.clear();
         columns.add("Territory");
         columns.add("Armies to place");
         GameMap gameMap = RiskGame.getInstance().getGameMap();
-        rows = new String[gameMap.getTerritoriesOfPlayer(player).size()][columns.size()];
+        rows = new Object[gameMap.getTerritoriesOfPlayer(player).size()][columns.size()];
+        
         int i = 0;
         for (Territory territory : gameMap.getTerritoriesOfPlayer(player).values()) {
             rows[i][0] = territory.getName();
-            rows[i][1] = "0";
+            rows[i][1] = new Integer(0);
             i++;
         }
         this.model.setColumnIdentifiers(columns);
-        for (String[] row : rows) {
+        for (Object[] row : rows) {
             this.model.addRow(row);
         }
         return model;
@@ -54,6 +55,11 @@ public class PlayerTerritoriesModel extends Observable {
     
     /* Getters & setters */
     
+    /**
+     * Accessor for the model
+     *
+     * @return the model
+     */
     public DefaultTableModel getModel() {
         return model;
     }
