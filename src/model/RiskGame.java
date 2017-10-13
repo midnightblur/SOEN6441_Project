@@ -166,7 +166,7 @@ public class RiskGame extends Observable {
      * to-be-allocated armies to the players according to the number of territories they
      * control (to a minimum of 3), and allows players to place those armies.
      *
-     * @param player
+     * @param player An object of Player class
      */
     public void reinforcementPhase(Player player) {
         // TODO: assign "Trade Cards" button listener for the 'true' value in the while condition
@@ -463,7 +463,9 @@ public class RiskGame extends Observable {
     }
     
     
-    public void placeArmiesFroUserSelection(Map<Territory, Integer> armiesToPlace) {
+    public void placeArmiesForUserSelection(Map<Territory, Integer> armiesToPlace) {
         // TODO: implement
+        
+        
     }
 }
