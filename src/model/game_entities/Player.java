@@ -58,7 +58,8 @@ public class Player {
     
     /**
      * Reduces the number of unallocated armies for this player by the specified number.
-     * @param num
+     *
+     * @param num The int value of the number of unallocated armies to reduce
      */
     public void reduceUnallocatedArmies(int num) {
         this.unallocatedArmies -= num;
@@ -66,7 +67,8 @@ public class Player {
     
     /**
      * Increases the number of unallocated armies for this player by the specified number.
-     * @param num
+     *
+     * @param num The int value of the number o unallocated armies to add
      */
     public void addUnallocatedArmies(int num) {
         this.unallocatedArmies += num;
@@ -74,7 +76,8 @@ public class Player {
     
     /**
      * Adds a card to the player's hand.
-     * @param card
+     *
+     * @param card An object of Card class to be added to the players hand
      */
     public void addCardToPlayersHand(Card card) {
         this.playersHand.add(card);
@@ -92,9 +95,10 @@ public class Player {
     }
     
     /**
-     * Overriden equals method to check whether or not two Player objects are the same.
-     * @param other: the other object to compare with the Player object.
-     * @return
+     * Override equals method to check whether or not two Player objects are the same.
+     *
+     * @param other The other object to compare with the Player object.
+     * @return Boolean value that tells whether or not the two Player objects have the same attribute values
      */
     @Override
     public boolean equals(Object other) {
