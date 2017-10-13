@@ -1,25 +1,19 @@
 package view.ui_components;
 
-import model.RiskGame;
-import model.ui_models.PlayerTerritoriesModel;
-import utilities.Config;
-import view.helpers.IntegerEditor;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
 public class FortificationControlPanel extends JPanel implements Observer {
-
+    
     private static final String BACK_BUTTON_LABEL = "Back";
     private static final String MOVE_ARMIES_BUTTON_LABEL = "Move Armies";
     private static final String DONE_BUTTON_LABEL = "Done";
     private static final String TERRITORY_FROM_LABEL = "Move from: ";
     private static final String TERRITORY_TO_LABEL = "Move to: ";
     private static final String ARMIES_TO_MOVE_LABEL = "Armies to move: ";
-
+    
     private JButton moveArmiesButton;
     private JButton doneButton;
     private JButton backButton;
@@ -30,7 +24,7 @@ public class FortificationControlPanel extends JPanel implements Observer {
     private JLabel howManyArmiesToMove;
     private JTable territoryFromTable;
     private JTable territoryToTable;
-
+    
     /* Constructors */
     public FortificationControlPanel() {
         gameState = new JLabel();
@@ -67,17 +61,16 @@ public class FortificationControlPanel extends JPanel implements Observer {
                 }
                 return getValueAt(0, column).getClass();
             }
-        
+    
             @Override   // only allow editing in second column
             public boolean isCellEditable(int row, int column) {
                 return column == 1;
             }
         };
-        
-        
-       
+    
+    
         doneButton = new JButton(DONE_BUTTON_LABEL);
-       
+    
         backButton = new JButton(BACK_BUTTON_LABEL);
 
 //        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -165,5 +158,11 @@ public class FortificationControlPanel extends JPanel implements Observer {
 //    /* Public methods */
 //
 //    /* Private methods */
-
+    
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+    
+    }
 }

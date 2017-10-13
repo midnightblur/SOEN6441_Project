@@ -13,7 +13,6 @@ import java.util.Observer;
 
 public class ReinforcementControlPanel extends JPanel implements Observer {
     
-    private static final String BACK_BUTTON_LABEL = "Back";
     private static final String PLACE_ARMIES_BUTTON_LABEL = "Place armies";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
     private static final String DONE_BUTTON_LABEL = "Done";
@@ -23,7 +22,6 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     private JButton tradeCardsButton;
     private JButton doneButton;
     private JButton placeArmiesButton;
-    private JButton backButton;
     private JLabel gameState;
     private JLabel playerID;
     private JLabel totalArmiesToPlace;
@@ -61,7 +59,6 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
         playerTerritoryTable.setDefaultEditor(Integer.class, new IntegerEditor());
         doneButton = new JButton(DONE_BUTTON_LABEL);
         placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON_LABEL);
-        backButton = new JButton(BACK_BUTTON_LABEL);
         
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
@@ -91,19 +88,11 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
         controlPanel.add(panel_1);
         controlPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         
-        /* Navigation buttons */
-        JPanel navigationPanel = new JPanel();
-        navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.PAGE_AXIS));
-        
-        navigationPanel.add(backButton);
-        
         add(controlPanel);
-        add(navigationPanel);
         
     }
     
     /* Getters & Setters */
-    
     public JTable getPlayerTerritoryTable() {
         return playerTerritoryTable;
     }
@@ -130,10 +119,6 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     
     
     /* MVC & Observer pattern methods */
-    public void addBackButtonListener(ActionListener listenerForBackButton) {
-        backButton.addActionListener(listenerForBackButton);
-    }
-    
     public void addPlaceArmiesButtonListener(ActionListener listenerForPlaceArmiesButton) {
         placeArmiesButton.addActionListener(listenerForPlaceArmiesButton);
     }

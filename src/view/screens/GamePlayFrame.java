@@ -3,9 +3,9 @@ package view.screens;
 import model.ui_models.MapTableModel;
 import view.helpers.UIHelper;
 import view.ui_components.MapTable;
-import view.ui_components.ReinforcementControlPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,7 +16,6 @@ public class GamePlayFrame extends JFrame implements Observer {
     
     private JSplitPane contentPane;
     private MapTable gameMapTable;
-    private ReinforcementControlPanel reinforcementControlPanel;
     
     /* Constructors */
     public GamePlayFrame() {
@@ -28,10 +27,6 @@ public class GamePlayFrame extends JFrame implements Observer {
         gameMapTable = new MapTable();
         contentPane.setLeftComponent(new JScrollPane(gameMapTable));
         
-        /* Setup control panel area */
-        reinforcementControlPanel = new ReinforcementControlPanel();
-        contentPane.setRightComponent(reinforcementControlPanel);
-        
         /* Setup & Display frame */
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
     }
@@ -42,14 +37,13 @@ public class GamePlayFrame extends JFrame implements Observer {
         return contentPane;
     }
     
+    public Component getControlPanel(){
+        return contentPane.getRightComponent();
+    }
+    
     public MapTable getGameMapTable() {
         return gameMapTable;
     }
-    
-    public ReinforcementControlPanel getReinforcementControlPanel() {
-        return reinforcementControlPanel;
-    }
-    
     
     /* Public methods */
     
