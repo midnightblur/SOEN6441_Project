@@ -197,8 +197,13 @@ public class RiskGame extends Observable {
     }
     
     /**
+     * The method gives a player an option to move any number of armies from one country to
+     * another. The method only allows only one such move that is valid, which requires that
+     * the two countries that the player picks must be owned by that player, be different
+     * territories from one another, and must have more armies in the territory than the number
+     * of armies specified by the player (a territory must have more than 1 army at minimum).
      *
-     * @param player
+     * @param player The object of Player class
      */
     public void fortificationPhase(Player player) {
         
@@ -221,7 +226,7 @@ public class RiskGame extends Observable {
                 // validate if the two territories are owned by the player, are different, and are neighbours.
                 if (territoryFrom.isOwnedBy(player.getPlayerID()) && !territoryFrom.equals(territoryTo)
                         && territoryFrom.isNeighbor(territoryTo.getName())) {
-                    if (territoryFrom.getArmies() != 1 && army < territoryFrom.getArmies()) {
+                    if (territoryFrom.getArmies() > 1 && army < territoryFrom.getArmies()) {
                         territoryFrom.reduceArmies(army);
                         territoryTo.addArmies(army);
                         moved = true;
@@ -477,6 +482,7 @@ public class RiskGame extends Observable {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
             entry.getKey().addArmies(entry.getValue());
             currPlayer.reduceUnallocatedArmies(entry.getValue());
+            broadcastGamePlayChanges();
         }
     }
 }
