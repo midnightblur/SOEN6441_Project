@@ -97,7 +97,7 @@ public class GamePlayController {
             armiesToPlace.put(gamePlayModel.getGameMap().getATerritory(territoryName), armies);
         }
         if (runningSum <= currentPlayer.getUnallocatedArmies()) {
-            gamePlayModel.placeArmiesForUserSelection(armiesToPlace);
+            gamePlayModel.placeArmies(armiesToPlace);
             gamePlayModel.placeArmies(currentPlayer);
             gamePlayFrame.displayErrorMessage("The armies were placed successfully");
             // reset the armies to zero

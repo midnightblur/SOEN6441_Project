@@ -185,7 +185,7 @@ public class RiskGame extends Observable {
         if (armiesToGive < 3) {
             armiesToGive = 3;
         }
-        player.setUnallocatedArmies(armiesToGive);
+        player.addUnallocatedArmies(armiesToGive);
 
         // Place unallocated armies.
         placeArmies(player);
@@ -462,10 +462,16 @@ public class RiskGame extends Observable {
         notifyObservers();
     }
     
-    
-    public void placeArmiesForUserSelection(Map<Territory, Integer> armiesToPlace) {
-        // TODO: implement
-        
-        
+    /**
+     * A method that overrides placeArmies method to allow a player to place armies to the
+     * Territories as specified from the Reinforcement Phase view panel.
+     *
+     * @param armiesToPlace Map that contains the key of Territory objects and values of Integer to represent armies
+     */
+    public void placeArmies(Map<Territory, Integer> armiesToPlace) {
+        for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
+            entry.getKey().addArmies(entry.getValue());
+            currPlayer.reduceUnallocatedArmies(entry.getValue());
+        }
     }
 }
