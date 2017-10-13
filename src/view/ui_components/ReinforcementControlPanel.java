@@ -13,13 +13,12 @@ import java.util.Observer;
 
 public class ReinforcementControlPanel extends JPanel implements Observer {
     
-    private static final String GAME_STAGE_LABEL = "Game state: ";
     private static final String BACK_BUTTON_LABEL = "Back";
     private static final String PLACE_ARMIES_BUTTON_LABEL = "Place armies";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
     private static final String DONE_BUTTON_LABEL = "Done";
     private static final String TRADE_CARDS_BUTTON_LABEL = "Trade Cards";
-    private static final String ARMIES_TO_PLACE_LABEL = "How many armies you want to place in each territory?";
+    private static final String ARMIES_TO_PLACE_LABEL = "Use table to place armies:";
     
     private JButton tradeCardsButton;
     private JButton doneButton;
@@ -33,7 +32,7 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     
     /* Constructors */
     public ReinforcementControlPanel() {
-        gameState = new JLabel(GAME_STAGE_LABEL);
+        gameState = new JLabel();
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
@@ -106,7 +105,7 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     /* Getters & Setters */
     
     public void setGameState(Config.GAME_STATES gameState) {
-        this.gameState.setText(GAME_STAGE_LABEL + gameState.toString());
+        this.gameState.setText(gameState.toString());
     }
     
     public void setTotalArmiesToPlace(int totalArmiesToPlace) {
@@ -143,7 +142,7 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
         playerID.setText(Integer.toString(((RiskGame) o).getCurrPlayer().getPlayerID()));
-        totalArmiesToPlace.setText(Integer.toString(((RiskGame)o).getCurrPlayer().getUnallocatedArmies()));
+        totalArmiesToPlace.setText(Integer.toString(((RiskGame) o).getCurrPlayer().getUnallocatedArmies()));
     }
     
     /* Public methods */

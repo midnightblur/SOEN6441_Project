@@ -477,6 +477,7 @@ public class RiskGame extends Observable {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
             entry.getKey().addArmies(entry.getValue());
             currPlayer.reduceUnallocatedArmies(entry.getValue());
+            broadcastGamePlayChanges();
         }
     }
 }
