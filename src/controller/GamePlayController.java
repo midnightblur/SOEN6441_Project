@@ -104,6 +104,8 @@ public class GamePlayController {
         }
         if (runningSum <= currentPlayer.getUnallocatedArmies()) {
             gamePlayModel.placeArmies(armiesToPlace);
+            // refresh the main table model TODO: find a more optimal way
+            gamePlayModel.getMapTableModel().updateMapTableModel(gamePlayModel.getGameMap());
             gamePlayFrame.displayErrorMessage("The armies were placed successfully");
             // reset the armies to zero
             for (int r = 0; r < armiesData.getRowCount(); r++) {
