@@ -70,9 +70,9 @@ public class GamePlayController {
         gamePlayFrame.getReinforcementControlPanel().setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
 
         /* Register Observer to Observable */
-        gamePlayModel.addObserver(gamePlayFrame);
+        tableModel.addObserver(gamePlayFrame.getGameMapTable());
         // TODO: determine if a second registration as observer is needed (next line)
-        // playerTerritoriesModel.addObserver(gamePlayFrame.getReinforcementControlPanel());
+        playerTerritoriesModel.addObserver(gamePlayFrame.getReinforcementControlPanel());
         
         /* Register to be ActionListeners */
         gamePlayFrame.getReinforcementControlPanel().addTradeCardsButtonListener(e -> gamePlayModel.tradeInCards(currentPlayer));
