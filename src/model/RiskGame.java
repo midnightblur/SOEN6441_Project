@@ -29,7 +29,7 @@ public class RiskGame extends Observable {
     private GameMap gameMap;
     private static RiskGame instance = null;
     private Config.GAME_STATES gameState = Config.GAME_STATES.ENTRY_MENU;
-    private boolean playing = false;
+    private boolean isPlaying = false;
     private Random rand = new Random();
     private Player currPlayer;
     
@@ -82,6 +82,15 @@ public class RiskGame extends Observable {
         return this.currPlayer;
     }
     
+    public boolean getIsPlaying() {
+        return this.isPlaying;
+    }
+    
+    public void setIsPlaying(boolean isPlaying) {
+        this.isPlaying = isPlaying;
+    }
+    
+    
     /* Public methods */
     
     public Config.GAME_STATES getGameState() {
@@ -123,6 +132,8 @@ public class RiskGame extends Observable {
         setCurrPlayer(players.firstElement());
         this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
         broadcastGamePlayChanges();
+        
+        playPhases();
     }
     
     /**
@@ -130,24 +141,24 @@ public class RiskGame extends Observable {
      * players' turns that include reinforcement phase, attack phase, and fortification phase.
      */
     public void playPhases() {
-        /* Hand out cards for build 1 presentation. To be commented out for normal game play */
-        for (Player player : players) {
-            System.out.println("player1's hand: (" + player.getPlayersHand().size() + ")");
-            for (int i = 0; i < player.getPlayerID(); i++) {
-                player.addCardToPlayersHand(drawCard());
-                System.out.println("\t" + drawCard().getCardType() + " card");
-            }
-        }
+//        /* Hand out cards for build 1 presentation. To be commented out for normal game play */
+//        for (Player player : players) {
+//            System.out.println("player1's hand: (" + player.getPlayersHand().size() + ")");
+//            for (int i = 0; i < player.getPlayerID(); i++) {
+//                player.addCardToPlayersHand(drawCard());
+//                System.out.println("\t" + drawCard().getCardType() + " card");
+//            }
+//        }
         
-        playing = true;
-        while(playing) {
+        setIsPlaying(true);
+        while(getIsPlaying()) {
             for (Player player : players) {
                 setCurrPlayer(player);
                 reinforcementPhase(player);
-//                /* turn playing to false at the end of the attacking phase if player.size() is 1 */
-//                attackingPhase(player);
-                fortificationPhase(player);
+//                fortificationPhase(player);
             }
+            // TODO: temp setting off of isPlaying value to false
+            setIsPlaying(false);
         }
         System.out.println("Player " + players.get(0).getPlayerID() + " wins!");
     }
@@ -167,21 +178,22 @@ public class RiskGame extends Observable {
             armiesToGive = 3;
         }
         player.addUnallocatedArmies(armiesToGive);
+        System.out.println("players unallocated armies: " + player.getUnallocatedArmies());
         broadcastGamePlayChanges();
         
-        // TODO: assign "Trade Cards" button listener for the 'true' value in the while condition
-        // Give option to trade cards for each player
-        while (player.getPlayersHand().size() >= 5 || true) {
-            this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
-            broadcastGamePlayChanges();
-            tradeInCards(player);
-        }
+//        // TODO: assign "Trade Cards" button listener for the 'true' value in the while condition
+//        // Give option to trade cards for each player
+//        while (player.getPlayersHand().size() >= 5 || true) {
+//            this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
+//            broadcastGamePlayChanges();
+//            tradeInCards(player);
+//        }
 
 //        this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
 //        broadcastGamePlayChanges();
 
         // Place unallocated armies.
-        placeArmies(player);
+//        placeArmies(player);
     }
     
     /**
