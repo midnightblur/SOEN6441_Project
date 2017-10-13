@@ -90,7 +90,7 @@ public class GamePlayController {
         int armies;
         int runningSum = 0;
         Map<Territory, Integer> armiesToPlace = new HashMap<>();
-        for (int r = 0; r <= armiesData.getRowCount(); r++) {
+        for (int r = 0; r < armiesData.getRowCount(); r++) {
             territoryName = armiesData.getValueAt(r, 0).toString();
             armies = Integer.parseInt(armiesData.getValueAt(r, 1).toString());
             runningSum += armies;
