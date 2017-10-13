@@ -66,14 +66,6 @@ public class RiskGame extends Observable {
         return mapTableModel;
     }
     
-    public int getNumOfContinents() {
-        return this.numOfContinents;
-    }
-    
-    public void setNumOfContinents(int numOfContinents) {
-        this.numOfContinents = numOfContinents;
-    }
-    
     public Vector<Player> getPlayers() {
         return this.players;
     }
