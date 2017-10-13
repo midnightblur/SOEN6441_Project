@@ -161,6 +161,13 @@ public class RiskGame extends Observable {
      * @param player An object of Player class
      */
     public void reinforcementPhase(Player player) {
+        // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
+        int armiesToGive = gameMap.getTerritoriesOfPlayer(player).size() / 3;
+        if (armiesToGive < 3) {
+            armiesToGive = 3;
+        }
+        player.addUnallocatedArmies(armiesToGive);
+        
         // TODO: assign "Trade Cards" button listener for the 'true' value in the while condition
         // Give option to trade cards for each player
         while (player.getPlayersHand().size() >= 5 || true) {
@@ -171,13 +178,6 @@ public class RiskGame extends Observable {
 
 //        this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
 //        broadcastGamePlayChanges();
-        
-        // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
-        int armiesToGive = gameMap.getTerritoriesOfPlayer(player).size() / 3;
-        if (armiesToGive < 3) {
-            armiesToGive = 3;
-        }
-        player.addUnallocatedArmies(armiesToGive);
 
         // Place unallocated armies.
         placeArmies(player);
