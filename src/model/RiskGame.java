@@ -109,9 +109,9 @@ public class RiskGame extends Observable {
      * deck of cards, and distributes territories to the players randomly.
      *
      * @param filepath The String value of the path to a valid map file
-     * @param currPlayers The int value of the initial number of players
+     * @param numOfPlayers The int value of the initial number of players
      */
-    public void startupPhase(String filepath, int currPlayers) {
+    public void startupPhase(String filepath, int numOfPlayers) {
         try {
             this.gameMap = GameMapHelper.loadGameMap(filepath);
         } catch (Exception e) {
@@ -119,12 +119,12 @@ public class RiskGame extends Observable {
         }
         
         // TODO: handle this error someplace else?
-        if (!(currPlayers > 1 && currPlayers <= gameMap.getTerritoriesCount())) {
+        if (!(numOfPlayers > 1 && numOfPlayers <= gameMap.getTerritoriesCount())) {
             System.err.println("Invalid number of players. Should catch it in the view.");
             return;
         }
         
-        initPlayers(currPlayers);
+        initPlayers(numOfPlayers);
         initDeck();
         distributeTerritories();
         giveInitialArmies();
@@ -133,7 +133,16 @@ public class RiskGame extends Observable {
         this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
         broadcastGamePlayChanges();
         
-        playPhases();
+         /* Hand out cards for build 1 presentation. To be commented out for normal game play */
+        for (Player player : players) {
+            System.out.println("player1's hand: (" + player.getPlayerID() + ")");
+            for (int i = 0; i < player.getPlayerID(); i++) {
+                player.addCardToPlayersHand(drawCard());
+                System.out.println("\t" + drawCard().getCardType() + " card");
+            }
+        }
+        
+        reinforcementPhase();
     }
     
     /**
@@ -141,26 +150,9 @@ public class RiskGame extends Observable {
      * players' turns that include reinforcement phase, attack phase, and fortification phase.
      */
     public void playPhases() {
-        /* Hand out cards for build 1 presentation. To be commented out for normal game play */
-        for (Player player : players) {
-            for (int i = 0; i < player.getPlayerID(); i++) {
-                player.addCardToPlayersHand(drawCard());
-                System.out.println("\t" + drawCard().getCardType() + " card");
-            }
-            System.out.println("player1's hand: (" + player.getPlayersHand().size() + ")");
-        }
+       
         
-        setIsPlaying(true);
-        while(getIsPlaying()) {
-            for (Player player : players) {
-                setCurrPlayer(player);
-                reinforcementPhase(player);
-//                fortificationPhase(player);
-            }
-            // TODO: temp setting off of isPlaying value to false
-            setIsPlaying(false);
-        }
-        System.out.println("Player " + players.get(0).getPlayerID() + " wins!");
+    
     }
     
     /**
@@ -168,17 +160,15 @@ public class RiskGame extends Observable {
      * armies (or force them to if they have more than or equal to 5 cards), assign
      * to-be-allocated armies to the players according to the number of territories they
      * control (to a minimum of 3), and allows players to place those armies.
-     *
-     * @param player An object of Player class
      */
-    public void reinforcementPhase(Player player) {
+    public void reinforcementPhase() {
         // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
-        int armiesToGive = gameMap.getTerritoriesOfPlayer(player).size() / 3;
+        int armiesToGive = gameMap.getTerritoriesOfPlayer(currPlayer).size() / 3;
         if (armiesToGive < 3) {
             armiesToGive = 3;
         }
-        player.addUnallocatedArmies(armiesToGive);
-        System.out.println("players unallocated armies: " + player.getUnallocatedArmies());
+        currPlayer.addUnallocatedArmies(armiesToGive);
+        System.out.println("players unallocated armies: " + currPlayer.getUnallocatedArmies());
         broadcastGamePlayChanges();
         
 //        // TODO: assign "Trade Cards" button listener for the 'true' value in the while condition
@@ -202,10 +192,8 @@ public class RiskGame extends Observable {
      * the two countries that the player picks must be owned by that player, be different
      * territories from one another, and must have more armies in the territory than the number
      * of armies specified by the player (a territory must have more than 1 army at minimum).
-     *
-     * @param player The object of Player class
      */
-    public void fortificationPhase(Player player) {
+    public void fortificationPhase() {
         
         // @Brian the model should not know anything about the view, therefore:
         // we need an setter here in the model that takes ( array[terr][int armies])
@@ -224,7 +212,7 @@ public class RiskGame extends Observable {
                 int army = 1;  // TODO: army/armies value specified by the player from form listener
 
                 // validate if the two territories are owned by the player, are different, and are neighbours.
-                if (territoryFrom.isOwnedBy(player.getPlayerID()) && !territoryFrom.equals(territoryTo)
+                if (territoryFrom.isOwnedBy(currPlayer.getPlayerID()) && !territoryFrom.equals(territoryTo)
                         && territoryFrom.isNeighbor(territoryTo.getName())) {
                     if (territoryFrom.getArmies() > 1 && army < territoryFrom.getArmies()) {
                         territoryFrom.reduceArmies(army);
@@ -243,11 +231,22 @@ public class RiskGame extends Observable {
      * Method to initialize the players according to
      * the number of players (currPlayers).
      */
-    public void initPlayers(int currPlayers) {
+    public void initPlayers(int numOfPlayers) {
         System.out.println("Initializing players...");
         
-        for (int i = 0; i < currPlayers; i++) {
+        for (int i = 0; i < numOfPlayers; i++) {
             players.add(new Player());
+        }
+    }
+    
+    /**
+     * Method to set the current player (turn) to the next player waiting to play his/her turn.
+     */
+    public void setCurrPlayerToNextPlayer() {
+        if (currPlayer.equals(players.lastElement())) {
+            currPlayer = players.firstElement();
+        } else {
+            currPlayer = players.elementAt(players.indexOf(currPlayer) + 1);
         }
     }
 
