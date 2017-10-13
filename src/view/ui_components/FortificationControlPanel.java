@@ -1,65 +1,85 @@
-//package view.ui_components;
-//
-//import model.RiskGame;
-//import model.ui_models.PlayerTerritoriesModel;
-//import utilities.Config;
-//import view.helpers.IntegerEditor;
-//
-//import javax.swing.*;
-//import java.awt.*;
-//import java.awt.event.ActionListener;
-//import java.util.Observable;
-//import java.util.Observer;
-//
-//public class FortificationControlPanel extends JPanel implements Observer {
-//
-//    private static final String BACK_BUTTON_LABEL = "Back";
-//    private static final String MOVE_ARMIES_BUTTON_LABEL = "Move Armies";
-//    private static final String DONE_BUTTON_LABEL = "Done";
-//    private static final String TERRITORY_FROM_LABEL = "Move from: ";
-//    private static final String TERRITORY_TO_LABEL = "Move to: ";
-//    private static final String ARMIES_TO_MOVE_LABEL = "Armies to move: ";
-//
-//    private JButton moveArmiesButton;
-//    private JButton doneButton;
-//    private JLabel gameState;
-//    private JLabel playerID;
-//    private JLabel howManyArmiesToMove;
-//    private JTable playerTerritoryFromTable;
-//    private JTable playerTerritoryToTable;
-//
-//    /* Constructors */
-//    public FortificationControlPanel() {
-//        gameState = new JLabel();
-//        gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
-//        playerID = new JLabel();
-//        playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
-//        playerTerritoryFromTable = new JLabel(TERRITORY_FROM_LABEL);
-//        totalArmiesToPlace.setFont(new Font("Sans Serif", Font.BOLD, 16));
-//        howManyArmiesToPlace = new JLabel(ARMIES_TO_PLACE_LABEL);
-//        playerTerritoryTable = new JTable() {
-//            @Override   // set the data type for each column
-//            public Class getColumnClass(int column) {
-//                switch (column) {
-//                    case 0:
-//                        return String.class;
-//                    case 1:
-//                        return Integer.class;
-//                }
-//                return getValueAt(0, column).getClass();
-//            }
-//
-//            @Override   // only allow editing in second column
-//            public boolean isCellEditable(int row, int column) {
-//                return column == 1;
-//            }
-//        };
-//
-//        playerTerritoryTable.setDefaultEditor(Integer.class, new IntegerEditor());
-//        doneButton = new JButton(DONE_BUTTON_LABEL);
-//        placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON_LABEL);
-//        backButton = new JButton(BACK_BUTTON_LABEL);
-//
+package view.ui_components;
+
+import model.RiskGame;
+import model.ui_models.PlayerTerritoriesModel;
+import utilities.Config;
+import view.helpers.IntegerEditor;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
+
+public class FortificationControlPanel extends JPanel implements Observer {
+
+    private static final String BACK_BUTTON_LABEL = "Back";
+    private static final String MOVE_ARMIES_BUTTON_LABEL = "Move Armies";
+    private static final String DONE_BUTTON_LABEL = "Done";
+    private static final String TERRITORY_FROM_LABEL = "Move from: ";
+    private static final String TERRITORY_TO_LABEL = "Move to: ";
+    private static final String ARMIES_TO_MOVE_LABEL = "Armies to move: ";
+
+    private JButton moveArmiesButton;
+    private JButton doneButton;
+    private JButton backButton;
+    private JLabel gameState;
+    private JLabel playerID;
+    private JLabel territoryFrom;
+    private JLabel territoryTo;
+    private JLabel howManyArmiesToMove;
+    private JTable territoryFromTable;
+    private JTable territoryToTable;
+
+    /* Constructors */
+    public FortificationControlPanel() {
+        gameState = new JLabel();
+        gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
+        playerID = new JLabel();
+        playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
+        territoryFrom = new JLabel(TERRITORY_FROM_LABEL);
+        territoryFromTable = new JTable() {
+            @Override   // set the data type for each column
+            public Class getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return Integer.class;
+                }
+                return getValueAt(0, column).getClass();
+            }
+    
+            @Override   // only allow editing in second column
+            public boolean isCellEditable(int row, int column) {
+                return column == 1;
+            }
+        };
+        territoryTo = new JLabel(TERRITORY_TO_LABEL);
+        territoryToTable = new JTable() {
+            @Override   // set the data type for each column
+            public Class getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return Integer.class;
+                }
+                return getValueAt(0, column).getClass();
+            }
+        
+            @Override   // only allow editing in second column
+            public boolean isCellEditable(int row, int column) {
+                return column == 1;
+            }
+        };
+        
+        
+       
+        doneButton = new JButton(DONE_BUTTON_LABEL);
+       
+        backButton = new JButton(BACK_BUTTON_LABEL);
+
 //        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 //        setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
 //
@@ -98,7 +118,7 @@
 //        add(navigationPanel);
 //
 //    }
-//
+
 //    /* Getters & Setters */
 //
 //    public void setGameState(Config.GAME_STATES gameState) {
@@ -145,5 +165,5 @@
 //    /* Public methods */
 //
 //    /* Private methods */
-//
-//}
+
+}
