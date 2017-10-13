@@ -143,6 +143,7 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
         playerID.setText(Integer.toString(((RiskGame) o).getCurrPlayer().getPlayerID()));
+        totalArmiesToPlace.setText(Integer.toString(((RiskGame)o).getCurrPlayer().getUnallocatedArmies()));
     }
     
     /* Public methods */
