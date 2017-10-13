@@ -1,6 +1,6 @@
 package view.ui_components;
 
-import model.RiskGame;
+import model.game_entities.Player;
 import model.ui_models.PlayerTerritoriesModel;
 import utilities.Config;
 import view.helpers.IntegerEditor;
@@ -104,6 +104,18 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     
     /* Getters & Setters */
     
+    public JTable getPlayerTerritoryTable() {
+        return playerTerritoryTable;
+    }
+    
+    public JLabel getPlayerID() {
+        return playerID;
+    }
+    
+    public JLabel getTotalArmiesToPlace() {
+        return totalArmiesToPlace;
+    }
+    
     public void setGameState(Config.GAME_STATES gameState) {
         this.gameState.setText(gameState.toString());
     }
@@ -114,10 +126,6 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     
     public void setPlayerID(int playerID) {
         this.playerID.setText("Player " + playerID);
-    }
-    
-    public JTable getPlayerTerritoryTable() {
-        return playerTerritoryTable;
     }
     
     
@@ -140,9 +148,15 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
-        playerID.setText(Integer.toString(((RiskGame) o).getCurrPlayer().getPlayerID()));
-        totalArmiesToPlace.setText(Integer.toString(((RiskGame) o).getCurrPlayer().getUnallocatedArmies()));
+        if (o.getClass().getName().equals("PlayerTerritoriesModel")) {
+            playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
+        }
+        
+        if (o.getClass().getName().equals("Player")) {
+            setPlayerID(((Player) o).getPlayerID());
+            setTotalArmiesToPlace(((Player) o).getUnallocatedArmies());
+        }
+        
     }
     
     /* Public methods */

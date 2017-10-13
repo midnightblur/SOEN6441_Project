@@ -46,6 +46,7 @@ public class Territory extends Observable {
     
     public void setName(String name) {
         this.name = name;
+        broadcastTerritoryChanges();
     }
     
     public String getContinent() {
@@ -54,6 +55,7 @@ public class Territory extends Observable {
     
     public void setContinent(String continent) {
         this.continent = continent;
+        broadcastTerritoryChanges();
     }
     
     public Player getOwner() {
@@ -62,6 +64,7 @@ public class Territory extends Observable {
     
     public void setOwner(Player owner) {
         this.owner = owner;
+        broadcastTerritoryChanges();
     }
     
     public Vector<String> getNeighbors() {
@@ -70,6 +73,7 @@ public class Territory extends Observable {
     
     public void setNeighbors(Vector<String> neighbors) {
         this.neighbors = neighbors;
+        broadcastTerritoryChanges();
     }
     
     public int getArmies() {
@@ -78,6 +82,7 @@ public class Territory extends Observable {
     
     public void setArmies(int armies) {
         this.armies = armies;
+        broadcastTerritoryChanges();
     }
     
     /* Public methods */
@@ -90,12 +95,14 @@ public class Territory extends Observable {
     public void addNeighbor(String territoryName) {
         if (!neighbors.contains(territoryName)) {
             neighbors.add(territoryName);
+            broadcastTerritoryChanges();
         }
     }
     
     public void removeNeighbour(String territoryName) {
         if (neighbors.contains(territoryName)) {
             neighbors.remove(territoryName);
+            broadcastTerritoryChanges();
         }
     }
     
@@ -144,6 +151,7 @@ public class Territory extends Observable {
     public void addArmies(int addedArmies) {
         if (addedArmies > 0) {
             armies += addedArmies;
+            broadcastTerritoryChanges();
         } else {
             throw new IllegalArgumentException();
         }
@@ -161,6 +169,7 @@ public class Territory extends Observable {
     public void reduceArmies(int deductedArmies) {
         if (deductedArmies > 0 && deductedArmies <= armies) {
             armies -= deductedArmies;
+            broadcastTerritoryChanges();
         } else {
             throw new IllegalArgumentException();
         }
@@ -205,7 +214,7 @@ public class Territory extends Observable {
     /**
      * Method to update the GamePlayModel and notify the Observer.
      */
-    private void broadcastGamePlayChanges() {
+    private void broadcastTerritoryChanges() {
         setChanged();
         notifyObservers();
     }

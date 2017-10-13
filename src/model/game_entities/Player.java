@@ -45,6 +45,7 @@ public class Player extends Observable {
     
     public void setUnallocatedArmies(int unallocatedArmies) {
         this.unallocatedArmies = unallocatedArmies;
+        broadcastPlayerChanges();
     }
     
     public int getUnallocatedArmies() {
@@ -64,6 +65,7 @@ public class Player extends Observable {
      */
     public void reduceUnallocatedArmies(int num) {
         this.unallocatedArmies -= num;
+        broadcastPlayerChanges();
     }
     
     /**
@@ -73,6 +75,7 @@ public class Player extends Observable {
      */
     public void addUnallocatedArmies(int num) {
         this.unallocatedArmies += num;
+        broadcastPlayerChanges();
     }
     
     /**
@@ -99,6 +102,7 @@ public class Player extends Observable {
      * Override equals method to check whether or not two Player objects are the same.
      *
      * @param other The other object to compare with the Player object.
+     *
      * @return Boolean value that tells whether or not the two Player objects have the same attribute values
      */
     @Override
@@ -119,8 +123,9 @@ public class Player extends Observable {
     /**
      * Method to update the GamePlayModel and notify the Observer.
      */
-    private void broadcastGamePlayChanges() {
+    private void broadcastPlayerChanges() {
         setChanged();
         notifyObservers();
     }
+    
 }

@@ -23,7 +23,7 @@ public class GamePlayController {
     private MainGameController callerController;
     private MapTableModel tableModel;
     private PlayerTerritoriesModel playerTerritoriesModel;
-    Player currentPlayer;
+    private Player currentPlayer;
     
     /* Constructors */
     public GamePlayController(MainGameController mainGameController) {
@@ -54,6 +54,22 @@ public class GamePlayController {
         /* set the model for the main table */
         gamePlayFrame.getGameMapTable().setModel(tableModel.getModel());
         
+        /* set control panel */
+        setControlPanel();
+        
+        /* Register Observer to Observable */
+        tableModel.addObserver(gamePlayFrame.getGameMapTable());
+        playerTerritoriesModel.addObserver(gamePlayFrame.getReinforcementControlPanel());
+        currentPlayer.addObserver(gamePlayFrame.getReinforcementControlPanel());
+        
+        /* Register to be ActionListeners */
+        gamePlayFrame.getReinforcementControlPanel().addTradeCardsButtonListener(e -> gamePlayModel.tradeInCards());
+        gamePlayFrame.getReinforcementControlPanel().addPlaceArmiesButtonListener(e -> distributeArmies());
+        gamePlayFrame.getReinforcementControlPanel().addDoneButtonListener(e -> gamePlayModel.fortificationPhase());
+        gamePlayFrame.getReinforcementControlPanel().addBackButtonListener(e -> backToMainMenu());
+    }
+    
+    private void setControlPanel() {
         /* set the phase label */
         gamePlayFrame.getReinforcementControlPanel().setGameState(gamePlayModel.getGameState());
         
@@ -62,17 +78,11 @@ public class GamePlayController {
         
         /* set the unallocated armies */
         gamePlayFrame.getReinforcementControlPanel().setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
-        System.out.println("currentPlayer.getUnallocatedArmies() = " + currentPlayer.getUnallocatedArmies());
         
         /* set the model for the player table */
         playerTerritoriesModel = new PlayerTerritoriesModel(currentPlayer);
         gamePlayFrame.getReinforcementControlPanel().getPlayerTerritoryTable().setModel(playerTerritoriesModel.getModel());
         gamePlayFrame.getReinforcementControlPanel().setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
-
-        /* Register Observer to Observable */
-        tableModel.addObserver(gamePlayFrame.getGameMapTable());
-        // TODO: determine if a second registration as observer is needed (next line)
-        playerTerritoriesModel.addObserver(gamePlayFrame.getReinforcementControlPanel());
         
         /* Register to be ActionListeners */
         gamePlayFrame.getReinforcementControlPanel().addTradeCardsButtonListener(e -> gamePlayModel.tradeInCards());
@@ -106,6 +116,8 @@ public class GamePlayController {
             gamePlayModel.placeArmies(armiesToPlace);
             // refresh the main table model TODO: find a more optimal way
             gamePlayModel.getMapTableModel().updateMapTableModel(gamePlayModel.getGameMap());
+            setControlPanel();
+            // refresh the
             gamePlayFrame.displayErrorMessage("The armies were placed successfully");
             // reset the armies to zero
             for (int r = 0; r < armiesData.getRowCount(); r++) {
