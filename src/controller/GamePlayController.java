@@ -75,7 +75,7 @@ public class GamePlayController {
         playerTerritoriesModel.addObserver(gamePlayFrame.getReinforcementControlPanel());
         
         /* Register to be ActionListeners */
-        gamePlayFrame.getReinforcementControlPanel().addTradeCardsButtonListener(e -> gamePlayModel.tradeInCards(currentPlayer));
+        gamePlayFrame.getReinforcementControlPanel().addTradeCardsButtonListener(e -> gamePlayModel.tradeInCards());
         gamePlayFrame.getReinforcementControlPanel().addPlaceArmiesButtonListener(e -> distributeArmies());
         gamePlayFrame.getReinforcementControlPanel().addDoneButtonListener(e -> gamePlayModel.fortificationPhase());
         gamePlayFrame.getReinforcementControlPanel().addBackButtonListener(e -> backToMainMenu());
