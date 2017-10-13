@@ -2,12 +2,16 @@ package controller;
 
 import model.RiskGame;
 import model.game_entities.Player;
+import model.game_entities.Territory;
 import model.ui_models.MapTableModel;
 import model.ui_models.PlayerTerritoriesModel;
 import utilities.Config;
 import view.screens.GamePlayFrame;
 
+import javax.swing.table.TableModel;
 import java.awt.event.WindowEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Controller to read and set map filepath to the model, and dispatchToController
@@ -36,7 +40,7 @@ public class GamePlayController {
          */
         gamePlayModel.startupPhase(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
         
-        // TODO: get the correct player
+        // get the correct player
         currentPlayer = gamePlayModel.getCurrPlayer();
 
         /* update the table model from a loaded map */
@@ -56,6 +60,10 @@ public class GamePlayController {
         /* set the player ID label */
         gamePlayFrame.getReinforcementControlPanel().setPlayerID(currentPlayer.getPlayerID());
         
+        /* set the unallocated armies */
+        gamePlayFrame.getReinforcementControlPanel().setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
+        System.out.println("currentPlayer.getUnallocatedArmies() = " + currentPlayer.getUnallocatedArmies());
+        
         /* set the model for the player table */
         playerTerritoriesModel = new PlayerTerritoriesModel(currentPlayer);
         gamePlayFrame.getReinforcementControlPanel().getPlayerTerritoryTable().setModel(playerTerritoriesModel.getModel());
@@ -64,7 +72,7 @@ public class GamePlayController {
         /* Register Observer to Observable */
         gamePlayModel.addObserver(gamePlayFrame);
         // TODO: determine if a second registration as observer is needed (next line)
-        playerTerritoriesModel.addObserver(gamePlayFrame.getReinforcementControlPanel());
+        // playerTerritoriesModel.addObserver(gamePlayFrame.getReinforcementControlPanel());
         
         /* Register to be ActionListeners */
         gamePlayFrame.getReinforcementControlPanel().addTradeCardsButtonListener(e -> gamePlayModel.tradeInCards(currentPlayer));
@@ -81,8 +89,28 @@ public class GamePlayController {
      * then place them using the placeArmies in the model
      */
     private void distributeArmies() {
-        // TODO: loop through view table and get the quantity of armies for each territory the place them using the placeArmies in the model
-        gamePlayModel.placeArmies(currentPlayer);
+        TableModel armiesData = gamePlayFrame.getReinforcementControlPanel().getPlayerTerritoryTable().getModel();
+        String territoryName;
+        int armies;
+        int runningSum = 0;
+        Map<Territory, Integer> armiesToPlace = new HashMap<>();
+        for (int r = 0; r < armiesData.getRowCount(); r++) {
+            territoryName = armiesData.getValueAt(r, 0).toString();
+            armies = Integer.parseInt(armiesData.getValueAt(r, 1).toString());
+            runningSum += armies;
+            armiesToPlace.put(gamePlayModel.getGameMap().getATerritory(territoryName), armies);
+        }
+        if (runningSum <= currentPlayer.getUnallocatedArmies()) {
+            gamePlayModel.placeArmies(armiesToPlace);
+            gamePlayModel.placeArmies(currentPlayer);
+            gamePlayFrame.displayErrorMessage("The armies were placed successfully");
+            // reset the armies to zero
+            for (int r = 0; r <= armiesData.getRowCount(); r++) {
+                armiesData.setValueAt(0, r, 1);
+            }
+        } else {
+            gamePlayFrame.displayErrorMessage("The total armies to allocate must be lesser or equal to the indicated total armies to place");
+        }
     }
     
     /**
@@ -92,6 +120,5 @@ public class GamePlayController {
         callerController.invokeFrame();
         gamePlayFrame.dispatchEvent(new WindowEvent(gamePlayFrame, WindowEvent.WINDOW_CLOSING));
     }
-    
     
 }

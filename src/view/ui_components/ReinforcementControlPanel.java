@@ -1,7 +1,9 @@
 package view.ui_components;
 
+import model.RiskGame;
 import model.ui_models.PlayerTerritoriesModel;
 import utilities.Config;
+import view.helpers.IntegerEditor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,7 +41,25 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
         totalArmiesToPlace = new JLabel();
         totalArmiesToPlace.setFont(new Font("Sans Serif", Font.BOLD, 16));
         howManyArmiesToPlace = new JLabel(ARMIES_TO_PLACE_LABEL);
-        playerTerritoryTable = new JTable();
+        playerTerritoryTable = new JTable() {
+            @Override   // set the data type for each column
+            public Class getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return Integer.class;
+                }
+                return getValueAt(0, column).getClass();
+            }
+            
+            @Override   // only allow editing in second column
+            public boolean isCellEditable(int row, int column) {
+                return column == 1;
+            }
+        };
+        
+        playerTerritoryTable.setDefaultEditor(Integer.class, new IntegerEditor());
         doneButton = new JButton(DONE_BUTTON_LABEL);
         placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON_LABEL);
         backButton = new JButton(BACK_BUTTON_LABEL);
@@ -68,6 +88,7 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
         panel_1.add(placeArmiesButton);
         panel_1.add(Box.createRigidArea(new Dimension(0, 20)));
         panel_1.add(doneButton);
+        
         controlPanel.add(panel_1);
         controlPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         
@@ -79,6 +100,7 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
         
         add(controlPanel);
         add(navigationPanel);
+        
     }
     
     /* Getters & Setters */
@@ -99,13 +121,14 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
         return playerTerritoryTable;
     }
     
+    
     /* MVC & Observer pattern methods */
     public void addBackButtonListener(ActionListener listenerForBackButton) {
         backButton.addActionListener(listenerForBackButton);
     }
     
     public void addPlaceArmiesButtonListener(ActionListener listenerForPlaceArmiesButton) {
-        backButton.addActionListener(listenerForPlaceArmiesButton);
+        placeArmiesButton.addActionListener(listenerForPlaceArmiesButton);
     }
     
     public void addDoneButtonListener(ActionListener listenerForDoneButton) {
@@ -119,6 +142,8 @@ public class ReinforcementControlPanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
+        playerID.setText(Integer.toString(((RiskGame) o).getCurrPlayer().getPlayerID()));
+        totalArmiesToPlace.setText(Integer.toString(((RiskGame)o).getCurrPlayer().getUnallocatedArmies()));
     }
     
     /* Public methods */
