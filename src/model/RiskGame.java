@@ -193,37 +193,23 @@ public class RiskGame extends Observable {
      * territories from one another, and must have more armies in the territory than the number
      * of armies specified by the player (a territory must have more than 1 army at minimum).
      */
-    public void fortificationPhase() {
+    public String fortificationPhase(Territory terrFrom, Territory terrTo, int armiesToPlace) {
         setGameState(FORTIFICATION_PHASE);
         broadcastGamePlayChanges();
-        
-        // @Brian the model should not know anything about the view, therefore:
-        // we need an setter here in the model that takes ( array[terr][int armies])
-        //
-        // TODO: assign "Done" button listener for the 'true' value in the while condition
     
-        boolean moved = false;
-        while (!moved) {  // show "Move Armies" button only while no valid move has been made.
-        
-            // TODO: assign "From (Territory)" and "To (Territory)" and "Army/Armies" button listener for the two variables
-            Territory territoryFrom = gameMap.getArbitraryTerritory();  // TODO: one of the territories of player from button listener
-            Territory territoryTo = gameMap.getArbitraryTerritory();  // TODO: another one of the territories of player from button listener
-            int army = 1;  // TODO: army/armies value specified by the player from form listener
-        
-            // validate if the two territories are owned by the player, are different, and are neighbours.
-            if (territoryFrom.isOwnedBy(currPlayer.getPlayerID()) && !territoryFrom.equals(territoryTo)
-                    && territoryFrom.isNeighbor(territoryTo.getName())) {
-                if (territoryFrom.getArmies() > 1 && army < territoryFrom.getArmies()) {
-                    territoryFrom.reduceArmies(army);
-                    territoryTo.addArmies(army);
-                    moved = true;
-                } else {
-                    System.out.println("You do not have enough armies in " + territoryFrom.getName()
-                            + " to make that move");
-                }
+        // validate if the two territories are owned by the player, are different, and are neighbours.
+        if (terrFrom.isOwnedBy(currPlayer.getPlayerID()) && !terrFrom.equals(terrTo)
+                && terrFrom.isNeighbor(terrTo.getName())) {
+            if (terrFrom.getArmies() > 1 && armiesToPlace < terrFrom.getArmies()) {
+                terrFrom.reduceArmies(armiesToPlace);
+                terrTo.addArmies(armiesToPlace);
+                broadcastGamePlayChanges();
+                return "Successfully moved armies!";
+            } else {
+                return "You do not have enough armies in " + terrFrom.getName() + " to make that move";
             }
-            
         }
+        return "";
     }
     
     /**
