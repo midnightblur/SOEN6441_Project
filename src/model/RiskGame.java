@@ -308,57 +308,27 @@ public class RiskGame extends Observable {
                     }
                 }
                 if (counter >= 3) {
-                    if ()
-                    Card tempCard = new Card()
+                    Card tempCard = new Card(Card.cardTypes.indexOf(selectedCards.firstElement()));
                     for (int i = 0; i < selectedCards.size(); i++) {
-                        currPlayer.getPlayersHand().remove()
+                        currPlayer.getPlayersHand().remove(tempCard);
                     }
-                }
-                
-                for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
-                    counter = 0;
-                    for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
-                        if (currPlayer.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
-                            counter++;
-                        }
-                    }
-                    if (counter >= 3) {
-                        int deleteCounter = 0;
-                        for (Card card : currPlayer.getPlayersHand()) {
-                            if (card.getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
-                                currPlayer.getPlayersHand().remove(card);
-                                deleteCounter++;
-                            }
-                            if (deleteCounter >= 3) {
-                                break;
-                            }
-                        }
-                        currPlayer.getPlayersHand().trimToSize();
-                        currPlayer.addUnallocatedArmies(armyValue);
-                        armyValue += 5;
-                        break;
-                    }
+                    currPlayer.getPlayersHand().trimToSize();
+                    currPlayer.addUnallocatedArmies(armyValue);
+                    armyValue += 5;
                 }
             } else if (choice == 2) {  // for one of each exchange
-                for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
-                    counter = 0;
-                    for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
-                        if (currPlayer.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
-                            counter++;
-                            break;
-                        }
+                for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
+                    Card tempCard = new Card(Card.cardTypes.indexOf(selectedCards.elementAt(cardIndex)));
+                    if (currPlayer.getPlayersHand().contains(tempCard)) {
+                        counter++;
                     }
                 }
                 if (counter == 3) {
-                    for (int i = 0; i < Card.getTypesCount(); i++) {
-                        for (Card card : currPlayer.getPlayersHand()) {
-                            if (card.getCardType().equals(Card.cardTypes.elementAt(i))) {
-                                currPlayer.getPlayersHand().remove(card);
-                                currPlayer.getPlayersHand().trimToSize();
-                                break;
-                            }
-                        }
+                    for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
+                        Card tempCard = new Card(Card.cardTypes.indexOf(selectedCards.elementAt(cardIndex)));
+                        currPlayer.getPlayersHand().remove(tempCard);
                     }
+                    currPlayer.getPlayersHand().trimToSize();
                     currPlayer.addUnallocatedArmies(armyValue);
                     armyValue += 5;
                 }
