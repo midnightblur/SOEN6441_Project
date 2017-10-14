@@ -46,7 +46,7 @@ public class FortificationController {
         riskGame.addObserver(fortificationPanel);
         
         /* Register to be ActionListeners */
-        fortificationPanel.addDoneButtonListener(e -> new ReinforcementController(this.gamePlayFrame));
+        fortificationPanel.addDoneButtonListener(e -> nextPlayer());
         fortificationPanel.addMoveArmiesButtonListener(e -> moveArmies());
         fortificationPanel.addSourceTerritoryDropdownListener(e -> fortificationModel.setTargetTerritoriesList(
                 fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString()));
@@ -82,4 +82,13 @@ public class FortificationController {
         fortificationPanel.getTargetTerritoryDropdown().setModel(fortificationModel.getTargetTerritoriesList());
         fortificationModel.setTargetTerritoriesList(fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString());
     }
+    
+    /**
+     * Advance the game to next player
+     */
+    public void nextPlayer() {
+        riskGame.setCurrPlayerToNextPlayer();
+        new ReinforcementController(this.gamePlayFrame);
+    }
+    
 }

@@ -49,7 +49,7 @@ public class TradeCardsController {
         riskGame.addObserver(tradeCardsPanel);
         
         /* Register to be ActionListeners */
-        tradeCardsPanel.addSameThreeButtonListener(e -> tradeSelectedCards());
+        tradeCardsPanel.addTradeCardsButtonListener(e -> tradeSelectedCards());
         tradeCardsPanel.addDoneButtonListener(e -> new ReinforcementController(this.gamePlayFrame));
         
     }
