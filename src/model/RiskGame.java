@@ -192,24 +192,36 @@ public class RiskGame extends Observable {
      * the two countries that the player picks must be owned by that player, be different
      * territories from one another, and must have more armies in the territory than the number
      * of armies specified by the player (a territory must have more than 1 army at minimum).
+     *
+     * @param strTerrFrom String value of the name of the source Territory
+     * @param strTerrTo String value of the name of the target Territory
+     * @param armiesToMove Primitive integer value of the number of armies to be moved
+     * @return String value of the messages that will be displayed to the user
      */
-    public String fortificationPhase(Territory terrFrom, Territory terrTo, int armiesToPlace) {
+    public String fortificationPhase(String strTerrFrom, String strTerrTo, int armiesToMove) {
         setGameState(FORTIFICATION_PHASE);
         broadcastGamePlayChanges();
-    
+        
+        Territory terrFrom = gameMap.getTerritoriesOfPlayer(currPlayer).get(strTerrFrom);
+        Territory terrTo = gameMap.getTerritoriesOfPlayer(currPlayer).get(strTerrTo);
+        
         // validate if the two territories are owned by the player, are different, and are neighbours.
         if (terrFrom.isOwnedBy(currPlayer.getPlayerID()) && !terrFrom.equals(terrTo)
                 && terrFrom.isNeighbor(terrTo.getName())) {
-            if (terrFrom.getArmies() > 1 && armiesToPlace < terrFrom.getArmies()) {
-                terrFrom.reduceArmies(armiesToPlace);
-                terrTo.addArmies(armiesToPlace);
+            if (terrFrom.getArmies() > 1 && armiesToMove < terrFrom.getArmies()) {
+                int movableArmies = terrFrom.getArmies() - 1;
+                if (armiesToMove < terrFrom.getArmies()) {
+                    movableArmies = armiesToMove;
+                }
+                terrFrom.reduceArmies(movableArmies);
+                terrTo.addArmies(movableArmies);
                 broadcastGamePlayChanges();
-                return "Successfully moved armies!";
+                return "Successfully moved " + movableArmies + "armies!";
             } else {
-                return "You do not have enough armies in " + terrFrom.getName() + " to make that move";
+                return "No armies moved!\nYou must always have at least 1 army in each Territory";
             }
         }
-        return "";
+        return "No armies moved!\nYou must pick two Territories that are neighbours.";
     }
     
     /**

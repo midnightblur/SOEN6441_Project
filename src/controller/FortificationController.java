@@ -47,8 +47,12 @@ public class FortificationController {
         
         /* Register to be ActionListeners */
         fortificationPanel.addDoneButtonListener(e -> new ReinforcementController(this.gamePlayFrame));
-       // fortificationPanel.addMoveArmiesButtonListener(e -> riskGame.); TODO: add the method
-        fortificationPanel.addSourceTerritoryDropdownListener(e -> fortificationModel.setTargetTerritoriesList(fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString()));
+        fortificationPanel.addMoveArmiesButtonListener(e -> riskGame.fortificationPhase(
+                fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString(),
+                fortificationPanel.getTargetTerritoryDropdown().getSelectedItem().toString(),
+                fortificationPanel.getArmiesToMoveField().getColumns()));
+        fortificationPanel.addSourceTerritoryDropdownListener(e -> fortificationModel.setTargetTerritoriesList(
+                fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString()));
     
         /* set control panel */
         populateFortificationPanel();
