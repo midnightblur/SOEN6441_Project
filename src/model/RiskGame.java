@@ -146,22 +146,15 @@ public class RiskGame extends Observable {
     }
     
     /**
-     * Initiates the actual game play. Consists of the round-robin fashion of
-     * players' turns that include reinforcement phase, attack phase, and fortification phase.
-     */
-    public void playPhases() {
-       
-        
-    
-    }
-    
-    /**
      * The reinforcement phase includes allowing the players to hand in their cards for
      * armies (or force them to if they have more than or equal to 5 cards), assign
      * to-be-allocated armies to the players according to the number of territories they
      * control (to a minimum of 3), and allows players to place those armies.
      */
     public void reinforcementPhase() {
+        setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
+        broadcastGamePlayChanges();
+        
         // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
         int armiesToGive = gameMap.getTerritoriesOfPlayer(currPlayer).size() / 3;
         if (armiesToGive < 3) {
@@ -194,34 +187,32 @@ public class RiskGame extends Observable {
      * of armies specified by the player (a territory must have more than 1 army at minimum).
      */
     public void fortificationPhase() {
+        setGameState(Config.GAME_STATES.FORTIFICATION_PHASE);
+        broadcastGamePlayChanges();
         
         // @Brian the model should not know anything about the view, therefore:
         // we need an setter here in the model that takes ( array[terr][int armies])
         //
         // TODO: assign "Done" button listener for the 'true' value in the while condition
-        while (true) {
-            this.setGameState(Config.GAME_STATES.FORTIFICATION_PHASE);
-            broadcastGamePlayChanges();
-
-            boolean moved = false;
-            while (!moved) {  // show "Move Armies" button only while no valid move has been made.
-
-                // TODO: assign "From (Territory)" and "To (Territory)" and "Army/Armies" button listener for the two variables
-                Territory territoryFrom = gameMap.getArbitraryTerritory();  // TODO: one of the territories of player from button listener
-                Territory territoryTo = gameMap.getArbitraryTerritory();  // TODO: another one of the territories of player from button listener
-                int army = 1;  // TODO: army/armies value specified by the player from form listener
-
-                // validate if the two territories are owned by the player, are different, and are neighbours.
-                if (territoryFrom.isOwnedBy(currPlayer.getPlayerID()) && !territoryFrom.equals(territoryTo)
-                        && territoryFrom.isNeighbor(territoryTo.getName())) {
-                    if (territoryFrom.getArmies() > 1 && army < territoryFrom.getArmies()) {
-                        territoryFrom.reduceArmies(army);
-                        territoryTo.addArmies(army);
-                        moved = true;
-                    } else {
-                        System.out.println("You do not have enough armies in " + territoryFrom.getName()
-                                + " to make that move");
-                    }
+    
+        boolean moved = false;
+        while (!moved) {  // show "Move Armies" button only while no valid move has been made.
+        
+            // TODO: assign "From (Territory)" and "To (Territory)" and "Army/Armies" button listener for the two variables
+            Territory territoryFrom = gameMap.getArbitraryTerritory();  // TODO: one of the territories of player from button listener
+            Territory territoryTo = gameMap.getArbitraryTerritory();  // TODO: another one of the territories of player from button listener
+            int army = 1;  // TODO: army/armies value specified by the player from form listener
+        
+            // validate if the two territories are owned by the player, are different, and are neighbours.
+            if (territoryFrom.isOwnedBy(currPlayer.getPlayerID()) && !territoryFrom.equals(territoryTo)
+                    && territoryFrom.isNeighbor(territoryTo.getName())) {
+                if (territoryFrom.getArmies() > 1 && army < territoryFrom.getArmies()) {
+                    territoryFrom.reduceArmies(army);
+                    territoryTo.addArmies(army);
+                    moved = true;
+                } else {
+                    System.out.println("You do not have enough armies in " + territoryFrom.getName()
+                            + " to make that move");
                 }
             }
         }
@@ -297,6 +288,9 @@ public class RiskGame extends Observable {
      * 3 pairs of cards.
      */
     public void tradeInCards() {
+        this.setGameState(Config.GAME_STATES.TRADE_IN_PHASE);
+        broadcastGamePlayChanges();
+        
         System.out.println("-- Entered 'Trade In Cards' panel --");
         
         // TODO: change these button variables to appropriate listeners

@@ -1,7 +1,11 @@
 package view.ui_components;
 
+import model.game_entities.Player;
+import model.ui_models.PlayerTerritoriesModel;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -148,21 +152,17 @@ public class FortificationPanel extends JPanel implements Observer {
 //        tradeCardsButton.addActionListener(listenerForTradeCardsButton);
 //    }
 //
-//    @Override
-//    public void update(Observable o, Object arg) {
-//        playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
-//        playerID.setText(Integer.toString(((RiskGame) o).getCurrPlayer().getPlayerID()));
-//        totalArmiesToPlace.setText(Integer.toString(((RiskGame) o).getCurrPlayer().getUnallocatedArmies()));
-//    }
-//
-//    /* Public methods */
-//
-//    /* Private methods */
-    
     }
     
     @Override
     public void update(Observable o, Object arg) {
-    
+//        if (o.getClass().getName().equals("PlayerTerritoriesModel")) {
+//            playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
+//        }
+//
+//        if (o.getClass().getName().equals("Player")) {
+//            setPlayerID(((Player) o).getPlayerID());
+//            setTotalArmiesToPlace(((Player) o).getUnallocatedArmies());
+//        }
     }
 }
