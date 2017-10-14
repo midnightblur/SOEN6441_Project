@@ -282,7 +282,8 @@ public class RiskGame extends Observable {
     /**
      * Sets the game state to TRADE_IN_PHASE and notifies the observers of the changes.
      */
-    public void tradeInCards() {
+    public void tradeInCards(Vector<String> selectedCards) {
+        // Vector<String> selectedCards is the selection from the view
         this.setGameState(Config.GAME_STATES.TRADE_IN_PHASE);
         broadcastGamePlayChanges();
     }

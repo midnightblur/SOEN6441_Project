@@ -7,6 +7,8 @@ import view.screens.GamePlayFrame;
 import view.ui_components.TradeCardsPanel;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.Vector;
 
 import static view.helpers.UIHelper.setDivider;
 
@@ -44,7 +46,7 @@ public class TradeCardsController {
         riskGame.addObserver(tradeCardsPanel);
         
         /* Register to be ActionListeners */
-        tradeCardsPanel.addSameThreeButtonListener(e -> riskGame.tradeInCards());
+        tradeCardsPanel.addSameThreeButtonListener(e -> tradeSelectedCards());
         tradeCardsPanel.addDoneButtonListener(e -> new ReinforcementController(this.gamePlayFrame));
         
     }
@@ -76,4 +78,17 @@ public class TradeCardsController {
         tradeCardsPanel.setArmyValueLabel(riskGame.getArmyValue());
     }
     
+    /**
+     * Collect the selected cards from UI and trade them by calling the tradeInCards() from the model
+     */
+    private void tradeSelectedCards() {
+        Vector<String> selectedCards = new Vector<>();
+        for (Component component : tradeCardsPanel.getCardList().getComponents()) {
+            JCheckBox checkBox = (JCheckBox) component;
+            if (checkBox.isSelected()) {
+                selectedCards.add(checkBox.getText());
+            }
+        }
+        riskGame.tradeInCards(selectedCards);
+    }
 }

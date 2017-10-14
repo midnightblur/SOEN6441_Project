@@ -42,7 +42,7 @@ public class ReinforcementController {
         /* Register to be ActionListeners */
         reinforcementPanel.addTradeCardsButtonListener(e -> tradeCards());
         reinforcementPanel.addPlaceArmiesButtonListener(e -> distributeArmies());
-        reinforcementPanel.addDoneButtonListener(e -> riskGame.fortificationPhase());
+        reinforcementPanel.addDoneButtonListener(e -> goBackToFortificationPhase());
     }
     
     /* Private methods */
@@ -99,7 +99,16 @@ public class ReinforcementController {
         }
     }
     
+    /**
+     * Show the controller responsible for trading cards
+     */
     private void tradeCards(){
         new TradeCardsController(this.gamePlayFrame);
+    }
+    
+    private void goBackToFortificationPhase(){
+        // TODO: this needs fixing so it correctly returns to previous phase
+        // TODO: (see true condition in the game and possibly have a setter for it under currentPlayer)
+        riskGame.fortificationPhase();
     }
 }
