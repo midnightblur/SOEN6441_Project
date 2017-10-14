@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
+import static utilities.Config.GAME_STATES.TRADE_IN_PHASE;
 import static view.helpers.UIHelper.setDivider;
 
 /**
@@ -37,6 +38,7 @@ public class TradeCardsController {
         gamePlayFrame.getContentPane().setRightComponent(tradeCardsPanel);
         riskGame = RiskGame.getInstance();
         currentPlayer = riskGame.getCurrPlayer();
+        riskGame.setGameState(TRADE_IN_PHASE);
         
         /* set control panel */
         populateTradeCardsPanel();
