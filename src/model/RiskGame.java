@@ -6,7 +6,6 @@ import model.game_entities.Player;
 import model.game_entities.Territory;
 import model.helpers.GameMapHelper;
 import model.ui_models.MapTableModel;
-import utilities.Config;
 
 import java.util.*;
 
@@ -57,11 +56,11 @@ public class RiskGame extends Observable {
         }
         return instance;
     }
-
+    
     // region Getter and Setter methods for class RiskGame's private attributes
 
     /* Getter and Setter methods for class RiskGame's private attributes */
-
+    
     public GameMap getGameMap() {
         return gameMap;
     }
@@ -77,11 +76,11 @@ public class RiskGame extends Observable {
     public Vector<Card> getDeck() {
         return this.deck;
     }
-
+    
     public void setCurrPlayer(Player player) {
         this.currPlayer = player;
     }
-
+    
     public Player getCurrPlayer() {
         return this.currPlayer;
     }
@@ -108,7 +107,7 @@ public class RiskGame extends Observable {
     public void setGameState(GAME_STATES GAMESTATES) {
         this.gameState = GAMESTATES;
     }
-
+    
     // endregion
     
     /**
@@ -116,7 +115,7 @@ public class RiskGame extends Observable {
      * to the filepath, sets the number of players playing the game, sets the
      * deck of cards, and distributes territories to the players randomly.
      *
-     * @param filepath The String value of the path to a valid map file
+     * @param filepath     The String value of the path to a valid map file
      * @param numOfPlayers The int value of the initial number of players
      */
     public void startupPhase(String filepath, int numOfPlayers) {
@@ -170,7 +169,7 @@ public class RiskGame extends Observable {
         currPlayer.addUnallocatedArmies(armiesToGive);
         System.out.println("players unallocated armies: " + currPlayer.getUnallocatedArmies());
         broadcastGamePlayChanges();
-        
+
 //        // TODO: assign "Trade Cards" button listener for the 'true' value in the while condition
 //        // Give option to trade cards for each player
 //        while (player.getPlayersHand().size() >= 5 || true) {
@@ -181,7 +180,7 @@ public class RiskGame extends Observable {
 
 //        this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
 //        broadcastGamePlayChanges();
-
+        
         // Place unallocated armies.
 //        placeArmies(player);
     }
@@ -193,9 +192,10 @@ public class RiskGame extends Observable {
      * territories from one another, and must have more armies in the territory than the number
      * of armies specified by the player (a territory must have more than 1 army at minimum).
      *
-     * @param strTerrFrom String value of the name of the source Territory
-     * @param strTerrTo String value of the name of the target Territory
+     * @param strTerrFrom  String value of the name of the source Territory
+     * @param strTerrTo    String value of the name of the target Territory
      * @param armiesToMove Primitive integer value of the number of armies to be moved
+     *
      * @return String value of the messages that will be displayed to the user
      */
     public String fortificationPhase(String strTerrFrom, String strTerrTo, int armiesToMove) {
@@ -252,9 +252,9 @@ public class RiskGame extends Observable {
             currPlayer = players.elementAt(players.indexOf(currPlayer) + 1);
         }
     }
-
+    
     // region Card related helper methods
-
+    
     /**
      * Sets a deck that contains cards from Card class with equal distribution of all the three card types.
      * The total number of cards is set to the closest value to the total number of territories
@@ -273,7 +273,7 @@ public class RiskGame extends Observable {
             typeNumber++;
         }
     }
-
+    
     /**
      * Draws a random card from the deck and returns it.
      *
@@ -298,11 +298,10 @@ public class RiskGame extends Observable {
      * of the game, but increases by 5 every time a player makes a valid card exchange move.
      *
      * @param selectedCards Vector of Strings that details the type of cards in the player's possession
+     *
      * @return String for the error message to validate the result of the trade in
      */
     public String tradeInCards(Vector<String> selectedCards) {
-        this.setGameState(Config.GAME_STATES.TRADE_IN_PHASE);
-        broadcastGamePlayChanges();
         
         if (selectedCards.size() == 3) {
             /* check if selected cards are three of a kind or one of each */
@@ -350,13 +349,13 @@ public class RiskGame extends Observable {
                     armyValue += 5;
                 }
             } else {
+                broadcastGamePlayChanges();
                 return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
             }
-            
             broadcastGamePlayChanges();
             return "Cards successfully traded in!";
-        }
-        else {
+        } else {
+            broadcastGamePlayChanges();
             return "No cards traded in!\nPlease select exactly 3 cards.\n(all of same type or one of each type)";
         }
     }
@@ -430,7 +429,7 @@ public class RiskGame extends Observable {
     }
     
     // endregion
-
+    
     /**
      * Distributes the territories in the map randomly to the players. Although the territories
      * are distributed randomly, the number of territories should be as evenly distributed as

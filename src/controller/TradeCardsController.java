@@ -92,6 +92,7 @@ public class TradeCardsController {
                 selectedCards.add(checkBox.getText());
             }
         }
-        riskGame.tradeInCards(selectedCards);
+        String message = riskGame.tradeInCards(selectedCards);
+        gamePlayFrame.displayErrorMessage(message);
     }
 }
