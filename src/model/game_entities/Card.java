@@ -33,11 +33,31 @@ public class Card {
         return this.cardType;
     }
     
-    
     /**
      * @return the count of card types
      */
     public static int getTypesCount() {
         return cardTypes.size();
+    }
+    
+    /* Public Methods */
+    
+    /**
+     * Override equals method to check if two cards are the same, depending on the
+     * types of those cards.
+     *
+     * @param other The other card object to compare with.
+     * @return Boolean value that says whether or not the two objects are equal
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
+        Card tempCard = (Card) other;
+        if (this.cardType.equals(((Card) other).cardType)) {
+            return true;
+        }
+        return false;
     }
 }

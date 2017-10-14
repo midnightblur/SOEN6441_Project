@@ -142,7 +142,7 @@ public class RiskGame extends Observable {
         
          /* Hand out cards for build 1 presentation. To be commented out for normal game play */
         for (Player player : players) {
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 5; i++) {
                 player.addCardToPlayersHand(drawCard());
             }
             System.out.println("player" + player.getPlayerID() + "'s hand: (" + player.getPlayersHand().size() + ")");
@@ -167,22 +167,7 @@ public class RiskGame extends Observable {
             armiesToGive = 3;
         }
         currPlayer.addUnallocatedArmies(armiesToGive);
-        System.out.println("players unallocated armies: " + currPlayer.getUnallocatedArmies());
         broadcastGamePlayChanges();
-
-//        // TODO: assign "Trade Cards" button listener for the 'true' value in the while condition
-//        // Give option to trade cards for each player
-//        while (player.getPlayersHand().size() >= 5 || true) {
-//            this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
-//            broadcastGamePlayChanges();
-//            tradeInCards(player);
-//        }
-
-//        this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
-//        broadcastGamePlayChanges();
-        
-        // Place unallocated armies.
-//        placeArmies(player);
     }
     
     /**
@@ -306,12 +291,12 @@ public class RiskGame extends Observable {
         if (selectedCards.size() == 3) {
             /* check if selected cards are three of a kind or one of each */
             int choice = 0;
-            if ((selectedCards.elementAt(0).equals(selectedCards.elementAt(1)))
-                    && (selectedCards.elementAt(0).equals(selectedCards.elementAt(2)))) {
+            if (selectedCards.elementAt(0).equals(selectedCards.elementAt(1))
+                    && selectedCards.elementAt(0).equals(selectedCards.elementAt(2))) {
                 choice = 1;
-            } else if ((!selectedCards.elementAt(0).equals(selectedCards.elementAt(1)))
-                    && !(selectedCards.elementAt(0).equals(selectedCards.elementAt(2)))
-                    && !(selectedCards.elementAt(1).equals(selectedCards.elementAt(2)))) {
+            } else if (!selectedCards.elementAt(0).equals(selectedCards.elementAt(1))
+                    && !selectedCards.elementAt(0).equals(selectedCards.elementAt(2))
+                    && !selectedCards.elementAt(1).equals(selectedCards.elementAt(2))) {
                 choice = 2;
             }
             
@@ -353,6 +338,9 @@ public class RiskGame extends Observable {
                 return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
             }
             broadcastGamePlayChanges();
+            for (Card card : currPlayer.getPlayersHand()) {
+                System.out.println(card.getCardType());
+            }
             return "Cards successfully traded in!";
         } else {
             broadcastGamePlayChanges();
