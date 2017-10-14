@@ -1,7 +1,11 @@
 package view.ui_components;
 
+import model.game_entities.Player;
+import model.ui_models.PlayerTerritoriesModel;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,8 +26,8 @@ public class FortificationPanel extends JPanel implements Observer {
     private JLabel territoryFrom;
     private JLabel territoryTo;
     private JLabel howManyArmiesToMove;
-    private JTable territoryFromTable;
-    private JTable territoryToTable;
+    private JComboBox territoryFromComboBox;
+    private JComboBox territoryToComboBox;
     
     /* Constructors */
     public FortificationPanel() {
@@ -32,46 +36,46 @@ public class FortificationPanel extends JPanel implements Observer {
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
         territoryFrom = new JLabel(TERRITORY_FROM_LABEL);
-        territoryFromTable = new JTable() {
-            @Override   // set the data type for each column
-            public Class getColumnClass(int column) {
-                switch (column) {
-                    case 0:
-                        return String.class;
-                    case 1:
-                        return Integer.class;
-                }
-                return getValueAt(0, column).getClass();
-            }
-    
-            @Override   // only allow editing in second column
-            public boolean isCellEditable(int row, int column) {
-                return column == 1;
-            }
-        };
-        territoryTo = new JLabel(TERRITORY_TO_LABEL);
-        territoryToTable = new JTable() {
-            @Override   // set the data type for each column
-            public Class getColumnClass(int column) {
-                switch (column) {
-                    case 0:
-                        return String.class;
-                    case 1:
-                        return Integer.class;
-                }
-                return getValueAt(0, column).getClass();
-            }
-    
-            @Override   // only allow editing in second column
-            public boolean isCellEditable(int row, int column) {
-                return column == 1;
-            }
-        };
-    
-    
-        doneButton = new JButton(DONE_BUTTON_LABEL);
-    
-        backButton = new JButton(BACK_BUTTON_LABEL);
+//        territoryFromComboBox = new JComboBox(territoryFromList) {
+//            @Override   // set the data type for each column
+//            public Class getColumnClass(int column) {
+//                switch (column) {
+//                    case 0:
+//                        return String.class;
+//                    case 1:
+//                        return Integer.class;
+//                }
+//                return getValueAt(0, column).getClass();
+//            }
+//
+//            @Override   // only allow editing in second column
+//            public boolean isCellEditable(int row, int column) {
+//                return column == 1;
+//            }
+//        };
+//        territoryTo = new JLabel(TERRITORY_TO_LABEL);
+//        territoryToTable = new JTable() {
+//            @Override   // set the data type for each column
+//            public Class getColumnClass(int column) {
+//                switch (column) {
+//                    case 0:
+//                        return String.class;
+//                    case 1:
+//                        return Integer.class;
+//                }
+//                return getValueAt(0, column).getClass();
+//            }
+//
+//            @Override   // only allow editing in second column
+//            public boolean isCellEditable(int row, int column) {
+//                return column == 1;
+//            }
+//        };
+//
+//
+//        doneButton = new JButton(DONE_BUTTON_LABEL);
+//
+//        backButton = new JButton(BACK_BUTTON_LABEL);
 
 //        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 //        setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
@@ -148,21 +152,18 @@ public class FortificationPanel extends JPanel implements Observer {
 //        tradeCardsButton.addActionListener(listenerForTradeCardsButton);
 //    }
 //
-//    @Override
-//    public void update(Observable o, Object arg) {
-//        playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
-//        playerID.setText(Integer.toString(((RiskGame) o).getCurrPlayer().getPlayerID()));
-//        totalArmiesToPlace.setText(Integer.toString(((RiskGame) o).getCurrPlayer().getUnallocatedArmies()));
-//    }
-//
-//    /* Public methods */
-//
-//    /* Private methods */
-    
     }
     
     @Override
     public void update(Observable o, Object arg) {
     
+//        if (o.getClass().getName().equals("PlayerTerritoriesModel")) {
+//            playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
+//        }
+//
+//        if (o.getClass().getName().equals("Player")) {
+//            setPlayerID(((Player) o).getPlayerID());
+//            setTotalArmiesToPlace(((Player) o).getUnallocatedArmies());
+//        }
     }
 }
