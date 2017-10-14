@@ -10,7 +10,6 @@ import java.util.Observer;
  */
 public class FortificationPanel extends JPanel implements Observer {
     
-    private static final String BACK_BUTTON_LABEL = "Back";
     private static final String MOVE_ARMIES_BUTTON_LABEL = "Move Armies";
     private static final String DONE_BUTTON_LABEL = "Done";
     private static final String TERRITORY_FROM_LABEL = "Move from: ";
@@ -19,14 +18,13 @@ public class FortificationPanel extends JPanel implements Observer {
     
     private JButton moveArmiesButton;
     private JButton doneButton;
-    private JButton backButton;
     private JLabel gameState;
     private JLabel playerID;
-    private JLabel territoryFrom;
-    private JLabel territoryTo;
+    private JLabel sourceTerritoryLabel;
+    private JLabel targetTerritoryLabel;
     private JLabel howManyArmiesToMove;
-    private JComboBox territoryFromComboBox;
-    private JComboBox territoryToComboBox;
+    private JComboBox sourceTerritoryDropdown;
+    private JComboBox targetTerritoryDropdown;
     
     /* Constructors */
     public FortificationPanel() {
@@ -34,7 +32,17 @@ public class FortificationPanel extends JPanel implements Observer {
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
-        territoryFrom = new JLabel(TERRITORY_FROM_LABEL);
+        sourceTerritoryLabel = new JLabel(TERRITORY_FROM_LABEL);
+        targetTerritoryLabel = new JLabel(TERRITORY_TO_LABEL);
+        howManyArmiesToMove = new JLabel(ARMIES_TO_MOVE_LABEL);
+    
+        
+        
+        
+        moveArmiesButton = new JButton(MOVE_ARMIES_BUTTON_LABEL);
+        doneButton = new JButton(DONE_BUTTON_LABEL);
+        
+        
 //        territoryFromComboBox = new JComboBox(territoryFromList) {
 //            @Override   // set the data type for each column
 //            public Class getColumnClass(int column) {
