@@ -23,4 +23,9 @@ public class UIHelper {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+    
+    public static void setDivider(JSplitPane splitPane){
+        splitPane.setDividerLocation(1100);
+        splitPane.setResizeWeight(.75d);
+    }
 }

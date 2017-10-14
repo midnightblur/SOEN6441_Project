@@ -11,6 +11,8 @@ import javax.swing.table.TableModel;
 import java.util.HashMap;
 import java.util.Map;
 
+import static view.helpers.UIHelper.setDivider;
+
 /**
  * Reinforcement Controller class
  */
@@ -23,6 +25,7 @@ public class ReinforcementController {
     
     /* Constructors */
     public ReinforcementController(GamePlayFrame gamePlayFrame) {
+        setDivider(gamePlayFrame.getContentPane());
         this.gamePlayFrame = gamePlayFrame;
         reinforcementPanel = new ReinforcementPanel();
         gamePlayFrame.getContentPane().setRightComponent(reinforcementPanel);
@@ -37,7 +40,7 @@ public class ReinforcementController {
         currentPlayer.addObserver(reinforcementPanel);
         
         /* Register to be ActionListeners */
-        reinforcementPanel.addTradeCardsButtonListener(e -> new TradeCardsController(this.gamePlayFrame));
+        reinforcementPanel.addTradeCardsButtonListener(e -> tradeCards());
         reinforcementPanel.addPlaceArmiesButtonListener(e -> distributeArmies());
         reinforcementPanel.addDoneButtonListener(e -> riskGame.fortificationPhase());
     }
@@ -96,4 +99,7 @@ public class ReinforcementController {
         }
     }
     
+    private void tradeCards(){
+        new TradeCardsController(this.gamePlayFrame);
+    }
 }

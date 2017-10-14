@@ -6,6 +6,8 @@ import view.ui_components.MapTable;
 
 import javax.swing.*;
 
+import static view.helpers.UIHelper.setDivider;
+
 public class MapEditorFrame extends JFrame {
     private static final String TITLE = "Map Editor";
     private static final int WIDTH = 1600;
@@ -77,7 +79,6 @@ public class MapEditorFrame extends JFrame {
                 return location;
             }
         };
-        contentPane.setDividerLocation(1100);
-        contentPane.setResizeWeight(.75d);
+        setDivider(contentPane);
     }
 }

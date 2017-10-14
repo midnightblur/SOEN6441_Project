@@ -8,6 +8,8 @@ import view.ui_components.TradeCardsPanel;
 
 import javax.swing.*;
 
+import static view.helpers.UIHelper.setDivider;
+
 public class TradeCardsController {
     private TradeCardsPanel tradeCardsPanel;
     private GamePlayFrame gamePlayFrame;
@@ -22,6 +24,7 @@ public class TradeCardsController {
      * @param gamePlayFrame the main frame
      */
     public TradeCardsController(GamePlayFrame gamePlayFrame) {
+        setDivider(gamePlayFrame.getContentPane());
         this.gamePlayFrame = gamePlayFrame;
         tradeCardsPanel = new TradeCardsPanel();
         gamePlayFrame.getContentPane().setRightComponent(tradeCardsPanel);
@@ -48,6 +51,7 @@ public class TradeCardsController {
      * Populate the trade cards control panel with updated model data
      */
     private void populateTradeCardsPanel() {
+
         /* set the phase label */
         tradeCardsPanel.setGameState(riskGame.getGameState());
         

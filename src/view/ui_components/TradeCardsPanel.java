@@ -49,16 +49,19 @@ public class TradeCardsPanel extends JPanel implements Observer {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
         
+
         /* Control panel */
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
-        
         controlPanel.add(gameState);
         controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         controlPanel.add(playerID);
         controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         controlPanel.add(cardsListLabel);
+        
+        cardList.setLayout(new FlowLayout());
         controlPanel.add(cardList);
+        
         controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         controlPanel.add(armyValueLabel);
         controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
@@ -69,7 +72,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
         actions.add(oneEachButton);
         actions.add(Box.createRigidArea(new Dimension(0, 20)));
         controlPanel.add(actions);
-    
+        
         controlPanel.add(doneButton);
         controlPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         
