@@ -10,6 +10,11 @@ import javax.swing.*;
 
 import static view.helpers.UIHelper.setDivider;
 
+/**
+ * The Trade Cards Controller responsible of capturing user interaction from the trade cards panel
+ * and converting them to changes in the risk game model
+ * Once user is done trading cards, it returns focus to the ReinforcementController
+ */
 public class TradeCardsController {
     private TradeCardsPanel tradeCardsPanel;
     private GamePlayFrame gamePlayFrame;
@@ -19,13 +24,13 @@ public class TradeCardsController {
     /* Constructors */
     
     /**
-     * constructor
+     * The constructor
      *
      * @param gamePlayFrame the main frame
      */
     public TradeCardsController(GamePlayFrame gamePlayFrame) {
-        setDivider(gamePlayFrame.getContentPane());
         this.gamePlayFrame = gamePlayFrame;
+        setDivider(gamePlayFrame.getContentPane());
         tradeCardsPanel = new TradeCardsPanel();
         gamePlayFrame.getContentPane().setRightComponent(tradeCardsPanel);
         riskGame = RiskGame.getInstance();
@@ -39,8 +44,7 @@ public class TradeCardsController {
         riskGame.addObserver(tradeCardsPanel);
         
         /* Register to be ActionListeners */
-        tradeCardsPanel.addSameThreeButtonListener(e -> riskGame.tradeThreeOfAKind());
-        tradeCardsPanel.addOneEachButtonListener(e -> riskGame.tradeOneOfEach());
+        tradeCardsPanel.addSameThreeButtonListener(e -> riskGame.tradeInCards());
         tradeCardsPanel.addDoneButtonListener(e -> new ReinforcementController(this.gamePlayFrame));
         
     }
@@ -71,4 +75,5 @@ public class TradeCardsController {
         /* set the army value label */
         tradeCardsPanel.setArmyValueLabel(riskGame.getArmyValue());
     }
+    
 }

@@ -11,11 +11,12 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import static view.helpers.UIHelper.addVerticalSpacing;
+
 /**
  * Reinforcement Panel representing the controls for Reinforcement phase of the game
  */
 public class ReinforcementPanel extends JPanel implements Observer {
-    
     private static final String PLACE_ARMIES_BUTTON_LABEL = "Place armies";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
     private static final String DONE_BUTTON_LABEL = "Done";
@@ -58,41 +59,34 @@ public class ReinforcementPanel extends JPanel implements Observer {
                 return column == 1;
             }
         };
-        
         playerTerritoryTable.setDefaultEditor(Integer.class, new IntegerEditor());
         doneButton = new JButton(DONE_BUTTON_LABEL);
         placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON_LABEL);
         
+        /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
-        
-        /* Control panel */
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
         
+        /* Add the elements to the panel */
         controlPanel.add(gameState);
-        controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        addVerticalSpacing(controlPanel);
         controlPanel.add(playerID);
-        controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        addVerticalSpacing(controlPanel);
         controlPanel.add(tradeCardsButton);
-        controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        addVerticalSpacing(controlPanel);
         controlPanel.add(totalArmiesToPlace);
         controlPanel.add(howManyArmiesToPlace);
-        controlPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        addVerticalSpacing(controlPanel);
         controlPanel.add(new JScrollPane(playerTerritoryTable));
-        controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-        
-        JPanel actions = new JPanel();
-        actions.setLayout(new BoxLayout(actions, BoxLayout.PAGE_AXIS));
-        actions.add(placeArmiesButton);
-        actions.add(Box.createRigidArea(new Dimension(0, 20)));
-        controlPanel.add(actions);
-        
+        addVerticalSpacing(controlPanel);
+        controlPanel.add(placeArmiesButton);
+        addVerticalSpacing(controlPanel);
         controlPanel.add(doneButton);
-        controlPanel.add(Box.createRigidArea(new Dimension(0, 50)));
+        addVerticalSpacing(controlPanel);
         
         add(controlPanel);
-        
     }
     
     /* Getters & Setters */
@@ -111,7 +105,6 @@ public class ReinforcementPanel extends JPanel implements Observer {
     public void setPlayerID(int playerID) {
         this.playerID.setText("Player " + playerID);
     }
-    
     
     /* MVC & Observer pattern methods */
     public void addPlaceArmiesButtonListener(ActionListener listenerForPlaceArmiesButton) {
@@ -136,9 +129,4 @@ public class ReinforcementPanel extends JPanel implements Observer {
             setTotalArmiesToPlace(((Player) o).getUnallocatedArmies());
         }
     }
-    
-    /* Public methods */
-    
-    /* Private methods */
-    
 }
