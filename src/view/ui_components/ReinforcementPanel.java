@@ -11,6 +11,9 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Reinforcement Panel representing the controls for Reinforcement phase of the game
+ */
 public class ReinforcementPanel extends JPanel implements Observer {
     
     private static final String PLACE_ARMIES_BUTTON_LABEL = "Place armies";

@@ -5,6 +5,9 @@ import model.game_entities.Player;
 import view.screens.GamePlayFrame;
 import view.ui_components.FortificationPanel;
 
+/**
+ * The FortificationController class
+ */
 public class FortificationController {
     private FortificationPanel fortificationPanel;
     private GamePlayFrame gamePlayFrame;

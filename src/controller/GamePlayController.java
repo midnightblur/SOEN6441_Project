@@ -16,6 +16,12 @@ public class GamePlayController {
     private MainGameController callerController;
     
     /* Constructors */
+    
+    /**
+     * Constructor for the mainGameController responsible of launching the game phases
+     *
+     * @param mainGameController the caller to be used to go back
+     */
     public GamePlayController(MainGameController mainGameController) {
         callerController = mainGameController;
         gamePlayFrame = new GamePlayFrame();
@@ -76,6 +82,5 @@ public class GamePlayController {
         }
     }
     
-  
     
 }

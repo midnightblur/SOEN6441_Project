@@ -11,6 +11,9 @@ import javax.swing.table.TableModel;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Reinforcement Controller class
+ */
 public class ReinforcementController {
     private ReinforcementPanel reinforcementPanel;
     private GamePlayFrame gamePlayFrame;

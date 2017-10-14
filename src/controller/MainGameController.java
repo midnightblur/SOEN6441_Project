@@ -5,7 +5,8 @@ import view.screens.MainMenuFrame;
 import java.awt.event.WindowEvent;
 
 /**
- *
+ * The Main Game Controller class
+ * responsible for launching different game screens
  */
 public class MainGameController {
     private MainMenuFrame mainMenuFrame;
@@ -30,14 +31,14 @@ public class MainGameController {
         mainMenuFrame.setVisible(false);
         mainMenuFrame.setEnabled(false);
         
-        MapEditorController mapEditorController = new MapEditorController(this);
+        new MapEditorController(this);
     }
     
     private void openPlayGameScreen() {
         mainMenuFrame.setVisible(false);
         mainMenuFrame.setEnabled(false);
         
-        GamePlayController gamePlayController = new GamePlayController(this);
+        new GamePlayController(this);
     }
     
     private void exitGame() {

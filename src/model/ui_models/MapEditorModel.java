@@ -9,6 +9,9 @@ import utilities.Config;
 import java.util.Observable;
 import java.util.Vector;
 
+/**
+ * The Map Editor model class encapsulating the logic for editing *.map files
+ */
 public class MapEditorModel extends Observable {
     private static final String CREATE_NEW_CONTINENT_ITEM = "<Create New Continent>";
     private static final String CREATE_NEW_TERRITORY_ITEM = "<Create New Territory>";
@@ -18,6 +21,11 @@ public class MapEditorModel extends Observable {
     private DropDownModel continentsDropdownModel;
     private DropDownModel territoriesDropdownModel;
     
+    /* Constructors */
+    
+    /**
+     * Constructor instantiating a MapEditorModel object
+     */
     public MapEditorModel() {
         mapTableModel = new MapTableModel();
     }

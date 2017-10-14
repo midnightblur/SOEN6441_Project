@@ -14,7 +14,13 @@ public class TradeCardsController {
     private RiskGame riskGame;
     private Player currentPlayer;
     
+    /* Constructors */
     
+    /**
+     * constructor
+     *
+     * @param gamePlayFrame the main frame
+     */
     public TradeCardsController(GamePlayFrame gamePlayFrame) {
         this.gamePlayFrame = gamePlayFrame;
         tradeCardsPanel = new TradeCardsPanel();
@@ -22,16 +28,16 @@ public class TradeCardsController {
         riskGame = RiskGame.getInstance();
         currentPlayer = riskGame.getCurrPlayer();
         
-        //cardsListModel = new DropDownModel(riskGame.getCurrPlayer().getPlayersHand());
         /* set control panel */
         populateTradeCardsPanel();
         
         /* Register Observer to Observable */
         currentPlayer.addObserver(tradeCardsPanel);
+        riskGame.addObserver(tradeCardsPanel);
         
         /* Register to be ActionListeners */
-        tradeCardsPanel.addSameThreeButtonListener(e -> riskGame.tradeInCards());
-        tradeCardsPanel.addOneEachButtonListener(e -> riskGame.tradeInCards());
+        tradeCardsPanel.addSameThreeButtonListener(e -> riskGame.tradeThreeOfAKind());
+        tradeCardsPanel.addOneEachButtonListener(e -> riskGame.tradeOneOfEach());
         tradeCardsPanel.addDoneButtonListener(e -> new ReinforcementController(this.gamePlayFrame));
         
     }
@@ -47,6 +53,9 @@ public class TradeCardsController {
         
         /* set the player ID label */
         tradeCardsPanel.setPlayerID(currentPlayer.getPlayerID());
+        
+        /* set the army value label */
+        tradeCardsPanel.setArmyValueLabel(riskGame.getArmyValue());
         
         /* set the armies gained label */
         tradeCardsPanel.setArmiesGained(currentPlayer.getUnallocatedArmies());

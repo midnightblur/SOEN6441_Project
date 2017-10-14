@@ -1,14 +1,13 @@
 package view.ui_components;
 
-import model.game_entities.Player;
-import model.ui_models.PlayerTerritoriesModel;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Fortification Panel representing the controls for Fortification phase of the game
+ */
 public class FortificationPanel extends JPanel implements Observer {
     
     private static final String BACK_BUTTON_LABEL = "Back";
