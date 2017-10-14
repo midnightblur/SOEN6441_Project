@@ -6,6 +6,7 @@ import model.game_entities.Player;
 import model.game_entities.Territory;
 import model.helpers.GameMapHelper;
 import model.ui_models.MapTableModel;
+import utilities.Config;
 
 import java.util.*;
 
@@ -295,14 +296,8 @@ public class RiskGame extends Observable {
      * @param selectedCards Vector of Strings that details the type of cards in the player's possession
      * @return String for the error message to validate the result of the trade in
      */
-<<<<<<< HEAD
     public String tradeInCards(Vector<String> selectedCards) {
         this.setGameState(Config.GAME_STATES.TRADE_IN_PHASE);
-=======
-    public void tradeInCards(Vector<String> selectedCards) {
-        // Vector<String> selectedCards is the selection from the view
-        
->>>>>>> develop
         broadcastGamePlayChanges();
         
         if (selectedCards.size() == 3) {
