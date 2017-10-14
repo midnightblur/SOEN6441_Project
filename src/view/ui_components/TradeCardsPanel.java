@@ -1,6 +1,5 @@
 package view.ui_components;
 
-import model.game_entities.Card;
 import utilities.Config.GAME_STATES;
 
 import javax.swing.*;
@@ -19,7 +18,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
     private JLabel gameState;
     private JLabel playerID;
     private JLabel gainedArmiesLabel;
-    private JList<Card> cardList;
+    private JPanel cardList;
     private JButton sameThreeButton;
     private JButton oneEachButton;
     private JButton doneButton;
@@ -35,7 +34,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
         doneButton = new JButton(DONE_BUTTON);
         gainedArmiesLabel = new JLabel();
         gainedArmiesLabel.setFont(new Font("Sans Serif", Font.BOLD, 16));
-        cardList = new JList<>();
+        cardList = new JPanel();
         
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
@@ -67,7 +66,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
     
     /* Getters & Setters */
     
-    public JList<Card> getCardList() {
+    public JPanel getCardList() {
         return cardList;
     }
     

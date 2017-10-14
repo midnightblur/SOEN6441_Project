@@ -1,9 +1,12 @@
 package controller;
 
 import model.RiskGame;
+import model.game_entities.Card;
 import model.game_entities.Player;
 import view.screens.GamePlayFrame;
 import view.ui_components.TradeCardsPanel;
+
+import javax.swing.*;
 
 public class TradeCardsController {
     private TradeCardsPanel tradeCardsPanel;
@@ -19,6 +22,7 @@ public class TradeCardsController {
         riskGame = RiskGame.getInstance();
         currentPlayer = riskGame.getCurrPlayer();
         
+        //cardsListModel = new DropDownModel(riskGame.getCurrPlayer().getPlayersHand());
         /* set control panel */
         populateTradeCardsPanel();
         
@@ -38,7 +42,6 @@ public class TradeCardsController {
      * Populate the trade cards control panel with updated model data
      */
     private void populateTradeCardsPanel() {
-        /* set view elements */
         /* set the phase label */
         tradeCardsPanel.setGameState(riskGame.getGameState());
         
@@ -46,10 +49,13 @@ public class TradeCardsController {
         tradeCardsPanel.setPlayerID(currentPlayer.getPlayerID());
         
         /* set the armies gained label */
-        //TODO: tradeCardsPanel.setArmiesGained(currentPlayer.getArmiesGained());
+        tradeCardsPanel.setArmiesGained(currentPlayer.getUnallocatedArmies());
         
-        /* set the model for the cards list for this particular player */
-        //TODO: playerTerritoriesModel = new PlayerTerritoriesModel(currentPlayer);
-        //TODO: tradeCardsPanel.getCardList().setModel(playerTerritoriesModel.getModel());
+        /* the cards list for this particular player */
+        for (Card card : currentPlayer.getPlayersHand()) {
+            JCheckBox checkBox = new JCheckBox();
+            checkBox.setText(card.getCardType());
+            tradeCardsPanel.getCardList().add(checkBox);
+        }
     }
 }
