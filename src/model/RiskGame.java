@@ -302,7 +302,20 @@ public class RiskGame extends Observable {
             /* carry out card trading according to the choice */
             int counter = 0;
             if (choice == 1) {  // for three of a kind exchange
-                for (int cardIndex = 0; cardIndex < currPlayer.getPlayersHand().size(); cardIndex++) {
+                for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
+                    if (currPlayer.getPlayersHand().get(i).getCardType().equals(selectedCards.firstElement())) {
+                        counter++;
+                    }
+                }
+                if (counter >= 3) {
+                    if ()
+                    Card tempCard = new Card()
+                    for (int i = 0; i < selectedCards.size(); i++) {
+                        currPlayer.getPlayersHand().remove()
+                    }
+                }
+                
+                for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
                     counter = 0;
                     for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
                         if (currPlayer.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
