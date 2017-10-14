@@ -283,10 +283,82 @@ public class RiskGame extends Observable {
     /**
      * Sets the game state to TRADE_IN_PHASE and notifies the observers of the changes.
      */
-    public void tradeInCards(Vector<String> selectedCards) {
-        // Vector<String> selectedCards is the selection from the view
+    public String tradeInCards(Vector<String> selectedCards) {
         this.setGameState(Config.GAME_STATES.TRADE_IN_PHASE);
         broadcastGamePlayChanges();
+        
+        if (selectedCards.size() == 3) {
+            /* check if selected cards are three of a kind or one of each */
+            int choice = 0;
+            if ((selectedCards.elementAt(0).equals(selectedCards.elementAt(1)))
+                    && (selectedCards.elementAt(0).equals(selectedCards.elementAt(2)))) {
+                choice = 1;
+            } else if ((!selectedCards.elementAt(0).equals(selectedCards.elementAt(1)))
+                    && !(selectedCards.elementAt(0).equals(selectedCards.elementAt(2)))
+                    && !(selectedCards.elementAt(1).equals(selectedCards.elementAt(2)))) {
+                choice = 2;
+            }
+            
+            /* carry out card trading according to the choice */
+            int counter = 0;
+            if (choice == 1) {  // for three of a kind exchange
+                for (int cardIndex = 0; cardIndex < currPlayer.getPlayersHand().size(); cardIndex++) {
+                    counter = 0;
+                    for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
+                        if (currPlayer.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
+                            counter++;
+                        }
+                    }
+                    if (counter >= 3) {
+                        int deleteCounter = 0;
+                        for (Card card : currPlayer.getPlayersHand()) {
+                            if (card.getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
+                                currPlayer.getPlayersHand().remove(card);
+                                deleteCounter++;
+                            }
+                            if (deleteCounter >= 3) {
+                                break;
+                            }
+                        }
+                        currPlayer.getPlayersHand().trimToSize();
+                        currPlayer.addUnallocatedArmies(armyValue);
+                        armyValue += 5;
+                        break;
+                    }
+                }
+            } else if (choice == 2) {  // for one of each exchange
+                for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
+                    counter = 0;
+                    for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
+                        if (currPlayer.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
+                            counter++;
+                            break;
+                        }
+                    }
+                }
+                if (counter == 3) {
+                    for (int i = 0; i < Card.getTypesCount(); i++) {
+                        for (Card card : currPlayer.getPlayersHand()) {
+                            if (card.getCardType().equals(Card.cardTypes.elementAt(i))) {
+                                currPlayer.getPlayersHand().remove(card);
+                                currPlayer.getPlayersHand().trimToSize();
+                                break;
+                            }
+                        }
+                    }
+                    currPlayer.addUnallocatedArmies(armyValue);
+                    armyValue += 5;
+                }
+            } else {
+                return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
+            }
+            
+            broadcastGamePlayChanges();
+            return "Cards successfully traded in!";
+        }
+        else {
+            return "No cards traded in!\nPlease select exactly 3 cards.\n(all of same type or one of each type)";
+        }
     }
     
     /**
