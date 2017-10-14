@@ -33,26 +33,33 @@ public class FortificationModel extends Observable {
     /* Getters & setters */
     
     /**
-     * Sets target territory dropdown based on source territory dropdown
-     * Only adjacent territories belonging to same player are shown
-     *
-     * @param selectedTerritory selected value in source territory dropdown
-     */
-    public void setTargetTerritoriesList(String selectedTerritory) {
-        for (String t : sourceTerritoriesList) {
-            if (Objects.equals(t, selectedTerritory))
-                targetTerritoriesList.add(t);
-        }
-        broadcastGamePlayChanges();
-    }
-    
-    /**
      * Accessor for the source territories model
      *
      * @return the model
      */
     public ComboBoxModel getSourceTerritoriesList() {
         return new DropDownModel(sourceTerritoriesList);
+    }
+    
+    /**
+     * Sets target territory dropdown based on source territory dropdown
+     * Only adjacent territories belonging to same player are shown
+     *
+     * @param selectedTerritory selected value in source territory dropdown
+     */
+    public void setTargetTerritoriesList(String selectedTerritory) {
+        targetTerritoriesList.clear();
+        Vector<String> neighbours = riskGame.getGameMap().getATerritory(selectedTerritory).getNeighbors();
+        for (String n : neighbours) {  // if neighbour is owned by current player, add it to the lost
+            if (riskGame.getGameMap().getATerritory(n).isOwnedBy(currentPlayer.getPlayerID())
+                    && !Objects.equals(n, selectedTerritory)) {
+                targetTerritoriesList.add(n);
+            }
+        }
+        if (targetTerritoriesList.size() == 0) {
+            targetTerritoriesList.add("No neighbours owned. Please select another territory");
+        }
+        broadcastGamePlayChanges();
     }
     
     /**

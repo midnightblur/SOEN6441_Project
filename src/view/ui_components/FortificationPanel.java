@@ -129,7 +129,6 @@ public class FortificationPanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof FortificationModel) {
-            sourceTerritoryDropdown.setModel(((FortificationModel) o).getSourceTerritoriesList());
             targetTerritoryDropdown.setModel(((FortificationModel) o).getTargetTerritoriesList());
         }
     }

@@ -32,16 +32,14 @@ public class FortificationController {
         gamePlayFrame.getContentPane().setRightComponent(fortificationPanel);
         setDivider(gamePlayFrame.getContentPane());
         
-        
         riskGame = getInstance();
         currentPlayer = riskGame.getCurrPlayer();
         riskGame.setGameState(FORTIFICATION_PHASE);
         
         fortificationModel = new FortificationModel();
         
-        /* set control panel */
-        populateFortificationPanel();
         
+
         /* Register Observer to Observable */
         fortificationModel.addObserver(fortificationPanel);
         currentPlayer.addObserver(fortificationPanel);
@@ -49,7 +47,11 @@ public class FortificationController {
         
         /* Register to be ActionListeners */
         fortificationPanel.addDoneButtonListener(e -> new ReinforcementController(this.gamePlayFrame));
+       // fortificationPanel.addMoveArmiesButtonListener(e -> riskGame.); TODO: add the method
         fortificationPanel.addSourceTerritoryDropdownListener(e -> fortificationModel.setTargetTerritoriesList(fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString()));
+    
+        /* set control panel */
+        populateFortificationPanel();
     }
     
     /* Private methods */
@@ -69,5 +71,6 @@ public class FortificationController {
         
         /* set the target dropdown */
         fortificationPanel.getTargetTerritoryDropdown().setModel(fortificationModel.getTargetTerritoriesList());
+        fortificationModel.setTargetTerritoriesList(fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString());
     }
 }
