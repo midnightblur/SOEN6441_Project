@@ -219,6 +219,7 @@ public class RiskGame extends Observable {
                             + " to make that move");
                 }
             }
+            
         }
     }
     
