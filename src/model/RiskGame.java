@@ -280,8 +280,18 @@ public class RiskGame extends Observable {
         return card;
     }
     
+    
     /**
-     * Sets the game state to TRADE_IN_PHASE and notifies the observers of the changes.
+     * This method changes the game state to TRADE_IN_PHASE and processes the exchange
+     * of cards to the armies if the user selected cards make a valid set. The method
+     * checks for a selection of exactly three cards, and checks for either three cards
+     * of the same type, or 3 cards one of each type. If so, those cards are removed
+     * from the players hand, and the number of armies (unallocated armies) are rewarded
+     * according to the current army value. The army value starts at 5 at the beginning
+     * of the game, but increases by 5 every time a player makes a valid card exchange move.
+     *
+     * @param selectedCards Vector of Strings that details the type of cards in the player's possession
+     * @return String for the error message to validate the result of the trade in
      */
     public String tradeInCards(Vector<String> selectedCards) {
         this.setGameState(Config.GAME_STATES.TRADE_IN_PHASE);
