@@ -90,6 +90,10 @@ public class RiskGame extends Observable {
         this.isPlaying = isPlaying;
     }
     
+    public int getArmyValue() {
+        return this.armyValue;
+    }
+    
     
     /* Public methods */
     
@@ -276,79 +280,81 @@ public class RiskGame extends Observable {
     }
     
     /**
-     * Allows players to trade in their cards (or force them to if they have more than
-     * or equal to 5 cards). The method checks the user's option to trade cards between
-     * 'three of a kind' and 'one of each'. The 'three of a kind' option checks to see
-     * if a player has 3 cards of the same card type, and if so, removes them from that
-     * player's hand and gives back a number of armies according to the army value. The
-     * 'one of each' option check to see if a player has 3 cards with one of each card
-     * type, and if so, removes them from that player's hand and gives back a number of
-     * armies according to the army value. The army value is first set as '5' at the
-     * beginning of the game, but increases every time a player successfully trades in
-     * 3 pairs of cards.
+     * Sets the game state to TRADE_IN_PHASE and notifies the observers of the changes.
      */
     public void tradeInCards() {
         this.setGameState(Config.GAME_STATES.TRADE_IN_PHASE);
         broadcastGamePlayChanges();
-        
-        System.out.println("-- Entered 'Trade In Cards' panel --");
-        
-        // TODO: change these button variables to appropriate listeners
-        int choice; // 0 -> no trade ; 1 -> three of a kind ; 2 -> one of each
-        choice = rand.nextInt(3);
-        
+    }
+    
+    /**
+     * Allows players to trade in their cards if a player has three cards of the same kind
+     * If so, the method removes them from that player's hand and gives back a number of
+     * armies according to the army value. The army value is first set as '5' at the
+     * beginning of the game, but increases every time a player successfully trades in
+     * 3 pairs of cards.
+     */
+    public void tradeThreeOfAKind() {
         int counter = 0;
-        if (choice == 1) {  // check if there are three of the same kind (order of Infantry > Cavalry > Artillery).
-            for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
-                counter = 0;
-                for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
-                    if (currPlayer.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
-                        counter++;
+        for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
+            counter = 0;
+            for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
+                if (currPlayer.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
+                    counter++;
+                }
+            }
+            if (counter >= 3) {
+                int deleteCounter = 0;
+                for (Card card : currPlayer.getPlayersHand()) {
+                    if (card.getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
+                        currPlayer.getPlayersHand().remove(card);
+                        deleteCounter++;
+                    }
+                    if (deleteCounter >= 3) {
+                        break;
                     }
                 }
-                if (counter >= 3) {
-                    int deleteCounter = 0;
-                    for (Card card : currPlayer.getPlayersHand()) {
-                        if (card.getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
-                            currPlayer.getPlayersHand().remove(card);
-                            deleteCounter++;
-                        }
-                        if (deleteCounter >= 3) {
-                            break;
-                        }
-                    }
-                    currPlayer.getPlayersHand().trimToSize();
-                    currPlayer.addUnallocatedArmies(armyValue);
-                    armyValue += 5;
+                currPlayer.getPlayersHand().trimToSize();
+                currPlayer.addUnallocatedArmies(armyValue);
+                armyValue += 5;
+                break;
+            }
+        }
+    }
+    
+    /**
+     * Allows players to trade in their cards if a player has one of each card type.
+     * If so, the method removes them from that player's hand and gives back a number of
+     * armies according to the army value. The army value is first set as '5' at the
+     * beginning of the game, but increases every time a player successfully trades in
+     * 3 pairs of cards.
+     */
+    public void tradeOneOfEach() {
+        int counter = 0;
+        for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
+            counter = 0;
+            for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
+                if (currPlayer.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
+                    counter++;
                     break;
                 }
             }
-        } else if (choice == 2) {  // check if there are one for each card type.
-            for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
-                counter = 0;
-                for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
-                    if (currPlayer.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
-                        counter++;
+        }
+        if (counter == 3) {
+            for (int i = 0; i < Card.getTypesCount(); i++) {
+                for (Card card : currPlayer.getPlayersHand()) {
+                    if (card.getCardType().equals(Card.cardTypes.elementAt(i))) {
+                        currPlayer.getPlayersHand().remove(card);
+                        currPlayer.getPlayersHand().trimToSize();
                         break;
                     }
                 }
             }
-            if (counter == 3) {
-                for (int i = 0; i < Card.getTypesCount(); i++) {
-                    for (Card card : currPlayer.getPlayersHand()) {
-                        if (card.getCardType().equals(Card.cardTypes.elementAt(i))) {
-                            currPlayer.getPlayersHand().remove(card);
-                            currPlayer.getPlayersHand().trimToSize();
-                            break;
-                        }
-                    }
-                }
-                currPlayer.addUnallocatedArmies(armyValue);
-                armyValue += 5;
-            }
+            currPlayer.addUnallocatedArmies(armyValue);
+            armyValue += 5;
         }
     }
-
+    
     // endregion
 
     /**
