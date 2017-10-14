@@ -17,7 +17,7 @@ import static view.helpers.UIHelper.addVerticalSpacing;
 public class FortificationPanel extends JPanel implements Observer {
     
     private static final String MOVE_ARMIES_BUTTON_LABEL = "Move Armies";
-    private static final String DONE_BUTTON_LABEL = "Done";
+    private static final String DONE_BUTTON_LABEL = "Done (next player)";
     private static final String TERRITORY_FROM_LABEL = "Move from: ";
     private static final String TERRITORY_TO_LABEL = "Move to: ";
     private static final String ARMIES_TO_MOVE_LABEL = "Armies to move: ";

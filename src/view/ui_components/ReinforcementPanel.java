@@ -19,12 +19,14 @@ import static view.helpers.UIHelper.addVerticalSpacing;
 public class ReinforcementPanel extends JPanel implements Observer {
     private static final String PLACE_ARMIES_BUTTON_LABEL = "Place armies";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
-    private static final String DONE_BUTTON_LABEL = "Done";
+    private static final String GO_TO_FORTIFICATION_BUTTON_LABEL = "Go to Fortification";
     private static final String TRADE_CARDS_BUTTON_LABEL = "Trade Cards";
+    private static final String ATTACK_BUTTON_LABEL = "Attack!";
     private static final String ARMIES_TO_PLACE_LABEL = "Use table to place armies:";
     
     private JButton tradeCardsButton;
-    private JButton doneButton;
+    private JButton goToFortificationButton;
+    private JButton attackButton;
     private JButton placeArmiesButton;
     private JLabel gameState;
     private JLabel playerID;
@@ -60,7 +62,9 @@ public class ReinforcementPanel extends JPanel implements Observer {
             }
         };
         playerTerritoryTable.setDefaultEditor(Integer.class, new IntegerEditor());
-        doneButton = new JButton(DONE_BUTTON_LABEL);
+        goToFortificationButton = new JButton(GO_TO_FORTIFICATION_BUTTON_LABEL);
+        attackButton = new JButton(ATTACK_BUTTON_LABEL);
+        attackButton.setEnabled(false);
         placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON_LABEL);
         
         /* Set layout */
@@ -83,7 +87,9 @@ public class ReinforcementPanel extends JPanel implements Observer {
         addVerticalSpacing(controlPanel);
         controlPanel.add(placeArmiesButton);
         addVerticalSpacing(controlPanel);
-        controlPanel.add(doneButton);
+        controlPanel.add(goToFortificationButton);
+        addVerticalSpacing(controlPanel);
+        controlPanel.add(attackButton);
         addVerticalSpacing(controlPanel);
         
         add(controlPanel);
@@ -112,7 +118,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     }
     
     public void addDoneButtonListener(ActionListener listenerForDoneButton) {
-        doneButton.addActionListener(listenerForDoneButton);
+        goToFortificationButton.addActionListener(listenerForDoneButton);
     }
     
     public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {

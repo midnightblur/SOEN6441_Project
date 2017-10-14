@@ -20,7 +20,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
     private static final String ARMY_VALUE_LABEL = "Current army value: ";
     private static final String TRADE_CARDS_BUTTON = "Trade cards";
     private static final String GAINED_ARMIES_LABEL = "# of armies gained: ";
-    private static final String DONE_BUTTON = "Done";
+    private static final String DONE_BUTTON = "Back to Reinforcement";
     
     private JLabel gameState;
     private JLabel playerID;
@@ -92,8 +92,8 @@ public class TradeCardsPanel extends JPanel implements Observer {
     }
     
     /* MVC & Observer pattern methods */
-    public void addSameThreeButtonListener(ActionListener listenerForSameThreeButton) {
-        tradeCards.addActionListener(listenerForSameThreeButton);
+    public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
+        tradeCards.addActionListener(listenerForTradeCardsButton);
     }
     
     public void addDoneButtonListener(ActionListener listenerForDoneButton) {
