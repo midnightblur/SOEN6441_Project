@@ -1,7 +1,10 @@
 package view.ui_components;
 
+import utilities.Config;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -80,9 +83,7 @@ public class FortificationPanel extends JPanel implements Observer {
 //        };
 //
 //
-//        doneButton = new JButton(DONE_BUTTON_LABEL);
-//
-//        backButton = new JButton(BACK_BUTTON_LABEL);
+        doneButton = new JButton(DONE_BUTTON_LABEL);
 
 //        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 //        setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
@@ -121,44 +122,26 @@ public class FortificationPanel extends JPanel implements Observer {
 //        add(controlPanel);
 //        add(navigationPanel);
 //
-//    }
+    }
 
-//    /* Getters & Setters */
-//
-//    public void setGameState(Config.GAME_STATES gameState) {
-//        this.gameState.setText(gameState.toString());
-//    }
-//
-//    public void setTotalArmiesToPlace(int totalArmiesToPlace) {
-//        this.totalArmiesToPlace.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(totalArmiesToPlace));
-//    }
-//
-//    public void setPlayerID(int playerID) {
-//        this.playerID.setText("Player " + playerID);
-//    }
-//
-//    public JTable getPlayerTerritoryTable() {
-//        return playerTerritoryTable;
-//    }
-//
-//
-//    /* MVC & Observer pattern methods */
-//    public void addBackButtonListener(ActionListener listenerForBackButton) {
-//        backButton.addActionListener(listenerForBackButton);
-//    }
-//
-//    public void addPlaceArmiesButtonListener(ActionListener listenerForPlaceArmiesButton) {
-//        placeArmiesButton.addActionListener(listenerForPlaceArmiesButton);
-//    }
-//
-//    public void addDoneButtonListener(ActionListener listenerForDoneButton) {
-//        doneButton.addActionListener(listenerForDoneButton);
-//    }
-//
-//    public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
-//        tradeCardsButton.addActionListener(listenerForTradeCardsButton);
-//    }
-//
+    /* Getters & Setters */
+
+    public void setGameState(Config.GAME_STATES gameState) {
+        this.gameState.setText(gameState.toString());
+    }
+    
+    public void setPlayerID(int playerID) {
+        this.playerID.setText("Player " + playerID);
+    }
+    
+
+    /* MVC & Observer pattern methods */
+    public void addBackButtonListener(ActionListener listenerForBackButton) {
+        backButton.addActionListener(listenerForBackButton);
+    }
+
+    public void addDoneButtonListener(ActionListener listenerForDoneButton) {
+        doneButton.addActionListener(listenerForDoneButton);
     }
     
     @Override
