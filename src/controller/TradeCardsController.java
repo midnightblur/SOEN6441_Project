@@ -33,9 +33,10 @@ public class TradeCardsController {
      */
     public TradeCardsController(GamePlayFrame gamePlayFrame) {
         this.gamePlayFrame = gamePlayFrame;
-        setDivider(gamePlayFrame.getContentPane());
         tradeCardsPanel = new TradeCardsPanel();
         gamePlayFrame.getContentPane().setRightComponent(tradeCardsPanel);
+        setDivider(gamePlayFrame.getContentPane());
+        
         riskGame = RiskGame.getInstance();
         currentPlayer = riskGame.getCurrPlayer();
         riskGame.setGameState(TRADE_IN_PHASE);

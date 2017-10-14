@@ -111,6 +111,9 @@ public class ReinforcementController {
     private void goBackToFortificationPhase(){
         // TODO: this needs fixing so it correctly returns to previous phase
         // TODO: (see true condition in the game and possibly have a setter for it under currentPlayer)
-        riskGame.fortificationPhase();
+        // riskGame.fortificationPhase();
+    
+        new FortificationController(gamePlayFrame);
+    
     }
 }
