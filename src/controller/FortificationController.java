@@ -47,10 +47,7 @@ public class FortificationController {
         
         /* Register to be ActionListeners */
         fortificationPanel.addDoneButtonListener(e -> new ReinforcementController(this.gamePlayFrame));
-        fortificationPanel.addMoveArmiesButtonListener(e -> riskGame.fortificationPhase(
-                fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString(),
-                fortificationPanel.getTargetTerritoryDropdown().getSelectedItem().toString(),
-                Integer.parseInt(fortificationPanel.getArmiesToMoveField().getText())));
+        fortificationPanel.addMoveArmiesButtonListener(e -> moveArmies());
         fortificationPanel.addSourceTerritoryDropdownListener(e -> fortificationModel.setTargetTerritoriesList(
                 fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString()));
     
@@ -59,6 +56,14 @@ public class FortificationController {
     }
     
     /* Private methods */
+    
+    private void moveArmies() {
+        riskGame.fortificationPhase(
+                fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString(),
+                fortificationPanel.getTargetTerritoryDropdown().getSelectedItem().toString(),
+                Integer.parseInt(fortificationPanel.getArmiesToMoveField().getText()));
+        riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
+    }
     
     /**
      * Populate the fortification control panel with updated model data
