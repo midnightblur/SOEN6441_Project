@@ -35,23 +35,8 @@ public class FortificationPanel extends JPanel implements Observer {
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
         territoryFrom = new JLabel(TERRITORY_FROM_LABEL);
-//        territoryFromComboBox = new JComboBox(territoryFromList) {
-//            @Override   // set the data type for each column
-//            public Class getColumnClass(int column) {
-//                switch (column) {
-//                    case 0:
-//                        return String.class;
-//                    case 1:
-//                        return Integer.class;
-//                }
-//                return getValueAt(0, column).getClass();
-//            }
-//
-//            @Override   // only allow editing in second column
-//            public boolean isCellEditable(int row, int column) {
-//                return column == 1;
-//            }
-//        };
+        territoryFromComboBox = new JComboBox() {
+        };
 //        territoryTo = new JLabel(TERRITORY_TO_LABEL);
 //        territoryToTable = new JTable() {
 //            @Override   // set the data type for each column
