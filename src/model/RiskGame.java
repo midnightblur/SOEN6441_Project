@@ -338,9 +338,6 @@ public class RiskGame extends Observable {
                 return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
             }
             broadcastGamePlayChanges();
-            for (Card card : currPlayer.getPlayersHand()) {
-                System.out.println(card.getCardType());
-            }
             return "Cards successfully traded in!";
         } else {
             broadcastGamePlayChanges();
