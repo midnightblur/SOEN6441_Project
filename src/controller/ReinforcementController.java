@@ -34,7 +34,7 @@ public class ReinforcementController {
         currentPlayer.addObserver(reinforcementPanel);
         
         /* Register to be ActionListeners */
-        reinforcementPanel.addTradeCardsButtonListener(e -> riskGame.tradeInCards());
+        reinforcementPanel.addTradeCardsButtonListener(e -> new TradeCardsController(this.gamePlayFrame));
         reinforcementPanel.addPlaceArmiesButtonListener(e -> distributeArmies());
         reinforcementPanel.addDoneButtonListener(e -> riskGame.fortificationPhase());
     }
@@ -79,9 +79,8 @@ public class ReinforcementController {
                 armiesToPlace.put(riskGame.getGameMap().getATerritory(territoryName), armies);
             }
         }
-        if (runningSum <= currentPlayer.getUnallocatedArmies()) {
+        if (runningSum > 0 && runningSum <= currentPlayer.getUnallocatedArmies()) {
             riskGame.placeArmies(armiesToPlace);
-            // refresh the main table model TODO: find a more optimal way
             riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
             populateReinforcementPanel();
             gamePlayFrame.displayErrorMessage("The armies were placed successfully");
@@ -93,6 +92,5 @@ public class ReinforcementController {
             gamePlayFrame.displayErrorMessage("The total armies to allocate must be lesser or equal to the indicated total armies to place");
         }
     }
-    
     
 }
