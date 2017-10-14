@@ -54,9 +54,6 @@ public class TradeCardsController {
         /* set the player ID label */
         tradeCardsPanel.setPlayerID(currentPlayer.getPlayerID());
         
-        /* set the army value label */
-        tradeCardsPanel.setArmyValueLabel(riskGame.getArmyValue());
-        
         /* set the armies gained label */
         tradeCardsPanel.setArmiesGained(currentPlayer.getUnallocatedArmies());
         
@@ -66,5 +63,8 @@ public class TradeCardsController {
             checkBox.setText(card.getCardType());
             tradeCardsPanel.getCardList().add(checkBox);
         }
+        
+        /* set the army value label */
+        tradeCardsPanel.setArmyValueLabel(riskGame.getArmyValue());
     }
 }

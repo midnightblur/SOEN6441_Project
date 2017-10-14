@@ -96,7 +96,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
     }
     
     public void setArmyValueLabel(int armyValue) {
-        this.gainedArmiesLabel.setText(ARMY_VALUE_LABEL + Integer.toString(armyValue));
+        this.armyValueLabel.setText(ARMY_VALUE_LABEL + Integer.toString(armyValue));
     }
     
     /* MVC & Observer pattern methods */
