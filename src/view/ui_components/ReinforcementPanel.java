@@ -2,7 +2,7 @@ package view.ui_components;
 
 import model.game_entities.Player;
 import model.ui_models.PlayerTerritoriesModel;
-import utilities.Config;
+import utilities.Config.GAME_STATES;
 import view.helpers.IntegerEditor;
 
 import javax.swing.*;
@@ -97,15 +97,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
         return playerTerritoryTable;
     }
     
-    public JLabel getPlayerID() {
-        return playerID;
-    }
-    
-    public JLabel getTotalArmiesToPlace() {
-        return totalArmiesToPlace;
-    }
-    
-    public void setGameState(Config.GAME_STATES gameState) {
+    public void setGameState(GAME_STATES gameState) {
         this.gameState.setText(gameState.toString());
     }
     
@@ -133,15 +125,13 @@ public class ReinforcementPanel extends JPanel implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        if (o.getClass().getName().equals("PlayerTerritoriesModel")) {
+        if (o instanceof PlayerTerritoriesModel) {
             playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
         }
-        
-        if (o.getClass().getName().equals("Player")) {
+        if (o instanceof Player) {
             setPlayerID(((Player) o).getPlayerID());
             setTotalArmiesToPlace(((Player) o).getUnallocatedArmies());
         }
-        
     }
     
     /* Public methods */
