@@ -215,6 +215,12 @@ public class RiskGame extends Observable {
                 }
                 terrFrom.reduceArmies(movableArmies);
                 terrTo.addArmies(movableArmies);
+//                System.out.println("territory from armies: " + terrFrom.getArmies());
+//                System.out.println("territory to armies: " + terrTo.getArmies());
+//                for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(currPlayer).entrySet()) {
+//                    System.out.println(entry.getValue().getName() + " " + entry.getValue().getArmies());
+//                }
+//                System.out.println("movable armies: " + movableArmies);
                 broadcastGamePlayChanges();
                 return "Successfully moved " + movableArmies + "armies!";
             } else {

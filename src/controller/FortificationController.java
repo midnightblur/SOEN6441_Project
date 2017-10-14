@@ -50,7 +50,7 @@ public class FortificationController {
         fortificationPanel.addMoveArmiesButtonListener(e -> riskGame.fortificationPhase(
                 fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString(),
                 fortificationPanel.getTargetTerritoryDropdown().getSelectedItem().toString(),
-                fortificationPanel.getArmiesToMoveField().getColumns()));
+                Integer.parseInt(fortificationPanel.getArmiesToMoveField().getText())));
         fortificationPanel.addSourceTerritoryDropdownListener(e -> fortificationModel.setTargetTerritoriesList(
                 fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString()));
     
