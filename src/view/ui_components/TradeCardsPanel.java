@@ -63,13 +63,13 @@ public class TradeCardsPanel extends JPanel implements Observer {
         controlPanel.add(armyValueLabel);
         controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         
-        JPanel panel_1 = new JPanel();
-        panel_1.setLayout(new FlowLayout());
-        panel_1.add(sameThreeButton);
-        panel_1.add(oneEachButton);
-        controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-        
-        controlPanel.add(panel_1);
+        JPanel actions = new JPanel();
+        actions.setLayout(new FlowLayout());
+        actions.add(sameThreeButton);
+        actions.add(oneEachButton);
+        actions.add(Box.createRigidArea(new Dimension(0, 20)));
+        controlPanel.add(actions);
+    
         controlPanel.add(doneButton);
         controlPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         
@@ -84,7 +84,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
     }
     
     public void setGameState(GAME_STATES gameState) {
-        this.gameState.setText(gameState.toString());
+        this.gameState.setText("<html><p style=\"color:blue;\">" + gameState.toString() + "<br>Trading Cards</p></html>");
     }
     
     public void setPlayerID(int playerID) {

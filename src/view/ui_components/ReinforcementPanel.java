@@ -82,13 +82,13 @@ public class ReinforcementPanel extends JPanel implements Observer {
         controlPanel.add(new JScrollPane(playerTerritoryTable));
         controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         
-        JPanel panel_1 = new JPanel();
-        panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.PAGE_AXIS));
-        panel_1.add(placeArmiesButton);
-        panel_1.add(Box.createRigidArea(new Dimension(0, 20)));
-        panel_1.add(doneButton);
+        JPanel actions = new JPanel();
+        actions.setLayout(new BoxLayout(actions, BoxLayout.PAGE_AXIS));
+        actions.add(placeArmiesButton);
+        actions.add(Box.createRigidArea(new Dimension(0, 20)));
+        controlPanel.add(actions);
         
-        controlPanel.add(panel_1);
+        controlPanel.add(doneButton);
         controlPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         
         add(controlPanel);
@@ -101,7 +101,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     }
     
     public void setGameState(GAME_STATES gameState) {
-        this.gameState.setText(gameState.toString());
+        this.gameState.setText("<html><p style=\"color:blue;\">" + gameState.toString() + "</html>");
     }
     
     public void setTotalArmiesToPlace(int totalArmiesToPlace) {
