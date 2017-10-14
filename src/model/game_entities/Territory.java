@@ -24,8 +24,8 @@ public class Territory extends Observable {
     /**
      * Instantiate a new territory object given its name and the continent it belongs to
      *
-     * @param name
-     * @param continent
+     * @param name      territory name
+     * @param continent continent name
      */
     public Territory(String name, String continent) {
         this.name = name;
@@ -33,6 +33,11 @@ public class Territory extends Observable {
         this.neighbors = new Vector<>();
     }
     
+    /**
+     * Instantiate new territory object given only its name
+     *
+     * @param name territory name
+     */
     public Territory(String name) {
         this.name = name;
         this.continent = "";
@@ -90,7 +95,7 @@ public class Territory extends Observable {
     /**
      * Add a territory as new neighbour
      *
-     * @param territoryName
+     * @param territoryName territory name of the neighbour
      */
     public void addNeighbor(String territoryName) {
         if (!neighbors.contains(territoryName)) {
@@ -115,7 +120,7 @@ public class Territory extends Observable {
      *
      * @param territoryName
      *
-     * @return
+     * @return true if given territory name is an neighbour, false otherwise
      */
     public boolean isNeighbor(String territoryName) {
         return neighbors.contains(territoryName);
@@ -124,9 +129,9 @@ public class Territory extends Observable {
     /**
      * Check if the territory is in a given continent
      *
-     * @param continent
+     * @param continent name of the continent
      *
-     * @return
+     * @return true if
      */
     public boolean belongToContinent(String continent) {
         return (this.continent.compareTo(continent) == 0);
@@ -146,7 +151,7 @@ public class Territory extends Observable {
     /**
      * Add a number of armies into the territory
      *
-     * @param addedArmies
+     * @param addedArmies amount of armies to add
      */
     public void addArmies(int addedArmies) {
         if (addedArmies > 0) {
@@ -164,7 +169,7 @@ public class Territory extends Observable {
     /**
      * Withdraw a number of armies from the territory
      *
-     * @param deductedArmies
+     * @param deductedArmies amount of armies to remove
      */
     public void reduceArmies(int deductedArmies) {
         if (deductedArmies > 0 && deductedArmies <= armies) {
@@ -178,7 +183,7 @@ public class Territory extends Observable {
     /**
      * Get the number of neighbours of the territory
      *
-     * @return
+     * @return the count of neighbours
      */
     public int getNeighborsCount() {
         return neighbors.size();
@@ -187,9 +192,9 @@ public class Territory extends Observable {
     /**
      * Facilitate comparision between two territory objects
      *
-     * @param other
+     * @param other other object
      *
-     * @return
+     * @return true if equals, false otherwise
      */
     @Override
     public boolean equals(Object other) {

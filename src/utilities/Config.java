@@ -1,11 +1,19 @@
 package utilities;
 
+/**
+ * Configuration class providing static attributes for the application
+ */
 public class Config {
     public enum SCREEN_NAME {
         MAP_EDITOR,
         GAME_PLAY
     }
     
+    /**
+     * The states of the game encapsulated in an enum
+     * The value is used to determine the advancement of the game
+     * and render various functionality as needed
+     */
     public enum GAME_STATES {
         ENTRY_MENU(1),
         MAP_EDITOR(2),
@@ -48,7 +56,6 @@ public class Config {
     public static final String MAPS_DEFAULT_COORDINATION = "0,0";
     public static final String MAPS_FOLDER = "Maps/";
     public static final String DEFAULT_MAP = "World.map";
-//    public static final String DEFAULT_MAP = "99 Mens Morris.map";
     
     // Constants for dice
     public static final int MAX_PIPS = 6;
@@ -68,7 +75,7 @@ public class Config {
     public static final String MSG_MAPFILE_INVALID_FORMAT = "Invalid format text file: line %s";
     public static final String MSG_MAPFILE_INVALID_TERRITORIES_COUNT = "Invalid number of territories. Minimum number is " + MAPS_MIN_TERRITORIES + ", maximum number is " + MAPS_MAX_TERRITORIES;
     public static final String MSG_MAPFILE_INVALID_CONTINENTS_COUNT = "Invalid number of continents. Minimum number is " + MAPS_MIN_CONTINENTS + ", maximum number is " + MAPS_MAX_CONTINENTS;
-    public static final String MSG_MAPFILE_INVALID_NEIGHBORS_COUNT = "%s has %s neighbors. Minumum number is " + MAPS_MIN_NEIGHBORS + ", maximum number is " + MAPS_MAX_NEIGHBORS;
+    public static final String MSG_MAPFILE_INVALID_NEIGHBORS_COUNT = "%s has %s neighbors. Minimum number is " + MAPS_MIN_NEIGHBORS + ", maximum number is " + MAPS_MAX_NEIGHBORS;
     public static final String MSG_MAPFILE_NO_NEIGHBORS = "%s has no neighbor";
     public static final String MSG_MAPFILE_NO_CONTINENT = "%s doesn't belong to any continent";
     public static final String MSG_MAPFILE_DISCONNECTED_GRAPH = "The graph is not connected";

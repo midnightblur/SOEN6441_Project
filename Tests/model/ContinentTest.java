@@ -8,25 +8,23 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This test case is used to test the continent class.
- *
- * @author
- * @version 1.0
  */
 public class ContinentTest {
-
-    Continent continent = new Continent("Asia", 5);
-
-    /**
-     * The Test case
-     */
+    static String continentName = "Asia";
+    static int controlValue = 5;
+    static Continent continent = new Continent(continentName, controlValue);
+    
+    
     @Test
-    public void getName() throws Exception {
-
-        int x = 7;
-        String continentCheck = "Asia";
-        assertEquals(continent, continentCheck);
-        assertTrue(x > 0);
-
+    public void getName() {
+        System.out.println("\nTesting for the name of \"Asia\" continent");
+        assertEquals(continentName, continent.getName());
     }
-
+    
+    @Test
+    public void getControlValue() throws Exception {
+        System.out.println("\nTesting for the control value of the continent. \nExpecting a value of " + controlValue);
+        assertTrue(controlValue == continent.getControlValue());
+    }
+    
 }

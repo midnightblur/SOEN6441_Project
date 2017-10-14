@@ -7,7 +7,16 @@ import view.screens.GamePlayFrame;
 import view.ui_components.TradeCardsPanel;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.Vector;
 
+import static view.helpers.UIHelper.setDivider;
+
+/**
+ * The Trade Cards Controller responsible of capturing user interaction from the trade cards panel
+ * and converting them to changes in the risk game model
+ * Once user is done trading cards, it returns focus to the ReinforcementController
+ */
 public class TradeCardsController {
     private TradeCardsPanel tradeCardsPanel;
     private GamePlayFrame gamePlayFrame;
@@ -17,12 +26,13 @@ public class TradeCardsController {
     /* Constructors */
     
     /**
-     * constructor
+     * The constructor
      *
      * @param gamePlayFrame the main frame
      */
     public TradeCardsController(GamePlayFrame gamePlayFrame) {
         this.gamePlayFrame = gamePlayFrame;
+        setDivider(gamePlayFrame.getContentPane());
         tradeCardsPanel = new TradeCardsPanel();
         gamePlayFrame.getContentPane().setRightComponent(tradeCardsPanel);
         riskGame = RiskGame.getInstance();
@@ -36,8 +46,7 @@ public class TradeCardsController {
         riskGame.addObserver(tradeCardsPanel);
         
         /* Register to be ActionListeners */
-        tradeCardsPanel.addSameThreeButtonListener(e -> riskGame.tradeThreeOfAKind());
-        tradeCardsPanel.addOneEachButtonListener(e -> riskGame.tradeOneOfEach());
+        tradeCardsPanel.addSameThreeButtonListener(e -> tradeSelectedCards());
         tradeCardsPanel.addDoneButtonListener(e -> new ReinforcementController(this.gamePlayFrame));
         
     }
@@ -48,14 +57,12 @@ public class TradeCardsController {
      * Populate the trade cards control panel with updated model data
      */
     private void populateTradeCardsPanel() {
+
         /* set the phase label */
         tradeCardsPanel.setGameState(riskGame.getGameState());
         
         /* set the player ID label */
         tradeCardsPanel.setPlayerID(currentPlayer.getPlayerID());
-        
-        /* set the army value label */
-        tradeCardsPanel.setArmyValueLabel(riskGame.getArmyValue());
         
         /* set the armies gained label */
         tradeCardsPanel.setArmiesGained(currentPlayer.getUnallocatedArmies());
@@ -66,5 +73,22 @@ public class TradeCardsController {
             checkBox.setText(card.getCardType());
             tradeCardsPanel.getCardList().add(checkBox);
         }
+        
+        /* set the army value label */
+        tradeCardsPanel.setArmyValueLabel(riskGame.getArmyValue());
+    }
+    
+    /**
+     * Collect the selected cards from UI and trade them by calling the tradeInCards() from the model
+     */
+    private void tradeSelectedCards() {
+        Vector<String> selectedCards = new Vector<>();
+        for (Component component : tradeCardsPanel.getCardList().getComponents()) {
+            JCheckBox checkBox = (JCheckBox) component;
+            if (checkBox.isSelected()) {
+                selectedCards.add(checkBox.getText());
+            }
+        }
+        riskGame.tradeInCards(selectedCards);
     }
 }

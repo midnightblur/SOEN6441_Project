@@ -1,13 +1,15 @@
 package view.screens;
 
 import model.ui_models.MapTableModel;
-import view.helpers.UIHelper;
 import view.ui_components.MapTable;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
+
+import static view.helpers.UIHelper.displayJFrame;
+import static view.helpers.UIHelper.setDivider;
 
 public class GamePlayFrame extends JFrame implements Observer {
     private static final String TITLE = "Game Play";
@@ -28,7 +30,7 @@ public class GamePlayFrame extends JFrame implements Observer {
         contentPane.setLeftComponent(new JScrollPane(gameMapTable));
         
         /* Setup & Display frame */
-        UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
+        displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
     }
     
     /* Getters & Setters */
@@ -62,23 +64,22 @@ public class GamePlayFrame extends JFrame implements Observer {
     private void setupContentPaneLayout() {
         contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
             private final int location = 1100;
-            
+    
             {
                 setDividerLocation(location);
             }
-            
+    
             @Override
             public int getDividerLocation() {
                 return location;
             }
-            
+    
             @Override
             public int getLastDividerLocation() {
                 return location;
             }
         };
-        contentPane.setDividerLocation(1100);
-        contentPane.setResizeWeight(.75d);
+        setDivider(contentPane);
     }
     
     @Override

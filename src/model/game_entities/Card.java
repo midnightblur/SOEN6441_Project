@@ -1,9 +1,9 @@
 package model.game_entities;
 
-import utilities.Config;
-
 import java.util.Arrays;
 import java.util.Vector;
+
+import static utilities.Config.*;
 
 /**
  * Card class contains all the different types that are available of cards in the deck in
@@ -11,7 +11,7 @@ import java.util.Vector;
  */
 public class Card {
     public static Vector<String> cardTypes =
-            new Vector<>(Arrays.asList(Config.CARD_TYPE1, Config.CARD_TYPE2, Config.CARD_TYPE3));
+            new Vector<>(Arrays.asList(CARD_TYPE1, CARD_TYPE2, CARD_TYPE3));
     
     private String cardType;
     
@@ -23,21 +23,20 @@ public class Card {
     public Card(int typeNumber) {
         this.cardType = cardTypes.elementAt(typeNumber);
     }
-
+    
+    /* Getters & Setters */
+    
     /**
-     *These are Getters and Setters.
-     *
      * @returns The getter the card type.
      */
     public String getCardType() {
         return this.cardType;
     }
-
+    
+    
     /**
-     *
-     * @return
+     * @return the count of card types
      */
-
     public static int getTypesCount() {
         return cardTypes.size();
     }
