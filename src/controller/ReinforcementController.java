@@ -11,6 +11,7 @@ import javax.swing.table.TableModel;
 import java.util.HashMap;
 import java.util.Map;
 
+import static utilities.Config.GAME_STATES.REINFORCEMENT_PHASE;
 import static view.helpers.UIHelper.setDivider;
 
 /**
@@ -31,6 +32,7 @@ public class ReinforcementController {
         gamePlayFrame.getContentPane().setRightComponent(reinforcementPanel);
         riskGame = RiskGame.getInstance();
         currentPlayer = riskGame.getCurrPlayer();
+        riskGame.setGameState(REINFORCEMENT_PHASE);
     
         /* set control panel */
         populateReinforcementPanel();
@@ -109,6 +111,9 @@ public class ReinforcementController {
     private void goBackToFortificationPhase(){
         // TODO: this needs fixing so it correctly returns to previous phase
         // TODO: (see true condition in the game and possibly have a setter for it under currentPlayer)
-        riskGame.fortificationPhase();
+        // riskGame.fortificationPhase();
+    
+        new FortificationController(gamePlayFrame);
+    
     }
 }

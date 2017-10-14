@@ -1,5 +1,6 @@
 package view.ui_components;
 
+import model.ui_models.FortificationModel;
 import utilities.Config;
 
 import javax.swing.*;
@@ -8,12 +9,13 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import static view.helpers.UIHelper.addVerticalSpacing;
+
 /**
  * Fortification Panel representing the controls for Fortification phase of the game
  */
 public class FortificationPanel extends JPanel implements Observer {
     
-    private static final String BACK_BUTTON_LABEL = "Back";
     private static final String MOVE_ARMIES_BUTTON_LABEL = "Move Armies";
     private static final String DONE_BUTTON_LABEL = "Done";
     private static final String TERRITORY_FROM_LABEL = "Move from: ";
@@ -22,14 +24,14 @@ public class FortificationPanel extends JPanel implements Observer {
     
     private JButton moveArmiesButton;
     private JButton doneButton;
-    private JButton backButton;
+    private JTextField armiesToMoveField;
     private JLabel gameState;
     private JLabel playerID;
-    private JLabel territoryFrom;
-    private JLabel territoryTo;
-    private JLabel howManyArmiesToMove;
-    private JComboBox territoryFromComboBox;
-    private JComboBox territoryToComboBox;
+    private JLabel sourceTerritoryLabel;
+    private JLabel targetTerritoryLabel;
+    private JLabel howManyArmiesToMoveLabel;
+    private JComboBox<String> sourceTerritoryDropdown;
+    private JComboBox<String> targetTerritoryDropdown;
     
     /* Constructors */
     public FortificationPanel() {
@@ -37,115 +39,98 @@ public class FortificationPanel extends JPanel implements Observer {
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
-        territoryFrom = new JLabel(TERRITORY_FROM_LABEL);
-//        territoryFromComboBox = new JComboBox(territoryFromList) {
-//            @Override   // set the data type for each column
-//            public Class getColumnClass(int column) {
-//                switch (column) {
-//                    case 0:
-//                        return String.class;
-//                    case 1:
-//                        return Integer.class;
-//                }
-//                return getValueAt(0, column).getClass();
-//            }
-//
-//            @Override   // only allow editing in second column
-//            public boolean isCellEditable(int row, int column) {
-//                return column == 1;
-//            }
-//        };
-//        territoryTo = new JLabel(TERRITORY_TO_LABEL);
-//        territoryToTable = new JTable() {
-//            @Override   // set the data type for each column
-//            public Class getColumnClass(int column) {
-//                switch (column) {
-//                    case 0:
-//                        return String.class;
-//                    case 1:
-//                        return Integer.class;
-//                }
-//                return getValueAt(0, column).getClass();
-//            }
-//
-//            @Override   // only allow editing in second column
-//            public boolean isCellEditable(int row, int column) {
-//                return column == 1;
-//            }
-//        };
-//
-//
+        armiesToMoveField = new JTextField();
+        sourceTerritoryLabel = new JLabel(TERRITORY_FROM_LABEL);
+        targetTerritoryLabel = new JLabel(TERRITORY_TO_LABEL);
+        howManyArmiesToMoveLabel = new JLabel(ARMIES_TO_MOVE_LABEL);
+        sourceTerritoryDropdown = new JComboBox<>();
+        targetTerritoryDropdown = new JComboBox<>();
+        moveArmiesButton = new JButton(MOVE_ARMIES_BUTTON_LABEL);
         doneButton = new JButton(DONE_BUTTON_LABEL);
 
-//        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-//        setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
-//
-//        /* Control panel */
-//        JPanel controlPanel = new JPanel();
-//        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
-//
-//        controlPanel.add(gameState);
-//        controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-//        controlPanel.add(playerID);
-//        controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-//        controlPanel.add(tradeCardsButton);
-//        controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-//        controlPanel.add(totalArmiesToPlace);
-//        controlPanel.add(howManyArmiesToPlace);
-//        controlPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-//        controlPanel.add(new JScrollPane(playerTerritoryTable));
-//        controlPanel.add(Box.createRigidArea(new Dimension(0, 30)));
-//
-//        JPanel panel_1 = new JPanel();
-//        panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.PAGE_AXIS));
-//        panel_1.add(placeArmiesButton);
-//        panel_1.add(Box.createRigidArea(new Dimension(0, 20)));
-//        panel_1.add(doneButton);
-//
-//        controlPanel.add(panel_1);
-//        controlPanel.add(Box.createRigidArea(new Dimension(0, 50)));
-//
-//        /* Navigation buttons */
-//        JPanel navigationPanel = new JPanel();
-//        navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.PAGE_AXIS));
-//
-//        navigationPanel.add(backButton);
-//
-//        add(controlPanel);
-//        add(navigationPanel);
-//
+        /* Set layout */
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
+        JPanel controlPanel = new JPanel();
+        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
+        
+        /* Add the elements to the panel */
+        controlPanel.add(gameState);
+        addVerticalSpacing(controlPanel);
+        controlPanel.add(playerID);
+        addVerticalSpacing(controlPanel);
+        controlPanel.add(sourceTerritoryLabel);
+        controlPanel.add(sourceTerritoryDropdown);
+        addVerticalSpacing(controlPanel);
+        controlPanel.add(targetTerritoryLabel);
+        controlPanel.add(targetTerritoryDropdown);
+        addVerticalSpacing(controlPanel);
+        controlPanel.add(howManyArmiesToMoveLabel);
+        controlPanel.add(armiesToMoveField);
+        addVerticalSpacing(controlPanel);
+        controlPanel.add(moveArmiesButton);
+        addVerticalSpacing(controlPanel);
+        controlPanel.add(doneButton);
+        addVerticalSpacing(controlPanel);
+        
+        add(controlPanel);
     }
-
+    
     /* Getters & Setters */
-
     public void setGameState(Config.GAME_STATES gameState) {
-        this.gameState.setText(gameState.toString());
+        this.gameState.setText("<html><p style=\"color:blue;\">" + gameState.toString() + "</p></html>");
     }
     
     public void setPlayerID(int playerID) {
         this.playerID.setText("Player " + playerID);
     }
     
-
-    /* MVC & Observer pattern methods */
-    public void addBackButtonListener(ActionListener listenerForBackButton) {
-        backButton.addActionListener(listenerForBackButton);
+    public JButton getMoveArmiesButton() {
+        return moveArmiesButton;
     }
-
+    
+    public JTextField getArmiesToMoveField() {
+        return armiesToMoveField;
+    }
+    
+    public void setArmiesToMoveField(JTextField armiesToMoveField) {
+        this.armiesToMoveField = armiesToMoveField;
+    }
+    
+    public JComboBox getSourceTerritoryDropdown() {
+        return sourceTerritoryDropdown;
+    }
+    
+    public void setSourceTerritoryDropdown(JComboBox sourceTerritoryDropdown) {
+        this.sourceTerritoryDropdown = sourceTerritoryDropdown;
+    }
+    
+    public JComboBox getTargetTerritoryDropdown() {
+        return targetTerritoryDropdown;
+    }
+    
+    public void setTargetTerritoryDropdown(JComboBox targetTerritoryDropdown) {
+        this.targetTerritoryDropdown = targetTerritoryDropdown;
+    }
+    
+    /* MVC & Observer pattern methods */
+    public void addMoveArmiesButtonListener(ActionListener listenerForMoveArmiesButton) {
+        moveArmiesButton.addActionListener(listenerForMoveArmiesButton);
+    }
+    
+    public void addSourceTerritoryDropdownListener(ActionListener listenerForSourceTerritoryDropdown) {
+        sourceTerritoryDropdown.addActionListener(listenerForSourceTerritoryDropdown);
+    }
+    
     public void addDoneButtonListener(ActionListener listenerForDoneButton) {
         doneButton.addActionListener(listenerForDoneButton);
     }
     
     @Override
     public void update(Observable o, Object arg) {
-    
-//        if (o.getClass().getName().equals("PlayerTerritoriesModel")) {
-//            playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
-//        }
-//
-//        if (o.getClass().getName().equals("Player")) {
-//            setPlayerID(((Player) o).getPlayerID());
-//            setTotalArmiesToPlace(((Player) o).getUnallocatedArmies());
-//        }
+        if (o instanceof FortificationModel) {
+            sourceTerritoryDropdown.setModel(((FortificationModel) o).getSourceTerritoriesList());
+            targetTerritoryDropdown.setModel(((FortificationModel) o).getTargetTerritoriesList());
+        }
     }
 }

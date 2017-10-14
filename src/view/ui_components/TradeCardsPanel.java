@@ -76,7 +76,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
     }
     
     public void setGameState(GAME_STATES gameState) {
-        this.gameState.setText("<html><p style=\"color:blue;\">" + gameState.toString() + "<br>Trading Cards</p></html>");
+        this.gameState.setText("<html><p style=\"color:blue;\">" + gameState.toString() + "</p></html>");
     }
     
     public void setPlayerID(int playerID) {

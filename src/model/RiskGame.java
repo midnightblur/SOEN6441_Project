@@ -6,9 +6,12 @@ import model.game_entities.Player;
 import model.game_entities.Territory;
 import model.helpers.GameMapHelper;
 import model.ui_models.MapTableModel;
-import utilities.Config;
 
 import java.util.*;
+
+import static utilities.Config.GAME_STATES;
+import static utilities.Config.GAME_STATES.*;
+import static utilities.Config.INITIAL_ARMY_RATIO;
 
 /**
  * Class initiates RiskGame with the welcome message, followed by the following features:
@@ -28,7 +31,7 @@ public class RiskGame extends Observable {
     private Vector<Player> players = new Vector<>();
     private GameMap gameMap;
     private static RiskGame instance = null;
-    private Config.GAME_STATES gameState = Config.GAME_STATES.ENTRY_MENU;
+    private GAME_STATES gameState = ENTRY_MENU;
     private boolean isPlaying = false;
     private Random rand = new Random();
     private Player currPlayer;
@@ -97,11 +100,11 @@ public class RiskGame extends Observable {
     
     /* Public methods */
     
-    public Config.GAME_STATES getGameState() {
+    public GAME_STATES getGameState() {
         return this.gameState;
     }
     
-    public void setGameState(Config.GAME_STATES GAMESTATES) {
+    public void setGameState(GAME_STATES GAMESTATES) {
         this.gameState = GAMESTATES;
     }
 
@@ -134,7 +137,7 @@ public class RiskGame extends Observable {
         giveInitialArmies();
         placeArmies();
         setCurrPlayer(players.firstElement());
-        this.setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
+        setGameState(REINFORCEMENT_PHASE);
         broadcastGamePlayChanges();
         
          /* Hand out cards for build 1 presentation. To be commented out for normal game play */
@@ -155,7 +158,7 @@ public class RiskGame extends Observable {
      * control (to a minimum of 3), and allows players to place those armies.
      */
     public void reinforcementPhase() {
-        setGameState(Config.GAME_STATES.REINFORCEMENT_PHASE);
+        setGameState(REINFORCEMENT_PHASE);
         broadcastGamePlayChanges();
         
         // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
@@ -190,7 +193,7 @@ public class RiskGame extends Observable {
      * of armies specified by the player (a territory must have more than 1 army at minimum).
      */
     public void fortificationPhase() {
-        setGameState(Config.GAME_STATES.FORTIFICATION_PHASE);
+        setGameState(FORTIFICATION_PHASE);
         broadcastGamePlayChanges();
         
         // @Brian the model should not know anything about the view, therefore:
@@ -292,8 +295,14 @@ public class RiskGame extends Observable {
      * @param selectedCards Vector of Strings that details the type of cards in the player's possession
      * @return String for the error message to validate the result of the trade in
      */
+<<<<<<< HEAD
     public String tradeInCards(Vector<String> selectedCards) {
         this.setGameState(Config.GAME_STATES.TRADE_IN_PHASE);
+=======
+    public void tradeInCards(Vector<String> selectedCards) {
+        // Vector<String> selectedCards is the selection from the view
+        
+>>>>>>> develop
         broadcastGamePlayChanges();
         
         if (selectedCards.size() == 3) {
@@ -453,7 +462,7 @@ public class RiskGame extends Observable {
      * [# of initial armies = (total# of territories) * (2.75) / (total# of players)].
      */
     public void giveInitialArmies() {
-        int armiesToGive = (int) (gameMap.getTerritoriesCount() * Config.INITIAL_ARMY_RATIO / players.size());
+        int armiesToGive = (int) (gameMap.getTerritoriesCount() * INITIAL_ARMY_RATIO / players.size());
         for (Player player : players) {
             player.setUnallocatedArmies(armiesToGive);
         }
