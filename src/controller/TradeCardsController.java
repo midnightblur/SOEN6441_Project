@@ -71,11 +71,7 @@ public class TradeCardsController {
         tradeCardsPanel.setArmiesGained(currentPlayer.getUnallocatedArmies());
         
         /* the cards list for this particular player */
-        for (Card card : currentPlayer.getPlayersHand()) {
-            JCheckBox checkBox = new JCheckBox();
-            checkBox.setText(card.getCardType());
-            tradeCardsPanel.getCardList().add(checkBox);
-        }
+        listCards();
         
         /* set the army value label */
         tradeCardsPanel.setArmyValueLabel(riskGame.getArmyValue());
@@ -94,5 +90,14 @@ public class TradeCardsController {
         }
         String message = riskGame.tradeInCards(selectedCards);
         gamePlayFrame.displayErrorMessage(message);
+        listCards();
+    }
+    
+    public void listCards(){
+        for (Card card : currentPlayer.getPlayersHand()) {
+            JCheckBox checkBox = new JCheckBox();
+            checkBox.setText(card.getCardType());
+            tradeCardsPanel.getCardList().add(checkBox);
+        }
     }
 }
