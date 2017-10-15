@@ -52,29 +52,29 @@ public class FortificationPanel extends JPanel implements Observer {
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
-        JPanel controlPanel = new JPanel();
-        controlPanel.setLayout(new GridLayout(20, 1));
+        JPanel controlWrapper = new JPanel();
+        controlWrapper.setLayout(new GridLayout(17, 1));
         
         /* Add the elements to the panel */
-        controlPanel.add(gameState);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(playerID);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(sourceTerritoryLabel);
-        controlPanel.add(sourceTerritoryDropdown);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(targetTerritoryLabel);
-        controlPanel.add(targetTerritoryDropdown);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(howManyArmiesToMoveLabel);
-        controlPanel.add(armiesToMoveField);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(moveArmiesButton);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(doneButton);
-        addVerticalSpacing(controlPanel);
+        controlWrapper.add(gameState);
+        controlWrapper.add(playerID);
+        addVerticalSpacing(controlWrapper);
+        controlWrapper.add(sourceTerritoryLabel);
+        controlWrapper.add(sourceTerritoryDropdown);
+        addVerticalSpacing(controlWrapper);
+        controlWrapper.add(targetTerritoryLabel);
+        controlWrapper.add(targetTerritoryDropdown);
+        addVerticalSpacing(controlWrapper);
+        controlWrapper.add(howManyArmiesToMoveLabel);
+        controlWrapper.add(armiesToMoveField);
+        addVerticalSpacing(controlWrapper);
+        controlWrapper.add(moveArmiesButton);
+        addVerticalSpacing(controlWrapper);
+        addVerticalSpacing(controlWrapper);
+        controlWrapper.add(doneButton);
+        addVerticalSpacing(controlWrapper);
         
-        add(controlPanel);
+        add(controlWrapper);
     }
     
     /* Getters & Setters */

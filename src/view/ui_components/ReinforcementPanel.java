@@ -101,29 +101,33 @@ public class ReinforcementPanel extends JPanel implements Observer {
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
-        JPanel controlPanel = new JPanel();
-        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
+        JPanel controlWrapper = new JPanel();
+        controlWrapper.setLayout(new BoxLayout(controlWrapper, BoxLayout.PAGE_AXIS));
+        JPanel topGrid = new JPanel(new GridLayout(7, 1));
+        JPanel bottomGrid = new JPanel(new GridLayout(7, 1));
         
         /* Add the elements to the panel */
-        controlPanel.add(gameState);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(playerID);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(tradeCardsButton);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(totalArmiesToPlace);
-        controlPanel.add(howManyArmiesToPlace);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(new JScrollPane(playerTerritoryTable));
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(placeArmiesButton);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(goToFortificationButton);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(attackButton);
-        addVerticalSpacing(controlPanel);
+        topGrid.add(gameState);
+        topGrid.add(playerID);
+        addVerticalSpacing(topGrid);
+        topGrid.add(tradeCardsButton);
+        addVerticalSpacing(topGrid);
+        topGrid.add(totalArmiesToPlace);
+        topGrid.add(howManyArmiesToPlace);
+        controlWrapper.add(topGrid);
         
-        add(controlPanel);
+        controlWrapper.add(new JScrollPane(playerTerritoryTable));
+       
+        addVerticalSpacing(bottomGrid);
+        bottomGrid.add(placeArmiesButton);
+        addVerticalSpacing(bottomGrid);
+        bottomGrid.add(goToFortificationButton);
+        addVerticalSpacing(bottomGrid);
+        bottomGrid.add(attackButton);
+        addVerticalSpacing(bottomGrid);
+        controlWrapper.add(bottomGrid);
+        
+        add(controlWrapper);
     }
     
     /* Getters & Setters */

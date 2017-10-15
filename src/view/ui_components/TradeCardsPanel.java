@@ -50,25 +50,30 @@ public class TradeCardsPanel extends JPanel implements Observer {
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
-        JPanel controlsWrapper = new JPanel();
-        controlsWrapper.setLayout(new BoxLayout(controlsWrapper, BoxLayout.PAGE_AXIS));
-        cardList.setLayout(new GridLayout(2,5));
-    
-        JPanel controls = new JPanel(new GridLayout(25,0));
+        JPanel controlWrapper = new JPanel();
+        controlWrapper.setLayout(new BoxLayout(controlWrapper, BoxLayout.PAGE_AXIS));
+        cardList.setLayout(new GridLayout(4,5));
+        JPanel topGrid = new JPanel(new GridLayout(4, 1));
+        JPanel bottomGrid = new JPanel(new GridLayout(7, 1));
+        
         /* Add the elements to the panel */
-        controls.add(gameState);
-        controls.add(playerID);
-        controls.add(cardsListLabel);
-        controls.add(cardList);
-        controls.add(armyValueLabel);
-        controls.add(gainedArmiesLabel);
-        addVerticalSpacing(controls);
-        controls.add(tradeCards);
-        addVerticalSpacing(controls);
-        controls.add(backToReinforcementButton);
+        topGrid.add(gameState);
+        topGrid.add(playerID);
+        addVerticalSpacing(topGrid);
+        topGrid.add(cardsListLabel);
+        controlWrapper.add(topGrid);
     
-        controlsWrapper.add(controls);
-        add(controlsWrapper);
+        controlWrapper.add(cardList);
+    
+        bottomGrid.add(armyValueLabel);
+        bottomGrid.add(gainedArmiesLabel);
+        addVerticalSpacing(bottomGrid);
+        bottomGrid.add(tradeCards);
+        addVerticalSpacing(bottomGrid);
+        bottomGrid.add(backToReinforcementButton);
+        controlWrapper.add(bottomGrid);
+        
+        add(controlWrapper);
     }
     
     /* Getters & Setters */
