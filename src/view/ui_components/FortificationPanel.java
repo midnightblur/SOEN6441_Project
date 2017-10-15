@@ -16,8 +16,8 @@ import static view.helpers.UIHelper.addVerticalSpacing;
  */
 public class FortificationPanel extends JPanel implements Observer {
     
-    private static final String MOVE_ARMIES_BUTTON_LABEL = "Move Armies";
-    private static final String DONE_BUTTON_LABEL = "Done (next player)";
+    private static final String MOVE_ARMIES_BUTTON = "Move Armies";
+    private static final String DONE_BUTTON = "Done (next player)";
     private static final String TERRITORY_FROM_LABEL = "Move from: ";
     private static final String TERRITORY_TO_LABEL = "Move to: ";
     private static final String ARMIES_TO_MOVE_LABEL = "Armies to move: ";
@@ -45,14 +45,14 @@ public class FortificationPanel extends JPanel implements Observer {
         howManyArmiesToMoveLabel = new JLabel(ARMIES_TO_MOVE_LABEL);
         sourceTerritoryDropdown = new JComboBox<>();
         targetTerritoryDropdown = new JComboBox<>();
-        moveArmiesButton = new JButton(MOVE_ARMIES_BUTTON_LABEL);
-        doneButton = new JButton(DONE_BUTTON_LABEL);
+        moveArmiesButton = new JButton(MOVE_ARMIES_BUTTON);
+        doneButton = new JButton(DONE_BUTTON);
 
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
+        setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
         JPanel controlPanel = new JPanel();
-        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
+        controlPanel.setLayout(new GridLayout(20,1));
         
         /* Add the elements to the panel */
         controlPanel.add(gameState);

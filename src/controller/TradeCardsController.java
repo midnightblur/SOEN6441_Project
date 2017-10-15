@@ -50,7 +50,7 @@ public class TradeCardsController {
         
         /* Register to be ActionListeners */
         tradeCardsPanel.addTradeCardsButtonListener(e -> tradeSelectedCards());
-        tradeCardsPanel.addDoneButtonListener(e -> new ReinforcementController(this.gamePlayFrame));
+        tradeCardsPanel.addBackToReinforcementListener(e -> new ReinforcementController(this.gamePlayFrame));
         
     }
     

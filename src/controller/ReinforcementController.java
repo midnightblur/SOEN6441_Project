@@ -44,7 +44,7 @@ public class ReinforcementController {
         /* Register to be ActionListeners */
         reinforcementPanel.addTradeCardsButtonListener(e -> tradeCards());
         reinforcementPanel.addPlaceArmiesButtonListener(e -> distributeArmies());
-        reinforcementPanel.addDoneButtonListener(e -> goBackToFortificationPhase());
+        reinforcementPanel.addGoToFortificationButtonListener(e -> goBackToFortificationPhase());
     }
     
     /* Private methods */
