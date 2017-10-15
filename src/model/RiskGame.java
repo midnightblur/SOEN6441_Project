@@ -185,7 +185,6 @@ public class RiskGame extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String fortificationPhase(String strTerrFrom, String strTerrTo, String strArmiesToMove) {
-        
         Territory terrFrom = gameMap.getTerritoriesOfPlayer(currPlayer).get(strTerrFrom);
         Territory terrTo = gameMap.getTerritoriesOfPlayer(currPlayer).get(strTerrTo);
         int armiesToMove = 0;
@@ -209,12 +208,6 @@ public class RiskGame extends Observable {
                 }
                 terrFrom.reduceArmies(movableArmies);
                 terrTo.addArmies(movableArmies);
-//                System.out.println("territory from armies: " + terrFrom.getArmies());
-//                System.out.println("territory to armies: " + terrTo.getArmies());
-//                for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(currPlayer).entrySet()) {
-//                    System.out.println(entry.getValue().getName() + " " + entry.getValue().getArmies());
-//                }
-//                System.out.println("movable armies: " + movableArmies);
                 broadcastGamePlayChanges();
                 return "Successfully moved " + movableArmies + " armies from " + strTerrFrom + " to " + strTerrTo + ".";
             } else {

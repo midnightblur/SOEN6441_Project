@@ -104,6 +104,7 @@ public class FortificationController {
      */
     public void nextPlayer() {
         riskGame.setCurrPlayerToNextPlayer();
+        riskGame.reinforcementPhase();
         new ReinforcementController(this.gamePlayFrame);
     }
     
