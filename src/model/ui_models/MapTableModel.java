@@ -40,7 +40,7 @@ public class MapTableModel extends Observable {
         columns.add("Continent");
         columns.add("Territory");
         columns.add("Neighbors");
-        if (RiskGame.getInstance().getGameState().getValue() > 3) {
+        if (RiskGame.getInstance().getGameState().getValue() >= 3) {
             columns.add("Owner");
             columns.add("Armies");
         }
@@ -50,7 +50,7 @@ public class MapTableModel extends Observable {
         /* add continents */
         for (Continent continent : gameMap.getContinents().values()) {
             rows[i][0] = continent.getName();
-            if (RiskGame.getInstance().getGameState().getValue() > 3) {
+            if (RiskGame.getInstance().getGameState().getValue() >= 3) {
                 rows[i][3] = continent.getContinentOwner();
                 rows[i][4] = Integer.toString(continent.getContinentArmies());
             }
@@ -63,7 +63,7 @@ public class MapTableModel extends Observable {
             rows[i][2] = territory.getNeighbors().toString().replace("[", "").replace("]", "");
             
             /* add countries and their information */
-            if (RiskGame.getInstance().getGameState().getValue() > 3) {
+            if (RiskGame.getInstance().getGameState().getValue() >= 3) {
                 rows[i][3] = "Player " + Integer.toString(territory.getOwner().getPlayerID());
                 rows[i][4] = Integer.toString(territory.getArmies());
             }
