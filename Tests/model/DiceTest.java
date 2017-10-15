@@ -3,10 +3,13 @@ package model;
 import model.game_entities.Dice;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DiceTest {
 
+    /**
+     *This test checks roll of dice
+     */
     @Test
     public void rollForTreeDice() {
         int diceCount = 3;
@@ -22,6 +25,9 @@ public class DiceTest {
         }
     }
 
+    /**
+     *This test checks roll for one dice
+     */
     @Test
     public void rollForOneDice() {
         int diceCount = 1;
@@ -37,6 +43,9 @@ public class DiceTest {
         }
     }
 
+    /**
+     *This test checks the roll for zero dice
+     */
     @Test
     public void rollForZeroDice() {
         int diceCount = 0;
