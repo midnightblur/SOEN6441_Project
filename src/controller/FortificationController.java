@@ -61,7 +61,7 @@ public class FortificationController {
         riskGame.fortificationPhase(
                 fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString(),
                 fortificationPanel.getTargetTerritoryDropdown().getSelectedItem().toString(),
-                Integer.parseInt(fortificationPanel.getArmiesToMoveField().getText()));
+                fortificationPanel.getArmiesToMoveField().getText());
         riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
     }
     

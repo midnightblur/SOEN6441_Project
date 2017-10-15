@@ -179,16 +179,26 @@ public class RiskGame extends Observable {
      *
      * @param strTerrFrom  String value of the name of the source Territory
      * @param strTerrTo    String value of the name of the target Territory
-     * @param armiesToMove Primitive integer value of the number of armies to be moved
+     * @param strArmiesToMove String value of the number of armies to be moved
      *
      * @return String value of the messages that will be displayed to the user
      */
-    public String fortificationPhase(String strTerrFrom, String strTerrTo, int armiesToMove) {
+    public String fortificationPhase(String strTerrFrom, String strTerrTo, String strArmiesToMove) {
         setGameState(FORTIFICATION_PHASE);
         broadcastGamePlayChanges();
         
         Territory terrFrom = gameMap.getTerritoriesOfPlayer(currPlayer).get(strTerrFrom);
         Territory terrTo = gameMap.getTerritoriesOfPlayer(currPlayer).get(strTerrTo);
+        int armiesToMove = 0;
+        String exceptionResult = "";
+        try {
+            armiesToMove = Integer.parseInt(strArmiesToMove);
+        } catch(NumberFormatException nfe) {
+            exceptionResult += "No armies moved!\nYou must enter an integer value for the armies.";
+        }
+        if (!exceptionResult.equals("")) {
+            return exceptionResult;
+        }
         
         // validate if the two territories are owned by the player, are different, and are neighbours.
         if (terrFrom.isOwnedBy(currPlayer.getPlayerID()) && !terrFrom.equals(terrTo)
