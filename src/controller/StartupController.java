@@ -48,7 +48,7 @@ public class StartupController {
 
         /* Register to be ActionListeners */
         startupPanel.addDoneButtonListener(e -> nextPlayer());
-        startupPanel.addPlaceArmiesButtonListener(e -> placeArmy());
+        startupPanel.addPlaceArmyButtonListener(e -> placeArmy());
 
         /* set control panel */
         populateStartupPanel();
@@ -67,8 +67,13 @@ public class StartupController {
         /* set the player ID label */
         startupPanel.setPlayerID(currentPlayer.getPlayerID());
 
+        /* set the unallocated armies */
+        startupPanel.setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
+
         /* set the source dropdown */
         startupPanel.getTerritoryDropdown().setModel(startupModel.getTerritoriesList());
+        startupPanel.getDoneButton().setEnabled(false);
+        startupPanel.getPlaceArmiesButton().setEnabled(true);
     }
 
     /**
@@ -77,9 +82,10 @@ public class StartupController {
     private void placeArmy() {
         String territory = startupPanel.getTerritoryDropdown().getSelectedItem().toString();
         if (territory != null || !territory.equals("")) {
+            startupPanel.getPlaceArmiesButton().setEnabled(false);
             riskGame.placeArmy(territory);
             riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
-            gamePlayFrame.displayMessage("Successfully placed 1 army in " + territory + "!");
+            startupPanel.getDoneButton().setEnabled(true);
         } else {
             gamePlayFrame.displayMessage("Please validate your selection.");
         }

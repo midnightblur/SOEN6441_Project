@@ -21,7 +21,7 @@ public class StartupPanel extends JPanel implements Observer {
     private static final String TERRITORY_LABEL = "Place an army on: ";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
 
-    private JButton placeArmiesButton;
+    private JButton placeArmyButton;
     private JButton doneButton;
     private JLabel gameState;
     private JLabel playerID;
@@ -39,8 +39,8 @@ public class StartupPanel extends JPanel implements Observer {
         totalArmiesToPlace.setFont(new Font("Sans Serif", Font.BOLD, 16));
         territoryLabel = new JLabel(TERRITORY_LABEL);
         territoryDropdown = new JComboBox<>();
-        placeArmiesButton = new JButton(PLACE_ARMY_BUTTON);
-        placeArmiesButton.setForeground(Color.BLUE);
+        placeArmyButton = new JButton(PLACE_ARMY_BUTTON);
+        placeArmyButton.setForeground(Color.BLUE);
         doneButton = new JButton(DONE_BUTTON);
 
         /* Set layout */
@@ -58,7 +58,7 @@ public class StartupPanel extends JPanel implements Observer {
         controlWrapper.add(territoryLabel);
         controlWrapper.add(territoryDropdown);
         addVerticalSpacing(controlWrapper);
-        controlWrapper.add(placeArmiesButton);
+        controlWrapper.add(placeArmyButton);
         addVerticalSpacing(controlWrapper);
         addVerticalSpacing(controlWrapper);
         controlWrapper.add(doneButton);
@@ -80,8 +80,12 @@ public class StartupPanel extends JPanel implements Observer {
         this.playerID.setText("Player " + playerID);
     }
 
+    public JButton getDoneButton() {
+        return doneButton;
+    }
+
     public JButton getPlaceArmiesButton() {
-        return placeArmiesButton;
+        return placeArmyButton;
     }
 
     public JComboBox getTerritoryDropdown() {
@@ -93,8 +97,8 @@ public class StartupPanel extends JPanel implements Observer {
     }
 
     /* MVC & Observer pattern methods */
-    public void addPlaceArmiesButtonListener(ActionListener listenerForPlaceArmiesButton) {
-        placeArmiesButton.addActionListener(listenerForPlaceArmiesButton);
+    public void addPlaceArmyButtonListener(ActionListener listenerForPlaceArmiesButton) {
+        placeArmyButton.addActionListener(listenerForPlaceArmiesButton);
     }
 
     public void addTerritoryDropdownListener(ActionListener listenerForTerritoryDropdown) {
