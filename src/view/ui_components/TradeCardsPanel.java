@@ -20,7 +20,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
     private static final String ARMY_VALUE_LABEL = "Current army value: ";
     private static final String TRADE_CARDS_BUTTON = "Trade cards";
     private static final String GAINED_ARMIES_LABEL = "# of armies gained: ";
-    private static final String DONE_BUTTON = "Back to Reinforcement";
+    private static final String BACK_TO_REINFORCEMENT_BUTTON = "Back to Reinforcement";
     
     private JLabel gameState;
     private JLabel playerID;
@@ -29,7 +29,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
     private JLabel armyValueLabel;
     private JPanel cardList;
     private JButton tradeCards;
-    private JButton doneButton;
+    private JButton backToReinforcementButton;
     
     /* Constructors */
     public TradeCardsPanel() {
@@ -39,7 +39,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
         tradeCards = new JButton(TRADE_CARDS_BUTTON);
-        doneButton = new JButton(DONE_BUTTON);
+        backToReinforcementButton = new JButton(BACK_TO_REINFORCEMENT_BUTTON);
         armyValueLabel = new JLabel();
         cardsListLabel = new JLabel(CARDS_LIST_LABEL);
         gainedArmiesLabel = new JLabel();
@@ -48,9 +48,9 @@ public class TradeCardsPanel extends JPanel implements Observer {
         
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
+        setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
         JPanel controlPanel = new JPanel();
-        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
+        controlPanel.setLayout(new GridLayout(20,1));
         
         /* Add the elements to the panel */
         controlPanel.add(gameState);
@@ -61,10 +61,11 @@ public class TradeCardsPanel extends JPanel implements Observer {
         controlPanel.add(cardList);
         addVerticalSpacing(controlPanel);
         controlPanel.add(armyValueLabel);
+        controlPanel.add(gainedArmiesLabel);
         addVerticalSpacing(controlPanel);
         controlPanel.add(tradeCards);
         addVerticalSpacing(controlPanel);
-        controlPanel.add(doneButton);
+        controlPanel.add(backToReinforcementButton);
         addVerticalSpacing(controlPanel);
         
         add(controlPanel);
@@ -96,8 +97,8 @@ public class TradeCardsPanel extends JPanel implements Observer {
         tradeCards.addActionListener(listenerForTradeCardsButton);
     }
     
-    public void addDoneButtonListener(ActionListener listenerForDoneButton) {
-        doneButton.addActionListener(listenerForDoneButton);
+    public void addBackToReinforcementListener(ActionListener listenerForBackToReinforcement) {
+        backToReinforcementButton.addActionListener(listenerForBackToReinforcement);
     }
     
     @Override

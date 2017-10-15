@@ -5,7 +5,6 @@ import model.game_entities.Player;
 import model.game_entities.Territory;
 
 import javax.swing.*;
-import java.util.Objects;
 import java.util.Observable;
 import java.util.Vector;
 
@@ -52,7 +51,7 @@ public class FortificationModel extends Observable {
         Vector<String> neighbours = riskGame.getGameMap().getATerritory(selectedTerritory).getNeighbors();
         for (String n : neighbours) {  // if neighbour is owned by current player, add it to the lost
             if (riskGame.getGameMap().getATerritory(n).isOwnedBy(currentPlayer.getPlayerID())
-                    && !Objects.equals(n, selectedTerritory)) {
+                    && !n.equals(selectedTerritory)) {
                 targetTerritoriesList.add(n);
             }
         }

@@ -17,11 +17,11 @@ import static view.helpers.UIHelper.addVerticalSpacing;
  * Reinforcement Panel representing the controls for Reinforcement phase of the game
  */
 public class ReinforcementPanel extends JPanel implements Observer {
-    private static final String PLACE_ARMIES_BUTTON_LABEL = "Place armies";
+    private static final String PLACE_ARMIES_BUTTON = "Place armies";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
-    private static final String GO_TO_FORTIFICATION_BUTTON_LABEL = "Go to Fortification";
-    private static final String TRADE_CARDS_BUTTON_LABEL = "Trade Cards";
-    private static final String ATTACK_BUTTON_LABEL = "Attack!";
+    private static final String GO_TO_FORTIFICATION_BUTTON = "Go to Fortification";
+    private static final String TRADE_CARDS_BUTTON = "Trade Cards";
+    private static final String ATTACK_BUTTON = "Attack!";
     private static final String ARMIES_TO_PLACE_LABEL = "Use table to place armies:";
     
     private JButton tradeCardsButton;
@@ -40,7 +40,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
-        tradeCardsButton = new JButton(TRADE_CARDS_BUTTON_LABEL);
+        tradeCardsButton = new JButton(TRADE_CARDS_BUTTON);
         totalArmiesToPlace = new JLabel();
         totalArmiesToPlace.setFont(new Font("Sans Serif", Font.BOLD, 16));
         howManyArmiesToPlace = new JLabel(ARMIES_TO_PLACE_LABEL);
@@ -62,14 +62,14 @@ public class ReinforcementPanel extends JPanel implements Observer {
             }
         };
         playerTerritoryTable.setDefaultEditor(Integer.class, new IntegerEditor());
-        goToFortificationButton = new JButton(GO_TO_FORTIFICATION_BUTTON_LABEL);
-        attackButton = new JButton(ATTACK_BUTTON_LABEL);
+        goToFortificationButton = new JButton(GO_TO_FORTIFICATION_BUTTON);
+        attackButton = new JButton(ATTACK_BUTTON);
         attackButton.setEnabled(false);
-        placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON_LABEL);
+        placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON);
         
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
+        setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
         
@@ -117,8 +117,8 @@ public class ReinforcementPanel extends JPanel implements Observer {
         placeArmiesButton.addActionListener(listenerForPlaceArmiesButton);
     }
     
-    public void addDoneButtonListener(ActionListener listenerForDoneButton) {
-        goToFortificationButton.addActionListener(listenerForDoneButton);
+    public void addGoToFortificationButtonListener(ActionListener listenerForGoToFortificationButton) {
+        goToFortificationButton.addActionListener(listenerForGoToFortificationButton);
     }
     
     public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
