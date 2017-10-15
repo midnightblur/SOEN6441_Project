@@ -18,7 +18,8 @@ public class GamePlayController {
     /* Constructors */
     
     /**
-     * Constructor for the mainGameController responsible of launching the game phases
+     * Constructor for the mainGameController
+     * responsible of launching the game phases
      *
      * @param mainGameController the caller to be used to go back
      */

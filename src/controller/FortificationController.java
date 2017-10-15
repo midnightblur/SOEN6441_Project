@@ -24,28 +24,28 @@ public class FortificationController {
     /* Constructors */
     
     /**
-     * The constructor
+     * Constructor for the Fortification Controller
+     * responsible for placing armies to player territories
      *
      * @param gamePlayFrame the main frame
      */
     public FortificationController(GamePlayFrame gamePlayFrame) {
         this.gamePlayFrame = gamePlayFrame;
         fortificationPanel = new FortificationPanel();
-        gamePlayFrame.getContentPane().setRightComponent(fortificationPanel);
-        setDivider(gamePlayFrame.getContentPane());
-        
-        riskGame = getInstance();
-        currentPlayer = riskGame.getCurrPlayer();
-        riskGame.setGameState(FORTIFICATION_PHASE);
-        
         fortificationModel = new FortificationModel();
         
+        gamePlayFrame.getContentPane().setRightComponent(fortificationPanel);
+        setDivider(gamePlayFrame.getContentPane());
+        riskGame = getInstance();
+        currentPlayer = riskGame.getCurrPlayer();
+        
+        riskGame.setGameState(FORTIFICATION_PHASE);
 
         /* Register Observer to Observable */
-        fortificationModel.addObserver(fortificationPanel);
-        currentPlayer.addObserver(fortificationPanel);
         riskGame.addObserver(fortificationPanel);
-        
+        currentPlayer.addObserver(fortificationPanel);
+        fortificationModel.addObserver(fortificationPanel);
+
         /* Register to be ActionListeners */
         fortificationPanel.addDoneButtonListener(e -> nextPlayer());
         fortificationPanel.addMoveArmiesButtonListener(e -> moveArmies());

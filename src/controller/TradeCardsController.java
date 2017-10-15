@@ -27,31 +27,32 @@ public class TradeCardsController {
     /* Constructors */
     
     /**
-     * The constructor
+     * Constructor for the Trade Cards Controller
+     * responsible for exchanging cards for armies
      *
      * @param gamePlayFrame the main frame
      */
     public TradeCardsController(GamePlayFrame gamePlayFrame) {
         this.gamePlayFrame = gamePlayFrame;
         tradeCardsPanel = new TradeCardsPanel();
+        
         gamePlayFrame.getContentPane().setRightComponent(tradeCardsPanel);
         setDivider(gamePlayFrame.getContentPane());
-        
         riskGame = RiskGame.getInstance();
         currentPlayer = riskGame.getCurrPlayer();
+        
         riskGame.setGameState(TRADE_IN_PHASE);
         
         /* set control panel */
         populateTradeCardsPanel();
         
         /* Register Observer to Observable */
-        currentPlayer.addObserver(tradeCardsPanel);
         riskGame.addObserver(tradeCardsPanel);
+        currentPlayer.addObserver(tradeCardsPanel);
         
         /* Register to be ActionListeners */
         tradeCardsPanel.addTradeCardsButtonListener(e -> tradeSelectedCards());
         tradeCardsPanel.addBackToReinforcementListener(e -> new ReinforcementController(this.gamePlayFrame));
-        
     }
     
     /* Private methods */

@@ -11,6 +11,7 @@ import javax.swing.table.TableModel;
 import java.util.HashMap;
 import java.util.Map;
 
+import static model.RiskGame.getInstance;
 import static utilities.Config.GAME_STATES.REINFORCEMENT_PHASE;
 import static view.helpers.UIHelper.setDivider;
 
@@ -27,26 +28,30 @@ public class ReinforcementController {
     /* Constructors */
     
     /**
-     * The constructor
+     * Constructor for the Reinforcement Controller
+     * responsible of moving armies to adjacent territories of same player
      *
      * @param gamePlayFrame the main frame
      */
     public ReinforcementController(GamePlayFrame gamePlayFrame) {
-        setDivider(gamePlayFrame.getContentPane());
         this.gamePlayFrame = gamePlayFrame;
         reinforcementPanel = new ReinforcementPanel();
+        
         gamePlayFrame.getContentPane().setRightComponent(reinforcementPanel);
-        riskGame = RiskGame.getInstance();
+        setDivider(gamePlayFrame.getContentPane());
+        riskGame = getInstance();
         currentPlayer = riskGame.getCurrPlayer();
+        
         riskGame.setGameState(REINFORCEMENT_PHASE);
     
         /* set control panel */
         populateReinforcementPanel();
         
         /* Register Observer to Observable */
-        playerTerritoriesModel.addObserver(reinforcementPanel);
+        riskGame.addObserver(reinforcementPanel);
         currentPlayer.addObserver(reinforcementPanel);
-        
+        playerTerritoriesModel.addObserver(reinforcementPanel);
+
         /* Register to be ActionListeners */
         reinforcementPanel.addTradeCardsButtonListener(e -> tradeCards());
         reinforcementPanel.addPlaceArmiesButtonListener(e -> distributeArmies());
@@ -110,16 +115,16 @@ public class ReinforcementController {
     /**
      * Show the controller responsible for trading cards
      */
-    private void tradeCards(){
+    private void tradeCards() {
         new TradeCardsController(this.gamePlayFrame);
     }
     
-    private void goBackToFortificationPhase(){
+    private void goBackToFortificationPhase() {
         // TODO: this needs fixing so it correctly returns to previous phase
         // TODO: (see true condition in the game and possibly have a setter for it under currentPlayer)
         // riskGame.fortificationPhase();
-    
+        
         new FortificationController(gamePlayFrame);
-    
+        
     }
 }
