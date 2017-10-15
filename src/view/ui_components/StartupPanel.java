@@ -91,18 +91,11 @@ public class StartupPanel extends JPanel implements Observer {
     public JComboBox getTerritoryDropdown() {
         return territoryDropdown;
     }
-
-    public void setTerritoryDropdown(JComboBox territoryDropdown) {
-        this.territoryDropdown = territoryDropdown;
-    }
+    
 
     /* MVC & Observer pattern methods */
     public void addPlaceArmyButtonListener(ActionListener listenerForPlaceArmiesButton) {
         placeArmyButton.addActionListener(listenerForPlaceArmiesButton);
-    }
-
-    public void addTerritoryDropdownListener(ActionListener listenerForTerritoryDropdown) {
-        territoryDropdown.addActionListener(listenerForTerritoryDropdown);
     }
 
     public void addDoneButtonListener(ActionListener listenerForDoneButton) {
