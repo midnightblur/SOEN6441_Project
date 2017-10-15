@@ -14,7 +14,9 @@ public class ContinentTest {
     static int controlValue = 5;
     static Continent continent = new Continent(continentName, controlValue);
     
-    
+    /**
+     *This tesr checks the name of continent
+     */
     @Test
     public void getName() {
         System.out.println("\nTesting for the name of \"Asia\" continent");
