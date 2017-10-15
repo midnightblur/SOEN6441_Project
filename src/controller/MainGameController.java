@@ -7,17 +7,20 @@ import view.screens.MainMenuFrame;
 import java.awt.event.WindowEvent;
 
 /**
- * The Main Game Controller class
+ * The Main Game Controller class is
  * responsible for launching different game screens
  */
 public class MainGameController {
     private MainMenuFrame mainMenuFrame;
-    
+
+    /**
+     * This method is used to launch main screen of application
+     */
     public MainGameController() {
         mainMenuFrame = new MainMenuFrame();
         registerToBeListener();
     }
-    
+
     public void invokeFrame() {
         mainMenuFrame.setVisible(true);
         mainMenuFrame.setEnabled(true);
