@@ -67,7 +67,12 @@ public class FortificationController {
         String source = fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString();
         String target = fortificationPanel.getTargetTerritoryDropdown().getSelectedItem().toString();
         String quantity = fortificationPanel.getArmiesToMoveField().getText();
-        if (!quantity.equals("") && (Integer.parseInt(quantity) > 0) && !target.equals("No neighbours owned. Please select another territory")) {
+        int iQuantity = 0;
+        try {
+            iQuantity = Integer.parseInt(quantity);
+        } catch (NumberFormatException nfe) {
+        }
+        if (!quantity.equals("") && (iQuantity > 0) && !target.equals("No neighbours owned. Please select another territory")) {
             fortificationPanel.getMoveArmiesButton().setEnabled(true);
             String message = riskGame.fortificationPhase(source, target, quantity);
             riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
