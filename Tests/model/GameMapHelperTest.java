@@ -12,13 +12,19 @@ import static org.junit.Assert.assertNull;
 public class GameMapHelperTest {
     private String message;
     private GameMap gameMap;
-    
+
+    /**
+     *This test runs before each testcase
+     */
     @Before
     public void setUp() throws Exception {
-        message = Config.MSG_MAPFILE_VALID;;
+        message = Config.MSG_MAPFILE_VALID;
         gameMap = null;
     }
-    
+
+    /**
+     *This test checks the one way relationship
+     */
     @Test
     public void one_way_relationship() throws Exception {
         try {
@@ -30,7 +36,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, "kamchatka", "alaska"), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks if the continent has no control value
+     */
     @Test
     public void continent_has_no_control_value() throws Exception {
         try {
@@ -42,7 +51,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, 9), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the continent has no territory
+     */
     @Test
     public void continent_has_no_territory() throws Exception {
         try {
@@ -54,7 +66,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_CONTINENT_NO_TERRITORY, "asean"), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks if the continent has been duplicated
+     */
     @Test
     public void duplicated_continent() throws Exception {
         try {
@@ -66,7 +81,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_CONTINENT_DUPLICATED, 15), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the if the territories has been duplicated
+     */
     @Test
     public void duplicated_territories() throws Exception {
         try {
@@ -78,7 +96,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_TERRITORY_DUPLICATED, 18), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the if format is invalid
+     */
     @Test
     public void invalid_format_1() throws Exception {
         try {
@@ -90,7 +111,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_CONTINENT_NOT_DEFINED, 17), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the if format is invalid test 2
+     */
     @Test
     public void invalid_format_2() throws Exception {
         try {
@@ -102,7 +126,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, 1), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the if format is invalid test 3
+     */
     @Test
     public void invalid_format_3() throws Exception {
         try {
@@ -114,7 +141,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, 9), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the if missing coordination
+     */
     @Test
     public void missing_coordination() throws Exception {
         try {
@@ -126,7 +156,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, 17), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the if there is no continent
+     */
     @Test
     public void no_continent() throws Exception {
         try {
@@ -138,7 +171,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_CONTINENT_NOT_DEFINED, 11), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the if there is no neighbour
+     */
     @Test
     public void no_neighbour() throws Exception {
         try {
@@ -150,7 +186,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT, "alaska", 0), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks if there is no territory
+     */
     @Test
     public void no_territory() throws Exception {
         try {
@@ -162,7 +201,10 @@ public class GameMapHelperTest {
         assertEquals(Config.MSG_MAPFILE_INVALID_TERRITORIES_COUNT, message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the if the territory has no continent
+     */
     @Test
     public void territory_has_no_continent() throws Exception {
         try {
@@ -174,7 +216,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_CONTINENT_NOT_DEFINED, 17), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the if there are too many neighbours
+     */
     @Test
     public void too_many_neighbours() throws Exception {
         try {
@@ -186,7 +231,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_INVALID_NEIGHBORS_COUNT, "alaska", 11), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the if there is undefined continent
+     */
     @Test
     public void undefined_continent() throws Exception {
         try {
@@ -198,7 +246,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_CONTINENT_NOT_DEFINED, 16), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the if there is undefined territory
+     */
     @Test
     public void undefined_territory() throws Exception {
         try {

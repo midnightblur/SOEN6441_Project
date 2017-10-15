@@ -15,14 +15,17 @@ public class ContinentTest {
     static Continent continent = new Continent(continentName, controlValue);
     
     /**
-     *This tesr checks the name of continent
+     *This test checks the name of continent
      */
     @Test
     public void getName() {
         System.out.println("\nTesting for the name of \"Asia\" continent");
         assertEquals(continentName, continent.getName());
     }
-    
+
+    /**
+     *This test checks the value of the control
+     */
     @Test
     public void getControlValue() throws Exception {
         System.out.println("\nTesting for the control value of the continent. \nExpecting a value of " + controlValue);
