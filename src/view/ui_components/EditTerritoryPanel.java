@@ -14,7 +14,7 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     private static final String REMOVE_BUTTON_LABEL = "Remove Territory";
     private static final String CHOOSE_TERRITORY = "Choose Territory";
     private static final String TERRITORY_NAME_LABEL = "Territory Name";
-    private static final String CHOOSE_NEIGHBOURS_LABEL = "Choose Neighbours";
+    private static final String CHOOSE_NEIGHBORS_LABEL = "Choose Neighbors";
     private static final String CHOOSE_CONTINENT_LABEL = "Choose Continent";
     private static final int LAYOUT_ROWS = 2;
     private static final int LAYOUT_COLS = 2;
@@ -104,9 +104,9 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         add(new JScrollPane(radioButtonsPanel));
         
         /* Setup Territories Checkbox List */
-        JLabel chooseNeighboursLabel = new JLabel(CHOOSE_NEIGHBOURS_LABEL);
-        chooseNeighboursLabel.setAlignmentX(CENTER_ALIGNMENT);
-        add(chooseNeighboursLabel);
+        JLabel chooseNeighborsLabel = new JLabel(CHOOSE_NEIGHBORS_LABEL);
+        chooseNeighborsLabel.setAlignmentX(CENTER_ALIGNMENT);
+        add(chooseNeighborsLabel);
         checkBoxPanel = new JPanel(new GridLayout(0, 3));
         add(new JScrollPane(checkBoxPanel));
         

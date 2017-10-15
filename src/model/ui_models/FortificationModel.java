@@ -48,15 +48,15 @@ public class FortificationModel extends Observable {
      */
     public void setTargetTerritoriesList(String selectedTerritory) {
         targetTerritoriesList.clear();
-        Vector<String> neighbours = riskGame.getGameMap().getATerritory(selectedTerritory).getNeighbors();
-        for (String n : neighbours) {  // if neighbour is owned by current player, add it to the lost
+        Vector<String> neighbors = riskGame.getGameMap().getATerritory(selectedTerritory).getNeighbors();
+        for (String n : neighbors) {  // if neighbor is owned by current player, add it to the lost
             if (riskGame.getGameMap().getATerritory(n).isOwnedBy(currentPlayer.getPlayerID())
                     && !n.equals(selectedTerritory)) {
                 targetTerritoriesList.add(n);
             }
         }
         if (targetTerritoriesList.size() == 0) {
-            targetTerritoriesList.add("No neighbours owned. Please select another territory");
+            targetTerritoriesList.add("No neighbors owned. Please select another territory");
         }
         broadcastGamePlayChanges();
     }

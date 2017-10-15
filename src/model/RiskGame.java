@@ -10,9 +10,7 @@ import model.ui_models.MapTableModel;
 import java.util.*;
 
 import static utilities.Config.GAME_STATES;
-import static utilities.Config.GAME_STATES.ENTRY_MENU;
-import static utilities.Config.GAME_STATES.REINFORCEMENT_PHASE;
-import static utilities.Config.GAME_STATES.STARTUP_PHASE;
+import static utilities.Config.GAME_STATES.*;
 import static utilities.Config.INITIAL_ARMY_RATIO;
 
 /**
@@ -195,7 +193,7 @@ public class RiskGame extends Observable {
             return exceptionResult;
         }
         
-        // validate if the two territories are owned by the player, are different, and are neighbours.
+        // validate if the two territories are owned by the player, are different, and are neighbors.
         if (terrFrom.isOwnedBy(currPlayer.getPlayerID()) && !terrFrom.equals(terrTo)
                 && terrFrom.isNeighbor(terrTo.getName())) {
             if (terrFrom.getArmies() > 1 && armiesToMove < terrFrom.getArmies()) {
@@ -211,7 +209,7 @@ public class RiskGame extends Observable {
                 return "No armies moved!\nYou must always have at least 1 army in each Territory";
             }
         }
-        return "No armies moved!\nYou must pick two Territories that are neighbours.";
+        return "No armies moved!\nYou must pick two Territories that are neighbors.";
     }
     
     /**

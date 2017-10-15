@@ -93,9 +93,9 @@ public class Territory extends Observable {
     /* Public methods */
     
     /**
-     * Add a territory as new neighbour
+     * Add a territory as new neighbor
      *
-     * @param territoryName territory name of the neighbour
+     * @param territoryName territory name of the neighbor
      */
     public void addNeighbor(String territoryName) {
         if (!neighbors.contains(territoryName)) {
@@ -104,7 +104,7 @@ public class Territory extends Observable {
         }
     }
     
-    public void removeNeighbour(String territoryName) {
+    public void removeNeighbor(String territoryName) {
         if (neighbors.contains(territoryName)) {
             neighbors.remove(territoryName);
             broadcastTerritoryChanges();
@@ -116,11 +116,11 @@ public class Territory extends Observable {
     }
     
     /**
-     * Check if the given Territory is a neighbour
+     * Check if the given Territory is a neighbor
      *
      * @param territoryName
      *
-     * @return true if given territory name is an neighbour, false otherwise
+     * @return true if given territory name is an neighbor, false otherwise
      */
     public boolean isNeighbor(String territoryName) {
         return neighbors.contains(territoryName);
@@ -181,9 +181,9 @@ public class Territory extends Observable {
     }
     
     /**
-     * Get the number of neighbours of the territory
+     * Get the number of neighbors of the territory
      *
-     * @return the count of neighbours
+     * @return the count of neighbors
      */
     public int getNeighborsCount() {
         return neighbors.size();

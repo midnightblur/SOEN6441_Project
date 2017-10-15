@@ -173,12 +173,12 @@ public class GameMapHelperTest {
     }
 
     /**
-     *This test checks the if there is no neighbour
+     *This test checks the if there is no neighbor
      */
     @Test
-    public void no_neighbour() throws Exception {
+    public void no_neighbor() throws Exception {
         try {
-            gameMap = GameMapHelper.loadGameMap("invalid_maps/no_neighbour.map");
+            gameMap = GameMapHelper.loadGameMap("invalid_maps/no_neighbor.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
@@ -218,12 +218,12 @@ public class GameMapHelperTest {
     }
 
     /**
-     *This test checks the if there are too many neighbours
+     *This test checks the if there are too many neighbors
      */
     @Test
-    public void too_many_neighbours() throws Exception {
+    public void too_many_neighbors() throws Exception {
         try {
-            gameMap = GameMapHelper.loadGameMap("invalid_maps/too_many_neighbours.map");
+            gameMap = GameMapHelper.loadGameMap("invalid_maps/too_many_neighbors.map");
         } catch (Exception e) {
             message = e.getMessage();
         }

@@ -72,7 +72,7 @@ public class FortificationController {
             iQuantity = Integer.parseInt(quantity);
         } catch (NumberFormatException nfe) {
         }
-        if (!quantity.equals("") && (iQuantity > 0) && !target.equals("No neighbours owned. Please select another territory")) {
+        if (!quantity.equals("") && (iQuantity > 0) && !target.equals("No neighbors owned. Please select another territory")) {
             fortificationPanel.getMoveArmiesButton().setEnabled(true);
             String message = riskGame.fortificationPhase(source, target, quantity);
             riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());

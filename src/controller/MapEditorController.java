@@ -268,14 +268,14 @@ public class MapEditorController {
             chosenContinent = "";
         }
         Territory newTerritory = new Territory(newTerritoryName, chosenContinent);
-        Vector<String> neighbourVector = new Vector<>();
+        Vector<String> neighborVector = new Vector<>();
         for (Component component : mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getCheckBoxPanel().getComponents()) {
             JCheckBox checkBox = (JCheckBox) component;
             if (checkBox.isSelected()) {
-                neighbourVector.add(checkBox.getText());
+                neighborVector.add(checkBox.getText());
             }
         }
-        newTerritory.setNeighbors(neighbourVector);
+        newTerritory.setNeighbors(neighborVector);
         
         if (mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getSaveTerritoryButton().getText().compareTo(EditTerritoryPanel.getAddButtonLabel()) == 0) {
             /* Adding new territory */

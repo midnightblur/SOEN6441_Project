@@ -31,14 +31,14 @@ public class MapTable extends JTable implements Observer {
     private void resizeColumns() {
         final TableColumnModel columnModel = getColumnModel();
         for (int c = 0; c < getColumnCount(); c++) {
-            int width = 10; // minimum width
+            int width = 5; // minimum width
             for (int r = 0; r < getRowCount(); r++) {
                 TableCellRenderer renderer = getCellRenderer(r, c);
                 Component comp = prepareRenderer(renderer, r, c);
                 width = Math.max(comp.getPreferredSize().width + 1, width);
             }
-            if (width > 400)    // cap the width
-                width = 400;
+            if (width > 500)    // cap the width
+                width = 500;
             columnModel.getColumn(c).setPreferredWidth(width);
         }
     }
@@ -50,10 +50,14 @@ public class MapTable extends JTable implements Observer {
     
     @Override
     public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+        setRowHeight(20);
+        getColumn("Continent").setPreferredWidth(5);
+        getColumn("Territory").setPreferredWidth(10);
+        getColumn("Neighbors").setPreferredWidth(500);
         Component c = super.prepareRenderer(renderer, row, col);
         String continent = (String) getValueAt(row, 0);
         if (!"  ".equals(continent)) {
-            c.setFont(new Font("Sans Serif", Font.ITALIC, 14));
+            c.setFont(new Font("Sans Serif", Font.ITALIC, 16));
             c.setBackground(Color.BLACK);
             c.setForeground(Color.WHITE);
         } else {
@@ -65,10 +69,13 @@ public class MapTable extends JTable implements Observer {
             Color[] colors = { Color.BLUE, Color.RED, Color.MAGENTA, Color.GREEN, Color.GRAY, Color.PINK };
             for (int i = 0; i < colors.length; i++) {
                 if (("Player " + Integer.toString(i + 1)).equals(owner)) {
+                    c.setFont(new Font("Sans Serif", Font.ITALIC, 16));
                     c.setBackground(Color.WHITE);
                     c.setForeground(colors[i]);
                 }
             }
+            getColumn("Owner").setPreferredWidth(10);
+            getColumn("Armies").setPreferredWidth(5);
         }
         return c;
     }

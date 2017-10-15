@@ -1,6 +1,9 @@
 package model.game_entities;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Vector;
 
 /**
  * GameMap class is used to store a map information read from or to write to a map text file
@@ -113,11 +116,11 @@ public class GameMap {
             continent.addTerritory(territory.getName());
         }
         
-        /* Add the territory to be neighbour of its neighbours */
-        for (String neighbourName : territory.getNeighbors()) {
-            Territory neighbour = getATerritory(neighbourName);
-            if (neighbour != null) { // neighbour will be null in case of building new gamemap from a text file
-                neighbour.addNeighbor(territory.getName());
+        /* Add the territory to be neighbor of its neighbors */
+        for (String neighborName : territory.getNeighbors()) {
+            Territory neighbor = getATerritory(neighborName);
+            if (neighbor != null) { // neighbor will be null in case of building new gamemap from a text file
+                neighbor.addNeighbor(territory.getName());
             }
         }
         
@@ -149,16 +152,16 @@ public class GameMap {
         Continent newContinent = getAContinent(newTerritory.getContinent());
         newContinent.addTerritory(newTerritory.getName());
         
-        /* Remove territory from its old neighbours */
-        for (String neighbourName : oldTerritory.getNeighbors()) {
-            Territory neighbour = getATerritory(neighbourName);
-            neighbour.removeNeighbour(oldTerritory.getName());
+        /* Remove territory from its old neighbors */
+        for (String neighborName : oldTerritory.getNeighbors()) {
+            Territory neighbor = getATerritory(neighborName);
+            neighbor.removeNeighbor(oldTerritory.getName());
         }
         
-        /* Add new territory to its new neighbours */
-        for (String neighbourName : newTerritory.getNeighbors()) {
-            Territory neighbour = getATerritory(neighbourName);
-            neighbour.addNeighbor(newTerritory.getName());
+        /* Add new territory to its new neighbors */
+        for (String neighborName : newTerritory.getNeighbors()) {
+            Territory neighbor = getATerritory(neighborName);
+            neighbor.addNeighbor(newTerritory.getName());
         }
         
         /* Update the territory in the territories list */
@@ -186,10 +189,10 @@ public class GameMap {
             continent.removeTerritory(territoryName);
         }
         
-        /* Remove the territory from being neighbour to other territories */
-        for (String neighbourName : territory.getNeighbors()) {
-            Territory neighbour = getATerritory(neighbourName);
-            neighbour.removeNeighbour(territoryName);
+        /* Remove the territory from being neighbor to other territories */
+        for (String neighborName : territory.getNeighbors()) {
+            Territory neighbor = getATerritory(neighborName);
+            neighbor.removeNeighbor(territoryName);
         }
         
         /* Remove the territory from territories list */

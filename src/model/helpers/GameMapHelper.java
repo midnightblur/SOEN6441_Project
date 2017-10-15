@@ -61,7 +61,7 @@ public class GameMapHelper {
         
         gameMap = new GameMap(mapName);
         Map<String, Continent> continentsMap = new HashMap<>();
-        Set<String> allNeighbours = new HashSet<>(); // Used to check Territories and Neighbours declaration match
+        Set<String> allNeighbors = new HashSet<>(); // Used to check Territories and Neighbors declaration match
         MAP_PARTS mapParts = null;
         while ((line = bufferedReader.readLine()) != null) {
             lineCounter++;
@@ -145,7 +145,7 @@ public class GameMapHelper {
                             Territory territory = new Territory(territoryInfo[0].trim(), continent.getName());
                             for (int i = 4; i < territoryInfo.length; i++) {
                                 territory.addNeighbor(territoryInfo[i].trim());
-                                allNeighbours.add(territoryInfo[i].trim());
+                                allNeighbors.add(territoryInfo[i].trim());
                             }
                             gameMap.addTerritory(territory);
                             break;
@@ -158,8 +158,8 @@ public class GameMapHelper {
             }
         }
         
-        /* Check if territories and neighbours declaration match */
-        if (allNeighbours.size() != gameMap.getTerritoriesCount()) {
+        /* Check if territories and neighbors declaration match */
+        if (allNeighbors.size() != gameMap.getTerritoriesCount()) {
             throw new IllegalArgumentException(Config.MSG_MAPFILE_TERRITORY_NOT_DEFINED);
         }
         
@@ -267,10 +267,10 @@ public class GameMapHelper {
                     // Write Continent name
                     writer.append(territory.getContinent());
                     
-                    // Write Neighbours name
-                    for (String neighbourName : territory.getNeighbors()) {
+                    // Write Neighbors name
+                    for (String neighborName : territory.getNeighbors()) {
                         writer.append(Config.MAPS_DELIMETER_TERRITORIES);
-                        writer.append(neighbourName);
+                        writer.append(neighborName);
                     }
                     
                     writer.append(System.lineSeparator());
@@ -307,7 +307,7 @@ public class GameMapHelper {
     /**
      * The game map is supposed to be a connected graph
      * Meaning there is a path between any two territories in the map
-     * A path is a collection of 2-ways relationships between two neighbours
+     * A path is a collection of 2-ways relationships between two neighbors
      * Using Breadth-First-Search algorithm to check if the graph is connected
      * BFS will create a new graph from any arbitrary node (territory) in the graph (map)
      * If the newly created graph has the same number of nodes as in the original graph
