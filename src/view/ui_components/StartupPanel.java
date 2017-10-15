@@ -85,7 +85,7 @@ public class StartupPanel extends JPanel implements Observer {
         return placeArmiesButton;
     }
 
-    public JComboBox getterritoryDropdown() {
+    public JComboBox getTerritoryDropdown() {
         return territoryDropdown;
     }
 

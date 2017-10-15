@@ -3,105 +3,82 @@ package controller;
 import model.RiskGame;
 import model.game_entities.Player;
 import model.ui_models.FortificationModel;
+import model.ui_models.StartupModel;
 import view.screens.GamePlayFrame;
 import view.ui_components.FortificationPanel;
+import view.ui_components.StartupPanel;
 
 import static model.RiskGame.getInstance;
 import static utilities.Config.GAME_STATES.FORTIFICATION_PHASE;
+import static utilities.Config.GAME_STATES.STARTUP_PHASE;
 import static view.helpers.UIHelper.setDivider;
 
 /**
  * The StartupController class
  */
 public class StartupController {
-    private FortificationPanel fortificationPanel;
+    private StartupPanel startupPanel;
     private GamePlayFrame gamePlayFrame;
     private RiskGame riskGame;
     private Player currentPlayer;
-    private FortificationModel fortificationModel;
+    private StartupModel startupModel;
 
 
     /* Constructors */
 
     /**
      * Constructor for the Startup Controller
-     * responsible for placing armies to player territories
+     * responsible for placing an army to a player territory
      *
      * @param gamePlayFrame the main frame
      */
     public StartupController(GamePlayFrame gamePlayFrame) {
         this.gamePlayFrame = gamePlayFrame;
-        fortificationPanel = new FortificationPanel();
-        fortificationModel = new FortificationModel();
+        startupPanel = new StartupPanel();
+        startupModel = new StartupModel();
 
-        gamePlayFrame.getContentPane().setRightComponent(fortificationPanel);
+        gamePlayFrame.getContentPane().setRightComponent(startupPanel);
         setDivider(gamePlayFrame.getContentPane());
         riskGame = getInstance();
         currentPlayer = riskGame.getCurrPlayer();
 
-        riskGame.setGameState(FORTIFICATION_PHASE);
+        riskGame.setGameState(STARTUP_PHASE);
 
         /* Register Observer to Observable */
-        riskGame.addObserver(fortificationPanel);
-        currentPlayer.addObserver(fortificationPanel);
-        fortificationModel.addObserver(fortificationPanel);
+        riskGame.addObserver(startupPanel);
+        currentPlayer.addObserver(startupPanel);
+        startupModel.addObserver(startupPanel);
 
         /* Register to be ActionListeners */
-        fortificationPanel.addDoneButtonListener(e -> nextPlayer());
-        fortificationPanel.addMoveArmiesButtonListener(e -> moveArmies());
-        fortificationPanel.addSourceTerritoryDropdownListener(e -> fortificationModel.setTargetTerritoriesList(
-                fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString()));
+        startupPanel.addDoneButtonListener(e -> nextPlayer());
+        startupPanel.addPlaceArmiesButtonListener(e -> placeArmy());
 
         /* set control panel */
-        populateFortificationPanel();
+        populateStartupPanel();
     }
 
     /* Private methods */
 
 
     /**
-     * Move armies from selected source territory to selected target territory
-     * If move is successful the action is disabled
+     * Place an army to the selected territory.
      */
-    private void moveArmies() {
-        String source = fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString();
-        String target = fortificationPanel.getTargetTerritoryDropdown().getSelectedItem().toString();
-        String quantity = fortificationPanel.getArmiesToMoveField().getText();
-        int iQuantity = 0;
-        try {
-            iQuantity = Integer.parseInt(quantity);
-        } catch (NumberFormatException nfe) {
-        }
-        if (!quantity.equals("") && (iQuantity > 0) && !target.equals("No neighbours owned. Please select another territory")) {
-            fortificationPanel.getMoveArmiesButton().setEnabled(true);
-            String message = riskGame.fortificationPhase(source, target, quantity);
-            riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
-            // disable the button once armies are moved
-            if (message.toLowerCase().contains("success")) {
-                fortificationPanel.getMoveArmiesButton().setEnabled(false);
-            }
-            gamePlayFrame.displayMessage(message);
-        } else {
-            gamePlayFrame.displayMessage("Please validate your selection.");
-        }
+    private void placeArmy() {
+        String territory = startupPanel.getTerritoryDropdown().getSelectedItem().toString();
     }
 
     /**
-     * Populate the fortification control panel with updated model data
+     * Populate the startup control panel with updated model data
      */
-    private void populateFortificationPanel() {
+    private void populateStartupPanel() {
         /* set the phase label */
-        fortificationPanel.setGameState(riskGame.getGameState());
+        startupPanel.setGameState(riskGame.getGameState());
 
         /* set the player ID label */
-        fortificationPanel.setPlayerID(currentPlayer.getPlayerID());
+        startupPanel.setPlayerID(currentPlayer.getPlayerID());
 
         /* set the source dropdown */
-        fortificationPanel.getSourceTerritoryDropdown().setModel(fortificationModel.getSourceTerritoriesList());
-
-        /* set the target dropdown */
-        fortificationPanel.getTargetTerritoryDropdown().setModel(fortificationModel.getTargetTerritoriesList());
-        fortificationModel.setTargetTerritoriesList(fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString());
+        startupPanel.getTerritoryDropdown().setModel(startupModel.getTerritoriesList());
     }
 
     /**
@@ -110,7 +87,7 @@ public class StartupController {
     public void nextPlayer() {
         riskGame.setCurrPlayerToNextPlayer();
         riskGame.reinforcementPhase();
-        new ReinforcementController(this.gamePlayFrame);
+        new StartupController(this.gamePlayFrame);
     }
 
 }
