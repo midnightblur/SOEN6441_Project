@@ -12,13 +12,19 @@ import static org.junit.Assert.assertNull;
 public class GameMapHelperTest {
     private String message;
     private GameMap gameMap;
-    
+
+    /**
+     *This test runs before each testcase
+     */
     @Before
     public void setUp() throws Exception {
-        message = Config.MSG_MAPFILE_VALID;;
+        message = Config.MSG_MAPFILE_VALID;
         gameMap = null;
     }
-    
+
+    /**
+     *This test checks the one way relationship
+     */
     @Test
     public void one_way_relationship() throws Exception {
         try {
@@ -30,7 +36,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, "kamchatka", "alaska"), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks if the continent has no control value
+     */
     @Test
     public void continent_has_no_control_value() throws Exception {
         try {
@@ -42,7 +51,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_INVALID_FORMAT, 9), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the continent has no territory
+     */
     @Test
     public void continent_has_no_territory() throws Exception {
         try {
@@ -54,7 +66,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_CONTINENT_NO_TERRITORY, "asean"), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks if the continent has been duplicated
+     */
     @Test
     public void duplicated_continent() throws Exception {
         try {
@@ -66,7 +81,10 @@ public class GameMapHelperTest {
         assertEquals(String.format(Config.MSG_MAPFILE_CONTINENT_DUPLICATED, 15), message);
         assertNull(gameMap);
     }
-    
+
+    /**
+     *This test checks the if the territories has been duplicated
+     */
     @Test
     public void duplicated_territories() throws Exception {
         try {
