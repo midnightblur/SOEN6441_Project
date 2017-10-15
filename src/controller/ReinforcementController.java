@@ -78,6 +78,11 @@ public class ReinforcementController {
         playerTerritoriesModel = new PlayerTerritoriesModel(currentPlayer);
         reinforcementPanel.getPlayerTerritoryTable().setModel(playerTerritoriesModel.getModel());
         reinforcementPanel.setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
+        if (currentPlayer.getUnallocatedArmies() == 0) {
+            reinforcementPanel.getGoToFortificationButton().setEnabled(true);
+        } else {
+            reinforcementPanel.getGoToFortificationButton().setEnabled(false);
+        }
     }
     
     /**

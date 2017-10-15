@@ -134,6 +134,10 @@ public class ReinforcementPanel extends JPanel implements Observer {
     public JTable getPlayerTerritoryTable() {
         return playerTerritoryTable;
     }
+
+    public JButton getGoToFortificationButton() {
+        return goToFortificationButton;
+    }
     
     public void setGameState(GAME_STATES gameState) {
         this.gameState.setText("<html><p style=\"color:blue;\">" + gameState.toString() + "</html>");
