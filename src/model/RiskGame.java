@@ -10,7 +10,7 @@ import model.ui_models.MapTableModel;
 import java.util.*;
 
 import static utilities.Config.GAME_STATES;
-import static utilities.Config.GAME_STATES.*;
+import static utilities.Config.GAME_STATES.ENTRY_MENU;
 import static utilities.Config.INITIAL_ARMY_RATIO;
 
 /**
@@ -99,51 +99,43 @@ public class RiskGame extends Observable {
 
 
      /* Public methods */
-
+    
     /**
      * Loads the map specified by the filepath, and initializes the game attributes
      * for a new instance of Risk Game using the specified number of players.
      *
-     * @param filepath String value describing the filepath to the game map text file
+     * @param filepath     String value describing the filepath to the game map text file
      * @param numOfPlayers The specified integer of the number of players that will play the game
      */
-     public void initializeNewGame(String filepath, int numOfPlayers) {
-         try {
-             this.gameMap = GameMapHelper.loadGameMap(filepath);
-         } catch (Exception e) {
-             e.printStackTrace(System.err);
-         }
-
-         // TODO: handle this error someplace else?
-         if (!(numOfPlayers > 1 && numOfPlayers <= gameMap.getTerritoriesCount())) {
-             System.err.println("Invalid number of players. Should catch it in the view.");
-             return;
-         }
+    public void initializeNewGame(String filepath, int numOfPlayers) {
+        try {
+            this.gameMap = GameMapHelper.loadGameMap(filepath);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+        
+        // TODO: handle this error someplace else?
+        if (!(numOfPlayers > 1 && numOfPlayers <= gameMap.getTerritoriesCount())) {
+            System.err.println("Invalid number of players. Should catch it in the view.");
+            return;
+        }
 
          /* initialization of game attributes */
-         initPlayers(numOfPlayers);
-         initDeck();
-         distributeTerritories();
-         giveInitialArmies();
-         assignOneArmyPerTerritory();
-         setCurrPlayer(players.firstElement());
+        initPlayers(numOfPlayers);
+        initDeck();
+        distributeTerritories();
+        giveInitialArmies();
+        assignOneArmyPerTerritory();
+        setCurrPlayer(players.firstElement());
 
           /* Hand out cards for build 1 presentation. To be commented out for normal game play */
-         for (Player player : players) {
-             for (int i = 0; i < 5; i++) {
-                 player.addCardToPlayersHand(drawCard());
-             }
-             System.out.println("player" + player.getPlayerID() + "'s hand: (" + player.getPlayersHand().size() + ")");
-         }
-
-         broadcastGamePlayChanges();
-     }
-
-    /**
-     *
-     */
-    public void startupPhase() {
-        setGameState(STARTUP_PHASE);
+        for (Player player : players) {
+            for (int i = 0; i < 5; i++) {
+                player.addCardToPlayersHand(drawCard());
+            }
+            System.out.println("player" + player.getPlayerID() + "'s hand: (" + player.getPlayersHand().size() + ")");
+        }
+        
         broadcastGamePlayChanges();
     }
     
@@ -154,8 +146,6 @@ public class RiskGame extends Observable {
      * control (to a minimum of 3), and allows players to place those armies.
      */
     public void reinforcementPhase() {
-        setGameState(REINFORCEMENT_PHASE);
-        broadcastGamePlayChanges();
         
         // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
         int armiesToGive = gameMap.getTerritoriesOfPlayer(currPlayer).size() / 3;
@@ -173,8 +163,8 @@ public class RiskGame extends Observable {
      * territories from one another, and must have more armies in the territory than the number
      * of armies specified by the player (a territory must have more than 1 army at minimum).
      *
-     * @param strTerrFrom  String value of the name of the source Territory
-     * @param strTerrTo    String value of the name of the target Territory
+     * @param strTerrFrom     String value of the name of the source Territory
+     * @param strTerrTo       String value of the name of the target Territory
      * @param strArmiesToMove String value of the number of armies to be moved
      *
      * @return String value of the messages that will be displayed to the user
@@ -186,7 +176,7 @@ public class RiskGame extends Observable {
         String exceptionResult = "";
         try {
             armiesToMove = Integer.parseInt(strArmiesToMove);
-        } catch(NumberFormatException nfe) {
+        } catch (NumberFormatException nfe) {
             exceptionResult += "No armies moved!\nYou must enter an integer value for the armies.";
         }
         if (!exceptionResult.equals("")) {
@@ -224,7 +214,7 @@ public class RiskGame extends Observable {
     }
     
     // region Card related helper methods
-
+    
     /**
      * Draws a random card from the deck and returns it.
      *
@@ -389,7 +379,7 @@ public class RiskGame extends Observable {
     public void placeArmy(String territory) {
         currPlayer.reduceUnallocatedArmies(1);
         gameMap.getATerritory(territory).addArmies(1);
-
+        
         broadcastGamePlayChanges();
     }
     
@@ -414,19 +404,19 @@ public class RiskGame extends Observable {
 
 
     /* Private Methods */
-
+    
     /**
      * Private helper method to initialize the players according to
      * the number of players (currPlayers).
      */
     private void initPlayers(int numOfPlayers) {
         System.out.println("Initializing players...");
-
+        
         for (int i = 0; i < numOfPlayers; i++) {
             players.add(new Player());
         }
     }
-
+    
     /**
      * Sets a deck that contains cards from Card class with equal distribution of all the three card types.
      * The total number of cards is set to the closest value to the total number of territories
@@ -445,7 +435,7 @@ public class RiskGame extends Observable {
             typeNumber++;
         }
     }
-
+    
     /**
      * Distributes the territories in the map randomly to the players. Although the territories
      * are distributed randomly, the number of territories should be as evenly distributed as
@@ -453,12 +443,12 @@ public class RiskGame extends Observable {
      */
     private void distributeTerritories() {
         System.out.println("Distributing territories...");
-
+        
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
             territoryArrList.add(entry.getValue().getName());
         }
-
+        
         int playerIndex = 0;
         for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
             if (!(playerIndex < players.size())) {
@@ -470,7 +460,7 @@ public class RiskGame extends Observable {
             territoryArrList.remove(territoryIndex);
         }
     }
-
+    
     /**
      * This method gives initial armies per player according to the following algorithm:
      * [# of initial armies = (total# of territories) * (2.75) / (total# of players)].
@@ -481,7 +471,7 @@ public class RiskGame extends Observable {
             player.setUnallocatedArmies(armiesToGive);
         }
     }
-
+    
     /**
      * For every player, this method automatically assigns one army to all of the territories
      * that player owns. The placed armies get spent from the players' initial given number of
@@ -495,7 +485,7 @@ public class RiskGame extends Observable {
             player.reduceUnallocatedArmies(gameMap.getTerritoriesOfPlayer(player).size());
         }
     }
-
+    
     /**
      * Method to update the GamePlayModel and notify the Observer.
      */

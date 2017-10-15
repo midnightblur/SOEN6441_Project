@@ -22,7 +22,7 @@ public class StartupController {
 
 
     /* Constructors */
-
+    
     /**
      * Constructor for the Startup Controller
      * responsible for placing an army to a player territory
@@ -33,12 +33,12 @@ public class StartupController {
         this.gamePlayFrame = gamePlayFrame;
         startupPanel = new StartupPanel();
         startupModel = new StartupModel();
-
+        
         gamePlayFrame.getContentPane().setRightComponent(startupPanel);
         setDivider(gamePlayFrame.getContentPane());
         riskGame = getInstance();
         currentPlayer = riskGame.getCurrPlayer();
-
+        
         riskGame.setGameState(STARTUP_PHASE);
 
         /* Register Observer to Observable */
@@ -55,8 +55,7 @@ public class StartupController {
     }
 
     /* Private methods */
-
-
+    
     /**
      * Populate the startup control panel with updated model data
      */
@@ -75,7 +74,7 @@ public class StartupController {
         startupPanel.getDoneButton().setEnabled(false);
         startupPanel.getPlaceArmiesButton().setEnabled(true);
     }
-
+    
     /**
      * Place an army to the selected territory.
      */
@@ -90,18 +89,18 @@ public class StartupController {
             gamePlayFrame.displayMessage("Please validate your selection.");
         }
     }
-
+    
     /**
      * Advance the game to next player
      */
     public void nextPlayer() {
         riskGame.setCurrPlayerToNextPlayer();
         if (riskGame.getPlayers().lastElement().getUnallocatedArmies() > 0) {
-            riskGame.startupPhase();
             new StartupController(this.gamePlayFrame);
         } else {
             riskGame.reinforcementPhase();
             new ReinforcementController(this.gamePlayFrame);
         }
     }
+    
 }

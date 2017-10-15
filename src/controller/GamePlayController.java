@@ -2,8 +2,9 @@ package controller;
 
 import model.RiskGame;
 import model.ui_models.MapTableModel;
-import utilities.Config;
 import view.screens.GamePlayFrame;
+
+import static utilities.Config.GAME_STATES.STARTUP_PHASE;
 
 /**
  * Controller to read and set map filepath to the model, and dispatchToController
@@ -28,9 +29,9 @@ public class GamePlayController {
         gamePlayFrame = new GamePlayFrame();
         riskGame = RiskGame.getInstance();
         mapTableModel = riskGame.getMapTableModel();
-
-        riskGame.initializeNewGame(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
-        riskGame.startupPhase();
+        
+        // put the game in initial state
+        riskGame.setGameState(STARTUP_PHASE);
         
         // set the Control Panel to proper frame depending on the game state
         setControlPanel();

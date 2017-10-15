@@ -1,5 +1,7 @@
 package controller;
 
+import model.RiskGame;
+import utilities.Config;
 import view.screens.MainMenuFrame;
 
 import java.awt.event.WindowEvent;
@@ -37,7 +39,9 @@ public class MainGameController {
     private void openPlayGameScreen() {
         mainMenuFrame.setVisible(false);
         mainMenuFrame.setEnabled(false);
-        
+
+        /* initialize the game */
+        RiskGame.getInstance().initializeNewGame(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
         new GamePlayController(this);
     }
     
