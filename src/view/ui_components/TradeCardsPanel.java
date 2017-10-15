@@ -51,6 +51,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
         setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
+        cardList.setLayout(new GridLayout(4,3));
         
         /* Add the elements to the panel */
         controlPanel.add(gameState);
