@@ -35,7 +35,8 @@ public class GamePlayController {
         Config.DEFAULT_MAP should be retrieved from the view's filepath value,
         default number of players should be retrieved from the view's number of players value
          */
-        riskGame.startupPhase(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
+        riskGame.initializeNewGame(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
+        riskGame.startupPhase();
         
         // set the Control Panel to proper frame depending on the game state
         setControlPanel();

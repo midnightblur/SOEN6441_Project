@@ -12,6 +12,7 @@ import java.util.*;
 import static utilities.Config.GAME_STATES;
 import static utilities.Config.GAME_STATES.ENTRY_MENU;
 import static utilities.Config.GAME_STATES.REINFORCEMENT_PHASE;
+import static utilities.Config.GAME_STATES.STARTUP_PHASE;
 import static utilities.Config.INITIAL_ARMY_RATIO;
 
 /**
@@ -27,13 +28,11 @@ import static utilities.Config.INITIAL_ARMY_RATIO;
  */
 public class RiskGame extends Observable {
     private int armyValue = 5;
-    private int numOfContinents;
     private Vector<Card> deck = new Vector<>();
     private Vector<Player> players = new Vector<>();
     private GameMap gameMap;
     private static RiskGame instance = null;
     private GAME_STATES gameState = ENTRY_MENU;
-    private boolean isPlaying = false;
     private Random rand = new Random();
     private Player currPlayer;
     
@@ -86,20 +85,9 @@ public class RiskGame extends Observable {
         return this.currPlayer;
     }
     
-    public boolean getIsPlaying() {
-        return this.isPlaying;
-    }
-    
-    public void setIsPlaying(boolean isPlaying) {
-        this.isPlaying = isPlaying;
-    }
-    
     public int getArmyValue() {
         return this.armyValue;
     }
-    
-    
-    /* Public methods */
     
     public GAME_STATES getGameState() {
         return this.gameState;
@@ -110,46 +98,49 @@ public class RiskGame extends Observable {
     }
     
     // endregion
-    
+
+
+     /* Public methods */
+
+     public void initializeNewGame(String filepath, int numOfPlayers) {
+         try {
+             this.gameMap = GameMapHelper.loadGameMap(filepath);
+         } catch (Exception e) {
+             e.printStackTrace(System.err);
+         }
+
+         // TODO: handle this error someplace else?
+         if (!(numOfPlayers > 1 && numOfPlayers <= gameMap.getTerritoriesCount())) {
+             System.err.println("Invalid number of players. Should catch it in the view.");
+             return;
+         }
+
+         /* initialization of game attributes */
+         initPlayers(numOfPlayers);
+         initDeck();
+         distributeTerritories();
+         giveInitialArmies();
+         setCurrPlayer(players.firstElement());
+
+          /* Hand out cards for build 1 presentation. To be commented out for normal game play */
+         for (Player player : players) {
+             for (int i = 0; i < 5; i++) {
+                 player.addCardToPlayersHand(drawCard());
+             }
+             System.out.println("player" + player.getPlayerID() + "'s hand: (" + player.getPlayersHand().size() + ")");
+         }
+
+         broadcastGamePlayChanges();
+     }
+
     /**
      * Initiates the startup phase before game play. Sets the game map according
      * to the filepath, sets the number of players playing the game, sets the
      * deck of cards, and distributes territories to the players randomly.
-     *
-     * @param filepath     The String value of the path to a valid map file
-     * @param numOfPlayers The int value of the initial number of players
      */
-    public void startupPhase(String filepath, int numOfPlayers) {
-        try {
-            this.gameMap = GameMapHelper.loadGameMap(filepath);
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-        }
-        
-        // TODO: handle this error someplace else?
-        if (!(numOfPlayers > 1 && numOfPlayers <= gameMap.getTerritoriesCount())) {
-            System.err.println("Invalid number of players. Should catch it in the view.");
-            return;
-        }
-        
-        initPlayers(numOfPlayers);
-        initDeck();
-        distributeTerritories();
-        giveInitialArmies();
-        placeArmies();
-        setCurrPlayer(players.firstElement());
-        setGameState(REINFORCEMENT_PHASE);
+    public void startupPhase() {
+        setGameState(STARTUP_PHASE);
         broadcastGamePlayChanges();
-        
-         /* Hand out cards for build 1 presentation. To be commented out for normal game play */
-        for (Player player : players) {
-            for (int i = 0; i < 5; i++) {
-                player.addCardToPlayersHand(drawCard());
-            }
-            System.out.println("player" + player.getPlayerID() + "'s hand: (" + player.getPlayersHand().size() + ")");
-        }
-        
-        reinforcementPhase();
     }
     
     /**
@@ -218,18 +209,6 @@ public class RiskGame extends Observable {
     }
     
     /**
-     * Method to initialize the players according to
-     * the number of players (currPlayers).
-     */
-    public void initPlayers(int numOfPlayers) {
-        System.out.println("Initializing players...");
-        
-        for (int i = 0; i < numOfPlayers; i++) {
-            players.add(new Player());
-        }
-    }
-    
-    /**
      * Method to set the current player (turn) to the next player waiting to play his/her turn.
      */
     public void setCurrPlayerToNextPlayer() {
@@ -241,26 +220,7 @@ public class RiskGame extends Observable {
     }
     
     // region Card related helper methods
-    
-    /**
-     * Sets a deck that contains cards from Card class with equal distribution of all the three card types.
-     * The total number of cards is set to the closest value to the total number of territories
-     * that is a factor of three, and is greater or equal to the total number of territories.
-     */
-    public void initDeck() {
-        System.out.println("Initializing deck...");
-        int typeNumber = 0;
-        int numOfCards = gameMap.getTerritoriesCount() +
-                (gameMap.getTerritoriesCount() % Card.getTypesCount()) * Card.getTypesCount();
-        for (int i = 0; i < numOfCards; i++) {
-            if (!(typeNumber < Card.getTypesCount())) {
-                typeNumber = 0;
-            }
-            deck.add(new Card(typeNumber));
-            typeNumber++;
-        }
-    }
-    
+
     /**
      * Draws a random card from the deck and returns it.
      *
@@ -538,7 +498,41 @@ public class RiskGame extends Observable {
         }
         broadcastGamePlayChanges();
     }
-    
+
+
+    /* Private Methods */
+
+    /**
+     * Private helper method to initialize the players according to
+     * the number of players (currPlayers).
+     */
+    private void initPlayers(int numOfPlayers) {
+        System.out.println("Initializing players...");
+
+        for (int i = 0; i < numOfPlayers; i++) {
+            players.add(new Player());
+        }
+    }
+
+    /**
+     * Sets a deck that contains cards from Card class with equal distribution of all the three card types.
+     * The total number of cards is set to the closest value to the total number of territories
+     * that is a factor of three, and is greater or equal to the total number of territories.
+     */
+    private void initDeck() {
+        System.out.println("Initializing deck...");
+        int typeNumber = 0;
+        int numOfCards = gameMap.getTerritoriesCount() +
+                (gameMap.getTerritoriesCount() % Card.getTypesCount()) * Card.getTypesCount();
+        for (int i = 0; i < numOfCards; i++) {
+            if (!(typeNumber < Card.getTypesCount())) {
+                typeNumber = 0;
+            }
+            deck.add(new Card(typeNumber));
+            typeNumber++;
+        }
+    }
+
     /**
      * Method to update the GamePlayModel and notify the Observer.
      */
