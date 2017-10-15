@@ -28,13 +28,7 @@ public class GamePlayController {
         gamePlayFrame = new GamePlayFrame();
         riskGame = RiskGame.getInstance();
         mapTableModel = riskGame.getMapTableModel();
-        
-        // TODO: the following method calls should be moved to be part of StartupListener class which implements the ActionListener class
-        /*
-        initStartUp should only take 1 param like 'new StartupListener()'.
-        Config.DEFAULT_MAP should be retrieved from the view's filepath value,
-        default number of players should be retrieved from the view's number of players value
-         */
+
         riskGame.initializeNewGame(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
         riskGame.startupPhase();
         
@@ -69,6 +63,9 @@ public class GamePlayController {
      */
     private void setControlPanel() {
         switch (RiskGame.getInstance().getGameState()) {
+            case STARTUP_PHASE:
+                new StartupController(gamePlayFrame);
+                break;
             case REINFORCEMENT_PHASE:
                 new ReinforcementController(gamePlayFrame);
                 break;

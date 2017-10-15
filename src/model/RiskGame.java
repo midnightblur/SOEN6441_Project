@@ -102,6 +102,13 @@ public class RiskGame extends Observable {
 
      /* Public methods */
 
+    /**
+     * Loads the map specified by the filepath, and initializes the game attributes
+     * for a new instance of Risk Game using the specified number of players.
+     *
+     * @param filepath String value describing the filepath to the game map text file
+     * @param numOfPlayers The specified integer of the number of players that will play the game
+     */
      public void initializeNewGame(String filepath, int numOfPlayers) {
          try {
              this.gameMap = GameMapHelper.loadGameMap(filepath);
@@ -120,6 +127,7 @@ public class RiskGame extends Observable {
          initDeck();
          distributeTerritories();
          giveInitialArmies();
+         assignOneArmyPerTerritory();
          setCurrPlayer(players.firstElement());
 
           /* Hand out cards for build 1 presentation. To be commented out for normal game play */
@@ -134,9 +142,7 @@ public class RiskGame extends Observable {
      }
 
     /**
-     * Initiates the startup phase before game play. Sets the game map according
-     * to the filepath, sets the number of players playing the game, sets the
-     * deck of cards, and distributes territories to the players randomly.
+     *
      */
     public void startupPhase() {
         setGameState(STARTUP_PHASE);
@@ -233,7 +239,6 @@ public class RiskGame extends Observable {
         deck.trimToSize();
         return card;
     }
-    
     
     /**
      * This method changes the game state to TRADE_IN_PHASE and processes the exchange
@@ -378,114 +383,24 @@ public class RiskGame extends Observable {
     // endregion
     
     /**
-     * Distributes the territories in the map randomly to the players. Although the territories
-     * are distributed randomly, the number of territories should be as evenly distributed as
-     * possible between all of the players.
-     */
-    public void distributeTerritories() {
-        System.out.println("Distributing territories...");
-        
-        ArrayList<String> territoryArrList = new ArrayList<>();
-        for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
-            territoryArrList.add(entry.getValue().getName());
-        }
-        
-        int playerIndex = 0;
-        for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
-            if (!(playerIndex < players.size())) {
-                playerIndex = 0;
-            }
-            int territoryIndex = rand.nextInt(territoryArrList.size());
-            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
-            playerIndex++;
-            territoryArrList.remove(territoryIndex);
-        }
-    }
-    
-    /**
-     * This method gives initial armies per player according to the following algorithm:
-     * [# of initial armies = (total# of territories) * (2.75) / (total# of players)].
-     */
-    public void giveInitialArmies() {
-        int armiesToGive = (int) (gameMap.getTerritoriesCount() * INITIAL_ARMY_RATIO / players.size());
-        for (Player player : players) {
-            player.setUnallocatedArmies(armiesToGive);
-        }
-    }
-    
-    /**
-     * This method allows the players to allocate all of the unallocated armies in a
-     * round-robin fashion.
-     */
-    public void placeArmies() {
-        boolean noMoreArmies = false;
-        int playerIndex = 0;
-        while (!noMoreArmies) {
-            ArrayList<Territory> territoryList = new ArrayList<>();
-            if (!(playerIndex < players.size())) {
-                playerIndex = 0;
-            }
-            // Add a player's territories to list if they do not contain any armies
-            for (Map.Entry<String, Territory> entry :
-                    gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).entrySet()) {
-                if (entry.getValue().getArmies() == 0) {
-                    territoryList.add(entry.getValue());
-                }
-            }
-            // If there are no territories without any armies, then add all of player's territories to the list.
-            if (territoryList.size() == 0) {
-                for (Map.Entry<String, Territory> entry :
-                        gameMap.getTerritoriesOfPlayer(players.elementAt(playerIndex)).entrySet()) {
-                    territoryList.add(entry.getValue());
-                }
-            }
-            int territoryIndex = rand.nextInt(territoryList.size());
-            territoryList.get(territoryIndex).addArmies(1);
-            players.elementAt(playerIndex).reduceUnallocatedArmies(1);
-            playerIndex++;
-            noMoreArmies = true;
-            for (Player player : players) {
-                if (player.getUnallocatedArmies() != 0) {
-                    noMoreArmies = false;
-                }
-            }
-        }
-    }
-    
-    /**
-     * Overloaded method to place armies for a specific player until the player
-     * has no more armies to place.
+     * This method allows the players to allocate an unallocated army to a territory that
+     * the player owns.
      *
-     * @param player The object of Player class
+     * @param territory The name of the territory as String to place an army on
      */
-    public void placeArmies(Player player) {
-        while (player.getUnallocatedArmies() != 0) {
-            ArrayList<Territory> territoryList = new ArrayList<>();
-            // Add a player's territories to list if they do not contain any armies
-            for (Map.Entry<String, Territory> entry :
-                    gameMap.getTerritoriesOfPlayer(player).entrySet()) {
-                if (entry.getValue().getArmies() == 0) {
-                    territoryList.add(entry.getValue());
-                }
-            }
-            // If there are no territories without any armies, then add all of player's territories to the list.
-            if (territoryList.size() == 0) {
-                for (Map.Entry<String, Territory> entry :
-                        gameMap.getTerritoriesOfPlayer(player).entrySet()) {
-                    territoryList.add(entry.getValue());
-                }
-            }
-            int territoryIndex = rand.nextInt(territoryList.size());
-            territoryList.get(territoryIndex).addArmies(1);
-            player.reduceUnallocatedArmies(1);
-        }
+    public void placeArmy(String territory) {
+        currPlayer.reduceUnallocatedArmies(1);
+        gameMap.getATerritory(territory).addArmies(1);
+
+        broadcastGamePlayChanges();
     }
     
     /**
-     * A method that overrides placeArmies method to allow a player to place armies to the
-     * Territories as specified from the Reinforcement Phase view panel.
+     * A method that allows a player to place armies to the territories as specified
+     * from the Reinforcement Phase view panel.
      *
-     * @param armiesToPlace Map that contains the key of Territory objects and values of Integer to represent armies
+     * @param armiesToPlace Map that contains the key of Territory objects and values
+     *                      of Integer to represent armies
      */
     public void placeArmies(Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
@@ -530,6 +445,56 @@ public class RiskGame extends Observable {
             }
             deck.add(new Card(typeNumber));
             typeNumber++;
+        }
+    }
+
+    /**
+     * Distributes the territories in the map randomly to the players. Although the territories
+     * are distributed randomly, the number of territories should be as evenly distributed as
+     * possible between all of the players.
+     */
+    private void distributeTerritories() {
+        System.out.println("Distributing territories...");
+
+        ArrayList<String> territoryArrList = new ArrayList<>();
+        for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
+            territoryArrList.add(entry.getValue().getName());
+        }
+
+        int playerIndex = 0;
+        for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
+            if (!(playerIndex < players.size())) {
+                playerIndex = 0;
+            }
+            int territoryIndex = rand.nextInt(territoryArrList.size());
+            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
+            playerIndex++;
+            territoryArrList.remove(territoryIndex);
+        }
+    }
+
+    /**
+     * This method gives initial armies per player according to the following algorithm:
+     * [# of initial armies = (total# of territories) * (2.75) / (total# of players)].
+     */
+    private void giveInitialArmies() {
+        int armiesToGive = (int) (gameMap.getTerritoriesCount() * INITIAL_ARMY_RATIO / players.size());
+        for (Player player : players) {
+            player.setUnallocatedArmies(armiesToGive);
+        }
+    }
+
+    /**
+     * For every player, this method automatically assigns one army to all of the territories
+     * that player owns. The placed armies get spent from the players' initial given number of
+     * unallocated armies
+     */
+    private void assignOneArmyPerTerritory() {
+        for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
+            entry.getValue().addArmies(1);
+        }
+        for (Player player : players) {
+            player.reduceUnallocatedArmies(gameMap.getTerritoriesOfPlayer(player).size());
         }
     }
 

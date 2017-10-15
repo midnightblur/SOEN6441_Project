@@ -1,6 +1,5 @@
 package view.ui_components;
 
-import model.ui_models.FortificationModel;
 import model.ui_models.StartupModel;
 import utilities.Config;
 

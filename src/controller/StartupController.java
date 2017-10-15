@@ -2,14 +2,11 @@ package controller;
 
 import model.RiskGame;
 import model.game_entities.Player;
-import model.ui_models.FortificationModel;
 import model.ui_models.StartupModel;
 import view.screens.GamePlayFrame;
-import view.ui_components.FortificationPanel;
 import view.ui_components.StartupPanel;
 
 import static model.RiskGame.getInstance;
-import static utilities.Config.GAME_STATES.FORTIFICATION_PHASE;
 import static utilities.Config.GAME_STATES.STARTUP_PHASE;
 import static view.helpers.UIHelper.setDivider;
 
@@ -61,13 +58,6 @@ public class StartupController {
 
 
     /**
-     * Place an army to the selected territory.
-     */
-    private void placeArmy() {
-        String territory = startupPanel.getTerritoryDropdown().getSelectedItem().toString();
-    }
-
-    /**
      * Populate the startup control panel with updated model data
      */
     private void populateStartupPanel() {
@@ -82,12 +72,30 @@ public class StartupController {
     }
 
     /**
+     * Place an army to the selected territory.
+     */
+    private void placeArmy() {
+        String territory = startupPanel.getTerritoryDropdown().getSelectedItem().toString();
+        if (territory != null || !territory.equals("")) {
+            riskGame.placeArmy(territory);
+            riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
+            gamePlayFrame.displayMessage("Successfully placed 1 army in " + territory + "!");
+        } else {
+            gamePlayFrame.displayMessage("Please validate your selection.");
+        }
+    }
+
+    /**
      * Advance the game to next player
      */
     public void nextPlayer() {
         riskGame.setCurrPlayerToNextPlayer();
-        riskGame.reinforcementPhase();
-        new StartupController(this.gamePlayFrame);
+        if (riskGame.getPlayers().lastElement().getUnallocatedArmies() > 0) {
+            riskGame.startupPhase();
+            new StartupController(this.gamePlayFrame);
+        } else {
+            riskGame.reinforcementPhase();
+            new ReinforcementController(this.gamePlayFrame);
+        }
     }
-
 }
