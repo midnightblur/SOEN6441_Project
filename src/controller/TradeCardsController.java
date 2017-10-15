@@ -89,15 +89,18 @@ public class TradeCardsController {
             }
         }
         String message = riskGame.tradeInCards(selectedCards);
-        gamePlayFrame.displayErrorMessage(message);
-        listCards();
+        listCards(); // this will remove used cards
+        gamePlayFrame.displayMessage(message);
     }
     
-    public void listCards(){
+    public void listCards() {
+        tradeCardsPanel.getCardList().removeAll();
         for (Card card : currentPlayer.getPlayersHand()) {
             JCheckBox checkBox = new JCheckBox();
             checkBox.setText(card.getCardType());
             tradeCardsPanel.getCardList().add(checkBox);
         }
+        tradeCardsPanel.getCardList().revalidate();
+        tradeCardsPanel.getCardList().repaint();
     }
 }

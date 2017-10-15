@@ -21,10 +21,12 @@ public class FortificationController {
     private FortificationModel fortificationModel;
     
     
+    /* Constructors */
+    
     /**
-     * Constructor
+     * The constructor
      *
-     * @param gamePlayFrame
+     * @param gamePlayFrame the main frame
      */
     public FortificationController(GamePlayFrame gamePlayFrame) {
         this.gamePlayFrame = gamePlayFrame;
@@ -37,7 +39,6 @@ public class FortificationController {
         riskGame.setGameState(FORTIFICATION_PHASE);
         
         fortificationModel = new FortificationModel();
-        
         
 
         /* Register Observer to Observable */
@@ -57,12 +58,27 @@ public class FortificationController {
     
     /* Private methods */
     
+    
+    /**
+     * Move armies from selected source territory to selected target territory
+     * If move is successful the action is disabled
+     */
     private void moveArmies() {
-        riskGame.fortificationPhase(
-                fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString(),
-                fortificationPanel.getTargetTerritoryDropdown().getSelectedItem().toString(),
-                fortificationPanel.getArmiesToMoveField().getText());
-        riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
+        String source = fortificationPanel.getSourceTerritoryDropdown().getSelectedItem().toString();
+        String target = fortificationPanel.getTargetTerritoryDropdown().getSelectedItem().toString();
+        String quantity = fortificationPanel.getArmiesToMoveField().getText();
+        if (!quantity.equals("") && (Integer.parseInt(quantity) > 0) && !target.equals("No neighbours owned. Please select another territory")) {
+            fortificationPanel.getMoveArmiesButton().setEnabled(true);
+            String message = riskGame.fortificationPhase(source, target, quantity);
+            riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
+            // disable the button once armies are moved
+            if (message.toLowerCase().contains("success")) {
+                fortificationPanel.getMoveArmiesButton().setEnabled(false);
+            }
+            gamePlayFrame.displayMessage(message);
+        } else {
+            gamePlayFrame.displayMessage("Please validate your selection.");
+        }
     }
     
     /**

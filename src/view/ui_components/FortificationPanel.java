@@ -46,13 +46,14 @@ public class FortificationPanel extends JPanel implements Observer {
         sourceTerritoryDropdown = new JComboBox<>();
         targetTerritoryDropdown = new JComboBox<>();
         moveArmiesButton = new JButton(MOVE_ARMIES_BUTTON);
+        moveArmiesButton.setForeground(Color.BLUE);
         doneButton = new JButton(DONE_BUTTON);
 
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
         JPanel controlPanel = new JPanel();
-        controlPanel.setLayout(new GridLayout(20,1));
+        controlPanel.setLayout(new GridLayout(20, 1));
         
         /* Add the elements to the panel */
         controlPanel.add(gameState);
@@ -125,6 +126,7 @@ public class FortificationPanel extends JPanel implements Observer {
     public void addDoneButtonListener(ActionListener listenerForDoneButton) {
         doneButton.addActionListener(listenerForDoneButton);
     }
+    
     
     @Override
     public void update(Observable o, Object arg) {

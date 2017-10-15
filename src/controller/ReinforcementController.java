@@ -25,6 +25,12 @@ public class ReinforcementController {
     private Player currentPlayer;
     
     /* Constructors */
+    
+    /**
+     * The constructor
+     *
+     * @param gamePlayFrame the main frame
+     */
     public ReinforcementController(GamePlayFrame gamePlayFrame) {
         setDivider(gamePlayFrame.getContentPane());
         this.gamePlayFrame = gamePlayFrame;
@@ -91,13 +97,13 @@ public class ReinforcementController {
             riskGame.placeArmies(armiesToPlace);
             riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
             populateReinforcementPanel();
-            gamePlayFrame.displayErrorMessage("The armies were placed successfully");
+            gamePlayFrame.displayMessage("The armies were placed successfully");
             // reset the armies to zero
             for (int r = 0; r < armiesData.getRowCount(); r++) {
                 armiesData.setValueAt(0, r, 1);
             }
         } else {
-            gamePlayFrame.displayErrorMessage("The total armies to allocate must be lesser or equal to the indicated total armies to place");
+            gamePlayFrame.displayMessage("The total armies to allocate must be lesser or equal to the indicated total armies to place");
         }
     }
     

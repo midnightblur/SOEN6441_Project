@@ -50,12 +50,12 @@ public class GamePlayFrame extends JFrame implements Observer {
     /* Public methods */
     
     /**
-     * Displays error messages on UI
+     * Displays messages on UI
      *
-     * @param errorMessage Error message string
+     * @param message message string
      */
-    public void displayErrorMessage(String errorMessage) {
-        JOptionPane.showMessageDialog(this, errorMessage);
+    public void displayMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
     }
     
     

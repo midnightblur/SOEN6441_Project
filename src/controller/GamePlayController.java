@@ -44,7 +44,7 @@ public class GamePlayController {
             mapTableModel.updateMapTableModel(riskGame.getGameMap());
         } catch (Exception e) {
             e.printStackTrace(System.err);
-            gamePlayFrame.displayErrorMessage(e.toString());
+            gamePlayFrame.displayMessage(e.toString());
         }
         
         /* set the model for the main table */

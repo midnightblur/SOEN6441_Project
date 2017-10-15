@@ -10,7 +10,8 @@ import model.ui_models.MapTableModel;
 import java.util.*;
 
 import static utilities.Config.GAME_STATES;
-import static utilities.Config.GAME_STATES.*;
+import static utilities.Config.GAME_STATES.ENTRY_MENU;
+import static utilities.Config.GAME_STATES.REINFORCEMENT_PHASE;
 import static utilities.Config.INITIAL_ARMY_RATIO;
 
 /**
@@ -184,8 +185,6 @@ public class RiskGame extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String fortificationPhase(String strTerrFrom, String strTerrTo, String strArmiesToMove) {
-        setGameState(FORTIFICATION_PHASE);
-        broadcastGamePlayChanges();
         
         Territory terrFrom = gameMap.getTerritoriesOfPlayer(currPlayer).get(strTerrFrom);
         Territory terrTo = gameMap.getTerritoriesOfPlayer(currPlayer).get(strTerrTo);
@@ -217,7 +216,7 @@ public class RiskGame extends Observable {
 //                }
 //                System.out.println("movable armies: " + movableArmies);
                 broadcastGamePlayChanges();
-                return "Successfully moved " + movableArmies + "armies!";
+                return "Successfully moved " + movableArmies + " armies from " + strTerrFrom + " to " + strTerrTo + ".";
             } else {
                 return "No armies moved!\nYou must always have at least 1 army in each Territory";
             }

@@ -39,6 +39,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
         tradeCards = new JButton(TRADE_CARDS_BUTTON);
+        tradeCards.setForeground(Color.BLUE);
         backToReinforcementButton = new JButton(BACK_TO_REINFORCEMENT_BUTTON);
         armyValueLabel = new JLabel();
         cardsListLabel = new JLabel(CARDS_LIST_LABEL);
@@ -49,27 +50,25 @@ public class TradeCardsPanel extends JPanel implements Observer {
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
-        JPanel controlPanel = new JPanel();
-        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.PAGE_AXIS));
-        cardList.setLayout(new GridLayout(4,3));
-        
+        JPanel controlsWrapper = new JPanel();
+        controlsWrapper.setLayout(new BoxLayout(controlsWrapper, BoxLayout.PAGE_AXIS));
+        cardList.setLayout(new GridLayout(2,5));
+    
+        JPanel controls = new JPanel(new GridLayout(25,0));
         /* Add the elements to the panel */
-        controlPanel.add(gameState);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(playerID);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(cardsListLabel);
-        controlPanel.add(cardList);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(armyValueLabel);
-        controlPanel.add(gainedArmiesLabel);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(tradeCards);
-        addVerticalSpacing(controlPanel);
-        controlPanel.add(backToReinforcementButton);
-        addVerticalSpacing(controlPanel);
-        
-        add(controlPanel);
+        controls.add(gameState);
+        controls.add(playerID);
+        controls.add(cardsListLabel);
+        controls.add(cardList);
+        controls.add(armyValueLabel);
+        controls.add(gainedArmiesLabel);
+        addVerticalSpacing(controls);
+        controls.add(tradeCards);
+        addVerticalSpacing(controls);
+        controls.add(backToReinforcementButton);
+    
+        controlsWrapper.add(controls);
+        add(controlsWrapper);
     }
     
     /* Getters & Setters */

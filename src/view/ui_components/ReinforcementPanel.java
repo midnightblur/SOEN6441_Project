@@ -6,8 +6,11 @@ import utilities.Config.GAME_STATES;
 import view.helpers.IntegerEditor;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.util.EventObject;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -41,6 +44,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
         tradeCardsButton = new JButton(TRADE_CARDS_BUTTON);
+        tradeCardsButton.setForeground(Color.BLUE);
         totalArmiesToPlace = new JLabel();
         totalArmiesToPlace.setFont(new Font("Sans Serif", Font.BOLD, 16));
         howManyArmiesToPlace = new JLabel(ARMIES_TO_PLACE_LABEL);
@@ -60,13 +64,40 @@ public class ReinforcementPanel extends JPanel implements Observer {
             public boolean isCellEditable(int row, int column) {
                 return column == 1;
             }
+            
+            @Override   // set font
+            public void setFont(Font font) {
+                super.setFont(new Font("Sans Serif", Font.PLAIN, 16));
+            }
+            
+            @Override   // set the row height
+            public void setRowHeight(int rowHeight) {
+                super.setRowHeight(25);
+            }
+            
+            @Override // select all
+            public boolean editCellAt(int row, int column, EventObject e) {
+                boolean result = super.editCellAt(row, column, e);
+                final Component editor = getEditorComponent();
+                if (editor == null || !(editor instanceof JTextComponent)) {
+                    return result;
+                }
+                if (e instanceof MouseEvent) {
+                    EventQueue.invokeLater(((JTextComponent) editor)::selectAll);
+                } else {
+                    ((JTextComponent) editor).selectAll();
+                }
+                return result;
+            }
         };
         playerTerritoryTable.setDefaultEditor(Integer.class, new IntegerEditor());
+        placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON);
+        placeArmiesButton.setForeground(Color.BLUE);
         goToFortificationButton = new JButton(GO_TO_FORTIFICATION_BUTTON);
         attackButton = new JButton(ATTACK_BUTTON);
         attackButton.setEnabled(false);
-        placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON);
-        
+        attackButton.setForeground(Color.RED);
+
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
