@@ -4,7 +4,6 @@ import model.ui_models.MapTableModel;
 import view.ui_components.MapTable;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -37,10 +36,6 @@ public class GamePlayFrame extends JFrame implements Observer {
     @Override
     public JSplitPane getContentPane() {
         return contentPane;
-    }
-    
-    public Component getControlPanel(){
-        return contentPane.getRightComponent();
     }
     
     public MapTable getGameMapTable() {

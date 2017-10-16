@@ -26,14 +26,14 @@ public class MapEditorController {
     
     private MapEditorFrame mapEditorFrame;
     private MapEditorModel mapEditorModel;
-    private MainGameController callerController;
+    private MainMenuController callerController;
     private int newContinentID; // helps generate new continent name => faster demo
     private int newTerritoryID; // helps generate new territory name => faster demo
     //endregion
     
     //region Constructors
-    public MapEditorController(MainGameController mainGameController) {
-        this.callerController = mainGameController;
+    public MapEditorController(MainMenuController mainMenuController) {
+        this.callerController = mainMenuController;
         newContinentID = 0;
         newTerritoryID = 0;
         this.mapEditorFrame = new MapEditorFrame();

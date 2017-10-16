@@ -1,4 +1,4 @@
-import controller.MainGameController;
+import controller.MainMenuController;
 
 /**
  * Main driver class responsible for starting the application
@@ -11,6 +11,6 @@ public class Driver {
      * @param args CLI arguments
      */
     public static void main(String[] args) throws Exception {
-        new MainGameController();
+        new MainMenuController();
     }
 }

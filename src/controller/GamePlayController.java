@@ -14,7 +14,7 @@ public class GamePlayController {
     private GamePlayFrame gamePlayFrame;
     private MapTableModel mapTableModel;
     private RiskGame riskGame;
-    private MainGameController callerController;
+    private MainMenuController callerController;
     
     /* Constructors */
     
@@ -22,10 +22,10 @@ public class GamePlayController {
      * Constructor for the mainGameController
      * responsible of launching the game phases
      *
-     * @param mainGameController the caller to be used to go back
+     * @param mainMenuController the caller to be used to go back
      */
-    public GamePlayController(MainGameController mainGameController) {
-        callerController = mainGameController;
+    public GamePlayController(MainMenuController mainMenuController) {
+        callerController = mainMenuController;
         gamePlayFrame = new GamePlayFrame();
         riskGame = RiskGame.getInstance();
         mapTableModel = riskGame.getMapTableModel();

@@ -10,13 +10,13 @@ import java.awt.event.WindowEvent;
  * The Main Game Controller class is
  * responsible for launching different game screens
  */
-public class MainGameController {
+public class MainMenuController {
     private MainMenuFrame mainMenuFrame;
 
     /**
      * This method is used to launch main screen of application
      */
-    public MainGameController() {
+    public MainMenuController() {
         mainMenuFrame = new MainMenuFrame();
         registerToBeListener();
     }
