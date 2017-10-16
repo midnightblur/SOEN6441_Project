@@ -65,13 +65,13 @@ public class GamePlayController {
     private void setControlPanel() {
         switch (RiskGame.getInstance().getGameState()) {
             case STARTUP_PHASE:
-                new StartupController(gamePlayFrame);
+                new PhaseStartupController(gamePlayFrame);
                 break;
             case REINFORCEMENT_PHASE:
-                new ReinforcementController(gamePlayFrame);
+                new PhaseReinforcementController(gamePlayFrame);
                 break;
             case FORTIFICATION_PHASE:
-                new FortificationController(gamePlayFrame);
+                new PhaseFortificationController(gamePlayFrame);
                 break;
             case TRADE_IN_PHASE:
                 new TradeCardsController(gamePlayFrame);

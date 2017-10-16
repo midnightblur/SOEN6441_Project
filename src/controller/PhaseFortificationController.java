@@ -13,7 +13,7 @@ import static view.helpers.UIHelper.setDivider;
 /**
  * The FortificationController class
  */
-public class FortificationController {
+public class PhaseFortificationController {
     private FortificationPanel fortificationPanel;
     private GamePlayFrame gamePlayFrame;
     private RiskGame riskGame;
@@ -29,7 +29,7 @@ public class FortificationController {
      *
      * @param gamePlayFrame the main frame
      */
-    public FortificationController(GamePlayFrame gamePlayFrame) {
+    public PhaseFortificationController(GamePlayFrame gamePlayFrame) {
         this.gamePlayFrame = gamePlayFrame;
         fortificationPanel = new FortificationPanel();
         fortificationModel = new FortificationModel();
@@ -110,7 +110,7 @@ public class FortificationController {
     public void nextPlayer() {
         riskGame.setCurrPlayerToNextPlayer();
         riskGame.reinforcementPhase();
-        new ReinforcementController(this.gamePlayFrame);
+        new PhaseReinforcementController(this.gamePlayFrame);
     }
     
 }

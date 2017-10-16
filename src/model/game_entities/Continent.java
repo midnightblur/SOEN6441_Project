@@ -12,13 +12,13 @@ import java.util.Vector;
  * Each continent has a control value as an integer
  */
 public class Continent {
-    /* Private data member of model.game_entities.Continent class */
+    //region Attributes declaration
     private String name;
     private Vector<String> territories;
     private int controlValue;
+    //endregion
 
-    /* Constructors */
-    
+    //region Constructors
     /**
      * Instantiate new continent object given its name and its control value
      *
@@ -30,13 +30,9 @@ public class Continent {
         this.controlValue = controlValue;
         this.territories = new Vector<>();
     }
-
-    /**
-     * These are getters and setters
-     * @return
-     */
-
-
+    //endregion
+    
+    //region Getters & Setters
     public String getName() {
         return name;
     }
@@ -60,9 +56,9 @@ public class Continent {
     public void setTerritories(Vector<String> territories) {
         this.territories = territories;
     }
+    //endregion
     
-    /* Public methods */
-    
+    //region Public methods
     /**
      * Add a territoryName to the list of territories belonging to the continent
      * @param territoryName name of the territory
@@ -163,4 +159,5 @@ public class Continent {
         
         return false;
     }
+    //endregion
 }

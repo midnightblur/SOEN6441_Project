@@ -13,7 +13,7 @@ import static view.helpers.UIHelper.setDivider;
 /**
  * The StartupController class
  */
-public class StartupController {
+public class PhaseStartupController {
     private StartupPanel startupPanel;
     private GamePlayFrame gamePlayFrame;
     private RiskGame riskGame;
@@ -29,7 +29,7 @@ public class StartupController {
      *
      * @param gamePlayFrame the main frame
      */
-    public StartupController(GamePlayFrame gamePlayFrame) {
+    public PhaseStartupController(GamePlayFrame gamePlayFrame) {
         this.gamePlayFrame = gamePlayFrame;
         startupPanel = new StartupPanel();
         startupModel = new StartupModel();
@@ -86,7 +86,7 @@ public class StartupController {
         if (territory != null || !territory.equals("")) {
             startupPanel.getPlaceArmiesButton().setEnabled(false);
             riskGame.placeArmy(territory);
-            riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
+//            riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
             startupPanel.getDoneButton().setEnabled(true);
         } else {
             gamePlayFrame.displayMessage("Please validate your selection.");
@@ -104,12 +104,12 @@ public class StartupController {
             }
             else {
                 riskGame.setCurrPlayerToNextPlayer();
-                new StartupController((this.gamePlayFrame));
+                new PhaseStartupController((this.gamePlayFrame));
                 return;
             }
         }
         riskGame.setCurrPlayer(riskGame.getPlayers().firstElement());
         riskGame.reinforcementPhase();
-        new ReinforcementController(this.gamePlayFrame);
+        new PhaseReinforcementController(this.gamePlayFrame);
     }
 }
