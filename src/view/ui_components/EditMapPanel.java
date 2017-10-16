@@ -1,11 +1,15 @@
 package view.ui_components;
 
+import model.ui_models.MapEditorModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Observable;
+import java.util.Observer;
 
-public class EditMapPanel extends JPanel {
+public class EditMapPanel extends JPanel implements Observer{
     private static final String SAVE_BUTTON_LABEL = "Save Map";
     private static final String BACK_BUTTON_LABEL = "Back";
     
@@ -30,6 +34,7 @@ public class EditMapPanel extends JPanel {
         JPanel panel_4 = new JPanel(new FlowLayout());
         backButton = new JButton(BACK_BUTTON_LABEL);
         saveMapButton = new JButton(SAVE_BUTTON_LABEL);
+        saveMapButton.setEnabled(false);
         panel_4.add(backButton);
         panel_4.add(saveMapButton);
         add(panel_4);
@@ -76,4 +81,12 @@ public class EditMapPanel extends JPanel {
         add(editTabbedPane);
     }
     
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof MapEditorModel) {
+            if (((MapEditorModel) o).getGameMap() != null) {
+                saveMapButton.setEnabled(true);
+            }
+        }
+    }
 }

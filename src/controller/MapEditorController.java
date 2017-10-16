@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.Vector;
 
 public class MapEditorController {
+    //region Attributes declaration
     private static final String NONE_RADIO_BUTTON = "NONE";
     private static final String CONTINENT_NAME_GENERATOR = "continent_";
     private static final String TERRITORY_NAME_GENERATOR = "territory_";
@@ -28,8 +29,9 @@ public class MapEditorController {
     private MainGameController callerController;
     private int newContinentID; // helps generate new continent name => faster demo
     private int newTerritoryID; // helps generate new territory name => faster demo
+    //endregion
     
-    /* Constructors */
+    //region Constructors
     public MapEditorController(MainGameController mainGameController) {
         this.callerController = mainGameController;
         newContinentID = 0;
@@ -46,6 +48,7 @@ public class MapEditorController {
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapPanel().getMapLoadPanel());
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapPanel().getEditContinentPanel());
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapPanel().getEditTerritoryPanel());
+        this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapPanel());
         
         /* Register to be ActionListeners */
         this.mapEditorFrame.getEditMapPanel().getMapLoadPanel().addLoadMapButtonListener(e -> loadMap());
@@ -59,9 +62,9 @@ public class MapEditorController {
         this.mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().addRemoveTerritoryButtonListener(e -> removeTerritoryInfo());
         this.mapEditorFrame.getEditMapPanel().addSaveMapButtonListener(e -> saveMap());
     }
+    //endregion
     
-    /* Private methods */
-    
+    //region Private methods
     /**
      * Update the GameMap object from the selected items from DropdownList
      */
@@ -341,4 +344,5 @@ public class MapEditorController {
             
         }
     }
+    //endregion
 }

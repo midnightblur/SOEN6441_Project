@@ -94,7 +94,7 @@ public class MapEditorModel extends Observable {
     }
     
     public String addNewTerritory(Territory territory) {
-        String result = gameMap.addTerritory(territory);
+        String result = gameMap.addTerritory(territory, false);
         if (result.compareTo(String.format(GameMap.getMsgTerritoryAddSuccess(), territory.getName())) == 0) {
             updateModels();
             broadcastGameMapChanges();
