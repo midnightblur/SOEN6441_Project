@@ -11,6 +11,7 @@ import static utilities.Config.DEFAULT_NUM_OF_PLAYERS;
  * GameMap class is used to store a map information read from or to write to a map text file
  */
 public class GameMap {
+    //region Attributes declaration
     private static final String MSG_CONTINENT_EXIST = "The %s continent already exists! No change has been made to the map";
     private static final String MSG_TERRITORY_EXIST = "The %s territory already exists! No change has been made to the map";
     private static final String MSG_TERRITORY_NOT_EXIST = "The %s territory doesn't exist!. No change has been made to the map";
@@ -22,12 +23,12 @@ public class GameMap {
     private static final String MSG_TERRITORY_ADD_SUCCESS = "The %s territory has been added successfully";
     private static final String MSG_TERRITORY_REMOVE_SUCCESS = "The %s territory has been removed successfully";
     
-    /* Private data member of model.game_entities.GameMap class */
     private String mapName;
     private Map<String, Territory> territories;
     private Map<String, Continent> continents;
+    //endregion
     
-    /* Constructors */
+    //region Constructors
     public GameMap(String mapName) {
         this.mapName = mapName;
         this.territories = new TreeMap<>();
@@ -39,8 +40,9 @@ public class GameMap {
         this.territories = new TreeMap<>();
         this.continents = new TreeMap<>();
     }
+    //endregion
     
-    /* Getters & Setters */
+    //region Getters & Setters
     public String getMapName() {
         return mapName;
     }
@@ -80,9 +82,9 @@ public class GameMap {
     public static String getMsgTerritoryRemoveSuccess() {
         return MSG_TERRITORY_REMOVE_SUCCESS;
     }
+    //endregion
     
-    /* Public methods */
-    
+    //region Public methods
     /**
      * Takes a player object as a parameter and returns a hash map of the territories
      * that belong to that player object.
@@ -106,7 +108,7 @@ public class GameMap {
      *
      * @param territory
      */
-    public String addTerritory(Territory territory) {
+    public String addTerritory(Territory territory, boolean isReadingFile) {
         /* Check if the territory already exists */
         if (territories.containsKey(territory.getName())) {
             return String.format(MSG_TERRITORY_EXIST, territory.getName());
@@ -119,10 +121,12 @@ public class GameMap {
         }
         
         /* Add the territory to be neighbor of its neighbors */
-        for (String neighborName : territory.getNeighbors()) {
-            Territory neighbor = getATerritory(neighborName);
-            if (neighbor != null) { // neighbor will be null in case of building new gamemap from a text file
-                neighbor.addNeighbor(territory.getName());
+        if (!isReadingFile) {
+            for (String neighborName : territory.getNeighbors()) {
+                Territory neighbor = getATerritory(neighborName);
+                if (neighbor != null) { // neighbor will be null in case of building new gamemap from a text file
+                    neighbor.addNeighbor(territory.getName());
+                }
             }
         }
         
@@ -406,4 +410,5 @@ public class GameMap {
         return players;
     }
     
+    //endregion
 }

@@ -80,6 +80,10 @@ public class StartupPanel extends JPanel implements Observer {
         this.playerID.setText("Player " + playerID);
     }
 
+    public void setDoneButton(String displayName) {
+        this.doneButton.setText(displayName);
+    }
+    
     public JButton getDoneButton() {
         return doneButton;
     }

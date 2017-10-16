@@ -147,7 +147,7 @@ public class GameMapHelper {
                                 territory.addNeighbor(territoryInfo[i].trim());
                                 allNeighbors.add(territoryInfo[i].trim());
                             }
-                            gameMap.addTerritory(territory);
+                            gameMap.addTerritory(territory, true);
                             break;
                         default:
                             break;

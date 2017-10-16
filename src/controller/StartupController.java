@@ -71,6 +71,9 @@ public class StartupController {
 
         /* set the source dropdown */
         startupPanel.getTerritoryDropdown().setModel(startupModel.getTerritoriesList());
+        if (riskGame.getNextPlayer().getUnallocatedArmies() == 0) {
+            startupPanel.setDoneButton("Done (to Fortification Phase)");
+        }
         startupPanel.getDoneButton().setEnabled(false);
         startupPanel.getPlaceArmiesButton().setEnabled(true);
     }
@@ -91,16 +94,22 @@ public class StartupController {
     }
     
     /**
-     * Advance the game to next player
+     * Advance the game to next player, or to the reinforcement phase if all the
+     * players have exhausted all unallocated armies.
      */
     public void nextPlayer() {
-        riskGame.setCurrPlayerToNextPlayer();
-        if (riskGame.getPlayers().lastElement().getUnallocatedArmies() > 0) {
-            new StartupController(this.gamePlayFrame);
-        } else {
-            riskGame.reinforcementPhase();
-            new ReinforcementController(this.gamePlayFrame);
+        for (Player player : riskGame.getPlayers()) {
+            if (player.getUnallocatedArmies() == 0) {
+                continue;
+            }
+            else {
+                riskGame.setCurrPlayerToNextPlayer();
+                new StartupController((this.gamePlayFrame));
+                return;
+            }
         }
+        riskGame.setCurrPlayer(riskGame.getPlayers().firstElement());
+        riskGame.reinforcementPhase();
+        new ReinforcementController(this.gamePlayFrame);
     }
-    
 }
