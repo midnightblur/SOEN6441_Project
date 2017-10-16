@@ -6,8 +6,16 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-        ControllerTestSuite.class,
-        ModelTestSuite.class
+        model.ContinentTest.class,
+        model.DiceTest.class,
+        model.GameMapHelperTest.class,
+        model.GameMapTest.class,
+        model.GameStatesTest.class,
+        model.MapsLoaderTest.class,
+        model.MapEditorModelTest.class,
+        model.PlayerTest.class,
+        model.RiskGameTest.class,
+        model.TerritoryTest.class,
 })
 
 public class AllTestSuite {
