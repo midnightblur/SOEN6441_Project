@@ -306,7 +306,10 @@ public class MapEditorController {
             mapEditorFrame.displayErrorMessage(result);
         }
     }
-    
+
+    /**
+     * This method is used to save the map.
+     */
     private void saveMap() {
         File mapFileToSave = null;
         String validateMessage = GameMapHelper.validateMap(mapEditorModel.getGameMap());
