@@ -29,6 +29,7 @@ public class MainGameController {
     private void registerToBeListener() {
         mainMenuFrame.addMapEditorButtonListener(e -> openMapEditorScreen());
         mainMenuFrame.addPlayGameButtonListener(e -> openPlayGameScreen());
+        // TODO: mainMenuFrame.addPlayGameButtonListener(e -> new StartupController(new GamePlayFrame()));
         mainMenuFrame.addQuitButtonListener(e -> exitGame());
     }
     

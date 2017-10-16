@@ -1,6 +1,7 @@
 package controller;
 
 import model.RiskGame;
+import utilities.Config;
 import view.screens.GamePlayFrame;
 import view.ui_components.GameSetupPanel;
 
@@ -53,5 +54,9 @@ public class GameSetupController {
         gameSetupPanel.setMaxPlayersLabel(riskGame.getGameMap().getMaxPlayers());
     }
     
-    
+    private void openPlayGameScreen() {
+        /* initialize the game */
+        RiskGame.getInstance().initializeNewGame(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
+        // new GamePlayController(this);
+    }
 }

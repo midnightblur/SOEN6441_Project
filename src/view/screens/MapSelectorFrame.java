@@ -16,7 +16,7 @@ public class MapSelectorFrame extends JFrame implements Observer {
     private static final String PLAY_GAME_BUTTON = "Play Game";
     private static final String SELECT_MAP_LABEL = "Select a map:";
     private static final int WIDTH = 500;
-    private static final int HEIGHT = 200;
+    private static final int HEIGHT = 230;
     
     private JPanel contentPane;
     private JButton playGameBtn;
