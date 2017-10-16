@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>controller.FortificationController</OriginalElement>
+  <nodes>
+    <node x="40.42857142857156" y="1036.0">controller.TradeCardsController</node>
+    <node x="190.9735263013191" y="1143.0">controller.GamePlayController</node>
+    <node x="321.80685963465237" y="1347.0">Driver</node>
+    <node x="93.19593776249428" y="725.0">model.RiskGame</node>
+    <node x="993.8485263013192" y="1036.0">controller.StartupController</node>
+    <node x="654.9141703524024" y="518.0">model.ui_models</node>
+    <node x="81.22443820954527" y="0.0">model.game_entities.Card</node>
+    <node x="630.8485263013192" y="244.0">model.game_entities.Continent</node>
+    <node x="1179.2618453865339" y="9.990024937655932">model.game_entities.Dice</node>
+    <node x="461.92857142857156" y="107.0">model.game_entities.Player</node>
+    <node x="1152.5985263013192" y="725.0">controller.MapEditorController</node>
+    <node x="387.14019296798585" y="939.0">controller.ReinforcementController</node>
+    <node x="584.3485263013192" y="401.0">model.game_entities.GameMap</node>
+    <node x="263.80685963465237" y="1250.0">controller.MainGameController</node>
+    <node x="264.64019296798585" y="832.0">controller.FortificationController</node>
+    <node x="800.8485263013192" y="244.0">model.game_entities.Territory</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="controller.MapEditorController" target="model.game_entities.Territory">
+      <point x="102.375" y="-23.5" />
+      <point x="1371.9735263013192" y="685.0" />
+      <point x="1325.4355210958277" y="685.0" />
+      <point x="1325.4355210958277" y="311.0" />
+      <point x="929.9199548727478" y="311.0" />
+      <point x="59.571428571428555" y="23.5" />
+    </edge>
+    <edge source="controller.TradeCardsController" target="model.game_entities.Card">
+      <point x="-100.0" y="-23.5" />
+      <point x="60.42857142857156" y="1016.0" />
+      <point x="71.69593776249428" y="1016.0" />
+      <point x="71.69593776249428" y="87.0" />
+      <point x="90.3911048762119" y="87.0" />
+      <point x="-45.83333333333337" y="23.5" />
+    </edge>
+    <edge source="controller.StartupController" target="model.game_entities.Player">
+      <point x="83.60000000000002" y="-23.5" />
+      <point x="1181.9485263013194" y="1006.0" />
+      <point x="1136.9357142857143" y="1006.0" />
+      <point x="1136.9357142857143" y="174.0" />
+      <point x="577.3131868131869" y="174.0" />
+      <point x="55.38461538461536" y="23.5" />
+    </edge>
+    <edge source="model.game_entities.GameMap" target="model.game_entities.Player">
+      <point x="-62.0" y="-23.5" />
+      <point x="599.8485263013192" y="321.0" />
+      <point x="603.8450311582633" y="321.0" />
+      <point x="603.8450311582633" y="224.0" />
+      <point x="531.1593406593408" y="224.0" />
+      <point x="9.230769230769283" y="23.5" />
+    </edge>
+    <edge source="controller.MapEditorController" target="model.game_entities.Continent">
+      <point x="14.625" y="-23.5" />
+      <point x="1284.2235263013192" y="705.0" />
+      <point x="1292.4355210958277" y="705.0" />
+      <point x="1292.4355210958277" y="341.0" />
+      <point x="743.3485263013192" y="341.0" />
+      <point x="37.5" y="23.5" />
+    </edge>
+    <edge source="controller.StartupController" target="controller.ReinforcementController">
+      <point x="-83.60000000000002" y="-23.5" />
+      <point x="1014.7485263013192" y="1016.0" />
+      <point x="619.8901929679859" y="1016.0" />
+      <point x="99.75" y="23.5" />
+    </edge>
+    <edge source="controller.StartupController" target="model.RiskGame">
+      <point x="-41.799999999999955" y="-23.5" />
+      <point x="1056.5485263013193" y="1006.0" />
+      <point x="1103.9357142857143" y="1006.0" />
+      <point x="1103.9357142857143" y="792.0" />
+      <point x="234.75843776249428" y="792.0" />
+      <point x="66.0625" y="23.5" />
+    </edge>
+    <edge source="controller.StartupController" target="model.ui_models">
+      <point x="41.799999999999955" y="-23.5" />
+      <point x="1140.1485263013192" y="1016.0" />
+      <point x="1125.9357142857143" y="1016.0" />
+      <point x="1125.9357142857143" y="685.0" />
+      <point x="815.219725907958" y="685.0" />
+      <point x="60.80555555555554" y="23.5" />
+    </edge>
+    <edge source="controller.MapEditorController" target="controller.MainGameController">
+      <point x="0.0" y="23.5" />
+      <point x="1269.5985263013192" y="812.0" />
+      <point x="1268.0857142857144" y="812.0" />
+      <point x="1268.0857142857144" y="1220.0" />
+      <point x="449.2354310632238" y="1220.0" />
+      <point x="67.42857142857144" y="-23.5" />
+    </edge>
+    <edge source="controller.FortificationController" target="model.ui_models">
+      <point x="91.875" y="-23.5" />
+      <point x="479.01519296798585" y="812.0" />
+      <point x="443.82769296798585" y="812.0" />
+      <point x="443.82769296798585" y="705.0" />
+      <point x="759.9419481301802" y="705.0" />
+      <point x="5.5277777777777715" y="23.5" />
+    </edge>
+    <edge source="controller.ReinforcementController" target="controller.FortificationController">
+      <point x="-76.0" y="-23.5" />
+      <point x="444.14019296798585" y="899.0" />
+      <point x="387.14019296798585" y="899.0" />
+      <point x="0.0" y="23.5" />
+    </edge>
+    <edge source="model.ui_models" target="model.game_entities.Continent">
+      <point x="0.0" y="-23.5" />
+      <point x="754.4141703524024" y="498.0" />
+      <point x="749.8485263013192" y="498.0" />
+      <point x="749.8485263013192" y="351.0" />
+      <point x="718.3485263013192" y="351.0" />
+      <point x="12.5" y="23.5" />
+    </edge>
+    <edge source="controller.ReinforcementController" target="model.ui_models">
+      <point x="38.0" y="-23.5" />
+      <point x="558.1401929679859" y="899.0" />
+      <point x="770.9975036857359" y="899.0" />
+      <point x="16.58333333333337" y="23.5" />
+    </edge>
+    <edge source="controller.MainGameController" target="controller.GamePlayController">
+      <point x="-67.42857142857144" y="-23.5" />
+      <point x="314.3782882060809" y="1220.0" />
+      <point x="229.14019296798574" y="1220.0" />
+      <point x="-76.33333333333337" y="23.5" />
+    </edge>
+    <edge source="controller.MapEditorController" target="model.ui_models">
+      <point x="-43.875" y="-23.5" />
+      <point x="1225.7235263013192" y="655.0" />
+      <point x="848.3863925746246" y="655.0" />
+      <point x="93.97222222222217" y="23.5" />
+    </edge>
+    <edge source="controller.TradeCardsController" target="model.game_entities.Player">
+      <point x="-60.0" y="-23.5" />
+      <point x="100.42857142857156" y="1016.0" />
+      <point x="82.69593776249428" y="1016.0" />
+      <point x="82.69593776249428" y="174.0" />
+      <point x="466.5439560439562" y="174.0" />
+      <point x="-55.38461538461536" y="23.5" />
+    </edge>
+    <edge source="model.RiskGame" target="model.game_entities.Player">
+      <point x="-14.15625" y="-23.5" />
+      <point x="154.53968776249428" y="214.0" />
+      <point x="503.4670329670331" y="214.0" />
+      <point x="-18.461538461538453" y="23.5" />
+    </edge>
+    <edge source="controller.ReinforcementController" target="model.game_entities.Territory">
+      <point x="114.0" y="-23.5" />
+      <point x="634.1401929679859" y="919.0" />
+      <point x="972.3485263013192" y="919.0" />
+      <point x="972.3485263013192" y="381.0" />
+      <point x="890.2056691584621" y="381.0" />
+      <point x="19.85714285714289" y="23.5" />
+    </edge>
+    <edge source="controller.TradeCardsController" target="model.RiskGame">
+      <point x="20.0" y="-23.5" />
+      <point x="180.42857142857156" y="1016.0" />
+      <point x="169.70982142857156" y="1016.0" />
+      <point x="169.70982142857156" y="812.0" />
+      <point x="178.13343776249428" y="812.0" />
+      <point x="9.4375" y="23.5" />
+    </edge>
+    <edge source="controller.GamePlayController" target="controller.ReinforcementController">
+      <point x="32.714285714285666" y="-23.5" />
+      <point x="338.1878120156048" y="1103.0" />
+      <point x="553.3901929679859" y="1103.0" />
+      <point x="33.25" y="23.5" />
+    </edge>
+    <edge source="controller.MainGameController" target="controller.MapEditorController">
+      <point x="33.71428571428572" y="-23.5" />
+      <point x="415.5211453489381" y="1210.0" />
+      <point x="1257.0857142857144" y="1210.0" />
+      <point x="1257.0857142857144" y="812.0" />
+      <point x="1191.5985263013192" y="812.0" />
+      <point x="-78.0" y="23.5" />
+    </edge>
+    <edge source="model.game_entities.Player" target="model.game_entities.Card">
+      <point x="-30.0" y="-23.5" />
+      <point x="491.92857142857156" y="87.0" />
+      <point x="163.72443820954527" y="87.0" />
+      <point x="27.5" y="23.5" />
+    </edge>
+    <edge source="controller.GamePlayController" target="controller.StartupController">
+      <point x="98.14285714285711" y="-23.5" />
+      <point x="403.6163834441762" y="1123.0" />
+      <point x="1098.3485263013192" y="1123.0" />
+      <point x="0.0" y="23.5" />
+    </edge>
+    <edge source="controller.GamePlayController" target="controller.TradeCardsController">
+      <point x="-32.71428571428578" y="-23.5" />
+      <point x="272.75924058703333" y="1103.0" />
+      <point x="160.42857142857156" y="1103.0" />
+      <point x="0.0" y="23.5" />
+    </edge>
+    <edge source="model.game_entities.Continent" target="model.RiskGame">
+      <point x="-62.5" y="23.5" />
+      <point x="643.3485263013192" y="331.0" />
+      <point x="163.97718776249428" y="331.0" />
+      <point x="-4.71875" y="-23.5" />
+    </edge>
+    <edge source="controller.GamePlayController" target="model.ui_models">
+      <point x="65.42857142857144" y="-23.5" />
+      <point x="370.90209772989056" y="1113.0" />
+      <point x="983.3485263013192" y="1113.0" />
+      <point x="983.3485263013192" y="705.0" />
+      <point x="793.108614796847" y="705.0" />
+      <point x="38.69444444444446" y="23.5" />
+    </edge>
+    <edge source="model.game_entities.GameMap" target="model.game_entities.Territory">
+      <point x="31.0" y="-23.5" />
+      <point x="692.8485263013192" y="371.0" />
+      <point x="830.6342405870334" y="371.0" />
+      <point x="-39.71428571428572" y="23.5" />
+    </edge>
+    <edge source="controller.ReinforcementController" target="controller.TradeCardsController">
+      <point x="-33.25" y="23.5" />
+      <point x="486.89019296798585" y="1016.0" />
+      <point x="260.42857142857156" y="1016.0" />
+      <point x="100.0" y="-23.5" />
+    </edge>
+    <edge source="model.ui_models" target="model.game_entities.Player">
+      <point x="56.85714285714283" y="-23.5" />
+      <point x="811.2713132095453" y="488.0" />
+      <point x="950.3485263013192" y="488.0" />
+      <point x="950.3485263013192" y="194.0" />
+      <point x="558.8516483516485" y="194.0" />
+      <point x="36.923076923076906" y="23.5" />
+    </edge>
+    <edge source="controller.MainGameController" target="model.RiskGame">
+      <point x="-101.14285714285717" y="-23.5" />
+      <point x="280.6640024917952" y="1230.0" />
+      <point x="0.0" y="1230.0" />
+      <point x="0.0" y="792.0" />
+      <point x="102.63343776249428" y="792.0" />
+      <point x="-66.0625" y="23.5" />
+    </edge>
+    <edge source="model.game_entities.GameMap" target="model.game_entities.Continent">
+      <point x="0.0" y="-23.5" />
+      <point x="661.8485263013192" y="351.0" />
+      <point x="693.3485263013192" y="351.0" />
+      <point x="-12.5" y="23.5" />
+    </edge>
+    <edge source="model.RiskGame" target="model.game_entities.GameMap">
+      <point x="23.59375" y="-23.5" />
+      <point x="192.28968776249428" y="635.0" />
+      <point x="217.45881320954527" y="635.0" />
+      <point x="217.45881320954527" y="498.0" />
+      <point x="623.0985263013192" y="498.0" />
+      <point x="-38.75" y="23.5" />
+    </edge>
+    <edge source="model.ui_models" target="model.game_entities.GameMap">
+      <point x="-28.428571428571445" y="-23.5" />
+      <point x="725.985598923831" y="488.0" />
+      <point x="700.5985263013192" y="488.0" />
+      <point x="38.75" y="23.5" />
+    </edge>
+    <edge source="model.ui_models" target="model.RiskGame">
+      <point x="-27.638888888888914" y="23.5" />
+      <point x="726.7752814635135" y="675.0" />
+      <point x="230.03968776249428" y="675.0" />
+      <point x="61.34375" y="-23.5" />
+    </edge>
+    <edge source="model.game_entities.Territory" target="model.game_entities.Player">
+      <point x="-34.75" y="-23.5" />
+      <point x="835.5985263013192" y="214.0" />
+      <point x="540.39010989011" y="214.0" />
+      <point x="18.461538461538453" y="23.5" />
+    </edge>
+    <edge source="controller.ReinforcementController" target="model.RiskGame">
+      <point x="-114.0" y="-23.5" />
+      <point x="406.14019296798585" y="909.0" />
+      <point x="215.55685963465248" y="909.0" />
+      <point x="215.55685963465248" y="812.0" />
+      <point x="197.00843776249428" y="812.0" />
+      <point x="28.3125" y="23.5" />
+    </edge>
+    <edge source="controller.FortificationController" target="model.game_entities.Player">
+      <point x="-30.625" y="-23.5" />
+      <point x="356.51519296798585" y="812.0" />
+      <point x="398.34157663406313" y="812.0" />
+      <point x="398.34157663406313" y="224.0" />
+      <point x="512.6978021978023" y="224.0" />
+      <point x="-9.230769230769226" y="23.5" />
+    </edge>
+    <edge source="model.ui_models" target="model.ui_models">
+      <point x="-93.97222222222221" y="23.5" />
+      <point x="660.4419481301802" y="585.0" />
+      <point x="634.9141703524024" y="585.0" />
+      <point x="634.9141703524024" y="557.1666666666666" />
+      <point x="-99.5" y="15.666666666666629" />
+    </edge>
+    <edge source="model.RiskGame" target="model.game_entities.Card">
+      <point x="-70.78125" y="-23.5" />
+      <point x="97.91468776249428" y="67.0" />
+      <point x="108.72443820954527" y="67.0" />
+      <point x="-27.5" y="23.5" />
+    </edge>
+    <edge source="model.RiskGame" target="model.ui_models">
+      <point x="33.03125" y="-23.5" />
+      <point x="201.72718776249428" y="645.0" />
+      <point x="693.608614796847" y="645.0" />
+      <point x="-60.80555555555554" y="23.5" />
+    </edge>
+    <edge source="controller.FortificationController" target="model.RiskGame">
+      <point x="-91.875" y="-23.5" />
+      <point x="295.26519296798585" y="802.0" />
+      <point x="215.88343776249428" y="802.0" />
+      <point x="47.1875" y="23.5" />
+    </edge>
+    <edge source="controller.TradeCardsController" target="controller.ReinforcementController">
+      <point x="60.0" y="-23.5" />
+      <point x="220.42857142857156" y="1006.0" />
+      <point x="420.39019296798585" y="1006.0" />
+      <point x="-99.75" y="23.5" />
+    </edge>
+    <edge source="controller.ReinforcementController" target="model.game_entities.Player">
+      <point x="0.0" y="-23.5" />
+      <point x="520.1401929679859" y="224.0" />
+      <point x="521.9285714285716" y="224.0" />
+      <point x="0.0" y="23.5" />
+    </edge>
+    <edge source="controller.GamePlayController" target="controller.MainGameController">
+      <point x="0.0" y="23.5" />
+      <point x="305.4735263013191" y="1210.0" />
+      <point x="348.09257392036665" y="1210.0" />
+      <point x="-33.71428571428572" y="-23.5" />
+    </edge>
+    <edge source="controller.GamePlayController" target="controller.FortificationController">
+      <point x="0.0" y="-23.5" />
+      <point x="305.4735263013191" y="1123.0" />
+      <point x="331.14631320954527" y="1123.0" />
+      <point x="331.14631320954527" y="919.0" />
+      <point x="305.47352630131917" y="919.0" />
+      <point x="-81.66666666666669" y="23.5" />
+    </edge>
+    <edge source="controller.FortificationController" target="controller.ReinforcementController">
+      <point x="81.66666666666674" y="23.5" />
+      <point x="468.8068596346526" y="919.0" />
+      <point x="482.14019296798585" y="919.0" />
+      <point x="-38.0" y="-23.5" />
+    </edge>
+    <edge source="Driver" target="controller.MainGameController">
+      <point x="0.0" y="-23.5" />
+      <point x="0.0" y="23.5" />
+    </edge>
+    <edge source="controller.MapEditorController" target="model.game_entities.GameMap">
+      <point x="-14.625" y="-23.5" />
+      <point x="1254.9735263013192" y="645.0" />
+      <point x="864.4141703524024" y="645.0" />
+      <point x="864.4141703524024" y="468.0" />
+      <point x="726.4318596346525" y="468.0" />
+      <point x="64.58333333333331" y="23.5" />
+    </edge>
+    <edge source="controller.GamePlayController" target="model.RiskGame">
+      <point x="-65.42857142857144" y="-23.5" />
+      <point x="240.04495487274767" y="1113.0" />
+      <point x="29.92857142857156" y="1113.0" />
+      <point x="29.92857142857156" y="812.0" />
+      <point x="140.38343776249428" y="812.0" />
+      <point x="-28.3125" y="23.5" />
+    </edge>
+    <edge source="model.ui_models" target="model.game_entities.Territory">
+      <point x="28.428571428571445" y="-23.5" />
+      <point x="782.8427417809739" y="478.0" />
+      <point x="870.3485263013192" y="478.0" />
+      <point x="0.0" y="23.5" />
+    </edge>
+    <edge source="model.RiskGame" target="model.game_entities.Territory">
+      <point x="4.71875" y="-23.5" />
+      <point x="173.41468776249428" y="361.0" />
+      <point x="810.7770977298907" y="361.0" />
+      <point x="-59.571428571428555" y="23.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5325365205843293" x="693.9700748129676" y="703.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>Production</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
