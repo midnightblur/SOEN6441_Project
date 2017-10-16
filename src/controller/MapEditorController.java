@@ -242,7 +242,10 @@ public class MapEditorController {
             mapEditorFrame.displayErrorMessage(e.getMessage());
         }
     }
-    
+
+    /**
+     * This method is used to remove the continent
+     */
     private void removeContinentInfo() {
         String continentName = String.valueOf(mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentsListDropdown().getSelectedItem());
         String result = mapEditorModel.removeContinent(continentName);
