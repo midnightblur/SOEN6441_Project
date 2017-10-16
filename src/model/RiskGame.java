@@ -1,9 +1,6 @@
 package model;
 
-import model.game_entities.Card;
-import model.game_entities.GameMap;
-import model.game_entities.Player;
-import model.game_entities.Territory;
+import model.game_entities.*;
 import model.helpers.GameMapHelper;
 import model.ui_models.MapTableModel;
 
@@ -151,16 +148,23 @@ public class RiskGame extends Observable {
     /**
      * The reinforcement phase includes allowing the players to hand in their cards for
      * armies (or force them to if they have more than or equal to 5 cards), assign
-     * to-be-allocated armies to the players according to the number of territories they
-     * control (to a minimum of 3), and allows players to place those armies.
+     * to-be-allocated armies to the players according to the number of territories and
+     * continents they control (to a minimum of 3), and allows players to place those armies.
      */
     public void reinforcementPhase() {
-        
         // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
         int armiesToGive = gameMap.getTerritoriesOfPlayer(currPlayer).size() / 3;
         if (armiesToGive < 3) {
             armiesToGive = 3;
         }
+        
+        // Assign players additional number armies to allocate if that player owns a continent.
+        for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
+            if (currPlayer.getPlayerID() == entry.getValue().getContinentOwner()) {
+                armiesToGive += entry.getValue().getControlValue();
+            }
+        }
+        
         currPlayer.addUnallocatedArmies(armiesToGive);
         broadcastGamePlayChanges();
     }

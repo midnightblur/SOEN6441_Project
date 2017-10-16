@@ -51,7 +51,11 @@ public class MapTableModel extends Observable {
         for (Continent continent : gameMap.getContinents().values()) {
             rows[i][0] = continent.getName();
             if (RiskGame.getInstance().getGameState().getValue() >= 3) {
-                rows[i][3] = continent.getContinentOwner();
+                if (continent.getContinentOwner() == 0) {
+                    rows[i][3] = "nobody owns it yet";
+                } else {
+                    rows[i][3] = "Player " + continent.getContinentOwner();
+                }
                 rows[i][4] = Integer.toString(continent.getContinentArmies());
             }
             i++;
