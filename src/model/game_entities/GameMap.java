@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 
+import static utilities.Config.DEFAULT_NUM_OF_PLAYERS;
+
 /**
  * GameMap class is used to store a map information read from or to write to a map text file
  */
@@ -132,8 +134,10 @@ public class GameMap {
     
     /**
      * Update an existing territory info
+     *
      * @param oldTerritoryName
      * @param newTerritory
+     *
      * @return
      */
     public String updateTerritory(String oldTerritoryName, Territory newTerritory) {
@@ -258,7 +262,7 @@ public class GameMap {
             }
             territory.setContinent(newContinent.getName());
         }
-    
+        
         continents.remove(oldContinent.getName());
         continents.put(newContinent.getName(), newContinent);
         
@@ -345,6 +349,11 @@ public class GameMap {
         return territories.values().iterator().next();
     }
     
+    /**
+     * Get the names of all continents in this map
+     *
+     * @return a vector holding the continent names
+     */
     public Vector<String> getContinentsNames() {
         Vector<String> result = new Vector<>();
         for (Continent continent : getContinents().values()) {
@@ -353,6 +362,11 @@ public class GameMap {
         return result;
     }
     
+    /**
+     * Get the names of all territories in this map
+     *
+     * @return a vector holding the territory names
+     */
     public Vector<String> getTerritoriesNames() {
         Vector<String> result = new Vector<>();
         for (Territory territory : getTerritories().values()) {
@@ -361,8 +375,35 @@ public class GameMap {
         return result;
     }
     
+    /**
+     * Get the territories within indicated continent
+     *
+     * @param continentName the continent from which we retrieve the territory names
+     *
+     * @return a vector with territories within the indicated continent
+     */
     public Vector<String> getTerritoriesByContinent(String continentName) {
         Continent continent = getAContinent(continentName);
         return continent.getTerritories();
     }
+    
+    /**
+     * Get the maximum number of players allowed for this map object
+     * <ul>
+     * <li> Maximum number of players must be the one in the configuration file
+     * <li> In case there are more territories than player we reduce the players to territories count
+     * <li> There should be at least one player in the game
+     * </ul>
+     *
+     * @return the maximum number of players allowed for this map
+     */
+    public int getMaxPlayers() {
+        int players = DEFAULT_NUM_OF_PLAYERS;       // the maximum number of players
+        int territoryCount = this.getTerritoriesCount();
+        if (players > territoryCount) {             // if there are more players than territories
+            players = territoryCount;               // there should be a maximum of player equal to territories or t least one player
+        }
+        return players;
+    }
+    
 }
