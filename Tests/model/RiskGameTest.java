@@ -59,15 +59,15 @@ public class RiskGameTest {
         System.out.println("player " + player.getPlayerID() + "'s territories: (total: "
                 + gameMap.getTerritoriesOfPlayer(player).size() + ")");
         for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
-            System.out.println("\t" + entry.getValue().getName());
+            System.out.println("\t" + entry.getIndex().getName());
         }
     }
     // testing army placement
         for (Player player : players) {
         System.out.println("player " + player.getPlayerID() + ":");
         for (Map.Entry<String, Territory> entry : gameMap.getTerritoriesOfPlayer(player).entrySet()) {
-            System.out.println("\t" + entry.getValue().getName()
-                    + " (num of armies: " + entry.getValue().getArmies() + ")." );
+            System.out.println("\t" + entry.getIndex().getName()
+                    + " (num of armies: " + entry.getIndex().getArmies() + ")." );
         }
     }
     // print out to test round-robin fashion of players' turn

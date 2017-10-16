@@ -7,8 +7,8 @@ import java.util.Observable;
 
 /**
  * Objects of this class are created by specifying the number of dice to roll
- * A pip is the value within array representing the number of a die face (it represents the 'up-facing' value of a die)
- * Each pip is a value between 1 and MAX_PIPS (default is 1 to 6)
+ * A pip is the index within array representing the number of a die face (it represents the 'up-facing' index of a die)
+ * Each pip is a index between 1 and MAX_PIPS (default is 1 to 6)
  * The roll() action will return the 2 most largest values from dice array after randomizing
  */
 public class Dice extends Observable {
@@ -52,7 +52,7 @@ public class Dice extends Observable {
         
         dice = new int[numberOfDice];
 
-        /* set initial value of each die to a random number */
+        /* set initial index of each die to a random number */
         for (int i : dice) {
             dice[i] = (int) (Math.random() * Config.MAX_PIPS) + 1;
         }

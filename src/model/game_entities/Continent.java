@@ -9,7 +9,7 @@ import java.util.Vector;
  * Continent is a connected subgraph of the whole map
  * One continent contains several territories
  * Continents don't share mutual territory
- * Each continent has a control value as an integer
+ * Each continent has a control index as an integer
  */
 public class Continent {
     //region Attributes declaration
@@ -20,7 +20,7 @@ public class Continent {
 
     //region Constructors
     /**
-     * Instantiate new continent object given its name and its control value
+     * Instantiate new continent object given its name and its control index
      *
      * @param name
      * @param controlValue

@@ -61,7 +61,7 @@ public class Player extends Observable {
     /**
      * Reduces the number of unallocated armies for this player by the specified number.
      *
-     * @param num The int value of the number of unallocated armies to reduce
+     * @param num The int index of the number of unallocated armies to reduce
      */
     public void reduceUnallocatedArmies(int num) {
         this.unallocatedArmies -= num;
@@ -71,7 +71,7 @@ public class Player extends Observable {
     /**
      * Increases the number of unallocated armies for this player by the specified number.
      *
-     * @param num The int value of the number o unallocated armies to add
+     * @param num The int index of the number o unallocated armies to add
      */
     public void addUnallocatedArmies(int num) {
         this.unallocatedArmies += num;
@@ -103,7 +103,7 @@ public class Player extends Observable {
      *
      * @param other The other object to compare with the Player object.
      *
-     * @return Boolean value that tells whether or not the two Player objects have the same attribute values
+     * @return Boolean index that tells whether or not the two Player objects have the same attribute values
      */
     @Override
     public boolean equals(Object other) {

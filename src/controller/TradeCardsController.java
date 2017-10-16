@@ -98,7 +98,7 @@ public class TradeCardsController {
         tradeCardsPanel.getCardList().removeAll();
         for (Card card : currentPlayer.getPlayersHand()) {
             JCheckBox checkBox = new JCheckBox();
-            checkBox.setText(card.getCardType());
+            checkBox.setText(card.getCardType().name());
             tradeCardsPanel.getCardList().add(checkBox);
         }
         tradeCardsPanel.getCardList().revalidate();
