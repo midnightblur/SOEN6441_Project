@@ -83,6 +83,15 @@ public class RiskGame extends Observable {
         return this.currPlayer;
     }
     
+    public Player getNextPlayer() {
+        int currPlayerIndex = players.indexOf(currPlayer);
+        if (currPlayerIndex == players.size() - 1) {
+            return players.get(0);
+        } else {
+            return players.get(currPlayerIndex + 1);
+        }
+    }
+    
     public int getArmyValue() {
         return this.armyValue;
     }
