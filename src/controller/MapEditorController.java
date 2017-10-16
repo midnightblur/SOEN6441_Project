@@ -295,7 +295,10 @@ public class MapEditorController {
             }
         }
     }
-    
+
+    /**
+     * This method is used when territory has to be removed.
+     */
     private void removeTerritoryInfo() {
         String territoryName = String.valueOf(mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoriesListDropdown().getSelectedItem());
         String result = mapEditorModel.removeTerritory(territoryName);
