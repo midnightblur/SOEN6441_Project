@@ -129,7 +129,7 @@ public class MapEditorModel extends Observable {
     /* Private methods */
     
     /**
-     * Update the MapTableModel and notify the Observer
+     * This method Updates the MapTableModel and notifies the Observer
      */
     private void broadcastGameMapChanges() {
         setChanged();
