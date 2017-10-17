@@ -44,7 +44,7 @@ public class MapEditorController {
         this.mapEditorFrame.getEditMapPanel().getMapLoadPanel().getChooseMapDropdown().setModel(mapEditorModel.getMapDropdownModel());
         
         /* Register Observer to Observable */
-        this.mapEditorModel.addObserver(this.mapEditorFrame.getMapTable());
+        this.mapEditorModel.addObserver(this.mapEditorFrame.getGameMapTable());
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapPanel().getMapLoadPanel());
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapPanel().getEditContinentPanel());
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapPanel().getEditTerritoryPanel());

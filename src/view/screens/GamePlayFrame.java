@@ -1,7 +1,7 @@
 package view.screens;
 
 import model.ui_models.MapTableModel;
-import view.ui_components.MapTable;
+import view.ui_components.GameMapTable;
 
 import javax.swing.*;
 import java.util.Observable;
@@ -16,7 +16,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     private static final int HEIGHT = 800;
     
     private JSplitPane contentPane;
-    private MapTable gameMapTable;
+    private GameMapTable gameGameMapTable;
     
     /* Constructors */
     public GamePlayFrame() {
@@ -25,8 +25,8 @@ public class GamePlayFrame extends JFrame implements Observer {
         setContentPane(contentPane);
         
         /* Setup table area */
-        gameMapTable = new MapTable();
-        contentPane.setLeftComponent(new JScrollPane(gameMapTable));
+        gameGameMapTable = new GameMapTable();
+        contentPane.setLeftComponent(new JScrollPane(gameGameMapTable));
         
         /* Setup & Display frame */
         displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
@@ -38,8 +38,8 @@ public class GamePlayFrame extends JFrame implements Observer {
         return contentPane;
     }
     
-    public MapTable getGameMapTable() {
-        return gameMapTable;
+    public GameMapTable getGameGameMapTable() {
+        return gameGameMapTable;
     }
     
     /* Public methods */
@@ -79,6 +79,6 @@ public class GamePlayFrame extends JFrame implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        gameMapTable.setModel(((MapTableModel) o).getModel());
+        gameGameMapTable.setModel(((MapTableModel) o).getModel());
     }
 }

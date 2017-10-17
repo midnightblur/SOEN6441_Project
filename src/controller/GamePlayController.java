@@ -45,10 +45,10 @@ public class GamePlayController {
         }
         
         /* set the model for the main table */
-        gamePlayFrame.getGameMapTable().setModel(mapTableModel.getModel());
+        gamePlayFrame.getGameGameMapTable().setModel(mapTableModel.getModel());
         
         /* Register Observer to Observable */
-        mapTableModel.addObserver(gamePlayFrame.getGameMapTable());
+        mapTableModel.addObserver(gamePlayFrame.getGameGameMapTable());
         
         /* Register to be ActionListeners */
         // TODO: put the back in a menu
