@@ -46,7 +46,7 @@ public class GameSetupController {
     /* Private methods */
     
     /**
-     * Populate the startup control panel with updated model data
+     * populateStartupPanel is a method that Populates the startup control panel with updated model data
      */
     private void populateStartupPanel() {
         /* set the maximum players box */
