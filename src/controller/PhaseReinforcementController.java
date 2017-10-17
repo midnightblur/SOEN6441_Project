@@ -18,7 +18,7 @@ import static view.helpers.UIHelper.setDivider;
 /**
  * Reinforcement Controller class
  */
-public class ReinforcementController {
+public class PhaseReinforcementController {
     private ReinforcementPanel reinforcementPanel;
     private GamePlayFrame gamePlayFrame;
     private RiskGame riskGame;
@@ -33,7 +33,7 @@ public class ReinforcementController {
      *
      * @param gamePlayFrame the main frame
      */
-    public ReinforcementController(GamePlayFrame gamePlayFrame) {
+    public PhaseReinforcementController(GamePlayFrame gamePlayFrame) {
         this.gamePlayFrame = gamePlayFrame;
         reinforcementPanel = new ReinforcementPanel();
         
@@ -105,7 +105,7 @@ public class ReinforcementController {
         }
         if (runningSum > 0 && runningSum <= currentPlayer.getUnallocatedArmies()) {
             riskGame.placeArmies(armiesToPlace);
-            riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
+//            riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
             populateReinforcementPanel();
             gamePlayFrame.displayMessage("The armies were placed successfully");
             // reset the armies to zero
@@ -129,7 +129,7 @@ public class ReinforcementController {
         // TODO: (see true condition in the game and possibly have a setter for it under currentPlayer)
         // riskGame.fortificationPhase();
         
-        new FortificationController(gamePlayFrame);
+        new PhaseFortificationController(gamePlayFrame);
         
     }
 }

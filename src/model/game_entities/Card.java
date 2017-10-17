@@ -1,27 +1,33 @@
 package model.game_entities;
 
-import java.util.Arrays;
-import java.util.Vector;
-
-import static utilities.Config.*;
-
 /**
  * Card class contains all the different types that are available of cards in the deck in
  * cardType vector. Card type 1 is Infantry, type 2 is Cavalry, and type 3 is Artillery.
  */
 public class Card {
-    public static Vector<String> cardTypes =
-            new Vector<>(Arrays.asList(CARD_TYPE1, CARD_TYPE2, CARD_TYPE3));
+    public enum CARD_TYPE {
+        INFANTRY(0), CAVALRY(1), ARTILLERY(2);
+        
+        int index;
+        
+        CARD_TYPE(int index)  {
+            this.index = index;
+        }
     
-    private String cardType;
+        public int getIndex() {
+            return index;
+        }
+    }
+    
+    private CARD_TYPE cardType;
     
     /**
-     * The Card sets the cardType of a card in the deck according to the typeNumber.
+     * The Card sets the cardType of a card in the deck according to the index.
      *
-     * @param typeNumber
+     * @param cardType
      */
-    public Card(int typeNumber) {
-        this.cardType = cardTypes.elementAt(typeNumber);
+    public Card(CARD_TYPE cardType) {
+        this.cardType = cardType;
     }
     
     /* Getters & Setters */
@@ -29,7 +35,7 @@ public class Card {
     /**
      * @returns The getter the card type.
      */
-    public String getCardType() {
+    public CARD_TYPE getCardType() {
         return this.cardType;
     }
     
@@ -37,7 +43,7 @@ public class Card {
      * @return the count of card types
      */
     public static int getTypesCount() {
-        return cardTypes.size();
+        return CARD_TYPE.values().length;
     }
     
     /* Public Methods */
@@ -47,17 +53,25 @@ public class Card {
      * types of those cards.
      *
      * @param other The other card object to compare with.
-     * @return Boolean value that says whether or not the two objects are equal
+     * @return Boolean index that says whether or not the two objects are equal
      */
     @Override
     public boolean equals(Object other) {
         if (other == null) {
             return false;
         }
-        Card tempCard = (Card) other;
-        if (this.cardType.equals(((Card) other).cardType)) {
+        if (other == this) {
             return true;
         }
+        if (!(other instanceof Card)) {
+            return false;
+        }
+    
+        Card card = (Card) other;
+        if (cardType == card.getCardType()) {
+            return true;
+        }
+    
         return false;
     }
 }

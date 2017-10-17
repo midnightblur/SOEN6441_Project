@@ -52,7 +52,7 @@ public class TradeCardsController {
         
         /* Register to be ActionListeners */
         tradeCardsPanel.addTradeCardsButtonListener(e -> tradeSelectedCards());
-        tradeCardsPanel.addBackToReinforcementListener(e -> new ReinforcementController(this.gamePlayFrame));
+        tradeCardsPanel.addBackToReinforcementListener(e -> new PhaseReinforcementController(this.gamePlayFrame));
     }
     
     /* Private methods */
@@ -98,7 +98,7 @@ public class TradeCardsController {
         tradeCardsPanel.getCardList().removeAll();
         for (Card card : currentPlayer.getPlayersHand()) {
             JCheckBox checkBox = new JCheckBox();
-            checkBox.setText(card.getCardType());
+            checkBox.setText(card.getCardType().name());
             tradeCardsPanel.getCardList().add(checkBox);
         }
         tradeCardsPanel.getCardList().revalidate();

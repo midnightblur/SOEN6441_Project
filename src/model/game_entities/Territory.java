@@ -12,15 +12,15 @@ import java.util.Vector;
  * A territory must contain one or more armies
  */
 public class Territory extends Observable {
-    /* Private data members of model.game_entities.Territory class */
+    //region Attributes declaration
     private String name;
     private String continent;
     private Player owner;
     private int armies;
     private Vector<String> neighbors;
+    //endregion
 
-    /* Constructors */
-    
+    //region Constructors
     /**
      * Instantiate a new territory object given its name and the continent it belongs to
      *
@@ -43,6 +43,7 @@ public class Territory extends Observable {
         this.continent = "";
         this.neighbors = new Vector<>();
     }
+    //endregion
     
     /* Getters & Setters */
     public String getName() {
@@ -90,8 +91,7 @@ public class Territory extends Observable {
         broadcastTerritoryChanges();
     }
     
-    /* Public methods */
-    
+    //region Public methods
     /**
      * Add a territory as new neighbor
      *
@@ -215,7 +215,9 @@ public class Territory extends Observable {
         
         return false;
     }
+    //endregion
     
+    //region Private methods
     /**
      * Method to update the GamePlayModel and notify the Observer.
      */
@@ -223,4 +225,5 @@ public class Territory extends Observable {
         setChanged();
         notifyObservers();
     }
+    //endregion
 }

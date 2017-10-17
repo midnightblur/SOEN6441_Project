@@ -272,12 +272,12 @@ public class RiskGame extends Observable {
             int counter = 0;
             if (choice == 1) {  // for three of a kind exchange
                 for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
-                    if (currPlayer.getPlayersHand().get(i).getCardType().equals(selectedCards.firstElement())) {
+                    if (currPlayer.getPlayersHand().get(i).getCardType().name().compareTo(selectedCards.firstElement()) == 0) {
                         counter++;
                     }
                 }
                 if (counter >= 3) {
-                    Card tempCard = new Card(Card.cardTypes.indexOf(selectedCards.firstElement()));
+                    Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.firstElement()));
                     for (int i = 0; i < selectedCards.size(); i++) {
                         currPlayer.getPlayersHand().remove(tempCard);
                     }
@@ -287,14 +287,14 @@ public class RiskGame extends Observable {
                 }
             } else if (choice == 2) {  // for one of each exchange
                 for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
-                    Card tempCard = new Card(Card.cardTypes.indexOf(selectedCards.elementAt(cardIndex)));
+                    Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
                     if (currPlayer.getPlayersHand().contains(tempCard)) {
                         counter++;
                     }
                 }
                 if (counter == 3) {
                     for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
-                        Card tempCard = new Card(Card.cardTypes.indexOf(selectedCards.elementAt(cardIndex)));
+                        Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
                         currPlayer.getPlayersHand().remove(tempCard);
                     }
                     currPlayer.getPlayersHand().trimToSize();
@@ -325,14 +325,14 @@ public class RiskGame extends Observable {
         for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
             counter = 0;
             for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
-                if (currPlayer.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
+                if (currPlayer.getPlayersHand().get(i).getCardType() == Card.CARD_TYPE.values()[cardIndex]) {
                     counter++;
                 }
             }
             if (counter >= 3) {
                 int deleteCounter = 0;
                 for (Card card : currPlayer.getPlayersHand()) {
-                    if (card.getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
+                    if (card.getCardType()== Card.CARD_TYPE.values()[cardIndex]) {
                         currPlayer.getPlayersHand().remove(card);
                         deleteCounter++;
                     }
@@ -360,7 +360,7 @@ public class RiskGame extends Observable {
         for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
             counter = 0;
             for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
-                if (currPlayer.getPlayersHand().get(i).getCardType().equals(Card.cardTypes.elementAt(cardIndex))) {
+                if (currPlayer.getPlayersHand().get(i).getCardType()== Card.CARD_TYPE.values()[cardIndex]) {
                     counter++;
                     break;
                 }
@@ -369,7 +369,7 @@ public class RiskGame extends Observable {
         if (counter == 3) {
             for (int i = 0; i < Card.getTypesCount(); i++) {
                 for (Card card : currPlayer.getPlayersHand()) {
-                    if (card.getCardType().equals(Card.cardTypes.elementAt(i))) {
+                    if (card.getCardType() == Card.CARD_TYPE.values()[i]) {
                         currPlayer.getPlayersHand().remove(card);
                         currPlayer.getPlayersHand().trimToSize();
                         break;
@@ -438,13 +438,12 @@ public class RiskGame extends Observable {
     private void initDeck() {
         System.out.println("Initializing deck...");
         int typeNumber = 0;
-        int numOfCards = gameMap.getTerritoriesCount() +
-                (gameMap.getTerritoriesCount() % Card.getTypesCount()) * Card.getTypesCount();
+        int numOfCards = gameMap.getTerritoriesCount() + (gameMap.getTerritoriesCount() % Card.getTypesCount()) * Card.getTypesCount();
         for (int i = 0; i < numOfCards; i++) {
-            if (!(typeNumber < Card.getTypesCount())) {
+            if (typeNumber >= Card.getTypesCount()) {
                 typeNumber = 0;
             }
-            deck.add(new Card(typeNumber));
+            deck.add(new Card(Card.CARD_TYPE.values()[typeNumber]));
             typeNumber++;
         }
     }

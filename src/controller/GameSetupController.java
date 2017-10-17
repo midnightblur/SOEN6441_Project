@@ -38,7 +38,7 @@ public class GameSetupController {
         riskGame.addObserver(gameSetupPanel);
         
         /* Register to be ActionListeners */
-        gameSetupPanel.addPlayButtonListener(e -> new StartupController(this.gamePlayFrame));
+        gameSetupPanel.addPlayButtonListener(e -> new PhaseStartupController(this.gamePlayFrame));
 
         /* set control panel */
         populateStartupPanel();
