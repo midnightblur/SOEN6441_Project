@@ -16,6 +16,9 @@ import static model.helpers.GameMapHelper.loadGameMap;
 /**
  * The Main Game Controller class is
  * responsible for launching different game screens
+ *
+ * @author
+ * @version 1.0
  */
 public class MainMenuController extends JFrame {
     private MainMenuFrame mainMenuFrame;
@@ -29,6 +32,7 @@ public class MainMenuController extends JFrame {
         mainMenuFrame = new MainMenuFrame();
         registerToBeListener();
     }
+
 
     public void invokeFrame() {
         mainMenuFrame.setVisible(true);
@@ -66,7 +70,7 @@ public class MainMenuController extends JFrame {
         
             }
 
-        
+            
             private void loadMapIntoGame() {
                 /* load the selected map and make a new game*/
                         try {

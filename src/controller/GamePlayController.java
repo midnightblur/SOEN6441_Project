@@ -7,8 +7,12 @@ import view.screens.GamePlayFrame;
 import static utilities.Config.GAME_STATES.SETUP_PHASE;
 
 /**
- * Controller to read and set map filepath to the model, and dispatchToController
+ * This class is used as a controller to read and set map filepath
+ * to the model, and dispatchToController
  * the view to displayJFrame the map.
+ *
+ * @author
+ * @version 1.0
  */
 public class GamePlayController {
     // region Attributes declaration

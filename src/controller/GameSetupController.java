@@ -4,6 +4,8 @@ import model.ui_models.GamePlayModel;
 import view.screens.GamePlayFrame;
 import view.ui_components.GameSetupPanel;
 
+import javax.swing.*;
+
 import static model.ui_models.GamePlayModel.getInstance;
 import static view.helpers.UIHelper.setDivider;
 
@@ -15,8 +17,6 @@ public class GameSetupController {
     private GamePlayFrame gamePlayFrame;
     private GamePlayModel gamePlayModel;
     
-
-
     /* Constructors */
     
     /**
@@ -55,7 +55,21 @@ public class GameSetupController {
     
     private void openPlayGameScreen() {
         /* initialize the game */
-        gamePlayModel.getInstance().initializeNewGame(getInstance().getGameMap(), Integer.parseInt(gameSetupPanel.getPlayerCount().getText()));
-        new PhaseStartupController(gamePlayFrame);
+        int enteredPlayers = 0;
+        try {
+            enteredPlayers = Integer.parseInt(gameSetupPanel.getPlayerCount().getText());
+            if ((enteredPlayers > 0) && (enteredPlayers <= getInstance().getGameMap().getMaxPlayers())) {
+                getInstance().initializeNewGame(getInstance().getGameMap(), enteredPlayers);
+                new PhaseStartupController(gamePlayFrame);
+            } else {
+                gamePlayFrame.displayMessage("You must enter an amount of players between 1 and " + getInstance().getGameMap().getMaxPlayers());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid entry. Please re-enter a number.",
+                    "Entry Error!", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
 }
