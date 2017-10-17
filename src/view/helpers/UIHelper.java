@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UIHelper {
-    private UIHelper() {
-    }
+    private UIHelper() {}
     
     /**
      * Display a frame to screen
@@ -46,5 +45,14 @@ public class UIHelper {
      */
     public static void addVerticalSpacing(JPanel panel) {
         panel.add(Box.createRigidArea(new Dimension(0, 30)));
+    }
+    
+    /**
+     * Displays messages on UI
+     *
+     * @param message message string
+     */
+    public static void displayMessage(JFrame frame, String message) {
+        JOptionPane.showMessageDialog(frame, message);
     }
 }

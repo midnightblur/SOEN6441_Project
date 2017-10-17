@@ -58,15 +58,6 @@ public class GamePlayFrame extends JFrame implements Observer {
     // endregion
     
     // region Public methods
-    /**
-     * Displays messages on UI
-     *
-     * @param message message string
-     */
-    public void displayMessage(String message) {
-        JOptionPane.showMessageDialog(this, message);
-    }
-    
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof MapTableModel) {

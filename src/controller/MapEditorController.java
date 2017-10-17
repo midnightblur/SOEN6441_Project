@@ -7,6 +7,7 @@ import model.helpers.GameMapHelper;
 import model.ui_models.MapEditorModel;
 import utilities.Config;
 import view.helpers.SaveDialog;
+import view.helpers.UIHelper;
 import view.screens.MapEditorFrame;
 import view.ui_components.EditContinentPanel;
 import view.ui_components.EditTerritoryPanel;
@@ -81,7 +82,7 @@ public class MapEditorController {
             mapEditorModel.loadNewGameMap(mapName);
         } catch (Exception e) {
             e.printStackTrace(System.err);
-            mapEditorFrame.displayErrorMessage(e.getMessage());
+            UIHelper.displayMessage(mapEditorFrame, e.getMessage());
         }
     }
     
@@ -238,18 +239,18 @@ public class MapEditorController {
                 /* Adding new continent */
                 String result = mapEditorModel.addNewContinent(newContinent);
                 if (result.compareTo(String.format(GameMap.getMsgContinentAddSuccess(), newContinentName)) != 0) {
-                    mapEditorFrame.displayErrorMessage(result);
+                    UIHelper.displayMessage(mapEditorFrame, result);
                 }
             } else {
                 /* Update existing continent */
                 String oldContinentName = String.valueOf(mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentsListDropdown().getSelectedItem());
                 String result = mapEditorModel.updateContinent(oldContinentName, newContinent);
                 if (result.compareTo(String.format(GameMap.getMsgContinentEditSuccess(), newContinentName)) != 0) {
-                    mapEditorFrame.displayErrorMessage(result);
+                    UIHelper.displayMessage(mapEditorFrame, result);
                 }
             }
         } catch (NumberFormatException e) {
-            mapEditorFrame.displayErrorMessage(e.getMessage());
+            UIHelper.displayMessage(mapEditorFrame, e.getMessage());
         }
     }
 
@@ -260,7 +261,7 @@ public class MapEditorController {
         String continentName = String.valueOf(mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentsListDropdown().getSelectedItem());
         String result = mapEditorModel.removeContinent(continentName);
         if (result.compareTo(String.format(GameMap.getMsgContinentRemoveSuccess(), continentName)) != 0) {
-            mapEditorFrame.displayErrorMessage(result);
+            UIHelper.displayMessage(mapEditorFrame, result);
         }
     }
     
@@ -294,14 +295,14 @@ public class MapEditorController {
             /* Adding new territory */
             String result = mapEditorModel.addNewTerritory(newTerritory);
             if (result.compareTo(String.format(GameMap.getMsgTerritoryAddSuccess(), newTerritoryName)) != 0) {
-                mapEditorFrame.displayErrorMessage(result);
+                UIHelper.displayMessage(mapEditorFrame, result);
             }
         } else {
             /* Update existing territory */
             String oldTerritoryName = String.valueOf(mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoriesListDropdown().getSelectedItem());
             String result = mapEditorModel.updateTerritory(oldTerritoryName, newTerritory);
             if (result.compareTo(String.format(GameMap.getMsgTerritoryEditSuccess(), newTerritoryName)) != 0) {
-                mapEditorFrame.displayErrorMessage(result);
+                UIHelper.displayMessage(mapEditorFrame, result);
             }
         }
     }
@@ -313,7 +314,7 @@ public class MapEditorController {
         String territoryName = String.valueOf(mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoriesListDropdown().getSelectedItem());
         String result = mapEditorModel.removeTerritory(territoryName);
         if (result.compareTo(String.format(GameMap.getMsgTerritoryRemoveSuccess(), territoryName)) != 0) {
-            mapEditorFrame.displayErrorMessage(result);
+            UIHelper.displayMessage(mapEditorFrame, result);
         }
     }
 
@@ -324,7 +325,7 @@ public class MapEditorController {
         File mapFileToSave = null;
         String validateMessage = GameMapHelper.validateMap(mapEditorModel.getGameMap());
         if (validateMessage.compareTo(Config.MSG_MAPFILE_VALID) != 0) {
-            mapEditorFrame.displayErrorMessage(validateMessage);
+            UIHelper.displayMessage(mapEditorFrame, validateMessage);
         } else {
             SaveDialog fileChooser = new SaveDialog();
             int selection = fileChooser.showSaveDialog(fileChooser.getParent());
@@ -336,7 +337,7 @@ public class MapEditorController {
                 }
                 try {
                     GameMapHelper.writeToFile(mapEditorModel.getGameMap(), mapFileToSave.getAbsolutePath());
-                    mapEditorFrame.displayErrorMessage("The map file was saved at \n" + mapFileToSave.getAbsolutePath());
+                    UIHelper.displayMessage(mapEditorFrame, "The map file was saved at \n" + mapFileToSave.getAbsolutePath());
                 
                     /* reload the map dropdown list and make the saved map the current one */
                     mapEditorModel.updateListOfMaps();
@@ -344,7 +345,7 @@ public class MapEditorController {
                     loadMap();
                 } catch (Exception e) {
                     e.printStackTrace(System.err);
-                    mapEditorFrame.displayErrorMessage(e.toString());
+                    UIHelper.displayMessage(mapEditorFrame, e.getMessage());
                 }
                 
             }

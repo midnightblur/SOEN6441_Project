@@ -1,8 +1,9 @@
 package controller;
 
-import model.ui_models.GamePlayModel;
 import model.game_entities.Player;
 import model.ui_models.FortificationModel;
+import model.ui_models.GamePlayModel;
+import view.helpers.UIHelper;
 import view.screens.GamePlayFrame;
 import view.ui_components.FortificationPanel;
 
@@ -80,9 +81,9 @@ public class PhaseFortificationController {
             if (message.toLowerCase().contains("success")) {
                 fortificationPanel.getMoveArmiesButton().setEnabled(false);
             }
-            gamePlayFrame.displayMessage(message);
+            UIHelper.displayMessage(gamePlayFrame, message);
         } else {
-            gamePlayFrame.displayMessage("Please validate your selection.");
+            UIHelper.displayMessage(gamePlayFrame,"Please validate your selection.");
         }
     }
     

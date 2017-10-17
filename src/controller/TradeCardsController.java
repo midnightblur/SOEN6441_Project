@@ -3,6 +3,7 @@ package controller;
 import model.game_entities.Card;
 import model.game_entities.Player;
 import model.ui_models.GamePlayModel;
+import view.helpers.UIHelper;
 import view.screens.GamePlayFrame;
 import view.ui_components.TradeCardsPanel;
 
@@ -103,7 +104,7 @@ public class TradeCardsController {
         tradeCardsPanel.getGainedArmiesLabel().setVisible(true);
         
         // confirmation message
-        gamePlayFrame.displayMessage(message);
+        UIHelper.displayMessage(gamePlayFrame, message);
     }
     
     /**

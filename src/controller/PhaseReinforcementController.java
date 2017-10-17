@@ -4,6 +4,7 @@ import model.game_entities.Player;
 import model.game_entities.Territory;
 import model.ui_models.GamePlayModel;
 import model.ui_models.PlayerTerritoriesModel;
+import view.helpers.UIHelper;
 import view.screens.GamePlayFrame;
 import view.ui_components.ReinforcementPanel;
 
@@ -111,13 +112,13 @@ public class PhaseReinforcementController {
             gamePlayModel.placeArmies(armiesToPlace);
             //riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
             populateReinforcementPanel();
-            gamePlayFrame.displayMessage("The armies were placed successfully");
+            UIHelper.displayMessage(gamePlayFrame, "The armies were placed successfully");
             // reset the armies to zero
             for (int r = 0; r < armiesData.getRowCount(); r++) {
                 armiesData.setValueAt(0, r, 1);
             }
         } else {
-            gamePlayFrame.displayMessage("The total armies to allocate must be lesser or equal to the indicated total armies to place");
+            UIHelper.displayMessage(gamePlayFrame, "The total armies to allocate must be lesser or equal to the indicated total armies to place");
         }
     }
     

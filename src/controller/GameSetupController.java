@@ -1,6 +1,7 @@
 package controller;
 
 import model.ui_models.GamePlayModel;
+import view.helpers.UIHelper;
 import view.screens.GamePlayFrame;
 import view.ui_components.GameSetupPanel;
 
@@ -62,7 +63,7 @@ public class GameSetupController {
                 getInstance().initializeNewGame(getInstance().getGameMap(), enteredPlayers);
                 new PhaseStartupController(gamePlayFrame);
             } else {
-                gamePlayFrame.displayMessage("You must enter an amount of players between 1 and " + getInstance().getGameMap().getMaxPlayers());
+                UIHelper.displayMessage(gamePlayFrame,"You must enter an amount of players between 1 and " + getInstance().getGameMap().getMaxPlayers());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(

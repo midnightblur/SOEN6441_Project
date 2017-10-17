@@ -3,6 +3,7 @@ package controller;
 import model.game_entities.Player;
 import model.ui_models.GamePlayModel;
 import model.ui_models.StartupModel;
+import view.helpers.UIHelper;
 import view.screens.GamePlayFrame;
 import view.ui_components.StartupPanel;
 
@@ -94,7 +95,7 @@ public class PhaseStartupController {
             gamePlayModel.getMapTableModel().updateMapTableModel(gamePlayModel.getGameMap());
             startupPanel.getDoneButton().setEnabled(true);
         } else {
-            gamePlayFrame.displayMessage("Please validate your selection.");
+            UIHelper.displayMessage(gamePlayFrame, "Please validate your selection.");
         }
     }
     
