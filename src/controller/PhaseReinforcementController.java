@@ -1,8 +1,8 @@
 package controller;
 
-import model.ui_models.GamePlayModel;
 import model.game_entities.Player;
 import model.game_entities.Territory;
+import model.ui_models.GamePlayModel;
 import model.ui_models.PlayerTerritoriesModel;
 import view.screens.GamePlayFrame;
 import view.ui_components.ReinforcementPanel;
@@ -16,7 +16,11 @@ import static utilities.Config.GAME_STATES.REINFORCEMENT_PHASE;
 import static view.helpers.UIHelper.setDivider;
 
 /**
- * Reinforcement Controller class
+ * Reinforcement controller class is responsible for starting
+ * and controlling this phase.
+ *
+ * @author
+ * @verison 1.0
  */
 public class PhaseReinforcementController {
     private ReinforcementPanel reinforcementPanel;
@@ -105,7 +109,7 @@ public class PhaseReinforcementController {
         }
         if (runningSum > 0 && runningSum <= currentPlayer.getUnallocatedArmies()) {
             gamePlayModel.placeArmies(armiesToPlace);
-//            riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
+            //riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
             populateReinforcementPanel();
             gamePlayFrame.displayMessage("The armies were placed successfully");
             // reset the armies to zero
@@ -118,7 +122,7 @@ public class PhaseReinforcementController {
     }
     
     /**
-     * Show the controller responsible for trading cards
+     * Shows the controller responsible for trading cards
      */
     private void tradeCards() {
         new TradeCardsController(this.gamePlayFrame);

@@ -11,7 +11,11 @@ import static utilities.Config.GAME_STATES.STARTUP_PHASE;
 import static view.helpers.UIHelper.setDivider;
 
 /**
- * The StartupController class
+ * The StartupController class is responsible for the first phase
+ * of the game and controlling necessary changes.
+ *
+ * @author
+ * @version 1.0
  */
 public class PhaseStartupController {
     private StartupPanel startupPanel;
