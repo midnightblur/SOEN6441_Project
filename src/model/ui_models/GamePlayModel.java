@@ -135,10 +135,10 @@ public class GamePlayModel extends Observable {
         this.gameMap = gameMap;
         
         // TODO: handle this error someplace else?  THIS ERROR WONT OCCUR SINCE NUMBER OF PLAYERS IS CONTROLLED ALREADY
-        if (!(numOfPlayers > 1 && numOfPlayers <= gameMap.getTerritoriesCount())) {
-            System.err.println("Invalid number of players. Should catch it in the view.");
-            return;
-        }
+        //if (!(numOfPlayers > 1 && numOfPlayers <= gameMap.getTerritoriesCount())) {
+        //    System.err.println("Invalid number of players. Should catch it in the view.");
+        //    return;
+       // }
 
          /* initialization of game attributes */
         initPlayers(numOfPlayers);
