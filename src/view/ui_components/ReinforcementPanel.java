@@ -48,6 +48,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
         totalArmiesToPlace = new JLabel();
         totalArmiesToPlace.setFont(new Font("Sans Serif", Font.BOLD, 16));
         howManyArmiesToPlace = new JLabel(ARMIES_TO_PLACE_LABEL);
+        
         playerTerritoryTable = new JTable() {
             @Override   // set the data type for each column
             public Class getColumnClass(int column) {
@@ -91,6 +92,8 @@ public class ReinforcementPanel extends JPanel implements Observer {
             }
         };
         playerTerritoryTable.setDefaultEditor(Integer.class, new IntegerEditor());
+        playerTerritoryTable.getTableHeader().setReorderingAllowed(false);
+    
         placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON);
         placeArmiesButton.setForeground(Color.BLUE);
         goToFortificationButton = new JButton(GO_TO_FORTIFICATION_BUTTON);
