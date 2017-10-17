@@ -31,7 +31,7 @@ public class TradeCardsController {
     /* Constructors */
     
     /**
-     * Constructor for the Trade Cards Controller
+     * Constructor for the Trade Cards Controller is
      * responsible for exchanging cards for armies
      *
      * @param gamePlayFrame the main frame
