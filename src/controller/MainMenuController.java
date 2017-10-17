@@ -14,7 +14,7 @@ import static model.helpers.GameMapHelper.getMapsInFolder;
 import static model.helpers.GameMapHelper.loadGameMap;
 
 /**
- * The Main Game Controller class is
+ * The Main Class,  MainGameController  is
  * responsible for launching different game screens
  *
  * @author
