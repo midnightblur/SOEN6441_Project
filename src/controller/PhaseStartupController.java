@@ -1,7 +1,7 @@
 package controller;
 
-import model.ui_models.GamePlayModel;
 import model.game_entities.Player;
+import model.ui_models.GamePlayModel;
 import model.ui_models.StartupModel;
 import view.screens.GamePlayFrame;
 import view.ui_components.StartupPanel;
@@ -37,9 +37,10 @@ public class PhaseStartupController {
         gamePlayFrame.getContentPane().setRightComponent(startupPanel);
         setDivider(gamePlayFrame.getContentPane());
         gamePlayModel = getInstance();
-        currentPlayer = gamePlayModel.getCurrPlayer();
-        
         gamePlayModel.setGameState(STARTUP_PHASE);
+        currentPlayer = gamePlayModel.getCurrPlayer();
+        // update the game map TODO: is it necessary?
+        gamePlayModel.getMapTableModel().updateMapTableModel(gamePlayModel.getGameMap());
 
         /* Register Observer to Observable */
         gamePlayModel.addObserver(startupPanel);

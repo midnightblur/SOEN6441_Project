@@ -43,7 +43,7 @@ public class MapTableModel extends Observable {
             columns.add("Owner");
             columns.add("Armies");
         }
-    
+        
         rows = new String[gameMap.getTerritoriesCount() + gameMap.getContinentsCount()][columns.size()];
         int i = 0;
         /* add continents */
@@ -59,7 +59,7 @@ public class MapTableModel extends Observable {
             }
             i++;
         }
-    
+        
         for (Territory territory : gameMap.getTerritories().values()) {
             rows[i][0] = territory.getContinent();
             rows[i][1] = territory.getName();
@@ -76,6 +76,7 @@ public class MapTableModel extends Observable {
         this.model.setColumnIdentifiers(columns);
         Arrays.sort(rows, new BidiArrayComparator(0));        // perform sort on Continents column
         groupRows();                                                  // 'group' the rows
+        broadcastMapTableModelChanges();
         return model;
     }
     
@@ -101,6 +102,14 @@ public class MapTableModel extends Observable {
             }
             this.model.addRow(row);
         }
+    }
+    
+    /**
+     * Method to update the GamePlayModel and notify the Observer.
+     */
+    private void broadcastMapTableModelChanges() {
+        setChanged();
+        notifyObservers();
     }
     
 }

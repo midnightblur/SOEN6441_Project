@@ -1,7 +1,6 @@
 package controller;
 
 import model.ui_models.GamePlayModel;
-import utilities.Config;
 import view.screens.GamePlayFrame;
 import view.ui_components.GameSetupPanel;
 
@@ -38,7 +37,7 @@ public class GameSetupController {
         gamePlayModel.addObserver(gameSetupPanel);
         
         /* Register to be ActionListeners */
-        gameSetupPanel.addPlayButtonListener(e -> new PhaseStartupController(this.gamePlayFrame));
+        gameSetupPanel.addPlayButtonListener(e -> openPlayGameScreen());
 
         /* set control panel */
         populateStartupPanel();
@@ -51,12 +50,12 @@ public class GameSetupController {
      */
     private void populateStartupPanel() {
         /* set the maximum players box */
-        gameSetupPanel.setMaxPlayersLabel(gamePlayModel.getGameMap().getMaxPlayers());
+        gameSetupPanel.setMaxPlayersLabel(getInstance().getGameMap().getMaxPlayers());
     }
     
     private void openPlayGameScreen() {
         /* initialize the game */
-        GamePlayModel.getInstance().initializeNewGame(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
-        // new GamePlayController(this);
+        gamePlayModel.getInstance().initializeNewGame(getInstance().getGameMap(), Integer.parseInt(gameSetupPanel.getPlayerCount().getText()));
+        new PhaseStartupController(gamePlayFrame);
     }
 }

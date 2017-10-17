@@ -1,6 +1,7 @@
 package view.ui_components;
 
 import model.ui_models.MapEditorModel;
+import model.ui_models.MapTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
@@ -19,14 +20,19 @@ public class GameMapTable extends JTable implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        setModel(((MapEditorModel) o).getMapTableModel().getModel());
+        if (o instanceof MapEditorModel) {
+            setModel(((MapEditorModel) o).getMapTableModel().getModel());
+        }
+        if (o instanceof MapTableModel) {
+            setModel(((MapTableModel) o).getModel());
+        }
         resizeColumns();
     }
     
     /* Private methods */
+    
     /**
      * Resize the table columns to fit
-     *
      */
     private void resizeColumns() {
         final TableColumnModel columnModel = getColumnModel();
@@ -70,7 +76,7 @@ public class GameMapTable extends JTable implements Observer {
             for (int i = 0; i < colors.length; i++) {
                 if (("Player " + Integer.toString(i + 1)).equals(owner)) {
                     c.setFont(new Font("Sans Serif", Font.ITALIC, 16));
-                    c.setBackground(Color.WHITE);
+                    // c.setBackground(Color.WHITE);
                     c.setForeground(colors[i]);
                 }
             }

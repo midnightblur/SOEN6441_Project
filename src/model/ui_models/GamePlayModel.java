@@ -1,7 +1,6 @@
 package model.ui_models;
 
 import model.game_entities.*;
-import model.helpers.GameMapHelper;
 
 import java.util.*;
 
@@ -37,6 +36,7 @@ public class GamePlayModel extends Observable {
     // endregion
     
     // region Constructors
+    
     /**
      * private constructor preventing any other class from instantiating.
      */
@@ -63,6 +63,16 @@ public class GamePlayModel extends Observable {
     // endregion
     
     // region Getters and Setters
+    
+    /**
+     * Sets new gameMap.
+     *
+     * @param gameMap New value of gameMap.
+     */
+    public void setGameMap(GameMap gameMap) {
+        this.gameMap = gameMap;
+    }
+    
     public GameMap getGameMap() {
         return gameMap;
     }
@@ -111,23 +121,20 @@ public class GamePlayModel extends Observable {
     }
     
     // endregion
-
+    
     // region Public methods
+    
     /**
      * Loads the map specified by the filepath, and initializes the game attributes
      * for a new instance of Risk Game using the specified number of players.
      *
-     * @param filepath     String value describing the filepath to the game map text file
+     * @param gameMap      The already loaded map object
      * @param numOfPlayers The specified integer of the number of players that will play the game
      */
-    public void initializeNewGame(String filepath, int numOfPlayers) {
-        try {
-            this.gameMap = GameMapHelper.loadGameMap(filepath);
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-        }
+    public void initializeNewGame(GameMap gameMap, int numOfPlayers) {
+        this.gameMap = gameMap;
         
-        // TODO: handle this error someplace else?
+        // TODO: handle this error someplace else?  THIS ERROR WONT OCCUR SINCE NUMBER OF PLAYERS IS CONTROLLED ALREADY
         if (!(numOfPlayers > 1 && numOfPlayers <= gameMap.getTerritoriesCount())) {
             System.err.println("Invalid number of players. Should catch it in the view.");
             return;
@@ -339,7 +346,7 @@ public class GamePlayModel extends Observable {
             if (counter >= 3) {
                 int deleteCounter = 0;
                 for (Card card : currPlayer.getPlayersHand()) {
-                    if (card.getCardType()== Card.CARD_TYPE.values()[cardIndex]) {
+                    if (card.getCardType() == Card.CARD_TYPE.values()[cardIndex]) {
                         currPlayer.getPlayersHand().remove(card);
                         deleteCounter++;
                     }
@@ -367,7 +374,7 @@ public class GamePlayModel extends Observable {
         for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
             counter = 0;
             for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
-                if (currPlayer.getPlayersHand().get(i).getCardType()== Card.CARD_TYPE.values()[cardIndex]) {
+                if (currPlayer.getPlayersHand().get(i).getCardType() == Card.CARD_TYPE.values()[cardIndex]) {
                     counter++;
                     break;
                 }
@@ -422,8 +429,9 @@ public class GamePlayModel extends Observable {
         broadcastGamePlayChanges();
     }
     //endregion
-
+    
     // region Private methods
+    
     /**
      * Private helper method to initialize the players according to
      * the number of players (currPlayers).
@@ -483,9 +491,9 @@ public class GamePlayModel extends Observable {
         For build 1 demo purposes only using World.map and 6 players.
         Give player 1 all the territories.
          */
-    
+        
         System.out.println("Distributing territories...");
-    
+        
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
             territoryArrList.add(entry.getValue().getName());

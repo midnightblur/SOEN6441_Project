@@ -28,6 +28,11 @@ public class MapSelectorFrame extends JFrame implements Observer {
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
     }
     
+    /* Getters & Setters */
+    public JComboBox<String> getMapDropdown() {
+        return mapDropdown;
+    }
+    
     /* MVC methods */
     public void addPlayGameButtonListener(ActionListener listenerForPlayGameButton) {
         playGameBtn.addActionListener(listenerForPlayGameButton);

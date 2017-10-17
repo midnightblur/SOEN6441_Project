@@ -1,17 +1,26 @@
 package controller;
 
-import model.ui_models.GamePlayModel;
+import model.game_entities.GameMap;
+import model.ui_models.DropDownModel;
 import utilities.Config;
 import view.screens.MainMenuFrame;
+import view.screens.MapSelectorFrame;
 
+import javax.swing.*;
 import java.awt.event.WindowEvent;
+import java.util.Vector;
+
+import static model.helpers.GameMapHelper.getMapsInFolder;
+import static model.helpers.GameMapHelper.loadGameMap;
 
 /**
  * The Main Game Controller class is
  * responsible for launching different game screens
  */
-public class MainMenuController {
+public class MainMenuController extends JFrame {
     private MainMenuFrame mainMenuFrame;
+    private DropDownModel mapDropdownModel;
+    private MapSelectorFrame mapSelectorFrame;
 
     /**
      * This method is used to launch main screen of application
@@ -29,7 +38,6 @@ public class MainMenuController {
     private void registerToBeListener() {
         mainMenuFrame.addMapEditorButtonListener(e -> openMapEditorScreen());
         mainMenuFrame.addPlayGameButtonListener(e -> openPlayGameScreen());
-        // TODO: mainMenuFrame.addPlayGameButtonListener(e -> new StartupController(new GamePlayFrame()));
         mainMenuFrame.addQuitButtonListener(e -> exitGame());
     }
     
@@ -43,11 +51,33 @@ public class MainMenuController {
     private void openPlayGameScreen() {
         mainMenuFrame.setVisible(false);
         mainMenuFrame.setEnabled(false);
+        
+        mapSelectorFrame = new MapSelectorFrame();
+                mapSelectorFrame.addPlayGameButtonListener(e -> loadMapIntoGame());
+                        /* update map list and populate dropdown */
+                                updateListOfMaps();
+                mapSelectorFrame.getMapDropdown().setModel(mapDropdownModel);
+                    }
+        
+            public void updateListOfMaps() {
+                Vector<String> mapList = new Vector<>();
+                mapList.addAll(getMapsInFolder(Config.MAPS_FOLDER));
+                mapDropdownModel = new DropDownModel(mapList);
+        
+            }
 
-        /* initialize the game */
-        GamePlayModel.getInstance().initializeNewGame(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
-        new GamePlayController(this);
-    }
+        
+            private void loadMapIntoGame() {
+                /* load the selected map and make a new game*/
+                        try {
+                                   GameMap gameMap = loadGameMap(mapSelectorFrame.getMapDropdown().getSelectedItem().toString());
+            
+                        mapSelectorFrame.setVisible(false);
+                                    mapSelectorFrame.setEnabled(false);
+                                    new GamePlayController(gameMap);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }}
     
     private void exitGame() {
         mainMenuFrame.dispatchEvent(new WindowEvent(mainMenuFrame, WindowEvent.WINDOW_CLOSING));

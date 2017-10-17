@@ -15,6 +15,7 @@ public class Config {
      * and render various functionality as needed
      */
     public enum GAME_STATES {
+        SETUP_PHASE(0),
         ENTRY_MENU(1),
         MAP_EDITOR(2),
         STARTUP_PHASE(3),   // distribute territories and armies
