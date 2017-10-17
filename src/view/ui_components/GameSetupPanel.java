@@ -42,6 +42,7 @@ public class GameSetupPanel extends JPanel implements Observer {
 
         /* Add the elements to the panel */
         controlWrapper.add(playersLabel);
+        controlWrapper.add(maxPlayersLabel);
         controlWrapper.add(playerCount);
         addVerticalSpacing(controlWrapper);
         controlWrapper.add(playButton);
