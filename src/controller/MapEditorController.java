@@ -17,6 +17,13 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Vector;
 
+/**
+ * This is the Map editor controller used to control the
+ * actions of map editor
+ *
+ * @author
+ * @version 1.0
+ */
 public class MapEditorController {
     //region Attributes declaration
     private static final String NONE_RADIO_BUTTON = "NONE";
