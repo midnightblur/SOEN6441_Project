@@ -5,6 +5,7 @@ import model.ui_models.DropDownModel;
 import utilities.Config;
 import view.screens.MapSelectorFrame;
 
+import java.awt.event.WindowEvent;
 import java.util.Vector;
 
 import static model.helpers.GameMapHelper.getMapsInFolder;
@@ -21,6 +22,7 @@ public class MapSelectorController {
         this.callerController = callerController;
         mapSelectorFrame = new MapSelectorFrame();
         mapSelectorFrame.addPlayGameButtonListener(e -> loadMapIntoGame());
+        mapSelectorFrame.addBackButtonListener(e -> backToMainMenu());
         
         /* update map list and populate dropdown */
         mapSelectorFrame.getMapDropdown().setModel(updateListOfMaps());
@@ -44,6 +46,11 @@ public class MapSelectorController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    private void backToMainMenu() {
+        callerController.invokeFrame();
+        mapSelectorFrame.dispatchEvent(new WindowEvent(mapSelectorFrame, WindowEvent.WINDOW_CLOSING));
     }
     // endregion
 }
