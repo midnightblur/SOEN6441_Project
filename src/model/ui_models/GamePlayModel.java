@@ -148,6 +148,13 @@ public class GamePlayModel extends Observable {
         assignOneArmyPerTerritory();
         setCurrPlayer(players.firstElement());
 
+        System.out.println("num of players: " + players.size());
+        for (Player player : players) {
+            System.out.println("player" + player.getPlayerID() + " init armies: " + player.getUnallocatedArmies());
+            System.out.println("num of territories of player" + player.getPlayerID() + ": " + gameMap.getTerritoriesOfPlayer(player).size());
+        }
+        System.out.println("deck size: " + deck.size());
+
           /* Hand out cards for build 1 presentation. To be commented out for normal game play */
         for (Player player : players) {
             for (int i = 0; i < 5; i++) {
