@@ -87,7 +87,7 @@ public class PhaseStartupController {
         if (territory != null || !territory.equals("")) {
             startupPanel.getPlaceArmiesButton().setEnabled(false);
             gamePlayModel.placeArmy(territory);
-//            riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
+            gamePlayModel.getMapTableModel().updateMapTableModel(gamePlayModel.getGameMap());
             startupPanel.getDoneButton().setEnabled(true);
         } else {
             gamePlayFrame.displayMessage("Please validate your selection.");
