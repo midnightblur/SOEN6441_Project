@@ -32,8 +32,8 @@ public class PhaseReinforcementController {
     /* Constructors */
     
     /**
-     * Constructor for the Reinforcement Controller
-     * responsible of moving armies to adjacent territories of same player
+     * Constructor for the Reinforcement Controller is
+     * responsible for moving armies to adjacent territories of the same player
      *
      * @param gamePlayFrame the main frame
      */
