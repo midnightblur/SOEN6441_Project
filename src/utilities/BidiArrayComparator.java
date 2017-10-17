@@ -2,6 +2,13 @@ package utilities;
 
 import java.util.Comparator;
 
+/**
+ *
+ *
+ * @author
+ * @version
+ */
+
 public class BidiArrayComparator implements Comparator {
     private int colToSort;
     
