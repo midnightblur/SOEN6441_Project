@@ -71,6 +71,8 @@ public class GamePlayModel extends Observable {
      */
     public void setGameMap(GameMap gameMap) {
         this.gameMap = gameMap;
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
     }
     
     public GameMap getGameMap() {
@@ -133,6 +135,7 @@ public class GamePlayModel extends Observable {
      */
     public void initializeNewGame(GameMap gameMap, int numOfPlayers) {
         this.gameMap = gameMap;
+        updateGameMapTableModel();
         
         // TODO: handle this error someplace else?  THIS ERROR WONT OCCUR SINCE NUMBER OF PLAYERS IS CONTROLLED ALREADY
         //if (!(numOfPlayers > 1 && numOfPlayers <= gameMap.getTerritoriesCount())) {

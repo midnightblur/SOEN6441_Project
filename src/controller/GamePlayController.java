@@ -2,8 +2,12 @@ package controller;
 
 import model.game_entities.GameMap;
 import model.ui_models.GamePlayModel;
+import view.helpers.UIHelper;
 import view.screens.GamePlayFrame;
 
+import javax.swing.*;
+
+import static model.ui_models.GamePlayModel.getInstance;
 import static utilities.Config.GAME_STATES.SETUP_PHASE;
 
 /**
@@ -31,57 +35,81 @@ public class GamePlayController {
      */
     public GamePlayController(MapSelectorController callerController, GameMap gameMap) {
         this.callerController = callerController;
-        gamePlayFrame = new GamePlayFrame();
         gamePlayModel = GamePlayModel.getInstance();
+        gamePlayFrame = new GamePlayFrame();
     
-        /* set the map to loaded map and update the model */
-        gamePlayModel.setGameMap(gameMap);
-        gamePlayModel.getMapTableModel().updateMapTableModel(gameMap);
+        registerObserversToObservable();
+    
+        registerToBeListener();
         
-        // put the game in initial state
+        gamePlayModel.setGameMap(gameMap);
         gamePlayModel.setGameState(SETUP_PHASE);
         
         /* set the model for the main table */
         gamePlayFrame.getGameMapTable().setModel(gamePlayModel.getMapTableModel().getModel());
         
-        setControlPanel();
-        
-        /* Register Observer to Observable */
-        gamePlayModel.getMapTableModel().addObserver(gamePlayFrame.getGameMapTable());
-        
-        /* Register to be ActionListeners */
-        // TODO: put the back in a menu
-        //gamePlayFrame.getControlPanel().addBackButtonListener(e -> backToMainMenu());
+//        setControlPanel();
     }
     // endregion
     
     // region Private methods
+    private void registerObserversToObservable() {
+        gamePlayModel.addObserver(gamePlayFrame.getGameMapTable());
+        gamePlayModel.addObserver(gamePlayFrame.getGameSetupPanel());
+        gamePlayModel.addObserver(gamePlayFrame.getStartupPanel());
+        gamePlayModel.addObserver(gamePlayFrame.getReinforcementPanel());
+        gamePlayModel.addObserver(gamePlayFrame.getFortificationPanel());
+    }
     
-    /**
-     * Setting the control panel area depending on the state of the game
-     * and instantiating respective controller
-     */
-    private void setControlPanel() {
-        switch (GamePlayModel.getInstance().getGameState()) {
-            case SETUP_PHASE:
-                new GameSetupController(gamePlayFrame);
-                break;
-            case STARTUP_PHASE:
+    private void registerToBeListener() {
+        // TODO: put the back in a menu
+        //gamePlayFrame.getControlPanel().addBackButtonListener(e -> backToMainMenu());
+        gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> startTheGame());
+    }
+    
+    private void startTheGame() {
+        /* initialize the game */
+        int enteredPlayers;
+        try {
+            enteredPlayers = Integer.parseInt(gamePlayFrame.getGameSetupPanel().getPlayerCount().getText());
+            if ((enteredPlayers > 0) && (enteredPlayers <= getInstance().getGameMap().getMaxPlayers())) {
+                getInstance().initializeNewGame(getInstance().getGameMap(), enteredPlayers);
                 new PhaseStartupController(gamePlayFrame);
-                break;
-            case REINFORCEMENT_PHASE:
-                new PhaseReinforcementController(gamePlayFrame);
-                break;
-            case FORTIFICATION_PHASE:
-                new PhaseFortificationController(gamePlayFrame);
-                break;
-            case TRADE_IN_PHASE:
-                new TradeCardsController(gamePlayFrame);
-                break;
-            case ATTACK_PHASE:
-                // TODO: make attack phase view and controller
-                break;
+            } else {
+                UIHelper.displayMessage(gamePlayFrame,"You must enter an amount of players between 1 and " + getInstance().getGameMap().getMaxPlayers());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid entry. Please re-enter a number.",
+                    "Entry Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
+//    /**
+//     * Setting the control panel area depending on the state of the game
+//     * and instantiating respective controller
+//     */
+//    private void setControlPanel() {
+//        switch (GamePlayModel.getInstance().getGameState()) {
+//            case SETUP_PHASE:
+//                new GameSetupController(gamePlayFrame);
+//                break;
+//            case STARTUP_PHASE:
+//                new PhaseStartupController(gamePlayFrame);
+//                break;
+//            case REINFORCEMENT_PHASE:
+//                new PhaseReinforcementController(gamePlayFrame);
+//                break;
+//            case FORTIFICATION_PHASE:
+//                new PhaseFortificationController(gamePlayFrame);
+//                break;
+//            case TRADE_IN_PHASE:
+//                new TradeCardsController(gamePlayFrame);
+//                break;
+//            case ATTACK_PHASE:
+//                // TODO: make attack phase view and controller
+//                break;
+//        }
+//    }
     // endregion
 }

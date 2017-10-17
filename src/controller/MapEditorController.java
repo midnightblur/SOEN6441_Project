@@ -89,8 +89,8 @@ public class MapEditorController {
      * Close the current MapEditor screen and navigate back to the MainMenu screen
      */
     private void backToMainMenu() {
-        UIHelper.invokeFrame(callerController);
         UIHelper.closeFrame(mapEditorFrame);
+        UIHelper.invokeFrame(callerController.getMainMenuFrame());
     }
     
     /**

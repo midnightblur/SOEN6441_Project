@@ -53,7 +53,7 @@ public class PhaseStartupController {
         startupModel.addObserver(startupPanel);
 
         /* Register to be ActionListeners */
-        startupPanel.addDoneButtonListener(e -> nextPlayer());
+        startupPanel.addPlayButtonListener(e -> nextPlayer());
         startupPanel.addPlaceArmyButtonListener(e -> placeArmy());
 
         /* set control panel */
@@ -78,9 +78,9 @@ public class PhaseStartupController {
         /* set the source dropdown */
         startupPanel.getTerritoryDropdown().setModel(startupModel.getTerritoriesList());
         if (gamePlayModel.getNextPlayer().getUnallocatedArmies() == 0) {
-            startupPanel.setDoneButton("Done (to Fortification Phase)");
+            startupPanel.setPlayButton("Done (to Fortification Phase)");
         }
-        startupPanel.getDoneButton().setEnabled(false);
+        startupPanel.getPlayButton().setEnabled(false);
         startupPanel.getPlaceArmiesButton().setEnabled(true);
     }
     
@@ -93,7 +93,7 @@ public class PhaseStartupController {
             startupPanel.getPlaceArmiesButton().setEnabled(false);
             gamePlayModel.placeArmy(territory);
             gamePlayModel.getMapTableModel().updateMapTableModel(gamePlayModel.getGameMap());
-            startupPanel.getDoneButton().setEnabled(true);
+            startupPanel.getPlayButton().setEnabled(true);
         } else {
             UIHelper.displayMessage(gamePlayFrame, "Please validate your selection.");
         }

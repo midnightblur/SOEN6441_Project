@@ -49,8 +49,8 @@ public class MapSelectorController {
     }
     
     private void backToMainMenu() {
-        UIHelper.invokeFrame(callerController);
-        
+        UIHelper.closeFrame(mapSelectorFrame);
+        UIHelper.invokeFrame(callerController.getMainMenuFrame());
     }
     // endregion
 }

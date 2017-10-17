@@ -22,7 +22,7 @@ public class StartupPanel extends JPanel implements Observer {
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
 
     private JButton placeArmyButton;
-    private JButton doneButton;
+    private JButton playButton;
     private JLabel gameState;
     private JLabel playerID;
     private JLabel totalArmiesToPlace;
@@ -41,7 +41,7 @@ public class StartupPanel extends JPanel implements Observer {
         territoryDropdown = new JComboBox<>();
         placeArmyButton = new JButton(PLACE_ARMY_BUTTON);
         placeArmyButton.setForeground(Color.BLUE);
-        doneButton = new JButton(DONE_BUTTON);
+        playButton = new JButton(DONE_BUTTON);
 
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -61,7 +61,7 @@ public class StartupPanel extends JPanel implements Observer {
         controlWrapper.add(placeArmyButton);
         addVerticalSpacing(controlWrapper);
         addVerticalSpacing(controlWrapper);
-        controlWrapper.add(doneButton);
+        controlWrapper.add(playButton);
         addVerticalSpacing(controlWrapper);
 
         add(controlWrapper);
@@ -80,12 +80,12 @@ public class StartupPanel extends JPanel implements Observer {
         this.playerID.setText("Player " + playerID);
     }
 
-    public void setDoneButton(String displayName) {
-        this.doneButton.setText(displayName);
+    public void setPlayButton(String displayName) {
+        this.playButton.setText(displayName);
     }
     
-    public JButton getDoneButton() {
-        return doneButton;
+    public JButton getPlayButton() {
+        return playButton;
     }
 
     public JButton getPlaceArmiesButton() {
@@ -102,8 +102,8 @@ public class StartupPanel extends JPanel implements Observer {
         placeArmyButton.addActionListener(listenerForPlaceArmiesButton);
     }
 
-    public void addDoneButtonListener(ActionListener listenerForDoneButton) {
-        doneButton.addActionListener(listenerForDoneButton);
+    public void addPlayButtonListener(ActionListener listenerForDoneButton) {
+        playButton.addActionListener(listenerForDoneButton);
     }
 
 

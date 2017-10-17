@@ -30,6 +30,14 @@ public class MainMenuController extends JFrame {
     }
     // endregion
     
+    // region Getters & Setters
+    
+    public MainMenuFrame getMainMenuFrame() {
+        return mainMenuFrame;
+    }
+    
+    // endregion
+    
     // region Public methods
     
     // endregion
@@ -42,16 +50,12 @@ public class MainMenuController extends JFrame {
     }
     
     private void openMapEditorScreen() {
-        mainMenuFrame.setVisible(false);
-        mainMenuFrame.setEnabled(false);
-        
+        UIHelper.disableFrame(mainMenuFrame);
         new MapEditorController(this);
     }
     
     private void openPlayGameScreen() {
-        mainMenuFrame.setVisible(false);
-        mainMenuFrame.setEnabled(false);
-        
+        UIHelper.disableFrame(mainMenuFrame);
         new MapSelectorController(this);
     }
     

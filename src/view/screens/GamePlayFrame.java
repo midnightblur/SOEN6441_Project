@@ -2,17 +2,14 @@ package view.screens;
 
 import model.ui_models.GamePlayModel;
 import model.ui_models.MapTableModel;
-import view.ui_components.FortificationPanel;
-import view.ui_components.GameMapTable;
-import view.ui_components.ReinforcementPanel;
-import view.ui_components.StartupPanel;
+import view.helpers.UIHelper;
+import view.ui_components.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-import static view.helpers.UIHelper.displayJFrame;
 import static view.helpers.UIHelper.setDivider;
 
 public class GamePlayFrame extends JFrame implements Observer {
@@ -23,6 +20,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     
     private JSplitPane contentPane;
     private GameMapTable gameMapTable;
+    private GameSetupPanel gameSetupPanel;
     private StartupPanel startupPanel;
     private ReinforcementPanel reinforcementPanel;
     private FortificationPanel fortificationPanel;
@@ -42,7 +40,7 @@ public class GamePlayFrame extends JFrame implements Observer {
         setupControlArea();
         
         /* Setup & Display frame */
-        displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
+        UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
     }
     // endregion
     
@@ -55,6 +53,23 @@ public class GamePlayFrame extends JFrame implements Observer {
     public GameMapTable getGameMapTable() {
         return gameMapTable;
     }
+    
+    public GameSetupPanel getGameSetupPanel() {
+        return gameSetupPanel;
+    }
+    
+    public StartupPanel getStartupPanel() {
+        return startupPanel;
+    }
+    
+    public ReinforcementPanel getReinforcementPanel() {
+        return reinforcementPanel;
+    }
+    
+    public FortificationPanel getFortificationPanel() {
+        return fortificationPanel;
+    }
+    
     // endregion
     
     // region Public methods
@@ -94,6 +109,8 @@ public class GamePlayFrame extends JFrame implements Observer {
     private void setupControlArea() {
         JPanel controlArea = new JPanel(new CardLayout());
         
+        gameSetupPanel = new GameSetupPanel();
+        controlArea.add(gameSetupPanel, GameSetupPanel.class.getName());
         startupPanel = new StartupPanel();
         controlArea.add(startupPanel, StartupPanel.class.getName());
         reinforcementPanel = new ReinforcementPanel();
