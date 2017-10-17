@@ -26,6 +26,7 @@ public class TradeCardsController {
     private GamePlayFrame gamePlayFrame;
     private GamePlayModel gamePlayModel;
     private Player currentPlayer;
+    private int armiesBeforeTrading;
     
     /* Constructors */
     
@@ -49,6 +50,9 @@ public class TradeCardsController {
         /* Set control panel */
         populateTradeCardsPanel();
         
+        // collect the armies before trading to later calculate the gained armies
+        armiesBeforeTrading = currentPlayer.getUnallocatedArmies();
+
         /* Register Observer to Observable */
         gamePlayModel.addObserver(tradeCardsPanel);
         currentPlayer.addObserver(tradeCardsPanel);
@@ -70,10 +74,7 @@ public class TradeCardsController {
         
         /* set the player ID label */
         tradeCardsPanel.setPlayerID(currentPlayer.getPlayerID());
-        
-        /* set the armies gained label */
-        tradeCardsPanel.setArmiesGained(currentPlayer.getUnallocatedArmies());
-        
+
         /* the cards list for this particular player */
         listCards();
         
@@ -93,10 +94,18 @@ public class TradeCardsController {
             }
         }
         String message = gamePlayModel.tradeInCards(selectedCards);
-        listCards(); // this will remove used cards
+        
+        // remove traded cards from list
+        listCards();
+        
+        /* set the armies gained label */
+        tradeCardsPanel.setArmiesGained(currentPlayer.getUnallocatedArmies() - armiesBeforeTrading);
+        tradeCardsPanel.getGainedArmiesLabel().setVisible(true);
+        
+        // confirmation message
         gamePlayFrame.displayMessage(message);
     }
-
+    
     /**
      * This method is used to list the cards that a player has.
      */
