@@ -10,7 +10,7 @@ import static model.ui_models.GamePlayModel.getInstance;
 import static view.helpers.UIHelper.setDivider;
 
 /**
- * The StartupController class
+ * This is a StartupController class
  */
 public class GameSetupController {
     private GameSetupPanel gameSetupPanel;
