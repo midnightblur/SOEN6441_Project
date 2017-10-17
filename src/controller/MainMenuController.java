@@ -1,10 +1,10 @@
 package controller;
 
+import view.helpers.UIHelper;
 import view.screens.MainMenuFrame;
 import view.screens.MapSelectorFrame;
 
 import javax.swing.*;
-import java.awt.event.WindowEvent;
 
 /**
  * The Class MainGameController  is
@@ -31,10 +31,7 @@ public class MainMenuController extends JFrame {
     // endregion
     
     // region Public methods
-    public void invokeFrame() {
-        mainMenuFrame.setVisible(true);
-        mainMenuFrame.setEnabled(true);
-    }
+    
     // endregion
     
     // region Private methods
@@ -59,7 +56,7 @@ public class MainMenuController extends JFrame {
     }
     
     private void exitGame() {
-        mainMenuFrame.dispatchEvent(new WindowEvent(mainMenuFrame, WindowEvent.WINDOW_CLOSING));
+        UIHelper.closeFrame(mainMenuFrame);
     }
     // endregion
 }

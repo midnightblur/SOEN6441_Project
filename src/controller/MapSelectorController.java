@@ -3,9 +3,9 @@ package controller;
 import model.game_entities.GameMap;
 import model.ui_models.DropDownModel;
 import utilities.Config;
+import view.helpers.UIHelper;
 import view.screens.MapSelectorFrame;
 
-import java.awt.event.WindowEvent;
 import java.util.Vector;
 
 import static model.helpers.GameMapHelper.getMapsInFolder;
@@ -38,19 +38,19 @@ public class MapSelectorController {
     private void loadMapIntoGame() {
         /* load the selected map and make a new game*/
         try {
-            GameMap gameMap = loadGameMap(mapSelectorFrame.getMapDropdown().getSelectedItem().toString());
+            GameMap gameMap = loadGameMap(String.valueOf(mapSelectorFrame.getMapDropdown().getSelectedItem()));
             
             mapSelectorFrame.setVisible(false);
             mapSelectorFrame.setEnabled(false);
-            new GamePlayController(gameMap);
+            new GamePlayController(this, gameMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
     private void backToMainMenu() {
-        callerController.invokeFrame();
-        mapSelectorFrame.dispatchEvent(new WindowEvent(mapSelectorFrame, WindowEvent.WINDOW_CLOSING));
+        UIHelper.invokeFrame(callerController);
+        
     }
     // endregion
 }

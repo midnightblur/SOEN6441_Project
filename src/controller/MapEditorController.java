@@ -14,7 +14,6 @@ import view.ui_components.EditTerritoryPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Vector;
 
@@ -90,8 +89,8 @@ public class MapEditorController {
      * Close the current MapEditor screen and navigate back to the MainMenu screen
      */
     private void backToMainMenu() {
-        callerController.invokeFrame();
-        mapEditorFrame.dispatchEvent(new WindowEvent(mapEditorFrame, WindowEvent.WINDOW_CLOSING));
+        UIHelper.invokeFrame(callerController);
+        UIHelper.closeFrame(mapEditorFrame);
     }
     
     /**

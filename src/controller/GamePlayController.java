@@ -16,6 +16,7 @@ import static utilities.Config.GAME_STATES.SETUP_PHASE;
  */
 public class GamePlayController {
     // region Attributes declaration
+    private MapSelectorController callerController;
     private GamePlayFrame gamePlayFrame;
     private GamePlayModel gamePlayModel;
     // endregion
@@ -28,7 +29,8 @@ public class GamePlayController {
      *
      * @param gameMap The already loaded map for the game
      */
-    public GamePlayController(GameMap gameMap) {
+    public GamePlayController(MapSelectorController callerController, GameMap gameMap) {
+        this.callerController = callerController;
         gamePlayFrame = new GamePlayFrame();
         gamePlayModel = GamePlayModel.getInstance();
     
