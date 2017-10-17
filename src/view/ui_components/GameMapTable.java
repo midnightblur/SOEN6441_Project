@@ -86,6 +86,9 @@ public class GameMapTable extends JTable implements Observer {
             c.setForeground(Color.BLACK);
         }
         
+        // do not allow reordering of columns
+        getTableHeader().setReorderingAllowed(false);
+        
         return c;
     }
     
