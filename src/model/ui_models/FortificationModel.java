@@ -1,6 +1,5 @@
 package model.ui_models;
 
-import model.RiskGame;
 import model.game_entities.Player;
 import model.game_entities.Territory;
 
@@ -8,7 +7,7 @@ import javax.swing.*;
 import java.util.Observable;
 import java.util.Vector;
 
-import static model.RiskGame.getInstance;
+import static model.ui_models.GamePlayModel.getInstance;
 
 
 /**
@@ -20,20 +19,20 @@ import static model.RiskGame.getInstance;
 public class FortificationModel extends Observable {
     private Vector<String> sourceTerritoriesList;
     private Vector<String> targetTerritoriesList;
-    private RiskGame riskGame;
+    private GamePlayModel gamePlayModel;
     private Player currentPlayer;
 
     /**
      * This is a constructor.
      */
     public FortificationModel() {
-        riskGame = getInstance();
-        currentPlayer = riskGame.getCurrPlayer();
+        gamePlayModel = getInstance();
+        currentPlayer = gamePlayModel.getCurrPlayer();
         sourceTerritoriesList = new Vector<>();
         targetTerritoriesList = new Vector<>();
         
         /* collect player's territories */
-        for (Territory t : riskGame.getGameMap().getTerritoriesOfPlayer(currentPlayer).values()) {
+        for (Territory t : gamePlayModel.getGameMap().getTerritoriesOfPlayer(currentPlayer).values()) {
             sourceTerritoriesList.add(t.getName());
         }
         broadcastGamePlayChanges();
@@ -58,9 +57,9 @@ public class FortificationModel extends Observable {
      */
     public void setTargetTerritoriesList(String selectedTerritory) {
         targetTerritoriesList.clear();
-        Vector<String> neighbors = riskGame.getGameMap().getATerritory(selectedTerritory).getNeighbors();
+        Vector<String> neighbors = gamePlayModel.getGameMap().getATerritory(selectedTerritory).getNeighbors();
         for (String n : neighbors) {  // if neighbor is owned by current player, add it to the lost
-            if (riskGame.getGameMap().getATerritory(n).isOwnedBy(currentPlayer.getPlayerID())
+            if (gamePlayModel.getGameMap().getATerritory(n).isOwnedBy(currentPlayer.getPlayerID())
                     && !n.equals(selectedTerritory)) {
                 targetTerritoriesList.add(n);
             }
