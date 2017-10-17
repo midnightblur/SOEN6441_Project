@@ -16,7 +16,7 @@ import static utilities.Config.GAME_STATES.REINFORCEMENT_PHASE;
 import static view.helpers.UIHelper.setDivider;
 
 /**
- * Reinforcement controller class is responsible for starting
+ * This is Reinforcement controller class which is responsible for starting
  * and controlling this phase.
  *
  * @author
