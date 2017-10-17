@@ -1,5 +1,6 @@
 package view.screens;
 
+import model.ui_models.GamePlayModel;
 import model.ui_models.MapTableModel;
 import view.ui_components.FortificationPanel;
 import view.ui_components.GameMapTable;
@@ -70,6 +71,9 @@ public class GamePlayFrame extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof MapTableModel) {
             gameMapTable.setModel(((MapTableModel) o).getModel());
+        }
+        if (o instanceof GamePlayModel) {
+            gameMapTable.setModel(((GamePlayModel) o).getMapTableModel().getModel());
         }
     }
     // endregion
