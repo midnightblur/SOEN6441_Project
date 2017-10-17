@@ -1,9 +1,6 @@
 package model.ui_models;
 
-import model.game_entities.Card;
-import model.game_entities.GameMap;
-import model.game_entities.Player;
-import model.game_entities.Territory;
+import model.game_entities.*;
 import model.helpers.GameMapHelper;
 
 import java.util.*;
@@ -158,16 +155,23 @@ public class GamePlayModel extends Observable {
     /**
      * The reinforcement phase includes allowing the players to hand in their cards for
      * armies (or force them to if they have more than or equal to 5 cards), assign
-     * to-be-allocated armies to the players according to the number of territories they
-     * control (to a minimum of 3), and allows players to place those armies.
+     * to-be-allocated armies to the players according to the number of territories and
+     * continents they control (to a minimum of 3), and allows players to place those armies.
      */
     public void reinforcementPhase() {
-        
         // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
         int armiesToGive = gameMap.getTerritoriesOfPlayer(currPlayer).size() / 3;
         if (armiesToGive < 3) {
             armiesToGive = 3;
         }
+        
+        // Assign players additional number armies to allocate if that player owns a continent.
+        for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
+            if (currPlayer.getPlayerID() == entry.getValue().getContinentOwner()) {
+                armiesToGive += entry.getValue().getControlValue();
+            }
+        }
+        
         currPlayer.addUnallocatedArmies(armiesToGive);
         broadcastGamePlayChanges();
     }
@@ -456,23 +460,54 @@ public class GamePlayModel extends Observable {
      * possible between all of the players.
      */
     private void distributeTerritories() {
-        System.out.println("Distributing territories...");
+//        System.out.println("Distributing territories...");
+//
+//        ArrayList<String> territoryArrList = new ArrayList<>();
+//        for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
+//            territoryArrList.add(entry.getValue().getName());
+//        }
+//
+//        int playerIndex = 0;
+//        for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
+//            if (!(playerIndex < players.size())) {
+//                playerIndex = 0;
+//            }
+//            int territoryIndex = rand.nextInt(territoryArrList.size());
+//            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
+//            playerIndex++;
+//            territoryArrList.remove(territoryIndex);
+//        }
         
+        // ------------ comment out above and use below ------------
+        /*
+        For build 1 demo purposes only using World.map and 6 players.
+        Give player 1 all the territories.
+         */
+    
+        System.out.println("Distributing territories...");
+    
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
             territoryArrList.add(entry.getValue().getName());
         }
         
-        int playerIndex = 0;
-        for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
+        for (int i = 0; i < gameMap.getAContinent("europe").getTerritories().size(); i++) {
+            int territoryIndex = territoryArrList.indexOf(gameMap.getAContinent("europe").getTerritories().get(i));
+            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(0));
+            territoryArrList.remove(territoryIndex);
+        }
+        
+        int playerIndex = 1;
+        for (int i = 0; i < gameMap.getTerritoriesCount() - 7; i++) {
             if (!(playerIndex < players.size())) {
-                playerIndex = 0;
+                playerIndex = 1;
             }
             int territoryIndex = rand.nextInt(territoryArrList.size());
             gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
             playerIndex++;
             territoryArrList.remove(territoryIndex);
         }
+        // ---------------------------------------------------------
     }
     
     /**

@@ -121,20 +121,20 @@ public class Continent {
     /**
      * Determine if a continent was fully conquered and return the id of the owner if so
      *
-     * @return the id of the owner having conquered all territories within this continent
+     * @return the int value of the id of the owner having conquered all territories within this continent, 0  if none
      *
      * @throws NullPointerException if territories are not yet allocated to players
      */
-    public String getContinentOwner() throws NullPointerException {
+    public int getContinentOwner() throws NullPointerException {
         String continentOwner = "";
         if (GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).isOwned()) {
             continentOwner = "Player " + GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
             for (String territoryName : territories) {
                 if (!Objects.equals(continentOwner, "Player " + GamePlayModel.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerID()))
-                    return "nobody owns it yet";
+                    return 0;
             }
         }
-        return continentOwner;
+        return  GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
     }
     
     /**
