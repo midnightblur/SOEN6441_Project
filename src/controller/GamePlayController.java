@@ -31,9 +31,6 @@ public class GamePlayController {
         // put the game in initial state
         gamePlayModel.setGameState(STARTUP_PHASE);
         
-        // set the Control Panel to proper frame depending on the game state
-        setControlPanel();
-        
         /* set the model for the main table */
         gamePlayFrame.getGameGameMapTable().setModel(gamePlayModel.getMapTableModel().getModel());
         
@@ -47,28 +44,28 @@ public class GamePlayController {
     // endregion
     
     // region Private methods
-    /**
-     * Setting the control panel area depending on the state of the game
-     * and instantiating respective controller
-     */
-    private void setControlPanel() {
-        switch (GamePlayModel.getInstance().getGameState()) {
-            case STARTUP_PHASE:
-                new PhaseStartupController(gamePlayFrame);
-                break;
-            case REINFORCEMENT_PHASE:
-                new PhaseReinforcementController(gamePlayFrame);
-                break;
-            case FORTIFICATION_PHASE:
-                new PhaseFortificationController(gamePlayFrame);
-                break;
-            case TRADE_IN_PHASE:
-                new TradeCardsController(gamePlayFrame);
-                break;
-            case ATTACK_PHASE:
-                // TODO: make attack phase view and controller
-                break;
-        }
-    }
+//    /**
+//     * Setting the control panel area depending on the state of the game
+//     * and instantiating respective controller
+//     */
+//    private void setControlPanel() {
+//        switch (GamePlayModel.getInstance().getGameState()) {
+//            case STARTUP_PHASE:
+//                new PhaseStartupController(gamePlayFrame);
+//                break;
+//            case REINFORCEMENT_PHASE:
+//                new PhaseReinforcementController(gamePlayFrame);
+//                break;
+//            case FORTIFICATION_PHASE:
+//                new PhaseFortificationController(gamePlayFrame);
+//                break;
+//            case TRADE_IN_PHASE:
+//                new TradeCardsController(gamePlayFrame);
+//                break;
+//            case ATTACK_PHASE:
+//                // TODO: make attack phase view and controller
+//                break;
+//        }
+//    }
     // endregion
 }

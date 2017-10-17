@@ -25,14 +25,16 @@ import static utilities.Config.INITIAL_ARMY_RATIO;
  */
 public class GamePlayModel extends Observable {
     // region Attributes declaration
+    private static final int DEFAULT_ARMY_VALUE = 5;
+    
+    private static GamePlayModel instance = null;
     private GameMap gameMap;
     private MapTableModel mapTableModel;
-    private int armyValue = 5;
-    private static GamePlayModel instance = null;
+    private GAME_STATES gameState;
     
+    private int armyValue;
     private Vector<Card> deck;
     private Vector<Player> players;
-    private GAME_STATES gameState;
     private Random rand;
     private Player currPlayer;
     // endregion
@@ -42,6 +44,7 @@ public class GamePlayModel extends Observable {
      * private constructor preventing any other class from instantiating.
      */
     private GamePlayModel() {
+        armyValue = DEFAULT_ARMY_VALUE;
         mapTableModel = new MapTableModel();
         deck = new Vector<>();
         players = new Vector<>();
@@ -63,9 +66,6 @@ public class GamePlayModel extends Observable {
     // endregion
     
     // region Getters and Setters
-
-    /* Getter and Setter methods for class RiskGame's private attributes */
-    
     public GameMap getGameMap() {
         return gameMap;
     }
@@ -109,6 +109,7 @@ public class GamePlayModel extends Observable {
     
     public void setGameState(GAME_STATES GAMESTATES) {
         this.gameState = GAMESTATES;
+        broadcastGamePlayChanges();
     }
     
     // endregion
@@ -507,6 +508,9 @@ public class GamePlayModel extends Observable {
         notifyObservers();
     }
     
+    /**
+     * Update the GameMapTableModel according to the newly updated GameMap object
+     */
     private void updateGameMapTableModel() {
         mapTableModel.updateMapTableModel(gameMap);
     }
