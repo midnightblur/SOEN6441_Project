@@ -5,19 +5,7 @@ package model.game_entities;
  * cardType vector. Card type 1 is Infantry, type 2 is Cavalry, and type 3 is Artillery.
  */
 public class Card {
-    public enum CARD_TYPE {
-        INFANTRY(0), CAVALRY(1), ARTILLERY(2);
-        
-        int index;
-        
-        CARD_TYPE(int index)  {
-            this.index = index;
-        }
-    
-        public int getIndex() {
-            return index;
-        }
-    }
+    public enum CARD_TYPE {INFANTRY, CAVALRY, ARTILLERY}
     
     private CARD_TYPE cardType;
     
