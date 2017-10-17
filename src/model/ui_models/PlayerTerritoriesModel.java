@@ -1,6 +1,6 @@
 package model.ui_models;
 
-import model.RiskGame;
+import model.GamePlayModel;
 import model.game_entities.GameMap;
 import model.game_entities.Player;
 import model.game_entities.Territory;
@@ -37,7 +37,7 @@ public class PlayerTerritoriesModel extends Observable {
         columns.clear();
         columns.add("Territory");
         columns.add("Armies to place");
-        GameMap gameMap = RiskGame.getInstance().getGameMap();
+        GameMap gameMap = GamePlayModel.getInstance().getGameMap();
         rows = new Object[gameMap.getTerritoriesOfPlayer(player).size()][columns.size()];
         
         int i = 0;

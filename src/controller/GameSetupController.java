@@ -1,11 +1,11 @@
 package controller;
 
-import model.RiskGame;
+import model.GamePlayModel;
 import utilities.Config;
 import view.screens.GamePlayFrame;
 import view.ui_components.GameSetupPanel;
 
-import static model.RiskGame.getInstance;
+import static model.GamePlayModel.getInstance;
 import static view.helpers.UIHelper.setDivider;
 
 /**
@@ -14,7 +14,7 @@ import static view.helpers.UIHelper.setDivider;
 public class GameSetupController {
     private GameSetupPanel gameSetupPanel;
     private GamePlayFrame gamePlayFrame;
-    private RiskGame riskGame;
+    private GamePlayModel gamePlayModel;
     
 
 
@@ -32,10 +32,10 @@ public class GameSetupController {
         
         gamePlayFrame.getContentPane().setRightComponent(gameSetupPanel);
         setDivider(gamePlayFrame.getContentPane());
-        riskGame = getInstance();
+        gamePlayModel = getInstance();
         
         /* Register Observer to Observable */
-        riskGame.addObserver(gameSetupPanel);
+        gamePlayModel.addObserver(gameSetupPanel);
         
         /* Register to be ActionListeners */
         gameSetupPanel.addPlayButtonListener(e -> new PhaseStartupController(this.gamePlayFrame));
@@ -51,12 +51,12 @@ public class GameSetupController {
      */
     private void populateStartupPanel() {
         /* set the maximum players box */
-        gameSetupPanel.setMaxPlayersLabel(riskGame.getGameMap().getMaxPlayers());
+        gameSetupPanel.setMaxPlayersLabel(gamePlayModel.getGameMap().getMaxPlayers());
     }
     
     private void openPlayGameScreen() {
         /* initialize the game */
-        RiskGame.getInstance().initializeNewGame(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
+        GamePlayModel.getInstance().initializeNewGame(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
         // new GamePlayController(this);
     }
 }

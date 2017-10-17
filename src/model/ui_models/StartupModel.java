@@ -1,6 +1,6 @@
 package model.ui_models;
 
-import model.RiskGame;
+import model.GamePlayModel;
 import model.game_entities.Player;
 import model.game_entities.Territory;
 
@@ -8,20 +8,20 @@ import javax.swing.*;
 import java.util.Observable;
 import java.util.Vector;
 
-import static model.RiskGame.getInstance;
+import static model.GamePlayModel.getInstance;
 
 public class StartupModel extends Observable {
     private Vector<String> territoriesList;
-    private RiskGame riskGame;
+    private GamePlayModel gamePlayModel;
     private Player currentPlayer;
 
     public StartupModel() {
-        riskGame = getInstance();
-        currentPlayer = riskGame.getCurrPlayer();
+        gamePlayModel = getInstance();
+        currentPlayer = gamePlayModel.getCurrPlayer();
         territoriesList = new Vector<>();
 
         /* collect player's territories */
-        for (Territory t : riskGame.getGameMap().getTerritoriesOfPlayer(currentPlayer).values()) {
+        for (Territory t : gamePlayModel.getGameMap().getTerritoriesOfPlayer(currentPlayer).values()) {
             territoriesList.add(t.getName());
         }
         broadcastGamePlayChanges();

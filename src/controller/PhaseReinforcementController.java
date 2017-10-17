@@ -1,6 +1,6 @@
 package controller;
 
-import model.RiskGame;
+import model.GamePlayModel;
 import model.game_entities.Player;
 import model.game_entities.Territory;
 import model.ui_models.PlayerTerritoriesModel;
@@ -11,7 +11,7 @@ import javax.swing.table.TableModel;
 import java.util.HashMap;
 import java.util.Map;
 
-import static model.RiskGame.getInstance;
+import static model.GamePlayModel.getInstance;
 import static utilities.Config.GAME_STATES.REINFORCEMENT_PHASE;
 import static view.helpers.UIHelper.setDivider;
 
@@ -21,7 +21,7 @@ import static view.helpers.UIHelper.setDivider;
 public class PhaseReinforcementController {
     private ReinforcementPanel reinforcementPanel;
     private GamePlayFrame gamePlayFrame;
-    private RiskGame riskGame;
+    private GamePlayModel gamePlayModel;
     private PlayerTerritoriesModel playerTerritoriesModel;
     private Player currentPlayer;
     
@@ -39,16 +39,16 @@ public class PhaseReinforcementController {
         
         gamePlayFrame.getContentPane().setRightComponent(reinforcementPanel);
         setDivider(gamePlayFrame.getContentPane());
-        riskGame = getInstance();
-        currentPlayer = riskGame.getCurrPlayer();
+        gamePlayModel = getInstance();
+        currentPlayer = gamePlayModel.getCurrPlayer();
         
-        riskGame.setGameState(REINFORCEMENT_PHASE);
+        gamePlayModel.setGameState(REINFORCEMENT_PHASE);
     
         /* set control panel */
         populateReinforcementPanel();
         
         /* Register Observer to Observable */
-        riskGame.addObserver(reinforcementPanel);
+        gamePlayModel.addObserver(reinforcementPanel);
         currentPlayer.addObserver(reinforcementPanel);
         playerTerritoriesModel.addObserver(reinforcementPanel);
 
@@ -66,7 +66,7 @@ public class PhaseReinforcementController {
      */
     private void populateReinforcementPanel() {
         /* set the phase label */
-        reinforcementPanel.setGameState(riskGame.getGameState());
+        reinforcementPanel.setGameState(gamePlayModel.getGameState());
         
         /* set the player ID label */
         reinforcementPanel.setPlayerID(currentPlayer.getPlayerID());
@@ -100,11 +100,11 @@ public class PhaseReinforcementController {
             if (armies > 0) {   // only add entries that have more than 0 armies to be placed
                 runningSum += armies;
                 territoryName = armiesData.getValueAt(r, 0).toString();
-                armiesToPlace.put(riskGame.getGameMap().getATerritory(territoryName), armies);
+                armiesToPlace.put(gamePlayModel.getGameMap().getATerritory(territoryName), armies);
             }
         }
         if (runningSum > 0 && runningSum <= currentPlayer.getUnallocatedArmies()) {
-            riskGame.placeArmies(armiesToPlace);
+            gamePlayModel.placeArmies(armiesToPlace);
 //            riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
             populateReinforcementPanel();
             gamePlayFrame.displayMessage("The armies were placed successfully");

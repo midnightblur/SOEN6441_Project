@@ -1,6 +1,6 @@
 package view.ui_components;
 
-import model.RiskGame;
+import model.GamePlayModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,8 +68,8 @@ public class GameSetupPanel extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof RiskGame) {
-            setMaxPlayersLabel(((RiskGame) o).getGameMap().getMaxPlayers());
+        if (o instanceof GamePlayModel) {
+            setMaxPlayersLabel(((GamePlayModel) o).getGameMap().getMaxPlayers());
         }
     }
 }

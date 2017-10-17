@@ -1,6 +1,6 @@
 package model.game_entities;
 
-import model.RiskGame;
+import model.GamePlayModel;
 
 import java.util.Objects;
 import java.util.Vector;
@@ -113,7 +113,7 @@ public class Continent {
     public int getContinentArmies() throws NullPointerException {
         int count = 0;
         for (String territoryName : territories) {
-            count += RiskGame.getInstance().getGameMap().getATerritory(territoryName).getArmies();
+            count += GamePlayModel.getInstance().getGameMap().getATerritory(territoryName).getArmies();
         }
         return count;
     }
@@ -127,10 +127,10 @@ public class Continent {
      */
     public String getContinentOwner() throws NullPointerException {
         String continentOwner = "";
-        if (RiskGame.getInstance().getGameMap().getATerritory(territories.get(0)).isOwned()) {
-            continentOwner = "Player " + RiskGame.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
+        if (GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).isOwned()) {
+            continentOwner = "Player " + GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
             for (String territoryName : territories) {
-                if (!Objects.equals(continentOwner, "Player " + RiskGame.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerID()))
+                if (!Objects.equals(continentOwner, "Player " + GamePlayModel.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerID()))
                     return "nobody owns it yet";
             }
         }

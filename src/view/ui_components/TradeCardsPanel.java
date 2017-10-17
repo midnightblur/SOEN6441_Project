@@ -1,6 +1,6 @@
 package view.ui_components;
 
-import model.RiskGame;
+import model.GamePlayModel;
 import model.game_entities.Player;
 import utilities.Config.GAME_STATES;
 
@@ -111,8 +111,8 @@ public class TradeCardsPanel extends JPanel implements Observer {
         if (o instanceof Player) {
             setArmiesGained(((Player) o).getUnallocatedArmies());
         }
-        if (o instanceof RiskGame) {
-            setArmyValueLabel(((RiskGame) o).getArmyValue());
+        if (o instanceof GamePlayModel) {
+            setArmyValueLabel(((GamePlayModel) o).getArmyValue());
         }
     }
 }

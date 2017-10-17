@@ -1,6 +1,6 @@
 package controller;
 
-import model.RiskGame;
+import model.GamePlayModel;
 import model.game_entities.Card;
 import model.game_entities.Player;
 import view.screens.GamePlayFrame;
@@ -21,7 +21,7 @@ import static view.helpers.UIHelper.setDivider;
 public class TradeCardsController {
     private TradeCardsPanel tradeCardsPanel;
     private GamePlayFrame gamePlayFrame;
-    private RiskGame riskGame;
+    private GamePlayModel gamePlayModel;
     private Player currentPlayer;
     
     /* Constructors */
@@ -38,16 +38,16 @@ public class TradeCardsController {
         
         gamePlayFrame.getContentPane().setRightComponent(tradeCardsPanel);
         setDivider(gamePlayFrame.getContentPane());
-        riskGame = RiskGame.getInstance();
-        currentPlayer = riskGame.getCurrPlayer();
+        gamePlayModel = GamePlayModel.getInstance();
+        currentPlayer = gamePlayModel.getCurrPlayer();
         
-        riskGame.setGameState(TRADE_IN_PHASE);
+        gamePlayModel.setGameState(TRADE_IN_PHASE);
         
         /* set control panel */
         populateTradeCardsPanel();
         
         /* Register Observer to Observable */
-        riskGame.addObserver(tradeCardsPanel);
+        gamePlayModel.addObserver(tradeCardsPanel);
         currentPlayer.addObserver(tradeCardsPanel);
         
         /* Register to be ActionListeners */
@@ -63,7 +63,7 @@ public class TradeCardsController {
     private void populateTradeCardsPanel() {
 
         /* set the phase label */
-        tradeCardsPanel.setGameState(riskGame.getGameState());
+        tradeCardsPanel.setGameState(gamePlayModel.getGameState());
         
         /* set the player ID label */
         tradeCardsPanel.setPlayerID(currentPlayer.getPlayerID());
@@ -75,7 +75,7 @@ public class TradeCardsController {
         listCards();
         
         /* set the army value label */
-        tradeCardsPanel.setArmyValueLabel(riskGame.getArmyValue());
+        tradeCardsPanel.setArmyValueLabel(gamePlayModel.getArmyValue());
     }
     
     /**
@@ -89,7 +89,7 @@ public class TradeCardsController {
                 selectedCards.add(checkBox.getText());
             }
         }
-        String message = riskGame.tradeInCards(selectedCards);
+        String message = gamePlayModel.tradeInCards(selectedCards);
         listCards(); // this will remove used cards
         gamePlayFrame.displayMessage(message);
     }

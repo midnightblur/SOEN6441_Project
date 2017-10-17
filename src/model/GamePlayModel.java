@@ -24,12 +24,12 @@ import static utilities.Config.INITIAL_ARMY_RATIO;
  * c) fortifications phase
  * 5) end of game
  */
-public class RiskGame extends Observable {
+public class GamePlayModel extends Observable {
     private int armyValue = 5;
     private Vector<Card> deck = new Vector<>();
     private Vector<Player> players = new Vector<>();
     private GameMap gameMap;
-    private static RiskGame instance = null;
+    private static GamePlayModel instance = null;
     private GAME_STATES gameState = ENTRY_MENU;
     private Random rand = new Random();
     private Player currPlayer;
@@ -39,7 +39,7 @@ public class RiskGame extends Observable {
     /**
      * private constructor preventing any other class from instantiating.
      */
-    private RiskGame() {
+    private GamePlayModel() {
         mapTableModel = new MapTableModel();
     }
     
@@ -48,9 +48,9 @@ public class RiskGame extends Observable {
      *
      * @return instance of the singleton object
      */
-    public static RiskGame getInstance() {
+    public static GamePlayModel getInstance() {
         if (instance == null) {
-            instance = new RiskGame();
+            instance = new GamePlayModel();
         }
         return instance;
     }

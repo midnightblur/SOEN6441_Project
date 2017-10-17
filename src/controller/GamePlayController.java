@@ -1,6 +1,6 @@
 package controller;
 
-import model.RiskGame;
+import model.GamePlayModel;
 import model.ui_models.MapTableModel;
 import view.screens.GamePlayFrame;
 
@@ -13,7 +13,7 @@ import static utilities.Config.GAME_STATES.STARTUP_PHASE;
 public class GamePlayController {
     private GamePlayFrame gamePlayFrame;
     private MapTableModel mapTableModel;
-    private RiskGame riskGame;
+    private GamePlayModel gamePlayModel;
     private MainMenuController callerController;
     
     /* Constructors */
@@ -27,18 +27,18 @@ public class GamePlayController {
     public GamePlayController(MainMenuController mainMenuController) {
         callerController = mainMenuController;
         gamePlayFrame = new GamePlayFrame();
-        riskGame = RiskGame.getInstance();
-        mapTableModel = riskGame.getMapTableModel();
+        gamePlayModel = GamePlayModel.getInstance();
+        mapTableModel = gamePlayModel.getMapTableModel();
         
         // put the game in initial state
-        riskGame.setGameState(STARTUP_PHASE);
+        gamePlayModel.setGameState(STARTUP_PHASE);
         
         // set the Control Panel to proper frame depending on the game state
         setControlPanel();
         
         /* update the table model from a loaded map */
         try {
-            mapTableModel.updateMapTableModel(riskGame.getGameMap());
+            mapTableModel.updateMapTableModel(gamePlayModel.getGameMap());
         } catch (Exception e) {
             e.printStackTrace(System.err);
             gamePlayFrame.displayMessage(e.toString());
@@ -63,7 +63,7 @@ public class GamePlayController {
      * and instantiating respective controller
      */
     private void setControlPanel() {
-        switch (RiskGame.getInstance().getGameState()) {
+        switch (GamePlayModel.getInstance().getGameState()) {
             case STARTUP_PHASE:
                 new PhaseStartupController(gamePlayFrame);
                 break;
