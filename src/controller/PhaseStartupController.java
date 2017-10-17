@@ -72,12 +72,6 @@ public class PhaseStartupController {
 
         /* set the source dropdown */
         startupPanel.getTerritoryDropdown().setModel(startupModel.getTerritoriesList());
-        for (Player player : gamePlayModel.getPlayers()) {
-
-        }
-        if (isLastTurn()) {
-
-        }
         if (gamePlayModel.getNextPlayer().getUnallocatedArmies() == 0) {
             startupPanel.setDoneButton("Done (to Fortification Phase)");
         }
@@ -117,24 +111,5 @@ public class PhaseStartupController {
         gamePlayModel.setCurrPlayer(gamePlayModel.getPlayers().firstElement());
         gamePlayModel.reinforcementPhase();
         new PhaseReinforcementController(this.gamePlayFrame);
-    }
-
-    /**
-     * Returns true if it is the last turn in the Startup Phase, false otherwise.
-     *
-     * @return Boolean true if it is the last turn in Startup Phase, false otherwise
-     */
-    public boolean isLastTurn() {
-        int counter = 0;
-        for (Player player : gamePlayModel.getPlayers()) {
-            if (player.getUnallocatedArmies() == 0) {
-                counter++;
-            }
-        }
-        if (counter == gamePlayModel.getPlayers().size()) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }
