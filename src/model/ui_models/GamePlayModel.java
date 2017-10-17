@@ -24,22 +24,29 @@ import static utilities.Config.INITIAL_ARMY_RATIO;
  * 5) end of game
  */
 public class GamePlayModel extends Observable {
-    private int armyValue = 5;
-    private Vector<Card> deck = new Vector<>();
-    private Vector<Player> players = new Vector<>();
+    // region Attributes declaration
     private GameMap gameMap;
-    private static GamePlayModel instance = null;
-    private GAME_STATES gameState = ENTRY_MENU;
-    private Random rand = new Random();
-    private Player currPlayer;
-    
     private MapTableModel mapTableModel;
+    private int armyValue = 5;
+    private static GamePlayModel instance = null;
     
+    private Vector<Card> deck;
+    private Vector<Player> players;
+    private GAME_STATES gameState;
+    private Random rand;
+    private Player currPlayer;
+    // endregion
+    
+    // region Constructors
     /**
      * private constructor preventing any other class from instantiating.
      */
     private GamePlayModel() {
         mapTableModel = new MapTableModel();
+        deck = new Vector<>();
+        players = new Vector<>();
+        gameState = ENTRY_MENU;
+        rand = new Random();
     }
     
     /**
@@ -53,8 +60,9 @@ public class GamePlayModel extends Observable {
         }
         return instance;
     }
+    // endregion
     
-    // region Getter and Setter methods for class RiskGame's private attributes
+    // region Getters and Setters
 
     /* Getter and Setter methods for class RiskGame's private attributes */
     
@@ -105,9 +113,7 @@ public class GamePlayModel extends Observable {
     
     // endregion
 
-
-     /* Public methods */
-    
+    // region Public methods
     /**
      * Loads the map specified by the filepath, and initializes the game attributes
      * for a new instance of Risk Game using the specified number of players.
@@ -118,6 +124,7 @@ public class GamePlayModel extends Observable {
     public void initializeNewGame(String filepath, int numOfPlayers) {
         try {
             this.gameMap = GameMapHelper.loadGameMap(filepath);
+            updateGameMapTableModel();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -409,10 +416,9 @@ public class GamePlayModel extends Observable {
         }
         broadcastGamePlayChanges();
     }
+    //endregion
 
-
-    /* Private Methods */
-    
+    // region Private methods
     /**
      * Private helper method to initialize the players according to
      * the number of players (currPlayers).
@@ -500,4 +506,9 @@ public class GamePlayModel extends Observable {
         setChanged();
         notifyObservers();
     }
+    
+    private void updateGameMapTableModel() {
+        mapTableModel.updateMapTableModel(gameMap);
+    }
+    // endregion
 }

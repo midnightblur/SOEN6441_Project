@@ -1,7 +1,6 @@
 package controller;
 
 import model.ui_models.GamePlayModel;
-import model.ui_models.MapTableModel;
 import view.screens.GamePlayFrame;
 
 import static utilities.Config.GAME_STATES.STARTUP_PHASE;
@@ -11,13 +10,13 @@ import static utilities.Config.GAME_STATES.STARTUP_PHASE;
  * the view to displayJFrame the map.
  */
 public class GamePlayController {
+    // region Attributes declaration
     private GamePlayFrame gamePlayFrame;
-    private MapTableModel mapTableModel;
     private GamePlayModel gamePlayModel;
     private MainMenuController callerController;
+    // endregion
     
-    /* Constructors */
-    
+    // region Constructors
     /**
      * Constructor for the mainGameController
      * responsible of launching the game phases
@@ -28,7 +27,6 @@ public class GamePlayController {
         callerController = mainMenuController;
         gamePlayFrame = new GamePlayFrame();
         gamePlayModel = GamePlayModel.getInstance();
-        mapTableModel = gamePlayModel.getMapTableModel();
         
         // put the game in initial state
         gamePlayModel.setGameState(STARTUP_PHASE);
@@ -36,28 +34,19 @@ public class GamePlayController {
         // set the Control Panel to proper frame depending on the game state
         setControlPanel();
         
-        /* update the table model from a loaded map */
-        try {
-            mapTableModel.updateMapTableModel(gamePlayModel.getGameMap());
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-            gamePlayFrame.displayMessage(e.toString());
-        }
-        
         /* set the model for the main table */
-        gamePlayFrame.getGameGameMapTable().setModel(mapTableModel.getModel());
+        gamePlayFrame.getGameGameMapTable().setModel(gamePlayModel.getMapTableModel().getModel());
         
         /* Register Observer to Observable */
-        mapTableModel.addObserver(gamePlayFrame.getGameGameMapTable());
+        gamePlayModel.getMapTableModel().addObserver(gamePlayFrame.getGameGameMapTable());
         
         /* Register to be ActionListeners */
         // TODO: put the back in a menu
         //gamePlayFrame.getControlPanel().addBackButtonListener(e -> backToMainMenu());
     }
+    // endregion
     
-    
-    /* Private methods */
-    
+    // region Private methods
     /**
      * Setting the control panel area depending on the state of the game
      * and instantiating respective controller
@@ -81,6 +70,5 @@ public class GamePlayController {
                 break;
         }
     }
-    
-    
+    // endregion
 }
