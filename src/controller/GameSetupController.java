@@ -20,7 +20,7 @@ public class GameSetupController {
     /* Constructors */
     
     /**
-     * Constructor for the GameSetup Controller
+     * Constructor for the GameSetup Controller is
      * responsible for setting up the number of players before starting the game
      *
      * @param gamePlayFrame the main frame
