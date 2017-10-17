@@ -21,7 +21,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     private static final int HEIGHT = 800;
     
     private JSplitPane contentPane;
-    private GameMapTable gameGameMapTable;
+    private GameMapTable gameMapTable;
     private StartupPanel startupPanel;
     private ReinforcementPanel reinforcementPanel;
     private FortificationPanel fortificationPanel;
@@ -34,8 +34,8 @@ public class GamePlayFrame extends JFrame implements Observer {
         setContentPane(contentPane);
         
         /* Setup table area */
-        gameGameMapTable = new GameMapTable();
-        contentPane.setLeftComponent(new JScrollPane(gameGameMapTable));
+        gameMapTable = new GameMapTable();
+        contentPane.setLeftComponent(new JScrollPane(gameMapTable));
         
         /* Setup control area */
         setupControlArea();
@@ -51,13 +51,12 @@ public class GamePlayFrame extends JFrame implements Observer {
         return contentPane;
     }
     
-    public GameMapTable getGameGameMapTable() {
-        return gameGameMapTable;
+    public GameMapTable getGameMapTable() {
+        return gameMapTable;
     }
     // endregion
     
     // region Public methods
-    
     /**
      * Displays messages on UI
      *
@@ -70,7 +69,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof MapTableModel) {
-            gameGameMapTable.setModel(((MapTableModel) o).getModel());
+            gameMapTable.setModel(((MapTableModel) o).getModel());
         }
     }
     // endregion

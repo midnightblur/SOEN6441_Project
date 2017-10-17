@@ -130,8 +130,9 @@ public class Continent {
         if (GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).isOwned()) {
             continentOwner = "Player " + GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
             for (String territoryName : territories) {
-                if (!Objects.equals(continentOwner, "Player " + GamePlayModel.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerID()))
+                if (!Objects.equals(continentOwner, "Player " + GamePlayModel.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerID())) {
                     return 0;
+                }
             }
         }
         return  GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();

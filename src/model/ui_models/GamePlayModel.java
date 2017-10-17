@@ -106,6 +106,7 @@ public class GamePlayModel extends Observable {
     
     public void setGameState(GAME_STATES GAMESTATES) {
         this.gameState = GAMESTATES;
+        updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
     
@@ -122,7 +123,6 @@ public class GamePlayModel extends Observable {
     public void initializeNewGame(String filepath, int numOfPlayers) {
         try {
             this.gameMap = GameMapHelper.loadGameMap(filepath);
-            updateGameMapTableModel();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
