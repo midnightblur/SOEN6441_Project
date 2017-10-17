@@ -24,7 +24,7 @@ public class GamePlayController {
     
     /**
      * Constructor for the mainGameController
-     * responsible of launching the game phases
+     * responsible for launching the game phases
      *
      * @param gameMap The already loaded map for the game
      */
