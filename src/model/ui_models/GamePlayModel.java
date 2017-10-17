@@ -1,11 +1,10 @@
-package model;
+package model.ui_models;
 
 import model.game_entities.Card;
 import model.game_entities.GameMap;
 import model.game_entities.Player;
 import model.game_entities.Territory;
 import model.helpers.GameMapHelper;
-import model.ui_models.MapTableModel;
 
 import java.util.*;
 

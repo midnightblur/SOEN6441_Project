@@ -1,6 +1,6 @@
 package controller;
 
-import model.GamePlayModel;
+import model.ui_models.GamePlayModel;
 import model.ui_models.MapTableModel;
 import view.screens.GamePlayFrame;
 

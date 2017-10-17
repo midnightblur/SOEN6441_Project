@@ -1,11 +1,11 @@
 package controller;
 
-import model.GamePlayModel;
+import model.ui_models.GamePlayModel;
 import utilities.Config;
 import view.screens.GamePlayFrame;
 import view.ui_components.GameSetupPanel;
 
-import static model.GamePlayModel.getInstance;
+import static model.ui_models.GamePlayModel.getInstance;
 import static view.helpers.UIHelper.setDivider;
 
 /**

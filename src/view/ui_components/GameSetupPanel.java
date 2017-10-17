@@ -1,6 +1,6 @@
 package view.ui_components;
 
-import model.GamePlayModel;
+import model.ui_models.GamePlayModel;
 
 import javax.swing.*;
 import java.awt.*;

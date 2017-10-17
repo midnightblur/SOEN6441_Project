@@ -1,6 +1,6 @@
 package controller;
 
-import model.GamePlayModel;
+import model.ui_models.GamePlayModel;
 import utilities.Config;
 import view.screens.MainMenuFrame;
 

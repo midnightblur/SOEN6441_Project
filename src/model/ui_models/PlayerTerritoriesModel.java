@@ -1,6 +1,5 @@
 package model.ui_models;
 
-import model.GamePlayModel;
 import model.game_entities.GameMap;
 import model.game_entities.Player;
 import model.game_entities.Territory;

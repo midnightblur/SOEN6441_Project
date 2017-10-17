@@ -1,6 +1,6 @@
 package controller;
 
-import model.GamePlayModel;
+import model.ui_models.GamePlayModel;
 import model.game_entities.Card;
 import model.game_entities.Player;
 import view.screens.GamePlayFrame;

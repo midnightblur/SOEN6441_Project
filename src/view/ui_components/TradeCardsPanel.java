@@ -1,6 +1,6 @@
 package view.ui_components;
 
-import model.GamePlayModel;
+import model.ui_models.GamePlayModel;
 import model.game_entities.Player;
 import utilities.Config.GAME_STATES;
 

@@ -1,6 +1,5 @@
 package model.ui_models;
 
-import model.GamePlayModel;
 import model.game_entities.Player;
 import model.game_entities.Territory;
 
@@ -8,7 +7,7 @@ import javax.swing.*;
 import java.util.Observable;
 import java.util.Vector;
 
-import static model.GamePlayModel.getInstance;
+import static model.ui_models.GamePlayModel.getInstance;
 
 public class FortificationModel extends Observable {
     private Vector<String> sourceTerritoriesList;

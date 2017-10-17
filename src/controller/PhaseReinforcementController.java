@@ -1,6 +1,6 @@
 package controller;
 
-import model.GamePlayModel;
+import model.ui_models.GamePlayModel;
 import model.game_entities.Player;
 import model.game_entities.Territory;
 import model.ui_models.PlayerTerritoriesModel;
@@ -11,7 +11,7 @@ import javax.swing.table.TableModel;
 import java.util.HashMap;
 import java.util.Map;
 
-import static model.GamePlayModel.getInstance;
+import static model.ui_models.GamePlayModel.getInstance;
 import static utilities.Config.GAME_STATES.REINFORCEMENT_PHASE;
 import static view.helpers.UIHelper.setDivider;
 

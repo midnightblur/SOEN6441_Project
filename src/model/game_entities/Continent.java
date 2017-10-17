@@ -1,6 +1,6 @@
 package model.game_entities;
 
-import model.GamePlayModel;
+import model.ui_models.GamePlayModel;
 
 import java.util.Objects;
 import java.util.Vector;

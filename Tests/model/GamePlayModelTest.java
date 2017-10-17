@@ -1,5 +1,6 @@
 package model;
 
+import model.ui_models.GamePlayModel;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
