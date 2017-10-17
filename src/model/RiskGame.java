@@ -455,23 +455,54 @@ public class RiskGame extends Observable {
      * possible between all of the players.
      */
     private void distributeTerritories() {
-        System.out.println("Distributing territories...");
+//        System.out.println("Distributing territories...");
+//
+//        ArrayList<String> territoryArrList = new ArrayList<>();
+//        for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
+//            territoryArrList.add(entry.getValue().getName());
+//        }
+//
+//        int playerIndex = 0;
+//        for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
+//            if (!(playerIndex < players.size())) {
+//                playerIndex = 0;
+//            }
+//            int territoryIndex = rand.nextInt(territoryArrList.size());
+//            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
+//            playerIndex++;
+//            territoryArrList.remove(territoryIndex);
+//        }
         
+        // ------------ comment out above and use below ------------
+        /*
+        For build 1 demo purposes only using World.map and 6 players.
+        Give player 1 all the territories.
+         */
+    
+        System.out.println("Distributing territories...");
+    
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
             territoryArrList.add(entry.getValue().getName());
         }
         
-        int playerIndex = 0;
-        for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
+        for (int i = 0; i < gameMap.getAContinent("europe").getTerritories().size(); i++) {
+            int territoryIndex = territoryArrList.indexOf(gameMap.getAContinent("europe").getTerritories().get(i));
+            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(0));
+            territoryArrList.remove(territoryIndex);
+        }
+        
+        int playerIndex = 1;
+        for (int i = 0; i < gameMap.getTerritoriesCount() - 7; i++) {
             if (!(playerIndex < players.size())) {
-                playerIndex = 0;
+                playerIndex = 1;
             }
             int territoryIndex = rand.nextInt(territoryArrList.size());
             gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
             playerIndex++;
             territoryArrList.remove(territoryIndex);
         }
+        // ---------------------------------------------------------
     }
     
     /**
