@@ -26,10 +26,14 @@ public class IntegerEditor extends DefaultCellEditor {
                 JOptionPane.showMessageDialog(
                         null,
                         "Please enter a positive integer.",
-                        "Alert!", JOptionPane.ERROR_MESSAGE);
+                        "Entry Error!", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         } catch (ClassCastException exception) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid entry. Please re-enter a number.",
+                    "Entry Error!", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         

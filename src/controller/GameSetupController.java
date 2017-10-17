@@ -1,9 +1,10 @@
 package controller;
 
 import model.ui_models.GamePlayModel;
-import utilities.Config;
 import view.screens.GamePlayFrame;
 import view.ui_components.GameSetupPanel;
+
+import javax.swing.*;
 
 import static model.ui_models.GamePlayModel.getInstance;
 import static view.helpers.UIHelper.setDivider;
@@ -16,8 +17,6 @@ public class GameSetupController {
     private GamePlayFrame gamePlayFrame;
     private GamePlayModel gamePlayModel;
     
-
-
     /* Constructors */
     
     /**
@@ -38,7 +37,7 @@ public class GameSetupController {
         gamePlayModel.addObserver(gameSetupPanel);
         
         /* Register to be ActionListeners */
-        gameSetupPanel.addPlayButtonListener(e -> new PhaseStartupController(this.gamePlayFrame));
+        gameSetupPanel.addPlayButtonListener(e -> openPlayGameScreen());
 
         /* set control panel */
         populateStartupPanel();
@@ -51,12 +50,26 @@ public class GameSetupController {
      */
     private void populateStartupPanel() {
         /* set the maximum players box */
-        gameSetupPanel.setMaxPlayersLabel(gamePlayModel.getGameMap().getMaxPlayers());
+        gameSetupPanel.setMaxPlayersLabel(getInstance().getGameMap().getMaxPlayers());
     }
     
     private void openPlayGameScreen() {
         /* initialize the game */
-        GamePlayModel.getInstance().initializeNewGame(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
-        // new GamePlayController(this);
+        int enteredPlayers = 0;
+        try {
+            enteredPlayers = Integer.parseInt(gameSetupPanel.getPlayerCount().getText());
+            if ((enteredPlayers > 0) && (enteredPlayers <= getInstance().getGameMap().getMaxPlayers())) {
+                getInstance().initializeNewGame(getInstance().getGameMap(), enteredPlayers);
+                new PhaseStartupController(gamePlayFrame);
+            } else {
+                gamePlayFrame.displayMessage("You must enter an amount of players between 1 and " + getInstance().getGameMap().getMaxPlayers());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid entry. Please re-enter a number.",
+                    "Entry Error!", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
 }

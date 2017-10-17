@@ -28,6 +28,11 @@ public class MapSelectorFrame extends JFrame implements Observer {
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
     }
     
+    /* Getters & Setters */
+    public JComboBox<String> getMapDropdown() {
+        return mapDropdown;
+    }
+    
     /* MVC methods */
     public void addPlayGameButtonListener(ActionListener listenerForPlayGameButton) {
         playGameBtn.addActionListener(listenerForPlayGameButton);
@@ -37,11 +42,12 @@ public class MapSelectorFrame extends JFrame implements Observer {
     private void setupContentPane() {
         contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-        addVerticalSpacing(contentPane);
+        contentPane.setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
         
         selectMap = new JLabel(SELECT_MAP_LABEL);
         selectMap.setAlignmentX(Component.CENTER_ALIGNMENT);
         contentPane.add(selectMap);
+        addVerticalSpacing(contentPane);
         mapDropdown = new JComboBox<>();
         mapDropdown.setAlignmentX(Component.CENTER_ALIGNMENT);
         contentPane.add(mapDropdown);

@@ -1,6 +1,7 @@
 package view.ui_components;
 
 import model.ui_models.MapEditorModel;
+import model.ui_models.MapTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
@@ -19,14 +20,19 @@ public class GameMapTable extends JTable implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        setModel(((MapEditorModel) o).getMapTableModel().getModel());
+        if (o instanceof MapEditorModel) {
+            setModel(((MapEditorModel) o).getMapTableModel().getModel());
+        }
+        if (o instanceof MapTableModel) {
+            setModel(((MapTableModel) o).getModel());
+        }
         resizeColumns();
     }
     
     /* Private methods */
+    
     /**
      * Resize the table columns to fit
-     *
      */
     private void resizeColumns() {
         final TableColumnModel columnModel = getColumnModel();
@@ -58,25 +64,29 @@ public class GameMapTable extends JTable implements Observer {
         String continent = (String) getValueAt(row, 0);
         if (!"  ".equals(continent)) {
             c.setFont(new Font("Sans Serif", Font.ITALIC, 16));
-            c.setBackground(Color.BLACK);
-            c.setForeground(Color.WHITE);
+            c.setBackground(Color.ORANGE.brighter());
+            c.setForeground(Color.BLACK);
         } else {
             c.setBackground(super.getBackground());
             c.setForeground(super.getForeground());
         }
         if (this.getColumnCount() > 3) {    // meaning we already have information for owner on 3rd column
             String owner = (String) getValueAt(row, 3);
-            Color[] colors = { Color.BLUE, Color.RED, Color.MAGENTA, Color.GREEN, Color.GRAY, Color.PINK };
+            Color[] colors = { Color.BLUE, Color.RED, Color.MAGENTA.darker(), Color.GREEN.darker(), Color.DARK_GRAY, Color.ORANGE.darker().darker() };
             for (int i = 0; i < colors.length; i++) {
                 if (("Player " + Integer.toString(i + 1)).equals(owner)) {
                     c.setFont(new Font("Sans Serif", Font.ITALIC, 16));
-                    c.setBackground(Color.WHITE);
                     c.setForeground(colors[i]);
                 }
             }
             getColumn("Owner").setPreferredWidth(10);
             getColumn("Armies").setPreferredWidth(5);
         }
+        if (col == 2) {   // keep the neighbors black
+            c.setForeground(Color.BLACK);
+        }
+        
         return c;
     }
+    
 }

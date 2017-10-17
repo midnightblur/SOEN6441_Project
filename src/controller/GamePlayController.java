@@ -1,39 +1,47 @@
 package controller;
 
+import model.game_entities.GameMap;
 import model.ui_models.GamePlayModel;
 import view.screens.GamePlayFrame;
 
-import static utilities.Config.GAME_STATES.STARTUP_PHASE;
+import static utilities.Config.GAME_STATES.SETUP_PHASE;
 
 /**
- * Controller to read and set map filepath to the model, and dispatchToController
+ * This class is used as a controller to read and set map filepath
+ * to the model, and dispatchToController
  * the view to displayJFrame the map.
+ *
+ * @author
+ * @version 1.0
  */
 public class GamePlayController {
     // region Attributes declaration
     private GamePlayFrame gamePlayFrame;
     private GamePlayModel gamePlayModel;
-    private MainMenuController callerController;
     // endregion
     
     // region Constructors
+    
     /**
      * Constructor for the mainGameController
      * responsible of launching the game phases
      *
-     * @param mainMenuController the caller to be used to go back
+     * @param gameMap The already loaded map for the game
      */
-    public GamePlayController(MainMenuController mainMenuController) {
-        callerController = mainMenuController;
+    public GamePlayController(GameMap gameMap) {
         gamePlayFrame = new GamePlayFrame();
         gamePlayModel = GamePlayModel.getInstance();
+    
+        /* set the map to loaded map and update the model */
+        gamePlayModel.setGameMap(gameMap);
+        gamePlayModel.getMapTableModel().updateMapTableModel(gameMap);
         
         // put the game in initial state
-        gamePlayModel.setGameState(STARTUP_PHASE);
+        gamePlayModel.setGameState(SETUP_PHASE);
         
         /* set the model for the main table */
         gamePlayFrame.getGameMapTable().setModel(gamePlayModel.getMapTableModel().getModel());
-    
+        
         setControlPanel();
         
         /* Register Observer to Observable */
@@ -46,12 +54,16 @@ public class GamePlayController {
     // endregion
     
     // region Private methods
+    
     /**
      * Setting the control panel area depending on the state of the game
      * and instantiating respective controller
      */
     private void setControlPanel() {
         switch (GamePlayModel.getInstance().getGameState()) {
+            case SETUP_PHASE:
+                new GameSetupController(gamePlayFrame);
+                break;
             case STARTUP_PHASE:
                 new PhaseStartupController(gamePlayFrame);
                 break;

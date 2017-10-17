@@ -1,7 +1,6 @@
 package view.ui_components;
 
 import model.ui_models.GamePlayModel;
-import model.game_entities.Player;
 import utilities.Config.GAME_STATES;
 
 import javax.swing.*;
@@ -52,7 +51,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
         setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
         JPanel controlWrapper = new JPanel();
         controlWrapper.setLayout(new BoxLayout(controlWrapper, BoxLayout.PAGE_AXIS));
-        cardList.setLayout(new GridLayout(4,5));
+        cardList.setLayout(new GridLayout(4, 5));
         JPanel topGrid = new JPanel(new GridLayout(4, 1));
         JPanel bottomGrid = new JPanel(new GridLayout(7, 1));
         
@@ -62,11 +61,12 @@ public class TradeCardsPanel extends JPanel implements Observer {
         addVerticalSpacing(topGrid);
         topGrid.add(cardsListLabel);
         controlWrapper.add(topGrid);
-    
+        
         controlWrapper.add(cardList);
-    
+        
         bottomGrid.add(armyValueLabel);
         bottomGrid.add(gainedArmiesLabel);
+        gainedArmiesLabel.setVisible(false);
         addVerticalSpacing(bottomGrid);
         bottomGrid.add(tradeCards);
         addVerticalSpacing(bottomGrid);
@@ -89,6 +89,10 @@ public class TradeCardsPanel extends JPanel implements Observer {
         this.playerID.setText("Player " + playerID);
     }
     
+    public JLabel getGainedArmiesLabel() {
+        return gainedArmiesLabel;
+    }
+    
     public void setArmiesGained(int armiesGained) {
         this.gainedArmiesLabel.setText(GAINED_ARMIES_LABEL + Integer.toString(armiesGained));
     }
@@ -108,9 +112,6 @@ public class TradeCardsPanel extends JPanel implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof Player) {
-            setArmiesGained(((Player) o).getUnallocatedArmies());
-        }
         if (o instanceof GamePlayModel) {
             setArmyValueLabel(((GamePlayModel) o).getArmyValue());
         }

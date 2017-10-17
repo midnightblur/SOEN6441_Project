@@ -9,12 +9,22 @@ import java.util.Vector;
 
 import static model.ui_models.GamePlayModel.getInstance;
 
+
+/**
+ * This class is used to model the fortification phase.
+ *
+ * @author
+ * @version 1.0
+ */
 public class FortificationModel extends Observable {
     private Vector<String> sourceTerritoriesList;
     private Vector<String> targetTerritoriesList;
     private GamePlayModel gamePlayModel;
     private Player currentPlayer;
-    
+
+    /**
+     * This is a constructor.
+     */
     public FortificationModel() {
         gamePlayModel = getInstance();
         currentPlayer = gamePlayModel.getCurrPlayer();

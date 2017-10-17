@@ -1,8 +1,8 @@
 package controller;
 
-import model.ui_models.GamePlayModel;
 import model.game_entities.Card;
 import model.game_entities.Player;
+import model.ui_models.GamePlayModel;
 import view.screens.GamePlayFrame;
 import view.ui_components.TradeCardsPanel;
 
@@ -17,12 +17,16 @@ import static view.helpers.UIHelper.setDivider;
  * The Trade Cards Controller responsible of capturing user interaction from the trade cards panel
  * and converting them to changes in the risk game model
  * Once user is done trading cards, it returns focus to the ReinforcementController
+ *
+ * @author
+ * @version 1.0
  */
 public class TradeCardsController {
     private TradeCardsPanel tradeCardsPanel;
     private GamePlayFrame gamePlayFrame;
     private GamePlayModel gamePlayModel;
     private Player currentPlayer;
+    private int armiesBeforeTrading;
     
     /* Constructors */
     
@@ -43,9 +47,12 @@ public class TradeCardsController {
         
         gamePlayModel.setGameState(TRADE_IN_PHASE);
         
-        /* set control panel */
+        /* Set control panel */
         populateTradeCardsPanel();
         
+        // collect the armies before trading to later calculate the gained armies
+        armiesBeforeTrading = currentPlayer.getUnallocatedArmies();
+
         /* Register Observer to Observable */
         gamePlayModel.addObserver(tradeCardsPanel);
         currentPlayer.addObserver(tradeCardsPanel);
@@ -67,10 +74,7 @@ public class TradeCardsController {
         
         /* set the player ID label */
         tradeCardsPanel.setPlayerID(currentPlayer.getPlayerID());
-        
-        /* set the armies gained label */
-        tradeCardsPanel.setArmiesGained(currentPlayer.getUnallocatedArmies());
-        
+
         /* the cards list for this particular player */
         listCards();
         
@@ -90,10 +94,21 @@ public class TradeCardsController {
             }
         }
         String message = gamePlayModel.tradeInCards(selectedCards);
-        listCards(); // this will remove used cards
+        
+        // remove traded cards from list
+        listCards();
+        
+        /* set the armies gained label */
+        tradeCardsPanel.setArmiesGained(currentPlayer.getUnallocatedArmies() - armiesBeforeTrading);
+        tradeCardsPanel.getGainedArmiesLabel().setVisible(true);
+        
+        // confirmation message
         gamePlayFrame.displayMessage(message);
     }
     
+    /**
+     * This method is used to list the cards that a player has.
+     */
     public void listCards() {
         tradeCardsPanel.getCardList().removeAll();
         for (Card card : currentPlayer.getPlayersHand()) {

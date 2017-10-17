@@ -14,7 +14,7 @@ import static view.helpers.UIHelper.addVerticalSpacing;
  * Startup Panel representing the controls for Startup phase of the game
  */
 public class GameSetupPanel extends JPanel implements Observer {
-
+    
     private static final String MAX_PLAYERS_LABEL = "Maximum players you can enter is ";
     private static final String PLAYERS_LABEL = "Enter the desired number of players:";
     private static final String PLAY_BUTTON = "Play";
@@ -24,7 +24,7 @@ public class GameSetupPanel extends JPanel implements Observer {
     private JLabel maxPlayersLabel;
     private JTextField playerCount;
     private JButton playButton;
-
+    
     /* Constructors */
     public GameSetupPanel() {
         playersLabel = new JLabel(PLAYERS_LABEL);
@@ -42,15 +42,16 @@ public class GameSetupPanel extends JPanel implements Observer {
 
         /* Add the elements to the panel */
         controlWrapper.add(playersLabel);
+        controlWrapper.add(maxPlayersLabel);
         controlWrapper.add(playerCount);
         addVerticalSpacing(controlWrapper);
         controlWrapper.add(playButton);
         addVerticalSpacing(controlWrapper);
         addVerticalSpacing(controlWrapper);
-
+        
         add(controlWrapper);
     }
-
+    
     /* Getters & Setters */
     public void setMaxPlayersLabel(int playerCount) {
         this.maxPlayersLabel.setText(MAX_PLAYERS_LABEL + Integer.toString(playerCount));
@@ -60,12 +61,16 @@ public class GameSetupPanel extends JPanel implements Observer {
         this.playerCount = playerCount;
     }
     
+    public JTextField getPlayerCount() {
+        return playerCount;
+    }
+    
     /* MVC & Observer pattern methods */
-     public void addPlayButtonListener(ActionListener listenerForPlayButton) {
+    public void addPlayButtonListener(ActionListener listenerForPlayButton) {
         playButton.addActionListener(listenerForPlayButton);
     }
-
-
+    
+    
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {

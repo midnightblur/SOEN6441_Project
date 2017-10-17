@@ -1,7 +1,7 @@
 package controller;
 
-import model.ui_models.GamePlayModel;
 import model.game_entities.Player;
+import model.ui_models.GamePlayModel;
 import model.ui_models.StartupModel;
 import view.screens.GamePlayFrame;
 import view.ui_components.StartupPanel;
@@ -11,7 +11,11 @@ import static utilities.Config.GAME_STATES.STARTUP_PHASE;
 import static view.helpers.UIHelper.setDivider;
 
 /**
- * The StartupController class
+ * The StartupController class is responsible for the first phase
+ * of the game and controlling necessary changes.
+ *
+ * @author
+ * @version 1.0
  */
 public class PhaseStartupController {
     private StartupPanel startupPanel;
@@ -37,9 +41,10 @@ public class PhaseStartupController {
         gamePlayFrame.getContentPane().setRightComponent(startupPanel);
         setDivider(gamePlayFrame.getContentPane());
         gamePlayModel = getInstance();
-        currentPlayer = gamePlayModel.getCurrPlayer();
-        
         gamePlayModel.setGameState(STARTUP_PHASE);
+        currentPlayer = gamePlayModel.getCurrPlayer();
+        // update the game map TODO: is it necessary?
+        gamePlayModel.getMapTableModel().updateMapTableModel(gamePlayModel.getGameMap());
 
         /* Register Observer to Observable */
         gamePlayModel.addObserver(startupPanel);
@@ -86,7 +91,7 @@ public class PhaseStartupController {
         if (territory != null || !territory.equals("")) {
             startupPanel.getPlaceArmiesButton().setEnabled(false);
             gamePlayModel.placeArmy(territory);
-//            riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
+            gamePlayModel.getMapTableModel().updateMapTableModel(gamePlayModel.getGameMap());
             startupPanel.getDoneButton().setEnabled(true);
         } else {
             gamePlayFrame.displayMessage("Please validate your selection.");
@@ -98,14 +103,13 @@ public class PhaseStartupController {
      * players have exhausted all unallocated armies.
      */
     public void nextPlayer() {
-        for (Player player : gamePlayModel.getPlayers()) {
-            if (player.getUnallocatedArmies() == 0) {
-                continue;
-            }
-            else {
+        for (int i = 0; i < gamePlayModel.getPlayers().size(); i++) {
+            if (gamePlayModel.getNextPlayer().getUnallocatedArmies() > 0) {
                 gamePlayModel.setCurrPlayerToNextPlayer();
                 new PhaseStartupController((this.gamePlayFrame));
                 return;
+            } else {
+                gamePlayModel.setCurrPlayerToNextPlayer();
             }
         }
         gamePlayModel.setCurrPlayer(gamePlayModel.getPlayers().firstElement());
