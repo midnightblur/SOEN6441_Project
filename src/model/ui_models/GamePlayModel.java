@@ -1,8 +1,7 @@
-package model;
+package model.ui_models;
 
 import model.game_entities.*;
 import model.helpers.GameMapHelper;
-import model.ui_models.MapTableModel;
 
 import java.util.*;
 
@@ -21,23 +20,33 @@ import static utilities.Config.INITIAL_ARMY_RATIO;
  * c) fortifications phase
  * 5) end of game
  */
-public class RiskGame extends Observable {
-    private int armyValue = 5;
-    private Vector<Card> deck = new Vector<>();
-    private Vector<Player> players = new Vector<>();
+public class GamePlayModel extends Observable {
+    // region Attributes declaration
+    private static final int DEFAULT_ARMY_VALUE = 5;
+    
+    private static GamePlayModel instance = null;
     private GameMap gameMap;
-    private static RiskGame instance = null;
-    private GAME_STATES gameState = ENTRY_MENU;
-    private Random rand = new Random();
-    private Player currPlayer;
-    
     private MapTableModel mapTableModel;
+    private GAME_STATES gameState;
     
+    private int armyValue;
+    private Vector<Card> deck;
+    private Vector<Player> players;
+    private Random rand;
+    private Player currPlayer;
+    // endregion
+    
+    // region Constructors
     /**
      * private constructor preventing any other class from instantiating.
      */
-    private RiskGame() {
+    private GamePlayModel() {
+        armyValue = DEFAULT_ARMY_VALUE;
         mapTableModel = new MapTableModel();
+        deck = new Vector<>();
+        players = new Vector<>();
+        gameState = ENTRY_MENU;
+        rand = new Random();
     }
     
     /**
@@ -45,17 +54,15 @@ public class RiskGame extends Observable {
      *
      * @return instance of the singleton object
      */
-    public static RiskGame getInstance() {
+    public static GamePlayModel getInstance() {
         if (instance == null) {
-            instance = new RiskGame();
+            instance = new GamePlayModel();
         }
         return instance;
     }
+    // endregion
     
-    // region Getter and Setter methods for class RiskGame's private attributes
-
-    /* Getter and Setter methods for class RiskGame's private attributes */
-    
+    // region Getters and Setters
     public GameMap getGameMap() {
         return gameMap;
     }
@@ -99,13 +106,13 @@ public class RiskGame extends Observable {
     
     public void setGameState(GAME_STATES GAMESTATES) {
         this.gameState = GAMESTATES;
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
     }
     
     // endregion
 
-
-     /* Public methods */
-    
+    // region Public methods
     /**
      * Loads the map specified by the filepath, and initializes the game attributes
      * for a new instance of Risk Game using the specified number of players.
@@ -414,10 +421,9 @@ public class RiskGame extends Observable {
         }
         broadcastGamePlayChanges();
     }
+    //endregion
 
-
-    /* Private Methods */
-    
+    // region Private methods
     /**
      * Private helper method to initialize the players according to
      * the number of players (currPlayers).
@@ -536,4 +542,12 @@ public class RiskGame extends Observable {
         setChanged();
         notifyObservers();
     }
+    
+    /**
+     * Update the GameMapTableModel according to the newly updated GameMap object
+     */
+    private void updateGameMapTableModel() {
+        mapTableModel.updateMapTableModel(gameMap);
+    }
+    // endregion
 }

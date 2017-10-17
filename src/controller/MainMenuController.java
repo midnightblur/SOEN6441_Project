@@ -1,6 +1,6 @@
 package controller;
 
-import model.RiskGame;
+import model.ui_models.GamePlayModel;
 import utilities.Config;
 import view.screens.MainMenuFrame;
 
@@ -45,7 +45,7 @@ public class MainMenuController {
         mainMenuFrame.setEnabled(false);
 
         /* initialize the game */
-        RiskGame.getInstance().initializeNewGame(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
+        GamePlayModel.getInstance().initializeNewGame(Config.DEFAULT_MAP, Config.DEFAULT_NUM_OF_PLAYERS);
         new GamePlayController(this);
     }
     

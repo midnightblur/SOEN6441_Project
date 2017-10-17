@@ -2,7 +2,7 @@ package view.screens;
 
 import view.helpers.UIHelper;
 import view.ui_components.EditMapPanel;
-import view.ui_components.MapTable;
+import view.ui_components.GameMapTable;
 
 import javax.swing.*;
 
@@ -14,7 +14,7 @@ public class MapEditorFrame extends JFrame {
     private static final int HEIGHT = 800;
     
     private JSplitPane contentPane;
-    private MapTable mapTable;
+    private GameMapTable gameMapTable;
     private EditMapPanel editMapPanel;
     
     /* Constructors */
@@ -24,8 +24,8 @@ public class MapEditorFrame extends JFrame {
         setContentPane(contentPane);
         
         /* Setup table area */
-        mapTable = new MapTable();
-        contentPane.setLeftComponent(new JScrollPane(mapTable));
+        gameMapTable = new GameMapTable();
+        contentPane.setLeftComponent(new JScrollPane(gameMapTable));
         
         /* Setup control panel area */
         editMapPanel = new EditMapPanel();
@@ -41,8 +41,8 @@ public class MapEditorFrame extends JFrame {
         return contentPane;
     }
     
-    public MapTable getMapTable() {
-        return mapTable;
+    public GameMapTable getGameMapTable() {
+        return gameMapTable;
     }
     
     public EditMapPanel getEditMapPanel() {

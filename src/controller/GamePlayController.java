@@ -1,7 +1,6 @@
 package controller;
 
-import model.RiskGame;
-import model.ui_models.MapTableModel;
+import model.ui_models.GamePlayModel;
 import view.screens.GamePlayFrame;
 
 import static utilities.Config.GAME_STATES.STARTUP_PHASE;
@@ -11,13 +10,13 @@ import static utilities.Config.GAME_STATES.STARTUP_PHASE;
  * the view to displayJFrame the map.
  */
 public class GamePlayController {
+    // region Attributes declaration
     private GamePlayFrame gamePlayFrame;
-    private MapTableModel mapTableModel;
-    private RiskGame riskGame;
+    private GamePlayModel gamePlayModel;
     private MainMenuController callerController;
+    // endregion
     
-    /* Constructors */
-    
+    // region Constructors
     /**
      * Constructor for the mainGameController
      * responsible of launching the game phases
@@ -27,43 +26,32 @@ public class GamePlayController {
     public GamePlayController(MainMenuController mainMenuController) {
         callerController = mainMenuController;
         gamePlayFrame = new GamePlayFrame();
-        riskGame = RiskGame.getInstance();
-        mapTableModel = riskGame.getMapTableModel();
+        gamePlayModel = GamePlayModel.getInstance();
         
         // put the game in initial state
-        riskGame.setGameState(STARTUP_PHASE);
-        
-        // set the Control Panel to proper frame depending on the game state
-        setControlPanel();
-        
-        /* update the table model from a loaded map */
-        try {
-            mapTableModel.updateMapTableModel(riskGame.getGameMap());
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-            gamePlayFrame.displayMessage(e.toString());
-        }
+        gamePlayModel.setGameState(STARTUP_PHASE);
         
         /* set the model for the main table */
-        gamePlayFrame.getGameMapTable().setModel(mapTableModel.getModel());
+        gamePlayFrame.getGameMapTable().setModel(gamePlayModel.getMapTableModel().getModel());
+    
+        setControlPanel();
         
         /* Register Observer to Observable */
-        mapTableModel.addObserver(gamePlayFrame.getGameMapTable());
+        gamePlayModel.getMapTableModel().addObserver(gamePlayFrame.getGameMapTable());
         
         /* Register to be ActionListeners */
         // TODO: put the back in a menu
         //gamePlayFrame.getControlPanel().addBackButtonListener(e -> backToMainMenu());
     }
+    // endregion
     
-    
-    /* Private methods */
-    
+    // region Private methods
     /**
      * Setting the control panel area depending on the state of the game
      * and instantiating respective controller
      */
     private void setControlPanel() {
-        switch (RiskGame.getInstance().getGameState()) {
+        switch (GamePlayModel.getInstance().getGameState()) {
             case STARTUP_PHASE:
                 new PhaseStartupController(gamePlayFrame);
                 break;
@@ -81,6 +69,5 @@ public class GamePlayController {
                 break;
         }
     }
-    
-    
+    // endregion
 }

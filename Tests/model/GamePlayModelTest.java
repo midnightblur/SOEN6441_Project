@@ -1,19 +1,19 @@
 package model;
 
+import model.ui_models.GamePlayModel;
 import org.junit.Test;
-import utilities.Config;
 
 import static org.junit.Assert.*;
 
-public class RiskGameTest {
+public class GamePlayModelTest {
     @Test
     public void getInstance() throws Exception {
-        RiskGame riskGameObj1 = RiskGame.getInstance();
-        RiskGame riskGameObj2 = RiskGame.getInstance();
+        GamePlayModel gamePlayModelObj1 = GamePlayModel.getInstance();
+        GamePlayModel gamePlayModelObj2 = GamePlayModel.getInstance();
         
         // checks if the two game objects are not null
         System.out.println("Testing to see if two getInstance() of RiskGame are the same.");
-        assertEquals(riskGameObj1, riskGameObj2);
+        assertEquals(gamePlayModelObj1, gamePlayModelObj2);
         System.out.println();
     }
 

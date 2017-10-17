@@ -9,9 +9,9 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-public class MapTable extends JTable implements Observer {
+public class GameMapTable extends JTable implements Observer {
     /* Constructors */
-    public MapTable() {
+    public GameMapTable() {
         this.setPreferredScrollableViewportSize(this.getPreferredSize());
         this.setFillsViewportHeight(true);
     }

@@ -1,6 +1,5 @@
 package model.ui_models;
 
-import model.RiskGame;
 import model.game_entities.Continent;
 import model.game_entities.GameMap;
 import model.game_entities.Territory;
@@ -40,7 +39,7 @@ public class MapTableModel extends Observable {
         columns.add("Continent");
         columns.add("Territory");
         columns.add("Neighbors");
-        if (RiskGame.getInstance().getGameState().getValue() >= 3) {
+        if (GamePlayModel.getInstance().getGameState().getValue() >= 3) {
             columns.add("Owner");
             columns.add("Armies");
         }
@@ -50,7 +49,7 @@ public class MapTableModel extends Observable {
         /* add continents */
         for (Continent continent : gameMap.getContinents().values()) {
             rows[i][0] = continent.getName();
-            if (RiskGame.getInstance().getGameState().getValue() >= 3) {
+            if (GamePlayModel.getInstance().getGameState().getValue() >= 3) {
                 if (continent.getContinentOwner() == 0) {
                     rows[i][3] = "nobody owns it yet";
                 } else {
@@ -67,7 +66,7 @@ public class MapTableModel extends Observable {
             rows[i][2] = territory.getNeighbors().toString().replace("[", "").replace("]", "");
             
             /* add countries and their information */
-            if (RiskGame.getInstance().getGameState().getValue() >= 3) {
+            if (GamePlayModel.getInstance().getGameState().getValue() >= 3) {
                 rows[i][3] = "Player " + Integer.toString(territory.getOwner().getPlayerID());
                 rows[i][4] = Integer.toString(territory.getArmies());
             }

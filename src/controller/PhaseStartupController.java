@@ -1,12 +1,12 @@
 package controller;
 
-import model.RiskGame;
+import model.ui_models.GamePlayModel;
 import model.game_entities.Player;
 import model.ui_models.StartupModel;
 import view.screens.GamePlayFrame;
 import view.ui_components.StartupPanel;
 
-import static model.RiskGame.getInstance;
+import static model.ui_models.GamePlayModel.getInstance;
 import static utilities.Config.GAME_STATES.STARTUP_PHASE;
 import static view.helpers.UIHelper.setDivider;
 
@@ -16,7 +16,7 @@ import static view.helpers.UIHelper.setDivider;
 public class PhaseStartupController {
     private StartupPanel startupPanel;
     private GamePlayFrame gamePlayFrame;
-    private RiskGame riskGame;
+    private GamePlayModel gamePlayModel;
     private Player currentPlayer;
     private StartupModel startupModel;
 
@@ -36,13 +36,13 @@ public class PhaseStartupController {
         
         gamePlayFrame.getContentPane().setRightComponent(startupPanel);
         setDivider(gamePlayFrame.getContentPane());
-        riskGame = getInstance();
-        currentPlayer = riskGame.getCurrPlayer();
+        gamePlayModel = getInstance();
+        currentPlayer = gamePlayModel.getCurrPlayer();
         
-        riskGame.setGameState(STARTUP_PHASE);
+        gamePlayModel.setGameState(STARTUP_PHASE);
 
         /* Register Observer to Observable */
-        riskGame.addObserver(startupPanel);
+        gamePlayModel.addObserver(startupPanel);
         currentPlayer.addObserver(startupPanel);
         startupModel.addObserver(startupPanel);
 
@@ -61,7 +61,7 @@ public class PhaseStartupController {
      */
     private void populateStartupPanel() {
         /* set the phase label */
-        startupPanel.setGameState(riskGame.getGameState());
+        startupPanel.setGameState(gamePlayModel.getGameState());
 
         /* set the player ID label */
         startupPanel.setPlayerID(currentPlayer.getPlayerID());
@@ -71,7 +71,7 @@ public class PhaseStartupController {
 
         /* set the source dropdown */
         startupPanel.getTerritoryDropdown().setModel(startupModel.getTerritoriesList());
-        if (riskGame.getNextPlayer().getUnallocatedArmies() == 0) {
+        if (gamePlayModel.getNextPlayer().getUnallocatedArmies() == 0) {
             startupPanel.setDoneButton("Done (to Fortification Phase)");
         }
         startupPanel.getDoneButton().setEnabled(false);
@@ -85,7 +85,7 @@ public class PhaseStartupController {
         String territory = startupPanel.getTerritoryDropdown().getSelectedItem().toString();
         if (territory != null || !territory.equals("")) {
             startupPanel.getPlaceArmiesButton().setEnabled(false);
-            riskGame.placeArmy(territory);
+            gamePlayModel.placeArmy(territory);
 //            riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
             startupPanel.getDoneButton().setEnabled(true);
         } else {
@@ -98,18 +98,18 @@ public class PhaseStartupController {
      * players have exhausted all unallocated armies.
      */
     public void nextPlayer() {
-        for (Player player : riskGame.getPlayers()) {
+        for (Player player : gamePlayModel.getPlayers()) {
             if (player.getUnallocatedArmies() == 0) {
                 continue;
             }
             else {
-                riskGame.setCurrPlayerToNextPlayer();
+                gamePlayModel.setCurrPlayerToNextPlayer();
                 new PhaseStartupController((this.gamePlayFrame));
                 return;
             }
         }
-        riskGame.setCurrPlayer(riskGame.getPlayers().firstElement());
-        riskGame.reinforcementPhase();
+        gamePlayModel.setCurrPlayer(gamePlayModel.getPlayers().firstElement());
+        gamePlayModel.reinforcementPhase();
         new PhaseReinforcementController(this.gamePlayFrame);
     }
 }

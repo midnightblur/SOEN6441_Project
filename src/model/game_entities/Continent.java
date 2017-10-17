@@ -1,6 +1,6 @@
 package model.game_entities;
 
-import model.RiskGame;
+import model.ui_models.GamePlayModel;
 
 import java.util.Objects;
 import java.util.Vector;
@@ -9,18 +9,18 @@ import java.util.Vector;
  * Continent is a connected subgraph of the whole map
  * One continent contains several territories
  * Continents don't share mutual territory
- * Each continent has a control value as an integer
+ * Each continent has a control index as an integer
  */
 public class Continent {
-    /* Private data member of model.game_entities.Continent class */
+    //region Attributes declaration
     private String name;
     private Vector<String> territories;
     private int controlValue;
+    //endregion
 
-    /* Constructors */
-    
+    //region Constructors
     /**
-     * Instantiate new continent object given its name and its control value
+     * Instantiate new continent object given its name and its control index
      *
      * @param name
      * @param controlValue
@@ -30,62 +30,39 @@ public class Continent {
         this.controlValue = controlValue;
         this.territories = new Vector<>();
     }
-
-    /**
-     *
-     * @return
-     */
-
+    //endregion
+    
+    //region Getters & Setters
     public String getName() {
         return name;
     }
-
-    /**
-     *
-     * @param name
-     */
     
     public void setName(String name) {
         this.name = name;
     }
-
-    /**
-     *
-     * @return
-     */
     
     public int getControlValue() {
         return controlValue;
     }
-
-    /**
-     *
-     * @param controlValue
-     */
     
     public void setControlValue(int controlValue) {
         this.controlValue = controlValue;
     }
-
-    /**
-     *
-     * @return
-     */
     
     public Vector<String> getTerritories() {
         return territories;
     }
-
-    /**
-     *
-     * @param territories
-     */
     
     public void setTerritories(Vector<String> territories) {
         this.territories = territories;
     }
-
-
+    //endregion
+    
+    //region Public methods
+    /**
+     * Add a territoryName to the list of territories belonging to the continent
+     * @param territoryName name of the territory
+     */
     public void addTerritory(String territoryName) {
         if (!territories.contains(territoryName)) {
             territories.add(territoryName);
@@ -136,7 +113,7 @@ public class Continent {
     public int getContinentArmies() throws NullPointerException {
         int count = 0;
         for (String territoryName : territories) {
-            count += RiskGame.getInstance().getGameMap().getATerritory(territoryName).getArmies();
+            count += GamePlayModel.getInstance().getGameMap().getATerritory(territoryName).getArmies();
         }
         return count;
     }
@@ -144,20 +121,21 @@ public class Continent {
     /**
      * Determine if a continent was fully conquered and return the id of the owner if so
      *
-     * @return the id of the owner having conquered all territories within this continent
+     * @return the int value of the id of the owner having conquered all territories within this continent, 0  if none
      *
      * @throws NullPointerException if territories are not yet allocated to players
      */
-    public String getContinentOwner() throws NullPointerException {
+    public int getContinentOwner() throws NullPointerException {
         String continentOwner = "";
-        if (RiskGame.getInstance().getGameMap().getATerritory(territories.get(0)).isOwned()) {
-            continentOwner = "Player " + RiskGame.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
+        if (GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).isOwned()) {
+            continentOwner = "Player " + GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
             for (String territoryName : territories) {
-                if (!Objects.equals(continentOwner, "Player " + RiskGame.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerID()))
-                    return "nobody owns it yet";
+                if (!Objects.equals(continentOwner, "Player " + GamePlayModel.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerID())) {
+                    return 0;
+                }
             }
         }
-        return continentOwner;
+        return  GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
     }
     
     /**
@@ -182,4 +160,5 @@ public class Continent {
         
         return false;
     }
+    //endregion
 }
