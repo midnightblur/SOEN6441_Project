@@ -1,5 +1,7 @@
 package utilities;
 
+import java.awt.*;
+
 /**
  * Configuration class providing static attributes for the application
  */
@@ -29,6 +31,8 @@ public class Config {
             return value;
         }
     }
+    
+    public static final Color[] PLAYER_COLOR = { Color.BLUE, Color.RED, Color.MAGENTA.darker(), Color.GREEN.darker(), Color.DARK_GRAY, Color.ORANGE.darker().darker() };
     
     // Constants for reading GameMap Text File
     public static final int MAPS_MIN_TERRITORIES = 1;

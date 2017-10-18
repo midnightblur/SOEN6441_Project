@@ -125,17 +125,17 @@ public class Continent {
      *
      * @throws NullPointerException if territories are not yet allocated to players
      */
-    public int getContinentOwner() throws NullPointerException {
-        String continentOwner = "";
+    public String getContinentOwner() throws NullPointerException {
+        String continentOwner;
         if (GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).isOwned()) {
-            continentOwner = "Player " + GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
+            continentOwner = GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerName();
             for (String territoryName : territories) {
-                if (!Objects.equals(continentOwner, "Player " + GamePlayModel.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerID())) {
-                    return 0;
+                if (!Objects.equals(continentOwner, GamePlayModel.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerName())) {
+                    return "";
                 }
             }
         }
-        return  GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
+        return  GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerName();
     }
     
     /**

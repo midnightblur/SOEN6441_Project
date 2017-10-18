@@ -1,6 +1,7 @@
 package view.ui_components;
 
 import model.ui_models.MapEditorModel;
+import utilities.Config;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
@@ -39,8 +40,9 @@ public class GameMapTable extends JTable implements Observer {
                 Component comp = prepareRenderer(renderer, r, c);
                 width = Math.max(comp.getPreferredSize().width + 1, width);
             }
-            if (width > 500)    // cap the width
+            if (width > 500) {    // cap the width
                 width = 500;
+            }
             columnModel.getColumn(c).setPreferredWidth(width);
         }
     }
@@ -66,13 +68,12 @@ public class GameMapTable extends JTable implements Observer {
             c.setBackground(super.getBackground());
             c.setForeground(super.getForeground());
         }
-        if (this.getColumnCount() > 3) {    // meaning we already have information for owner on 3rd column
+        if (getColumnCount() > 3) {    // meaning we already have information for owner on 3rd column
             String owner = (String) getValueAt(row, 3);
-            Color[] colors = { Color.BLUE, Color.RED, Color.MAGENTA.darker(), Color.GREEN.darker(), Color.DARK_GRAY, Color.ORANGE.darker().darker() };
-            for (int i = 0; i < colors.length; i++) {
-                if (("Player " + Integer.toString(i + 1)).equals(owner)) {
+            for (int i = 0; i < Config.PLAYER_COLOR.length; i++) {
+                if (("Player " + Integer.toString(i + 1)).compareTo(owner) == 0) {
                     c.setFont(new Font("Sans Serif", Font.ITALIC, 16));
-                    c.setForeground(colors[i]);
+                    c.setForeground(Config.PLAYER_COLOR[i]);
                 }
             }
             getColumn("Owner").setPreferredWidth(10);

@@ -1,5 +1,7 @@
 package model.game_entities;
 
+import utilities.Config;
+
 import java.awt.*;
 import java.util.Random;
 import java.util.Vector;
@@ -28,7 +30,7 @@ public class Player {
         playerName = "Player " + playerID;
         playersHand = new Vector<>();
         territories = new Vector<>();
-        setColor();
+        color = Config.PLAYER_COLOR[playerID - 1];
     }
     // endregion
     
@@ -138,17 +140,6 @@ public class Player {
     // endregion
     
     // region Private methods
-    
-    /**
-     * Player color is randomly generated when a new player object is created
-     */
-    private void setColor() {
-        float r, g, b;
-        r = (float) (rand.nextFloat() / 2f + 0.5);
-        g = (float) (rand.nextFloat() / 2f + 0.5);
-        b = (float) (rand.nextFloat() / 2f + 0.5);
-        this.color = new Color(r, g, b);
-    }
     // endregion
     
     

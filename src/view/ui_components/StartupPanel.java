@@ -82,7 +82,7 @@ public class StartupPanel extends JPanel implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.STARTUP_PHASE) {
                 territoryDropdown.setModel(new DropDownModel(gamePlayModel.getCurrentPlayerTerritories()));
-//                playerNameLabel.setForeground(gamePlayModel.getCurrentPlayer().getColor());
+                playerNameLabel.setForeground(gamePlayModel.getCurrentPlayer().getColor());
                 playerNameLabel.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                 totalArmiesToPlaceLabel.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
             }
