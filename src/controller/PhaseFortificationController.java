@@ -12,7 +12,7 @@ import static utilities.Config.GAME_STATES.FORTIFICATION_PHASE;
 import static view.helpers.UIHelper.setDivider;
 
 /**
- * The FortificationController class
+ * This is the FortificationController class
  */
 public class PhaseFortificationController {
     private FortificationPanel fortificationPanel;
