@@ -84,7 +84,6 @@ public class GamePlayController {
         gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addBackToReinforcementListener(e -> backToReinforcementPanel());
         
         /* For Fortification Panel */
-        gamePlayFrame.getFortificationPanel().addDoneButtonListener(e -> nextPlayer());
         gamePlayFrame.getFortificationPanel().addMoveArmiesButtonListener(e -> moveArmies());
         gamePlayFrame.getFortificationPanel().addSourceTerritoryDropdownListener(e -> updateTargetTerritoriesDropdown(
                 String.valueOf(gamePlayFrame.getFortificationPanel().getSourceTerritoryDropdown().getSelectedItem())
@@ -196,14 +195,6 @@ public class GamePlayController {
     // endregion
     
     // region For Fortification Phase
-    /**
-     * Advance the game to next player
-     */
-    private void nextPlayer() {
-        gamePlayModel.setCurrPlayerToNextPlayer();
-        gamePlayModel.addReinforcementForCurrPlayer();
-//        new PhaseReinforcementController(this.gamePlayFrame);
-    }
     
     /**
      * Move armies from selected source territory to selected target territory
@@ -213,18 +204,18 @@ public class GamePlayController {
         String sourceTerritory = String.valueOf(gamePlayFrame.getFortificationPanel().getSourceTerritoryDropdown().getSelectedItem());
         String targetTerritory = String.valueOf(gamePlayFrame.getFortificationPanel().getTargetTerritoryDropdown().getSelectedItem());
         String inputtedArmies = gamePlayFrame.getFortificationPanel().getArmiesToMoveField().getText();
-        int quantity = 0;
+        int quantity;
         try {
             quantity = Integer.parseInt(inputtedArmies);
+            
+            if ((quantity > 0) && targetTerritory.compareTo("No neighbors owned. Please select another territory") != 0) {
+                String message = gamePlayModel.moveArmiesFortification(sourceTerritory, targetTerritory, quantity);
+                UIHelper.displayMessage(gamePlayFrame,message);
+            } else {
+                UIHelper.displayMessage(gamePlayFrame,"Please validate your selection.");
+            }
         } catch (ClassCastException | NumberFormatException nfe) {
             UIHelper.displayMessage(gamePlayFrame, "Invalid entry. Please re-enter a number.");
-        }
-        
-        if ((quantity > 0) && targetTerritory.compareTo("No neighbors owned. Please select another territory") != 0) {
-            String message = gamePlayModel.moveArmiesFortification(sourceTerritory, targetTerritory, quantity);
-            UIHelper.displayMessage(gamePlayFrame,message);
-        } else {
-            UIHelper.displayMessage(gamePlayFrame,"Please validate your selection.");
         }
     }
 

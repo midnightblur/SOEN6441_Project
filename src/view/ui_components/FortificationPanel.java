@@ -26,7 +26,6 @@ public class FortificationPanel extends JPanel implements Observer {
     private static final String ARMIES_TO_MOVE_LABEL = "Armies to move: ";
     
     private JButton moveArmiesButton;
-    private JButton doneButton;
     private JTextField armiesToMoveField;
     private JLabel playerName;
     private JComboBox<String> sourceTerritoryDropdown;
@@ -48,7 +47,6 @@ public class FortificationPanel extends JPanel implements Observer {
         targetTerritoryDropdown = new JComboBox<>();
         moveArmiesButton = new JButton(MOVE_ARMIES_BUTTON);
         moveArmiesButton.setForeground(Color.BLUE);
-        doneButton = new JButton(DONE_BUTTON);
 
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -70,9 +68,6 @@ public class FortificationPanel extends JPanel implements Observer {
         controlWrapper.add(armiesToMoveField);
         addVerticalSpacing(controlWrapper);
         controlWrapper.add(moveArmiesButton);
-        addVerticalSpacing(controlWrapper);
-        addVerticalSpacing(controlWrapper);
-        controlWrapper.add(doneButton);
         addVerticalSpacing(controlWrapper);
         
         add(controlWrapper);
@@ -102,10 +97,6 @@ public class FortificationPanel extends JPanel implements Observer {
     
     public void addSourceTerritoryDropdownListener(ActionListener listenerForSourceTerritoryDropdown) {
         sourceTerritoryDropdown.addActionListener(listenerForSourceTerritoryDropdown);
-    }
-    
-    public void addDoneButtonListener(ActionListener listenerForDoneButton) {
-        doneButton.addActionListener(listenerForDoneButton);
     }
     
     @Override

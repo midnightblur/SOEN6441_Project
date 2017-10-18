@@ -107,15 +107,6 @@ public class GamePlayModel extends Observable {
         return this.currentPlayer;
     }
     
-    public Player getNextPlayer() {
-        int currPlayerIndex = players.indexOf(currentPlayer);
-        if (currPlayerIndex == players.size() - 1) {
-            return players.get(0);
-        } else {
-            return players.get(currPlayerIndex + 1);
-        }
-    }
-    
     public int getArmyValue() {
         return this.armyValue;
     }
@@ -137,6 +128,13 @@ public class GamePlayModel extends Observable {
     // endregion
     
     // region Public methods
+    public Vector<String> getCurrentPlayerTerritories() {
+        Vector<String> territoriesList = new Vector<>();
+        for (Territory territory : currentPlayer.getTerritories()) {
+            territoriesList.add(territory.getName());
+        }
+        return territoriesList;
+    }
     
     /**
      * Loads the map specified by the filepath, and initializes the game attributes
@@ -174,6 +172,71 @@ public class GamePlayModel extends Observable {
         broadcastGamePlayChanges();
     }
     
+    public Player getNextPlayer() {
+        int currPlayerIndex = players.indexOf(currentPlayer);
+        if (currPlayerIndex == players.size() - 1) {
+            return players.get(0);
+        } else {
+            return players.get(currPlayerIndex + 1);
+        }
+    }
+    //endregion
+    
+    // region For Startup Phase
+    
+    /**
+     * This method allows the players to allocate an unallocated army to a territory that
+     * the player owns.
+     *
+     * @param territory The name of the territory as String to place an army on
+     */
+    public void placeArmyStartup(String territory) {
+        currentPlayer.reduceUnallocatedArmies(1);
+        gameMap.getATerritory(territory).addArmies(1);
+        setCurrentPlayer(getNextPlayer());
+        
+        /*
+         * Get next player if current player's unallocated army is 0
+         * Stop when current player still has unallocated army or all run out of army
+         */
+        int count = 1;
+        while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
+            setCurrentPlayer(getNextPlayer());
+            count++;
+        }
+        
+        /* If all player run out of unallocated army, move to the next phase */
+        if (count == players.size()) {
+            setGameState(REINFORCEMENT);
+            setCurrentPlayer(players.firstElement());
+        }
+        
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+    }
+    
+    /**
+     * A method that allows a player to place armies to the territories as specified
+     * from the Reinforcement Phase view panel.
+     *
+     * @param armiesToPlace Map that contains the key of Territory objects and values
+     *                      of Integer to represent armies
+     */
+    public void placeArmiesReinforcement(Map<Territory, Integer> armiesToPlace) {
+        for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
+            System.out.println("territory " + entry.getKey().getName() + "'s old army value: " + entry.getKey().getArmies());
+            System.out.println("previous unallocated armies: " + currentPlayer.getUnallocatedArmies());
+            entry.getKey().addArmies(entry.getValue());
+            currentPlayer.reduceUnallocatedArmies(entry.getValue());
+            System.out.println("territory " + entry.getKey().getName() + "'s new army value: " + entry.getKey().getArmies());
+            System.out.println("changed unallocated armies: " + currentPlayer.getUnallocatedArmies());
+        }
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+    }
+    // endregion
+    
+    // region For Reinforcement Phase
     /**
      * The reinforcement phase includes allowing the players to hand in their cards for
      * armies (or force them to if they have more than or equal to 5 cards), assign
@@ -190,56 +253,9 @@ public class GamePlayModel extends Observable {
                 armiesToGive += entry.getValue().getControlValue();
             }
         }
-        
         currentPlayer.addUnallocatedArmies(armiesToGive);
     }
-    
-    /**
-     * The method gives a player an option to move any number of armies from one country to
-     * another. The method only allows only one such move that is valid, which requires that
-     * the two countries that the player picks must be owned by that player, be different
-     * territories from one another, and must have more armies in the territory than the number
-     * of armies specified by the player (a territory must have more than 1 army at minimum).
-     *
-     * @param sourceTerritory String value of the name of the source Territory
-     * @param targetTerritory String value of the name of the target Territory
-     * @param noOfArmies      Integer value of the number of armies to be moved
-     *
-     * @return String value of the messages that will be displayed to the user
-     */
-    public String moveArmiesFortification(String sourceTerritory, String targetTerritory, int noOfArmies) {
-        Territory fromTerritory = gameMap.getATerritory(sourceTerritory);
-        Territory toTerritory = gameMap.getATerritory(targetTerritory);
-        
-        // Validate if the two territories are owned by the player, are different, and are neighbors.
-        if (!fromTerritory.isOwnedBy(currentPlayer.getPlayerID()) ||
-                !toTerritory.isOwnedBy(currentPlayer.getPlayerID()) ||
-                fromTerritory == toTerritory) {
-            return "No armies moved!\nYou must pick two Territories that are neighbors.";
-        }
-        
-        if (fromTerritory.getArmies() == 1 || fromTerritory.getArmies() <= noOfArmies) {
-            return "No armies moved!\nYou must always have at least 1 army in each Territory";
-        }
-
-        fromTerritory.reduceArmies(noOfArmies);
-        toTerritory.addArmies(noOfArmies);
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
-        return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
-    }
-    
-    /**
-     * Method to set the current player (turn) to the next player waiting to play his/her turn.
-     */
-    
-    public void setCurrPlayerToNextPlayer() {
-        if (currentPlayer.equals(players.lastElement())) {
-            setCurrentPlayer(players.firstElement());
-        } else {
-            setCurrentPlayer(players.elementAt(players.indexOf(currentPlayer) + 1));
-        }
-    }
+    // endregion
     
     // region Card related helper methods
     
@@ -329,68 +345,45 @@ public class GamePlayModel extends Observable {
     
     // endregion
     
-    // region For Startup Phase
-    
+    // region For Fortification Phase
     /**
-     * This method allows the players to allocate an unallocated army to a territory that
-     * the player owns.
+     * The method gives a player an option to move any number of armies from one country to
+     * another. The method only allows only one such move that is valid, which requires that
+     * the two countries that the player picks must be owned by that player, be different
+     * territories from one another, and must have more armies in the territory than the number
+     * of armies specified by the player (a territory must have more than 1 army at minimum).
      *
-     * @param territory The name of the territory as String to place an army on
+     * @param sourceTerritory String value of the name of the source Territory
+     * @param targetTerritory String value of the name of the target Territory
+     * @param noOfArmies      Integer value of the number of armies to be moved
+     *
+     * @return String value of the messages that will be displayed to the user
      */
-    public void placeArmyStartup(String territory) {
-        currentPlayer.reduceUnallocatedArmies(1);
-        gameMap.getATerritory(territory).addArmies(1);
+    public String moveArmiesFortification(String sourceTerritory, String targetTerritory, int noOfArmies) {
+        Territory fromTerritory = gameMap.getATerritory(sourceTerritory);
+        Territory toTerritory = gameMap.getATerritory(targetTerritory);
+        
+        // Validate if the two territories are owned by the player, are different, and are neighbors.
+        if (!fromTerritory.isOwnedBy(currentPlayer.getPlayerID()) ||
+                !toTerritory.isOwnedBy(currentPlayer.getPlayerID()) ||
+                fromTerritory == toTerritory) {
+            return "No armies moved!\nYou must pick two Territories that are neighbors.";
+        }
+        
+        if (fromTerritory.getArmies() == 1 || fromTerritory.getArmies() <= noOfArmies) {
+            return "No armies moved!\nYou must always have at least 1 army in each Territory";
+        }
+        
+        fromTerritory.reduceArmies(noOfArmies);
+        toTerritory.addArmies(noOfArmies);
+    
+        setGameState(REINFORCEMENT);
         setCurrentPlayer(getNextPlayer());
         
-        /*
-         * Get next player if current player's unallocated army is 0
-         * Stop when current player still has unallocated army or all run out of army
-         */
-        int count = 1;
-        while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
-            setCurrentPlayer(getNextPlayer());
-            count++;
-        }
-        
-        /* If all player run out of unallocated army, move to the next phase */
-        if (count == players.size()) {
-            setGameState(REINFORCEMENT);
-            setCurrentPlayer(players.firstElement());
-        }
-        
-        updateGameMapTableModel();
         broadcastGamePlayChanges();
-    }
-    
-    /**
-     * A method that allows a player to place armies to the territories as specified
-     * from the Reinforcement Phase view panel.
-     *
-     * @param armiesToPlace Map that contains the key of Territory objects and values
-     *                      of Integer to represent armies
-     */
-    public void placeArmiesReinforcement(Map<Territory, Integer> armiesToPlace) {
-        for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
-            System.out.println("territory " + entry.getKey().getName() + "'s old army value: " + entry.getKey().getArmies());
-            System.out.println("previous unallocated armies: " + currentPlayer.getUnallocatedArmies());
-            entry.getKey().addArmies(entry.getValue());
-            currentPlayer.reduceUnallocatedArmies(entry.getValue());
-            System.out.println("territory " + entry.getKey().getName() + "'s new army value: " + entry.getKey().getArmies());
-            System.out.println("changed unallocated armies: " + currentPlayer.getUnallocatedArmies());
-        }
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
+        return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
     // endregion
-    
-    public Vector<String> getCurrentPlayerTerritories() {
-        Vector<String> territoriesList = new Vector<>();
-        for (Territory territory : currentPlayer.getTerritories()) {
-            territoriesList.add(territory.getName());
-        }
-        return territoriesList;
-    }
-    //endregion
     
     // region Private methods
     
