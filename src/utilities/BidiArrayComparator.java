@@ -3,7 +3,7 @@ package utilities;
 import java.util.Comparator;
 
 /**
- *This is a comparator Class
+ *This is a Comparator Class
  *
  * @author
  * @version
