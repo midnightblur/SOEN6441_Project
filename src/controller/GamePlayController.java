@@ -89,7 +89,7 @@ public class GamePlayController {
             } else {
                 UIHelper.displayMessage(gamePlayFrame, "You must enter an amount of players between 1 and " + gamePlayModel.getGameMap().getMaxPlayers());
             }
-        } catch (Exception e) {
+        } catch (ClassCastException | NumberFormatException e) {
             JOptionPane.showMessageDialog(
                     null,
                     "Invalid entry. Please re-enter a number.",
