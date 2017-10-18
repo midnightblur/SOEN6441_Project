@@ -32,7 +32,7 @@ public class ContinentTest {
     }
     
     /**
-     * This test checks the value of the control
+     * This test checks the value of the
      */
     @Test
     public void getControlValue() throws Exception {
