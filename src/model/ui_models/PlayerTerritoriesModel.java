@@ -5,13 +5,12 @@ import model.game_entities.Player;
 import model.game_entities.Territory;
 
 import javax.swing.table.DefaultTableModel;
-import java.util.Observable;
 import java.util.Vector;
 
 /**
  * Model to hold the gameMap data in order to displayJFrame it within a JTable
  */
-public class PlayerTerritoriesModel extends Observable {
+public class PlayerTerritoriesModel {
     private DefaultTableModel model;
     private Object[][] rows;
     private Vector<String> columns;
@@ -23,6 +22,11 @@ public class PlayerTerritoriesModel extends Observable {
         updateMapTableModel(player);
     }
     
+    public PlayerTerritoriesModel() {
+        model = new DefaultTableModel();
+        columns = new Vector<>();
+    }
+    
     /**
      * Updating the table model and notifying the subscribers
      *
@@ -30,7 +34,7 @@ public class PlayerTerritoriesModel extends Observable {
      *
      * @return a table model to be used to generate the view
      */
-    private DefaultTableModel updateMapTableModel(Player player) {
+    public DefaultTableModel updateMapTableModel(Player player) {
         /* clears the model data and reinitialize it with new values */
         model.setRowCount(0);
         columns.clear();

@@ -7,7 +7,7 @@ import view.screens.GamePlayFrame;
 import view.ui_components.ReinforcementPanel;
 
 import static model.ui_models.GamePlayModel.getInstance;
-import static utilities.Config.GAME_STATES.REINFORCEMENT_PHASE;
+import static utilities.Config.GAME_STATES.REINFORCEMENT;
 import static view.helpers.UIHelper.setDivider;
 
 /**
@@ -41,7 +41,7 @@ public class PhaseReinforcementController {
         gamePlayModel = getInstance();
         currentPlayer = gamePlayModel.getCurrentPlayer();
         
-        gamePlayModel.setGameState(REINFORCEMENT_PHASE);
+        gamePlayModel.setGameState(REINFORCEMENT);
     
         /* set control panel */
         populateReinforcementPanel();
@@ -49,7 +49,7 @@ public class PhaseReinforcementController {
         /* Register Observer to Observable */
         gamePlayModel.addObserver(reinforcementPanel);
 //        currentPlayer.addObserver(reinforcementPanel);
-        playerTerritoriesModel.addObserver(reinforcementPanel);
+//        playerTerritoriesModel.addObserver(reinforcementPanel);
 
         /* Register to be ActionListeners */
 //        reinforcementPanel.addTradeCardsButtonListener(e -> tradeCards());
@@ -64,24 +64,7 @@ public class PhaseReinforcementController {
      * The panel is subscribed to multiple model data sources
      */
     private void populateReinforcementPanel() {
-//        /* set the phase label */
-//        reinforcementPanel.setGameState(gamePlayModel.getGameState());
-//
-//        /* set the player ID label */
-//        reinforcementPanel.setPlayerID(currentPlayer.getPlayerID());
-//
-//        /* set the unallocated armies */
-//        reinforcementPanel.setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
-//
-//        /* set the model for the player table */
-//        playerTerritoriesModel = new PlayerTerritoriesModel(currentPlayer);
-//        reinforcementPanel.getPlayerTerritoryTable().setModel(playerTerritoriesModel.getModel());
-//        reinforcementPanel.setTotalArmiesToPlace(currentPlayer.getUnallocatedArmies());
-//        if (currentPlayer.getUnallocatedArmies() == 0) {
-//            reinforcementPanel.getGoToFortificationButton().setEnabled(true);
-//        } else {
-//            reinforcementPanel.getGoToFortificationButton().setEnabled(false);
-//        }
+    
     }
     
     

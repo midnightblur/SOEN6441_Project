@@ -1,6 +1,6 @@
 package view.ui_components;
 
-import model.ui_models.PlayerTerritoriesModel;
+import model.ui_models.GamePlayModel;
 import utilities.Config.GAME_STATES;
 import view.helpers.IntegerEditor;
 
@@ -39,6 +39,8 @@ public class ReinforcementPanel extends JPanel implements Observer {
     private JButton goToFortificationButton;
     private JButton placeArmiesButton;
     private JTable playerTerritoryTable;
+    private JLabel playerID;
+    private JLabel totalArmiesToPlace;
     // endregion
     
     // region Constructors
@@ -47,17 +49,16 @@ public class ReinforcementPanel extends JPanel implements Observer {
         JLabel gameState = new JLabel();
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         gameState.setForeground(Color.BLUE);
-        gameState.setText(GAME_STATES.REINFORCEMENT_PHASE.name());
-        JLabel playerID = new JLabel();
+        gameState.setText(GAME_STATES.REINFORCEMENT.name());
+        playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
         tradeCardsButton = new JButton(TRADE_CARDS_BUTTON);
         tradeCardsButton.setForeground(Color.BLUE);
-        JLabel totalArmiesToPlace = new JLabel();
+        totalArmiesToPlace = new JLabel();
         totalArmiesToPlace.setFont(new Font("Sans Serif", Font.BOLD, 16));
         JLabel howManyArmiesToPlace = new JLabel(ARMIES_TO_PLACE_LABEL);
     
         constructTerritoryTable();
-        
         playerTerritoryTable.setDefaultEditor(Integer.class, new IntegerEditor());
         playerTerritoryTable.getTableHeader().setReorderingAllowed(false);
     
@@ -109,10 +110,6 @@ public class ReinforcementPanel extends JPanel implements Observer {
     public JTable getPlayerTerritoryTable() {
         return playerTerritoryTable;
     }
-
-    public JButton getGoToFortificationButton() {
-        return goToFortificationButton;
-    }
     
     public JPanel getCardsPanel() {
         return cardsPanel;
@@ -120,10 +117,6 @@ public class ReinforcementPanel extends JPanel implements Observer {
     
     public TradeCardsPanel getTradeCardsPanel() {
         return tradeCardsPanel;
-    }
-    
-    public JPanel getControlWrapper() {
-        return controlWrapper;
     }
     
     public static String getControlWrapperPanelName() {
@@ -156,8 +149,13 @@ public class ReinforcementPanel extends JPanel implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof PlayerTerritoriesModel) {
-            playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
+        if (o instanceof GamePlayModel) {
+            GamePlayModel gamePlayModel = (GamePlayModel) o;
+            if (gamePlayModel.getGameState() == GAME_STATES.REINFORCEMENT) {
+                playerID.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
+                totalArmiesToPlace.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
+                playerTerritoryTable.setModel(gamePlayModel.getPlayerTerritoriesModel().getModel());
+            }
         }
     }
     // endregion

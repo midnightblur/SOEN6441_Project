@@ -9,12 +9,12 @@ import view.ui_components.ReinforcementPanel;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
-
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
-import static utilities.Config.GAME_STATES.SETUP_PHASE;
+import static utilities.Config.GAME_STATES.SETUP;
 
 /**
  * This class is used as a controller to read and set map filepath
@@ -49,7 +49,7 @@ public class GamePlayController {
         registerToBeListener();
         
         gamePlayModel.setGameMap(gameMap);
-        gamePlayModel.setGameState(SETUP_PHASE);
+        gamePlayModel.setGameState(SETUP);
         
         gamePlayFrame.getGameMapTable().setModel(gamePlayModel.getMapTableModel().getModel());
     }
@@ -62,6 +62,7 @@ public class GamePlayController {
         gamePlayModel.addObserver(gamePlayFrame.getGameSetupPanel());
         gamePlayModel.addObserver(gamePlayFrame.getStartupPanel());
         gamePlayModel.addObserver(gamePlayFrame.getReinforcementPanel());
+        gamePlayModel.addObserver(gamePlayFrame.getReinforcementPanel().getTradeCardsPanel());
         gamePlayModel.addObserver(gamePlayFrame.getFortificationPanel());
     }
     
@@ -74,9 +75,11 @@ public class GamePlayController {
         gamePlayFrame.getStartupPanel().addPlaceArmyButtonListener(e -> placeArmy());
         
         /* For Reinforcement Panel */
-        gamePlayFrame.getReinforcementPanel().addTradeCardsButtonListener(e -> tradeCards());
+        gamePlayFrame.getReinforcementPanel().addTradeCardsButtonListener(e -> goToTradeCardsPanel());
         gamePlayFrame.getReinforcementPanel().addPlaceArmiesButtonListener(e -> distributeArmies());
         gamePlayFrame.getReinforcementPanel().addGoToFortificationButtonListener(e -> goBackToFortificationPhase());
+        gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addTradeCardsButtonListener(e -> tradeSelectedCards());
+        gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addBackToReinforcementListener(e -> backToReinforcementPanel());
     }
     
     // region For Setup Phase
@@ -141,11 +144,33 @@ public class GamePlayController {
     }
     
     /**
+     * Collect the selected cards from UI and trade them by calling the tradeInCards() from the model
+     */
+    private void tradeSelectedCards() {
+        Vector<String> selectedCards = new Vector<>();
+        for (Component component : gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().getCardList().getComponents()) {
+            JCheckBox checkBox = (JCheckBox) component;
+            if (checkBox.isSelected()) {
+                selectedCards.add(checkBox.getText());
+            }
+        }
+        String message = gamePlayModel.tradeInCards(selectedCards);
+        
+        // confirmation message
+        UIHelper.displayMessage(gamePlayFrame, message);
+    }
+    
+    /**
      * Shows the controller responsible for trading cards
      */
-    private void tradeCards() {
+    private void goToTradeCardsPanel() {
         CardLayout cardLayout = (CardLayout) gamePlayFrame.getReinforcementPanel().getCardsPanel().getLayout();
         cardLayout.show(gamePlayFrame.getReinforcementPanel().getCardsPanel(), ReinforcementPanel.getTradeCardsPanelName());
+    }
+    
+    private void backToReinforcementPanel() {
+        CardLayout cardLayout = (CardLayout) gamePlayFrame.getReinforcementPanel().getCardsPanel().getLayout();
+        cardLayout.show(gamePlayFrame.getReinforcementPanel().getCardsPanel(), ReinforcementPanel.getControlWrapperPanelName());
     }
     
     private void goBackToFortificationPhase() {

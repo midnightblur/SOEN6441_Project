@@ -6,8 +6,8 @@ import java.util.*;
 
 import static utilities.Config.GAME_STATES;
 import static utilities.Config.GAME_STATES.ENTRY_MENU;
-import static utilities.Config.GAME_STATES.REINFORCEMENT_PHASE;
-import static utilities.Config.GAME_STATES.STARTUP_PHASE;
+import static utilities.Config.GAME_STATES.REINFORCEMENT;
+import static utilities.Config.GAME_STATES.STARTUP;
 import static utilities.Config.INITIAL_ARMY_RATIO;
 
 /**
@@ -30,6 +30,7 @@ public class GamePlayModel extends Observable {
     private MapTableModel mapTableModel;
     private GAME_STATES gameState;
     private Player currentPlayer;
+    private PlayerTerritoriesModel playerTerritoriesModel;
     
     private int armyValue;
     private Vector<Card> deck;
@@ -49,6 +50,7 @@ public class GamePlayModel extends Observable {
         players = new Vector<>();
         gameState = ENTRY_MENU;
         rand = new Random();
+        playerTerritoriesModel = new PlayerTerritoriesModel();
     }
     
     /**
@@ -95,6 +97,10 @@ public class GamePlayModel extends Observable {
     
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
+        if (gameState == REINFORCEMENT) {
+            addReinforcementForCurrPlayer();
+            updatePlayerTerritoriesModel();
+        }
     }
     
     public Player getCurrentPlayer() {
@@ -124,6 +130,10 @@ public class GamePlayModel extends Observable {
         broadcastGamePlayChanges();
     }
     
+    public PlayerTerritoriesModel getPlayerTerritoriesModel() {
+        return playerTerritoriesModel;
+    }
+    
     // endregion
     
     // region Public methods
@@ -135,7 +145,7 @@ public class GamePlayModel extends Observable {
      * @param numOfPlayers The specified integer of the number of players that will play the game
      */
     public void initializeNewGame(int numOfPlayers) {
-        gameState = STARTUP_PHASE;
+        gameState = STARTUP;
 
          /* Initialization of game attributes */
         initPlayers(numOfPlayers);
@@ -170,12 +180,9 @@ public class GamePlayModel extends Observable {
      * to-be-allocated armies to the players according to the number of territories and
      * continents they control (to a minimum of 3), and allows players to place those armies.
      */
-    public void reinforcementPhase() {
+    public void addReinforcementForCurrPlayer() {
         // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
-        int armiesToGive = gameMap.getTerritoriesOfPlayer(currentPlayer).size() / 3;
-        if (armiesToGive < 3) {
-            armiesToGive = 3;
-        }
+        int armiesToGive = Math.max(3, gameMap.getTerritoriesOfPlayer(currentPlayer).size() / 3);
         
         // Assign players additional number armies to allocate if that player owns a continent.
         for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
@@ -185,7 +192,6 @@ public class GamePlayModel extends Observable {
         }
         
         currentPlayer.addUnallocatedArmies(armiesToGive);
-        broadcastGamePlayChanges();
     }
     
     /**
@@ -239,9 +245,9 @@ public class GamePlayModel extends Observable {
      */
     public void setCurrPlayerToNextPlayer() {
         if (currentPlayer.equals(players.lastElement())) {
-            currentPlayer = players.firstElement();
+            setCurrentPlayer(players.firstElement());
         } else {
-            currentPlayer = players.elementAt(players.indexOf(currentPlayer) + 1);
+            setCurrentPlayer(players.elementAt(players.indexOf(currentPlayer) + 1));
         }
     }
     
@@ -261,7 +267,7 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * This method changes the game state to TRADE_IN_PHASE and processes the exchange
+     * This method changes the game state to TRADE_IN and processes the exchange
      * of cards to the armies if the user selected cards make a valid set. The method
      * checks for a selection of exactly three cards, and checks for either three cards
      * of the same type, or 3 cards one of each type. If so, those cards are removed
@@ -274,7 +280,6 @@ public class GamePlayModel extends Observable {
      * @return String for the error message to validate the result of the trade in
      */
     public String tradeInCards(Vector<String> selectedCards) {
-        
         if (selectedCards.size() == 3) {
             /* check if selected cards are three of a kind or one of each */
             int choice = 0;
@@ -332,74 +337,6 @@ public class GamePlayModel extends Observable {
         }
     }
     
-    /**
-     * Allows players to trade in their cards if a player has three cards of the same kind
-     * If so, the method removes them from that player's hand and gives back a number of
-     * armies according to the army value. The army value is first set as '5' at the
-     * beginning of the game, but increases every time a player successfully trades in
-     * 3 pairs of cards.
-     */
-    public void tradeThreeOfAKind() {
-        int counter = 0;
-        for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
-            counter = 0;
-            for (int i = 0; i < currentPlayer.getPlayersHand().size(); i++) {
-                if (currentPlayer.getPlayersHand().get(i).getCardType() == Card.CARD_TYPE.values()[cardIndex]) {
-                    counter++;
-                }
-            }
-            if (counter >= 3) {
-                int deleteCounter = 0;
-                for (Card card : currentPlayer.getPlayersHand()) {
-                    if (card.getCardType() == Card.CARD_TYPE.values()[cardIndex]) {
-                        currentPlayer.getPlayersHand().remove(card);
-                        deleteCounter++;
-                    }
-                    if (deleteCounter >= 3) {
-                        break;
-                    }
-                }
-                currentPlayer.getPlayersHand().trimToSize();
-                currentPlayer.addUnallocatedArmies(armyValue);
-                armyValue += 5;
-                break;
-            }
-        }
-    }
-    
-    /**
-     * Allows players to trade in their cards if a player has one of each card type.
-     * If so, the method removes them from that player's hand and gives back a number of
-     * armies according to the army value. The army value is first set as '5' at the
-     * beginning of the game, but increases every time a player successfully trades in
-     * 3 pairs of cards.
-     */
-    public void tradeOneOfEach() {
-        int counter = 0;
-        for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
-            counter = 0;
-            for (int i = 0; i < currentPlayer.getPlayersHand().size(); i++) {
-                if (currentPlayer.getPlayersHand().get(i).getCardType() == Card.CARD_TYPE.values()[cardIndex]) {
-                    counter++;
-                    break;
-                }
-            }
-        }
-        if (counter == 3) {
-            for (int i = 0; i < Card.getTypesCount(); i++) {
-                for (Card card : currentPlayer.getPlayersHand()) {
-                    if (card.getCardType() == Card.CARD_TYPE.values()[i]) {
-                        currentPlayer.getPlayersHand().remove(card);
-                        currentPlayer.getPlayersHand().trimToSize();
-                        break;
-                    }
-                }
-            }
-            currentPlayer.addUnallocatedArmies(armyValue);
-            armyValue += 5;
-        }
-    }
-    
     // endregion
     
     // region For Startup Phase
@@ -412,7 +349,7 @@ public class GamePlayModel extends Observable {
     public void placeArmyStartup(String territory) {
         currentPlayer.reduceUnallocatedArmies(1);
         gameMap.getATerritory(territory).addArmies(1);
-        currentPlayer = getNextPlayer();
+        setCurrentPlayer(getNextPlayer());
         
         /*
          * Get next player if current player's unallocated army is 0
@@ -420,13 +357,14 @@ public class GamePlayModel extends Observable {
          */
         int count = 1;
         while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
-            currentPlayer = getNextPlayer();
+            setCurrentPlayer(getNextPlayer());
             count++;
         }
         
         /* If all player run out of unallocated army, move to the next phase */
         if (count == players.size()) {
-            setGameState(REINFORCEMENT_PHASE);
+            setGameState(REINFORCEMENT);
+            setCurrentPlayer(players.firstElement());
         }
     
         updateGameMapTableModel();
@@ -449,6 +387,7 @@ public class GamePlayModel extends Observable {
             System.out.println("territory " + entry.getKey().getName() + "'s new army value: " + entry.getKey().getArmies());
             System.out.println("changed unallocated armies: " + currentPlayer.getUnallocatedArmies());
         }
+        updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
     // endregion
@@ -599,6 +538,10 @@ public class GamePlayModel extends Observable {
      */
     private void updateGameMapTableModel() {
         mapTableModel.updateMapTableModel(gameMap, gameState);
+    }
+    
+    private void updatePlayerTerritoriesModel() {
+        playerTerritoriesModel.updateMapTableModel(currentPlayer);
     }
     // endregion
 }

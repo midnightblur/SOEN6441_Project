@@ -8,7 +8,7 @@ import view.screens.GamePlayFrame;
 import view.ui_components.FortificationPanel;
 
 import static model.ui_models.GamePlayModel.getInstance;
-import static utilities.Config.GAME_STATES.FORTIFICATION_PHASE;
+import static utilities.Config.GAME_STATES.FORTIFICATION;
 import static view.helpers.UIHelper.setDivider;
 
 /**
@@ -40,7 +40,7 @@ public class PhaseFortificationController {
         gamePlayModel = getInstance();
         currentPlayer = gamePlayModel.getCurrentPlayer();
         
-        gamePlayModel.setGameState(FORTIFICATION_PHASE);
+        gamePlayModel.setGameState(FORTIFICATION);
 
         /* Register Observer to Observable */
         gamePlayModel.addObserver(fortificationPanel);
@@ -110,7 +110,7 @@ public class PhaseFortificationController {
      */
     public void nextPlayer() {
         gamePlayModel.setCurrPlayerToNextPlayer();
-        gamePlayModel.reinforcementPhase();
+        gamePlayModel.addReinforcementForCurrPlayer();
         new PhaseReinforcementController(this.gamePlayFrame);
     }
     

@@ -81,19 +81,19 @@ public class GamePlayFrame extends JFrame implements Observer {
             
             CardLayout cardLayout = (CardLayout) controlArea.getLayout();
             switch (gamePlayModel.getGameState()) {
-                case SETUP_PHASE:
+                case SETUP:
                     cardLayout.show(controlArea, GameSetupPanel.class.getName());
                     break;
-                case STARTUP_PHASE:
+                case STARTUP:
                     cardLayout.show(controlArea, StartupPanel.class.getName());
                     break;
-                case REINFORCEMENT_PHASE:
+                case REINFORCEMENT:
                     cardLayout.show(controlArea, ReinforcementPanel.class.getName());
                     break;
-                case ATTACK_PHASE:
+                case ATTACKING:
 //                    cardLayout.show(controlArea, AttackPanel.class.getName());
                     break;
-                case FORTIFICATION_PHASE:
+                case FORTIFICATION:
                     cardLayout.show(controlArea, FortificationPanel.class.getName());
                     break;
                 default:
@@ -126,6 +126,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     }
     
     private void setupControlArea() {
+        /* Use CardLayout to let different panels share the same space */
         controlArea = new JPanel(new CardLayout());
         
         gameSetupPanel = new GameSetupPanel();

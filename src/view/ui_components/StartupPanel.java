@@ -32,6 +32,7 @@ public class StartupPanel extends JPanel implements Observer {
         JLabel gameStateLabel = new JLabel();
         gameStateLabel.setForeground(Color.BLUE);
         gameStateLabel.setFont(new Font("Sans Serif", Font.ITALIC, 20));
+        gameStateLabel.setText(Config.GAME_STATES.STARTUP.name());
         playerNameLabel = new JLabel();
         playerNameLabel.setFont(new Font("Sans Serif", Font.BOLD, 20));
         totalArmiesToPlaceLabel = new JLabel();
@@ -80,7 +81,7 @@ public class StartupPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
-            if (gamePlayModel.getGameState() == Config.GAME_STATES.STARTUP_PHASE) {
+            if (gamePlayModel.getGameState() == Config.GAME_STATES.STARTUP) {
                 territoryDropdown.setModel(new DropDownModel(gamePlayModel.getCurrentPlayerTerritories()));
                 playerNameLabel.setForeground(gamePlayModel.getCurrentPlayer().getColor());
                 playerNameLabel.setText(gamePlayModel.getCurrentPlayer().getPlayerName());

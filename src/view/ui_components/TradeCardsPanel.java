@@ -1,5 +1,6 @@
 package view.ui_components;
 
+import model.game_entities.Card;
 import model.ui_models.GamePlayModel;
 import utilities.Config.GAME_STATES;
 
@@ -21,10 +22,8 @@ public class TradeCardsPanel extends JPanel implements Observer {
     private static final String GAINED_ARMIES_LABEL = "# of armies gained: ";
     private static final String BACK_TO_REINFORCEMENT_BUTTON = "Back to Reinforcement";
     
-    private JLabel gameState;
     private JLabel playerID;
     private JLabel gainedArmiesLabel;
-    private JLabel cardsListLabel;
     private JLabel armyValueLabel;
     private JPanel cardList;
     private JButton tradeCards;
@@ -33,15 +32,17 @@ public class TradeCardsPanel extends JPanel implements Observer {
     /* Constructors */
     public TradeCardsPanel() {
         /* Instantiate elements */
-        gameState = new JLabel();
+        JLabel gameState = new JLabel();
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
+        gameState.setForeground(Color.BLUE);
+        gameState.setText(GAME_STATES.REINFORCEMENT.name());
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
         tradeCards = new JButton(TRADE_CARDS_BUTTON);
         tradeCards.setForeground(Color.BLUE);
         backToReinforcementButton = new JButton(BACK_TO_REINFORCEMENT_BUTTON);
         armyValueLabel = new JLabel();
-        cardsListLabel = new JLabel(CARDS_LIST_LABEL);
+        JLabel cardsListLabel = new JLabel(CARDS_LIST_LABEL);
         gainedArmiesLabel = new JLabel();
         gainedArmiesLabel.setFont(new Font("Sans Serif", Font.BOLD, 16));
         cardList = new JPanel(new FlowLayout());
@@ -81,20 +82,8 @@ public class TradeCardsPanel extends JPanel implements Observer {
         return cardList;
     }
     
-    public void setGameState(GAME_STATES gameState) {
-        this.gameState.setText("<html><p style=\"color:blue;\">" + gameState.toString() + "</p></html>");
-    }
-    
     public void setPlayerID(int playerID) {
         this.playerID.setText("Player " + playerID);
-    }
-    
-    public JLabel getGainedArmiesLabel() {
-        return gainedArmiesLabel;
-    }
-    
-    public void setArmiesGained(int armiesGained) {
-        this.gainedArmiesLabel.setText(GAINED_ARMIES_LABEL + Integer.toString(armiesGained));
     }
     
     public void setArmyValueLabel(int armyValue) {
@@ -113,7 +102,21 @@ public class TradeCardsPanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
-            setArmyValueLabel(((GamePlayModel) o).getArmyValue());
+            GamePlayModel gamePlayModel = (GamePlayModel) o;
+            if (gamePlayModel.getGameState() == GAME_STATES.REINFORCEMENT) {
+                setArmyValueLabel(gamePlayModel.getArmyValue());
+                playerID.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
+                
+                /* Display list of cards owned by current player */
+                getCardList().removeAll();
+                for (Card card : gamePlayModel.getCurrentPlayer().getPlayersHand()) {
+                    JCheckBox checkBox = new JCheckBox();
+                    checkBox.setText(card.getCardType().name());
+                    getCardList().add(checkBox);
+                }
+                getCardList().revalidate();
+                getCardList().repaint();
+            }
         }
     }
 }
