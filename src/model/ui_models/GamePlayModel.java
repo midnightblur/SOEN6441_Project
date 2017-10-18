@@ -162,9 +162,15 @@ public class GamePlayModel extends Observable {
         }
         System.out.println("deck size: " + deck.size());
 
-          /* Hand out cards for build 1 presentation. To be commented out for normal game play */
+        /* Hand out cards for build 1 presentation. To be commented out for normal game play */
+        int cardsToHandOut = 0;
         for (Player player : players) {
-            for (int i = 0; i < 5; i++) {
+            if (gameMap.getTerritoriesCount()/numOfPlayers >= 5) {
+                cardsToHandOut = 5;
+            } else {
+                cardsToHandOut = gameMap.getTerritoriesCount()/numOfPlayers;
+            }
+            for (int i = 0; i < cardsToHandOut; i++) {
                 player.addCardToPlayersHand(drawCard());
             }
             System.out.println("player" + player.getPlayerID() + "'s hand: (" + player.getPlayersHand().size() + ")");
