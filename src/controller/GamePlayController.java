@@ -77,7 +77,7 @@ public class GamePlayController {
         /* For Reinforcement Panel */
         gamePlayFrame.getReinforcementPanel().addTradeCardsButtonListener(e -> goToTradeCardsPanel());
         gamePlayFrame.getReinforcementPanel().addPlaceArmiesButtonListener(e -> distributeArmies());
-        gamePlayFrame.getReinforcementPanel().addGoToFortificationButtonListener(e -> goBackToFortificationPhase());
+        gamePlayFrame.getReinforcementPanel().addGoToFortificationButtonListener(e -> goToFortificationPhase());
         gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addTradeCardsButtonListener(e -> tradeSelectedCards());
         gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addBackToReinforcementListener(e -> backToReinforcementPanel());
     }
@@ -173,12 +173,15 @@ public class GamePlayController {
         cardLayout.show(gamePlayFrame.getReinforcementPanel().getCardsPanel(), ReinforcementPanel.getControlWrapperPanelName());
     }
     
-    private void goBackToFortificationPhase() {
+    private void goToFortificationPhase() {
         // TODO: this needs fixing so it correctly returns to previous phase
         // TODO: (see true condition in the game and possibly have a setter for it under currentPlayer)
         // riskGame.fortificationPhase();
-        
-        new PhaseFortificationController(gamePlayFrame);
+        if (gamePlayModel.getCurrentPlayer().getUnallocatedArmies() != 0 || gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
+            UIHelper.displayMessage(gamePlayFrame, "You have to allocate all of your armies or trade in your cards");
+        } else {
+            new PhaseFortificationController(gamePlayFrame);
+        }
         
     }
     // endregion
