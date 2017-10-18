@@ -8,12 +8,14 @@ import java.util.Arrays;
  * Objects of this class are created by specifying the number of dice to roll
  * A pip is the index within array representing the number of a die face (it represents the 'up-facing' index of a die)
  * Each pip is a index between 1 and MAX_PIPS (default is 1 to 6)
- * The roll() action will return the 2 most largest values from dice array after randomizing
+ * The roll() action will return the 2 most largest values from dice array after randomizing.
+ *
+ * @author
+ * @version 1.0
  */
 public class Dice {
-    
     /**
-     * The dice object is represented as an array of integers
+     * The dice object is represented as an array of integers.
      */
     private int[] dice;
     
@@ -81,15 +83,15 @@ public class Dice {
         if (dice.length == 1) {
             int[] result = new int[1];
             result[0] = dice[dice.length - 1];
-//            setChanged();
-//            notifyObservers();
+            //setChanged();
+            //notifyObservers();
             return result;
         } else {
             int[] result = new int[2];
             result[0] = dice[dice.length - 1];
             result[0] = dice[dice.length - 2];
-//            setChanged();
-//            notifyObservers();
+            //setChanged();
+            //notifyObservers();
             return result;
         }
         
