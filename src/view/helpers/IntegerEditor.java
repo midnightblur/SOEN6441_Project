@@ -5,7 +5,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 /**
- * Custom cell editor
+ * Custom cell
  * Only allows for positive integers if the column type is Integer
  */
 public class IntegerEditor extends DefaultCellEditor {
