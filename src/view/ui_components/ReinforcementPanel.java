@@ -17,6 +17,9 @@ import static view.helpers.UIHelper.addVerticalSpacing;
 
 /**
  * Reinforcement Panel representing the controls for Reinforcement phase of the game
+ *
+ * @author
+ * @version 1.0
  */
 public class ReinforcementPanel extends JPanel implements Observer {
     // region Attributes declaration
@@ -137,7 +140,12 @@ public class ReinforcementPanel extends JPanel implements Observer {
     public void addPlaceArmiesButtonListener(ActionListener listenerForPlaceArmiesButton) {
         placeArmiesButton.addActionListener(listenerForPlaceArmiesButton);
     }
-    
+
+    /**
+     * Adding Listener for fortification phase.
+     *
+     * @param listenerForGoToFortificationButton
+     */
     public void addGoToFortificationButtonListener(ActionListener listenerForGoToFortificationButton) {
         goToFortificationButton.addActionListener(listenerForGoToFortificationButton);
     }
