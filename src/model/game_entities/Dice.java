@@ -30,7 +30,6 @@ public class Dice {
      *
      * @return the max pips
      */
-    /* Getters & Setters */
     public int getMAX_PIPS() {
         return Config.MAX_PIPS;
     }
@@ -84,6 +83,7 @@ public class Dice {
      * Rolling the dice and returning the maximum 2 values obtained sorted in descending order.
      *
      * @return an array containing the maximum 2 values obtained sorted in descending order
+     *
      * @throws Exception the exception
      */
     public int[] roll() throws Exception {
@@ -105,15 +105,11 @@ public class Dice {
         if (dice.length == 1) {
             int[] result = new int[1];
             result[0] = dice[dice.length - 1];
-            //setChanged();
-            //notifyObservers();
             return result;
         } else {
             int[] result = new int[2];
             result[0] = dice[dice.length - 1];
             result[0] = dice[dice.length - 2];
-            //setChanged();
-            //notifyObservers();
             return result;
         }
         
