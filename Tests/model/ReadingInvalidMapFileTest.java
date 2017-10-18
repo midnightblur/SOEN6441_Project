@@ -6,10 +6,13 @@ import org.junit.Before;
 import org.junit.Test;
 import utilities.Config;
 
+import java.util.Vector;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-public class GameMapHelperTest {
+public class ReadingInvalidMapFileTest {
     private String message;
     private GameMap gameMap;
 
@@ -260,5 +263,18 @@ public class GameMapHelperTest {
         
         assertEquals(Config.MSG_MAPFILE_TERRITORY_NOT_DEFINED, message);
         assertNull(gameMap);
+    }
+    
+    /**
+     * This test checks if the map file is actually a valid map
+     */
+    @Test
+    public void valid_map() throws Exception {
+        Vector<String> mapsList = GameMapHelper.getMapsInFolder(Config.MAPS_FOLDER);
+        int mapIndex = (int) Math.random() * mapsList.size();
+        gameMap = GameMapHelper.loadGameMap(mapsList.elementAt(mapIndex));
+    
+        assertEquals(Config.MSG_MAPFILE_VALID, message);
+        assertNotNull(gameMap);
     }
 }
