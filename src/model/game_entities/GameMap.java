@@ -1,5 +1,5 @@
-/**  
- * @file  GameMap.java 
+/*
+  @file  GameMap.java
  * @brief 
  * 
  * 
@@ -21,7 +21,7 @@ import static utilities.Config.DEFAULT_NUM_OF_PLAYERS;
 /**
  * GameMap class is used to store a map information read from or to write to a map text file.
  *
- * @author
+ * @author Team 2
  * @version 1.0
  */
 public class GameMap {

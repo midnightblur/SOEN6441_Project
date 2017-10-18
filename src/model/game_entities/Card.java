@@ -1,5 +1,5 @@
-/**  
- * @file  Card.java 
+/*
+  @file  Card.java
  * @brief 
  * 
  * 

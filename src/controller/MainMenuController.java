@@ -1,5 +1,5 @@
-/**  
- * @file  MainMenuController.java 
+/*
+  @file  MainMenuController.java
  * @brief 
  * 
  * 
@@ -21,7 +21,7 @@ import javax.swing.*;
  * The Class MainGameController  is
  * responsible for launching different game screens.
  *
- * @author 
+ * @author Team 2
  * @version 1.0
  */
 public class MainMenuController extends JFrame {

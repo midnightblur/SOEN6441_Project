@@ -1,5 +1,5 @@
-/**  
- * @file  GameMapTable.java 
+/*
+  @file  GameMapTable.java
  * @brief 
  * 
  * 
@@ -25,7 +25,7 @@ import java.util.Observer;
  * This class is the model class for GameMapTable which
  * implements Observer class since it is using Observer Pattern.
  *
- * @author 
+ * @author Team 2
  * @version 1.0
  */
 public class GameMapTable extends JTable implements Observer {

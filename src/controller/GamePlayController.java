@@ -1,5 +1,5 @@
-/**  
- * @file  GamePlayController.java 
+/*
+  @file  GamePlayController.java
  * @brief 
  * 
  * 
@@ -26,16 +26,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import static utilities.Config.GAME_STATES.FORTIFICATION;
-import static utilities.Config.GAME_STATES.REINFORCEMENT;
-import static utilities.Config.GAME_STATES.SETUP;
+import static utilities.Config.GAME_STATES.*;
 
 /**
  * This class is used as a controller to read and set map filepath
  * to the model, and dispatchToController
  * the view to displayJFrame the map.
  *
- * @author
+ * @author Team 2
  * @version 1.0
  */
 public class GamePlayController {

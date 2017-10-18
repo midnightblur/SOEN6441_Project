@@ -1,5 +1,5 @@
-/**  
- * @file  EditTerritoryPanel.java 
+/*
+  @file  EditTerritoryPanel.java
  * @brief 
  * 
  * 

@@ -1,5 +1,5 @@
-/**  
- * @file  ReinforcementPanel.java 
+/*
+  @file  ReinforcementPanel.java
  * @brief 
  * 
  * 
@@ -29,7 +29,7 @@ import static view.helpers.UIHelper.addVerticalSpacing;
 /**
  * Reinforcement Panel representing the controls for Reinforcement phase of the game.
  *
- * @author 
+ * @author Team 2
  * @version 1.0
  */
 public class ReinforcementPanel extends JPanel implements Observer {

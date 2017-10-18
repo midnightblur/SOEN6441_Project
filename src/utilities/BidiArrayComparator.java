@@ -1,5 +1,5 @@
-/**  
- * @file  BidiArrayComparator.java 
+/*
+  @file  BidiArrayComparator.java
  * @brief 
  * 
  * 
@@ -16,8 +16,8 @@ import java.util.Comparator;
 /**
  * This is a Comparator Class.
  *
- * @author 
- * @version 
+ * @author Team 2
+ * @version 1.0
  */
 
 public class BidiArrayComparator implements Comparator {

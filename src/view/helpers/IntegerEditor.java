@@ -1,5 +1,5 @@
-/**  
- * @file  IntegerEditor.java 
+/*
+  @file  IntegerEditor.java
  * @brief 
  * 
  * 

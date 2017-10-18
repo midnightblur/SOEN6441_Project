@@ -1,5 +1,5 @@
-/**  
- * @file  MapEditorController.java 
+/*
+  @file  MapEditorController.java
  * @brief 
  * 
  * 
@@ -32,7 +32,7 @@ import java.util.Vector;
  * This is the Map editor controller used to control the
  * actions of map editor.
  *
- * @author 
+ * @author Team 2
  * @version 1.0
  */
 public class MapEditorController {

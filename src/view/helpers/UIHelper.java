@@ -1,5 +1,5 @@
-/**  
- * @file  UIHelper.java 
+/*
+  @file  UIHelper.java
  * @brief 
  * 
  * 

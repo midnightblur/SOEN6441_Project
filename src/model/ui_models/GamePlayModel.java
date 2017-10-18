@@ -1,5 +1,5 @@
-/**  
- * @file  GamePlayModel.java 
+/*
+  @file  GamePlayModel.java
  * @brief 
  * 
  * 
@@ -16,9 +16,7 @@ import model.game_entities.*;
 import java.util.*;
 
 import static utilities.Config.GAME_STATES;
-import static utilities.Config.GAME_STATES.ENTRY_MENU;
-import static utilities.Config.GAME_STATES.REINFORCEMENT;
-import static utilities.Config.GAME_STATES.STARTUP;
+import static utilities.Config.GAME_STATES.*;
 import static utilities.Config.INITIAL_ARMY_RATIO;
 
 /**

@@ -1,5 +1,5 @@
-/**  
- * @file  EditMapPanel.java 
+/*
+  @file  EditMapPanel.java
  * @brief 
  * 
  * 

@@ -1,5 +1,5 @@
-/**  
- * @file  GamePlayFrame.java 
+/*
+  @file  GamePlayFrame.java
  * @brief 
  * 
  * 

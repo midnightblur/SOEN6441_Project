@@ -1,5 +1,5 @@
-/**  
- * @file  Dice.java 
+/*
+  @file  Dice.java
  * @brief 
  * 
  * 
@@ -21,7 +21,7 @@ import java.util.Arrays;
  * Each pip is a index between 1 and MAX_PIPS (default is 1 to 6)
  * The roll() action will return the 2 most largest values from dice array after randomizing.
  *
- * @author
+ * @author Team 2
  * @version 1.0
  */
 public class Dice {

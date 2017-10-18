@@ -1,5 +1,5 @@
-/**  
- * @file  MapSelectorController.java 
+/*
+  @file  MapSelectorController.java
  * @brief 
  * 
  * 
@@ -25,8 +25,8 @@ import static model.helpers.GameMapHelper.loadGameMap;
 /**
  * The Class MapSelectorController.
  *
- * @author 
- * @version 
+ * @author Team 2
+ * @version 1.0
  */
 public class  MapSelectorController {
     

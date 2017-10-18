@@ -1,5 +1,5 @@
-/**  
- * @file  DropDownModel.java 
+/*
+  @file  DropDownModel.java
  * @brief 
  * 
  * 

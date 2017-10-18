@@ -1,5 +1,5 @@
-/**  
- * @file  Continent.java 
+/*
+  @file  Continent.java
  * @brief 
  * 
  * 
@@ -22,7 +22,7 @@ import java.util.Vector;
  * Continents don't share mutual territory
  * Each continent has a control index as an integer.
  *
- * @author 
+ * @author Team 2
  * @version 1.0
  */
 public class Continent {
