@@ -1,6 +1,6 @@
 package model;
 
-import model.game_entities.GameMap;
+import model.game_entities.Continent;
 import model.game_entities.Player;
 import model.game_entities.Territory;
 import model.helpers.GameMapHelper;
@@ -10,76 +10,64 @@ import org.junit.Test;
 import utilities.Config;
 
 import java.util.Map;
+import java.util.Vector;
 
 import static org.junit.Assert.*;
 
 public class GamePlayModelTest {
-    GamePlayModel gamePlayModel1;
-    GamePlayModel gamePlayModel2;
+    GamePlayModel gamePlayModel;
     int numOfPlayers = Config.DEFAULT_NUM_OF_PLAYERS;
     String mapFilePath = Config.DEFAULT_MAP;
     
     @Before
     public void beforeTests() {
-        gamePlayModel1 = GamePlayModel.getInstance();
+        gamePlayModel = GamePlayModel.getInstance();
         try {
-            gamePlayModel1.setGameMap(GameMapHelper.loadGameMap(mapFilePath));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        gamePlayModel2 = GamePlayModel.getInstance();
-        try {
-            gamePlayModel2.setGameMap(GameMapHelper.loadGameMap(mapFilePath));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            gamePlayModel.setGameMap(GameMapHelper.loadGameMap(mapFilePath));
+        } catch (Exception e) {}
     }
     
     @Test
-    public void singletonGamePlayModelObjectTest() throws Exception {
-        // checks if the two game objects are not null
-        System.out.println("Testing to see if two getInstance() of RiskGame are the same.");
-        assertEquals(gamePlayModel1, gamePlayModel2);
-        System.out.println();
-    }
-    
-    @Test
-    public void initializePlayersTest() throws Exception {
-        // testing count players
+    public void gamePlayModelTestCase() {
+        gamePlayModel.initializeNewGame(numOfPlayers);
+        // testing initialization of players' territories and armies
         System.out.println("Testing initialization of players, their territories, " +
                 "and the number of initial armies given:");
-        gamePlayModel1.initializeNewGame(numOfPlayers);
-        for (Player player : gamePlayModel1.getPlayers()) {
-            System.out.println("\tplayer " + player.getPlayerID() + " owns "
+        for (Player player : gamePlayModel.getPlayers()) {
+            System.out.println("player " + player.getPlayerID() + " owns "
                     + player.getTerritories().size() + " territories, and are given "
                     + (player.getUnallocatedArmies() + player.getTerritories().size()) + " initial armies:");
-            for (Map.Entry<String, Territory> entry : gamePlayModel1.getGameMap().getTerritoriesOfPlayer(player).entrySet()) {
-                System.out.println("\t\t" + entry.getKey());
+            for (Map.Entry<String, Territory> entry : gamePlayModel.getGameMap().getTerritoriesOfPlayer(player).entrySet()) {
+                System.out.println("\t" + entry.getKey());
             }
+            assertEquals(7, player.getTerritories().size());
+            assertEquals(8, player.getUnallocatedArmies() + player.getTerritories().size());
         }
-        
-        assertEquals(6, gamePlayModel1.getPlayers().size());
+        assertEquals(6, gamePlayModel.getPlayers().size());
         System.out.println();
-    }
-    
-    @Test
-    public void initializeDeckTest() throws Exception {
-    }
-    
-    @Test
-    public void drawCardTest() throws Exception {
-    }
-    
-    @Test
-    public void cardTradeInTest() throws Exception {
-    }
-    
-    @Test
-    public void reinforcementArmiesTest() throws Exception {
-    }
-    
-    @Test
-    public void fortificationTest() throws Exception {
+   
+        // testing initialization of the deck
+        System.out.println("Deck size at the beginning of the game: " + gamePlayModel.getDeck().size() + 5*6);
+        assertEquals(42, gamePlayModel.getDeck().size() + 5*6);
+        System.out.println();
+        
+        // testing calculation of reinforcement armies
+        System.out.println("Players' reinforcement armies:");
+        int continentValue = 0;
+        for (Player player : gamePlayModel.getPlayers()) {
+            gamePlayModel.setCurrentPlayer(player);
+            int initialUnallocatedArmies = gamePlayModel.getCurrentPlayer().getUnallocatedArmies();
+            gamePlayModel.addReinforcementForCurrPlayer();
+            System.out.println("Reinforcement armies gained by Player " + player.getPlayerID() + ": "
+                    + (gamePlayModel.getCurrentPlayer().getUnallocatedArmies() - initialUnallocatedArmies));
+            for (Map.Entry<String, Continent> entry : gamePlayModel.getGameMap().getContinents().entrySet()) {
+                if (gamePlayModel.getCurrentPlayer().getPlayerName().compareTo(entry.getValue().getContinentOwner()) == 0) {
+                    continentValue = entry.getValue().getControlValue();
+                }
+            }
+            assertEquals(3 + continentValue, gamePlayModel.getCurrentPlayer()
+                    .getUnallocatedArmies() - initialUnallocatedArmies);
+        }
     }
 }
     
