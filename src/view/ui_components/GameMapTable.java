@@ -10,14 +10,26 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * This class is the model class for GameMapTable which
+ * implements Observer class since it is using Observer Pattern
+ *
+ * @author
+ * @version 1.0
+ */
 public class GameMapTable extends JTable implements Observer {
     /* Constructors */
     public GameMapTable() {
         this.setPreferredScrollableViewportSize(this.getPreferredSize());
         this.setFillsViewportHeight(true);
     }
-    
-    
+
+    /**
+     * This is update function used by Observer Pattern
+     *
+     * @param o This is Observer object type.
+     * @param arg This is Object type parameter.
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof MapEditorModel) {
