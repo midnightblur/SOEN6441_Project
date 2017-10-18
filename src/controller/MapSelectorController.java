@@ -11,7 +11,7 @@ import java.util.Vector;
 import static model.helpers.GameMapHelper.getMapsInFolder;
 import static model.helpers.GameMapHelper.loadGameMap;
 
-public class MapSelectorController {
+public class  MapSelectorController {
     // region Attributes declaration
     private MapSelectorFrame mapSelectorFrame;
     private MainMenuController callerController;
