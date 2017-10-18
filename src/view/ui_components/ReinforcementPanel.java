@@ -19,6 +19,9 @@ import static view.helpers.UIHelper.addVerticalSpacing;
  * Reinforcement Panel representing the controls for Reinforcement phase of the game
  */
 public class ReinforcementPanel extends JPanel implements Observer {
+    // region Attributes declaration
+    private static final String CONTROL_WRAPPER_PANEL_NAME = "ControlWrapper";
+    private static final String TRADE_CARDS_PANEL_NAME = "TradeCards";
     private static final String PLACE_ARMIES_BUTTON = "Place armies";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
     private static final String GO_TO_FORTIFICATION_BUTTON = "Go to Fortification";
@@ -26,84 +29,46 @@ public class ReinforcementPanel extends JPanel implements Observer {
     private static final String ATTACK_BUTTON = "Attack!";
     private static final String ARMIES_TO_PLACE_LABEL = "Use table to place armies:";
     
+    private JPanel cardsPanel;
+    private JPanel controlWrapper;
+    private TradeCardsPanel tradeCardsPanel;
     private JButton tradeCardsButton;
     private JButton goToFortificationButton;
-    private JButton attackButton;
     private JButton placeArmiesButton;
-    private JLabel gameState;
-    private JLabel playerID;
-    private JLabel totalArmiesToPlace;
-    private JLabel howManyArmiesToPlace;
     private JTable playerTerritoryTable;
+    // endregion
     
-    /* Constructors */
+    // region Constructors
     public ReinforcementPanel() {
-        gameState = new JLabel();
+        cardsPanel = new JPanel(new CardLayout());
+        JLabel gameState = new JLabel();
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
-        playerID = new JLabel();
+        gameState.setForeground(Color.BLUE);
+        gameState.setText(GAME_STATES.REINFORCEMENT_PHASE.name());
+        JLabel playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
         tradeCardsButton = new JButton(TRADE_CARDS_BUTTON);
         tradeCardsButton.setForeground(Color.BLUE);
-        totalArmiesToPlace = new JLabel();
+        JLabel totalArmiesToPlace = new JLabel();
         totalArmiesToPlace.setFont(new Font("Sans Serif", Font.BOLD, 16));
-        howManyArmiesToPlace = new JLabel(ARMIES_TO_PLACE_LABEL);
+        JLabel howManyArmiesToPlace = new JLabel(ARMIES_TO_PLACE_LABEL);
+    
+        constructTerritoryTable();
         
-        playerTerritoryTable = new JTable() {
-            @Override   // set the data type for each column
-            public Class getColumnClass(int column) {
-                switch (column) {
-                    case 0:
-                        return String.class;
-                    case 1:
-                        return Integer.class;
-                }
-                return getValueAt(0, column).getClass();
-            }
-            
-            @Override   // only allow editing in second column
-            public boolean isCellEditable(int row, int column) {
-                return column == 1;
-            }
-            
-            @Override   // set font
-            public void setFont(Font font) {
-                super.setFont(new Font("Sans Serif", Font.PLAIN, 16));
-            }
-            
-            @Override   // set the row height
-            public void setRowHeight(int rowHeight) {
-                super.setRowHeight(25);
-            }
-            
-            @Override // select all
-            public boolean editCellAt(int row, int column, EventObject e) {
-                boolean result = super.editCellAt(row, column, e);
-                final Component editor = getEditorComponent();
-                if (editor == null || !(editor instanceof JTextComponent)) {
-                    return result;
-                }
-                if (e instanceof MouseEvent) {
-                    EventQueue.invokeLater(((JTextComponent) editor)::selectAll);
-                } else {
-                    ((JTextComponent) editor).selectAll();
-                }
-                return result;
-            }
-        };
         playerTerritoryTable.setDefaultEditor(Integer.class, new IntegerEditor());
         playerTerritoryTable.getTableHeader().setReorderingAllowed(false);
     
         placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON);
         placeArmiesButton.setForeground(Color.BLUE);
         goToFortificationButton = new JButton(GO_TO_FORTIFICATION_BUTTON);
-        attackButton = new JButton(ATTACK_BUTTON);
+        JButton attackButton = new JButton(ATTACK_BUTTON);
         attackButton.setEnabled(false);
         attackButton.setForeground(Color.RED);
 
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
-        JPanel controlWrapper = new JPanel();
+        controlWrapper = new JPanel();
         controlWrapper.setLayout(new BoxLayout(controlWrapper, BoxLayout.PAGE_AXIS));
         JPanel topGrid = new JPanel(new GridLayout(7, 1));
         JPanel bottomGrid = new JPanel(new GridLayout(7, 1));
@@ -128,11 +93,16 @@ public class ReinforcementPanel extends JPanel implements Observer {
         bottomGrid.add(attackButton);
         addVerticalSpacing(bottomGrid);
         controlWrapper.add(bottomGrid);
-        
-        add(controlWrapper);
-    }
     
-    /* Getters & Setters */
+        /* Card Layout elements */
+        cardsPanel.add(controlWrapper, CONTROL_WRAPPER_PANEL_NAME);
+        tradeCardsPanel = new TradeCardsPanel();
+        cardsPanel.add(tradeCardsPanel, TRADE_CARDS_PANEL_NAME);
+        add(cardsPanel);
+    }
+    // endregion
+    
+    // region Getters & Setters
     public JTable getPlayerTerritoryTable() {
         return playerTerritoryTable;
     }
@@ -141,19 +111,29 @@ public class ReinforcementPanel extends JPanel implements Observer {
         return goToFortificationButton;
     }
     
-    public void setGameState(GAME_STATES gameState) {
-        this.gameState.setText("<html><p style=\"color:blue;\">" + gameState.toString() + "</html>");
+    public JPanel getCardsPanel() {
+        return cardsPanel;
     }
     
-    public void setTotalArmiesToPlace(int totalArmiesToPlace) {
-        this.totalArmiesToPlace.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(totalArmiesToPlace));
+    public TradeCardsPanel getTradeCardsPanel() {
+        return tradeCardsPanel;
     }
     
-    public void setPlayerID(int playerID) {
-        this.playerID.setText("Player " + playerID);
+    public JPanel getControlWrapper() {
+        return controlWrapper;
     }
     
-    /* MVC & Observer pattern methods */
+    public static String getControlWrapperPanelName() {
+        return CONTROL_WRAPPER_PANEL_NAME;
+    }
+    
+    public static String getTradeCardsPanelName() {
+        return TRADE_CARDS_PANEL_NAME;
+    }
+    
+    // endregion
+    
+    // region MVC & Observer pattern methods
     public void addPlaceArmiesButtonListener(ActionListener listenerForPlaceArmiesButton) {
         placeArmiesButton.addActionListener(listenerForPlaceArmiesButton);
     }
@@ -171,9 +151,53 @@ public class ReinforcementPanel extends JPanel implements Observer {
         if (o instanceof PlayerTerritoriesModel) {
             playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
         }
-//        if (o instanceof Player) {
-//            setPlayerIDLabel(((Player) o).getPlayerID());
-//            setTotalArmiesToPlaceLabel(((Player) o).getUnallocatedArmies());
-//        }
     }
+    // endregion
+    
+    // region Private methods
+    private void constructTerritoryTable() {
+        playerTerritoryTable = new JTable() {
+            @Override   // set the data type for each column
+            public Class getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return Integer.class;
+                }
+                return getValueAt(0, column).getClass();
+            }
+        
+            @Override   // only allow editing in second column
+            public boolean isCellEditable(int row, int column) {
+                return column == 1;
+            }
+        
+            @Override   // set font
+            public void setFont(Font font) {
+                super.setFont(new Font("Sans Serif", Font.PLAIN, 16));
+            }
+        
+            @Override   // set the row height
+            public void setRowHeight(int rowHeight) {
+                super.setRowHeight(25);
+            }
+        
+            @Override // select all
+            public boolean editCellAt(int row, int column, EventObject e) {
+                boolean result = super.editCellAt(row, column, e);
+                final Component editor = getEditorComponent();
+                if (editor == null || !(editor instanceof JTextComponent)) {
+                    return result;
+                }
+                if (e instanceof MouseEvent) {
+                    EventQueue.invokeLater(((JTextComponent) editor)::selectAll);
+                } else {
+                    ((JTextComponent) editor).selectAll();
+                }
+                return result;
+            }
+        };
+    }
+    // endregion
 }
