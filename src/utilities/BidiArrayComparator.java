@@ -13,7 +13,6 @@ public class BidiArrayComparator implements Comparator {
     private int colToSort;
     
     /**
-     *
      * Constructor taking the column used for sorting.
      */
     public BidiArrayComparator(int colToSort) {

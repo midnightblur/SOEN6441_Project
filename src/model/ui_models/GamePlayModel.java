@@ -154,7 +154,7 @@ public class GamePlayModel extends Observable {
         giveInitialArmies();
         assignOneArmyPerTerritory();
         setCurrentPlayer(players.firstElement());
-
+        
         System.out.println("num of players: " + players.size());
         for (Player player : players) {
             System.out.println("player" + player.getPlayerID() + " init armies: " + player.getUnallocatedArmies());
@@ -207,48 +207,38 @@ public class GamePlayModel extends Observable {
      * territories from one another, and must have more armies in the territory than the number
      * of armies specified by the player (a territory must have more than 1 army at minimum).
      *
-     * @param strTerrFrom     String value of the name of the source Territory
-     * @param strTerrTo       String value of the name of the target Territory
-     * @param strArmiesToMove String value of the number of armies to be moved
+     * @param sourceTerritory String value of the name of the source Territory
+     * @param targetTerritory String value of the name of the target Territory
+     * @param noOfArmies      Integer value of the number of armies to be moved
      *
      * @return String value of the messages that will be displayed to the user
      */
-    public String fortificationPhase(String strTerrFrom, String strTerrTo, String strArmiesToMove) {
-        Territory terrFrom = gameMap.getTerritoriesOfPlayer(currentPlayer).get(strTerrFrom);
-        Territory terrTo = gameMap.getTerritoriesOfPlayer(currentPlayer).get(strTerrTo);
-        int armiesToMove = 0;
-        String exceptionResult = "";
-        try {
-            armiesToMove = Integer.parseInt(strArmiesToMove);
-        } catch (NumberFormatException nfe) {
-            exceptionResult += "No armies moved!\nYou must enter an integer value for the armies.";
-        }
-        if (!exceptionResult.equals("")) {
-            return exceptionResult;
+    public String moveArmiesFortification(String sourceTerritory, String targetTerritory, int noOfArmies) {
+        Territory fromTerritory = gameMap.getATerritory(sourceTerritory);
+        Territory toTerritory = gameMap.getATerritory(targetTerritory);
+        
+        // Validate if the two territories are owned by the player, are different, and are neighbors.
+        if (!fromTerritory.isOwnedBy(currentPlayer.getPlayerID()) ||
+                !toTerritory.isOwnedBy(currentPlayer.getPlayerID()) ||
+                fromTerritory == toTerritory) {
+            return "No armies moved!\nYou must pick two Territories that are neighbors.";
         }
         
-        // validate if the two territories are owned by the player, are different, and are neighbors.
-        if (terrFrom.isOwnedBy(currentPlayer.getPlayerID()) && !terrFrom.equals(terrTo)
-                && terrFrom.isNeighbor(terrTo.getName())) {
-            if (terrFrom.getArmies() > 1 && armiesToMove < terrFrom.getArmies()) {
-                int movableArmies = terrFrom.getArmies() - 1;
-                if (armiesToMove < terrFrom.getArmies()) {
-                    movableArmies = armiesToMove;
-                }
-                terrFrom.reduceArmies(movableArmies);
-                terrTo.addArmies(movableArmies);
-                broadcastGamePlayChanges();
-                return "Successfully moved " + movableArmies + " armies from " + strTerrFrom + " to " + strTerrTo + ".";
-            } else {
-                return "No armies moved!\nYou must always have at least 1 army in each Territory";
-            }
+        if (fromTerritory.getArmies() == 1 || fromTerritory.getArmies() <= noOfArmies) {
+            return "No armies moved!\nYou must always have at least 1 army in each Territory";
         }
-        return "No armies moved!\nYou must pick two Territories that are neighbors.";
+
+        fromTerritory.reduceArmies(noOfArmies);
+        toTerritory.addArmies(noOfArmies);
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+        return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
     
     /**
      * Method to set the current player (turn) to the next player waiting to play his/her turn.
      */
+    
     public void setCurrPlayerToNextPlayer() {
         if (currentPlayer.equals(players.lastElement())) {
             setCurrentPlayer(players.firstElement());
@@ -348,6 +338,7 @@ public class GamePlayModel extends Observable {
     // endregion
     
     // region For Startup Phase
+    
     /**
      * This method allows the players to allocate an unallocated army to a territory that
      * the player owns.
@@ -374,7 +365,7 @@ public class GamePlayModel extends Observable {
             setGameState(REINFORCEMENT);
             setCurrentPlayer(players.firstElement());
         }
-    
+        
         updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
@@ -448,12 +439,12 @@ public class GamePlayModel extends Observable {
      */
     private void distributeTerritories() {
         System.out.println("Distributing territories...");
-
+        
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
             territoryArrList.add(entry.getValue().getName());
         }
-
+        
         int playerIndex = 0;
         for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
             if (playerIndex >= players.size()) {
@@ -464,7 +455,7 @@ public class GamePlayModel extends Observable {
             Player player = players.elementAt(playerIndex);
             territory.setOwner(player);
             player.addTerritory(territory);
-
+            
             playerIndex++;
             territoryArrList.remove(territoryIndex);
         }
@@ -538,7 +529,7 @@ public class GamePlayModel extends Observable {
      */
     private void broadcastGamePlayChanges() {
         setChanged();
-        notifyObservers();
+        notifyObservers(this);
     }
     
     /**
