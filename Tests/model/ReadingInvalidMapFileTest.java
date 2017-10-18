@@ -269,10 +269,14 @@ public class ReadingInvalidMapFileTest {
      * This test checks if the map file is actually a valid map
      */
     @Test
-    public void valid_map() throws Exception {
+    public void valid_map() {
         Vector<String> mapsList = GameMapHelper.getMapsInFolder(Config.MAPS_FOLDER);
         int mapIndex = (int) Math.random() * mapsList.size();
-        gameMap = GameMapHelper.loadGameMap(mapsList.elementAt(mapIndex));
+        try {
+            gameMap = GameMapHelper.loadGameMap(mapsList.elementAt(mapIndex));
+        } catch (Exception e) {
+            message = e.getMessage();
+        }
     
         assertEquals(Config.MSG_MAPFILE_VALID, message);
         assertNotNull(gameMap);

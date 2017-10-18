@@ -39,7 +39,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     private JButton goToFortificationButton;
     private JButton placeArmiesButton;
     private JTable playerTerritoryTable;
-    private JLabel playerID;
+    private JLabel playerName;
     private JLabel totalArmiesToPlace;
     // endregion
     
@@ -50,8 +50,8 @@ public class ReinforcementPanel extends JPanel implements Observer {
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         gameState.setForeground(Color.BLUE);
         gameState.setText(GAME_STATES.REINFORCEMENT.name());
-        playerID = new JLabel();
-        playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
+        playerName = new JLabel();
+        playerName.setFont(new Font("Sans Serif", Font.BOLD, 20));
         tradeCardsButton = new JButton(TRADE_CARDS_BUTTON);
         tradeCardsButton.setForeground(Color.BLUE);
         totalArmiesToPlace = new JLabel();
@@ -79,7 +79,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
         
         /* Add the elements to the panel */
         topGrid.add(gameState);
-        topGrid.add(playerID);
+        topGrid.add(playerName);
         addVerticalSpacing(topGrid);
         topGrid.add(tradeCardsButton);
         addVerticalSpacing(topGrid);
@@ -152,7 +152,8 @@ public class ReinforcementPanel extends JPanel implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == GAME_STATES.REINFORCEMENT) {
-                playerID.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
+                playerName.setForeground(gamePlayModel.getCurrentPlayer().getColor());
+                playerName.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                 totalArmiesToPlace.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
                 playerTerritoryTable.setModel(gamePlayModel.getPlayerTerritoriesModel().getModel());
             }
