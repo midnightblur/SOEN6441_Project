@@ -120,6 +120,7 @@ public class GamePlayController {
             if ((enteredPlayers > 1) && (enteredPlayers <= gamePlayModel.getGameMap().getMaxPlayers())) {
                 gamePlayModel.initializeNewGame(enteredPlayers);
             } else if (enteredPlayers == 1) {
+                gamePlayModel.initializeNewGame(enteredPlayers);
                 UIHelper.displayMessage(gamePlayFrame, "Player 1 Wins!");
                 UIHelper.closeFrame(gamePlayFrame);
                 UIHelper.invokeFrame(callerController.getMainMenuFrame());
