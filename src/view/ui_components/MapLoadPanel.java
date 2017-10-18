@@ -1,3 +1,14 @@
+/**  
+ * @file  MapLoadPanel.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package view.ui_components;
 
 import model.ui_models.MapEditorModel;
@@ -8,17 +19,38 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * The Class MapLoadPanel.
+ */
 public class MapLoadPanel extends JPanel implements Observer {
+    
+    /** The Constant LABEL_CHOOSE_MAP. */
     private static final String LABEL_CHOOSE_MAP = "Choose a Map to edit";
+    
+    /** The Constant LOAD_BUTTON_LABEL. */
     private static final String LOAD_BUTTON_LABEL = "Load Map";
+    
+    /** The Constant NEW_MAP_BUTTON_LABEL. */
     private static final String NEW_MAP_BUTTON_LABEL = "Create a new Map";
+    
+    /** The Constant LABEL_OR. */
     private static final String LABEL_OR = " or ";
     
+    /** The choose map label. */
     private JLabel chooseMapLabel;
+    
+    /** The new map button. */
     private JButton newMapButton;
+    
+    /** The load map button. */
     private JButton loadMapButton;
+    
+    /** The choose map dropdown. */
     private JComboBox<String> chooseMapDropdown;
     
+    /**
+     * Instantiates a new map load panel.
+     */
     public MapLoadPanel() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setupComponents();
@@ -26,22 +58,40 @@ public class MapLoadPanel extends JPanel implements Observer {
     }
     
     
+    /**
+     * Adds the load map button listener.
+     *
+     * @param listenerForLoadMapButton the listener for load map button
+     */
     /* MVC & Observer pattern methods */
     public void addLoadMapButtonListener(ActionListener listenerForLoadMapButton) {
         loadMapButton.addActionListener(listenerForLoadMapButton);
     }
     
+    /**
+     * Adds the new map button listener.
+     *
+     * @param listenerForNewMapButton the listener for new map button
+     */
     public void addNewMapButtonListener(ActionListener listenerForNewMapButton) {
         newMapButton.addActionListener(listenerForNewMapButton);
     }
     
     /* Getters & Setters */
     
+    /**
+     * Gets the choose map dropdown.
+     *
+     * @return the choose map dropdown
+     */
     public JComboBox<String> getChooseMapDropdown() {
         return chooseMapDropdown;
     }
     
     
+    /**
+     * Setup components.
+     */
     /* Private methods */
     private void setupComponents() {
         /* Setup grid panel */
@@ -77,12 +127,20 @@ public class MapLoadPanel extends JPanel implements Observer {
         add(load_map_panel);
     }
     
+    /**
+     * Sets the all components enable.
+     *
+     * @param isEnable the new all components enable
+     */
     private void setAllComponentsEnable(boolean isEnable) {
         chooseMapDropdown.setEnabled(isEnable);
         loadMapButton.setEnabled(isEnable);
         newMapButton.setEnabled(isEnable);
     }
     
+    /* (non-Javadoc)
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
     @Override
     public void update(Observable o, Object arg) {
         /* When the dropdown for maps is update */

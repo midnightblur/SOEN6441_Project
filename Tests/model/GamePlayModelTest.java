@@ -1,3 +1,14 @@
+/**  
+ * @file  GamePlayModelTest.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package model;
 
 import model.game_entities.Continent;
@@ -14,11 +25,23 @@ import java.util.Vector;
 
 import static org.junit.Assert.*;
 
+/**
+ * The Class GamePlayModelTest.
+ */
 public class GamePlayModelTest {
+    
+    /** The game play model. */
     GamePlayModel gamePlayModel;
+    
+    /** The num of players. */
     int numOfPlayers = Config.DEFAULT_NUM_OF_PLAYERS;
+    
+    /** The map file path. */
     String mapFilePath = Config.DEFAULT_MAP;
     
+    /**
+     * Before tests.
+     */
     @Before
     public void beforeTests() {
         gamePlayModel = GamePlayModel.getInstance();
@@ -27,6 +50,9 @@ public class GamePlayModelTest {
         } catch (Exception e) {}
     }
     
+    /**
+     * Game play model test case.
+     */
     @Test
     public void gamePlayModelTestCase() {
         gamePlayModel.initializeNewGame(numOfPlayers);

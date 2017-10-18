@@ -1,3 +1,14 @@
+/**  
+ * @file  MapTableModel.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package model.ui_models;
 
 import model.game_entities.Continent;
@@ -11,13 +22,22 @@ import java.util.Arrays;
 import java.util.Vector;
 
 /**
- * Model to hold the gameMap data in order to displayJFrame it within a JTable
+ * Model to hold the gameMap data in order to displayJFrame it within a JTable.
  */
 public class MapTableModel {
+    
+    /** The model. */
     private DefaultTableModel model;
+    
+    /** The rows. */
     private String[][] rows;
+    
+    /** The columns. */
     private Vector<String> columns;
     
+    /**
+     * Instantiates a new map table model.
+     */
     /* Constructors */
     public MapTableModel() {
         model = new DefaultTableModel();
@@ -26,10 +46,10 @@ public class MapTableModel {
     
     /**
      * Updating the table model and notifying the subscribers
-     * This method is also used by the constructor
+     * This method is also used by the constructor.
      *
      * @param gameMap the gameMap object that provides the data
-     *
+     * @param gameStates the game states
      * @return a table model to be used to generate the view
      */
     public DefaultTableModel updateMapTableModel(GameMap gameMap, Config.GAME_STATES gameStates) {
@@ -81,6 +101,11 @@ public class MapTableModel {
     
     /* Getters & setters */
     
+    /**
+     * Gets the model.
+     *
+     * @return the model
+     */
     public DefaultTableModel getModel() {
         return model;
     }
@@ -88,7 +113,7 @@ public class MapTableModel {
     /* Public methods */
     
     /**
-     * If rows have same continent as previous row, clear the continent name
+     * If rows have same continent as previous row, clear the continent name.
      */
     private void groupRows() {
         String prevGroup = "";

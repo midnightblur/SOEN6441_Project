@@ -1,3 +1,14 @@
+/**  
+ * @file  DiceTest.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package model;
 
 import model.game_entities.Dice;
@@ -5,10 +16,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * The Class DiceTest.
+ */
 public class DiceTest {
 
     /**
-     *This test checks roll of dice
+     * This test checks roll of dice.
      */
     @Test
     public void rollForTreeDice() {
@@ -26,7 +40,7 @@ public class DiceTest {
     }
 
     /**
-     *This test checks roll for one dice
+     * This test checks roll for one dice.
      */
     @Test
     public void rollForOneDice() {
@@ -44,7 +58,7 @@ public class DiceTest {
     }
 
     /**
-     *This test checks the roll for zero dice
+     * This test checks the roll for zero dice.
      */
     @Test
     public void rollForZeroDice() {

@@ -1,3 +1,14 @@
+/**  
+ * @file  Card.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package model.game_entities;
 
 /**
@@ -5,8 +16,20 @@ package model.game_entities;
  * cardType vector. Card type 1 is Infantry, type 2 is Cavalry, and type 3 is Artillery.
  */
 public class Card {
+    
+    /**
+     * The Enum CARD_TYPE.
+     */
     // region Attributes declaration
-    public enum CARD_TYPE {INFANTRY, CAVALRY, ARTILLERY}
+    public enum CARD_TYPE {
+/** The infantry. */
+INFANTRY, 
+ /** The cavalry. */
+ CAVALRY, 
+ /** The artillery. */
+ ARTILLERY}
+    
+    /** The card type. */
     private CARD_TYPE cardType;
     // endregion
     
@@ -14,7 +37,7 @@ public class Card {
     /**
      * The Card sets the cardType of a card in the deck according to the index.
      *
-     * @param cardType
+     * @param cardType the card type
      */
     public Card(CARD_TYPE cardType) {
         this.cardType = cardType;
@@ -23,6 +46,9 @@ public class Card {
     
     // region Getters & Setters
     /**
+     * Gets the card type.
+     *
+     * @return the card type
      * @returns The getter the card type.
      */
     public CARD_TYPE getCardType() {
@@ -30,6 +56,8 @@ public class Card {
     }
     
     /**
+     * Gets the types count.
+     *
      * @return the count of card types
      */
     public static int getTypesCount() {

@@ -1,3 +1,14 @@
+/**  
+ * @file  Dice.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package model.game_entities;
 
 import utilities.Config;
@@ -19,21 +30,36 @@ public class Dice {
      */
     private int[] dice;
     
+    /**
+     * Gets the max pips.
+     *
+     * @return the max pips
+     */
     /* Getters & Setters */
     public int getMAX_PIPS() {
         return Config.MAX_PIPS;
     }
     
+    /**
+     * Gets the dice.
+     *
+     * @return the dice
+     */
     public int[] getDice() {
         return dice;
     }
     
+    /**
+     * Sets the dice.
+     *
+     * @param dice the new dice
+     */
     public void setDice(int[] dice) {
         this.dice = dice;
     }
     
     /**
-     * Default constructor delegating to parametrized constructor
+     * Default constructor delegating to parametrized constructor.
      */
     public Dice() {
         this(1);
@@ -41,7 +67,7 @@ public class Dice {
     
     /**
      * Parameterized constructor
-     * Build an array of dice with default pips showing 1
+     * Build an array of dice with default pips showing 1.
      *
      * @param numberOfDice represents the number of dice to be rolled
      */
@@ -60,9 +86,10 @@ public class Dice {
     }
     
     /**
-     * Rolling the dice and returning the maximum 2 values obtained sorted in descending order
+     * Rolling the dice and returning the maximum 2 values obtained sorted in descending order.
      *
      * @return an array containing the maximum 2 values obtained sorted in descending order
+     * @throws Exception the exception
      */
     public int[] roll() throws Exception {
 

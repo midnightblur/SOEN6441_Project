@@ -1,3 +1,14 @@
+/**  
+ * @file  GameMapTable.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package view.ui_components;
 
 import model.ui_models.MapEditorModel;
@@ -12,12 +23,16 @@ import java.util.Observer;
 
 /**
  * This class is the model class for GameMapTable which
- * implements Observer class since it is using Observer Pattern
+ * implements Observer class since it is using Observer Pattern.
  *
- * @author
+ * @author 
  * @version 1.0
  */
 public class GameMapTable extends JTable implements Observer {
+    
+    /**
+     * Instantiates a new game map table.
+     */
     /* Constructors */
     public GameMapTable() {
         this.setPreferredScrollableViewportSize(this.getPreferredSize());
@@ -25,7 +40,7 @@ public class GameMapTable extends JTable implements Observer {
     }
 
     /**
-     * This is update function used by Observer Pattern
+     * This is update function used by Observer Pattern.
      *
      * @param o This is Observer object type.
      * @param arg This is Object type parameter.
@@ -41,7 +56,7 @@ public class GameMapTable extends JTable implements Observer {
     /* Private methods */
     
     /**
-     * Resize the table columns to fit
+     * Resize the table columns to fit.
      */
     private void resizeColumns() {
         final TableColumnModel columnModel = getColumnModel();
@@ -59,11 +74,17 @@ public class GameMapTable extends JTable implements Observer {
         }
     }
     
+    /* (non-Javadoc)
+     * @see javax.swing.JTable#isCellEditable(int, int)
+     */
     @Override
     public boolean isCellEditable(int row, int column) {
         return false;
     }
     
+    /* (non-Javadoc)
+     * @see javax.swing.JTable#prepareRenderer(javax.swing.table.TableCellRenderer, int, int)
+     */
     @Override
     public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
         setRowHeight(20);

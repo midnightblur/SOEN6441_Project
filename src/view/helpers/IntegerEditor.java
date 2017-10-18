@@ -1,3 +1,14 @@
+/**  
+ * @file  IntegerEditor.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package view.helpers;
 
 import javax.swing.*;
@@ -6,13 +17,20 @@ import java.awt.*;
 
 /**
  * Custom cell editor
- * Only allows for positive integers if the column type is Integer
+ * Only allows for positive integers if the column type is Integer.
  */
 public class IntegerEditor extends DefaultCellEditor {
+    
+    /**
+     * Instantiates a new integer editor.
+     */
     public IntegerEditor() {
         super(new JTextField());
     }
     
+    /* (non-Javadoc)
+     * @see javax.swing.DefaultCellEditor#stopCellEditing()
+     */
     public boolean stopCellEditing() {
         try {
             Integer editingValue = Integer.parseInt((String) getCellEditorValue());
@@ -40,6 +58,9 @@ public class IntegerEditor extends DefaultCellEditor {
         return super.stopCellEditing();
     }
     
+    /* (non-Javadoc)
+     * @see javax.swing.DefaultCellEditor#getTableCellEditorComponent(javax.swing.JTable, java.lang.Object, boolean, int, int)
+     */
     public Component getTableCellEditorComponent(
             JTable table, Object value, boolean isSelected, int row, int column) {
         Component c = super.getTableCellEditorComponent(

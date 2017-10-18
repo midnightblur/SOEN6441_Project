@@ -1,24 +1,42 @@
+/**  
+ * @file  BidiArrayComparator.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package utilities;
 
 import java.util.Comparator;
 
 /**
- *This is a Comparator Class
+ * This is a Comparator Class.
  *
- * @author
- * @version
+ * @author 
+ * @version 
  */
 
 public class BidiArrayComparator implements Comparator {
+    
+    /** The col to sort. */
     private int colToSort;
     
     /**
      * Constructor taking the column used for sorting.
+     *
+     * @param colToSort the col to sort
      */
     public BidiArrayComparator(int colToSort) {
         this.colToSort = colToSort;
     }
     
+    /* (non-Javadoc)
+     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+     */
     @Override
     public int compare(Object o1, Object o2) {
         String[] row1 = (String[]) o1;

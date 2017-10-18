@@ -1,11 +1,28 @@
+/**  
+ * @file  DiceTest.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package model;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The Class DiceTest.
+ */
 class DiceTest {
 
+    /**
+     * Roll for tree dice.
+     */
     @Test
     void rollForTreeDice() {
         int diceCount = 3;
@@ -21,6 +38,9 @@ class DiceTest {
         }
     }
 
+    /**
+     * Roll for one dice.
+     */
     @Test
     void rollForOneDice() {
         int diceCount = 1;
@@ -36,6 +56,9 @@ class DiceTest {
         }
     }
 
+    /**
+     * Roll for zero dice.
+     */
     @Test
     void rollForZeroDice() {
         int diceCount = 0;

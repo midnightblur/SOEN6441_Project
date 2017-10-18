@@ -1,3 +1,14 @@
+/**  
+ * @file  MapEditorModelTest.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package model;
 
 import model.game_entities.GameMap;
@@ -15,10 +26,21 @@ import java.nio.file.Paths;
 
 import static utilities.Config.MAPS_FOLDER;
 
+/**
+ * The Class MapEditorModelTest.
+ */
 public class MapEditorModelTest {
+    
+    /** The file name. */
     private static String fileName = "World.map";
+    
+    /** The input map. */
     private static GameMap inputMap;
+    
+    /** The output map. */
     private static GameMap outputMap;
+    
+    /** The map table model. */
     private static MapTableModel mapTableModel;
     
     /**
@@ -29,9 +51,9 @@ public class MapEditorModelTest {
      * <li>Save to file the tableModel
      * <li>Load the file that was just saved into a output map object
      * <li>
-     * </ul>
+     * </ul>.
      *
-     * @throws Exception
+     * @throws Exception the exception
      */
     @BeforeClass
     public static void roundTripMapFile() throws Exception {
@@ -43,9 +65,9 @@ public class MapEditorModelTest {
     }
     
     /**
-     * Remove the newly created map test file
+     * Remove the newly created map test file.
      *
-     * @throws IOException
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     @AfterClass
     public static void removeTestFile() throws IOException {
@@ -53,9 +75,9 @@ public class MapEditorModelTest {
     }
     
     /**
-     * Assert if the input map has the same continents as the output map
+     * Assert if the input map has the same continents as the output map.
      *
-     * @throws Exception
+     * @throws Exception the exception
      */
     @Test
     public void sameContinents() throws Exception {
@@ -63,9 +85,9 @@ public class MapEditorModelTest {
     }
     
     /**
-     * Assert if the input map has the same territories as the output map
+     * Assert if the input map has the same territories as the output map.
      *
-     * @throws Exception
+     * @throws Exception the exception
      */
     @Test
     public void sameTerritories() throws Exception {

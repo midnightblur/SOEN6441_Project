@@ -1,3 +1,14 @@
+/**  
+ * @file  GamePlayController.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package controller;
 
 import model.game_entities.GameMap;
@@ -28,9 +39,15 @@ import static utilities.Config.GAME_STATES.SETUP;
  * @version 1.0
  */
 public class GamePlayController {
+    
+    /** The caller controller. */
     // region Attributes declaration
     private MainMenuController callerController;
+    
+    /** The game play frame. */
     private GamePlayFrame gamePlayFrame;
+    
+    /** The game play model. */
     private GamePlayModel gamePlayModel;
     // endregion
     
@@ -38,8 +55,9 @@ public class GamePlayController {
     
     /**
      * Constructor for the mainGameController
-     * responsible for launching the game phases
+     * responsible for launching the game phases.
      *
+     * @param callerController the caller controller
      * @param gameMap The already loaded map for the game
      */
     public GamePlayController(MainMenuController callerController, GameMap gameMap) {
@@ -58,6 +76,9 @@ public class GamePlayController {
     }
     // endregion
     
+    /**
+     * Register observers to observable.
+     */
     // region Private methods
     private void registerObserversToObservable() {
         gamePlayModel.addObserver(gamePlayFrame);
@@ -69,6 +90,9 @@ public class GamePlayController {
         gamePlayModel.addObserver(gamePlayFrame.getFortificationPanel());
     }
     
+    /**
+     * Register to be listener.
+     */
     private void registerToBeListener() {
         // TODO: put the back in a menu
         //gamePlayFrame.getControlPanel().addBackButtonListener(e -> backToMainMenu());
@@ -92,6 +116,9 @@ public class GamePlayController {
         gamePlayFrame.getFortificationPanel().addNextPlayerButtonListener(e -> changeToNextPlayer());
     }
     
+    /**
+     * Start the game.
+     */
     // region For Setup Phase
     private void startTheGame() {
         /* initialize the game */
@@ -129,7 +156,7 @@ public class GamePlayController {
     // region For Reinforcement Phase
     /**
      * Looping through view table, get the quantity of armies for each territory
-     * then place them using the placeArmiesReinforcement in the model
+     * then place them using the placeArmiesReinforcement in the model.
      */
     private void distributeArmies() {
         TableModel armiesData = gamePlayFrame.getReinforcementPanel().getPlayerTerritoryTable().getModel();
@@ -158,7 +185,7 @@ public class GamePlayController {
     }
     
     /**
-     * Collect the selected cards from UI and trade them by calling the tradeInCards() from the model
+     * Collect the selected cards from UI and trade them by calling the tradeInCards() from the model.
      */
     private void tradeSelectedCards() {
         Vector<String> selectedCards = new Vector<>();
@@ -175,18 +202,24 @@ public class GamePlayController {
     }
     
     /**
-     * Shows the controller responsible for trading cards
+     * Shows the controller responsible for trading cards.
      */
     private void goToTradeCardsPanel() {
         CardLayout cardLayout = (CardLayout) gamePlayFrame.getReinforcementPanel().getCardsPanel().getLayout();
         cardLayout.show(gamePlayFrame.getReinforcementPanel().getCardsPanel(), ReinforcementPanel.getTradeCardsPanelName());
     }
     
+    /**
+     * Back to reinforcement panel.
+     */
     private void backToReinforcementPanel() {
         CardLayout cardLayout = (CardLayout) gamePlayFrame.getReinforcementPanel().getCardsPanel().getLayout();
         cardLayout.show(gamePlayFrame.getReinforcementPanel().getCardsPanel(), ReinforcementPanel.getControlWrapperPanelName());
     }
     
+    /**
+     * Go to fortification phase.
+     */
     private void goToFortificationPhase() {
         // TODO: this needs fixing so it correctly returns to previous phase
         // TODO: (see true condition in the game and possibly have a setter for it under currentPlayer)
@@ -204,7 +237,7 @@ public class GamePlayController {
     
     /**
      * Move armies from selected source territory to selected target territory
-     * If move is successful the action is disabled
+     * If move is successful the action is disabled.
      */
     private void moveArmies() {
         String sourceTerritory = String.valueOf(gamePlayFrame.getFortificationPanel().getSourceTerritoryDropdown().getSelectedItem());
@@ -225,6 +258,11 @@ public class GamePlayController {
         }
     }
 
+    /**
+     * Update target territories dropdown.
+     *
+     * @param selectedTerritory the selected territory
+     */
     private void updateTargetTerritoriesDropdown(String selectedTerritory) {
         Vector<String> targetTerritoriesList = new Vector<>();
         Vector<String> neighbors = gamePlayModel.getGameMap().getATerritory(selectedTerritory).getNeighbors();
@@ -241,6 +279,9 @@ public class GamePlayController {
         gamePlayFrame.getFortificationPanel().getTargetTerritoryDropdown().setModel(targetTerritoriesModel);
     }
     
+    /**
+     * Change to next player.
+     */
     private void changeToNextPlayer() {
         gamePlayModel.setGameState(REINFORCEMENT);
         gamePlayModel.setCurrentPlayer(gamePlayModel.getNextPlayer());

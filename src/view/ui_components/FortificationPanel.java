@@ -1,3 +1,14 @@
+/**  
+ * @file  FortificationPanel.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package view.ui_components;
 
 import model.game_entities.Territory;
@@ -15,23 +26,46 @@ import java.util.Vector;
 import static view.helpers.UIHelper.addVerticalSpacing;
 
 /**
- * Fortification Panel representing the controls for Fortification phase of the game
+ * Fortification Panel representing the controls for Fortification phase of the game.
  */
 public class FortificationPanel extends JPanel implements Observer {
     
+    /** The Constant MOVE_ARMIES_BUTTON. */
     private static final String MOVE_ARMIES_BUTTON = "Move Armies";
+    
+    /** The Constant DONE_BUTTON. */
     private static final String DONE_BUTTON = "Done (next player)";
+    
+    /** The Constant TERRITORY_FROM_LABEL. */
     private static final String TERRITORY_FROM_LABEL = "Move from: ";
+    
+    /** The Constant TERRITORY_TO_LABEL. */
     private static final String TERRITORY_TO_LABEL = "Move to: ";
+    
+    /** The Constant ARMIES_TO_MOVE_LABEL. */
     private static final String ARMIES_TO_MOVE_LABEL = "Armies to move: ";
     
+    /** The move armies button. */
     private JButton moveArmiesButton;
+    
+    /** The armies to move field. */
     private JTextField armiesToMoveField;
+    
+    /** The player name. */
     private JLabel playerName;
+    
+    /** The source territory dropdown. */
     private JComboBox<String> sourceTerritoryDropdown;
+    
+    /** The target territory dropdown. */
     private JComboBox<String> targetTerritoryDropdown;
+    
+    /** The next player button. */
     private JButton nextPlayerButton;
     
+    /**
+     * Instantiates a new fortification panel.
+     */
     /* Constructors */
     public FortificationPanel() {
         JLabel gameState = new JLabel();
@@ -78,32 +112,65 @@ public class FortificationPanel extends JPanel implements Observer {
         add(controlWrapper);
     }
     
+    /**
+     * Gets the armies to move field.
+     *
+     * @return the armies to move field
+     */
     /* Getters & Setters */
     public JTextField getArmiesToMoveField() {
         return armiesToMoveField;
     }
     
+    /**
+     * Gets the source territory dropdown.
+     *
+     * @return the source territory dropdown
+     */
     public JComboBox getSourceTerritoryDropdown() {
         return sourceTerritoryDropdown;
     }
     
+    /**
+     * Gets the target territory dropdown.
+     *
+     * @return the target territory dropdown
+     */
     public JComboBox getTargetTerritoryDropdown() {
         return targetTerritoryDropdown;
     }
     
+    /**
+     * Adds the move armies button listener.
+     *
+     * @param listenerForMoveArmiesButton the listener for move armies button
+     */
     /* MVC & Observer pattern methods */
     public void addMoveArmiesButtonListener(ActionListener listenerForMoveArmiesButton) {
         moveArmiesButton.addActionListener(listenerForMoveArmiesButton);
     }
     
+    /**
+     * Adds the source territory dropdown listener.
+     *
+     * @param listenerForSourceTerritoryDropdown the listener for source territory dropdown
+     */
     public void addSourceTerritoryDropdownListener(ActionListener listenerForSourceTerritoryDropdown) {
         sourceTerritoryDropdown.addActionListener(listenerForSourceTerritoryDropdown);
     }
     
+    /**
+     * Adds the next player button listener.
+     *
+     * @param listenerForNextPlayerButton the listener for next player button
+     */
     public void addNextPlayerButtonListener(ActionListener listenerForNextPlayerButton) {
         nextPlayerButton.addActionListener(listenerForNextPlayerButton);
     }
     
+    /* (non-Javadoc)
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {

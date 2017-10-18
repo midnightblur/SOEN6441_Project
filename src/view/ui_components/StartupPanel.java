@@ -1,3 +1,14 @@
+/**  
+ * @file  StartupPanel.java 
+ * @brief 
+ * 
+ * 
+ * 
+ * @author Team 2
+ * @version 1.0
+ * @since  Oct 18, 2017
+ * @bug No known bugs.
+ */
 package view.ui_components;
 
 import model.ui_models.DropDownModel;
@@ -13,20 +24,36 @@ import java.util.Observer;
 import static view.helpers.UIHelper.addVerticalSpacing;
 
 /**
- * Startup Panel representing the controls for Startup phase of the game
+ * Startup Panel representing the controls for Startup phase of the game.
  */
 public class StartupPanel extends JPanel implements Observer {
+    
+    /** The Constant PLACE_ARMY_BUTTON. */
     // region Attributes declaration
     private static final String PLACE_ARMY_BUTTON = "Place Army";
+    
+    /** The Constant TERRITORY_LABEL. */
     private static final String TERRITORY_LABEL = "Choose territory to place army on";
+    
+    /** The Constant TOTAL_ARMIES_TO_PLACE_LABEL. */
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
     
+    /** The place army button. */
     private JButton placeArmyButton;
+    
+    /** The player name label. */
     private JLabel playerNameLabel;
+    
+    /** The total armies to place label. */
     private JLabel totalArmiesToPlaceLabel;
+    
+    /** The territory dropdown. */
     private JComboBox<String> territoryDropdown;
     // endregion
     
+    /**
+     * Instantiates a new startup panel.
+     */
     // region Constructors
     public StartupPanel() {
         JLabel gameStateLabel = new JLabel();
@@ -64,18 +91,31 @@ public class StartupPanel extends JPanel implements Observer {
     }
     // endregion
     
+    /**
+     * Gets the territory dropdown.
+     *
+     * @return the territory dropdown
+     */
     // region Getters & Setters
     public JComboBox getTerritoryDropdown() {
         return territoryDropdown;
     }
     // endregion
     
+    /**
+     * Adds the place army button listener.
+     *
+     * @param listenerForPlaceArmiesButton the listener for place armies button
+     */
     // region MVC & Observer pattern methods
     public void addPlaceArmyButtonListener(ActionListener listenerForPlaceArmiesButton) {
         placeArmyButton.addActionListener(listenerForPlaceArmiesButton);
     }
     // endregion
     
+    /* (non-Javadoc)
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
     // region Public methods
     @Override
     public void update(Observable o, Object arg) {
