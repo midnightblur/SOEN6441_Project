@@ -1,5 +1,5 @@
 /*
-  @file  Dice.java
+ * @file  Dice.java
  * @brief 
  * 
  * 

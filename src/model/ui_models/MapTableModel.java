@@ -1,5 +1,5 @@
 /*
-  @file  MapTableModel.java
+ * @file  MapTableModel.java
  * @brief 
  * 
  * 

@@ -1,5 +1,5 @@
 /*
-  @file  FortificationPanel.java
+ * @file  FortificationPanel.java
  * @brief 
  * 
  * 

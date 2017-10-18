@@ -1,5 +1,5 @@
 /*
-  @file  MapLoadPanel.java
+ * @file  MapLoadPanel.java
  * @brief 
  * 
  * 

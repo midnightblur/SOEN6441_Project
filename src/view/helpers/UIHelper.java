@@ -1,5 +1,5 @@
 /*
-  @file  UIHelper.java
+ * @file  UIHelper.java
  * @brief 
  * 
  * 
@@ -23,15 +23,16 @@ public class UIHelper {
     /**
      * Instantiates a new UI helper.
      */
-    private UIHelper() {}
+    private UIHelper() {
+    }
     
     /**
      * Display a frame to screen.
      *
-     * @param frame  the frame to be displayed
-     * @param title  windows's title for the frame
-     * @param width  width of the frame
-     * @param height height of the frame
+     * @param frame                 the frame to be displayed
+     * @param title                 windows's title for the frame
+     * @param width                 width of the frame
+     * @param height                height of the frame
      * @param defaultCloseOperation the default close operation
      */
     public static void displayJFrame(JFrame frame, String title, int width, int height, boolean defaultCloseOperation) {
@@ -70,7 +71,7 @@ public class UIHelper {
     /**
      * Displays messages on UI.
      *
-     * @param frame the frame
+     * @param frame   the frame
      * @param message message string
      */
     public static void displayMessage(JFrame frame, String message) {
@@ -88,7 +89,7 @@ public class UIHelper {
     }
     
     /**
-     * Disable & hide a frame which might be invoked later.
+     * Disable and hide a frame which might be invoked later.
      *
      * @param frame the frame
      */

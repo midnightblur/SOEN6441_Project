@@ -1,5 +1,5 @@
 /*
-  @file  EditContinentPanel.java
+ * @file  EditContinentPanel.java
  * @brief 
  * 
  * 

@@ -1,5 +1,5 @@
 /*
-  @file  BidiArrayComparator.java
+ * @file  BidiArrayComparator.java
  * @brief 
  * 
  * 

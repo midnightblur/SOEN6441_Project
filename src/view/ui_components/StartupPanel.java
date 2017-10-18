@@ -1,5 +1,5 @@
 /*
-  @file  StartupPanel.java
+ * @file  StartupPanel.java
  * @brief 
  * 
  * 

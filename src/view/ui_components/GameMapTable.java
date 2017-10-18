@@ -1,5 +1,5 @@
 /*
-  @file  GameMapTable.java
+ * @file  GameMapTable.java
  * @brief 
  * 
  * 

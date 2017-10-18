@@ -1,5 +1,5 @@
 /*
-  @file  TradeCardsPanel.java
+ * @file  TradeCardsPanel.java
  * @brief 
  * 
  * 

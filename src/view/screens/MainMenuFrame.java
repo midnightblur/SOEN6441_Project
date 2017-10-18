@@ -1,5 +1,5 @@
 /*
-  @file  MainMenuFrame.java
+ * @file  MainMenuFrame.java
  * @brief 
  * 
  * 

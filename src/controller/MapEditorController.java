@@ -1,5 +1,5 @@
 /*
-  @file  MapEditorController.java
+ * @file  MapEditorController.java
  * @brief 
  * 
  * 

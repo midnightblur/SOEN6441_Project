@@ -1,5 +1,5 @@
 /*
-  @file  PlayerTerritoriesModel.java
+ * @file  PlayerTerritoriesModel.java
  * @brief 
  * 
  * 

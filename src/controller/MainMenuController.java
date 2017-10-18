@@ -1,5 +1,5 @@
 /*
-  @file  MainMenuController.java
+ * @file  MainMenuController.java
  * @brief 
  * 
  * 

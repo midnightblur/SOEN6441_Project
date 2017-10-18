@@ -1,5 +1,5 @@
 /*
-  @file  GameSetupPanel.java
+ * @file  GameSetupPanel.java
  * @brief 
  * 
  * 

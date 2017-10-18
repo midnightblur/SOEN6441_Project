@@ -1,5 +1,5 @@
 /*
-  @file  MapSelectorFrame.java
+ * @file  MapSelectorFrame.java
  * @brief 
  * 
  * 

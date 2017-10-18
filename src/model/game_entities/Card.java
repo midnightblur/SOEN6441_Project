@@ -1,5 +1,5 @@
 /*
-  @file  Card.java
+ * @file  Card.java
  * @brief 
  * 
  * 
@@ -22,18 +22,28 @@ public class Card {
      */
     // region Attributes declaration
     public enum CARD_TYPE {
-/** The infantry. */
-INFANTRY, 
- /** The cavalry. */
- CAVALRY, 
- /** The artillery. */
- ARTILLERY}
+        /**
+         * The infantry.
+         */
+        INFANTRY,
+        /**
+         * The cavalry.
+         */
+        CAVALRY,
+        /**
+         * The artillery.
+         */
+        ARTILLERY
+    }
     
-    /** The card type. */
+    /**
+     * The card type.
+     */
     private CARD_TYPE cardType;
     // endregion
     
     // region Constructors
+    
     /**
      * The Card sets the cardType of a card in the deck according to the index.
      *
@@ -45,11 +55,11 @@ INFANTRY,
     // endregion
     
     // region Getters & Setters
+    
     /**
      * Gets the card type.
      *
      * @return the card type
-     * @returns The getter the card type.
      */
     public CARD_TYPE getCardType() {
         return this.cardType;
@@ -66,11 +76,13 @@ INFANTRY,
     // endregion
     
     // region Public Methods
+    
     /**
      * Override equals method to check if two cards are the same, depending on the
      * types of those cards.
      *
      * @param other The other card object to compare with.
+     *
      * @return Boolean index that says whether or not the two objects are equal
      */
     @Override
@@ -84,12 +96,12 @@ INFANTRY,
         if (!(other instanceof Card)) {
             return false;
         }
-    
+        
         Card card = (Card) other;
         if (cardType == card.getCardType()) {
             return true;
         }
-    
+        
         return false;
     }
     // endregion

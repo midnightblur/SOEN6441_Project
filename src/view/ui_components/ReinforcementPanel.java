@@ -1,5 +1,5 @@
 /*
-  @file  ReinforcementPanel.java
+ * @file  ReinforcementPanel.java
  * @brief 
  * 
  * 
