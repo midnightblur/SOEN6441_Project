@@ -8,7 +8,7 @@ public class Driver {
     /**
      * Start the application by making a Main Game Controller
      *
-     * @param args CLI arguments
+     * @param args CLI
      */
     public static void main(String[] args) throws Exception {
         new MainMenuController();
