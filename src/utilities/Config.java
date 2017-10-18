@@ -57,19 +57,19 @@ public class Config {
     public static final String MAPS_FOLDER = "Maps/";
     public static final String DEFAULT_MAP = "World.map";
     
-    // Constants for dice
+    //Constants for dice
     public static final int MAX_PIPS = 6;
     
-    // Constants for army in RiskGame
+    //Constants for army in RiskGame
     public static final int DEFAULT_NUM_OF_PLAYERS = 6;
     public static final double INITIAL_ARMY_RATIO = 1.25;  // 2.75 for similar gameplay as official Risk Game
     
-    // Constants for card in Card
+    //Constants for card in Card
     public static final String CARD_TYPE1 = "Infantry";
     public static final String CARD_TYPE2 = "Cavalry";
     public static final String CARD_TYPE3 = "Artillery";
     
-    // Messages' content for users
+    //Messages' content for users
     public static final String MSG_MAPFILE_ERROR_TITLE = "The map file has error";
     public static final String MSG_MAPFILE_VALID = "The file map is valid";
     public static final String MSG_MAPFILE_INVALID_FORMAT = "Invalid format text file: line %s";

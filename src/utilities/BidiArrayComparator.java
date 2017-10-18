@@ -5,7 +5,10 @@ import java.util.Comparator;
 public class BidiArrayComparator implements Comparator {
     private int colToSort;
     
-    /* Constructor taking the column used for sorting */
+    /**
+     *
+     * Constructor taking the column used for sorting.
+     */
     public BidiArrayComparator(int colToSort) {
         this.colToSort = colToSort;
     }
