@@ -101,6 +101,7 @@ public class GamePlayModel extends Observable {
             addReinforcementForCurrPlayer();
             updatePlayerTerritoriesModel();
         }
+        broadcastGamePlayChanges();
     }
     
     public Player getCurrentPlayer() {
@@ -388,7 +389,6 @@ public class GamePlayModel extends Observable {
         setGameState(REINFORCEMENT);
         setCurrentPlayer(getNextPlayer());
         
-        broadcastGamePlayChanges();
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
     // endregion

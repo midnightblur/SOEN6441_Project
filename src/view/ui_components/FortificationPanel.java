@@ -30,6 +30,7 @@ public class FortificationPanel extends JPanel implements Observer {
     private JLabel playerName;
     private JComboBox<String> sourceTerritoryDropdown;
     private JComboBox<String> targetTerritoryDropdown;
+    private JButton nextPlayerButton;
     
     /* Constructors */
     public FortificationPanel() {
@@ -47,6 +48,7 @@ public class FortificationPanel extends JPanel implements Observer {
         targetTerritoryDropdown = new JComboBox<>();
         moveArmiesButton = new JButton(MOVE_ARMIES_BUTTON);
         moveArmiesButton.setForeground(Color.BLUE);
+        nextPlayerButton = new JButton((DONE_BUTTON));
 
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -69,15 +71,14 @@ public class FortificationPanel extends JPanel implements Observer {
         addVerticalSpacing(controlWrapper);
         controlWrapper.add(moveArmiesButton);
         addVerticalSpacing(controlWrapper);
+        addVerticalSpacing(controlWrapper);
+        controlWrapper.add(nextPlayerButton);
+        addVerticalSpacing(controlWrapper);
         
         add(controlWrapper);
     }
     
     /* Getters & Setters */
-    public JButton getMoveArmiesButton() {
-        return moveArmiesButton;
-    }
-    
     public JTextField getArmiesToMoveField() {
         return armiesToMoveField;
     }
@@ -97,6 +98,10 @@ public class FortificationPanel extends JPanel implements Observer {
     
     public void addSourceTerritoryDropdownListener(ActionListener listenerForSourceTerritoryDropdown) {
         sourceTerritoryDropdown.addActionListener(listenerForSourceTerritoryDropdown);
+    }
+    
+    public void addNextPlayerButtonListener(ActionListener listenerForNextPlayerButton) {
+        nextPlayerButton.addActionListener(listenerForNextPlayerButton);
     }
     
     @Override

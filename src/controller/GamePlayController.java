@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import static utilities.Config.GAME_STATES.FORTIFICATION;
+import static utilities.Config.GAME_STATES.REINFORCEMENT;
 import static utilities.Config.GAME_STATES.SETUP;
 
 /**
@@ -88,6 +89,7 @@ public class GamePlayController {
         gamePlayFrame.getFortificationPanel().addSourceTerritoryDropdownListener(e -> updateTargetTerritoriesDropdown(
                 String.valueOf(gamePlayFrame.getFortificationPanel().getSourceTerritoryDropdown().getSelectedItem())
         ));
+        gamePlayFrame.getFortificationPanel().addNextPlayerButtonListener(e -> changeToNextPlayer());
     }
     
     // region For Setup Phase
@@ -233,6 +235,11 @@ public class GamePlayController {
         }
         DropDownModel targetTerritoriesModel = new DropDownModel(targetTerritoriesList);
         gamePlayFrame.getFortificationPanel().getTargetTerritoryDropdown().setModel(targetTerritoriesModel);
+    }
+    
+    private void changeToNextPlayer() {
+        gamePlayModel.setGameState(REINFORCEMENT);
+        gamePlayModel.setCurrentPlayer(gamePlayModel.getNextPlayer());
     }
     // endregion
     
