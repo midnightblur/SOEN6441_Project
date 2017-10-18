@@ -161,8 +161,10 @@ public class ReinforcementPanel extends JPanel implements Observer {
         }
     }
     // endregion
-    
-    // region Private methods
+
+    /**
+     * The territory table is constructor in this method
+     */
     private void constructTerritoryTable() {
         playerTerritoryTable = new JTable() {
             @Override   // set the data type for each column
