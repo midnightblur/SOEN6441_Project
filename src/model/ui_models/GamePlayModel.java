@@ -413,13 +413,20 @@ public class GamePlayModel extends Observable {
         currentPlayer.reduceUnallocatedArmies(1);
         gameMap.getATerritory(territory).addArmies(1);
         currentPlayer = getNextPlayer();
+        
+        /*
+         * Get next player if current player's unallocated army is 0
+         * Stop when current player still has unallocated army or all run out of army
+         */
         int count = 1;
-        while (currentPlayer.getUnallocatedArmies() == 0 && count <= players.size()) {
+        while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
             currentPlayer = getNextPlayer();
             count++;
         }
+        
+        /* If all player run out of unallocated army, move to the next phase */
         if (count == players.size()) {
-            gameState = REINFORCEMENT_PHASE;
+            setGameState(REINFORCEMENT_PHASE);
         }
     
         updateGameMapTableModel();
