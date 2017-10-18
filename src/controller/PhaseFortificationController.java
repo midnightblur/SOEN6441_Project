@@ -111,7 +111,7 @@ public class PhaseFortificationController {
     public void nextPlayer() {
         gamePlayModel.setCurrPlayerToNextPlayer();
         gamePlayModel.addReinforcementForCurrPlayer();
-        new PhaseReinforcementController(this.gamePlayFrame);
+//        new PhaseReinforcementController(this.gamePlayFrame);
     }
     
 }
