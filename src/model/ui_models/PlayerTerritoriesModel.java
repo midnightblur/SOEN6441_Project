@@ -8,24 +8,59 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
 
 /**
- * Model to hold the gameMap data in order to displayJFrame it within a JTable
+ * This class holds the model representing a player's specific territories.
+ *
+ * This model is based on a DefaultTableModel, and
+ * serves as the underlining model for a JTable on Reinforcement phase
  */
 public class PlayerTerritoriesModel {
+    // region Attributes declaration
     private DefaultTableModel model;
     private Object[][] rows;
     private Vector<String> columns;
     
-    /* Constructors */
-    public PlayerTerritoriesModel(Player player) {
-        model = new DefaultTableModel();
-        columns = new Vector<>();
-        updateMapTableModel(player);
-    }
+    // endregion
     
+    // region Constructors
+    
+    /**
+     * Makes a new empty Player Territory model
+     *
+     * The model would later be updated once players change
+     */
     public PlayerTerritoriesModel() {
         model = new DefaultTableModel();
         columns = new Vector<>();
     }
+    
+    /**
+     * Makes a new Player Territory model for the player passed as argument
+     *
+     * @param player The player for which the territory model is made
+     */
+    public PlayerTerritoriesModel(Player player) {
+        model = new DefaultTableModel();
+        columns = new Vector<>();
+        model = updateMapTableModel(player);
+    }
+    
+    // endregion
+    
+    // region Getters & setters
+    
+    /**
+     * Accessor for the table model
+     *
+     * @return a default table model holding territories information when player was indicated,
+     * or an empty model if no player was indicated
+     */
+    public DefaultTableModel getModel() {
+        return model;
+    }
+    
+    // endregion
+    
+    // region Public methods
     
     /**
      * Updating the table model and notifying the subscribers
@@ -56,18 +91,6 @@ public class PlayerTerritoriesModel {
         return model;
     }
     
-    /* Getters & setters */
-    
-    /**
-     * Accessor for the model
-     *
-     * @return the model
-     */
-    public DefaultTableModel getModel() {
-        return model;
-    }
-    
-    /* Public methods */
-    
+    // endregion
     
 }
