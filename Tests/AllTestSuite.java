@@ -1,4 +1,9 @@
-//JUnit 4 test suite
+/* 
+ * Risk Game Team 2
+ * AllTestSuite.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 
 import model.GamePlayModelTest;
 import model.ReadingInvalidMapFileTest;

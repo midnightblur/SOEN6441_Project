@@ -1,4 +1,9 @@
-//Java class that executes test classes
+/* 
+ * Risk Game Team 2
+ * TestRunner.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 //and uses the results of the test cases
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;

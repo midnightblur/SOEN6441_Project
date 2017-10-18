@@ -1,4 +1,9 @@
-//JUnit 4 test suite
+/* 
+ * Risk Game Team 2
+ * JunitTestSuite.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;

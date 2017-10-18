@@ -1,13 +1,8 @@
-/*
- * @file  Config.java
- * @brief 
- * 
- * 
- * 
- * @author Team 2
- * @version 1.0
- * @since  Oct 18, 2017
- * @bug No known bugs.
+/* 
+ * Risk Game Team 2
+ * Config.java
+ * Version 1.0
+ * Oct 18, 2017
  */
 package utilities;
 
