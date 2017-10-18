@@ -45,7 +45,7 @@ public class PhaseReinforcementController {
         gamePlayFrame.getContentPane().setRightComponent(reinforcementPanel);
         setDivider(gamePlayFrame.getContentPane());
         gamePlayModel = getInstance();
-        currentPlayer = gamePlayModel.getCurrPlayer();
+        currentPlayer = gamePlayModel.getCurrentPlayer();
         
         gamePlayModel.setGameState(REINFORCEMENT_PHASE);
     
@@ -54,7 +54,7 @@ public class PhaseReinforcementController {
         
         /* Register Observer to Observable */
         gamePlayModel.addObserver(reinforcementPanel);
-        currentPlayer.addObserver(reinforcementPanel);
+//        currentPlayer.addObserver(reinforcementPanel);
         playerTerritoriesModel.addObserver(reinforcementPanel);
 
         /* Register to be ActionListeners */
@@ -92,7 +92,7 @@ public class PhaseReinforcementController {
     
     /**
      * Looping through view table, get the quantity of armies for each territory
-     * then place them using the placeArmies in the model
+     * then place them using the placeArmiesReinforcement in the model
      */
     private void distributeArmies() {
         TableModel armiesData = reinforcementPanel.getPlayerTerritoryTable().getModel();
@@ -109,7 +109,7 @@ public class PhaseReinforcementController {
             }
         }
         if (runningSum > 0 && runningSum <= currentPlayer.getUnallocatedArmies()) {
-            gamePlayModel.placeArmies(armiesToPlace);
+            gamePlayModel.placeArmiesReinforcement(armiesToPlace);
             //riskGame.getMapTableModel().updateMapTableModel(riskGame.getGameMap());
             populateReinforcementPanel();
             UIHelper.displayMessage(gamePlayFrame, "The armies were placed successfully");

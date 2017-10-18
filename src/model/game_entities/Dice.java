@@ -3,7 +3,6 @@ package model.game_entities;
 import utilities.Config;
 
 import java.util.Arrays;
-import java.util.Observable;
 
 /**
  * Objects of this class are created by specifying the number of dice to roll
@@ -11,7 +10,7 @@ import java.util.Observable;
  * Each pip is a index between 1 and MAX_PIPS (default is 1 to 6)
  * The roll() action will return the 2 most largest values from dice array after randomizing
  */
-public class Dice extends Observable {
+public class Dice {
     
     /**
      * The dice object is represented as an array of integers
@@ -82,17 +81,15 @@ public class Dice extends Observable {
         if (dice.length == 1) {
             int[] result = new int[1];
             result[0] = dice[dice.length - 1];
-            /* specify that model state changed and notify observers */
-            setChanged();
-            notifyObservers();
+//            setChanged();
+//            notifyObservers();
             return result;
         } else {
             int[] result = new int[2];
             result[0] = dice[dice.length - 1];
             result[0] = dice[dice.length - 2];
-            /* specify that model state changed and notify observers */
-            setChanged();
-            notifyObservers();
+//            setChanged();
+//            notifyObservers();
             return result;
         }
         

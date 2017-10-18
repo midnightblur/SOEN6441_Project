@@ -1,7 +1,6 @@
 package view.screens;
 
 import model.ui_models.GamePlayModel;
-import model.ui_models.MapTableModel;
 import view.helpers.UIHelper;
 import view.ui_components.*;
 
@@ -20,6 +19,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     
     private JSplitPane contentPane;
     private GameMapTable gameMapTable;
+    private JPanel controlArea;
     private GameSetupPanel gameSetupPanel;
     private StartupPanel startupPanel;
     private ReinforcementPanel reinforcementPanel;
@@ -75,11 +75,30 @@ public class GamePlayFrame extends JFrame implements Observer {
     // region Public methods
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof MapTableModel) {
-            gameMapTable.setModel(((MapTableModel) o).getModel());
-        }
         if (o instanceof GamePlayModel) {
-            gameMapTable.setModel(((GamePlayModel) o).getMapTableModel().getModel());
+            GamePlayModel gamePlayModel = (GamePlayModel) o;
+            gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
+            
+            CardLayout cardLayout = (CardLayout) controlArea.getLayout();
+            switch (gamePlayModel.getGameState()) {
+                case SETUP_PHASE:
+                    cardLayout.show(controlArea, GameSetupPanel.class.getName());
+                    break;
+                case STARTUP_PHASE:
+                    cardLayout.show(controlArea, StartupPanel.class.getName());
+                    break;
+                case REINFORCEMENT_PHASE:
+                    cardLayout.show(controlArea, ReinforcementPanel.class.getName());
+                    break;
+                case ATTACK_PHASE:
+//                    cardLayout.show(controlArea, AttackPanel.class.getName());
+                    break;
+                case FORTIFICATION_PHASE:
+                    cardLayout.show(controlArea, FortificationPanel.class.getName());
+                    break;
+                default:
+                    break;
+            }
         }
     }
     // endregion
@@ -107,7 +126,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     }
     
     private void setupControlArea() {
-        JPanel controlArea = new JPanel(new CardLayout());
+        controlArea = new JPanel(new CardLayout());
         
         gameSetupPanel = new GameSetupPanel();
         controlArea.add(gameSetupPanel, GameSetupPanel.class.getName());

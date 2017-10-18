@@ -44,7 +44,7 @@ public class TradeCardsController {
         gamePlayFrame.getContentPane().setRightComponent(tradeCardsPanel);
         setDivider(gamePlayFrame.getContentPane());
         gamePlayModel = GamePlayModel.getInstance();
-        currentPlayer = gamePlayModel.getCurrPlayer();
+        currentPlayer = gamePlayModel.getCurrentPlayer();
         
         gamePlayModel.setGameState(TRADE_IN_PHASE);
         
@@ -56,7 +56,7 @@ public class TradeCardsController {
 
         /* Register Observer to Observable */
         gamePlayModel.addObserver(tradeCardsPanel);
-        currentPlayer.addObserver(tradeCardsPanel);
+//        currentPlayer.addObserver(tradeCardsPanel);
         
         /* Register to be ActionListeners */
         tradeCardsPanel.addTradeCardsButtonListener(e -> tradeSelectedCards());

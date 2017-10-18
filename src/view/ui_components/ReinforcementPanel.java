@@ -1,6 +1,5 @@
 package view.ui_components;
 
-import model.game_entities.Player;
 import model.ui_models.PlayerTerritoriesModel;
 import utilities.Config.GAME_STATES;
 import view.helpers.IntegerEditor;
@@ -172,9 +171,9 @@ public class ReinforcementPanel extends JPanel implements Observer {
         if (o instanceof PlayerTerritoriesModel) {
             playerTerritoryTable.setModel(((PlayerTerritoriesModel) o).getModel());
         }
-        if (o instanceof Player) {
-            setPlayerID(((Player) o).getPlayerID());
-            setTotalArmiesToPlace(((Player) o).getUnallocatedArmies());
-        }
+//        if (o instanceof Player) {
+//            setPlayerIDLabel(((Player) o).getPlayerID());
+//            setTotalArmiesToPlaceLabel(((Player) o).getUnallocatedArmies());
+//        }
     }
 }

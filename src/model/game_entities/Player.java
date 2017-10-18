@@ -1,7 +1,6 @@
 package model.game_entities;
 
 import java.awt.*;
-import java.util.Observable;
 import java.util.Random;
 import java.util.Vector;
 
@@ -9,24 +8,31 @@ import java.util.Vector;
  * Each Player in a new game has a unique ID number (starting from 1) and the isBot status
  * which determines whether or not that player is a bot or a human controlled Player.
  */
-public class Player extends Observable {
+public class Player {
+    // region Attributes declaration
     private static int nextID = 0;
-    Random rand = new Random();
-    // Will produce only bright / light colours:
+    private Random rand;
     private Color color;
     
-    // Private data member of model.game_entities.Player class
     private int playerID;
     private String playerName;
     private int unallocatedArmies;
-    private Vector<Card> playersHand = new Vector<>();
+    private Vector<Card> playersHand;
+    private Vector<Territory> territories;
+    // endregion
     
+    // region Constructors
     public Player() {
-        this.playerID = ++Player.nextID;
+        rand = new Random();
+        playerID = ++Player.nextID;
+        playerName = "Player " + playerID;
+        playersHand = new Vector<>();
+        territories = new Vector<>();
         setColor();
     }
+    // endregion
     
-    /* Getters & Setters */
+    // region Getters & Setters
     public int getPlayerID() {
         return this.playerID;
     }
@@ -45,7 +51,7 @@ public class Player extends Observable {
     
     public void setUnallocatedArmies(int unallocatedArmies) {
         this.unallocatedArmies = unallocatedArmies;
-        broadcastPlayerChanges();
+//        broadcastPlayerChanges();
     }
     
     public int getUnallocatedArmies() {
@@ -56,7 +62,13 @@ public class Player extends Observable {
         return this.playersHand;
     }
     
-    // public methods
+    public Vector<Territory> getTerritories() {
+        return territories;
+    }
+    
+    // endregion
+    
+    // region Public methods
     
     /**
      * Reduces the number of unallocated armies for this player by the specified number.
@@ -65,7 +77,7 @@ public class Player extends Observable {
      */
     public void reduceUnallocatedArmies(int num) {
         this.unallocatedArmies -= num;
-        broadcastPlayerChanges();
+//        broadcastPlayerChanges();
     }
     
     /**
@@ -75,7 +87,7 @@ public class Player extends Observable {
      */
     public void addUnallocatedArmies(int num) {
         this.unallocatedArmies += num;
-        broadcastPlayerChanges();
+//        broadcastPlayerChanges();
     }
     
     /**
@@ -87,15 +99,19 @@ public class Player extends Observable {
         this.playersHand.add(card);
     }
     
-    /**
-     * Player color is randomly generated when a new player object is created
-     */
-    private void setColor() {
-        float r, g, b;
-        r = (float) (rand.nextFloat() / 2f + 0.5);
-        g = (float) (rand.nextFloat() / 2f + 0.5);
-        b = (float) (rand.nextFloat() / 2f + 0.5);
-        this.color = new Color(r, g, b);
+    public void addTerritory(Territory territory) {
+        if (!territories.contains(territory)) {
+            territories.add(territory);
+        }
+    }
+    
+    public void removeTerritory(String territoryName) {
+        for (Territory territory : territories) {
+            if (territory.getName().compareTo(territoryName) == 0) {
+                territories.remove(territory);
+                return;
+            }
+        }
     }
     
     /**
@@ -119,13 +135,21 @@ public class Player extends Observable {
         }
         return false;
     }
+    // endregion
+    
+    // region Private methods
     
     /**
-     * Method to update the GamePlayModel and notify the Observer.
+     * Player color is randomly generated when a new player object is created
      */
-    private void broadcastPlayerChanges() {
-        setChanged();
-        notifyObservers();
+    private void setColor() {
+        float r, g, b;
+        r = (float) (rand.nextFloat() / 2f + 0.5);
+        g = (float) (rand.nextFloat() / 2f + 0.5);
+        b = (float) (rand.nextFloat() / 2f + 0.5);
+        this.color = new Color(r, g, b);
     }
+    // endregion
+    
     
 }

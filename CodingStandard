@@ -27,18 +27,18 @@ import java.utilities.Scanner;
  */
 public class Player {
     private static int counter;
-    private int playerID;
+    private int playerIDLabel;
 
     public Player() {
         ...
     }
 
-    public void setPlayerID(int playerID) {
-        this.playerID = playerID;
+    public void setPlayerID(int playerIDLabel) {
+        this.playerIDLabel = playerIDLabel;
     }
 
     public int getPlayerID() {
-        return this.playerID;
+        return this.playerIDLabel;
     }
 
     ...
@@ -67,7 +67,7 @@ Example:
  */
 public class Player {
     private static int count;
-    private int playerID;
+    private int playerIDLabel;
 
     public Player(int id) {
         // some comment
@@ -87,12 +87,12 @@ public class Player {
         }
     }
 
-    public void setPlayerID(int playerID) {
-        this.playerID = playerID;
+    public void setPlayerID(int playerIDLabel) {
+        this.playerIDLabel = playerIDLabel;
     }
 
     public int getPlayerID() {
-        return this.playerID;
+        return this.playerIDLabel;
     }
 
     public static int getCount() {
@@ -140,7 +140,7 @@ import java.utilities.Scanner;
  */
 public class Player {
     private static int count;
-    private int playerID;
+    private int playerIDLabel;
 
     /**
      * This is a comment describing the Constructor
@@ -234,11 +234,11 @@ Example:
 
 import filename;
 
-public int playerID;
+public int playerIDLabel;
 public int exampleCounter;
 private String playerFirstName;
 private String playerLastName;
 
 for (int i=0; i<exampleCounter; i++) {
-    System.out.println("Player " + playerID);
+    System.out.println("Player " + playerIDLabel);
 }

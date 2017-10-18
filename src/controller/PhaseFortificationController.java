@@ -38,13 +38,13 @@ public class PhaseFortificationController {
         gamePlayFrame.getContentPane().setRightComponent(fortificationPanel);
         setDivider(gamePlayFrame.getContentPane());
         gamePlayModel = getInstance();
-        currentPlayer = gamePlayModel.getCurrPlayer();
+        currentPlayer = gamePlayModel.getCurrentPlayer();
         
         gamePlayModel.setGameState(FORTIFICATION_PHASE);
 
         /* Register Observer to Observable */
         gamePlayModel.addObserver(fortificationPanel);
-        currentPlayer.addObserver(fortificationPanel);
+//        currentPlayer.addObserver(fortificationPanel);
         fortificationModel.addObserver(fortificationPanel);
 
         /* Register to be ActionListeners */

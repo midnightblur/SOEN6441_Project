@@ -7,7 +7,6 @@ import view.screens.GamePlayFrame;
 
 import javax.swing.*;
 
-import static model.ui_models.GamePlayModel.getInstance;
 import static utilities.Config.GAME_STATES.SETUP_PHASE;
 
 /**
@@ -44,16 +43,14 @@ public class GamePlayController {
         
         gamePlayModel.setGameMap(gameMap);
         gamePlayModel.setGameState(SETUP_PHASE);
-        
-        /* set the model for the main table */
+
         gamePlayFrame.getGameMapTable().setModel(gamePlayModel.getMapTableModel().getModel());
-        
-//        setControlPanel();
     }
     // endregion
     
     // region Private methods
     private void registerObserversToObservable() {
+        gamePlayModel.addObserver(gamePlayFrame);
         gamePlayModel.addObserver(gamePlayFrame.getGameMapTable());
         gamePlayModel.addObserver(gamePlayFrame.getGameSetupPanel());
         gamePlayModel.addObserver(gamePlayFrame.getStartupPanel());
@@ -65,18 +62,18 @@ public class GamePlayController {
         // TODO: put the back in a menu
         //gamePlayFrame.getControlPanel().addBackButtonListener(e -> backToMainMenu());
         gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> startTheGame());
+        gamePlayFrame.getStartupPanel().addPlaceArmyButtonListener(e -> placeArmy());
     }
     
+    // region For Setup Phase
     private void startTheGame() {
         /* initialize the game */
-        int enteredPlayers;
         try {
-            enteredPlayers = Integer.parseInt(gamePlayFrame.getGameSetupPanel().getPlayerCount().getText());
-            if ((enteredPlayers > 0) && (enteredPlayers <= getInstance().getGameMap().getMaxPlayers())) {
-                getInstance().initializeNewGame(getInstance().getGameMap(), enteredPlayers);
-                new PhaseStartupController(gamePlayFrame);
+            int enteredPlayers = Integer.parseInt(gamePlayFrame.getGameSetupPanel().getPlayerCount().getText());
+            if ((enteredPlayers >= 1) && (enteredPlayers <= gamePlayModel.getGameMap().getMaxPlayers())) {
+                gamePlayModel.initializeNewGame(enteredPlayers);
             } else {
-                UIHelper.displayMessage(gamePlayFrame,"You must enter an amount of players between 1 and " + getInstance().getGameMap().getMaxPlayers());
+                UIHelper.displayMessage(gamePlayFrame,"You must enter an amount of players between 1 and " + gamePlayModel.getGameMap().getMaxPlayers());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
@@ -85,31 +82,44 @@ public class GamePlayController {
                     "Entry Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
-//    /**
-//     * Setting the control panel area depending on the state of the game
-//     * and instantiating respective controller
-//     */
-//    private void setControlPanel() {
-//        switch (GamePlayModel.getInstance().getGameState()) {
-//            case SETUP_PHASE:
-//                new GameSetupController(gamePlayFrame);
-//                break;
-//            case STARTUP_PHASE:
-//                new PhaseStartupController(gamePlayFrame);
-//                break;
-//            case REINFORCEMENT_PHASE:
-//                new PhaseReinforcementController(gamePlayFrame);
-//                break;
-//            case FORTIFICATION_PHASE:
-//                new PhaseFortificationController(gamePlayFrame);
-//                break;
-//            case TRADE_IN_PHASE:
-//                new TradeCardsController(gamePlayFrame);
-//                break;
-//            case ATTACK_PHASE:
-//                // TODO: make attack phase view and controller
-//                break;
-//        }
-//    }
+    // endregion
+    
+    // region For Startup Phase
+    /**
+     * Place an army to the selected territory.
+     */
+    private void placeArmy() {
+        String selectedTerritoryName = String.valueOf(gamePlayFrame.getStartupPanel().getTerritoryDropdown().getSelectedItem());
+        if (selectedTerritoryName.compareTo("") != 0) {
+            gamePlayModel.placeArmyStartup(selectedTerritoryName);
+        } else {
+            UIHelper.displayMessage(gamePlayFrame, "Please validate your selection.");
+        }
+    }
+    
+    /**
+     * Advance the game to next player, or to the reinforcement phase if all the
+     * players have exhausted all unallocated armies.
+     */
+    public void nextPlayer() {
+        for (int i = 0; i < gamePlayModel.getPlayers().size(); i++) {
+            if (gamePlayModel.getNextPlayer().getUnallocatedArmies() > 0) {
+                gamePlayModel.setCurrPlayerToNextPlayer();
+                return;
+            } else {
+                gamePlayModel.setCurrPlayerToNextPlayer();
+            }
+        }
+        gamePlayModel.setCurrentPlayer(gamePlayModel.getPlayers().firstElement());
+        gamePlayModel.reinforcementPhase();
+    }
+    // endregion
+    
+    // region For Reinforcement Phase
+    // endregion
+    
+    // region For Fortification Phase
+    // endregion
+
     // endregion
 }
