@@ -10,6 +10,9 @@ import java.util.Vector;
  * One continent contains several territories
  * Continents don't share mutual territory
  * Each continent has a control index as an integer
+ *
+ * @author
+ * @version 1.0
  */
 public class Continent {
     //region Attributes declaration
@@ -18,7 +21,6 @@ public class Continent {
     private int controlValue;
     //endregion
 
-    //region Constructors
     /**
      * Instantiate new continent object given its name and its control index
      *
@@ -125,24 +127,23 @@ public class Continent {
      *
      * @throws NullPointerException if territories are not yet allocated to players
      */
-    public int getContinentOwner() throws NullPointerException {
-        String continentOwner = "";
+    public String getContinentOwner() throws NullPointerException {
+        String continentOwner;
         if (GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).isOwned()) {
-            continentOwner = "Player " + GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
+            continentOwner = GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerName();
             for (String territoryName : territories) {
-                if (!Objects.equals(continentOwner, "Player " + GamePlayModel.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerID())) {
-                    return 0;
+                if (!Objects.equals(continentOwner, GamePlayModel.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerName())) {
+                    return "";
                 }
             }
         }
-        return  GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerID();
+        return  GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerName();
     }
     
     /**
      * Facilitate the comparision between two continent objects
      *
-     * @param other
-     *
+     * @param other the object of the type Continent.
      * @return
      */
     @Override

@@ -51,15 +51,6 @@ public class MapEditorFrame extends JFrame {
     
     /* Public methods */
     
-    /**
-     * Displays error messages on UI
-     *
-     * @param errorMessage Error message string
-     */
-    public void displayErrorMessage(String errorMessage) {
-        JOptionPane.showMessageDialog(this, errorMessage);
-    }
-    
     /* Private methods */
     private void setupContentPaneLayout() {
         contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {

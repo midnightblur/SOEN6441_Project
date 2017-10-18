@@ -3,6 +3,7 @@ package controller;
 import model.game_entities.Card;
 import model.game_entities.Player;
 import model.ui_models.GamePlayModel;
+import view.helpers.UIHelper;
 import view.screens.GamePlayFrame;
 import view.ui_components.TradeCardsPanel;
 
@@ -43,7 +44,7 @@ public class TradeCardsController {
         gamePlayFrame.getContentPane().setRightComponent(tradeCardsPanel);
         setDivider(gamePlayFrame.getContentPane());
         gamePlayModel = GamePlayModel.getInstance();
-        currentPlayer = gamePlayModel.getCurrPlayer();
+        currentPlayer = gamePlayModel.getCurrentPlayer();
         
         gamePlayModel.setGameState(TRADE_IN_PHASE);
         
@@ -55,7 +56,7 @@ public class TradeCardsController {
 
         /* Register Observer to Observable */
         gamePlayModel.addObserver(tradeCardsPanel);
-        currentPlayer.addObserver(tradeCardsPanel);
+//        currentPlayer.addObserver(tradeCardsPanel);
         
         /* Register to be ActionListeners */
         tradeCardsPanel.addTradeCardsButtonListener(e -> tradeSelectedCards());
@@ -103,7 +104,7 @@ public class TradeCardsController {
         tradeCardsPanel.getGainedArmiesLabel().setVisible(true);
         
         // confirmation message
-        gamePlayFrame.displayMessage(message);
+        UIHelper.displayMessage(gamePlayFrame, message);
     }
     
     /**

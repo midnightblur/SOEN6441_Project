@@ -1,6 +1,7 @@
 package view.ui_components;
 
-import model.ui_models.StartupModel;
+import model.ui_models.DropDownModel;
+import model.ui_models.GamePlayModel;
 import utilities.Config;
 
 import javax.swing.*;
@@ -15,33 +16,30 @@ import static view.helpers.UIHelper.addVerticalSpacing;
  * Startup Panel representing the controls for Startup phase of the game
  */
 public class StartupPanel extends JPanel implements Observer {
-
+    // region Attributes declaration
     private static final String PLACE_ARMY_BUTTON = "Place Army";
-    private static final String DONE_BUTTON = "Done (next player)";
-    private static final String TERRITORY_LABEL = "Place an army on: ";
+    private static final String TERRITORY_LABEL = "Choose territory to place army on";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
-
+    
     private JButton placeArmyButton;
-    private JButton doneButton;
-    private JLabel gameState;
-    private JLabel playerID;
-    private JLabel totalArmiesToPlace;
-    private JLabel territoryLabel;
+    private JLabel playerNameLabel;
+    private JLabel totalArmiesToPlaceLabel;
     private JComboBox<String> territoryDropdown;
-
-    /* Constructors */
+    // endregion
+    
+    // region Constructors
     public StartupPanel() {
-        gameState = new JLabel();
-        gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
-        playerID = new JLabel();
-        playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
-        totalArmiesToPlace = new JLabel();
-        totalArmiesToPlace.setFont(new Font("Sans Serif", Font.BOLD, 16));
-        territoryLabel = new JLabel(TERRITORY_LABEL);
+        JLabel gameStateLabel = new JLabel();
+        gameStateLabel.setForeground(Color.BLUE);
+        gameStateLabel.setFont(new Font("Sans Serif", Font.ITALIC, 20));
+        playerNameLabel = new JLabel();
+        playerNameLabel.setFont(new Font("Sans Serif", Font.BOLD, 20));
+        totalArmiesToPlaceLabel = new JLabel();
+        totalArmiesToPlaceLabel.setFont(new Font("Sans Serif", Font.BOLD, 16));
+        JLabel territoryLabel = new JLabel(TERRITORY_LABEL);
         territoryDropdown = new JComboBox<>();
         placeArmyButton = new JButton(PLACE_ARMY_BUTTON);
         placeArmyButton.setForeground(Color.BLUE);
-        doneButton = new JButton(DONE_BUTTON);
 
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -50,67 +48,45 @@ public class StartupPanel extends JPanel implements Observer {
         controlWrapper.setLayout(new GridLayout(17, 1));
 
         /* Add the elements to the panel */
-        controlWrapper.add(gameState);
-        controlWrapper.add(playerID);
+        controlWrapper.add(gameStateLabel);
+        controlWrapper.add(playerNameLabel);
         addVerticalSpacing(controlWrapper);
-        controlWrapper.add(totalArmiesToPlace);
+        controlWrapper.add(totalArmiesToPlaceLabel);
         addVerticalSpacing(controlWrapper);
         controlWrapper.add(territoryLabel);
         controlWrapper.add(territoryDropdown);
         addVerticalSpacing(controlWrapper);
         controlWrapper.add(placeArmyButton);
         addVerticalSpacing(controlWrapper);
-        addVerticalSpacing(controlWrapper);
-        controlWrapper.add(doneButton);
-        addVerticalSpacing(controlWrapper);
-
+        
         add(controlWrapper);
     }
-
-    /* Getters & Setters */
-    public void setGameState(Config.GAME_STATES gameState) {
-        this.gameState.setText("<html><p style=\"color:blue;\">" + gameState.toString() + "</p></html>");
-    }
-
-    public void setTotalArmiesToPlace(int totalArmiesToPlace) {
-        this.totalArmiesToPlace.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(totalArmiesToPlace));
-    }
-
-    public void setPlayerID(int playerID) {
-        this.playerID.setText("Player " + playerID);
-    }
-
-    public void setDoneButton(String displayName) {
-        this.doneButton.setText(displayName);
-    }
+    // endregion
     
-    public JButton getDoneButton() {
-        return doneButton;
-    }
-
-    public JButton getPlaceArmiesButton() {
-        return placeArmyButton;
-    }
-
+    // region Getters & Setters
     public JComboBox getTerritoryDropdown() {
         return territoryDropdown;
     }
+    // endregion
     
-
-    /* MVC & Observer pattern methods */
+    // region MVC & Observer pattern methods
     public void addPlaceArmyButtonListener(ActionListener listenerForPlaceArmiesButton) {
         placeArmyButton.addActionListener(listenerForPlaceArmiesButton);
     }
-
-    public void addDoneButtonListener(ActionListener listenerForDoneButton) {
-        doneButton.addActionListener(listenerForDoneButton);
-    }
-
-
+    // endregion
+    
+    // region Public methods
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof StartupModel) {
-            territoryDropdown.setModel(((StartupModel) o).getTerritoriesList());
+        if (o instanceof GamePlayModel) {
+            GamePlayModel gamePlayModel = (GamePlayModel) o;
+            if (gamePlayModel.getGameState() == Config.GAME_STATES.STARTUP_PHASE) {
+                territoryDropdown.setModel(new DropDownModel(gamePlayModel.getCurrentPlayerTerritories()));
+                playerNameLabel.setForeground(gamePlayModel.getCurrentPlayer().getColor());
+                playerNameLabel.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
+                totalArmiesToPlaceLabel.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
+            }
         }
     }
+    // endregion
 }

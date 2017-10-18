@@ -27,7 +27,7 @@ public class FortificationModel extends Observable {
      */
     public FortificationModel() {
         gamePlayModel = getInstance();
-        currentPlayer = gamePlayModel.getCurrPlayer();
+        currentPlayer = gamePlayModel.getCurrentPlayer();
         sourceTerritoriesList = new Vector<>();
         targetTerritoriesList = new Vector<>();
         

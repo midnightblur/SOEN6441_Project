@@ -16,7 +16,7 @@ public class StartupModel extends Observable {
 
     public StartupModel() {
         gamePlayModel = getInstance();
-        currentPlayer = gamePlayModel.getCurrPlayer();
+        currentPlayer = gamePlayModel.getCurrentPlayer();
         territoriesList = new Vector<>();
 
         /* collect player's territories */

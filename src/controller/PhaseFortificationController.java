@@ -1,8 +1,9 @@
 package controller;
 
-import model.ui_models.GamePlayModel;
 import model.game_entities.Player;
 import model.ui_models.FortificationModel;
+import model.ui_models.GamePlayModel;
+import view.helpers.UIHelper;
 import view.screens.GamePlayFrame;
 import view.ui_components.FortificationPanel;
 
@@ -37,13 +38,13 @@ public class PhaseFortificationController {
         gamePlayFrame.getContentPane().setRightComponent(fortificationPanel);
         setDivider(gamePlayFrame.getContentPane());
         gamePlayModel = getInstance();
-        currentPlayer = gamePlayModel.getCurrPlayer();
+        currentPlayer = gamePlayModel.getCurrentPlayer();
         
         gamePlayModel.setGameState(FORTIFICATION_PHASE);
 
         /* Register Observer to Observable */
         gamePlayModel.addObserver(fortificationPanel);
-        currentPlayer.addObserver(fortificationPanel);
+//        currentPlayer.addObserver(fortificationPanel);
         fortificationModel.addObserver(fortificationPanel);
 
         /* Register to be ActionListeners */
@@ -75,14 +76,14 @@ public class PhaseFortificationController {
         if (!quantity.equals("") && (iQuantity > 0) && !target.equals("No neighbors owned. Please select another territory")) {
             fortificationPanel.getMoveArmiesButton().setEnabled(true);
             String message = gamePlayModel.fortificationPhase(source, target, quantity);
-            gamePlayModel.getMapTableModel().updateMapTableModel(gamePlayModel.getGameMap());
+            gamePlayModel.getMapTableModel().updateMapTableModel(gamePlayModel.getGameMap(), gamePlayModel.getGameState());
             // disable the button once armies are moved
             if (message.toLowerCase().contains("success")) {
                 fortificationPanel.getMoveArmiesButton().setEnabled(false);
             }
-            gamePlayFrame.displayMessage(message);
+            UIHelper.displayMessage(gamePlayFrame, message);
         } else {
-            gamePlayFrame.displayMessage("Please validate your selection.");
+            UIHelper.displayMessage(gamePlayFrame,"Please validate your selection.");
         }
     }
     

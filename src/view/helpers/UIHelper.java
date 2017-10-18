@@ -2,10 +2,10 @@ package view.helpers;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 
 public class UIHelper {
-    private UIHelper() {
-    }
+    private UIHelper() {}
     
     /**
      * Display a frame to screen
@@ -46,5 +46,40 @@ public class UIHelper {
      */
     public static void addVerticalSpacing(JPanel panel) {
         panel.add(Box.createRigidArea(new Dimension(0, 30)));
+    }
+    
+    /**
+     * Displays messages on UI
+     *
+     * @param message message string
+     */
+    public static void displayMessage(JFrame frame, String message) {
+        JOptionPane.showMessageDialog(frame, message);
+    }
+    
+    /**
+     * Call an inactive frame to be active again
+     * @param frame
+     */
+    public static void invokeFrame(JFrame frame) {
+        frame.setVisible(true);
+        frame.setEnabled(true);
+    }
+    
+    /**
+     * Disable & hide a frame which might be invoked later
+     * @param frame
+     */
+    public static void disableFrame(JFrame frame) {
+        frame.setVisible(false);
+        frame.setEnabled(false);
+    }
+    
+    /**
+     * Close a frame completely
+     * @param frame
+     */
+    public static void closeFrame(JFrame frame) {
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 }

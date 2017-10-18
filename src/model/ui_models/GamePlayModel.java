@@ -6,6 +6,8 @@ import java.util.*;
 
 import static utilities.Config.GAME_STATES;
 import static utilities.Config.GAME_STATES.ENTRY_MENU;
+import static utilities.Config.GAME_STATES.REINFORCEMENT_PHASE;
+import static utilities.Config.GAME_STATES.STARTUP_PHASE;
 import static utilities.Config.INITIAL_ARMY_RATIO;
 
 /**
@@ -27,12 +29,12 @@ public class GamePlayModel extends Observable {
     private GameMap gameMap;
     private MapTableModel mapTableModel;
     private GAME_STATES gameState;
+    private Player currentPlayer;
     
     private int armyValue;
     private Vector<Card> deck;
     private Vector<Player> players;
     private Random rand;
-    private Player currPlayer;
     // endregion
     
     // region Constructors
@@ -71,6 +73,8 @@ public class GamePlayModel extends Observable {
      */
     public void setGameMap(GameMap gameMap) {
         this.gameMap = gameMap;
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
     }
     
     public GameMap getGameMap() {
@@ -89,16 +93,16 @@ public class GamePlayModel extends Observable {
         return this.deck;
     }
     
-    public void setCurrPlayer(Player player) {
-        this.currPlayer = player;
+    public void setCurrentPlayer(Player player) {
+        this.currentPlayer = player;
     }
     
-    public Player getCurrPlayer() {
-        return this.currPlayer;
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
     }
     
     public Player getNextPlayer() {
-        int currPlayerIndex = players.indexOf(currPlayer);
+        int currPlayerIndex = players.indexOf(currentPlayer);
         if (currPlayerIndex == players.size() - 1) {
             return players.get(0);
         } else {
@@ -114,8 +118,8 @@ public class GamePlayModel extends Observable {
         return this.gameState;
     }
     
-    public void setGameState(GAME_STATES GAMESTATES) {
-        this.gameState = GAMESTATES;
+    public void setGameState(GAME_STATES gameStates) {
+        this.gameState = gameStates;
         updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
@@ -128,25 +132,18 @@ public class GamePlayModel extends Observable {
      * Loads the map specified by the filepath, and initializes the game attributes
      * for a new instance of Risk Game using the specified number of players.
      *
-     * @param gameMap      The already loaded map object
      * @param numOfPlayers The specified integer of the number of players that will play the game
      */
-    public void initializeNewGame(GameMap gameMap, int numOfPlayers) {
-        this.gameMap = gameMap;
-        
-        // TODO: handle this error someplace else?  THIS ERROR WONT OCCUR SINCE NUMBER OF PLAYERS IS CONTROLLED ALREADY
-        //if (!(numOfPlayers > 1 && numOfPlayers <= gameMap.getTerritoriesCount())) {
-        //    System.err.println("Invalid number of players. Should catch it in the view.");
-        //    return;
-       // }
+    public void initializeNewGame(int numOfPlayers) {
+        gameState = STARTUP_PHASE;
 
-         /* initialization of game attributes */
+         /* Initialization of game attributes */
         initPlayers(numOfPlayers);
         initDeck();
         distributeTerritories();
         giveInitialArmies();
         assignOneArmyPerTerritory();
-        setCurrPlayer(players.firstElement());
+        setCurrentPlayer(players.firstElement());
 
         System.out.println("num of players: " + players.size());
         for (Player player : players) {
@@ -163,6 +160,7 @@ public class GamePlayModel extends Observable {
             System.out.println("player" + player.getPlayerID() + "'s hand: (" + player.getPlayersHand().size() + ")");
         }
         
+        updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
     
@@ -174,19 +172,19 @@ public class GamePlayModel extends Observable {
      */
     public void reinforcementPhase() {
         // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
-        int armiesToGive = gameMap.getTerritoriesOfPlayer(currPlayer).size() / 3;
+        int armiesToGive = gameMap.getTerritoriesOfPlayer(currentPlayer).size() / 3;
         if (armiesToGive < 3) {
             armiesToGive = 3;
         }
         
         // Assign players additional number armies to allocate if that player owns a continent.
         for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
-            if (currPlayer.getPlayerID() == entry.getValue().getContinentOwner()) {
+            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner()) == 0) {
                 armiesToGive += entry.getValue().getControlValue();
             }
         }
         
-        currPlayer.addUnallocatedArmies(armiesToGive);
+        currentPlayer.addUnallocatedArmies(armiesToGive);
         broadcastGamePlayChanges();
     }
     
@@ -204,8 +202,8 @@ public class GamePlayModel extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String fortificationPhase(String strTerrFrom, String strTerrTo, String strArmiesToMove) {
-        Territory terrFrom = gameMap.getTerritoriesOfPlayer(currPlayer).get(strTerrFrom);
-        Territory terrTo = gameMap.getTerritoriesOfPlayer(currPlayer).get(strTerrTo);
+        Territory terrFrom = gameMap.getTerritoriesOfPlayer(currentPlayer).get(strTerrFrom);
+        Territory terrTo = gameMap.getTerritoriesOfPlayer(currentPlayer).get(strTerrTo);
         int armiesToMove = 0;
         String exceptionResult = "";
         try {
@@ -218,7 +216,7 @@ public class GamePlayModel extends Observable {
         }
         
         // validate if the two territories are owned by the player, are different, and are neighbors.
-        if (terrFrom.isOwnedBy(currPlayer.getPlayerID()) && !terrFrom.equals(terrTo)
+        if (terrFrom.isOwnedBy(currentPlayer.getPlayerID()) && !terrFrom.equals(terrTo)
                 && terrFrom.isNeighbor(terrTo.getName())) {
             if (terrFrom.getArmies() > 1 && armiesToMove < terrFrom.getArmies()) {
                 int movableArmies = terrFrom.getArmies() - 1;
@@ -240,10 +238,10 @@ public class GamePlayModel extends Observable {
      * Method to set the current player (turn) to the next player waiting to play his/her turn.
      */
     public void setCurrPlayerToNextPlayer() {
-        if (currPlayer.equals(players.lastElement())) {
-            currPlayer = players.firstElement();
+        if (currentPlayer.equals(players.lastElement())) {
+            currentPlayer = players.firstElement();
         } else {
-            currPlayer = players.elementAt(players.indexOf(currPlayer) + 1);
+            currentPlayer = players.elementAt(players.indexOf(currentPlayer) + 1);
         }
     }
     
@@ -292,34 +290,34 @@ public class GamePlayModel extends Observable {
             /* carry out card trading according to the choice */
             int counter = 0;
             if (choice == 1) {  // for three of a kind exchange
-                for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
-                    if (currPlayer.getPlayersHand().get(i).getCardType().name().compareTo(selectedCards.firstElement()) == 0) {
+                for (int i = 0; i < currentPlayer.getPlayersHand().size(); i++) {
+                    if (currentPlayer.getPlayersHand().get(i).getCardType().name().compareTo(selectedCards.firstElement()) == 0) {
                         counter++;
                     }
                 }
                 if (counter >= 3) {
                     Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.firstElement()));
                     for (int i = 0; i < selectedCards.size(); i++) {
-                        currPlayer.getPlayersHand().remove(tempCard);
+                        currentPlayer.getPlayersHand().remove(tempCard);
                     }
-                    currPlayer.getPlayersHand().trimToSize();
-                    currPlayer.addUnallocatedArmies(armyValue);
+                    currentPlayer.getPlayersHand().trimToSize();
+                    currentPlayer.addUnallocatedArmies(armyValue);
                     armyValue += 5;
                 }
             } else if (choice == 2) {  // for one of each exchange
                 for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
                     Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
-                    if (currPlayer.getPlayersHand().contains(tempCard)) {
+                    if (currentPlayer.getPlayersHand().contains(tempCard)) {
                         counter++;
                     }
                 }
                 if (counter == 3) {
                     for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
                         Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
-                        currPlayer.getPlayersHand().remove(tempCard);
+                        currentPlayer.getPlayersHand().remove(tempCard);
                     }
-                    currPlayer.getPlayersHand().trimToSize();
-                    currPlayer.addUnallocatedArmies(armyValue);
+                    currentPlayer.getPlayersHand().trimToSize();
+                    currentPlayer.addUnallocatedArmies(armyValue);
                     armyValue += 5;
                 }
             } else {
@@ -345,24 +343,24 @@ public class GamePlayModel extends Observable {
         int counter = 0;
         for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
             counter = 0;
-            for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
-                if (currPlayer.getPlayersHand().get(i).getCardType() == Card.CARD_TYPE.values()[cardIndex]) {
+            for (int i = 0; i < currentPlayer.getPlayersHand().size(); i++) {
+                if (currentPlayer.getPlayersHand().get(i).getCardType() == Card.CARD_TYPE.values()[cardIndex]) {
                     counter++;
                 }
             }
             if (counter >= 3) {
                 int deleteCounter = 0;
-                for (Card card : currPlayer.getPlayersHand()) {
+                for (Card card : currentPlayer.getPlayersHand()) {
                     if (card.getCardType() == Card.CARD_TYPE.values()[cardIndex]) {
-                        currPlayer.getPlayersHand().remove(card);
+                        currentPlayer.getPlayersHand().remove(card);
                         deleteCounter++;
                     }
                     if (deleteCounter >= 3) {
                         break;
                     }
                 }
-                currPlayer.getPlayersHand().trimToSize();
-                currPlayer.addUnallocatedArmies(armyValue);
+                currentPlayer.getPlayersHand().trimToSize();
+                currentPlayer.addUnallocatedArmies(armyValue);
                 armyValue += 5;
                 break;
             }
@@ -380,8 +378,8 @@ public class GamePlayModel extends Observable {
         int counter = 0;
         for (int cardIndex = 0; cardIndex < Card.getTypesCount(); cardIndex++) {
             counter = 0;
-            for (int i = 0; i < currPlayer.getPlayersHand().size(); i++) {
-                if (currPlayer.getPlayersHand().get(i).getCardType() == Card.CARD_TYPE.values()[cardIndex]) {
+            for (int i = 0; i < currentPlayer.getPlayersHand().size(); i++) {
+                if (currentPlayer.getPlayersHand().get(i).getCardType() == Card.CARD_TYPE.values()[cardIndex]) {
                     counter++;
                     break;
                 }
@@ -389,31 +387,49 @@ public class GamePlayModel extends Observable {
         }
         if (counter == 3) {
             for (int i = 0; i < Card.getTypesCount(); i++) {
-                for (Card card : currPlayer.getPlayersHand()) {
+                for (Card card : currentPlayer.getPlayersHand()) {
                     if (card.getCardType() == Card.CARD_TYPE.values()[i]) {
-                        currPlayer.getPlayersHand().remove(card);
-                        currPlayer.getPlayersHand().trimToSize();
+                        currentPlayer.getPlayersHand().remove(card);
+                        currentPlayer.getPlayersHand().trimToSize();
                         break;
                     }
                 }
             }
-            currPlayer.addUnallocatedArmies(armyValue);
+            currentPlayer.addUnallocatedArmies(armyValue);
             armyValue += 5;
         }
     }
     
     // endregion
     
+    // region For Startup Phase
     /**
      * This method allows the players to allocate an unallocated army to a territory that
      * the player owns.
      *
      * @param territory The name of the territory as String to place an army on
      */
-    public void placeArmy(String territory) {
-        currPlayer.reduceUnallocatedArmies(1);
+    public void placeArmyStartup(String territory) {
+        currentPlayer.reduceUnallocatedArmies(1);
         gameMap.getATerritory(territory).addArmies(1);
+        currentPlayer = getNextPlayer();
         
+        /*
+         * Get next player if current player's unallocated army is 0
+         * Stop when current player still has unallocated army or all run out of army
+         */
+        int count = 1;
+        while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
+            currentPlayer = getNextPlayer();
+            count++;
+        }
+        
+        /* If all player run out of unallocated army, move to the next phase */
+        if (count == players.size()) {
+            setGameState(REINFORCEMENT_PHASE);
+        }
+    
+        updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
     
@@ -424,16 +440,25 @@ public class GamePlayModel extends Observable {
      * @param armiesToPlace Map that contains the key of Territory objects and values
      *                      of Integer to represent armies
      */
-    public void placeArmies(Map<Territory, Integer> armiesToPlace) {
+    public void placeArmiesReinforcement(Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
             System.out.println("territory " + entry.getKey().getName() + "'s old army value: " + entry.getKey().getArmies());
-            System.out.println("previous unallocated armies: " + currPlayer.getUnallocatedArmies());
+            System.out.println("previous unallocated armies: " + currentPlayer.getUnallocatedArmies());
             entry.getKey().addArmies(entry.getValue());
-            currPlayer.reduceUnallocatedArmies(entry.getValue());
+            currentPlayer.reduceUnallocatedArmies(entry.getValue());
             System.out.println("territory " + entry.getKey().getName() + "'s new army value: " + entry.getKey().getArmies());
-            System.out.println("changed unallocated armies: " + currPlayer.getUnallocatedArmies());
+            System.out.println("changed unallocated armies: " + currentPlayer.getUnallocatedArmies());
         }
         broadcastGamePlayChanges();
+    }
+    // endregion
+    
+    public Vector<String> getCurrentPlayerTerritories() {
+        Vector<String> territoriesList = new Vector<>();
+        for (Territory territory : currentPlayer.getTerritories()) {
+            territoriesList.add(territory.getName());
+        }
+        return territoriesList;
     }
     //endregion
     
@@ -476,19 +501,23 @@ public class GamePlayModel extends Observable {
      */
     private void distributeTerritories() {
         System.out.println("Distributing territories...");
-        
+
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
             territoryArrList.add(entry.getValue().getName());
         }
-        
+
         int playerIndex = 0;
         for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
-            if (!(playerIndex < players.size())) {
+            if (playerIndex >= players.size()) {
                 playerIndex = 0;
             }
             int territoryIndex = rand.nextInt(territoryArrList.size());
-            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
+            Territory territory = gameMap.getATerritory(territoryArrList.get(territoryIndex));
+            Player player = players.elementAt(playerIndex);
+            territory.setOwner(player);
+            player.addTerritory(territory);
+
             playerIndex++;
             territoryArrList.remove(territoryIndex);
         }
@@ -508,17 +537,24 @@ public class GamePlayModel extends Observable {
 //
 //        for (int i = 0; i < gameMap.getAContinent("europe").getTerritories().size(); i++) {
 //            int territoryIndex = territoryArrList.indexOf(gameMap.getAContinent("europe").getTerritories().get(i));
-//            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(0));
+//            Territory territory = gameMap.getATerritory(territoryArrList.get(territoryIndex));
+//            Player player = players.elementAt(0);
+//            territory.setOwner(player);
+//            player.addTerritory(territory);
 //            territoryArrList.remove(territoryIndex);
 //        }
 //
 //        int playerIndex = 1;
 //        for (int i = 0; i < gameMap.getTerritoriesCount() - 7; i++) {
-//            if (!(playerIndex < players.size())) {
+//            if (playerIndex >= players.size()) {
 //                playerIndex = 1;
 //            }
 //            int territoryIndex = rand.nextInt(territoryArrList.size());
-//            gameMap.getATerritory(territoryArrList.get(territoryIndex)).setOwner(players.elementAt(playerIndex));
+//            Territory territory = gameMap.getATerritory(territoryArrList.get(territoryIndex));
+//            Player player = players.elementAt(0);
+//            territory.setOwner(player);
+//            player.addTerritory(territory);
+//
 //            playerIndex++;
 //            territoryArrList.remove(territoryIndex);
 //        }
@@ -562,7 +598,7 @@ public class GamePlayModel extends Observable {
      * Update the GameMapTableModel according to the newly updated GameMap object
      */
     private void updateGameMapTableModel() {
-        mapTableModel.updateMapTableModel(gameMap);
+        mapTableModel.updateMapTableModel(gameMap, gameState);
     }
     // endregion
 }
