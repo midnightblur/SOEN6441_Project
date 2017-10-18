@@ -11,6 +11,11 @@ import java.util.Vector;
 import static model.helpers.GameMapHelper.getMapsInFolder;
 import static model.helpers.GameMapHelper.loadGameMap;
 
+/**
+ *
+ * @author
+ * @version
+ */
 public class  MapSelectorController {
     // region Attributes declaration
     private MapSelectorFrame mapSelectorFrame;
