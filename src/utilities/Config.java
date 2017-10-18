@@ -68,7 +68,7 @@ public class Config {
     
     //Constants for army in RiskGame
     public static final int DEFAULT_NUM_OF_PLAYERS = 6;
-    public static final double INITIAL_ARMY_RATIO = 1.25;  // 2.75 for similar gameplay as official Risk Game
+    public static final double INITIAL_ARMY_RATIO = 2.75;  // 2.75 for similar gameplay as official Risk Game
     
     //Messages' content for users
     public static final String MSG_MAPFILE_ERROR_TITLE = "The map file has error";
