@@ -7,6 +7,8 @@ import view.helpers.UIHelper;
 import view.screens.GamePlayFrame;
 import view.ui_components.FortificationPanel;
 
+import javax.swing.*;
+
 import static model.ui_models.GamePlayModel.getInstance;
 import static utilities.Config.GAME_STATES.FORTIFICATION;
 import static view.helpers.UIHelper.setDivider;
@@ -71,7 +73,11 @@ public class PhaseFortificationController {
         int iQuantity = 0;
         try {
             iQuantity = Integer.parseInt(quantity);
-        } catch (NumberFormatException nfe) {
+        } catch (ClassCastException | NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid entry. Please re-enter a number.",
+                    "Entry Error!", JOptionPane.ERROR_MESSAGE);
         }
         if (!quantity.equals("") && (iQuantity > 0) && !target.equals("No neighbors owned. Please select another territory")) {
             fortificationPanel.getMoveArmiesButton().setEnabled(true);
