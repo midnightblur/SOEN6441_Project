@@ -8,7 +8,10 @@ import java.util.Vector;
 import static utilities.Config.DEFAULT_NUM_OF_PLAYERS;
 
 /**
- * GameMap class is used to store a map information read from or to write to a map text file
+ * GameMap class is used to store a map information read from or to write to a map text file.
+ *
+ * @author
+ * @version 1.0
  */
 public class GameMap {
     //region Attributes declaration
@@ -90,7 +93,6 @@ public class GameMap {
      * that belong to that player object.
      *
      * @param player
-     *
      * @return {@literal Map<String, Territory>}
      */
     public Map<String, Territory> getTerritoriesOfPlayer(Player player) {
@@ -300,7 +302,7 @@ public class GameMap {
     /**
      * Get the number of territories in the game map
      *
-     * @return
+     * @return returns int value for the size of territories.
      */
     public int getTerritoriesCount() {
         return territories.size();
@@ -309,7 +311,7 @@ public class GameMap {
     /**
      * Get the number of continent in the game map
      *
-     * @return
+     * @return returns int value for the size of continents.
      */
     public int getContinentsCount() {
         return continents.size();
@@ -318,8 +320,7 @@ public class GameMap {
     /**
      * Get a territory object from the game map given the territory name
      *
-     * @param territoryName
-     *
+     * @param territoryName String value for the name of territory.
      * @return
      */
     public Territory getATerritory(String territoryName) {
@@ -329,8 +330,7 @@ public class GameMap {
     /**
      * Get a continent object from the game map given the continent name
      *
-     * @param continentName
-     *
+     * @param continentName String type value of continent name.
      * @return
      */
     public Continent getAContinent(String continentName) {
