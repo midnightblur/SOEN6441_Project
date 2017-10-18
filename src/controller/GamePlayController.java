@@ -29,7 +29,7 @@ import static utilities.Config.GAME_STATES.SETUP;
  */
 public class GamePlayController {
     // region Attributes declaration
-    private MapSelectorController callerController;
+    private MainMenuController callerController;
     private GamePlayFrame gamePlayFrame;
     private GamePlayModel gamePlayModel;
     // endregion
@@ -42,7 +42,7 @@ public class GamePlayController {
      *
      * @param gameMap The already loaded map for the game
      */
-    public GamePlayController(MapSelectorController callerController, GameMap gameMap) {
+    public GamePlayController(MainMenuController callerController, GameMap gameMap) {
         this.callerController = callerController;
         gamePlayModel = GamePlayModel.getInstance();
         gamePlayFrame = new GamePlayFrame();
@@ -97,8 +97,12 @@ public class GamePlayController {
         /* initialize the game */
         try {
             int enteredPlayers = Integer.parseInt(gamePlayFrame.getGameSetupPanel().getPlayerCount().getText());
-            if ((enteredPlayers >= 1) && (enteredPlayers <= gamePlayModel.getGameMap().getMaxPlayers())) {
+            if ((enteredPlayers > 1) && (enteredPlayers <= gamePlayModel.getGameMap().getMaxPlayers())) {
                 gamePlayModel.initializeNewGame(enteredPlayers);
+            } else if (enteredPlayers == 1) {
+                UIHelper.displayMessage(gamePlayFrame, "Player 1 Wins!");
+                UIHelper.closeFrame(gamePlayFrame);
+                UIHelper.invokeFrame(callerController.getMainMenuFrame());
             } else {
                 UIHelper.displayMessage(gamePlayFrame, "You must enter an amount of players between 1 and " + gamePlayModel.getGameMap().getMaxPlayers());
             }

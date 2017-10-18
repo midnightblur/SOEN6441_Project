@@ -47,7 +47,7 @@ public class  MapSelectorController {
             
             mapSelectorFrame.setVisible(false);
             mapSelectorFrame.setEnabled(false);
-            new GamePlayController(this, gameMap);
+            new GamePlayController(callerController, gameMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
