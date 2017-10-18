@@ -10,6 +10,9 @@ import java.util.Vector;
  * One continent contains several territories
  * Continents don't share mutual territory
  * Each continent has a control index as an integer
+ *
+ * @author
+ * @version 1.0
  */
 public class Continent {
     //region Attributes declaration
@@ -18,7 +21,6 @@ public class Continent {
     private int controlValue;
     //endregion
 
-    //region Constructors
     /**
      * Instantiate new continent object given its name and its control index
      *
@@ -141,8 +143,7 @@ public class Continent {
     /**
      * Facilitate the comparision between two continent objects
      *
-     * @param other
-     *
+     * @param other the object of the type Continent.
      * @return
      */
     @Override
