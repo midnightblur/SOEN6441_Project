@@ -152,15 +152,7 @@ public class GamePlayModel extends Observable {
         initDeck();
         distributeTerritories();
         giveInitialArmies();
-        assignOneArmyPerTerritory();
         setCurrentPlayer(players.firstElement());
-        
-        System.out.println("num of players: " + players.size());
-        for (Player player : players) {
-            System.out.println("player" + player.getPlayerID() + " init armies: " + player.getUnallocatedArmies());
-            System.out.println("num of territories of player" + player.getPlayerID() + ": " + gameMap.getTerritoriesOfPlayer(player).size());
-        }
-        System.out.println("deck size: " + deck.size());
 
         /* Hand out cards for build 1 presentation. To be commented out for normal game play */
         int cardsToHandOut = 0;
@@ -173,8 +165,30 @@ public class GamePlayModel extends Observable {
             for (int i = 0; i < cardsToHandOut; i++) {
                 player.addCardToPlayersHand(drawCard());
             }
-            System.out.println("player" + player.getPlayerID() + "'s hand: (" + player.getPlayersHand().size() + ")");
         }
+        
+        /* -- console printout for demo -- */
+        System.out.println();
+        System.out.println("-- Startup Phase Status Console Printout --");
+        System.out.println("Number of players: " + players.size());
+        System.out.println("Number of territories: " + gameMap.getTerritoriesCount());
+        for (Player player : players) {
+            System.out.println("Player " + player.getPlayerID());
+            System.out.println("\tInitial armies: " + player.getUnallocatedArmies());
+            System.out.println("\tNumber of territories: " + gameMap.getTerritoriesOfPlayer(player).size());
+            for (Territory territory : player.getTerritories()) {
+                System.out.println("\t\t" + territory.getName());
+            }
+            System.out.println("\tNumber of cards: " + player.getPlayersHand().size());
+            for (Card card : player.getPlayersHand()) {
+                System.out.println("\t\t" + card.getCardType().name());
+            }
+        }
+        System.out.println("Deck size: " + deck.size());
+        System.out.println("-------------------------------------------");
+        /* ------------------------------- */
+    
+        assignOneArmyPerTerritory();
         
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -196,6 +210,30 @@ public class GamePlayModel extends Observable {
                 armiesToGive += entry.getValue().getControlValue();
             }
         }
+        
+          /* -- console printout for demo -- */
+        System.out.println();
+        System.out.println("-- Reinforcement Phase Status Console Printout --");
+        System.out.println("Player " + currentPlayer.getPlayerID());
+        System.out.println("Number of territories owned by this player: " + currentPlayer.getTerritories().size());
+        for (Territory territory : currentPlayer.getTerritories()) {
+            System.out.println("\t" + territory.getName());
+        }
+        int continentCounter = 0;
+        String continentStr = "";
+        for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
+            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner()) == 0) {
+                continentCounter++;
+                continentStr += "\t" + entry.getValue().getName()
+                        + ", control value " + entry.getValue().getControlValue() + "\n";
+            }
+        }
+        System.out.println("Number of continents owned by this player: " + continentCounter);
+        if (continentCounter != 0) {
+            System.out.println(continentStr);
+        }
+        System.out.print("-------------------------------------------------\n");
+        /* ------------------------------- */
         
         currentPlayer.addUnallocatedArmies(armiesToGive);
     }
@@ -439,12 +477,12 @@ public class GamePlayModel extends Observable {
      */
     private void distributeTerritories() {
         System.out.println("Distributing territories...");
-        
+
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
             territoryArrList.add(entry.getValue().getName());
         }
-        
+
         int playerIndex = 0;
         for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
             if (playerIndex >= players.size()) {
@@ -455,7 +493,7 @@ public class GamePlayModel extends Observable {
             Player player = players.elementAt(playerIndex);
             territory.setOwner(player);
             player.addTerritory(territory);
-            
+
             playerIndex++;
             territoryArrList.remove(territoryIndex);
         }
@@ -463,9 +501,9 @@ public class GamePlayModel extends Observable {
         // ------------ comment out above and use below ------------
         /*
         For build 1 demo purposes only using World.map and 6 players.
-        Give player 1 all the territories.
+        Give player 1 all the territories of europ.
          */
-
+//
 //        System.out.println("Distributing territories...");
 //
 //        ArrayList<String> territoryArrList = new ArrayList<>();
@@ -489,7 +527,7 @@ public class GamePlayModel extends Observable {
 //            }
 //            int territoryIndex = rand.nextInt(territoryArrList.size());
 //            Territory territory = gameMap.getATerritory(territoryArrList.get(territoryIndex));
-//            Player player = players.elementAt(0);
+//            Player player = players.elementAt(playerIndex);
 //            territory.setOwner(player);
 //            player.addTerritory(territory);
 //
