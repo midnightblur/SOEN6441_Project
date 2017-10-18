@@ -2,6 +2,7 @@ package controller;
 
 import model.game_entities.GameMap;
 import model.game_entities.Territory;
+import model.ui_models.DropDownModel;
 import model.ui_models.GamePlayModel;
 import view.helpers.UIHelper;
 import view.screens.GamePlayFrame;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import static utilities.Config.GAME_STATES.FORTIFICATION;
 import static utilities.Config.GAME_STATES.SETUP;
 
 /**
@@ -80,6 +82,13 @@ public class GamePlayController {
         gamePlayFrame.getReinforcementPanel().addGoToFortificationButtonListener(e -> goToFortificationPhase());
         gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addTradeCardsButtonListener(e -> tradeSelectedCards());
         gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addBackToReinforcementListener(e -> backToReinforcementPanel());
+        
+        /* For Fortification Panel */
+        gamePlayFrame.getFortificationPanel().addDoneButtonListener(e -> nextPlayer());
+        gamePlayFrame.getFortificationPanel().addMoveArmiesButtonListener(e -> moveArmies());
+        gamePlayFrame.getFortificationPanel().addSourceTerritoryDropdownListener(e -> updateTargetTerritoriesDropdown(
+                String.valueOf(gamePlayFrame.getFortificationPanel().getSourceTerritoryDropdown().getSelectedItem())
+        ));
     }
     
     // region For Setup Phase
@@ -176,17 +185,64 @@ public class GamePlayController {
     private void goToFortificationPhase() {
         // TODO: this needs fixing so it correctly returns to previous phase
         // TODO: (see true condition in the game and possibly have a setter for it under currentPlayer)
-        // riskGame.fortificationPhase();
+        // riskGame.moveArmiesFortification();
         if (gamePlayModel.getCurrentPlayer().getUnallocatedArmies() != 0 || gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
             UIHelper.displayMessage(gamePlayFrame, "You have to allocate all of your armies or trade in your cards");
         } else {
-            new PhaseFortificationController(gamePlayFrame);
+            gamePlayModel.setGameState(FORTIFICATION);
         }
         
     }
     // endregion
     
     // region For Fortification Phase
+    /**
+     * Advance the game to next player
+     */
+    private void nextPlayer() {
+        gamePlayModel.setCurrPlayerToNextPlayer();
+        gamePlayModel.addReinforcementForCurrPlayer();
+//        new PhaseReinforcementController(this.gamePlayFrame);
+    }
+    
+    /**
+     * Move armies from selected source territory to selected target territory
+     * If move is successful the action is disabled
+     */
+    private void moveArmies() {
+        String sourceTerritory = String.valueOf(gamePlayFrame.getFortificationPanel().getSourceTerritoryDropdown().getSelectedItem());
+        String targetTerritory = String.valueOf(gamePlayFrame.getFortificationPanel().getTargetTerritoryDropdown().getSelectedItem());
+        String inputtedArmies = gamePlayFrame.getFortificationPanel().getArmiesToMoveField().getText();
+        int quantity = 0;
+        try {
+            quantity = Integer.parseInt(inputtedArmies);
+        } catch (ClassCastException | NumberFormatException nfe) {
+            UIHelper.displayMessage(gamePlayFrame, "Invalid entry. Please re-enter a number.");
+        }
+        
+        if ((quantity > 0) && targetTerritory.compareTo("No neighbors owned. Please select another territory") != 0) {
+            String message = gamePlayModel.moveArmiesFortification(sourceTerritory, targetTerritory, quantity);
+            UIHelper.displayMessage(gamePlayFrame,message);
+        } else {
+            UIHelper.displayMessage(gamePlayFrame,"Please validate your selection.");
+        }
+    }
+
+    private void updateTargetTerritoriesDropdown(String selectedTerritory) {
+        Vector<String> targetTerritoriesList = new Vector<>();
+        Vector<String> neighbors = gamePlayModel.getGameMap().getATerritory(selectedTerritory).getNeighbors();
+        for (String neighborName : neighbors) {  // if neighborName is owned by current player, add it to the lost
+            if (gamePlayModel.getGameMap().getATerritory(neighborName).isOwnedBy(gamePlayModel.getCurrentPlayer().getPlayerID())
+                    && neighborName.compareTo(selectedTerritory) != 0) {
+                targetTerritoriesList.add(neighborName);
+            }
+        }
+        if (targetTerritoriesList.size() == 0) {
+            targetTerritoriesList.add("No neighbors owned. Please select another territory");
+        }
+        DropDownModel targetTerritoriesModel = new DropDownModel(targetTerritoriesList);
+        gamePlayFrame.getFortificationPanel().getTargetTerritoryDropdown().setModel(targetTerritoriesModel);
+    }
     // endregion
     
     // endregion

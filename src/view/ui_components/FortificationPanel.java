@@ -1,6 +1,8 @@
 package view.ui_components;
 
-import model.ui_models.FortificationModel;
+import model.game_entities.Territory;
+import model.ui_models.DropDownModel;
+import model.ui_models.GamePlayModel;
 import utilities.Config;
 
 import javax.swing.*;
@@ -8,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Vector;
 
 import static view.helpers.UIHelper.addVerticalSpacing;
 
@@ -25,24 +28,22 @@ public class FortificationPanel extends JPanel implements Observer {
     private JButton moveArmiesButton;
     private JButton doneButton;
     private JTextField armiesToMoveField;
-    private JLabel gameState;
-    private JLabel playerID;
-    private JLabel sourceTerritoryLabel;
-    private JLabel targetTerritoryLabel;
-    private JLabel howManyArmiesToMoveLabel;
+    private JLabel playerName;
     private JComboBox<String> sourceTerritoryDropdown;
     private JComboBox<String> targetTerritoryDropdown;
     
     /* Constructors */
     public FortificationPanel() {
-        gameState = new JLabel();
+        JLabel gameState = new JLabel();
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
-        playerID = new JLabel();
-        playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
+        gameState.setForeground(Color.BLUE);
+        gameState.setText(Config.GAME_STATES.FORTIFICATION.name());
+        playerName = new JLabel();
+        playerName.setFont(new Font("Sans Serif", Font.BOLD, 20));
         armiesToMoveField = new JTextField();
-        sourceTerritoryLabel = new JLabel(TERRITORY_FROM_LABEL);
-        targetTerritoryLabel = new JLabel(TERRITORY_TO_LABEL);
-        howManyArmiesToMoveLabel = new JLabel(ARMIES_TO_MOVE_LABEL);
+        JLabel sourceTerritoryLabel = new JLabel(TERRITORY_FROM_LABEL);
+        JLabel targetTerritoryLabel = new JLabel(TERRITORY_TO_LABEL);
+        JLabel howManyArmiesToMoveLabel = new JLabel(ARMIES_TO_MOVE_LABEL);
         sourceTerritoryDropdown = new JComboBox<>();
         targetTerritoryDropdown = new JComboBox<>();
         moveArmiesButton = new JButton(MOVE_ARMIES_BUTTON);
@@ -57,7 +58,7 @@ public class FortificationPanel extends JPanel implements Observer {
         
         /* Add the elements to the panel */
         controlWrapper.add(gameState);
-        controlWrapper.add(playerID);
+        controlWrapper.add(playerName);
         addVerticalSpacing(controlWrapper);
         controlWrapper.add(sourceTerritoryLabel);
         controlWrapper.add(sourceTerritoryDropdown);
@@ -78,14 +79,6 @@ public class FortificationPanel extends JPanel implements Observer {
     }
     
     /* Getters & Setters */
-    public void setGameState(Config.GAME_STATES gameState) {
-        this.gameState.setText("<html><p style=\"color:blue;\">" + gameState.toString() + "</p></html>");
-    }
-    
-    public void setPlayerID(int playerID) {
-        this.playerID.setText("Player " + playerID);
-    }
-    
     public JButton getMoveArmiesButton() {
         return moveArmiesButton;
     }
@@ -94,24 +87,12 @@ public class FortificationPanel extends JPanel implements Observer {
         return armiesToMoveField;
     }
     
-    public void setArmiesToMoveField(JTextField armiesToMoveField) {
-        this.armiesToMoveField = armiesToMoveField;
-    }
-    
     public JComboBox getSourceTerritoryDropdown() {
         return sourceTerritoryDropdown;
     }
     
-    public void setSourceTerritoryDropdown(JComboBox sourceTerritoryDropdown) {
-        this.sourceTerritoryDropdown = sourceTerritoryDropdown;
-    }
-    
     public JComboBox getTargetTerritoryDropdown() {
         return targetTerritoryDropdown;
-    }
-    
-    public void setTargetTerritoryDropdown(JComboBox targetTerritoryDropdown) {
-        this.targetTerritoryDropdown = targetTerritoryDropdown;
     }
     
     /* MVC & Observer pattern methods */
@@ -127,11 +108,23 @@ public class FortificationPanel extends JPanel implements Observer {
         doneButton.addActionListener(listenerForDoneButton);
     }
     
-    
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof FortificationModel) {
-            targetTerritoryDropdown.setModel(((FortificationModel) o).getTargetTerritoriesList());
+        if (o instanceof GamePlayModel) {
+            GamePlayModel gamePlayModel = (GamePlayModel) o;
+            if (gamePlayModel.getGameState() == Config.GAME_STATES.FORTIFICATION) {
+                playerName.setForeground(gamePlayModel.getCurrentPlayer().getColor());
+                playerName.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
+                
+                /* Set source territories dropdown model */
+                Vector<String> sourceTerritoriesList = new Vector<>();
+                for (Territory territory : gamePlayModel.getCurrentPlayer().getTerritories()) {
+                    sourceTerritoriesList.add(territory.getName());
+                }
+                DropDownModel sourceTerritoriesModel = new DropDownModel(sourceTerritoriesList);
+                sourceTerritoryDropdown.setModel(sourceTerritoriesModel);
+                sourceTerritoryDropdown.setSelectedIndex(0);
+            }
         }
     }
 }

@@ -31,7 +31,14 @@ public class Config {
         }
     }
     
-    public static final Color[] PLAYER_COLOR = { Color.BLUE, Color.RED, Color.MAGENTA.darker(), Color.GREEN.darker(), Color.DARK_GRAY, Color.ORANGE.darker().darker() };
+    public static final Color[] PLAYER_COLOR = {
+            Color.BLUE,
+            Color.RED,
+            Color.MAGENTA.darker(),
+            Color.GREEN.darker(),
+            Color.DARK_GRAY,
+            Color.ORANGE.darker().darker()
+    };
     
     // Constants for reading GameMap Text File
     public static final int MAPS_MIN_TERRITORIES = 1;
@@ -62,11 +69,6 @@ public class Config {
     //Constants for army in RiskGame
     public static final int DEFAULT_NUM_OF_PLAYERS = 6;
     public static final double INITIAL_ARMY_RATIO = 1.25;  // 2.75 for similar gameplay as official Risk Game
-    
-    //Constants for card in Card
-    public static final String CARD_TYPE1 = "Infantry";
-    public static final String CARD_TYPE2 = "Cavalry";
-    public static final String CARD_TYPE3 = "Artillery";
     
     //Messages' content for users
     public static final String MSG_MAPFILE_ERROR_TITLE = "The map file has error";

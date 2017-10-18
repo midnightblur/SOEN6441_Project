@@ -71,7 +71,7 @@ public class MapEditorController {
     }
     //endregion
     
-    //region Private methods
+    //region Methods to handle events from UI
     /**
      * Update the GameMap object from the selected items from DropdownList
      */
