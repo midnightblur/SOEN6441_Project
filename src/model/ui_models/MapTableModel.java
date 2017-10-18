@@ -4,16 +4,16 @@ import model.game_entities.Continent;
 import model.game_entities.GameMap;
 import model.game_entities.Territory;
 import utilities.BidiArrayComparator;
+import utilities.Config;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.Arrays;
-import java.util.Observable;
 import java.util.Vector;
 
 /**
  * Model to hold the gameMap data in order to displayJFrame it within a JTable
  */
-public class MapTableModel extends Observable {
+public class MapTableModel {
     private DefaultTableModel model;
     private String[][] rows;
     private Vector<String> columns;
@@ -32,14 +32,14 @@ public class MapTableModel extends Observable {
      *
      * @return a table model to be used to generate the view
      */
-    public DefaultTableModel updateMapTableModel(GameMap gameMap) {
+    public DefaultTableModel updateMapTableModel(GameMap gameMap, Config.GAME_STATES gameStates) {
         /* clears the model data and reinitialize it with new values */
         model.setRowCount(0);
         columns.clear();
         columns.add("Continent");
         columns.add("Territory");
         columns.add("Neighbors");
-        if (GamePlayModel.getInstance().getGameState().getValue() >= 3) {
+        if (gameStates.getValue() >= 3) {
             columns.add("Owner");
             columns.add("Armies");
         }
@@ -49,7 +49,7 @@ public class MapTableModel extends Observable {
         /* add continents */
         for (Continent continent : gameMap.getContinents().values()) {
             rows[i][0] = continent.getName();
-            if (GamePlayModel.getInstance().getGameState().getValue() >= 3) {
+            if (gameStates.getValue() >= 3) {
                 if (continent.getContinentOwner() == 0) {
                     rows[i][3] = "nobody owns it yet";
                 } else {
@@ -66,8 +66,8 @@ public class MapTableModel extends Observable {
             rows[i][2] = territory.getNeighbors().toString().replace("[", "").replace("]", "");
             
             /* add countries and their information */
-            if (GamePlayModel.getInstance().getGameState().getValue() >= 3) {
-                rows[i][3] = "Player " + Integer.toString(territory.getOwner().getPlayerID());
+            if (gameStates.getValue() >= 3) {
+                rows[i][3] = territory.getOwner().getPlayerName();
                 rows[i][4] = Integer.toString(territory.getArmies());
             }
             
@@ -76,7 +76,6 @@ public class MapTableModel extends Observable {
         this.model.setColumnIdentifiers(columns);
         Arrays.sort(rows, new BidiArrayComparator(0));        // perform sort on Continents column
         groupRows();                                                  // 'group' the rows
-        broadcastMapTableModelChanges();
         return model;
     }
     
@@ -103,13 +102,4 @@ public class MapTableModel extends Observable {
             this.model.addRow(row);
         }
     }
-    
-    /**
-     * Method to update the GamePlayModel and notify the Observer.
-     */
-    private void broadcastMapTableModelChanges() {
-        setChanged();
-        notifyObservers();
-    }
-    
 }

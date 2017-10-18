@@ -76,7 +76,7 @@ public class PhaseFortificationController {
         if (!quantity.equals("") && (iQuantity > 0) && !target.equals("No neighbors owned. Please select another territory")) {
             fortificationPanel.getMoveArmiesButton().setEnabled(true);
             String message = gamePlayModel.fortificationPhase(source, target, quantity);
-            gamePlayModel.getMapTableModel().updateMapTableModel(gamePlayModel.getGameMap());
+            gamePlayModel.getMapTableModel().updateMapTableModel(gamePlayModel.getGameMap(), gamePlayModel.getGameState());
             // disable the button once armies are moved
             if (message.toLowerCase().contains("success")) {
                 fortificationPanel.getMoveArmiesButton().setEnabled(false);

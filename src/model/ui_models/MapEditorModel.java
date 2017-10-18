@@ -137,7 +137,7 @@ public class MapEditorModel extends Observable {
     }
     
     private void updateModels() {
-        mapTableModel.updateMapTableModel(gameMap);
+        mapTableModel.updateMapTableModel(gameMap, Config.GAME_STATES.MAP_EDITOR);
         updateListOfMaps();
         updateListOfContinents();
         updateListOfTerritories();

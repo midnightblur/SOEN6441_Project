@@ -7,6 +7,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import utilities.Config;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,7 +37,7 @@ public class MapEditorModelTest {
     public static void roundTripMapFile() throws Exception {
         inputMap = GameMapHelper.loadGameMap(fileName);
         mapTableModel = new MapTableModel();
-        mapTableModel.updateMapTableModel(inputMap);
+        mapTableModel.updateMapTableModel(inputMap, Config.GAME_STATES.MAP_EDITOR);
         GameMapHelper.writeToFile(inputMap, MAPS_FOLDER + "/TEST.map");
         outputMap = GameMapHelper.loadGameMap("TEST.map");
     }

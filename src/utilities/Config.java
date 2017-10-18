@@ -4,11 +4,6 @@ package utilities;
  * Configuration class providing static attributes for the application
  */
 public class Config {
-    public enum SCREEN_NAME {
-        MAP_EDITOR,
-        GAME_PLAY
-    }
-    
     /**
      * The states of the game encapsulated in an enum
      * The value is used to determine the advancement of the game

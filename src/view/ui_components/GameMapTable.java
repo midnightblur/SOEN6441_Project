@@ -1,7 +1,6 @@
 package view.ui_components;
 
 import model.ui_models.MapEditorModel;
-import model.ui_models.MapTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
@@ -22,9 +21,6 @@ public class GameMapTable extends JTable implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof MapEditorModel) {
             setModel(((MapEditorModel) o).getMapTableModel().getModel());
-        }
-        if (o instanceof MapTableModel) {
-            setModel(((MapTableModel) o).getModel());
         }
         resizeColumns();
     }

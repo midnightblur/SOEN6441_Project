@@ -591,7 +591,7 @@ public class GamePlayModel extends Observable {
      * Update the GameMapTableModel according to the newly updated GameMap object
      */
     private void updateGameMapTableModel() {
-        mapTableModel.updateMapTableModel(gameMap);
+        mapTableModel.updateMapTableModel(gameMap, gameState);
     }
     // endregion
 }
