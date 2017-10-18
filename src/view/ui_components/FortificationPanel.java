@@ -26,11 +26,11 @@ public class FortificationPanel extends JPanel implements Observer {
     private static final String ARMIES_TO_MOVE_LABEL = "Armies to move: ";
     
     private JButton moveArmiesButton;
-    private JButton doneButton;
     private JTextField armiesToMoveField;
     private JLabel playerName;
     private JComboBox<String> sourceTerritoryDropdown;
     private JComboBox<String> targetTerritoryDropdown;
+    private JButton nextPlayerButton;
     
     /* Constructors */
     public FortificationPanel() {
@@ -48,7 +48,7 @@ public class FortificationPanel extends JPanel implements Observer {
         targetTerritoryDropdown = new JComboBox<>();
         moveArmiesButton = new JButton(MOVE_ARMIES_BUTTON);
         moveArmiesButton.setForeground(Color.BLUE);
-        doneButton = new JButton(DONE_BUTTON);
+        nextPlayerButton = new JButton((DONE_BUTTON));
 
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -72,17 +72,13 @@ public class FortificationPanel extends JPanel implements Observer {
         controlWrapper.add(moveArmiesButton);
         addVerticalSpacing(controlWrapper);
         addVerticalSpacing(controlWrapper);
-        controlWrapper.add(doneButton);
+        controlWrapper.add(nextPlayerButton);
         addVerticalSpacing(controlWrapper);
         
         add(controlWrapper);
     }
     
     /* Getters & Setters */
-    public JButton getMoveArmiesButton() {
-        return moveArmiesButton;
-    }
-    
     public JTextField getArmiesToMoveField() {
         return armiesToMoveField;
     }
@@ -104,8 +100,8 @@ public class FortificationPanel extends JPanel implements Observer {
         sourceTerritoryDropdown.addActionListener(listenerForSourceTerritoryDropdown);
     }
     
-    public void addDoneButtonListener(ActionListener listenerForDoneButton) {
-        doneButton.addActionListener(listenerForDoneButton);
+    public void addNextPlayerButtonListener(ActionListener listenerForNextPlayerButton) {
+        nextPlayerButton.addActionListener(listenerForNextPlayerButton);
     }
     
     @Override
