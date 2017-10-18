@@ -1,38 +1,65 @@
 package model;
 
 import model.ui_models.GamePlayModel;
+import org.junit.Before;
 import org.junit.Test;
+import utilities.Config;
 
 import static org.junit.Assert.*;
 
 public class GamePlayModelTest {
+    GamePlayModel gamePlayModel1;
+    GamePlayModel gamePlayModel2;
+    int numOfPlayers = Config.DEFAULT_NUM_OF_PLAYERS;
+    
+    @Before
+    public void beforeTests() {
+        gamePlayModel1 = GamePlayModel.getInstance();
+        gamePlayModel2 = GamePlayModel.getInstance();
+    }
+    
     @Test
-    public void getInstance() throws Exception {
-        GamePlayModel gamePlayModelObj1 = GamePlayModel.getInstance();
-        GamePlayModel gamePlayModelObj2 = GamePlayModel.getInstance();
-        
+    public void ingletonGamePlayModelObjectTest() throws Exception {
         // checks if the two game objects are not null
         System.out.println("Testing to see if two getInstance() of RiskGame are the same.");
-        assertEquals(gamePlayModelObj1, gamePlayModelObj2);
+        assertEquals(gamePlayModel1, gamePlayModel2);
         System.out.println();
     }
 
     @Test
-    public void initializePlayers() throws Exception {
-//        RiskGame riskGame = RiskGame.getInstance();
-//        riskGame.initPlayers(Config.DEFAULT_NUM_OF_PLAYERS);
-//
-//        // testing count players
-//        System.out.println("Testing to see if count of the list of players is correct:");
-//        for (int i = 0; i < riskGame.getPlayers().size(); i++) {
-//            System.out.println("\tplayer " + riskGame.getPlayers().get(i).getPlayerID());
-//        }
-//        assertEquals(6, riskGame.getPlayers().size());
-//        System.out.println();
+    public void initializePlayersTest() throws Exception {
+        gamePlayModel1.initializeNewGame(numOfPlayers);
+
+        // testing count players
+        System.out.println("Testing initialization of players, their territories, " +
+                "and the number of initial armies given:");
+        for (int i = 0; i < gamePlayModel1.getPlayers().size(); i++) {
+            System.out.print("\tplayer " + gamePlayModel1.getPlayers().get(i).getPlayerID() + ": " + );
+        }
+        
+        assertEquals(6, gamePlayModel1.getPlayers().size());
+        System.out.println();
     }
     
     @Test
-    public void initializeDeck() throws Exception {
+    public void initializeDeckTest() throws Exception {
+    }
+    
+    @Test
+    public void () throws Exception {
+        gamePlayModel1.initializeNewGame(numOfPlayers);
+        
+        // testing count players
+        System.out.println("Testing initialization of players, and their territories:");
+        for (int i = 0; i < gamePlayModel1.getPlayers().size(); i++) {
+            System.out.println("\tplayer " + gamePlayModel1.getPlayers().get(i).getPlayerID());
+            
+        }
+        
+        assertEquals(6, gamePlayModel1.getPlayers().size());
+        System.out.println();
+    }
+    
 //        RiskGame riskGame = RiskGame.getInstance();
 //        int numOfCards = riskGame.getGameMap().getTerritoriesCount() +
 //                (riskGame.getGameMap().getTerritoriesCount() % Card.getTypesCount()) * Card.getTypesCount();

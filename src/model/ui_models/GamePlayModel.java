@@ -304,6 +304,7 @@ public class GamePlayModel extends Observable {
                     Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.firstElement()));
                     for (int i = 0; i < selectedCards.size(); i++) {
                         currentPlayer.getPlayersHand().remove(tempCard);
+                        deck.add(tempCard);
                     }
                     currentPlayer.getPlayersHand().trimToSize();
                     currentPlayer.addUnallocatedArmies(armyValue);
@@ -320,6 +321,7 @@ public class GamePlayModel extends Observable {
                     for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
                         Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
                         currentPlayer.getPlayersHand().remove(tempCard);
+                        deck.add(tempCard);
                     }
                     currentPlayer.getPlayersHand().trimToSize();
                     currentPlayer.addUnallocatedArmies(armyValue);
