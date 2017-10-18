@@ -1,7 +1,7 @@
 import controller.MainMenuController;
 
 /**
- * Main driver class is responsible for starting
+ * Main driver class is responsible for starting the Application
  */
 public class Driver {
     
