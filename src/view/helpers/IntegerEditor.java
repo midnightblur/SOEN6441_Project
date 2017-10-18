@@ -29,14 +29,14 @@ public class IntegerEditor extends DefaultCellEditor {
                         "Entry Error!", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-        } catch (ClassCastException exception) {
+        } catch (ClassCastException | NumberFormatException exception) {
             JOptionPane.showMessageDialog(
                     null,
                     "Invalid entry. Please re-enter a number.",
                     "Entry Error!", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        
+    
         return super.stopCellEditing();
     }
     
