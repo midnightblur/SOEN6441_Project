@@ -163,6 +163,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == GAME_STATES.REINFORCEMENT) {
                 setArmyValueLabel(gamePlayModel.getArmyValue());
+                playerID.setForeground(gamePlayModel.getCurrentPlayer().getColor());
                 playerID.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                 
                 /* Display list of cards owned by current player */
