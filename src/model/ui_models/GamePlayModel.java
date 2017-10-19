@@ -27,38 +27,60 @@ import static utilities.Config.INITIAL_ARMY_RATIO;
  */
 public class GamePlayModel extends Observable {
     
-    /** The Constant DEFAULT_ARMY_VALUE. */
     // region Attributes declaration
+    /**
+     * The Constant DEFAULT_ARMY_VALUE.
+     */
     private static final int DEFAULT_ARMY_VALUE = 5;
     
-    /** The instance. */
+    /**
+     * The instance.
+     */
     private static GamePlayModel instance = null;
     
-    /** The game map. */
+    /**
+     * The game map.
+     */
     private GameMap gameMap;
     
-    /** The map table model. */
+    /**
+     * The map table model.
+     */
     private MapTableModel mapTableModel;
     
-    /** The game state. */
+    /**
+     * The game state.
+     */
     private GAME_STATES gameState;
     
-    /** The current player. */
+    /**
+     * The current player.
+     */
     private Player currentPlayer;
     
-    /** The player territories model. */
+    /**
+     * The player territories model.
+     */
     private PlayerTerritoriesModel playerTerritoriesModel;
     
-    /** The army value. */
+    /**
+     * The army value.
+     */
     private int armyValue;
     
-    /** The deck. */
+    /**
+     * The deck.
+     */
     private Vector<Card> deck;
     
-    /** The players. */
+    /**
+     * The players.
+     */
     private Vector<Player> players;
     
-    /** The rand. */
+    /**
+     * The rand.
+     */
     private Random rand;
     // endregion
     
@@ -202,12 +224,12 @@ public class GamePlayModel extends Observable {
     
     // endregion
     
+    // region Public methods
     /**
      * Gets the current player territories.
      *
      * @return the current player territories
      */
-    // region Public methods
     public Vector<String> getCurrentPlayerTerritories() {
         Vector<String> territoriesList = new Vector<>();
         for (Territory territory : currentPlayer.getTerritories()) {
@@ -235,10 +257,10 @@ public class GamePlayModel extends Observable {
         /* Hand out cards for build 1 presentation. To be commented out for normal game play */
         int cardsToHandOut = 0;
         for (Player player : players) {
-            if (gameMap.getTerritoriesCount()/numOfPlayers >= 5) {
+            if (gameMap.getTerritoriesCount() / numOfPlayers >= 5) {
                 cardsToHandOut = 5;
             } else {
-                cardsToHandOut = gameMap.getTerritoriesCount()/numOfPlayers;
+                cardsToHandOut = gameMap.getTerritoriesCount() / numOfPlayers;
             }
             for (int i = 0; i < cardsToHandOut; i++) {
                 player.addCardToPlayersHand(drawCard());
@@ -265,7 +287,7 @@ public class GamePlayModel extends Observable {
         System.out.println("Deck size: " + deck.size());
         System.out.println("-------------------------------------------");
         /* ------------------------------- */
-    
+        
         assignOneArmyPerTerritory();
         
         updateGameMapTableModel();
@@ -329,12 +351,8 @@ public class GamePlayModel extends Observable {
      */
     public void placeArmiesReinforcement(Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
-            System.out.println("territory " + entry.getKey().getName() + "'s old army value: " + entry.getKey().getArmies());
-            System.out.println("previous unallocated armies: " + currentPlayer.getUnallocatedArmies());
             entry.getKey().addArmies(entry.getValue());
             currentPlayer.reduceUnallocatedArmies(entry.getValue());
-            System.out.println("territory " + entry.getKey().getName() + "'s new army value: " + entry.getKey().getArmies());
-            System.out.println("changed unallocated armies: " + currentPlayer.getUnallocatedArmies());
         }
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -342,6 +360,7 @@ public class GamePlayModel extends Observable {
     // endregion
     
     // region For Reinforcement Phase
+    
     /**
      * The reinforcement phase includes allowing the players to hand in their cards for
      * armies (or force them to if they have more than or equal to 5 cards), assign
@@ -478,6 +497,7 @@ public class GamePlayModel extends Observable {
     // endregion
     
     // region For Fortification Phase
+    
     /**
      * The method gives a player an option to move any number of armies from one country to
      * another. The method only allows only one such move that is valid, which requires that
@@ -508,7 +528,7 @@ public class GamePlayModel extends Observable {
         
         fromTerritory.reduceArmies(noOfArmies);
         toTerritory.addArmies(noOfArmies);
-    
+        
         setGameState(REINFORCEMENT);
         setCurrentPlayer(getNextPlayer());
         
@@ -557,12 +577,12 @@ public class GamePlayModel extends Observable {
      */
     private void distributeTerritories() {
         System.out.println("Distributing territories...");
-
+        
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
             territoryArrList.add(entry.getValue().getName());
         }
-
+        
         int playerIndex = 0;
         for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
             if (playerIndex >= players.size()) {
@@ -573,7 +593,7 @@ public class GamePlayModel extends Observable {
             Player player = players.elementAt(playerIndex);
             territory.setOwner(player);
             player.addTerritory(territory);
-
+            
             playerIndex++;
             territoryArrList.remove(territoryIndex);
         }

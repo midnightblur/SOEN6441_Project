@@ -22,42 +22,63 @@ import static view.helpers.UIHelper.setDivider;
  */
 public class GamePlayFrame extends JFrame implements Observer {
     
-    /** The Constant TITLE. */
     // region Attributes declaration
+    /**
+     * The Constant TITLE.
+     */
     private static final String TITLE = "Game Play";
     
-    /** The Constant WIDTH. */
+    /**
+     * The Constant WIDTH.
+     */
     private static final int WIDTH = 1600;
     
-    /** The Constant HEIGHT. */
+    /**
+     * The Constant HEIGHT.
+     */
     private static final int HEIGHT = 800;
     
-    /** The content pane. */
+    /**
+     * The content pane.
+     */
     private JSplitPane contentPane;
     
-    /** The game map table. */
+    /**
+     * The game map table.
+     */
     private GameMapTable gameMapTable;
     
-    /** The control area. */
+    /**
+     * The control area.
+     */
     private JPanel controlArea;
     
-    /** The game setup panel. */
+    /**
+     * The game setup panel.
+     */
     private GameSetupPanel gameSetupPanel;
     
-    /** The startup panel. */
+    /**
+     * The startup panel.
+     */
     private StartupPanel startupPanel;
     
-    /** The reinforcement panel. */
+    /**
+     * The reinforcement panel.
+     */
     private ReinforcementPanel reinforcementPanel;
     
-    /** The fortification panel. */
+    /**
+     * The fortification panel.
+     */
     private FortificationPanel fortificationPanel;
     // endregion
+    
+    // region Constructors
     
     /**
      * Instantiates a new game play frame.
      */
-    // region Constructors
     public GamePlayFrame() {
         /* Setup main container */
         setupContentPaneLayout();
@@ -75,10 +96,10 @@ public class GamePlayFrame extends JFrame implements Observer {
     }
     // endregion
     
+    // region Getters & Setters
     /* (non-Javadoc)
      * @see javax.swing.JFrame#getContentPane()
      */
-    // region Getters & Setters
     @Override
     public JSplitPane getContentPane() {
         return contentPane;
@@ -131,10 +152,11 @@ public class GamePlayFrame extends JFrame implements Observer {
     
     // endregion
     
+    // region Public methods
+    
     /* (non-Javadoc)
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
-    // region Public methods
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
@@ -165,10 +187,11 @@ public class GamePlayFrame extends JFrame implements Observer {
     }
     // endregion
     
+    // region Private methods
+    
     /**
      * Setup content pane layout.
      */
-    // region Private methods
     private void setupContentPaneLayout() {
         contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
             private final int location = 1100;

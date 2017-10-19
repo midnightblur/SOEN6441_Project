@@ -21,11 +21,15 @@ import javax.swing.*;
  */
 public class MainMenuController extends JFrame {
     
-    /** The main menu frame. */
     // region Attributes declaration
+    /**
+     * The main menu frame.
+     */
     private MainMenuFrame mainMenuFrame;
     
-    /** The map selector frame. */
+    /**
+     * The map selector frame.
+     */
     private MapSelectorFrame mapSelectorFrame;
     // endregion
     
@@ -57,10 +61,11 @@ public class MainMenuController extends JFrame {
     
     // endregion
     
+    // region Private methods
+    
     /**
      * Register to be listener.
      */
-    // region Private methods
     private void registerToBeListener() {
         mainMenuFrame.addMapEditorButtonListener(e -> openMapEditorScreen());
         mainMenuFrame.addPlayGameButtonListener(e -> openPlayGameScreen());

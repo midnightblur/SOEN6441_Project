@@ -21,8 +21,8 @@ import static utilities.Config.DEFAULT_NUM_OF_PLAYERS;
  */
 public class GameMap {
     
-    /** The Constant MSG_CONTINENT_EXIST. */
     //region Attributes declaration
+    /** The Constant MSG_CONTINENT_EXIST. */
     private static final String MSG_CONTINENT_EXIST = "The %s continent already exists! No change has been made to the map";
     
     /** The Constant MSG_TERRITORY_EXIST. */
@@ -62,12 +62,12 @@ public class GameMap {
     private Map<String, Continent> continents;
     //endregion
     
+    //region Constructors
     /**
      * Instantiates a new game map.
      *
      * @param mapName the map name
      */
-    //region Constructors
     public GameMap(String mapName) {
         this.mapName = mapName;
         this.territories = new TreeMap<>();
@@ -84,12 +84,12 @@ public class GameMap {
     }
     //endregion
     
+    //region Getters & Setters
     /**
      * Gets the map name.
      *
      * @return the map name
      */
-    //region Getters & Setters
     public String getMapName() {
         return mapName;
     }

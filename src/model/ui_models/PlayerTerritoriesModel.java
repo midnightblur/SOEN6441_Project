@@ -21,8 +21,8 @@ import java.util.Vector;
  */
 public class PlayerTerritoriesModel {
     
-    /** The model. */
     // region Attributes declaration
+    /** The model. */
     private DefaultTableModel model;
     
     /** The rows. */

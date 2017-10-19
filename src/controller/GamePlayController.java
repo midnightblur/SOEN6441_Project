@@ -33,14 +33,20 @@ import static utilities.Config.GAME_STATES.*;
  */
 public class GamePlayController {
     
-    /** The caller controller. */
     // region Attributes declaration
+    /**
+     * The caller controller.
+     */
     private MainMenuController callerController;
     
-    /** The game play frame. */
+    /**
+     * The game play frame.
+     */
     private GamePlayFrame gamePlayFrame;
     
-    /** The game play model. */
+    /**
+     * The game play model.
+     */
     private GamePlayModel gamePlayModel;
     // endregion
     
@@ -69,10 +75,10 @@ public class GamePlayController {
     }
     // endregion
     
+    // region Private methods
     /**
      * Register observers to observable.
      */
-    // region Private methods
     private void registerObserversToObservable() {
         gamePlayModel.addObserver(gamePlayFrame);
         gamePlayModel.addObserver(gamePlayFrame.getGameMapTable());
@@ -109,10 +115,10 @@ public class GamePlayController {
         gamePlayFrame.getFortificationPanel().addNextPlayerButtonListener(e -> changeToNextPlayer());
     }
     
+    // region For Setup Phase
     /**
      * Start the game.
      */
-    // region For Setup Phase
     private void startTheGame() {
         /* initialize the game */
         try {
