@@ -4,11 +4,12 @@
  * Version 1.0
  * Oct 18, 2017
  */
-package model.helpers;
+package model;
 
 import model.game_entities.Continent;
 import model.game_entities.GameMap;
 import model.game_entities.Territory;
+import model.helpers.GameMapHelper;
 import org.junit.Before;
 import org.junit.Test;
 import utilities.Config;

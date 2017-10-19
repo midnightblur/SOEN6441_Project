@@ -6,7 +6,7 @@
  */
 
 import model.*;
-import model.helpers.MapValidationTest;
+import model.MapValidationTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
