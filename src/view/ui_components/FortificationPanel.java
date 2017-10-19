@@ -182,6 +182,8 @@ public class FortificationPanel extends JPanel implements Observer {
                 DropDownModel sourceTerritoriesModel = new DropDownModel(sourceTerritoriesList);
                 sourceTerritoryDropdown.setModel(sourceTerritoriesModel);
                 sourceTerritoryDropdown.setSelectedIndex(0);
+    
+                armiesToMoveField.setText("");
             }
         }
     }
