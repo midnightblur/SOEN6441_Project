@@ -19,8 +19,6 @@ import org.junit.runners.Suite.SuiteClasses;
         ContinentTest.class,
         DiceTest.class,
         ReadingInvalidMapFileTest.class,
-        GameMapTest.class,
-        GameStatesTest.class,
         MapsLoaderTest.class,
         MapEditorModelTest.class,
         PlayerTest.class,
