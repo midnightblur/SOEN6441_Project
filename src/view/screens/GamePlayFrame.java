@@ -15,8 +15,6 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-import static view.helpers.UIHelper.setDivider;
-
 /**
  * The Class GamePlayFrame.
  */
@@ -31,12 +29,12 @@ public class GamePlayFrame extends JFrame implements Observer {
     /**
      * The Constant WIDTH.
      */
-    private static final int WIDTH = 1600;
+    private static final int WIDTH = 1366;
     
     /**
      * The Constant HEIGHT.
      */
-    private static final int HEIGHT = 800;
+    private static final int HEIGHT = 700;
     
     /**
      * The content pane.
@@ -194,7 +192,7 @@ public class GamePlayFrame extends JFrame implements Observer {
      */
     private void setupContentPaneLayout() {
         contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
-            private final int location = 1100;
+            private final int location = 850;
             
             {
                 setDividerLocation(location);
@@ -210,7 +208,6 @@ public class GamePlayFrame extends JFrame implements Observer {
                 return location;
             }
         };
-        setDivider(contentPane);
     }
     
     /**
