@@ -6,8 +6,8 @@
  */
 package game_play.view.screens;
 
-import game_play.view.ui_components.*;
 import game_play.model.GamePlayModel;
+import game_play.view.ui_components.*;
 import shared_resources.helper.UIHelper;
 
 import javax.swing.*;
@@ -16,7 +16,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * The Class GamePlayFrame.
+ * The Class GamePlayFrame represents the main frame for UI while playing the game.
+ *
+ * It is composed of a left side that renders the map as a table, and
+ * an interchangeable right side for various control panels.
  */
 public class GamePlayFrame extends JFrame implements Observer {
     
@@ -198,7 +201,7 @@ public class GamePlayFrame extends JFrame implements Observer {
                     cardLayout.show(controlArea, ReinforcementPanel.class.getName());
                     break;
                 case ATTACKING:
-//                    cardLayout.show(controlArea, AttackPanel.class.getName());
+                    // TODO: add the attack panel cardLayout.show(controlArea, AttackPanel.class.getName());
                     break;
                 case FORTIFICATION:
                     cardLayout.show(controlArea, FortificationPanel.class.getName());

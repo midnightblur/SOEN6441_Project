@@ -231,7 +231,7 @@ public class GamePlayModel extends Observable {
         }
         return territoriesList;
     }
-    //endregion
+    // endregion
     
     // region For Startup Phase
     

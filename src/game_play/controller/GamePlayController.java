@@ -6,13 +6,13 @@
  */
 package game_play.controller;
 
-import shared_resources.game_entities.GameMap;
-import shared_resources.game_entities.Territory;
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
-import shared_resources.helper.UIHelper;
 import game_play.view.screens.GamePlayFrame;
 import game_play.view.ui_components.ReinforcementPanel;
+import shared_resources.game_entities.GameMap;
+import shared_resources.game_entities.Territory;
+import shared_resources.helper.UIHelper;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -88,8 +88,7 @@ public class GamePlayController {
      * Register to be listener.
      */
     private void registerToBeListener() {
-        // TODO: put the back in a menu
-        //gamePlayFrame.getControlPanel().addBackButtonListener(e -> backToMainMenu());
+        /* Play button to start the game */
         gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> startTheGame());
         
         /* For Startup Panel */
@@ -193,15 +192,11 @@ public class GamePlayController {
      * Go to fortification phase.
      */
     private void goToFortificationPhase() {
-        // TODO: this needs fixing so it correctly returns to previous phase
-        // TODO: (see true condition in the game and possibly have a setter for it under currentPlayer)
-        // riskGame.moveArmiesFortification();
         if (gamePlayModel.getCurrentPlayer().getUnallocatedArmies() != 0 || gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
             UIHelper.displayMessage(gamePlayFrame, "You have to allocate all of your armies or trade in your cards");
         } else {
             gamePlayModel.setGameState(FORTIFICATION);
         }
-        
     }
     
     /**

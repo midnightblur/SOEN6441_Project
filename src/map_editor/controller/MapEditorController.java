@@ -8,16 +8,16 @@ package map_editor.controller;
 
 import game_play.controller.MainMenuController;
 import map_editor.model.MapEditorModel;
+import map_editor.view.EditContinentPanel;
+import map_editor.view.EditTerritoryPanel;
 import map_editor.view.MapEditorFrame;
 import shared_resources.game_entities.Continent;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.GameMapHelper;
+import shared_resources.helper.UIHelper;
 import shared_resources.utilities.Config;
 import shared_resources.utilities.SaveDialog;
-import shared_resources.helper.UIHelper;
-import map_editor.view.EditContinentPanel;
-import map_editor.view.EditTerritoryPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +33,7 @@ import java.util.Vector;
  */
 public class MapEditorController {
     
-    //region Attributes declaration
+    // region Attributes declaration
     /** The Constant NONE_RADIO_BUTTON. */
     private static final String NONE_RADIO_BUTTON = "NONE";
     
@@ -60,9 +60,9 @@ public class MapEditorController {
     
     /** The new territory ID. */
     private int newTerritoryID; // helps generate new territory name => faster demo
-    //endregion
+    // endregion
     
-    //region Constructors
+    // region Constructors
     
     /**
      * Instantiates a new map editor controller.
@@ -99,9 +99,9 @@ public class MapEditorController {
         this.mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().addRemoveTerritoryButtonListener(e -> removeTerritoryInfo());
         this.mapEditorFrame.getEditMapPanel().addSaveMapButtonListener(e -> saveMap());
     }
-    //endregion
+    // endregion
     
-    //region Methods to handle events from UI
+    // region Methods to handle events from UI
     
     /**
      * Update the GameMap object from the selected items from DropdownList.
@@ -381,5 +381,5 @@ public class MapEditorController {
             
         }
     }
-    //endregion
+    // endregion
 }

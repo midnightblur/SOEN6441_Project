@@ -15,7 +15,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * The Class EditContinentPanel.
+ * The Class EditContinentPanel provides the user with an interface to add or edit a continent.
+ *
+ * It is a panel that is loaded on the right of the main frame split.
  */
 public class EditContinentPanel extends JPanel implements Observer {
     
@@ -71,6 +73,81 @@ public class EditContinentPanel extends JPanel implements Observer {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setupComponents();
         setAllComponentsEnable(false);
+    }
+    
+    /**
+     * Setup components.
+     */
+    /* Private methods */
+    private void setupComponents() {
+        /* Setup grid panel */
+        JPanel gridPanel = new JPanel(new GridLayout(LAYOUT_ROWS, LAYOUT_COLS));
+        JLabel chooseContientLabel = new JLabel(CHOOSE_CONTINENT);
+        chooseContientLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        gridPanel.add(chooseContientLabel);
+        continentsListDropdown = new JComboBox<>();
+        gridPanel.add(continentsListDropdown);
+        
+        JLabel continentNameLabel = new JLabel(CONTIENT_NAME_LABEL);
+        continentNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        gridPanel.add(continentNameLabel);
+        continentNameText = new JTextField();
+        gridPanel.add(continentNameText);
+        
+        JLabel contientControlValueLabel = new JLabel(CONTINENT_CONTROL_VALUE_LABEL);
+        contientControlValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        gridPanel.add(contientControlValueLabel);
+        contientControlValueText = new JTextField();
+        gridPanel.add(contientControlValueText);
+        
+        add(gridPanel);
+        
+        /* Setup Territories Checkbox List */
+        JLabel continentTerritoriesLabel = new JLabel(CONTINENT_TERRITORIES_LABEL);
+        continentTerritoriesLabel.setAlignmentX(CENTER_ALIGNMENT);
+        add(continentTerritoriesLabel);
+        checkBoxPanel = new JPanel(new GridLayout(0, 3));
+        add(new JScrollPane(checkBoxPanel));
+        
+        /* Setup Save button */
+        JPanel bottomPanel = new JPanel(new FlowLayout());
+        saveContinentButton = new JButton(SAVE_BUTTON_LABEL);
+        removeContinentButton = new JButton(REMOVE_BUTTON_LABEL);
+        removeContinentButton.setEnabled(false);
+        removeContinentButton.setForeground(Color.RED);
+        bottomPanel.add(removeContinentButton);
+        bottomPanel.add(saveContinentButton);
+        add(bottomPanel);
+    }
+    
+    /**
+     * Sets the all components enable.
+     *
+     * @param isEnable the new all components enable
+     */
+    private void setAllComponentsEnable(boolean isEnable) {
+        continentsListDropdown.setEnabled(isEnable);
+        continentNameText.setEnabled(isEnable);
+        contientControlValueText.setEnabled(isEnable);
+        saveContinentButton.setEnabled(isEnable);
+    }
+    
+    /**
+     * Gets the save button label.
+     *
+     * @return the save button label
+     */
+    public static String getSaveButtonLabel() {
+        return SAVE_BUTTON_LABEL;
+    }
+    
+    /**
+     * Gets the adds the button label.
+     *
+     * @return the adds the button label
+     */
+    public static String getAddButtonLabel() {
+        return ADD_BUTTON_LABEL;
     }
     
     /**
@@ -154,81 +231,6 @@ public class EditContinentPanel extends JPanel implements Observer {
      */
     public JComboBox<String> getContinentsListDropdown() {
         return continentsListDropdown;
-    }
-    
-    /**
-     * Gets the save button label.
-     *
-     * @return the save button label
-     */
-    public static String getSaveButtonLabel() {
-        return SAVE_BUTTON_LABEL;
-    }
-    
-    /**
-     * Gets the adds the button label.
-     *
-     * @return the adds the button label
-     */
-    public static String getAddButtonLabel() {
-        return ADD_BUTTON_LABEL;
-    }
-    
-    /**
-     * Setup components.
-     */
-    /* Private methods */
-    private void setupComponents() {
-        /* Setup grid panel */
-        JPanel gridPanel = new JPanel(new GridLayout(LAYOUT_ROWS, LAYOUT_COLS));
-        JLabel chooseContientLabel = new JLabel(CHOOSE_CONTINENT);
-        chooseContientLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        gridPanel.add(chooseContientLabel);
-        continentsListDropdown = new JComboBox<>();
-        gridPanel.add(continentsListDropdown);
-        
-        JLabel continentNameLabel = new JLabel(CONTIENT_NAME_LABEL);
-        continentNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        gridPanel.add(continentNameLabel);
-        continentNameText = new JTextField();
-        gridPanel.add(continentNameText);
-        
-        JLabel contientControlValueLabel = new JLabel(CONTINENT_CONTROL_VALUE_LABEL);
-        contientControlValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        gridPanel.add(contientControlValueLabel);
-        contientControlValueText = new JTextField();
-        gridPanel.add(contientControlValueText);
-        
-        add(gridPanel);
-        
-        /* Setup Territories Checkbox List */
-        JLabel continentTerritoriesLabel = new JLabel(CONTINENT_TERRITORIES_LABEL);
-        continentTerritoriesLabel.setAlignmentX(CENTER_ALIGNMENT);
-        add(continentTerritoriesLabel);
-        checkBoxPanel = new JPanel(new GridLayout(0, 3));
-        add(new JScrollPane(checkBoxPanel));
-        
-        /* Setup Save button */
-        JPanel bottomPanel = new JPanel(new FlowLayout());
-        saveContinentButton = new JButton(SAVE_BUTTON_LABEL);
-        removeContinentButton = new JButton(REMOVE_BUTTON_LABEL);
-        removeContinentButton.setEnabled(false);
-        removeContinentButton.setForeground(Color.RED);
-        bottomPanel.add(removeContinentButton);
-        bottomPanel.add(saveContinentButton);
-        add(bottomPanel);
-    }
-    
-    /**
-     * Sets the all components enable.
-     *
-     * @param isEnable the new all components enable
-     */
-    private void setAllComponentsEnable(boolean isEnable) {
-        continentsListDropdown.setEnabled(isEnable);
-        continentNameText.setEnabled(isEnable);
-        contientControlValueText.setEnabled(isEnable);
-        saveContinentButton.setEnabled(isEnable);
     }
     
     /* (non-Javadoc)

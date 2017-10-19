@@ -21,7 +21,7 @@ import static shared_resources.utilities.Config.DEFAULT_NUM_OF_PLAYERS;
  */
 public class GameMap {
     
-    //region Attributes declaration
+    // region Attributes declaration
     /** The Constant MSG_CONTINENT_EXIST. */
     private static final String MSG_CONTINENT_EXIST = "The %s continent already exists! No change has been made to the map";
     
@@ -60,9 +60,9 @@ public class GameMap {
     
     /** The continents. */
     private Map<String, Continent> continents;
-    //endregion
+    // endregion
     
-    //region Constructors
+    // region Constructors
     /**
      * Instantiates a new game map.
      *
@@ -82,9 +82,9 @@ public class GameMap {
         this.territories = new TreeMap<>();
         this.continents = new TreeMap<>();
     }
-    //endregion
+    // endregion
     
-    //region Getters & Setters
+    // region Getters & Setters
     /**
      * Gets the map name.
      *
@@ -174,9 +174,9 @@ public class GameMap {
     public static String getMsgTerritoryRemoveSuccess() {
         return MSG_TERRITORY_REMOVE_SUCCESS;
     }
-    //endregion
+    // endregion
     
-    //region Public methods
+    // region Public methods
     /**
      * Takes a player object as a parameter and returns a hash map of the territories
      * that belong to that player object.
@@ -501,5 +501,5 @@ public class GameMap {
         return players;
     }
     
-    //endregion
+    // endregion
 }

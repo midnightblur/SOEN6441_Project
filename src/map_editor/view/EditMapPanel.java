@@ -6,8 +6,8 @@
  */
 package map_editor.view;
 
-import map_editor.model.MapEditorModel;
 import game_play.view.ui_components.MapLoadPanel;
+import map_editor.model.MapEditorModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * The Class EditMapPanel.
+ * The Class EditMapPanel provides the user with an interface to load or create a new map.
  */
 public class EditMapPanel extends JPanel implements Observer{
     

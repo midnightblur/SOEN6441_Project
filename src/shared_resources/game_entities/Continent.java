@@ -22,7 +22,7 @@ import java.util.Vector;
  */
 public class Continent {
     
-    //region Attributes declaration
+    // region Attributes declaration
     /** The name. */
     private String name;
     
@@ -31,7 +31,7 @@ public class Continent {
     
     /** The control value. */
     private int controlValue;
-    //endregion
+    // endregion
 
     /**
      * Instantiate new continent object given its name and its control index.
@@ -44,9 +44,9 @@ public class Continent {
         this.controlValue = controlValue;
         this.territories = new Vector<>();
     }
-    //endregion
+    // endregion
     
-    //region Getters & Setters
+    // region Getters & Setters
     /**
      * Gets the name.
      *
@@ -100,9 +100,9 @@ public class Continent {
     public void setTerritories(Vector<String> territories) {
         this.territories = territories;
     }
-    //endregion
+    // endregion
     
-    //region Public methods
+    // region Public methods
     /**
      * Add a territoryName to the list of territories belonging to the continent.
      *
@@ -201,5 +201,5 @@ public class Continent {
         
         return false;
     }
-    //endregion
+    // endregion
 }

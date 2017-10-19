@@ -18,7 +18,7 @@ import java.util.Observer;
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
- * The Class MapSelectorFrame.
+ * The Class MapSelectorFrame represents an frame allowing the user to select the desired map for the game play.
  */
 public class MapSelectorFrame extends JFrame implements Observer {
     

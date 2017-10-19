@@ -15,7 +15,9 @@ import java.awt.event.ActionListener;
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
- * The Class MainMenuFrame.
+ * The Class MainMenuFrame is the first screen when game is launched.
+ *
+ * Allows the user to select from Edit Map, Play Game or Quit.
  */
 public class MainMenuFrame extends JFrame {
     

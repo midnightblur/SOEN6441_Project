@@ -6,11 +6,11 @@
  */
 package game_play.controller;
 
-import shared_resources.game_entities.GameMap;
 import game_play.model.DropDownModel;
-import shared_resources.utilities.Config;
-import shared_resources.helper.UIHelper;
 import game_play.view.screens.MapSelectorFrame;
+import shared_resources.game_entities.GameMap;
+import shared_resources.helper.UIHelper;
+import shared_resources.utilities.Config;
 
 import java.util.Vector;
 
@@ -18,12 +18,13 @@ import static shared_resources.helper.GameMapHelper.getMapsInFolder;
 import static shared_resources.helper.GameMapHelper.loadGameMap;
 
 /**
- * The Class MapSelectorController.
+ * The Class MapSelectorController is in charge of handling user interaction when a map is selected before the Game Play.
+ * It will launch the game when a map is selected or go back to main menu if user decides to go back.
  *
  * @author Team 2
  * @version 1.0
  */
-public class  MapSelectorController {
+public class MapSelectorController {
     
     // region Attributes declaration
     /** The map selector frame. */
@@ -34,6 +35,7 @@ public class  MapSelectorController {
     // endregion
     
     // region Constructors
+    
     /**
      * Instantiates a new map selector controller.
      *
@@ -51,15 +53,6 @@ public class  MapSelectorController {
     // endregion
     
     // region Methods to handle events from UI
-    /**
-     * Update list of maps.
-     *
-     * @return the drop down game_entities
-     */
-    private DropDownModel updateListOfMaps() {
-        Vector<String> mapList = new Vector<>(getMapsInFolder(Config.MAPS_FOLDER));
-        return new DropDownModel(mapList);
-    }
     
     /**
      * Load map into game.
@@ -83,6 +76,16 @@ public class  MapSelectorController {
     private void backToMainMenu() {
         UIHelper.closeFrame(mapSelectorFrame);
         UIHelper.invokeFrame(callerController.getMainMenuFrame());
+    }
+    
+    /**
+     * Update list of maps.
+     *
+     * @return the drop down game_entities
+     */
+    private DropDownModel updateListOfMaps() {
+        Vector<String> mapList = new Vector<>(getMapsInFolder(Config.MAPS_FOLDER));
+        return new DropDownModel(mapList);
     }
     // endregion
 }

@@ -6,13 +6,13 @@
  */
 package map_editor.view;
 
-import shared_resources.helper.UIHelper;
 import game_play.view.ui_components.GameMapTable;
+import shared_resources.helper.UIHelper;
 
 import javax.swing.*;
 
 /**
- * The Class MapEditorFrame.
+ * The Class MapEditorFrame is the main screen frame for map editor component.
  */
 public class MapEditorFrame extends JFrame {
     

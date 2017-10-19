@@ -18,7 +18,7 @@ import java.util.Vector;
  */
 public class Territory {
     
-    //region Attributes declaration
+    // region Attributes declaration
     /** The name. */
     private String name;
     
@@ -33,9 +33,9 @@ public class Territory {
     
     /** The neighbors. */
     private Vector<String> neighbors;
-    //endregion
+    // endregion
 
-    //region Constructors
+    // region Constructors
     /**
      * Instantiate a new territory object given its name and the continent it belongs to.
      *
@@ -58,7 +58,7 @@ public class Territory {
         this.continent = "";
         this.neighbors = new Vector<>();
     }
-    //endregion
+    // endregion
     
     // region Getters & Setters
     /**
@@ -152,7 +152,7 @@ public class Territory {
     }
     // endregion
     
-    //region Public methods
+    // region Public methods
     /**
      * Add a territory as new neighbor.
      *
@@ -281,8 +281,8 @@ public class Territory {
         
         return false;
     }
-    //endregion
+    // endregion
     
-    //region Private methods
-    //endregion
+    // region Private methods
+    // endregion
 }

@@ -15,7 +15,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * The Class EditTerritoryPanel.
+ * The Class EditTerritoryPanel represents a sub-panel for map editor allowing user to add or edit a territory.
+ *
+ * It is used as part of the edit map control panel
  */
 public class EditTerritoryPanel extends JPanel implements Observer {
     
