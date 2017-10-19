@@ -23,6 +23,7 @@ import java.util.*;
  */
 public class GameMapHelper {
     
+    // region Attributes declaration
     /**
      * The Enum MAP_PARTS.
      */
@@ -31,18 +32,17 @@ public class GameMapHelper {
         CONTINENTS,
         TERRITORIES
     }
+    // endregion
     
-    /* Constructors */
-    
+    // region Constructors
     /**
      * Instantiates a new game map helper.
      */
     private GameMapHelper() {    // Intentionally make ctor private
-    
     }
-
-    /* Public methods */
+    // endregion
     
+    // region Public methods
     /**
      * Input: map text file name path
      * Output: A GameMap object containing map's info including territories, continents, adjacency
@@ -309,9 +309,9 @@ public class GameMapHelper {
         }
         return mapFiles;
     }
+    // endregion
     
-    /* Private methods */
-    
+    // region Private methods
     /**
      * The game map is supposed to be a connected graph
      * Meaning there is a path between any two territories in the map
@@ -347,4 +347,5 @@ public class GameMapHelper {
     
         return visitedNodesSet.size() == gameMap.getTerritoriesCount();
     }
+    // endregion
 }
