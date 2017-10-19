@@ -17,24 +17,19 @@ import java.util.Arrays;
 import java.util.Vector;
 
 /**
- * Model to hold the gameMap data in order to displayJFrame it within a JTable.
+ * MapTableModel is responsible for providing data for JTable.
  */
 public class MapTableModel {
     
     // region Attributes declaration
-    /** The game_entities. */
     private DefaultTableModel model;
-    
-    /** The rows. */
     private String[][] rows;
-    
-    /** The columns. */
     private Vector<String> columns;
     // endregion
     
     // region Constructors
     /**
-     * Instantiates a new map table game_entities.
+     * Instantiates a new blank MapTableModel object.
      */
     /* Constructors */
     public MapTableModel() {

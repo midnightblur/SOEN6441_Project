@@ -10,14 +10,15 @@ import javax.swing.*;
 import java.util.Vector;
 
 /**
- * The Class DropDownModel used as a base for UI dropdown made out of vector.
+ * DropDownModel is responsible for providing the data model for JComboBox
+ * The input data need to be in type of a Vector of Strings.
  */
 public class DropDownModel extends DefaultComboBoxModel<String> {
     
     // region Constructors
     
     /**
-     * Instantiates a new drop down game_entities.
+     * Instantiates a new DropDownModel from a Vector of Strings.
      *
      * @param items the items
      */
