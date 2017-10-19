@@ -12,8 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import utilities.Config;
 
-import java.util.Vector;
-
 import static org.junit.Assert.*;
 
 /**
@@ -311,14 +309,12 @@ public class ReadingInvalidMapFileTest {
     }
     
     /**
-     * This test checks if a random map file (selected from Maps folder) is actually a valid map.
+     * This test checks validation on a valid map
      */
     @Test
     public void valid_map() {
-        Vector<String> mapsList = GameMapHelper.getMapsInFolder(Config.MAPS_FOLDER);
-        int mapIndex = (int) (Math.random() * mapsList.size());
         try {
-            gameMap = GameMapHelper.loadGameMap(mapsList.elementAt(mapIndex));
+            gameMap = GameMapHelper.loadGameMap("World.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
