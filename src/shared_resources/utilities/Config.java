@@ -9,7 +9,16 @@ package shared_resources.utilities;
 import java.awt.*;
 
 /**
- * Configuration class providing static attributes for the application.
+ * Configuration class providing static attributes for the application:
+ * <ul>
+ *     <li> The states of the game
+ *     <li> The players' colors
+ *     <li> Constants for handling *.map files
+ *     <li> Constants and settings for other entities of the game
+ * </ul>
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class Config {
     

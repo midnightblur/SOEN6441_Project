@@ -14,29 +14,19 @@ import static shared_resources.utilities.Config.PLAYER_COLOR;
 /**
  * Each Player in a new game has a unique ID number (starting from 1) and the isBot status
  * which determines whether or not that player is a bot or a human controlled Player.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class Player {
     
     // region Attributes declaration
-    /** The next ID. */
     private static int nextID = 0;
-    
-    /** The color. */
     private Color color;
-    
-    /** The player ID. */
     private int playerID;
-    
-    /** The player name. */
     private String playerName;
-    
-    /** The unallocated armies. */
     private int unallocatedArmies;
-    
-    /** The players hand. */
     private Vector<Card> playersHand;
-    
-    /** The territories. */
     private Vector<Territory> territories;
     // endregion
     

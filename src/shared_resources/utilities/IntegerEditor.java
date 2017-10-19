@@ -13,6 +13,9 @@ import java.awt.*;
 /**
  * Custom cell editor
  * Only allows for positive integers if the column type is Integer.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class IntegerEditor extends DefaultCellEditor {
     
