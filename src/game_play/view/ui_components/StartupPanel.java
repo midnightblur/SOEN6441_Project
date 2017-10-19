@@ -19,29 +19,19 @@ import java.util.Observer;
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
- * Startup Panel representing the controls for Startup phase of the game.
+ * StartupPanel is responsible for representing the ui components letting players place 1 army into their territory in round-robin fashion
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class StartupPanel extends JPanel implements Observer {
     // region Attributes declaration
-    /** The Constant PLACE_ARMY_BUTTON. */
     private static final String PLACE_ARMY_BUTTON = "Place Army";
-    
-    /** The Constant TERRITORY_LABEL. */
     private static final String TERRITORY_LABEL = "Choose territory to place army on";
-    
-    /** The Constant TOTAL_ARMIES_TO_PLACE_LABEL. */
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
-    
-    /** The place army button. */
     private JButton placeArmyButton;
-    
-    /** The player name label. */
     private JLabel playerNameLabel;
-    
-    /** The total armies to place label. */
     private JLabel totalArmiesToPlaceLabel;
-    
-    /** The territory dropdown. */
     private JComboBox<String> territoryDropdown;
     // endregion
     
