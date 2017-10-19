@@ -18,56 +18,31 @@ import java.util.Observer;
  * The Class EditContinentPanel provides the user with an interface to add or edit a continent.
  *
  * It is a panel that is loaded on the right of the main frame split.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class EditContinentPanel extends JPanel implements Observer {
-    // region Attributes delcaration
-    /** The Constant ADD_BUTTON_LABEL. */
+    // region Attributes declaration
     private static final String ADD_BUTTON_LABEL = "Add Continent";
-    
-    /** The Constant SAVE_BUTTON_LABEL. */
     private static final String SAVE_BUTTON_LABEL = "Save Continent";
-    
-    /** The Constant REMOVE_BUTTON_LABEL. */
     private static final String REMOVE_BUTTON_LABEL = "Remove Continent";
-    
-    /** The Constant CHOOSE_CONTINENT. */
     private static final String CHOOSE_CONTINENT = "Choose Continent";
-    
-    /** The Constant CONTIENT_NAME_LABEL. */
-    private static final String CONTIENT_NAME_LABEL = "Continent Name";
-    
-    /** The Constant CONTINENT_CONTROL_VALUE_LABEL. */
+    private static final String CONTINENT_NAME_LABEL = "Continent Name";
     private static final String CONTINENT_CONTROL_VALUE_LABEL = "Control Value";
-    
-    /** The Constant CONTINENT_TERRITORIES_LABEL. */
     private static final String CONTINENT_TERRITORIES_LABEL = "Choose Territories";
-    
-    /** The Constant LAYOUT_ROWS. */
     private static final int LAYOUT_ROWS = 3;
-    
-    /** The Constant LAYOUT_COLS. */
     private static final int LAYOUT_COLS = 2;
-    
-    /** The continents list dropdown. */
     private JComboBox<String> continentsListDropdown;
-    
-    /** The continent name text. */
     private JTextField continentNameText;
-    
-    /** The contient control value text. */
-    private JTextField contientControlValueText;
-    
-    /** The check box panel. */
+    private JTextField continentControlValueText;
     private JPanel checkBoxPanel;
-    
-    /** The save continent button. */
     private JButton saveContinentButton;
-    
-    /** The remove continent button. */
     private JButton removeContinentButton;
     // endregion
     
     // region Constructors
+    
     /**
      * Instantiates a new edits the continent panel.
      */
@@ -79,8 +54,9 @@ public class EditContinentPanel extends JPanel implements Observer {
     // endregion
     
     // region Private methods
+    
     /**
-     * Setup components.
+     * Setup UI components for the Edit Continent Panel.
      */
     private void setupComponents() {
         /* Setup grid panel */
@@ -91,17 +67,17 @@ public class EditContinentPanel extends JPanel implements Observer {
         continentsListDropdown = new JComboBox<>();
         gridPanel.add(continentsListDropdown);
         
-        JLabel continentNameLabel = new JLabel(CONTIENT_NAME_LABEL);
+        JLabel continentNameLabel = new JLabel(CONTINENT_NAME_LABEL);
         continentNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gridPanel.add(continentNameLabel);
         continentNameText = new JTextField();
         gridPanel.add(continentNameText);
         
-        JLabel contientControlValueLabel = new JLabel(CONTINENT_CONTROL_VALUE_LABEL);
-        contientControlValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        gridPanel.add(contientControlValueLabel);
-        contientControlValueText = new JTextField();
-        gridPanel.add(contientControlValueText);
+        JLabel continentControlValueLabel = new JLabel(CONTINENT_CONTROL_VALUE_LABEL);
+        continentControlValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        gridPanel.add(continentControlValueLabel);
+        continentControlValueText = new JTextField();
+        gridPanel.add(continentControlValueText);
         
         add(gridPanel);
         
@@ -131,12 +107,31 @@ public class EditContinentPanel extends JPanel implements Observer {
     private void setAllComponentsEnable(boolean isEnable) {
         continentsListDropdown.setEnabled(isEnable);
         continentNameText.setEnabled(isEnable);
-        contientControlValueText.setEnabled(isEnable);
+        continentControlValueText.setEnabled(isEnable);
         saveContinentButton.setEnabled(isEnable);
     }
     // endregion
     
     // region Getters & Setters
+    
+    /**
+     * Gets the save button label.
+     *
+     * @return the save button label
+     */
+    public static String getSaveButtonLabel() {
+        return SAVE_BUTTON_LABEL;
+    }
+    
+    /**
+     * Gets the adds the button label.
+     *
+     * @return the adds the button label
+     */
+    public static String getAddButtonLabel() {
+        return ADD_BUTTON_LABEL;
+    }
+    
     /**
      * Gets the continent name text.
      *
@@ -147,12 +142,12 @@ public class EditContinentPanel extends JPanel implements Observer {
     }
     
     /**
-     * Gets the contient control value text.
+     * Gets the continent control value text.
      *
-     * @return the contient control value text
+     * @return the continent control value text
      */
-    public JTextField getContientControlValueText() {
-        return contientControlValueText;
+    public JTextField getContinentControlValueText() {
+        return continentControlValueText;
     }
     
     /**
@@ -190,27 +185,10 @@ public class EditContinentPanel extends JPanel implements Observer {
     public JComboBox<String> getContinentsListDropdown() {
         return continentsListDropdown;
     }
-    
-    /**
-     * Gets the save button label.
-     *
-     * @return the save button label
-     */
-    public static String getSaveButtonLabel() {
-        return SAVE_BUTTON_LABEL;
-    }
-    
-    /**
-     * Gets the adds the button label.
-     *
-     * @return the adds the button label
-     */
-    public static String getAddButtonLabel() {
-        return ADD_BUTTON_LABEL;
-    }
     // endregion
     
     // region MVC & Observer pattern
+    
     /**
      * Adds the continents list dropdown listener.
      *
