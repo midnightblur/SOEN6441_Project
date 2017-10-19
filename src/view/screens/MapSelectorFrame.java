@@ -133,7 +133,7 @@ public class MapSelectorFrame extends JFrame implements Observer {
     private void setupContentPane() {
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-        contentPane.setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
+        contentPane.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
         
         JLabel selectMap = new JLabel(SELECT_MAP_LABEL);
         selectMap.setAlignmentX(Component.CENTER_ALIGNMENT);

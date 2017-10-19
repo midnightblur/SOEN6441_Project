@@ -130,6 +130,7 @@ public class EditMapPanel extends JPanel implements Observer{
      * Setup editing area.
      */
     private void setupEditingArea() {
+        setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
         JTabbedPane editTabbedPane = new JTabbedPane();
         editContinentPanel = new EditContinentPanel();
         editTabbedPane.addTab(TAB_CONTINENT_LABEL, editContinentPanel);

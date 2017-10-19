@@ -80,10 +80,10 @@ public class TradeCardsPanel extends JPanel implements Observer {
         
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
+        setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
         JPanel controlWrapper = new JPanel();
         controlWrapper.setLayout(new BoxLayout(controlWrapper, BoxLayout.PAGE_AXIS));
-        cardList.setLayout(new GridLayout(4, 5));
+        cardList.setLayout(new GridLayout(5, 4));
         JPanel topGrid = new JPanel(new GridLayout(4, 1));
         JPanel bottomGrid = new JPanel(new GridLayout(7, 1));
         
