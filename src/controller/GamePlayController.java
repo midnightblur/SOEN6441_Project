@@ -34,19 +34,13 @@ import static utilities.Config.GAME_STATES.*;
 public class GamePlayController {
     
     // region Attributes declaration
-    /**
-     * The caller controller.
-     */
+    /** The caller controller. */
     private MainMenuController callerController;
     
-    /**
-     * The game play frame.
-     */
+    /** The game play frame. */
     private GamePlayFrame gamePlayFrame;
     
-    /**
-     * The game play model.
-     */
+    /** The game play model. */
     private GamePlayModel gamePlayModel;
     // endregion
     
@@ -76,6 +70,7 @@ public class GamePlayController {
     // endregion
     
     // region Private methods
+    
     /**
      * Register observers to observable.
      */
@@ -116,6 +111,7 @@ public class GamePlayController {
     }
     
     // region For Setup Phase
+    
     /**
      * Start the game.
      */
@@ -156,6 +152,14 @@ public class GamePlayController {
     // region For Reinforcement Phase
     
     /**
+     * Shows the controller responsible for trading cards.
+     */
+    private void goToTradeCardsPanel() {
+        CardLayout cardLayout = (CardLayout) gamePlayFrame.getReinforcementPanel().getCardsPanel().getLayout();
+        cardLayout.show(gamePlayFrame.getReinforcementPanel().getCardsPanel(), ReinforcementPanel.getTradeCardsPanelName());
+    }
+    
+    /**
      * Looping through view table, get the quantity of armies for each territory
      * then place them using the placeArmiesReinforcement in the model.
      */
@@ -186,6 +190,21 @@ public class GamePlayController {
     }
     
     /**
+     * Go to fortification phase.
+     */
+    private void goToFortificationPhase() {
+        // TODO: this needs fixing so it correctly returns to previous phase
+        // TODO: (see true condition in the game and possibly have a setter for it under currentPlayer)
+        // riskGame.moveArmiesFortification();
+        if (gamePlayModel.getCurrentPlayer().getUnallocatedArmies() != 0 || gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
+            UIHelper.displayMessage(gamePlayFrame, "You have to allocate all of your armies or trade in your cards");
+        } else {
+            gamePlayModel.setGameState(FORTIFICATION);
+        }
+        
+    }
+    
+    /**
      * Collect the selected cards from UI and trade them by calling the tradeInCards() from the model.
      */
     private void tradeSelectedCards() {
@@ -205,34 +224,11 @@ public class GamePlayController {
     }
     
     /**
-     * Shows the controller responsible for trading cards.
-     */
-    private void goToTradeCardsPanel() {
-        CardLayout cardLayout = (CardLayout) gamePlayFrame.getReinforcementPanel().getCardsPanel().getLayout();
-        cardLayout.show(gamePlayFrame.getReinforcementPanel().getCardsPanel(), ReinforcementPanel.getTradeCardsPanelName());
-    }
-    
-    /**
      * Back to reinforcement panel.
      */
     private void backToReinforcementPanel() {
         CardLayout cardLayout = (CardLayout) gamePlayFrame.getReinforcementPanel().getCardsPanel().getLayout();
         cardLayout.show(gamePlayFrame.getReinforcementPanel().getCardsPanel(), ReinforcementPanel.getControlWrapperPanelName());
-    }
-    
-    /**
-     * Go to fortification phase.
-     */
-    private void goToFortificationPhase() {
-        // TODO: this needs fixing so it correctly returns to previous phase
-        // TODO: (see true condition in the game and possibly have a setter for it under currentPlayer)
-        // riskGame.moveArmiesFortification();
-        if (gamePlayModel.getCurrentPlayer().getUnallocatedArmies() != 0 || gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
-            UIHelper.displayMessage(gamePlayFrame, "You have to allocate all of your armies or trade in your cards");
-        } else {
-            gamePlayModel.setGameState(FORTIFICATION);
-        }
-        
     }
     // endregion
     

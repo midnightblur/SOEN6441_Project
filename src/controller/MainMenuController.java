@@ -22,14 +22,10 @@ import javax.swing.*;
 public class MainMenuController extends JFrame {
     
     // region Attributes declaration
-    /**
-     * The main menu frame.
-     */
+    /** The main menu frame. */
     private MainMenuFrame mainMenuFrame;
     
-    /**
-     * The map selector frame.
-     */
+    /** The map selector frame. */
     private MapSelectorFrame mapSelectorFrame;
     // endregion
     
@@ -47,12 +43,12 @@ public class MainMenuController extends JFrame {
     // region Getters & Setters
     
     /**
-     * Gets the main menu frame.
-     *
-     * @return the main menu frame
+     * Register to be listener.
      */
-    public MainMenuFrame getMainMenuFrame() {
-        return mainMenuFrame;
+    private void registerToBeListener() {
+        mainMenuFrame.addMapEditorButtonListener(e -> openMapEditorScreen());
+        mainMenuFrame.addPlayGameButtonListener(e -> openPlayGameScreen());
+        mainMenuFrame.addQuitButtonListener(e -> exitGame());
     }
     
     // endregion
@@ -62,15 +58,6 @@ public class MainMenuController extends JFrame {
     // endregion
     
     // region Private methods
-    
-    /**
-     * Register to be listener.
-     */
-    private void registerToBeListener() {
-        mainMenuFrame.addMapEditorButtonListener(e -> openMapEditorScreen());
-        mainMenuFrame.addPlayGameButtonListener(e -> openPlayGameScreen());
-        mainMenuFrame.addQuitButtonListener(e -> exitGame());
-    }
     
     /**
      * Open map editor screen.
@@ -93,6 +80,15 @@ public class MainMenuController extends JFrame {
      */
     private void exitGame() {
         UIHelper.closeFrame(mainMenuFrame);
+    }
+    
+    /**
+     * Gets the main menu frame.
+     *
+     * @return the main menu frame
+     */
+    public MainMenuFrame getMainMenuFrame() {
+        return mainMenuFrame;
     }
     // endregion
 }

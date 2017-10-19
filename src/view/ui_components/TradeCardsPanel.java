@@ -56,10 +56,11 @@ public class TradeCardsPanel extends JPanel implements Observer {
     /** The back to reinforcement button. */
     private JButton backToReinforcementButton;
     
+    // region Constructors
+    
     /**
      * Instantiates a new trade cards panel.
      */
-    // region Constructors
     public TradeCardsPanel() {
         /* Instantiate elements */
         JLabel gameState = new JLabel();
@@ -109,23 +110,12 @@ public class TradeCardsPanel extends JPanel implements Observer {
     // endregion
     
     // region Getters & Setters
-    /**
-     * Gets the card list.
-     *
-     * @return the card list
-     */
-    public JPanel getCardList() {
-        return cardList;
-    }
     
     public void setGainedArmiesLabel(int armyValue) {
         gainedArmiesLabel.setVisible(true);
         gainedArmiesLabel.setText(GAINED_ARMIES_LABEL + armyValue);
     }
     
-    // endregion
-    
-    // region MVC & Observer pattern methods
     /**
      * Adds the trade cards button listener.
      *
@@ -134,6 +124,10 @@ public class TradeCardsPanel extends JPanel implements Observer {
     public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
         tradeCards.addActionListener(listenerForTradeCardsButton);
     }
+    
+    // endregion
+    
+    // region MVC & Observer pattern methods
     
     /**
      * Adds the back to reinforcement listener.
@@ -168,6 +162,15 @@ public class TradeCardsPanel extends JPanel implements Observer {
                 getCardList().repaint();
             }
         }
+    }
+    
+    /**
+     * Gets the card list.
+     *
+     * @return the card list
+     */
+    public JPanel getCardList() {
+        return cardList;
     }
     // endregion
 }

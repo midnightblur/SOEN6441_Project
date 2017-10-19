@@ -33,49 +33,31 @@ import java.util.Vector;
 public class MapEditorController {
     
     //region Attributes declaration
-    /**
-     * The Constant NONE_RADIO_BUTTON.
-     */
+    /** The Constant NONE_RADIO_BUTTON. */
     private static final String NONE_RADIO_BUTTON = "NONE";
     
-    /**
-     * The Constant CONTINENT_NAME_GENERATOR.
-     */
+    /** The Constant CONTINENT_NAME_GENERATOR. */
     private static final String CONTINENT_NAME_GENERATOR = "continent_";
     
-    /**
-     * The Constant TERRITORY_NAME_GENERATOR.
-     */
+    /** The Constant TERRITORY_NAME_GENERATOR. */
     private static final String TERRITORY_NAME_GENERATOR = "territory_";
     
-    /**
-     * The Constant DEFAULT_CONTROL_VALUE.
-     */
+    /** The Constant DEFAULT_CONTROL_VALUE. */
     private static final int DEFAULT_CONTROL_VALUE = 1;
     
-    /**
-     * The map editor frame.
-     */
+    /** The map editor frame. */
     private MapEditorFrame mapEditorFrame;
     
-    /**
-     * The map editor model.
-     */
+    /** The map editor model. */
     private MapEditorModel mapEditorModel;
     
-    /**
-     * The caller controller.
-     */
+    /** The caller controller. */
     private MainMenuController callerController;
     
-    /**
-     * The new continent ID.
-     */
+    /** The new continent ID. */
     private int newContinentID; // helps generate new continent name => faster demo
     
-    /**
-     * The new territory ID.
-     */
+    /** The new territory ID. */
     private int newTerritoryID; // helps generate new territory name => faster demo
     //endregion
     
@@ -302,17 +284,6 @@ public class MapEditorController {
     }
     
     /**
-     * This method is used to remove the continent.
-     */
-    private void removeContinentInfo() {
-        String continentName = String.valueOf(mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentsListDropdown().getSelectedItem());
-        String result = mapEditorModel.removeContinent(continentName);
-        if (result.compareTo(String.format(GameMap.getMsgContinentRemoveSuccess(), continentName)) != 0) {
-            UIHelper.displayMessage(mapEditorFrame, result);
-        }
-    }
-    
-    /**
      * Get information from Territory Editing area and save to GameMap object.
      */
     private void saveTerritoryInfo() {
@@ -351,6 +322,17 @@ public class MapEditorController {
             if (result.compareTo(String.format(GameMap.getMsgTerritoryEditSuccess(), newTerritoryName)) != 0) {
                 UIHelper.displayMessage(mapEditorFrame, result);
             }
+        }
+    }
+    
+    /**
+     * This method is used to remove the continent.
+     */
+    private void removeContinentInfo() {
+        String continentName = String.valueOf(mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentsListDropdown().getSelectedItem());
+        String result = mapEditorModel.removeContinent(continentName);
+        if (result.compareTo(String.format(GameMap.getMsgContinentRemoveSuccess(), continentName)) != 0) {
+            UIHelper.displayMessage(mapEditorFrame, result);
         }
     }
     
