@@ -22,8 +22,8 @@ import java.util.Vector;
  */
 public class Continent {
     
-    /** The name. */
     //region Attributes declaration
+    /** The name. */
     private String name;
     
     /** The territories. */
@@ -46,12 +46,12 @@ public class Continent {
     }
     //endregion
     
+    //region Getters & Setters
     /**
      * Gets the name.
      *
      * @return the name
      */
-    //region Getters & Setters
     public String getName() {
         return name;
     }

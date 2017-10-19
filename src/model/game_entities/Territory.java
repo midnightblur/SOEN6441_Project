@@ -18,8 +18,8 @@ import java.util.Vector;
  */
 public class Territory {
     
-    /** The name. */
     //region Attributes declaration
+    /** The name. */
     private String name;
     
     /** The continent. */

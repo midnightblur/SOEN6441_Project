@@ -32,8 +32,8 @@ import java.util.Vector;
  */
 public class MapEditorController {
     
-    /** The Constant NONE_RADIO_BUTTON. */
     //region Attributes declaration
+    /** The Constant NONE_RADIO_BUTTON. */
     private static final String NONE_RADIO_BUTTON = "NONE";
     
     /** The Constant CONTINENT_NAME_GENERATOR. */
@@ -61,12 +61,12 @@ public class MapEditorController {
     private int newTerritoryID; // helps generate new territory name => faster demo
     //endregion
     
+    //region Constructors
     /**
      * Instantiates a new map editor controller.
      *
      * @param mainMenuController the main menu controller
      */
-    //region Constructors
     public MapEditorController(MainMenuController mainMenuController) {
         this.callerController = mainMenuController;
         newContinentID = 0;

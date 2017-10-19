@@ -33,14 +33,20 @@ import static utilities.Config.GAME_STATES.*;
  */
 public class GamePlayController {
     
-    /** The caller controller. */
     // region Attributes declaration
+    /**
+     * The caller controller.
+     */
     private MainMenuController callerController;
     
-    /** The game play frame. */
+    /**
+     * The game play frame.
+     */
     private GamePlayFrame gamePlayFrame;
     
-    /** The game play model. */
+    /**
+     * The game play model.
+     */
     private GamePlayModel gamePlayModel;
     // endregion
     
@@ -51,7 +57,7 @@ public class GamePlayController {
      * responsible for launching the game phases.
      *
      * @param callerController the caller controller
-     * @param gameMap The already loaded map for the game
+     * @param gameMap          The already loaded map for the game
      */
     public GamePlayController(MainMenuController callerController, GameMap gameMap) {
         this.callerController = callerController;
@@ -148,6 +154,7 @@ public class GamePlayController {
     // endregion
     
     // region For Reinforcement Phase
+    
     /**
      * Looping through view table, get the quantity of armies for each territory
      * then place them using the placeArmiesReinforcement in the model.
@@ -243,15 +250,15 @@ public class GamePlayController {
             
             if ((quantity > 0) && targetTerritory.compareTo("No neighbors owned. Please select another territory") != 0) {
                 String message = gamePlayModel.moveArmiesFortification(sourceTerritory, targetTerritory, quantity);
-                UIHelper.displayMessage(gamePlayFrame,message);
+                UIHelper.displayMessage(gamePlayFrame, message);
             } else {
-                UIHelper.displayMessage(gamePlayFrame,"Please validate your selection.");
+                UIHelper.displayMessage(gamePlayFrame, "Please validate your selection.");
             }
         } catch (ClassCastException | NumberFormatException nfe) {
             UIHelper.displayMessage(gamePlayFrame, "Invalid entry. Please re-enter a number.");
         }
     }
-
+    
     /**
      * Update target territories dropdown.
      *
