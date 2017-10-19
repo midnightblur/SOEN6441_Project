@@ -6,8 +6,8 @@
  */
 package game_play.view.ui_components;
 
-import shared_resources.game_entities.Card;
 import game_play.model.GamePlayModel;
+import shared_resources.game_entities.Card;
 import shared_resources.utilities.Config.GAME_STATES;
 
 import javax.swing.*;
@@ -111,9 +111,14 @@ public class TradeCardsPanel extends JPanel implements Observer {
     
     // region Getters & Setters
     
-    public void setGainedArmiesLabel(int armyValue) {
+    /**
+     * Sets the label for the gained armies while trading cards
+     *
+     * @param gainedArmies the quantity of armies gained
+     */
+    public void setGainedArmiesLabel(int gainedArmies) {
         gainedArmiesLabel.setVisible(true);
-        gainedArmiesLabel.setText(GAINED_ARMIES_LABEL + armyValue);
+        gainedArmiesLabel.setText(GAINED_ARMIES_LABEL + gainedArmies);
     }
     
     /**
