@@ -4,7 +4,7 @@
  * Version 1.0
  * Oct 18, 2017
  */
-import controller.MainMenuController;
+import game_play.controller.MainMenuController;
 
 /**
  * Main driver class is responsible for starting the Application.

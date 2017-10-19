@@ -6,13 +6,13 @@
  */
 package model;
 
-import model.game_entities.Continent;
-import model.game_entities.GameMap;
-import model.game_entities.Territory;
-import model.helpers.GameMapHelper;
+import shared_resources.game_entities.Continent;
+import shared_resources.game_entities.GameMap;
+import shared_resources.game_entities.Territory;
+import shared_resources.helper.GameMapHelper;
 import org.junit.Before;
 import org.junit.Test;
-import utilities.Config;
+import shared_resources.utilities.Config;
 
 import static org.junit.Assert.*;
 

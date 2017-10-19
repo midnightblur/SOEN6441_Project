@@ -6,7 +6,7 @@
  */
 package model;
 
-import model.game_entities.Continent;
+import shared_resources.game_entities.Continent;
 import org.junit.Before;
 import org.junit.Test;
 

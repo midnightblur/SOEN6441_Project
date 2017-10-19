@@ -6,7 +6,7 @@
  */
 package model;
 
-import model.game_entities.Territory;
+import shared_resources.game_entities.Territory;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

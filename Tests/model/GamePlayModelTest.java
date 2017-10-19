@@ -6,17 +6,15 @@
  */
 package model;
 
-import model.game_entities.Continent;
-import model.game_entities.Player;
-import model.game_entities.Territory;
-import model.helpers.GameMapHelper;
-import model.ui_models.GamePlayModel;
+import shared_resources.game_entities.Continent;
+import shared_resources.game_entities.Player;
+import shared_resources.game_entities.Territory;
+import shared_resources.helper.GameMapHelper;
+import game_play.model.GamePlayModel;
 import org.junit.Before;
 import org.junit.Test;
-import utilities.Config;
 
 import java.util.Map;
-import java.util.Vector;
 
 import static org.junit.Assert.*;
 
@@ -25,7 +23,7 @@ import static org.junit.Assert.*;
  */
 public class GamePlayModelTest {
     
-    /** The game play model. */
+    /** The game play game_entities. */
     GamePlayModel gamePlayModel;
     
     /** The num of players. */
@@ -46,7 +44,7 @@ public class GamePlayModelTest {
     }
     
     /**
-     * Game play model test case.
+     * Game play game_entities test case.
      */
     @Test
     public void gamePlayModelTestCase() {

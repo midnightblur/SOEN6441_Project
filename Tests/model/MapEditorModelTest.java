@@ -6,20 +6,20 @@
  */
 package model;
 
-import model.game_entities.GameMap;
-import model.helpers.GameMapHelper;
-import model.ui_models.MapTableModel;
+import shared_resources.game_entities.GameMap;
+import shared_resources.helper.GameMapHelper;
+import game_play.model.MapTableModel;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import utilities.Config;
+import shared_resources.utilities.Config;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static utilities.Config.MAPS_FOLDER;
+import static shared_resources.utilities.Config.MAPS_FOLDER;
 
 /**
  * The Class MapEditorModelTest.
@@ -35,7 +35,7 @@ public class MapEditorModelTest {
     /** The output map. */
     private static GameMap outputMap;
     
-    /** The map table model. */
+    /** The map table game_entities. */
     private static MapTableModel mapTableModel;
     
     /**
