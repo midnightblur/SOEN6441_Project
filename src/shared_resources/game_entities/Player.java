@@ -6,11 +6,10 @@
  */
 package shared_resources.game_entities;
 
-import shared_resources.utilities.Config;
-
 import java.awt.*;
-import java.util.Random;
 import java.util.Vector;
+
+import static shared_resources.utilities.Config.PLAYER_COLOR;
 
 /**
  * Each Player in a new game has a unique ID number (starting from 1) and the isBot status
@@ -21,9 +20,6 @@ public class Player {
     // region Attributes declaration
     /** The next ID. */
     private static int nextID = 0;
-    
-    /** The rand. */
-    private Random rand;
     
     /** The color. */
     private Color color;
@@ -50,12 +46,11 @@ public class Player {
      * Instantiates a new player.
      */
     public Player() {
-        rand = new Random();
         playerID = ++Player.nextID;
         playerName = "Player " + playerID;
         playersHand = new Vector<>();
         territories = new Vector<>();
-        color = Config.PLAYER_COLOR[playerID - 1];
+        color = PLAYER_COLOR[playerID - 1];
     }
     // endregion
     
@@ -89,7 +84,7 @@ public class Player {
     }
     
     /**
-     * Gets the color.
+     * Gets the color of a player.
      *
      * @return the color
      */

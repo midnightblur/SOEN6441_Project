@@ -6,20 +6,39 @@
  */
 package model;
 
+import org.junit.Before;
 import org.junit.Test;
+import shared_resources.game_entities.Player;
+
+import static org.junit.Assert.assertEquals;
+import static shared_resources.utilities.Config.PLAYER_COLOR;
 
 /**
- * The Class PlayerTest.
+ * The Class PlayerTest tests the player colour.
  */
 public class PlayerTest {
+    private Player[] arrayOfPlayers = new Player[6];
     
     /**
-     * Gets the id.
-     *
-     * @throws Exception the exception
+     * Makes an array of 6 players
+     */
+    @Before
+    public void setUp() {
+        for (int i = 0; i < 6; i++) {
+            arrayOfPlayers[i] = new Player();
+        }
+    }
+    
+    /**
+     * Tests the correct color of the players.
      */
     @Test
-    public void getID() throws Exception {
+    public void getColor() {
+        System.out.println("Testing if players colours are the designated ones...");
+        for (int i = 0; i < 6; i++) {
+            System.out.println("Expected color: " + PLAYER_COLOR[i] + "Actual color: " + arrayOfPlayers[i].getColor());
+            assertEquals(PLAYER_COLOR[i], arrayOfPlayers[i].getColor());
+        }
     }
-
+    
 }
