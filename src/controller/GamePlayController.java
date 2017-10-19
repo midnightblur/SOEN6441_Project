@@ -75,10 +75,10 @@ public class GamePlayController {
     }
     // endregion
     
+    // region Private methods
     /**
      * Register observers to observable.
      */
-    // region Private methods
     private void registerObserversToObservable() {
         gamePlayModel.addObserver(gamePlayFrame);
         gamePlayModel.addObserver(gamePlayFrame.getGameMapTable());
@@ -115,10 +115,10 @@ public class GamePlayController {
         gamePlayFrame.getFortificationPanel().addNextPlayerButtonListener(e -> changeToNextPlayer());
     }
     
+    // region For Setup Phase
     /**
      * Start the game.
      */
-    // region For Setup Phase
     private void startTheGame() {
         /* initialize the game */
         try {

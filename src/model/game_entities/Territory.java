@@ -60,12 +60,12 @@ public class Territory {
     }
     //endregion
     
+    // region Getters & Setters
     /**
      * Gets the name.
      *
      * @return the name
      */
-    // region Getters & Setters
     public String getName() {
         return name;
     }

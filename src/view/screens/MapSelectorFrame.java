@@ -22,62 +22,83 @@ import static view.helpers.UIHelper.addVerticalSpacing;
  */
 public class MapSelectorFrame extends JFrame implements Observer {
     
-    /** The Constant TITLE. */
     // region Attributes declaration
+    /**
+     * The Constant TITLE.
+     */
     private static final String TITLE = "Selecting a map to play";
     
-    /** The Constant PLAY_GAME_BUTTON. */
+    /**
+     * The Constant PLAY_GAME_BUTTON.
+     */
     private static final String PLAY_GAME_BUTTON = "Play Game";
     
-    /** The Constant BACK_BUTTON. */
+    /**
+     * The Constant BACK_BUTTON.
+     */
     private static final String BACK_BUTTON = "Back";
     
-    /** The Constant SELECT_MAP_LABEL. */
+    /**
+     * The Constant SELECT_MAP_LABEL.
+     */
     private static final String SELECT_MAP_LABEL = "Select a map:";
     
-    /** The Constant WIDTH. */
+    /**
+     * The Constant WIDTH.
+     */
     private static final int WIDTH = 500;
     
-    /** The Constant HEIGHT. */
+    /**
+     * The Constant HEIGHT.
+     */
     private static final int HEIGHT = 230;
     
-    /** The map dropdown. */
+    /**
+     * The map dropdown.
+     */
     private JComboBox<String> mapDropdown;
     
-    /** The play game btn. */
+    /**
+     * The play game btn.
+     */
     private JButton playGameBtn;
     
-    /** The back btn. */
+    /**
+     * The back btn.
+     */
     private JButton backBtn;
     // endregion
+    
+    // region Constructors
     
     /**
      * Instantiates a new map selector frame.
      */
-    // region Constructors
     public MapSelectorFrame() {
         setupContentPane();
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
     }
     // endregion
     
+    // region Getters & Setters
+    
     /**
      * Gets the map dropdown.
      *
      * @return the map dropdown
      */
-    // region Getters & Setters
     public JComboBox<String> getMapDropdown() {
         return mapDropdown;
     }
     // endregion
+    
+    // region MVC & Observer pattern methods
     
     /**
      * Adds the play game button listener.
      *
      * @param listenerForPlayGameButton the listener for play game button
      */
-    // region MVC & Observer pattern methods
     public void addPlayGameButtonListener(ActionListener listenerForPlayGameButton) {
         playGameBtn.addActionListener(listenerForPlayGameButton);
     }
@@ -92,10 +113,10 @@ public class MapSelectorFrame extends JFrame implements Observer {
     }
     // endregion
     
+    // region Public methods
     /* (non-Javadoc)
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
-    // region Public methods
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof MapEditorModel) {
@@ -104,15 +125,16 @@ public class MapSelectorFrame extends JFrame implements Observer {
     }
     // endregion
     
+    // region Private methods
+    
     /**
      * Setup content pane.
      */
-    // region Private methods
     private void setupContentPane() {
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
         contentPane.setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
-    
+        
         JLabel selectMap = new JLabel(SELECT_MAP_LABEL);
         selectMap.setAlignmentX(Component.CENTER_ALIGNMENT);
         contentPane.add(selectMap);
@@ -121,7 +143,7 @@ public class MapSelectorFrame extends JFrame implements Observer {
         mapDropdown.setAlignmentX(Component.CENTER_ALIGNMENT);
         contentPane.add(mapDropdown);
         addVerticalSpacing(contentPane);
-    
+        
         JPanel btnsPanel = new JPanel(new FlowLayout());
         backBtn = new JButton(BACK_BUTTON);
         backBtn.setAlignmentX(Component.CENTER_ALIGNMENT);

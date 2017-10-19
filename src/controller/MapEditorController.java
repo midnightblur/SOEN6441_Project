@@ -33,35 +33,54 @@ import java.util.Vector;
 public class MapEditorController {
     
     //region Attributes declaration
-    /** The Constant NONE_RADIO_BUTTON. */
+    /**
+     * The Constant NONE_RADIO_BUTTON.
+     */
     private static final String NONE_RADIO_BUTTON = "NONE";
     
-    /** The Constant CONTINENT_NAME_GENERATOR. */
+    /**
+     * The Constant CONTINENT_NAME_GENERATOR.
+     */
     private static final String CONTINENT_NAME_GENERATOR = "continent_";
     
-    /** The Constant TERRITORY_NAME_GENERATOR. */
+    /**
+     * The Constant TERRITORY_NAME_GENERATOR.
+     */
     private static final String TERRITORY_NAME_GENERATOR = "territory_";
     
-    /** The Constant DEFAULT_CONTROL_VALUE. */
+    /**
+     * The Constant DEFAULT_CONTROL_VALUE.
+     */
     private static final int DEFAULT_CONTROL_VALUE = 1;
     
-    /** The map editor frame. */
+    /**
+     * The map editor frame.
+     */
     private MapEditorFrame mapEditorFrame;
     
-    /** The map editor model. */
+    /**
+     * The map editor model.
+     */
     private MapEditorModel mapEditorModel;
     
-    /** The caller controller. */
+    /**
+     * The caller controller.
+     */
     private MainMenuController callerController;
     
-    /** The new continent ID. */
+    /**
+     * The new continent ID.
+     */
     private int newContinentID; // helps generate new continent name => faster demo
     
-    /** The new territory ID. */
+    /**
+     * The new territory ID.
+     */
     private int newTerritoryID; // helps generate new territory name => faster demo
     //endregion
     
     //region Constructors
+    
     /**
      * Instantiates a new map editor controller.
      *
@@ -100,6 +119,7 @@ public class MapEditorController {
     //endregion
     
     //region Methods to handle events from UI
+    
     /**
      * Update the GameMap object from the selected items from DropdownList.
      */
@@ -280,7 +300,7 @@ public class MapEditorController {
             UIHelper.displayMessage(mapEditorFrame, e.getMessage());
         }
     }
-
+    
     /**
      * This method is used to remove the continent.
      */
@@ -333,7 +353,7 @@ public class MapEditorController {
             }
         }
     }
-
+    
     /**
      * This method is used when territory has to be removed.
      */
@@ -344,7 +364,7 @@ public class MapEditorController {
             UIHelper.displayMessage(mapEditorFrame, result);
         }
     }
-
+    
     /**
      * This method is used to save the map.
      */

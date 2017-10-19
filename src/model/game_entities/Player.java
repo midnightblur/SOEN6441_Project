@@ -18,8 +18,8 @@ import java.util.Vector;
  */
 public class Player {
     
-    /** The next ID. */
     // region Attributes declaration
+    /** The next ID. */
     private static int nextID = 0;
     
     /** The rand. */
@@ -44,10 +44,10 @@ public class Player {
     private Vector<Territory> territories;
     // endregion
     
+    // region Constructors
     /**
      * Instantiates a new player.
      */
-    // region Constructors
     public Player() {
         rand = new Random();
         playerID = ++Player.nextID;
@@ -58,12 +58,12 @@ public class Player {
     }
     // endregion
     
+    // region Getters & Setters
     /**
      * Gets the player ID.
      *
      * @return the player ID
      */
-    // region Getters & Setters
     public int getPlayerID() {
         return this.playerID;
     }

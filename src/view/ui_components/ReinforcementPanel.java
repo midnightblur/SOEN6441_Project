@@ -29,8 +29,8 @@ import static view.helpers.UIHelper.addVerticalSpacing;
  */
 public class ReinforcementPanel extends JPanel implements Observer {
     
-    /** The Constant CONTROL_WRAPPER_PANEL_NAME. */
     // region Attributes declaration
+    /** The Constant CONTROL_WRAPPER_PANEL_NAME. */
     private static final String CONTROL_WRAPPER_PANEL_NAME = "ControlWrapper";
     
     /** The Constant TRADE_CARDS_PANEL_NAME. */
@@ -82,10 +82,10 @@ public class ReinforcementPanel extends JPanel implements Observer {
     private JLabel totalArmiesToPlace;
     // endregion
     
+    // region Constructors
     /**
      * Instantiates a new reinforcement panel.
      */
-    // region Constructors
     public ReinforcementPanel() {
         cardsPanel = new JPanel(new CardLayout());
         JLabel gameState = new JLabel();
@@ -148,12 +148,12 @@ public class ReinforcementPanel extends JPanel implements Observer {
     }
     // endregion
     
+    // region Getters & Setters
     /**
      * Gets the player territory table.
      *
      * @return the player territory table
      */
-    // region Getters & Setters
     public JTable getPlayerTerritoryTable() {
         return playerTerritoryTable;
     }
@@ -196,12 +196,12 @@ public class ReinforcementPanel extends JPanel implements Observer {
     
     // endregion
     
+    // region MVC & Observer pattern methods
     /**
      * Adds the place armies button listener.
      *
      * @param listenerForPlaceArmiesButton the listener for place armies button
      */
-    // region MVC & Observer pattern methods
     public void addPlaceArmiesButtonListener(ActionListener listenerForPlaceArmiesButton) {
         placeArmiesButton.addActionListener(listenerForPlaceArmiesButton);
     }

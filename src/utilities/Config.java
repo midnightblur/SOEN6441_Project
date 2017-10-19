@@ -20,28 +20,44 @@ public class Config {
      */
     public enum GAME_STATES {
         
-        /** The setup. */
+        /**
+         * The setup.
+         */
         SETUP(0),
         
-        /** The entry menu. */
+        /**
+         * The entry menu.
+         */
         ENTRY_MENU(1),
         
-        /** The map editor. */
+        /**
+         * The map editor.
+         */
         MAP_EDITOR(2),
         
-        /** The startup. */
-        STARTUP(3),   
-   /** The reinforcement. */
-   // distribute territories and armies
+        /**
+         * The startup.
+         */
+        STARTUP(3),
+        /**
+         * The reinforcement.
+         */
+        // distribute territories and armies
         REINFORCEMENT(4),
         
-        /** The attacking. */
+        /**
+         * The attacking.
+         */
         ATTACKING(5),
         
-        /** The fortification. */
+        /**
+         * The fortification.
+         */
         FORTIFICATION(6);
         
-        /** The value. */
+        /**
+         * The value.
+         */
         int value;
         
         /**
@@ -63,7 +79,9 @@ public class Config {
         }
     }
     
-    /** The Constant PLAYER_COLOR. */
+    /**
+     * The Constant PLAYER_COLOR.
+     */
     public static final Color[] PLAYER_COLOR = {
             Color.BLUE,
             Color.RED,
@@ -73,127 +91,204 @@ public class Config {
             Color.ORANGE.darker().darker()
     };
     
-    /** The Constant MAPS_MIN_TERRITORIES. */
     // Constants for reading GameMap Text File
+    /**
+     * The Constant MAPS_MIN_TERRITORIES.
+     */
     public static final int MAPS_MIN_TERRITORIES = 1;
     
-    /** The Constant MAPS_MAX_TERRITORIES. */
+    /**
+     * The Constant MAPS_MAX_TERRITORIES.
+     */
     public static final int MAPS_MAX_TERRITORIES = 255;
     
-    /** The Constant MAPS_MIN_CONTINENTS. */
+    /**
+     * The Constant MAPS_MIN_CONTINENTS.
+     */
     public static final int MAPS_MIN_CONTINENTS = 1;
     
-    /** The Constant MAPS_MAX_CONTINENTS. */
+    /**
+     * The Constant MAPS_MAX_CONTINENTS.
+     */
     public static final int MAPS_MAX_CONTINENTS = 32;
     
-    /** The Constant MAPS_MIN_NEIGHBORS. */
+    /**
+     * The Constant MAPS_MIN_NEIGHBORS.
+     */
     public static final int MAPS_MIN_NEIGHBORS = 1;
     
-    /** The Constant MAPS_MAX_NEIGHBORS. */
+    /**
+     * The Constant MAPS_MAX_NEIGHBORS.
+     */
     public static final int MAPS_MAX_NEIGHBORS = 10;
     
-    /** The Constant MAPS_EXTENSION. */
+    /**
+     * The Constant MAPS_EXTENSION.
+     */
     public static final String MAPS_EXTENSION = ".map";
     
-    /** The Constant MAPS_AUTHOR. */
+    /**
+     * The Constant MAPS_AUTHOR.
+     */
     public static final String MAPS_AUTHOR = "author";
     
-    /** The Constant MAPS_IMAGE. */
+    /**
+     * The Constant MAPS_IMAGE.
+     */
     public static final String MAPS_IMAGE = "image";
     
-    /** The Constant MAPS_WRAP. */
+    /**
+     * The Constant MAPS_WRAP.
+     */
     public static final String MAPS_WRAP = "wrap";
     
-    /** The Constant MAPS_SCROLL. */
+    /**
+     * The Constant MAPS_SCROLL.
+     */
     public static final String MAPS_SCROLL = "scroll";
     
-    /** The Constant MAPS_WARN. */
+    /**
+     * The Constant MAPS_WARN.
+     */
     public static final String MAPS_WARN = "warn";
     
-    /** The Constant MAPS_FLAG_MAP. */
+    /**
+     * The Constant MAPS_FLAG_MAP.
+     */
     public static final String MAPS_FLAG_MAP = "[Map]";
     
-    /** The Constant MAPS_FLAG_CONTINENTS. */
+    /**
+     * The Constant MAPS_FLAG_CONTINENTS.
+     */
     public static final String MAPS_FLAG_CONTINENTS = "[Continents]";
     
-    /** The Constant MAPS_FLAG_TERRITORIES. */
+    /**
+     * The Constant MAPS_FLAG_TERRITORIES.
+     */
     public static final String MAPS_FLAG_TERRITORIES = "[Territories]";
     
-    /** The Constant MAPS_DELIMETER_MAP. */
+    /**
+     * The Constant MAPS_DELIMETER_MAP.
+     */
     public static final String MAPS_DELIMETER_MAP = "=";
     
-    /** The Constant MAPS_DELIMETER_CONTINENTS. */
+    /**
+     * The Constant MAPS_DELIMETER_CONTINENTS.
+     */
     public static final String MAPS_DELIMETER_CONTINENTS = "=";
     
-    /** The Constant MAPS_DELIMETER_TERRITORIES. */
+    /**
+     * The Constant MAPS_DELIMETER_TERRITORIES.
+     */
     public static final String MAPS_DELIMETER_TERRITORIES = ",";
     
-    /** The Constant MAPS_DEFAULT_COORDINATION. */
+    /**
+     * The Constant MAPS_DEFAULT_COORDINATION.
+     */
     public static final String MAPS_DEFAULT_COORDINATION = "0,0";
     
-    /** The Constant MAPS_FOLDER. */
+    /**
+     * The Constant MAPS_FOLDER.
+     */
     public static final String MAPS_FOLDER = "Maps/";
     
-    /** The Constant DEFAULT_MAP. */
+    /**
+     * The Constant DEFAULT_MAP.
+     */
     public static final String DEFAULT_MAP = "World.map";
     
-    /** The Constant MAX_PIPS. */
-    //Constants for dice
+    /**
+     * The Constant MAX_PIPS.
+     */
     public static final int MAX_PIPS = 6;
     
-    /** The Constant DEFAULT_NUM_OF_PLAYERS. */
-    //Constants for army in RiskGame
+    /**
+     * The Constant DEFAULT_NUM_OF_PLAYERS.
+     */
     public static final int DEFAULT_NUM_OF_PLAYERS = 6;
     
-    /** The Constant INITIAL_ARMY_RATIO. */
+    /**
+     * The Constant INITIAL_ARMY_RATIO.
+     */
     public static final double INITIAL_ARMY_RATIO = 2.75;  // 2.75 for similar gameplay as official Risk Game
     
-    /** The Constant MSG_MAPFILE_ERROR_TITLE. */
-    //Messages' content for users
+    /**
+     * The Constant MSG_MAPFILE_ERROR_TITLE, messages' content for users
+     */
     public static final String MSG_MAPFILE_ERROR_TITLE = "The map file has error";
     
-    /** The Constant MSG_MAPFILE_VALID. */
+    /**
+     * The Constant MSG_MAPFILE_VALID.
+     */
     public static final String MSG_MAPFILE_VALID = "The file map is valid";
     
-    /** The Constant MSG_MAPFILE_INVALID_FORMAT. */
+    /**
+     * The Constant MSG_MAPFILE_INVALID_FORMAT.
+     */
     public static final String MSG_MAPFILE_INVALID_FORMAT = "Invalid format text file: line %s";
     
-    /** The Constant MSG_MAPFILE_INVALID_TERRITORIES_COUNT. */
+    /**
+     * The Constant MSG_MAPFILE_INVALID_TERRITORIES_COUNT.
+     */
     public static final String MSG_MAPFILE_INVALID_TERRITORIES_COUNT = "Invalid number of territories. Minimum number is " + MAPS_MIN_TERRITORIES + ", maximum number is " + MAPS_MAX_TERRITORIES;
     
-    /** The Constant MSG_MAPFILE_INVALID_CONTINENTS_COUNT. */
+    /**
+     * The Constant MSG_MAPFILE_INVALID_CONTINENTS_COUNT.
+     */
     public static final String MSG_MAPFILE_INVALID_CONTINENTS_COUNT = "Invalid number of continents. Minimum number is " + MAPS_MIN_CONTINENTS + ", maximum number is " + MAPS_MAX_CONTINENTS;
     
-    /** The Constant MSG_MAPFILE_INVALID_NEIGHBORS_COUNT. */
+    /**
+     * The Constant MSG_MAPFILE_INVALID_NEIGHBORS_COUNT.
+     */
     public static final String MSG_MAPFILE_INVALID_NEIGHBORS_COUNT = "%s has %s neighbors. Minimum number is " + MAPS_MIN_NEIGHBORS + ", maximum number is " + MAPS_MAX_NEIGHBORS;
     
-    /** The Constant MSG_MAPFILE_NO_NEIGHBORS. */
+    /**
+     * The Constant MSG_MAPFILE_NO_NEIGHBORS.
+     */
     public static final String MSG_MAPFILE_NO_NEIGHBORS = "%s has no neighbor";
     
-    /** The Constant MSG_MAPFILE_NO_CONTINENT. */
+    /**
+     * The Constant MSG_MAPFILE_NO_CONTINENT.
+     */
     public static final String MSG_MAPFILE_NO_CONTINENT = "%s doesn't belong to any continent";
     
-    /** The Constant MSG_MAPFILE_DISCONNECTED_GRAPH. */
+    /**
+     * The Constant MSG_MAPFILE_DISCONNECTED_GRAPH.
+     */
     public static final String MSG_MAPFILE_DISCONNECTED_GRAPH = "The graph is not connected";
     
-    /** The Constant MSG_MAPFILE_1_WAY_RELATIONSHIP. */
+    /**
+     * The Constant MSG_MAPFILE_1_WAY_RELATIONSHIP.
+     */
     public static final String MSG_MAPFILE_1_WAY_RELATIONSHIP = "%s - %s is not a 2 ways relationship";
     
-    /** The Constant MSG_MAPFILE_NO_IMAGE. */
+    /**
+     * The Constant MSG_MAPFILE_NO_IMAGE.
+     */
     public static final String MSG_MAPFILE_NO_IMAGE = "The map image is missing";
     
-    /** The Constant MSG_MAPFILE_CONTINENT_NOT_DEFINED. */
+    /**
+     * The Constant MSG_MAPFILE_CONTINENT_NOT_DEFINED.
+     */
     public static final String MSG_MAPFILE_CONTINENT_NOT_DEFINED = "The continent is not defined: line %s";
     
-    /** The Constant MSG_MAPFILE_CONTINENT_DUPLICATED. */
+    /**
+     * The Constant MSG_MAPFILE_CONTINENT_DUPLICATED.
+     */
     public static final String MSG_MAPFILE_CONTINENT_DUPLICATED = "The continent already exist: line %s";
     
-    /** The Constant MSG_MAPFILE_TERRITORY_NOT_DEFINED. */
+    /**
+     * The Constant MSG_MAPFILE_TERRITORY_NOT_DEFINED.
+     */
     public static final String MSG_MAPFILE_TERRITORY_NOT_DEFINED = "A territory is not defined";
     
-    /** The Constant MSG_MAPFILE_TERRITORY_DUPLICATED. */
+    /**
+     * The Constant MSG_MAPFILE_TERRITORY_DUPLICATED.
+     */
     public static final String MSG_MAPFILE_TERRITORY_DUPLICATED = "The territory already exist: line %s";
     
-    /** The Constant MSG_MAPFILE_CONTINENT_NO_TERRITORY. */
+    /**
+     * The Constant MSG_MAPFILE_CONTINENT_NO_TERRITORY.
+     */
     public static final String MSG_MAPFILE_CONTINENT_NO_TERRITORY = "The %s continent has no territory";
 }

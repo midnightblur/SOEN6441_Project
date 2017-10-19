@@ -27,6 +27,7 @@ public class GameMapHelper {
      * Gets the continents countries.
      *
      * @param gameMap the game map
+     *
      * @return the continents countries
      */
     public static Vector<String> getContinentsCountries(GameMap gameMap) {
@@ -46,17 +47,26 @@ public class GameMapHelper {
     /**
      * The Enum MAP_PARTS.
      */
-    private enum MAP_PARTS {/** The map. */
-MAP, /** The continents. */
- CONTINENTS, /** The territories. */
- TERRITORIES}
+    private enum MAP_PARTS {
+        /**
+         * The map.
+         */
+        MAP, /**
+         * The continents.
+         */
+        CONTINENTS, /**
+         * The territories.
+         */
+        TERRITORIES
+    }
     
     /* Constructors */
+    
     /**
      * Instantiates a new game map helper.
      */
-    // Intentionally make ctor private
-    private GameMapHelper() {
+    private GameMapHelper() {    // Intentionally make ctor private
+    
     }
 
     /* Public methods */
@@ -67,7 +77,9 @@ MAP, /** The continents. */
      * Operation: read the map text file content line by line to get map info.
      *
      * @param mapName the map name
+     *
      * @return the game map
+     *
      * @throws Exception the exception
      */
     public static GameMap loadGameMap(String mapName) throws Exception {
@@ -203,6 +215,7 @@ MAP, /** The continents. */
      * 7. The whole map is a connected graph
      *
      * @param gameMap the game map
+     *
      * @return the string
      */
     public static String validateMap(GameMap gameMap) {
@@ -254,7 +267,8 @@ MAP, /** The continents. */
      * Write a gamemap info to a .map text file
      *
      * @param gameMap the game map
-     * @param path the path
+     * @param path    the path
+     *
      * @throws IOException Signals that an I/O exception has occurred.
      */
     public static void writeToFile(GameMap gameMap, String path) throws IOException {
@@ -310,6 +324,7 @@ MAP, /** The continents. */
      * Find the files with *.map extension in given folder
      *
      * @param directory the directory
+     *
      * @return the maps in folder
      */
     public static Vector<String> getMapsInFolder(String directory) {
@@ -335,6 +350,7 @@ MAP, /** The continents. */
      * Then the original graph is connected.
      *
      * @param gameMap the game map
+     *
      * @return true if the gameMap is a connected graph, false if it is not
      */
     private static boolean isConnectedGraph(GameMap gameMap) {

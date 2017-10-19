@@ -12,10 +12,11 @@ package model.game_entities;
  */
 public class Card {
     
+    // region Attributes declaration
+    
     /**
      * The Enum CARD_TYPE.
      */
-    // region Attributes declaration
     public enum CARD_TYPE {
         /**
          * The infantry.

@@ -25,20 +25,20 @@ import static model.helpers.GameMapHelper.loadGameMap;
  */
 public class  MapSelectorController {
     
-    /** The map selector frame. */
     // region Attributes declaration
+    /** The map selector frame. */
     private MapSelectorFrame mapSelectorFrame;
     
     /** The caller controller. */
     private MainMenuController callerController;
     // endregion
     
+    // region Constructors
     /**
      * Instantiates a new map selector controller.
      *
      * @param callerController the caller controller
      */
-    // region Construtors
     public MapSelectorController(MainMenuController callerController) {
         this.callerController = callerController;
         mapSelectorFrame = new MapSelectorFrame();
@@ -50,12 +50,12 @@ public class  MapSelectorController {
     }
     // endregion
     
+    // region Private methods
     /**
      * Update list of maps.
      *
      * @return the drop down model
      */
-    // region Private methods
     private DropDownModel updateListOfMaps() {
         Vector<String> mapList = new Vector<>(getMapsInFolder(Config.MAPS_FOLDER));
         return new DropDownModel(mapList);
