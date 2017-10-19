@@ -43,6 +43,18 @@ public class MainMenuController extends JFrame {
     // region Getters & Setters
     
     /**
+     * Gets the main menu frame.
+     *
+     * @return the main menu frame
+     */
+    public MainMenuFrame getMainMenuFrame() {
+        return mainMenuFrame;
+    }
+    // endregion
+    
+    // region Private methods
+    
+    /**
      * Register to be listener.
      */
     private void registerToBeListener() {
@@ -50,14 +62,6 @@ public class MainMenuController extends JFrame {
         mainMenuFrame.addPlayGameButtonListener(e -> openPlayGameScreen());
         mainMenuFrame.addQuitButtonListener(e -> exitGame());
     }
-    
-    // endregion
-    
-    // region Public methods
-    
-    // endregion
-    
-    // region Private methods
     
     /**
      * Open map editor screen.
@@ -82,13 +86,5 @@ public class MainMenuController extends JFrame {
         UIHelper.closeFrame(mainMenuFrame);
     }
     
-    /**
-     * Gets the main menu frame.
-     *
-     * @return the main menu frame
-     */
-    public MainMenuFrame getMainMenuFrame() {
-        return mainMenuFrame;
-    }
     // endregion
 }

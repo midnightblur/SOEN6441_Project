@@ -14,11 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import utilities.Config;
 
-import java.util.Vector;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * The Class MapValidationTest.
@@ -33,11 +29,8 @@ public class MapValidationTest {
      */
     @Before
     public void setup() {
-        /* Read an arbitrary valid map file */
-        Vector<String> mapsList = GameMapHelper.getMapsInFolder(Config.MAPS_FOLDER);
-        int mapIndex = (int) (Math.random() * mapsList.size());
         try {
-            gameMap = GameMapHelper.loadGameMap(mapsList.elementAt(mapIndex));
+            gameMap = GameMapHelper.loadGameMap("World.map");
             message = Config.MSG_MAPFILE_VALID;
         } catch (Exception e) {
             message = e.getMessage();
