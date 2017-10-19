@@ -21,7 +21,6 @@ import java.util.Vector;
  * @version 1.0
  */
 public class Continent {
-    
     // region Attributes declaration
     /** The name. */
     private String name;
@@ -32,11 +31,13 @@ public class Continent {
     /** The control value. */
     private int controlValue;
     // endregion
-
+    
+    // region Constructor
+    
     /**
      * Instantiate new continent object given its name and its control index.
      *
-     * @param name the name
+     * @param name         the name
      * @param controlValue the control value
      */
     public Continent(String name, int controlValue) {
@@ -47,6 +48,7 @@ public class Continent {
     // endregion
     
     // region Getters & Setters
+    
     /**
      * Gets the name.
      *
@@ -75,15 +77,6 @@ public class Continent {
     }
     
     /**
-     * Sets the control value.
-     *
-     * @param controlValue the new control value
-     */
-    public void setControlValue(int controlValue) {
-        this.controlValue = controlValue;
-    }
-    
-    /**
      * Gets the territories.
      *
      * @return the territories
@@ -103,6 +96,7 @@ public class Continent {
     // endregion
     
     // region Public methods
+    
     /**
      * Add a territoryName to the list of territories belonging to the continent.
      *
@@ -132,6 +126,7 @@ public class Continent {
      * Check if the continent contain a given territoryName.
      *
      * @param territoryName the territory name
+     *
      * @return true, if is contain
      */
     public boolean isContain(String territoryName) {
@@ -151,6 +146,7 @@ public class Continent {
      * Calculate the number of armies within the continent.
      *
      * @return the count of all armies within a given continent
+     *
      * @throws NullPointerException if territories are not yet allocated to players
      */
     public int getContinentArmies() throws NullPointerException {
@@ -165,6 +161,7 @@ public class Continent {
      * Determine if a continent was fully conquered and return the id of the owner if so.
      *
      * @return the int value of the id of the owner having conquered all territories within this continent, 0  if none
+     *
      * @throws NullPointerException if territories are not yet allocated to players
      */
     public String getContinentOwner() throws NullPointerException {
@@ -177,13 +174,14 @@ public class Continent {
                 }
             }
         }
-        return  GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerName();
+        return GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerName();
     }
     
     /**
      * Facilitate the comparision between two continent objects.
      *
      * @param other the object of the type Continent.
+     *
      * @return true, if successful
      */
     @Override
@@ -196,10 +194,7 @@ public class Continent {
             return false;
         
         Continent continent = (Continent) other;
-        if (this.name.compareTo(continent.name) == 0)
-            return true;
-        
-        return false;
+        return this.name.compareTo(continent.name) == 0;
     }
     // endregion
 }

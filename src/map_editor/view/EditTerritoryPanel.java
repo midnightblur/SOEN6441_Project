@@ -20,7 +20,7 @@ import java.util.Observer;
  * It is used as part of the edit map control panel
  */
 public class EditTerritoryPanel extends JPanel implements Observer {
-    
+    // region Attributes declaration
     /** The Constant ADD_BUTTON_LABEL. */
     private static final String ADD_BUTTON_LABEL = "Add Territory";
     
@@ -65,6 +65,9 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     
     /** The check box panel. */
     private JPanel checkBoxPanel;
+    // endregion
+    
+    // region Public methods
     
     /**
      * Instantiates a new edits the territory panel.
@@ -74,13 +77,28 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         setupComponents();
         setAllComponentsEnable(false);
     }
+    // endregion
+    
+    // region MVC & Observer pattern methods
+    
+    /* (non-Javadoc)
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        /* When the GameMap object is updated */
+        if (o instanceof MapEditorModel) {
+            territoriesListDropdown.setModel(((MapEditorModel) o).getTerritoriesDropdownModel());
+            territoriesListDropdown.setSelectedIndex(0);
+            setAllComponentsEnable(true);
+        }
+    }
     
     /**
      * Adds the territory list dropdown listener.
      *
      * @param listenerForTerritoryListDropdown the listener for territory list dropdown
      */
-    /* MVC & Observer pattern methods */
     public void addTerritoryListDropdownListener(ActionListener listenerForTerritoryListDropdown) {
         territoriesListDropdown.addActionListener(listenerForTerritoryListDropdown);
     }
@@ -102,13 +120,15 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     public void addRemoveTerritoryButtonListener(ActionListener listenerForRemoveTerritoryButton) {
         removeTerritoryButton.addActionListener(listenerForRemoveTerritoryButton);
     }
+    // endregion
+    
+    // region Getters & Setters
     
     /**
      * Gets the territory name text.
      *
      * @return the territory name text
      */
-    /* Getters & Setters */
     public JTextField getTerritoryNameText() {
         return territoryNameText;
     }
@@ -175,11 +195,13 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     public JComboBox<String> getTerritoriesListDropdown() {
         return territoriesListDropdown;
     }
+    // endregion
+    
+    // region Private methods
     
     /**
      * Setup components.
      */
-    /* Private methods */
     private void setupComponents() {
         /* Setup grid panel */
         JPanel gridPanel = new JPanel(new GridLayout(LAYOUT_ROWS, LAYOUT_COLS));
@@ -232,17 +254,5 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         territoryNameText.setEnabled(isEnable);
         saveTerritoryButton.setEnabled(isEnable);
     }
-    
-    /* (non-Javadoc)
-     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        /* When the GameMap object is updated */
-        if (o instanceof MapEditorModel) {
-            territoriesListDropdown.setModel(((MapEditorModel) o).getTerritoriesDropdownModel());
-            territoriesListDropdown.setSelectedIndex(0);
-            setAllComponentsEnable(true);
-        }
-    }
+    // endregion
 }
