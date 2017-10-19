@@ -11,7 +11,14 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 
 /**
- * The Class UIHelper.
+ * The Class UIHelper with the role of:
+ * <ul>
+ * <li> rendering main screen frames
+ * <li> setting divider location
+ * <li> displaying messages to user
+ * <li> providing means of navigating between frames
+ * <li> providing common elements like spacing
+ * </ul>
  */
 public class UIHelper {
     
@@ -49,7 +56,7 @@ public class UIHelper {
      * @param splitPane the component subject to this method
      */
     public static void setDivider(JSplitPane splitPane) {
-        splitPane.setDividerLocation(600);
+        splitPane.setDividerLocation(950);
         splitPane.setResizeWeight(.75d);
     }
     

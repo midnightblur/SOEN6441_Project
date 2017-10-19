@@ -20,37 +20,8 @@ import java.util.Arrays;
  * @version 1.0
  */
 public class Dice {
-    /**
-     * The dice object is represented as an array of integers.
-     */
+    /** The dice object is represented as an array of integers. */
     private int[] dice;
-    
-    /**
-     * Gets the max pips.
-     *
-     * @return the max pips
-     */
-    public int getMAX_PIPS() {
-        return Config.MAX_PIPS;
-    }
-    
-    /**
-     * Gets the dice.
-     *
-     * @return the dice
-     */
-    public int[] getDice() {
-        return dice;
-    }
-    
-    /**
-     * Sets the dice.
-     *
-     * @param dice the new dice
-     */
-    public void setDice(int[] dice) {
-        this.dice = dice;
-    }
     
     /**
      * Default constructor delegating to parametrized constructor.
@@ -77,6 +48,33 @@ public class Dice {
         for (int i : dice) {
             dice[i] = (int) (Math.random() * Config.MAX_PIPS) + 1;
         }
+    }
+    
+    /**
+     * Gets the max pips.
+     *
+     * @return the max pips
+     */
+    public int getMAX_PIPS() {
+        return Config.MAX_PIPS;
+    }
+    
+    /**
+     * Gets the dice.
+     *
+     * @return the dice
+     */
+    public int[] getDice() {
+        return dice;
+    }
+    
+    /**
+     * Sets the dice.
+     *
+     * @param dice the new dice
+     */
+    public void setDice(int[] dice) {
+        this.dice = dice;
     }
     
     /**

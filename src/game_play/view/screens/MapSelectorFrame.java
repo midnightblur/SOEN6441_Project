@@ -23,49 +23,31 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
 public class MapSelectorFrame extends JFrame implements Observer {
     
     // region Attributes declaration
-    /**
-     * The Constant TITLE.
-     */
+    /** The Constant TITLE. */
     private static final String TITLE = "Selecting a map to play";
     
-    /**
-     * The Constant PLAY_GAME_BUTTON.
-     */
+    /** The Constant PLAY_GAME_BUTTON. */
     private static final String PLAY_GAME_BUTTON = "Play Game";
     
-    /**
-     * The Constant BACK_BUTTON.
-     */
+    /** The Constant BACK_BUTTON. */
     private static final String BACK_BUTTON = "Back";
     
-    /**
-     * The Constant SELECT_MAP_LABEL.
-     */
+    /** The Constant SELECT_MAP_LABEL. */
     private static final String SELECT_MAP_LABEL = "Select a map:";
     
-    /**
-     * The Constant WIDTH.
-     */
+    /** The Constant WIDTH. */
     private static final int WIDTH = 500;
     
-    /**
-     * The Constant HEIGHT.
-     */
+    /** The Constant HEIGHT. */
     private static final int HEIGHT = 230;
     
-    /**
-     * The map dropdown.
-     */
+    /** The map dropdown. */
     private JComboBox<String> mapDropdown;
     
-    /**
-     * The play game btn.
-     */
+    /** The play game btn. */
     private JButton playGameBtn;
     
-    /**
-     * The back btn.
-     */
+    /** The back btn. */
     private JButton backBtn;
     // endregion
     
@@ -81,51 +63,6 @@ public class MapSelectorFrame extends JFrame implements Observer {
     // endregion
     
     // region Getters & Setters
-    
-    /**
-     * Gets the map dropdown.
-     *
-     * @return the map dropdown
-     */
-    public JComboBox<String> getMapDropdown() {
-        return mapDropdown;
-    }
-    // endregion
-    
-    // region MVC & Observer pattern methods
-    
-    /**
-     * Adds the play game button listener.
-     *
-     * @param listenerForPlayGameButton the listener for play game button
-     */
-    public void addPlayGameButtonListener(ActionListener listenerForPlayGameButton) {
-        playGameBtn.addActionListener(listenerForPlayGameButton);
-    }
-    
-    /**
-     * Adds the back button listener.
-     *
-     * @param listenerForBackButton the listener for back button
-     */
-    public void addBackButtonListener(ActionListener listenerForBackButton) {
-        backBtn.addActionListener(listenerForBackButton);
-    }
-    // endregion
-    
-    // region Public methods
-    /* (non-Javadoc)
-     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof MapEditorModel) {
-            mapDropdown.setModel(((MapEditorModel) o).getMapDropdownModel());
-        }
-    }
-    // endregion
-    
-    // region Private methods
     
     /**
      * Setup content pane.
@@ -156,6 +93,51 @@ public class MapSelectorFrame extends JFrame implements Observer {
         addVerticalSpacing(contentPane);
         
         this.setContentPane(contentPane);
+    }
+    // endregion
+    
+    // region MVC & Observer pattern methods
+    
+    /**
+     * Gets the map dropdown.
+     *
+     * @return the map dropdown
+     */
+    public JComboBox<String> getMapDropdown() {
+        return mapDropdown;
+    }
+    
+    /**
+     * Adds the play game button listener.
+     *
+     * @param listenerForPlayGameButton the listener for play game button
+     */
+    public void addPlayGameButtonListener(ActionListener listenerForPlayGameButton) {
+        playGameBtn.addActionListener(listenerForPlayGameButton);
+    }
+    // endregion
+    
+    /**
+     * Adds the back button listener.
+     *
+     * @param listenerForBackButton the listener for back button
+     */
+    public void addBackButtonListener(ActionListener listenerForBackButton) {
+        backBtn.addActionListener(listenerForBackButton);
+    }
+    // endregion
+    
+    // region Private methods
+    
+    // region Public methods
+    /* (non-Javadoc)
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof MapEditorModel) {
+            mapDropdown.setModel(((MapEditorModel) o).getMapDropdownModel());
+        }
     }
     // endregion
 }

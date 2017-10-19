@@ -28,66 +28,44 @@ import static shared_resources.utilities.Config.INITIAL_ARMY_RATIO;
 public class GamePlayModel extends Observable {
     
     // region Attributes declaration
-    /**
-     * The Constant DEFAULT_ARMY_VALUE.
-     */
+    /** The Constant DEFAULT_ARMY_VALUE. */
     private static final int DEFAULT_ARMY_VALUE = 5;
     
-    /**
-     * The instance.
-     */
+    /** The instance. */
     private static GamePlayModel instance = null;
     
-    /**
-     * The game map.
-     */
+    /** The game map. */
     private GameMap gameMap;
     
-    /**
-     * The map table game_entities.
-     */
+    /** The map table game_entities. */
     private MapTableModel mapTableModel;
     
-    /**
-     * The game state.
-     */
+    /** The game state. */
     private GAME_STATES gameState;
     
-    /**
-     * The current player.
-     */
+    /** The current player. */
     private Player currentPlayer;
     
-    /**
-     * The player territories game_entities.
-     */
+    /** The player territories game_entities. */
     private PlayerTerritoriesModel playerTerritoriesModel;
     
-    /**
-     * The army value.
-     */
+    /** The army value. */
     private int armyValue;
     
-    /**
-     * The deck.
-     */
+    /** The deck. */
     private Vector<Card> deck;
     
-    /**
-     * The players.
-     */
+    /** The players. */
     private Vector<Player> players;
     
-    /**
-     * The rand.
-     */
+    /** The rand. */
     private Random rand;
     // endregion
     
     // region Constructors
     
     /**
-     * private constructor preventing any other class from instantiating.
+     * Private constructor preventing any other class from instantiating.
      */
     private GamePlayModel() {
         armyValue = DEFAULT_ARMY_VALUE;
@@ -115,6 +93,15 @@ public class GamePlayModel extends Observable {
     // region Getters and Setters
     
     /**
+     * Gets the game map.
+     *
+     * @return the game map
+     */
+    public GameMap getGameMap() {
+        return gameMap;
+    }
+    
+    /**
      * Sets new gameMap.
      *
      * @param gameMap New value of gameMap.
@@ -126,12 +113,18 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * Gets the game map.
-     *
-     * @return the game map
+     * Update the GameMapTableModel according to the newly updated GameMap object.
      */
-    public GameMap getGameMap() {
-        return gameMap;
+    private void updateGameMapTableModel() {
+        mapTableModel.updateMapTableModel(gameMap, gameState);
+    }
+    
+    /**
+     * Method to update the GamePlayModel and notify the Observer.
+     */
+    private void broadcastGamePlayChanges() {
+        setChanged();
+        notifyObservers(this);
     }
     
     /**
@@ -162,6 +155,15 @@ public class GamePlayModel extends Observable {
     }
     
     /**
+     * Gets the current player.
+     *
+     * @return the current player
+     */
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+    
+    /**
      * Sets the current player.
      *
      * @param player the new current player
@@ -173,15 +175,6 @@ public class GamePlayModel extends Observable {
             updatePlayerTerritoriesModel();
         }
         broadcastGamePlayChanges();
-    }
-    
-    /**
-     * Gets the current player.
-     *
-     * @return the current player
-     */
-    public Player getCurrentPlayer() {
-        return this.currentPlayer;
     }
     
     /**
@@ -201,6 +194,10 @@ public class GamePlayModel extends Observable {
     public GAME_STATES getGameState() {
         return this.gameState;
     }
+    
+    // endregion
+    
+    // region Public methods
     
     /**
      * Sets the game state.
@@ -222,9 +219,6 @@ public class GamePlayModel extends Observable {
         return playerTerritoriesModel;
     }
     
-    // endregion
-    
-    // region Public methods
     /**
      * Gets the current player territories.
      *
@@ -237,6 +231,9 @@ public class GamePlayModel extends Observable {
         }
         return territoriesList;
     }
+    //endregion
+    
+    // region For Startup Phase
     
     /**
      * Loads the map specified by the filepath, and initializes the game attributes
@@ -295,250 +292,6 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * Gets the next player.
-     *
-     * @return the next player
-     */
-    public Player getNextPlayer() {
-        int currPlayerIndex = players.indexOf(currentPlayer);
-        if (currPlayerIndex == players.size() - 1) {
-            return players.get(0);
-        } else {
-            return players.get(currPlayerIndex + 1);
-        }
-    }
-    //endregion
-    
-    // region For Startup Phase
-    
-    /**
-     * This method allows the players to allocate an unallocated army to a territory that
-     * the player owns.
-     *
-     * @param territory The name of the territory as String to place an army on
-     */
-    public void placeArmyStartup(String territory) {
-        currentPlayer.reduceUnallocatedArmies(1);
-        gameMap.getATerritory(territory).addArmies(1);
-        setCurrentPlayer(getNextPlayer());
-        
-        /*
-         * Get next player if current player's unallocated army is 0
-         * Stop when current player still has unallocated army or all run out of army
-         */
-        int count = 1;
-        while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
-            setCurrentPlayer(getNextPlayer());
-            count++;
-        }
-        
-        /* If all player run out of unallocated army, move to the next phase */
-        if (count == players.size()) {
-            setGameState(REINFORCEMENT);
-            setCurrentPlayer(players.firstElement());
-        }
-        
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
-    }
-    
-    /**
-     * A method that allows a player to place armies to the territories as specified
-     * from the Reinforcement Phase view panel.
-     *
-     * @param armiesToPlace Map that contains the key of Territory objects and values
-     *                      of Integer to represent armies
-     */
-    public void placeArmiesReinforcement(Map<Territory, Integer> armiesToPlace) {
-        for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
-            entry.getKey().addArmies(entry.getValue());
-            currentPlayer.reduceUnallocatedArmies(entry.getValue());
-        }
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
-    }
-    // endregion
-    
-    // region For Reinforcement Phase
-    
-    /**
-     * The reinforcement phase includes allowing the players to hand in their cards for
-     * armies (or force them to if they have more than or equal to 5 cards), assign
-     * to-be-allocated armies to the players according to the number of territories and
-     * continents they control (to a minimum of 3), and allows players to place those armies.
-     */
-    public void addReinforcementForCurrPlayer() {
-        // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
-        int armiesToGive = Math.max(3, gameMap.getTerritoriesOfPlayer(currentPlayer).size() / 3);
-        
-        // Assign players additional number armies to allocate if that player owns a continent.
-        for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
-            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner()) == 0) {
-                armiesToGive += entry.getValue().getControlValue();
-            }
-        }
-        
-          /* -- console printout for demo -- */
-        System.out.println();
-        System.out.println("-- Reinforcement Phase Status Console Printout --");
-        System.out.println("Player " + currentPlayer.getPlayerID());
-        System.out.println("Number of territories owned by this player: " + currentPlayer.getTerritories().size());
-        for (Territory territory : currentPlayer.getTerritories()) {
-            System.out.println("\t" + territory.getName());
-        }
-        int continentCounter = 0;
-        String continentStr = "";
-        for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
-            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner()) == 0) {
-                continentCounter++;
-                continentStr += "\t" + entry.getValue().getName()
-                        + ", control value " + entry.getValue().getControlValue() + "\n";
-            }
-        }
-        System.out.println("Number of continents owned by this player: " + continentCounter);
-        if (continentCounter != 0) {
-            System.out.println(continentStr);
-        }
-        System.out.print("-------------------------------------------------\n");
-        /* ------------------------------- */
-        
-        currentPlayer.addUnallocatedArmies(armiesToGive);
-    }
-    // endregion
-    
-    // region Card related helper methods
-    
-    /**
-     * Draws a random card from the deck and returns it.
-     *
-     * @return Card object
-     */
-    public Card drawCard() {
-        int index = rand.nextInt(deck.size());
-        Card card = deck.elementAt(index);
-        deck.remove(deck.elementAt(index));
-        deck.trimToSize();
-        return card;
-    }
-    
-    /**
-     * This method changes the game state to TRADE_IN and processes the exchange
-     * of cards to the armies if the user selected cards make a valid set. The method
-     * checks for a selection of exactly three cards, and checks for either three cards
-     * of the same type, or 3 cards one of each type. If so, those cards are removed
-     * from the players hand, and the number of armies (unallocated armies) are rewarded
-     * according to the current army value. The army value starts at 5 at the beginning
-     * of the game, but increases by 5 every time a player makes a valid card exchange move.
-     *
-     * @param selectedCards Vector of Strings that details the type of cards in the player's possession
-     *
-     * @return String for the error message to validate the result of the trade in
-     */
-    public String tradeInCards(Vector<String> selectedCards) {
-        if (selectedCards.size() == 3) {
-            /* check if selected cards are three of a kind or one of each */
-            int choice = 0;
-            if (selectedCards.elementAt(0).equals(selectedCards.elementAt(1))
-                    && selectedCards.elementAt(0).equals(selectedCards.elementAt(2))) {
-                choice = 1;
-            } else if (!selectedCards.elementAt(0).equals(selectedCards.elementAt(1))
-                    && !selectedCards.elementAt(0).equals(selectedCards.elementAt(2))
-                    && !selectedCards.elementAt(1).equals(selectedCards.elementAt(2))) {
-                choice = 2;
-            }
-            
-            /* carry out card trading according to the choice */
-            int counter = 0;
-            if (choice == 1) {  // for three of a kind exchange
-                for (int i = 0; i < currentPlayer.getPlayersHand().size(); i++) {
-                    if (currentPlayer.getPlayersHand().get(i).getCardType().name().compareTo(selectedCards.firstElement()) == 0) {
-                        counter++;
-                    }
-                }
-                if (counter >= 3) {
-                    Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.firstElement()));
-                    for (int i = 0; i < selectedCards.size(); i++) {
-                        currentPlayer.getPlayersHand().remove(tempCard);
-                        deck.add(tempCard);
-                    }
-                    currentPlayer.getPlayersHand().trimToSize();
-                    currentPlayer.addUnallocatedArmies(armyValue);
-                    armyValue += 5;
-                }
-            } else if (choice == 2) {  // for one of each exchange
-                for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
-                    Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
-                    if (currentPlayer.getPlayersHand().contains(tempCard)) {
-                        counter++;
-                    }
-                }
-                if (counter == 3) {
-                    for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
-                        Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
-                        currentPlayer.getPlayersHand().remove(tempCard);
-                        deck.add(tempCard);
-                    }
-                    currentPlayer.getPlayersHand().trimToSize();
-                    currentPlayer.addUnallocatedArmies(armyValue);
-                    armyValue += 5;
-                }
-            } else {
-                broadcastGamePlayChanges();
-                return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
-            }
-            broadcastGamePlayChanges();
-            return "Cards successfully traded in!";
-        } else {
-            broadcastGamePlayChanges();
-            return "No cards traded in!\nPlease select exactly 3 cards.\n(all of same type or one of each type)";
-        }
-    }
-    
-    // endregion
-    
-    // region For Fortification Phase
-    
-    /**
-     * The method gives a player an option to move any number of armies from one country to
-     * another. The method only allows only one such move that is valid, which requires that
-     * the two countries that the player picks must be owned by that player, be different
-     * territories from one another, and must have more armies in the territory than the number
-     * of armies specified by the player (a territory must have more than 1 army at minimum).
-     *
-     * @param sourceTerritory String value of the name of the source Territory
-     * @param targetTerritory String value of the name of the target Territory
-     * @param noOfArmies      Integer value of the number of armies to be moved
-     *
-     * @return String value of the messages that will be displayed to the user
-     */
-    public String moveArmiesFortification(String sourceTerritory, String targetTerritory, int noOfArmies) {
-        Territory fromTerritory = gameMap.getATerritory(sourceTerritory);
-        Territory toTerritory = gameMap.getATerritory(targetTerritory);
-        
-        // Validate if the two territories are owned by the player, are different, and are neighbors.
-        if (!fromTerritory.isOwnedBy(currentPlayer.getPlayerID()) ||
-                !toTerritory.isOwnedBy(currentPlayer.getPlayerID()) ||
-                fromTerritory == toTerritory) {
-            return "No armies moved!\nYou must pick two Territories that are neighbors.";
-        }
-        
-        if (fromTerritory.getArmies() == 1 || fromTerritory.getArmies() <= noOfArmies) {
-            return "No armies moved!\nYou must always have at least 1 army in each Territory";
-        }
-        
-        fromTerritory.reduceArmies(noOfArmies);
-        toTerritory.addArmies(noOfArmies);
-        
-        setGameState(REINFORCEMENT);
-        setCurrentPlayer(getNextPlayer());
-        
-        return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
-    }
-    // endregion
-    
-    // region Private methods
-    
-    /**
      * Private helper method to initialize the players according to
      * the number of players (currPlayers).
      *
@@ -551,6 +304,9 @@ public class GamePlayModel extends Observable {
             players.add(new Player());
         }
     }
+    // endregion
+    
+    // region For Reinforcement Phase
     
     /**
      * Sets a deck that contains cards from Card class with equal distribution of all the three card types.
@@ -569,6 +325,9 @@ public class GamePlayModel extends Observable {
             typeNumber++;
         }
     }
+    // endregion
+    
+    // region Card related helper methods
     
     /**
      * Distributes the territories in the map randomly to the players. Although the territories
@@ -648,6 +407,26 @@ public class GamePlayModel extends Observable {
         }
     }
     
+    // endregion
+    
+    // region For Fortification Phase
+    
+    /**
+     * Draws a random card from the deck and returns it.
+     *
+     * @return Card object
+     */
+    public Card drawCard() {
+        int index = rand.nextInt(deck.size());
+        Card card = deck.elementAt(index);
+        deck.remove(deck.elementAt(index));
+        deck.trimToSize();
+        return card;
+    }
+    // endregion
+    
+    // region Private methods
+    
     /**
      * For every player, this method automatically assigns one army to all of the territories
      * that player owns. The placed armies get spent from the players' initial given number of
@@ -663,18 +442,47 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * Method to update the GamePlayModel and notify the Observer.
+     * The reinforcement phase includes allowing the players to hand in their cards for
+     * armies (or force them to if they have more than or equal to 5 cards), assign
+     * to-be-allocated armies to the players according to the number of territories and
+     * continents they control (to a minimum of 3), and allows players to place those armies.
      */
-    private void broadcastGamePlayChanges() {
-        setChanged();
-        notifyObservers(this);
-    }
-    
-    /**
-     * Update the GameMapTableModel according to the newly updated GameMap object.
-     */
-    private void updateGameMapTableModel() {
-        mapTableModel.updateMapTableModel(gameMap, gameState);
+    public void addReinforcementForCurrPlayer() {
+        // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
+        int armiesToGive = Math.max(3, gameMap.getTerritoriesOfPlayer(currentPlayer).size() / 3);
+        
+        // Assign players additional number armies to allocate if that player owns a continent.
+        for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
+            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner()) == 0) {
+                armiesToGive += entry.getValue().getControlValue();
+            }
+        }
+        
+          /* -- console printout for demo -- */
+        System.out.println();
+        System.out.println("-- Reinforcement Phase Status Console Printout --");
+        System.out.println("Player " + currentPlayer.getPlayerID());
+        System.out.println("Number of territories owned by this player: " + currentPlayer.getTerritories().size());
+        for (Territory territory : currentPlayer.getTerritories()) {
+            System.out.println("\t" + territory.getName());
+        }
+        int continentCounter = 0;
+        String continentStr = "";
+        for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
+            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner()) == 0) {
+                continentCounter++;
+                continentStr += "\t" + entry.getValue().getName()
+                        + ", control value " + entry.getValue().getControlValue() + "\n";
+            }
+        }
+        System.out.println("Number of continents owned by this player: " + continentCounter);
+        if (continentCounter != 0) {
+            System.out.println(continentStr);
+        }
+        System.out.print("-------------------------------------------------\n");
+        /* ------------------------------- */
+        
+        currentPlayer.addUnallocatedArmies(armiesToGive);
     }
     
     /**
@@ -682,6 +490,177 @@ public class GamePlayModel extends Observable {
      */
     private void updatePlayerTerritoriesModel() {
         playerTerritoriesModel.updateMapTableModel(currentPlayer);
+    }
+    
+    /**
+     * This method allows the players to allocate an unallocated army to a territory that
+     * the player owns.
+     *
+     * @param territory The name of the territory as String to place an army on
+     */
+    public void placeArmyStartup(String territory) {
+        currentPlayer.reduceUnallocatedArmies(1);
+        gameMap.getATerritory(territory).addArmies(1);
+        setCurrentPlayer(getNextPlayer());
+        
+        /*
+         * Get next player if current player's unallocated army is 0
+         * Stop when current player still has unallocated army or all run out of army
+         */
+        int count = 1;
+        while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
+            setCurrentPlayer(getNextPlayer());
+            count++;
+        }
+        
+        /* If all player run out of unallocated army, move to the next phase */
+        if (count == players.size()) {
+            setGameState(REINFORCEMENT);
+            setCurrentPlayer(players.firstElement());
+        }
+        
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+    }
+    
+    /**
+     * Gets the next player.
+     *
+     * @return the next player
+     */
+    public Player getNextPlayer() {
+        int currPlayerIndex = players.indexOf(currentPlayer);
+        if (currPlayerIndex == players.size() - 1) {
+            return players.get(0);
+        } else {
+            return players.get(currPlayerIndex + 1);
+        }
+    }
+    
+    /**
+     * A method that allows a player to place armies to the territories as specified
+     * from the Reinforcement Phase view panel.
+     *
+     * @param armiesToPlace Map that contains the key of Territory objects and values
+     *                      of Integer to represent armies
+     */
+    public void placeArmiesReinforcement(Map<Territory, Integer> armiesToPlace) {
+        for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
+            entry.getKey().addArmies(entry.getValue());
+            currentPlayer.reduceUnallocatedArmies(entry.getValue());
+        }
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+    }
+    
+    /**
+     * This method changes the game state to TRADE_IN and processes the exchange
+     * of cards to the armies if the user selected cards make a valid set. The method
+     * checks for a selection of exactly three cards, and checks for either three cards
+     * of the same type, or 3 cards one of each type. If so, those cards are removed
+     * from the players hand, and the number of armies (unallocated armies) are rewarded
+     * according to the current army value. The army value starts at 5 at the beginning
+     * of the game, but increases by 5 every time a player makes a valid card exchange move.
+     *
+     * @param selectedCards Vector of Strings that details the type of cards in the player's possession
+     *
+     * @return String for the error message to validate the result of the trade in
+     */
+    public String tradeInCards(Vector<String> selectedCards) {
+        if (selectedCards.size() == 3) {
+            /* check if selected cards are three of a kind or one of each */
+            int choice = 0;
+            if (selectedCards.elementAt(0).equals(selectedCards.elementAt(1))
+                    && selectedCards.elementAt(0).equals(selectedCards.elementAt(2))) {
+                choice = 1;
+            } else if (!selectedCards.elementAt(0).equals(selectedCards.elementAt(1))
+                    && !selectedCards.elementAt(0).equals(selectedCards.elementAt(2))
+                    && !selectedCards.elementAt(1).equals(selectedCards.elementAt(2))) {
+                choice = 2;
+            }
+            
+            /* carry out card trading according to the choice */
+            int counter = 0;
+            if (choice == 1) {  // for three of a kind exchange
+                for (int i = 0; i < currentPlayer.getPlayersHand().size(); i++) {
+                    if (currentPlayer.getPlayersHand().get(i).getCardType().name().compareTo(selectedCards.firstElement()) == 0) {
+                        counter++;
+                    }
+                }
+                if (counter >= 3) {
+                    Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.firstElement()));
+                    for (int i = 0; i < selectedCards.size(); i++) {
+                        currentPlayer.getPlayersHand().remove(tempCard);
+                        deck.add(tempCard);
+                    }
+                    currentPlayer.getPlayersHand().trimToSize();
+                    currentPlayer.addUnallocatedArmies(armyValue);
+                    armyValue += 5;
+                }
+            } else if (choice == 2) {  // for one of each exchange
+                for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
+                    Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
+                    if (currentPlayer.getPlayersHand().contains(tempCard)) {
+                        counter++;
+                    }
+                }
+                if (counter == 3) {
+                    for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
+                        Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
+                        currentPlayer.getPlayersHand().remove(tempCard);
+                        deck.add(tempCard);
+                    }
+                    currentPlayer.getPlayersHand().trimToSize();
+                    currentPlayer.addUnallocatedArmies(armyValue);
+                    armyValue += 5;
+                }
+            } else {
+                broadcastGamePlayChanges();
+                return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
+            }
+            broadcastGamePlayChanges();
+            return "Cards successfully traded in!";
+        } else {
+            broadcastGamePlayChanges();
+            return "No cards traded in!\nPlease select exactly 3 cards.\n(all of same type or one of each type)";
+        }
+    }
+    
+    /**
+     * The method gives a player an option to move any number of armies from one country to
+     * another. The method only allows only one such move that is valid, which requires that
+     * the two countries that the player picks must be owned by that player, be different
+     * territories from one another, and must have more armies in the territory than the number
+     * of armies specified by the player (a territory must have more than 1 army at minimum).
+     *
+     * @param sourceTerritory String value of the name of the source Territory
+     * @param targetTerritory String value of the name of the target Territory
+     * @param noOfArmies      Integer value of the number of armies to be moved
+     *
+     * @return String value of the messages that will be displayed to the user
+     */
+    public String moveArmiesFortification(String sourceTerritory, String targetTerritory, int noOfArmies) {
+        Territory fromTerritory = gameMap.getATerritory(sourceTerritory);
+        Territory toTerritory = gameMap.getATerritory(targetTerritory);
+        
+        // Validate if the two territories are owned by the player, are different, and are neighbors.
+        if (!fromTerritory.isOwnedBy(currentPlayer.getPlayerID()) ||
+                !toTerritory.isOwnedBy(currentPlayer.getPlayerID()) ||
+                fromTerritory == toTerritory) {
+            return "No armies moved!\nYou must pick two Territories that are neighbors.";
+        }
+        
+        if (fromTerritory.getArmies() == 1 || fromTerritory.getArmies() <= noOfArmies) {
+            return "No armies moved!\nYou must always have at least 1 army in each Territory";
+        }
+        
+        fromTerritory.reduceArmies(noOfArmies);
+        toTerritory.addArmies(noOfArmies);
+        
+        setGameState(REINFORCEMENT);
+        setCurrentPlayer(getNextPlayer());
+        
+        return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
     // endregion
 }

@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.util.Vector;
 
 /**
- * The Class DropDownModel.
+ * The Class DropDownModel used as a base for UI dropdown made out of vector.
  */
 public class DropDownModel extends DefaultComboBoxModel<String> {
     

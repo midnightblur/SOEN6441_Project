@@ -14,31 +14,8 @@ public class Card {
     
     // region Attributes declaration
     
-    /**
-     * The Enum CARD_TYPE.
-     */
-    public enum CARD_TYPE {
-        /**
-         * The infantry.
-         */
-        INFANTRY,
-        /**
-         * The cavalry.
-         */
-        CAVALRY,
-        /**
-         * The artillery.
-         */
-        ARTILLERY
-    }
-    
-    /**
-     * The card type.
-     */
+    /** The card type. */
     private CARD_TYPE cardType;
-    // endregion
-    
-    // region Constructors
     
     /**
      * The Card sets the cardType of a card in the deck according to the index.
@@ -50,16 +27,7 @@ public class Card {
     }
     // endregion
     
-    // region Getters & Setters
-    
-    /**
-     * Gets the card type.
-     *
-     * @return the card type
-     */
-    public CARD_TYPE getCardType() {
-        return this.cardType;
-    }
+    // region Constructors
     
     /**
      * Gets the types count.
@@ -71,7 +39,7 @@ public class Card {
     }
     // endregion
     
-    // region Public Methods
+    // region Getters & Setters
     
     /**
      * Override equals method to check if two cards are the same, depending on the
@@ -99,6 +67,25 @@ public class Card {
         }
         
         return false;
+    }
+    
+    /**
+     * Gets the card type.
+     *
+     * @return the card type
+     */
+    public CARD_TYPE getCardType() {
+        return this.cardType;
+    }
+    // endregion
+    
+    // region Public Methods
+    
+    /** The Enum CARD_TYPE. */
+    public enum CARD_TYPE {
+        INFANTRY,
+        CAVALRY,
+        ARTILLERY
     }
     // endregion
 }
