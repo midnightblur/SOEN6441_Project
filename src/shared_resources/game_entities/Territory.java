@@ -276,7 +276,6 @@ public class Territory {
         
         Territory territory = (Territory) other;
         return this.name.compareTo(territory.name) == 0;
-    
     }
     // endregion
 }

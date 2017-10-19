@@ -75,15 +75,6 @@ public class Player {
     }
     
     /**
-     * Sets the player name.
-     *
-     * @param playerName the new player name
-     */
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-    
-    /**
      * Gets the color of a player.
      *
      * @return the color

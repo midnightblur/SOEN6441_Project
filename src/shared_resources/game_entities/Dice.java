@@ -110,7 +110,5 @@ public class Dice {
             result[0] = dice[dice.length - 2];
             return result;
         }
-        
-        
     }
 }

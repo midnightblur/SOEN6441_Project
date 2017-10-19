@@ -6,7 +6,6 @@
  */
 package shared_resources.game_entities;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
@@ -52,9 +51,6 @@ public class GameMap {
     /** The Constant MSG_TERRITORY_REMOVE_SUCCESS. */
     private static final String MSG_TERRITORY_REMOVE_SUCCESS = "The %s territory has been removed successfully";
     
-    /** The map name. */
-    private String mapName;
-    
     /** The territories. */
     private Map<String, Territory> territories;
     
@@ -63,45 +59,17 @@ public class GameMap {
     // endregion
     
     // region Constructors
-    /**
-     * Instantiates a new game map.
-     *
-     * @param mapName the map name
-     */
-    public GameMap(String mapName) {
-        this.mapName = mapName;
-        this.territories = new TreeMap<>();
-        this.continents = new TreeMap<>();
-    }
     
     /**
      * Instantiates a new game map.
      */
     public GameMap() {
-        this.mapName = "";
         this.territories = new TreeMap<>();
         this.continents = new TreeMap<>();
     }
     // endregion
     
     // region Getters & Setters
-    /**
-     * Gets the map name.
-     *
-     * @return the map name
-     */
-    public String getMapName() {
-        return mapName;
-    }
-    
-    /**
-     * Sets the map name.
-     *
-     * @param mapName the new map name
-     */
-    public void setMapName(String mapName) {
-        this.mapName = mapName;
-    }
     
     /**
      * Gets the territories.
@@ -426,9 +394,7 @@ public class GameMap {
      * @return the a continent
      */
     public Continent getAContinent(String continentName) {
-        Iterator<Continent> iterator = continents.values().iterator();
-        while (iterator.hasNext()) {
-            Continent continent = iterator.next();
+        for (Continent continent : continents.values()) {
             if (continent.getName().compareTo(continentName) == 0) {
                 return continent;
             }
@@ -472,17 +438,6 @@ public class GameMap {
     }
     
     /**
-     * Get the territories within indicated continent.
-     *
-     * @param continentName the continent from which we retrieve the territory names
-     * @return a vector with territories within the indicated continent
-     */
-    public Vector<String> getTerritoriesByContinent(String continentName) {
-        Continent continent = getAContinent(continentName);
-        return continent.getTerritories();
-    }
-    
-    /**
      * Get the maximum number of players allowed for this map object
      * <ul>
      * <li> Maximum number of players must be the one in the configuration file
@@ -496,7 +451,7 @@ public class GameMap {
         int players = DEFAULT_NUM_OF_PLAYERS;       // the maximum number of players
         int territoryCount = this.getTerritoriesCount();
         if (players > territoryCount) {             // if there are more players than territories
-            players = territoryCount;               // there should be a maximum of player equal to territories or t least one player
+            players = territoryCount;               // there should be a maximum of player equal to territories or at least one player
         }
         return players;
     }

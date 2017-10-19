@@ -63,7 +63,7 @@ public class GameMapHelper {
         String line;
         int lineCounter = 0;
         
-        gameMap = new GameMap(mapName);
+        gameMap = new GameMap();
         Map<String, Continent> continentsMap = new HashMap<>();
         Set<String> allNeighbors = new HashSet<>(); // Used to check Territories and Neighbors declaration match
         MAP_PARTS mapParts = null;
