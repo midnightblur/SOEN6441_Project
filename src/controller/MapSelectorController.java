@@ -73,7 +73,7 @@ public class  MapSelectorController {
             mapSelectorFrame.setEnabled(false);
             new GamePlayController(callerController, gameMap);
         } catch (Exception e) {
-            e.printStackTrace();
+            UIHelper.displayMessage(mapSelectorFrame, e.getMessage());
         }
     }
     
