@@ -162,7 +162,7 @@ public class GameMap {
         if (!isReadingFile) {
             for (String neighborName : territory.getNeighbors()) {
                 Territory neighbor = getATerritory(neighborName);
-                if (neighbor != null) { // neighbor will be null in case of building new gamemap from a text file
+                if (neighbor != null) { // neighbor will be null in case of building new game map from a text file
                     neighbor.addNeighbor(territory.getName());
                 }
             }

@@ -93,9 +93,9 @@ public class Config {
     public static final String MAPS_FLAG_MAP = "[Map]";
     public static final String MAPS_FLAG_CONTINENTS = "[Continents]";
     public static final String MAPS_FLAG_TERRITORIES = "[Territories]";
-    public static final String MAPS_DELIMETER_MAP = "=";
-    public static final String MAPS_DELIMETER_CONTINENTS = "=";
-    public static final String MAPS_DELIMETER_TERRITORIES = ",";
+    public static final String MAPS_DELIMITER_MAP = "=";
+    public static final String MAPS_DELIMITER_CONTINENTS = "=";
+    public static final String MAPS_DELIMITER_TERRITORIES = ",";
     public static final String MAPS_DEFAULT_COORDINATION = "0,0";
     public static final String MAPS_FOLDER = "Maps/";
     public static final String MSG_MAPFILE_VALID = "The file map is valid";
