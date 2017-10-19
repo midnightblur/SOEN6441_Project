@@ -12,8 +12,6 @@ import view.ui_components.GameMapTable;
 
 import javax.swing.*;
 
-import static view.helpers.UIHelper.setDivider;
-
 /**
  * The Class MapEditorFrame.
  */
@@ -23,10 +21,10 @@ public class MapEditorFrame extends JFrame {
     private static final String TITLE = "Map Editor";
     
     /** The Constant WIDTH. */
-    private static final int WIDTH = 1600;
+    private static final int WIDTH = 1366;
     
     /** The Constant HEIGHT. */
-    private static final int HEIGHT = 800;
+    private static final int HEIGHT = 700;
     
     /** The content pane. */
     private JSplitPane contentPane;
@@ -93,7 +91,7 @@ public class MapEditorFrame extends JFrame {
     /* Private methods */
     private void setupContentPaneLayout() {
         contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
-            private final int location = 1100;
+            private final int location = 850;
             
             {
                 setDividerLocation(location);
@@ -109,6 +107,5 @@ public class MapEditorFrame extends JFrame {
                 return location;
             }
         };
-        setDivider(contentPane);
     }
 }

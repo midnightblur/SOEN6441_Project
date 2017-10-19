@@ -49,7 +49,7 @@ public class UIHelper {
      * @param splitPane the component subject to this method
      */
     public static void setDivider(JSplitPane splitPane) {
-        splitPane.setDividerLocation(1100);
+        splitPane.setDividerLocation(600);
         splitPane.setResizeWeight(.75d);
     }
     
