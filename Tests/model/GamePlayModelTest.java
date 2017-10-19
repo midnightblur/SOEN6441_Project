@@ -6,17 +6,17 @@
  */
 package model;
 
+import game_play.model.GamePlayModel;
+import org.junit.Before;
+import org.junit.Test;
 import shared_resources.game_entities.Continent;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.GameMapHelper;
-import game_play.model.GamePlayModel;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * The Class GamePlayModelTest.
@@ -27,7 +27,7 @@ public class GamePlayModelTest {
     GamePlayModel gamePlayModel;
     
     /** The num of players. */
-    final int numOfPlayers = 6;
+    private int numOfPlayers;
     
     /** The map file path. */
     final String mapFilePath = "World.map";
@@ -37,6 +37,7 @@ public class GamePlayModelTest {
      */
     @Before
     public void beforeTests() {
+        numOfPlayers = 6;
         gamePlayModel = GamePlayModel.getInstance();
         try {
             gamePlayModel.setGameMap(GameMapHelper.loadGameMap(mapFilePath));

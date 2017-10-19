@@ -17,13 +17,14 @@ import static shared_resources.utilities.Config.PLAYER_COLOR;
  * The Class PlayerTest tests the player colour.
  */
 public class PlayerTest {
-    private Player[] arrayOfPlayers = new Player[6];
+    private Player[] arrayOfPlayers;
     
     /**
      * Makes an array of 6 players
      */
     @Before
     public void setUp() {
+        arrayOfPlayers = new Player[6];
         for (int i = 0; i < 6; i++) {
             arrayOfPlayers[i] = new Player();
         }
