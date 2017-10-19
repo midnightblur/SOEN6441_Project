@@ -351,12 +351,8 @@ public class GamePlayModel extends Observable {
      */
     public void placeArmiesReinforcement(Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
-            System.out.println("territory " + entry.getKey().getName() + "'s old army value: " + entry.getKey().getArmies());
-            System.out.println("previous unallocated armies: " + currentPlayer.getUnallocatedArmies());
             entry.getKey().addArmies(entry.getValue());
             currentPlayer.reduceUnallocatedArmies(entry.getValue());
-            System.out.println("territory " + entry.getKey().getName() + "'s new army value: " + entry.getKey().getArmies());
-            System.out.println("changed unallocated armies: " + currentPlayer.getUnallocatedArmies());
         }
         updateGameMapTableModel();
         broadcastGamePlayChanges();
