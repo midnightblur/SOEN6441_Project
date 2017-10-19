@@ -88,7 +88,7 @@ public class GameMapHelper {
                     line = line.trim().toLowerCase();
                     switch (mapParts) {
                         case MAP:
-                            String[] lineContent = line.split(Config.MAPS_DELIMETER_MAP);
+                            String[] lineContent = line.split(Config.MAPS_DELIMITER_MAP);
                             switch (lineContent[0].trim()) {
                                 case Config.MAPS_AUTHOR:
                                 case Config.MAPS_IMAGE:
@@ -101,7 +101,7 @@ public class GameMapHelper {
                             break;
                         case CONTINENTS:
                             try {
-                                String[] continentInfo = line.split(Config.MAPS_DELIMETER_CONTINENTS);
+                                String[] continentInfo = line.split(Config.MAPS_DELIMITER_CONTINENTS);
                             
                             /* Check if info is missing or redundant */
                                 if (continentInfo.length != 2) {
@@ -121,7 +121,7 @@ public class GameMapHelper {
                             }
                             break;
                         case TERRITORIES:
-                            String[] territoryInfo = line.split(Config.MAPS_DELIMETER_TERRITORIES);
+                            String[] territoryInfo = line.split(Config.MAPS_DELIMITER_TERRITORIES);
                             
                             /* Check if the territory has no neighbors or is missing some info */
                             if (territoryInfo.length < 4) {
@@ -238,7 +238,7 @@ public class GameMapHelper {
     }
     
     /**
-     * Write a gamemap info to a .map text file
+     * Write a game map info to a .map text file
      *
      * @param gameMap the game map
      * @param path    the path
@@ -254,7 +254,7 @@ public class GameMapHelper {
             writer.append(Config.MAPS_FLAG_CONTINENTS + System.lineSeparator());
             for (Continent continent : gameMap.getContinents().values()) {
                 writer.append(continent.getName());
-                writer.append(Config.MAPS_DELIMETER_CONTINENTS);
+                writer.append(Config.MAPS_DELIMITER_CONTINENTS);
                 writer.append(String.valueOf(continent.getControlValue()));
                 writer.append(System.lineSeparator());
             }
@@ -270,16 +270,16 @@ public class GameMapHelper {
                     writer.append(territoryName);
                     
                     // Write coordination
-                    writer.append(Config.MAPS_DELIMETER_TERRITORIES);
+                    writer.append(Config.MAPS_DELIMITER_TERRITORIES);
                     writer.append(Config.MAPS_DEFAULT_COORDINATION);
-                    writer.append(Config.MAPS_DELIMETER_TERRITORIES);
+                    writer.append(Config.MAPS_DELIMITER_TERRITORIES);
                     
                     // Write Continent name
                     writer.append(territory.getContinent());
                     
                     // Write Neighbors name
                     for (String neighborName : territory.getNeighbors()) {
-                        writer.append(Config.MAPS_DELIMETER_TERRITORIES);
+                        writer.append(Config.MAPS_DELIMITER_TERRITORIES);
                         writer.append(neighborName);
                     }
                     

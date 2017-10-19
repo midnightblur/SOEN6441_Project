@@ -38,7 +38,7 @@ public class Dice {
     }
     
     /**
-     * Parameterized constructor
+     * Parametrized constructor
      * Build an array of dice with default pips showing 1.
      *
      * @param numberOfDice represents the number of dice to be rolled

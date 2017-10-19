@@ -1,6 +1,6 @@
 /* 
  * Risk Game Team 2
- * BidiArrayComparator.java
+ * BidirectionalArrayComparator.java
  * Version 1.0
  * Oct 18, 2017
  */
