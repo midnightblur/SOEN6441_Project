@@ -48,15 +48,8 @@ public class GameMapHelper {
      * The Enum MAP_PARTS.
      */
     private enum MAP_PARTS {
-        /**
-         * The map.
-         */
-        MAP, /**
-         * The continents.
-         */
-        CONTINENTS, /**
-         * The territories.
-         */
+        MAP,
+        CONTINENTS,
         TERRITORIES
     }
     
