@@ -16,6 +16,8 @@ import java.util.Vector;
 /**
  * PlayerTerritoriesModel is responsible for providing data for the table of distributing armies to territories
  *
+ * @author Team 2
+ * @version 1.0
  */
 public class PlayerTerritoriesModel {
     // region Attributes declaration

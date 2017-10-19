@@ -18,43 +18,28 @@ import java.util.Observer;
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
- * The Class MapSelectorFrame represents an frame allowing the user to select the desired map for the game play.
+ * MapSelectorFrame is responsible for displaying a screen allowing users to see a list of maps and choose one of them
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class MapSelectorFrame extends JFrame implements Observer {
-    
     // region Attributes declaration
-    /** The Constant TITLE. */
     private static final String TITLE = "Selecting a map to play";
-    
-    /** The Constant PLAY_GAME_BUTTON. */
     private static final String PLAY_GAME_BUTTON = "Play Game";
-    
-    /** The Constant BACK_BUTTON. */
     private static final String BACK_BUTTON = "Back";
-    
-    /** The Constant SELECT_MAP_LABEL. */
     private static final String SELECT_MAP_LABEL = "Select a map:";
-    
-    /** The Constant WIDTH. */
     private static final int WIDTH = 500;
-    
-    /** The Constant HEIGHT. */
     private static final int HEIGHT = 230;
-    
-    /** The map dropdown. */
     private JComboBox<String> mapDropdown;
-    
-    /** The play game btn. */
     private JButton playGameBtn;
-    
-    /** The back btn. */
     private JButton backBtn;
     // endregion
     
     // region Constructors
     
     /**
-     * Instantiates a new map selector frame.
+     * Instantiates a new MapSelectorFrame.
      */
     public MapSelectorFrame() {
         setupContentPane();
@@ -65,7 +50,7 @@ public class MapSelectorFrame extends JFrame implements Observer {
     // region Getters & Setters
     
     /**
-     * Setup content pane.
+     * Setup ui components in the content pane.
      */
     private void setupContentPane() {
         JPanel contentPane = new JPanel();

@@ -18,9 +18,11 @@ import java.util.Vector;
 
 /**
  * MapTableModel is responsible for providing data for JTable.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class MapTableModel {
-    
     // region Attributes declaration
     private DefaultTableModel model;
     private String[][] rows;
@@ -112,7 +114,7 @@ public class MapTableModel {
     // region Getters & Setters
     
     /**
-     * Gets the game_entities.
+     * Gets the data model.
      *
      * @return the game_entities
      */

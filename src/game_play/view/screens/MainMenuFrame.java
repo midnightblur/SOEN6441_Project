@@ -15,53 +15,41 @@ import java.awt.event.ActionListener;
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
- * The Class MainMenuFrame is the first screen when game is launched.
- *
+ * The Class MainMenuFrame is responsible for displaying buttons allowing users to go to different screens of the application.
  * Allows the user to select from Edit Map, Play Game or Quit.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class MainMenuFrame extends JFrame {
     // region Attributes declaration
-    /** The Constant TITLE. */
     private static final String TITLE = "RISK game by TEAM 2";
-    
-    /** The Constant UI_MAP_EDITOR_BUTTON. */
     private static final String UI_MAP_EDITOR_BUTTON = "Map Editor";
-    
-    /** The Constant UI_PLAY_GAME_BUTTON. */
     private static final String UI_PLAY_GAME_BUTTON = "Play Game";
-    
-    /** The Constant UI_QUIT_BUTTON. */
     private static final String UI_QUIT_BUTTON = "Quit";
-    
-    /** The Constant WIDTH. */
     private static final int WIDTH = 500;
-    
-    /** The Constant HEIGHT. */
     private static final int HEIGHT = 230;
-    
-    /** The map editor btn. */
     private JButton mapEditorBtn;
-    
-    /** The play game btn. */
     private JButton playGameBtn;
-    
-    /** The quit btn. */
     private JButton quitBtn;
     // endregion
+    
+    // region Constructors
     /**
-     * Instantiates a new main menu frame.
+     * Instantiates a new MainMenuFrame.
      */
     public MainMenuFrame() {
         setupContentPane();
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
     }
+    // endregion
     
+    // region MVC & Observer pattern methods
     /**
      * Adds the map editor button listener.
      *
      * @param listenerForMapEditorButton the listener for map editor button
      */
-    /* MVC methods */
     public void addMapEditorButtonListener(ActionListener listenerForMapEditorButton) {
         mapEditorBtn.addActionListener(listenerForMapEditorButton);
     }
@@ -83,11 +71,12 @@ public class MainMenuFrame extends JFrame {
     public void addQuitButtonListener(ActionListener listenerForQuitButton) {
         quitBtn.addActionListener(listenerForQuitButton);
     }
+    // endregion
     
+    // region Private methods
     /**
-     * Setup content pane.
+     * Setup ui components in the content pane.
      */
-    /* Private methods */
     private void setupContentPane() {
         /* The content pane. */
         JPanel contentPane = new JPanel();
@@ -110,4 +99,5 @@ public class MainMenuFrame extends JFrame {
         
         this.setContentPane(contentPane);
     }
+    // endregion
 }

@@ -12,6 +12,9 @@ import java.util.Vector;
 /**
  * DropDownModel is responsible for providing the data model for JComboBox
  * The input data need to be in type of a Vector of Strings.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class DropDownModel extends DefaultComboBoxModel<String> {
     
