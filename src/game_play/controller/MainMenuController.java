@@ -13,8 +13,7 @@ import shared_resources.helper.UIHelper;
 import javax.swing.*;
 
 /**
- * The Class MainGameController  is
- * responsible for launching different game screens.
+ * MainMenuController helps functioning the MainMenuFrame, allowing users to go to different screen of the application
  *
  * @author Team 2
  * @version 1.0
@@ -22,7 +21,6 @@ import javax.swing.*;
 public class MainMenuController extends JFrame {
     
     // region Attributes declaration
-    /** The main menu frame. */
     private MainMenuFrame mainMenuFrame;
     // endregion
     
@@ -40,7 +38,7 @@ public class MainMenuController extends JFrame {
     // region Getters & Setters
     
     /**
-     * Gets the main menu frame.
+     * Gets the main menu frame object.
      *
      * @return the main menu frame
      */
@@ -52,7 +50,7 @@ public class MainMenuController extends JFrame {
     // region Methods to handle events
     
     /**
-     * Register to be listener.
+     * Register this controller to be the listener of all UI components.
      */
     private void registerToBeListener() {
         mainMenuFrame.addMapEditorButtonListener(e -> openMapEditorScreen());
@@ -61,7 +59,7 @@ public class MainMenuController extends JFrame {
     }
     
     /**
-     * Open map editor screen.
+     * Disable MainMenuFrame, show MapEditorFrame.
      */
     private void openMapEditorScreen() {
         UIHelper.disableFrame(mainMenuFrame);
@@ -69,7 +67,7 @@ public class MainMenuController extends JFrame {
     }
     
     /**
-     * Open play game screen.
+     * Disable MainMenuFrame, show MapSelectorFrame
      */
     private void openPlayGameScreen() {
         UIHelper.disableFrame(mainMenuFrame);

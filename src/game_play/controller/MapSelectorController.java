@@ -18,8 +18,9 @@ import static shared_resources.helper.GameMapHelper.getMapsInFolder;
 import static shared_resources.helper.GameMapHelper.loadGameMap;
 
 /**
- * The Class MapSelectorController is in charge of handling user interaction when a map is selected before the Game Play.
- * It will launch the game when a map is selected or go back to main menu if user decides to go back.
+ * MapSelectorController helps functioning the MapSelectorFrame, allowing users to choose a map to play the game on.
+ * Validate the map and launch the game or
+ * Go back to main menu if user decides to go back.
  *
  * @author Team 2
  * @version 1.0
@@ -27,10 +28,7 @@ import static shared_resources.helper.GameMapHelper.loadGameMap;
 public class MapSelectorController {
     
     // region Attributes declaration
-    /** The map selector frame. */
     private MapSelectorFrame mapSelectorFrame;
-    
-    /** The caller controller. */
     private MainMenuController callerController;
     // endregion
     
@@ -55,7 +53,7 @@ public class MapSelectorController {
     // region Methods to handle events from UI
     
     /**
-     * Load map into game.
+     * Validate the selected map, launch the game if it is valid, show a message if it is not.
      */
     private void loadMapIntoGame() {
         /* load the selected map and make a new game*/
@@ -71,7 +69,7 @@ public class MapSelectorController {
     }
     
     /**
-     * Back to main menu.
+     * Close MapSelectorFrame, invoke MainMenuFrame.
      */
     private void backToMainMenu() {
         UIHelper.closeFrame(mapSelectorFrame);
@@ -79,7 +77,7 @@ public class MapSelectorController {
     }
     
     /**
-     * Update list of maps.
+     * Show the list of map files to the JComboBox.
      *
      * @return the drop down game_entities
      */
