@@ -11,11 +11,20 @@ package shared_resources.game_entities;
  * cardType vector. Card type 1 is Infantry, type 2 is Cavalry, and type 3 is Artillery.
  */
 public class Card {
-    
     // region Attributes declaration
+    
+    /** The Enum CARD_TYPE. */
+    public enum CARD_TYPE {
+        INFANTRY,
+        CAVALRY,
+        ARTILLERY
+    }
     
     /** The card type. */
     private CARD_TYPE cardType;
+    // endregion
+    
+    // region Constructors
     
     /**
      * The Card sets the cardType of a card in the deck according to the index.
@@ -27,7 +36,7 @@ public class Card {
     }
     // endregion
     
-    // region Constructors
+    // region Getters & Setters
     
     /**
      * Gets the types count.
@@ -37,9 +46,18 @@ public class Card {
     public static int getTypesCount() {
         return CARD_TYPE.values().length;
     }
+    
+    /**
+     * Gets the card type.
+     *
+     * @return the card type
+     */
+    public CARD_TYPE getCardType() {
+        return this.cardType;
+    }
     // endregion
     
-    // region Getters & Setters
+    // region Public Methods
     
     /**
      * Override equals method to check if two cards are the same, depending on the
@@ -67,25 +85,6 @@ public class Card {
         }
         
         return false;
-    }
-    
-    /**
-     * Gets the card type.
-     *
-     * @return the card type
-     */
-    public CARD_TYPE getCardType() {
-        return this.cardType;
-    }
-    // endregion
-    
-    // region Public Methods
-    
-    /** The Enum CARD_TYPE. */
-    public enum CARD_TYPE {
-        INFANTRY,
-        CAVALRY,
-        ARTILLERY
     }
     // endregion
 }

@@ -94,9 +94,6 @@ public class MapSelectorFrame extends JFrame implements Observer {
         
         this.setContentPane(contentPane);
     }
-    // endregion
-    
-    // region MVC & Observer pattern methods
     
     /**
      * Gets the map dropdown.
@@ -106,6 +103,9 @@ public class MapSelectorFrame extends JFrame implements Observer {
     public JComboBox<String> getMapDropdown() {
         return mapDropdown;
     }
+    // endregion
+    
+    // region MVC & Observer pattern methods
     
     /**
      * Adds the play game button listener.
@@ -115,7 +115,6 @@ public class MapSelectorFrame extends JFrame implements Observer {
     public void addPlayGameButtonListener(ActionListener listenerForPlayGameButton) {
         playGameBtn.addActionListener(listenerForPlayGameButton);
     }
-    // endregion
     
     /**
      * Adds the back button listener.
@@ -125,11 +124,7 @@ public class MapSelectorFrame extends JFrame implements Observer {
     public void addBackButtonListener(ActionListener listenerForBackButton) {
         backBtn.addActionListener(listenerForBackButton);
     }
-    // endregion
     
-    // region Private methods
-    
-    // region Public methods
     /* (non-Javadoc)
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */

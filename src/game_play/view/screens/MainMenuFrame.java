@@ -20,7 +20,7 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
  * Allows the user to select from Edit Map, Play Game or Quit.
  */
 public class MainMenuFrame extends JFrame {
-    
+    // region Attributes declaration
     /** The Constant TITLE. */
     private static final String TITLE = "RISK game by TEAM 2";
     
@@ -39,9 +39,6 @@ public class MainMenuFrame extends JFrame {
     /** The Constant HEIGHT. */
     private static final int HEIGHT = 230;
     
-    /** The content pane. */
-    private JPanel contentPane;
-    
     /** The map editor btn. */
     private JButton mapEditorBtn;
     
@@ -50,7 +47,7 @@ public class MainMenuFrame extends JFrame {
     
     /** The quit btn. */
     private JButton quitBtn;
-    
+    // endregion
     /**
      * Instantiates a new main menu frame.
      */
@@ -92,7 +89,8 @@ public class MainMenuFrame extends JFrame {
      */
     /* Private methods */
     private void setupContentPane() {
-        contentPane = new JPanel();
+        /* The content pane. */
+        JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
         addVerticalSpacing(contentPane);
     

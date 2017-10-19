@@ -15,7 +15,7 @@ import javax.swing.*;
  * The Class MapEditorFrame is the main screen frame for map editor component.
  */
 public class MapEditorFrame extends JFrame {
-    
+    // region Attributes declaration
     /** The Constant TITLE. */
     private static final String TITLE = "Map Editor";
     
@@ -33,11 +33,13 @@ public class MapEditorFrame extends JFrame {
     
     /** The edit map panel. */
     private EditMapPanel editMapPanel;
+    // endregion
+    
+    // region Constructors
     
     /**
      * Instantiates a new map editor frame.
      */
-    /* Constructors */
     public MapEditorFrame() {
         /* Setup main container */
         setupContentPaneLayout();
@@ -54,11 +56,12 @@ public class MapEditorFrame extends JFrame {
         /* Setup & Display frame */
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
     }
+    // endregion
     
+    // region Getters & Setters
     /* (non-Javadoc)
      * @see javax.swing.JFrame#getContentPane()
      */
-    /* Getters & Setters */
     @Override
     public JSplitPane getContentPane() {
         return contentPane;
@@ -81,8 +84,9 @@ public class MapEditorFrame extends JFrame {
     public EditMapPanel getEditMapPanel() {
         return editMapPanel;
     }
+    // endregion
     
-    /* Public methods */
+    // region Private methods
     
     /**
      * Setup content pane layout.
@@ -107,4 +111,5 @@ public class MapEditorFrame extends JFrame {
             }
         };
     }
+    // endregion
 }

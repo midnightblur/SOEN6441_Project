@@ -351,7 +351,7 @@ public class MapEditorController {
      * This method is used to save the map.
      */
     private void saveMap() {
-        File mapFileToSave = null;
+        File mapFileToSave;
         String validateMessage = GameMapHelper.validateMap(mapEditorModel.getGameMap());
         if (validateMessage.compareTo(Config.MSG_MAPFILE_VALID) != 0) {
             UIHelper.displayMessage(mapEditorFrame, validateMessage);

@@ -19,8 +19,8 @@ import java.util.Observer;
 /**
  * The Class EditMapPanel provides the user with an interface to load or create a new map.
  */
-public class EditMapPanel extends JPanel implements Observer{
-    
+public class EditMapPanel extends JPanel implements Observer {
+    // region Attributes declaration
     /** The Constant SAVE_BUTTON_LABEL. */
     private static final String SAVE_BUTTON_LABEL = "Save Map";
     
@@ -47,11 +47,13 @@ public class EditMapPanel extends JPanel implements Observer{
     
     /** The edit territory panel. */
     private EditTerritoryPanel editTerritoryPanel;
+    // endregion
+    
+    // region Constructors
     
     /**
      * Instantiates a new edits the map panel.
      */
-    /* Constructors */
     public EditMapPanel() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         
@@ -68,13 +70,15 @@ public class EditMapPanel extends JPanel implements Observer{
         panel_4.add(saveMapButton);
         add(panel_4);
     }
+    // endregion
+    
+    // region Getters & Setters
     
     /**
      * Gets the edits the continent panel.
      *
      * @return the edits the continent panel
      */
-    /* Getters & Setters */
     public EditContinentPanel getEditContinentPanel() {
         return editContinentPanel;
     }
@@ -96,13 +100,15 @@ public class EditMapPanel extends JPanel implements Observer{
     public MapLoadPanel getMapLoadPanel() {
         return mapLoadPanel;
     }
+    // endregion
+    
+    // region MVC & Observer pattern methods
     
     /**
      * Adds the back button listener.
      *
      * @param listenerForBackButton the listener for back button
      */
-    /* MVC & Observer pattern methods */
     public void addBackButtonListener(ActionListener listenerForBackButton) {
         backButton.addActionListener(listenerForBackButton);
     }
@@ -116,7 +122,20 @@ public class EditMapPanel extends JPanel implements Observer{
         saveMapButton.addActionListener(listenerForSaveMapButton);
     }
     
-    /* Public methods */
+    /* (non-Javadoc)
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof MapEditorModel) {
+            if (((MapEditorModel) o).getGameMap() != null) {
+                saveMapButton.setEnabled(true);
+            }
+        }
+    }
+    // endregion
+    
+    // region Private methods
     
     /**
      * Setup map selection area.
@@ -140,17 +159,5 @@ public class EditMapPanel extends JPanel implements Observer{
         editTabbedPane.addTab(TAB_TERRITORY_LABEL, editTerritoryPanel);
         editTabbedPane.setMnemonicAt(1, KeyEvent.VK_1);
         add(editTabbedPane);
-    }
-    
-    /* (non-Javadoc)
-     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof MapEditorModel) {
-            if (((MapEditorModel) o).getGameMap() != null) {
-                saveMapButton.setEnabled(true);
-            }
-        }
     }
 }

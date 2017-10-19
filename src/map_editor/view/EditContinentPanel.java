@@ -20,7 +20,7 @@ import java.util.Observer;
  * It is a panel that is loaded on the right of the main frame split.
  */
 public class EditContinentPanel extends JPanel implements Observer {
-    
+    // region Attributes delcaration
     /** The Constant ADD_BUTTON_LABEL. */
     private static final String ADD_BUTTON_LABEL = "Add Continent";
     
@@ -65,7 +65,9 @@ public class EditContinentPanel extends JPanel implements Observer {
     
     /** The remove continent button. */
     private JButton removeContinentButton;
+    // endregion
     
+    // region Constructors
     /**
      * Instantiates a new edits the continent panel.
      */
@@ -74,17 +76,18 @@ public class EditContinentPanel extends JPanel implements Observer {
         setupComponents();
         setAllComponentsEnable(false);
     }
+    // endregion
     
+    // region Private methods
     /**
      * Setup components.
      */
-    /* Private methods */
     private void setupComponents() {
         /* Setup grid panel */
         JPanel gridPanel = new JPanel(new GridLayout(LAYOUT_ROWS, LAYOUT_COLS));
-        JLabel chooseContientLabel = new JLabel(CHOOSE_CONTINENT);
-        chooseContientLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        gridPanel.add(chooseContientLabel);
+        JLabel chooseContinentLabel = new JLabel(CHOOSE_CONTINENT);
+        chooseContinentLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        gridPanel.add(chooseContinentLabel);
         continentsListDropdown = new JComboBox<>();
         gridPanel.add(continentsListDropdown);
         
@@ -131,59 +134,14 @@ public class EditContinentPanel extends JPanel implements Observer {
         contientControlValueText.setEnabled(isEnable);
         saveContinentButton.setEnabled(isEnable);
     }
+    // endregion
     
-    /**
-     * Gets the save button label.
-     *
-     * @return the save button label
-     */
-    public static String getSaveButtonLabel() {
-        return SAVE_BUTTON_LABEL;
-    }
-    
-    /**
-     * Gets the adds the button label.
-     *
-     * @return the adds the button label
-     */
-    public static String getAddButtonLabel() {
-        return ADD_BUTTON_LABEL;
-    }
-    
-    /**
-     * Adds the continents list dropdown listener.
-     *
-     * @param listenerForContinentsListDropdown the listener for continents list dropdown
-     */
-    /* MVC & Observer pattern methods */
-    public void addContinentsListDropdownListener(ActionListener listenerForContinentsListDropdown) {
-        continentsListDropdown.addActionListener(listenerForContinentsListDropdown);
-    }
-    
-    /**
-     * Adds the save continent button listener.
-     *
-     * @param listenerForSaveContinentButton the listener for save continent button
-     */
-    public void addSaveContinentButtonListener(ActionListener listenerForSaveContinentButton) {
-        saveContinentButton.addActionListener(listenerForSaveContinentButton);
-    }
-    
-    /**
-     * Adds the remove continent button listener.
-     *
-     * @param listenerForRemoveContinentButton the listener for remove continent button
-     */
-    public void addRemoveContinentButtonListener(ActionListener listenerForRemoveContinentButton) {
-        removeContinentButton.addActionListener(listenerForRemoveContinentButton);
-    }
-    
+    // region Getters & Setters
     /**
      * Gets the continent name text.
      *
      * @return the continent name text
      */
-    /* Getters & Setters */
     public JTextField getContinentNameText() {
         return continentNameText;
     }
@@ -233,6 +191,53 @@ public class EditContinentPanel extends JPanel implements Observer {
         return continentsListDropdown;
     }
     
+    /**
+     * Gets the save button label.
+     *
+     * @return the save button label
+     */
+    public static String getSaveButtonLabel() {
+        return SAVE_BUTTON_LABEL;
+    }
+    
+    /**
+     * Gets the adds the button label.
+     *
+     * @return the adds the button label
+     */
+    public static String getAddButtonLabel() {
+        return ADD_BUTTON_LABEL;
+    }
+    // endregion
+    
+    // region MVC & Observer pattern
+    /**
+     * Adds the continents list dropdown listener.
+     *
+     * @param listenerForContinentsListDropdown the listener for continents list dropdown
+     */
+    public void addContinentsListDropdownListener(ActionListener listenerForContinentsListDropdown) {
+        continentsListDropdown.addActionListener(listenerForContinentsListDropdown);
+    }
+    
+    /**
+     * Adds the save continent button listener.
+     *
+     * @param listenerForSaveContinentButton the listener for save continent button
+     */
+    public void addSaveContinentButtonListener(ActionListener listenerForSaveContinentButton) {
+        saveContinentButton.addActionListener(listenerForSaveContinentButton);
+    }
+    
+    /**
+     * Adds the remove continent button listener.
+     *
+     * @param listenerForRemoveContinentButton the listener for remove continent button
+     */
+    public void addRemoveContinentButtonListener(ActionListener listenerForRemoveContinentButton) {
+        removeContinentButton.addActionListener(listenerForRemoveContinentButton);
+    }
+    
     /* (non-Javadoc)
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
@@ -245,4 +250,5 @@ public class EditContinentPanel extends JPanel implements Observer {
             setAllComponentsEnable(true);
         }
     }
+    // endregion
 }

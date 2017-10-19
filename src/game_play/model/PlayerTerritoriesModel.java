@@ -25,9 +25,6 @@ public class PlayerTerritoriesModel {
     /** The game_entities. */
     private DefaultTableModel model;
     
-    /** The rows. */
-    private Object[][] rows;
-    
     /** The columns. */
     private Vector<String> columns;
     
@@ -43,17 +40,6 @@ public class PlayerTerritoriesModel {
     public PlayerTerritoriesModel() {
         model = new DefaultTableModel();
         columns = new Vector<>();
-    }
-    
-    /**
-     * Makes a new Player Territory game_entities for the player passed as argument.
-     *
-     * @param player The player for which the territory game_entities is made
-     */
-    public PlayerTerritoriesModel(Player player) {
-        model = new DefaultTableModel();
-        columns = new Vector<>();
-        model = updateMapTableModel(player);
     }
     
     // endregion
@@ -78,16 +64,16 @@ public class PlayerTerritoriesModel {
      * Updating the table game_entities and notifying the subscribers.
      *
      * @param player the player object for which we collect the owned territories
-     * @return a table game_entities to be used to generate the view
      */
-    public DefaultTableModel updateMapTableModel(Player player) {
+    public void updateMapTableModel(Player player) {
         /* clears the game_entities data and reinitialize it with new values */
         model.setRowCount(0);
         columns.clear();
         columns.add("Territory");
         columns.add("Armies to place");
         GameMap gameMap = GamePlayModel.getInstance().getGameMap();
-        rows = new Object[gameMap.getTerritoriesOfPlayer(player).size()][columns.size()];
+        /* The rows. */
+        Object[][] rows = new Object[gameMap.getTerritoriesOfPlayer(player).size()][columns.size()];
         
         int i = 0;
         for (Territory territory : gameMap.getTerritoriesOfPlayer(player).values()) {
@@ -99,7 +85,6 @@ public class PlayerTerritoriesModel {
         for (Object[] row : rows) {
             this.model.addRow(row);
         }
-        return model;
     }
     
     // endregion

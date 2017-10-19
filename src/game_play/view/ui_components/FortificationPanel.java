@@ -24,7 +24,7 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
  * Fortification Panel representing the controls for Fortification phase of the game.
  */
 public class FortificationPanel extends JPanel implements Observer {
-    
+    // region Attributes declaration
     /** The Constant MOVE_ARMIES_BUTTON. */
     private static final String MOVE_ARMIES_BUTTON = "Move Armies";
     
@@ -57,11 +57,12 @@ public class FortificationPanel extends JPanel implements Observer {
     
     /** The next player button. */
     private JButton nextPlayerButton;
+    // endregion
     
+    // region Constructors
     /**
      * Instantiates a new fortification panel.
      */
-    /* Constructors */
     public FortificationPanel() {
         JLabel gameState = new JLabel();
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
@@ -106,13 +107,14 @@ public class FortificationPanel extends JPanel implements Observer {
         
         add(controlWrapper);
     }
+    // endregion
     
+    // region Getters & Setters
     /**
      * Gets the armies to move field.
      *
      * @return the armies to move field
      */
-    /* Getters & Setters */
     public JTextField getArmiesToMoveField() {
         return armiesToMoveField;
     }
@@ -135,12 +137,14 @@ public class FortificationPanel extends JPanel implements Observer {
         return targetTerritoryDropdown;
     }
     
+    // endregion
+    
+    // region MVC & Observer pattern methods
     /**
      * Adds the move armies button listener.
      *
      * @param listenerForMoveArmiesButton the listener for move armies button
      */
-    /* MVC & Observer pattern methods */
     public void addMoveArmiesButtonListener(ActionListener listenerForMoveArmiesButton) {
         moveArmiesButton.addActionListener(listenerForMoveArmiesButton);
     }
@@ -187,4 +191,5 @@ public class FortificationPanel extends JPanel implements Observer {
             }
         }
     }
+    // endregion
 }

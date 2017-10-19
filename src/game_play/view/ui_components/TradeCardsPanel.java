@@ -22,7 +22,7 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
  * Trade Cards Panel representing the controls for Trade Cards phase of the game.
  */
 public class TradeCardsPanel extends JPanel implements Observer {
-    
+    // region Attributes declaration
     /** The Constant CARDS_LIST_LABEL. */
     private static final String CARDS_LIST_LABEL = "List of cards owned: ";
     
@@ -55,6 +55,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
     
     /** The back to reinforcement button. */
     private JButton backToReinforcementButton;
+    // endregion
     
     // region Constructors
     
@@ -122,6 +123,18 @@ public class TradeCardsPanel extends JPanel implements Observer {
     }
     
     /**
+     * Gets the card list.
+     *
+     * @return the card list
+     */
+    public JPanel getCardList() {
+        return cardList;
+    }
+    // endregion
+    
+    // region MVC & Observer pattern methods
+    
+    /**
      * Adds the trade cards button listener.
      *
      * @param listenerForTradeCardsButton the listener for trade cards button
@@ -129,10 +142,6 @@ public class TradeCardsPanel extends JPanel implements Observer {
     public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
         tradeCards.addActionListener(listenerForTradeCardsButton);
     }
-    
-    // endregion
-    
-    // region MVC & Observer pattern methods
     
     /**
      * Adds the back to reinforcement listener.
@@ -167,15 +176,6 @@ public class TradeCardsPanel extends JPanel implements Observer {
                 getCardList().repaint();
             }
         }
-    }
-    
-    /**
-     * Gets the card list.
-     *
-     * @return the card list
-     */
-    public JPanel getCardList() {
-        return cardList;
     }
     // endregion
 }

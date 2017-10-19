@@ -25,19 +25,23 @@ import java.util.Observer;
  */
 public class GameMapTable extends JTable implements Observer {
     
+    // region Constructors
+    
     /**
      * Instantiates a new game map table.
      */
-    /* Constructors */
     public GameMapTable() {
         this.setPreferredScrollableViewportSize(this.getPreferredSize());
         this.setFillsViewportHeight(true);
     }
-
+    // endregion
+    
+    // region Public methods
+    
     /**
      * This is update function used by Observer Pattern.
      *
-     * @param o This is Observer object type.
+     * @param o   This is Observer object type.
      * @param arg This is Object type parameter.
      */
     @Override
@@ -46,27 +50,6 @@ public class GameMapTable extends JTable implements Observer {
             setModel(((MapEditorModel) o).getMapTableModel().getModel());
         }
         resizeColumns();
-    }
-    
-    /* Private methods */
-    
-    /**
-     * Resize the table columns to fit.
-     */
-    private void resizeColumns() {
-        final TableColumnModel columnModel = getColumnModel();
-        for (int c = 0; c < getColumnCount(); c++) {
-            int width = 5; // minimum width
-            for (int r = 0; r < getRowCount(); r++) {
-                TableCellRenderer renderer = getCellRenderer(r, c);
-                Component comp = prepareRenderer(renderer, r, c);
-                width = Math.max(comp.getPreferredSize().width + 1, width);
-            }
-            if (width > 500) {    // cap the width
-                width = 500;
-            }
-            columnModel.getColumn(c).setPreferredWidth(width);
-        }
     }
     
     /* (non-Javadoc)
@@ -116,5 +99,26 @@ public class GameMapTable extends JTable implements Observer {
         
         return c;
     }
+    // endregion
     
+    // region Private methods
+    /**
+     * Resize the table columns to fit.
+     */
+    private void resizeColumns() {
+        final TableColumnModel columnModel = getColumnModel();
+        for (int c = 0; c < getColumnCount(); c++) {
+            int width = 5; // minimum width
+            for (int r = 0; r < getRowCount(); r++) {
+                TableCellRenderer renderer = getCellRenderer(r, c);
+                Component comp = prepareRenderer(renderer, r, c);
+                width = Math.max(comp.getPreferredSize().width + 1, width);
+            }
+            if (width > 500) {    // cap the width
+                width = 500;
+            }
+            columnModel.getColumn(c).setPreferredWidth(width);
+        }
+    }
+    // endregion
 }
