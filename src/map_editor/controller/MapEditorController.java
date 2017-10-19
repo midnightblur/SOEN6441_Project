@@ -82,7 +82,7 @@ public class MapEditorController {
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapPanel());
         
         /* Register to be ActionListeners */
-        this.mapEditorFrame.getEditMapPanel().getMapLoadPanel().addLoadMapButtonListener(e -> loadMap());
+        this.mapEditorFrame.getEditMapPanel().getMapLoadPanel().addLoadMapButtonListener(e -> loadMap(String.valueOf(mapEditorFrame.getEditMapPanel().getMapLoadPanel().getChooseMapDropdown().getSelectedItem())));
         this.mapEditorFrame.getEditMapPanel().addBackButtonListener(e -> backToMainMenu());
         this.mapEditorFrame.getEditMapPanel().getMapLoadPanel().addNewMapButtonListener(e -> initiateNewGameMap());
         this.mapEditorFrame.getEditMapPanel().getEditContinentPanel().addContinentsListDropdownListener(e -> prepareContinentEditArea());
@@ -99,11 +99,15 @@ public class MapEditorController {
     
     /**
      * Update the GameMap object from the selected items from DropdownList.
+     *
+     * @param mapName the name of the map to be loaded
      */
-    private void loadMap() {
+    private void loadMap(String mapName) {
         try {
-            String mapName = String.valueOf(mapEditorFrame.getEditMapPanel().getMapLoadPanel().getChooseMapDropdown().getSelectedItem());
+            // load the map
             mapEditorModel.loadNewGameMap(mapName);
+            // select the loaded map in dropdown
+            mapEditorFrame.getEditMapPanel().getMapLoadPanel().getChooseMapDropdown().setSelectedItem(mapName);
         } catch (Exception e) {
             UIHelper.displayMessage(mapEditorFrame, e.getMessage());
         }
@@ -374,8 +378,7 @@ public class MapEditorController {
                 
                     /* reload the map dropdown list and make the saved map the current one */
                     mapEditorModel.updateListOfMaps();
-                    mapEditorFrame.getEditMapPanel().getMapLoadPanel().getChooseMapDropdown().setSelectedItem(mapFileToSave.getName());
-                    loadMap();
+                    loadMap(mapFileToSave.getName());
                 } catch (Exception e) {
                     e.printStackTrace(System.err);
                     UIHelper.displayMessage(mapEditorFrame, e.getMessage());
