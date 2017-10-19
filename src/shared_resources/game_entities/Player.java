@@ -196,14 +196,18 @@ public class Player {
         if (other == null) {
             return false;
         }
-        Player tempPlayer = (Player) other;
-        if (this.playerID == tempPlayer.playerID
-                && ((this.playerName == null && tempPlayer.playerName == null)
-                || this.playerName.equals(tempPlayer.playerName))
-                && this.unallocatedArmies == tempPlayer.unallocatedArmies) {
+        if (other == this) {
             return true;
         }
-        return false;
+        if (!(other instanceof Player)) {
+            return false;
+        }
+        
+        Player tempPlayer = (Player) other;
+        return this.playerID == tempPlayer.playerID
+                && ((this.playerName == null && tempPlayer.playerName == null)
+                || this.playerName.equals(tempPlayer.playerName))
+                && this.unallocatedArmies == tempPlayer.unallocatedArmies;
     }
     
     /**
@@ -213,8 +217,4 @@ public class Player {
         nextID = 0;
     }
     // endregion
-    
-    // region Private methods
-    // endregion
-    
 }

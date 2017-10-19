@@ -58,11 +58,11 @@ public class IntegerEditor extends DefaultCellEditor {
      */
     public Component getTableCellEditorComponent(
             JTable table, Object value, boolean isSelected, int row, int column) {
-        Component c = super.getTableCellEditorComponent(
+        Component component = super.getTableCellEditorComponent(
                 table, value, isSelected, row, column);
-        ((JComponent) c).setBorder(new LineBorder(Color.black));
+        ((JComponent) component).setBorder(new LineBorder(Color.black));
         
-        return c;
+        return component;
     }
     
 }

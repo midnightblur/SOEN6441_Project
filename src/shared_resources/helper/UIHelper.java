@@ -50,17 +50,6 @@ public class UIHelper {
     }
     
     /**
-     * Set the divider position in a split frame
-     * It is used when various control panels are sprung.
-     *
-     * @param splitPane the component subject to this method
-     */
-    public static void setDivider(JSplitPane splitPane) {
-        splitPane.setDividerLocation(950);
-        splitPane.setResizeWeight(.75d);
-    }
-    
-    /**
      * Ads vertical spacing within a panel
      * It is used withing various control panels.
      *

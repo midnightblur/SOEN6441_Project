@@ -188,18 +188,19 @@ public class Continent {
      */
     @Override
     public boolean equals(Object other) {
-        if (other == null)
+        if (other == null) {
             return false;
-        if (other == this)
+        }
+        if (other == this) {
             return true;
-        if (!(other instanceof Continent))
+        }
+        if (!(other instanceof Continent)) {
             return false;
+        }
         
         Continent continent = (Continent) other;
-        if (this.name.compareTo(continent.name) == 0)
-            return true;
-        
-        return false;
+        return this.name.compareTo(continent.name) == 0;
+    
     }
     // endregion
 }

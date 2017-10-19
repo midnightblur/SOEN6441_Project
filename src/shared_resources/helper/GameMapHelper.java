@@ -24,27 +24,6 @@ import java.util.*;
 public class GameMapHelper {
     
     /**
-     * Gets the continents countries.
-     *
-     * @param gameMap the game map
-     *
-     * @return the continents countries
-     */
-    public static Vector<String> getContinentsCountries(GameMap gameMap) {
-        Vector<String> continentsCountries = new Vector<>();
-        continentsCountries.add("SELECT TO EDIT/DELETE");
-        continentsCountries.add("--- CONTINENTS ---");
-        for (Continent continent : gameMap.getContinents().values()) {
-            continentsCountries.add(continent.getName());
-        }
-        continentsCountries.add("--- COUNTRIES ---");
-        for (Territory territory : gameMap.getTerritories().values()) {
-            continentsCountries.add(territory.getName());
-        }
-        return continentsCountries;
-    }
-    
-    /**
      * The Enum MAP_PARTS.
      */
     private enum MAP_PARTS {
@@ -358,19 +337,14 @@ public class GameMapHelper {
         /* Runs BFS */
         while (!nodesQueue.isEmpty()) {
             Territory currentNode = gameMap.getATerritory(nodesQueue.poll());
-            Iterator<String> neighborsIter = currentNode.getNeighbors().iterator();
-            while (neighborsIter.hasNext()) {
-                String neighborName = neighborsIter.next();
-                
+            for (String neighborName : currentNode.getNeighbors()) {
                 if (!visitedNodesSet.contains(neighborName)) {
                     visitedNodesSet.add(neighborName);
                     nodesQueue.add(neighborName);
                 }
             }
         }
-        
-        if (visitedNodesSet.size() == gameMap.getTerritoriesCount())
-            return true;
-        return false;
+    
+        return visitedNodesSet.size() == gameMap.getTerritoriesCount();
     }
 }

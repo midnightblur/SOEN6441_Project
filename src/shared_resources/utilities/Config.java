@@ -26,7 +26,7 @@ public class Config {
     };
     public static final int MAPS_MIN_TERRITORIES = 1;
     
-    // Constants for reading GameMap Text File
+    /* Constants for reading GameMap Text File */
     public static final int MAPS_MAX_TERRITORIES = 255;
     public static final int MAPS_MIN_CONTINENTS = 1;
     public static final int MAPS_MAX_CONTINENTS = 32;
@@ -46,21 +46,17 @@ public class Config {
     public static final String MAPS_DELIMETER_TERRITORIES = ",";
     public static final String MAPS_DEFAULT_COORDINATION = "0,0";
     public static final String MAPS_FOLDER = "Maps/";
-    public static final String DEFAULT_MAP = "World.map";
     public static final int MAX_PIPS = 6;   // the maximum dots on one side of the die
     public static final int DEFAULT_NUM_OF_PLAYERS = 6;
     public static final double INITIAL_ARMY_RATIO = 2.75;  // 2.75 for similar gameplay as official Risk Game
-    public static final String MSG_MAPFILE_ERROR_TITLE = "The map file has error";
     public static final String MSG_MAPFILE_VALID = "The file map is valid";
     public static final String MSG_MAPFILE_INVALID_FORMAT = "Invalid format text file: line %s";
     public static final String MSG_MAPFILE_INVALID_TERRITORIES_COUNT = "Invalid number of territories. Minimum number is " + MAPS_MIN_TERRITORIES + ", maximum number is " + MAPS_MAX_TERRITORIES;
     public static final String MSG_MAPFILE_INVALID_CONTINENTS_COUNT = "Invalid number of continents. Minimum number is " + MAPS_MIN_CONTINENTS + ", maximum number is " + MAPS_MAX_CONTINENTS;
     public static final String MSG_MAPFILE_INVALID_NEIGHBORS_COUNT = "%s has %s neighbors. Minimum number is " + MAPS_MIN_NEIGHBORS + ", maximum number is " + MAPS_MAX_NEIGHBORS;
-    public static final String MSG_MAPFILE_NO_NEIGHBORS = "%s has no neighbor";
     public static final String MSG_MAPFILE_NO_CONTINENT = "%s doesn't belong to any continent";
     public static final String MSG_MAPFILE_DISCONNECTED_GRAPH = "The graph is not connected";
     public static final String MSG_MAPFILE_1_WAY_RELATIONSHIP = "%s - %s is not a 2 ways relationship";
-    public static final String MSG_MAPFILE_NO_IMAGE = "The map image is missing";
     public static final String MSG_MAPFILE_CONTINENT_NOT_DEFINED = "The continent is not defined: line %s";
     public static final String MSG_MAPFILE_CONTINENT_DUPLICATED = "The continent already exist: line %s";
     public static final String MSG_MAPFILE_TERRITORY_NOT_DEFINED = "A territory is not defined";

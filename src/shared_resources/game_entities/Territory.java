@@ -275,14 +275,8 @@ public class Territory {
         }
         
         Territory territory = (Territory) other;
-        if (this.name.compareTo(territory.name) == 0) {
-            return true;
-        }
-        
-        return false;
-    }
-    // endregion
+        return this.name.compareTo(territory.name) == 0;
     
-    // region Private methods
+    }
     // endregion
 }
