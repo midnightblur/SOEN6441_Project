@@ -123,3 +123,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Image files
+*.bmp
+
+# Test code
+Test
+/.idea/shelf/
+/bin/
