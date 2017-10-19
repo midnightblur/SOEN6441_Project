@@ -21,47 +21,30 @@ import java.util.Vector;
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
- * Fortification Panel representing the controls for Fortification phase of the game.
+ * FortificationPanel is responsible for representing the ui components for Fortification phase of the game.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class FortificationPanel extends JPanel implements Observer {
     // region Attributes declaration
-    /** The Constant MOVE_ARMIES_BUTTON. */
     private static final String MOVE_ARMIES_BUTTON = "Move Armies";
-    
-    /** The Constant DONE_BUTTON. */
     private static final String DONE_BUTTON = "Done (next player)";
-    
-    /** The Constant TERRITORY_FROM_LABEL. */
     private static final String TERRITORY_FROM_LABEL = "Move from: ";
-    
-    /** The Constant TERRITORY_TO_LABEL. */
     private static final String TERRITORY_TO_LABEL = "Move to: ";
-    
-    /** The Constant ARMIES_TO_MOVE_LABEL. */
     private static final String ARMIES_TO_MOVE_LABEL = "Armies to move: ";
-    
-    /** The move armies button. */
     private JButton moveArmiesButton;
-    
-    /** The armies to move field. */
     private JTextField armiesToMoveField;
-    
-    /** The player name. */
     private JLabel playerName;
-    
-    /** The source territory dropdown. */
     private JComboBox<String> sourceTerritoryDropdown;
-    
-    /** The target territory dropdown. */
     private JComboBox<String> targetTerritoryDropdown;
-    
-    /** The next player button. */
     private JButton nextPlayerButton;
     // endregion
     
     // region Constructors
+    
     /**
-     * Instantiates a new fortification panel.
+     * Instantiates and shows a new fortification panel.
      */
     public FortificationPanel() {
         JLabel gameState = new JLabel();

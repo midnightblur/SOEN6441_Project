@@ -6,7 +6,6 @@
  */
 package map_editor.view;
 
-import game_play.view.ui_components.MapLoadPanel;
 import map_editor.model.MapEditorModel;
 
 import javax.swing.*;

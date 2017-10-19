@@ -17,27 +17,18 @@ import java.util.Observer;
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
- * Startup Panel representing the controls for Startup phase of the game.
+ * GameSetupPanel is responsible for display ui components, allowing users to choose the number of players in the game.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class GameSetupPanel extends JPanel implements Observer {
-    
     // region Attributes declaration
-    /** The Constant MAX_PLAYERS_LABEL. */
     private static final String MAX_PLAYERS_LABEL = "Maximum players you can enter is ";
-    
-    /** The Constant PLAYERS_LABEL. */
     private static final String PLAYERS_LABEL = "Enter the desired number of players:";
-    
-    /** The Constant PLAY_BUTTON. */
     private static final String PLAY_BUTTON = "Play";
-    
-    /** The max players label. */
     private JLabel maxPlayersLabel;
-    
-    /** The player count. */
     private JTextField playerCount;
-    
-    /** The play button. */
     private JButton playButton;
     // endregion
     

@@ -4,7 +4,7 @@
  * Version 1.0
  * Oct 18, 2017
  */
-package game_play.view.ui_components;
+package map_editor.view;
 
 import map_editor.model.MapEditorModel;
 
@@ -15,8 +15,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * The Class MapLoadPanel is a sub-panel that allows the user to load a map or make a new map.
- *
+ * MapLoadPanel is a sub-panel that allows the user to load a map or make a new map.
  * It is used as part of the edit map control panel
  *
  * @see map_editor.view.EditMapPanel
