@@ -271,7 +271,7 @@ public class ReadingInvalidMapFileTest {
     @Test
     public void valid_map() {
         Vector<String> mapsList = GameMapHelper.getMapsInFolder(Config.MAPS_FOLDER);
-        int mapIndex = (int) Math.random() * mapsList.size();
+        int mapIndex = (int) (Math.random() * mapsList.size());
         try {
             gameMap = GameMapHelper.loadGameMap(mapsList.elementAt(mapIndex));
         } catch (Exception e) {
