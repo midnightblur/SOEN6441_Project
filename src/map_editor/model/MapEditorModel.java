@@ -6,41 +6,31 @@
  */
 package map_editor.model;
 
+import game_play.model.DropDownModel;
+import game_play.model.MapTableModel;
 import shared_resources.game_entities.Continent;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.GameMapHelper;
-import game_play.model.DropDownModel;
-import game_play.model.MapTableModel;
 import shared_resources.utilities.Config;
 
 import java.util.Observable;
 import java.util.Vector;
 
 /**
- * The Map Editor game_entities class encapsulating the logic for editing *.map files
+ * The Map Editor Model encapsulates the logic for editing *.map files
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class MapEditorModel extends Observable {
     // region Attributes declaration
-    /** The Constant CREATE_NEW_CONTINENT_ITEM. */
     private static final String CREATE_NEW_CONTINENT_ITEM = "<Create New Continent>";
-    
-    /** The Constant CREATE_NEW_TERRITORY_ITEM. */
     private static final String CREATE_NEW_TERRITORY_ITEM = "<Create New Territory>";
-    
-    /** The game map. */
     private GameMap gameMap;
-    
-    /** The map table game_entities. */
     private MapTableModel mapTableModel;
-    
-    /** The map dropdown game_entities. */
     private DropDownModel mapDropdownModel;
-    
-    /** The continents dropdown game_entities. */
     private DropDownModel continentsDropdownModel;
-    
-    /** The territories dropdown game_entities. */
     private DropDownModel territoriesDropdownModel;
     // endregion
     
@@ -48,6 +38,8 @@ public class MapEditorModel extends Observable {
     
     /**
      * Constructor instantiating a MapEditorModel object.
+     *
+     * @see MapTableModel
      */
     public MapEditorModel() {
         mapTableModel = new MapTableModel();
@@ -55,6 +47,24 @@ public class MapEditorModel extends Observable {
     // endregion
     
     // region Getters & Setters
+    
+    /**
+     * Gets the creates the new continent item.
+     *
+     * @return the creates the new continent item
+     */
+    public static String getCreateNewContinentItem() {
+        return CREATE_NEW_CONTINENT_ITEM;
+    }
+    
+    /**
+     * Gets the creates the new territory item.
+     *
+     * @return the creates the new territory item
+     */
+    public static String getCreateNewTerritoryItem() {
+        return CREATE_NEW_TERRITORY_ITEM;
+    }
     
     /**
      * Gets the game map.
@@ -100,24 +110,6 @@ public class MapEditorModel extends Observable {
     public DropDownModel getTerritoriesDropdownModel() {
         return territoriesDropdownModel;
     }
-    
-    /**
-     * Gets the creates the new continent item.
-     *
-     * @return the creates the new continent item
-     */
-    public static String getCreateNewContinentItem() {
-        return CREATE_NEW_CONTINENT_ITEM;
-    }
-    
-    /**
-     * Gets the creates the new territory item.
-     *
-     * @return the creates the new territory item
-     */
-    public static String getCreateNewTerritoryItem() {
-        return CREATE_NEW_TERRITORY_ITEM;
-    }
     // endregion
     
     // region Public methods
@@ -133,6 +125,53 @@ public class MapEditorModel extends Observable {
         gameMap = GameMapHelper.loadGameMap(mapName);
         updateModels();
         broadcastGameMapChanges();
+    }
+    
+    /**
+     * Update models.
+     */
+    private void updateModels() {
+        mapTableModel.updateMapTableModel(gameMap, Config.GAME_STATES.MAP_EDITOR);
+        updateListOfMaps();
+        updateListOfContinents();
+        updateListOfTerritories();
+    }
+    
+    /**
+     * This method Updates the MapTableModel and notifies the Observer.
+     */
+    private void broadcastGameMapChanges() {
+        setChanged();
+        notifyObservers();
+    }
+    
+    /**
+     * Update list of maps.
+     */
+    public void updateListOfMaps() {
+        Vector<String> mapList = new Vector<>();
+        mapList.addAll(GameMapHelper.getMapsInFolder(Config.MAPS_FOLDER));
+        mapDropdownModel = new DropDownModel(mapList);
+    }
+    
+    /**
+     * Update list of continents.
+     */
+    private void updateListOfContinents() {
+        Vector<String> continentsList = new Vector<>();
+        continentsList.add(CREATE_NEW_CONTINENT_ITEM);
+        continentsList.addAll(gameMap.getContinentsNames());
+        continentsDropdownModel = new DropDownModel(continentsList);
+    }
+    
+    /**
+     * Update list of territories.
+     */
+    private void updateListOfTerritories() {
+        Vector<String> territoriesList = new Vector<>();
+        territoriesList.add(CREATE_NEW_TERRITORY_ITEM);
+        territoriesList.addAll(gameMap.getTerritoriesNames());
+        territoriesDropdownModel = new DropDownModel(territoriesList);
     }
     
     /**
@@ -157,7 +196,7 @@ public class MapEditorModel extends Observable {
      * @param oldContinentName the old continent name
      * @param newContinent     the new continent
      *
-     * @return the string
+     * @return result the string
      */
     public String updateContinent(String oldContinentName, Continent newContinent) {
         String result = gameMap.updateContinent(oldContinentName, newContinent);
@@ -173,7 +212,7 @@ public class MapEditorModel extends Observable {
      *
      * @param continentName the continent name
      *
-     * @return the string
+     * @return result the string
      */
     public String removeContinent(String continentName) {
         String result = gameMap.removeContinent(continentName);
@@ -183,13 +222,16 @@ public class MapEditorModel extends Observable {
         }
         return result;
     }
+    // endregion
+    
+    // region Private methods
     
     /**
      * Adds the new territory.
      *
      * @param territory the territory
      *
-     * @return the string
+     * @return result the string
      */
     public String addNewTerritory(Territory territory) {
         String result = gameMap.addTerritory(territory, false);
@@ -206,7 +248,7 @@ public class MapEditorModel extends Observable {
      * @param oldTerritoryName the old territory name
      * @param newTerritory     the new territory
      *
-     * @return the string
+     * @return result the string
      */
     public String updateTerritory(String oldTerritoryName, Territory newTerritory) {
         String result = gameMap.updateTerritory(oldTerritoryName, newTerritory);
@@ -222,7 +264,7 @@ public class MapEditorModel extends Observable {
      *
      * @param territoryName the territory name
      *
-     * @return the string
+     * @return result the string
      */
     public String removeTerritory(String territoryName) {
         String result = gameMap.removeTerritory(territoryName);
@@ -234,62 +276,12 @@ public class MapEditorModel extends Observable {
     }
     
     /**
-     * Inits the new map.
+     * Initialize a new Game Map, update the models and broadcast the changes to observers.
      */
     public void initNewMap() {
         gameMap = new GameMap();
         updateModels();
         broadcastGameMapChanges();
-    }
-    
-    /**
-     * Update list of maps.
-     */
-    public void updateListOfMaps() {
-        Vector<String> mapList = new Vector<>();
-        mapList.addAll(GameMapHelper.getMapsInFolder(Config.MAPS_FOLDER));
-        mapDropdownModel = new DropDownModel(mapList);
-    }
-    // endregion
-    
-    // region Private methods
-    
-    /**
-     * This method Updates the MapTableModel and notifies the Observer.
-     */
-    private void broadcastGameMapChanges() {
-        setChanged();
-        notifyObservers();
-    }
-    
-    /**
-     * Update models.
-     */
-    private void updateModels() {
-        mapTableModel.updateMapTableModel(gameMap, Config.GAME_STATES.MAP_EDITOR);
-        updateListOfMaps();
-        updateListOfContinents();
-        updateListOfTerritories();
-    }
-    
-    /**
-     * Update list of continents.
-     */
-    private void updateListOfContinents() {
-        Vector<String> continentsList = new Vector<>();
-        continentsList.add(CREATE_NEW_CONTINENT_ITEM);
-        continentsList.addAll(gameMap.getContinentsNames());
-        continentsDropdownModel = new DropDownModel(continentsList);
-    }
-    
-    /**
-     * Update list of territories.
-     */
-    private void updateListOfTerritories() {
-        Vector<String> territoriesList = new Vector<>();
-        territoriesList.add(CREATE_NEW_TERRITORY_ITEM);
-        territoriesList.addAll(gameMap.getTerritoriesNames());
-        territoriesDropdownModel = new DropDownModel(territoriesList);
     }
     // endregion
 }

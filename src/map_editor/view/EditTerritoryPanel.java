@@ -18,52 +18,26 @@ import java.util.Observer;
  * The Class EditTerritoryPanel represents a sub-panel for map editor allowing user to add or edit a territory.
  *
  * It is used as part of the edit map control panel
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class EditTerritoryPanel extends JPanel implements Observer {
     // region Attributes declaration
-    /** The Constant ADD_BUTTON_LABEL. */
     private static final String ADD_BUTTON_LABEL = "Add Territory";
-    
-    /** The Constant SAVE_BUTTON_LABEL. */
     private static final String SAVE_BUTTON_LABEL = "Save Territory";
-    
-    /** The Constant REMOVE_BUTTON_LABEL. */
     private static final String REMOVE_BUTTON_LABEL = "Remove Territory";
-    
-    /** The Constant CHOOSE_TERRITORY. */
     private static final String CHOOSE_TERRITORY = "Choose Territory";
-    
-    /** The Constant TERRITORY_NAME_LABEL. */
     private static final String TERRITORY_NAME_LABEL = "Territory Name";
-    
-    /** The Constant CHOOSE_NEIGHBORS_LABEL. */
     private static final String CHOOSE_NEIGHBORS_LABEL = "Choose Neighbors";
-    
-    /** The Constant CHOOSE_CONTINENT_LABEL. */
     private static final String CHOOSE_CONTINENT_LABEL = "Choose Continent";
-    
-    /** The Constant LAYOUT_ROWS. */
     private static final int LAYOUT_ROWS = 2;
-    
-    /** The Constant LAYOUT_COLS. */
     private static final int LAYOUT_COLS = 2;
-    
-    /** The territories list dropdown. */
     private JComboBox<String> territoriesListDropdown;
-    
-    /** The territory name text. */
     private JTextField territoryNameText;
-    
-    /** The save territory button. */
     private JButton saveTerritoryButton;
-    
-    /** The remove territory button. */
     private JButton removeTerritoryButton;
-    
-    /** The radio buttons panel. */
     private JPanel radioButtonsPanel;
-    
-    /** The check box panel. */
     private JPanel checkBoxPanel;
     // endregion
     
@@ -80,124 +54,6 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     // endregion
     
     // region MVC & Observer pattern methods
-    
-    /**
-     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        /* When the GameMap object is updated */
-        if (o instanceof MapEditorModel) {
-            territoriesListDropdown.setModel(((MapEditorModel) o).getTerritoriesDropdownModel());
-            territoriesListDropdown.setSelectedIndex(0);
-            setAllComponentsEnable(true);
-        }
-    }
-    
-    /**
-     * Adds the territory list dropdown listener.
-     *
-     * @param listenerForTerritoryListDropdown the listener for territory list dropdown
-     */
-    public void addTerritoryListDropdownListener(ActionListener listenerForTerritoryListDropdown) {
-        territoriesListDropdown.addActionListener(listenerForTerritoryListDropdown);
-    }
-    
-    /**
-     * Adds the save territory button listener.
-     *
-     * @param listenerForSaveTerritoryButton the listener for save territory button
-     */
-    public void addSaveTerritoryButtonListener(ActionListener listenerForSaveTerritoryButton) {
-        saveTerritoryButton.addActionListener(listenerForSaveTerritoryButton);
-    }
-    
-    /**
-     * Adds the remove territory button listener.
-     *
-     * @param listenerForRemoveTerritoryButton the listener for remove territory button
-     */
-    public void addRemoveTerritoryButtonListener(ActionListener listenerForRemoveTerritoryButton) {
-        removeTerritoryButton.addActionListener(listenerForRemoveTerritoryButton);
-    }
-    // endregion
-    
-    // region Getters & Setters
-    
-    /**
-     * Gets the territory name text.
-     *
-     * @return the territory name text
-     */
-    public JTextField getTerritoryNameText() {
-        return territoryNameText;
-    }
-    
-    /**
-     * Gets the check box panel.
-     *
-     * @return the check box panel
-     */
-    public JPanel getCheckBoxPanel() {
-        return checkBoxPanel;
-    }
-    
-    /**
-     * Gets the radio buttons panel.
-     *
-     * @return the radio buttons panel
-     */
-    public JPanel getRadioButtonsPanel() {
-        return radioButtonsPanel;
-    }
-    
-    /**
-     * Gets the removes the territory button.
-     *
-     * @return the removes the territory button
-     */
-    public JButton getRemoveTerritoryButton() {
-        return removeTerritoryButton;
-    }
-    
-    /**
-     * Gets the save territory button.
-     *
-     * @return the save territory button
-     */
-    public JButton getSaveTerritoryButton() {
-        return saveTerritoryButton;
-    }
-    
-    /**
-     * Gets the save button label.
-     *
-     * @return the save button label
-     */
-    public static String getSaveButtonLabel() {
-        return SAVE_BUTTON_LABEL;
-    }
-    
-    /**
-     * Gets the adds the button label.
-     *
-     * @return the adds the button label
-     */
-    public static String getAddButtonLabel() {
-        return ADD_BUTTON_LABEL;
-    }
-    
-    /**
-     * Gets the territories list dropdown.
-     *
-     * @return the territories list dropdown
-     */
-    public JComboBox<String> getTerritoriesListDropdown() {
-        return territoriesListDropdown;
-    }
-    // endregion
-    
-    // region Private methods
     
     /**
      * Setup components.
@@ -253,6 +109,124 @@ public class EditTerritoryPanel extends JPanel implements Observer {
         territoriesListDropdown.setEnabled(isEnable);
         territoryNameText.setEnabled(isEnable);
         saveTerritoryButton.setEnabled(isEnable);
+    }
+    
+    /**
+     * Gets the save button label.
+     *
+     * @return the save button label
+     */
+    public static String getSaveButtonLabel() {
+        return SAVE_BUTTON_LABEL;
+    }
+    
+    /**
+     * Gets the adds the button label.
+     *
+     * @return the adds the button label
+     */
+    public static String getAddButtonLabel() {
+        return ADD_BUTTON_LABEL;
+    }
+    // endregion
+    
+    // region Getters & Setters
+    
+    /**
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        /* When the GameMap object is updated */
+        if (o instanceof MapEditorModel) {
+            territoriesListDropdown.setModel(((MapEditorModel) o).getTerritoriesDropdownModel());
+            territoriesListDropdown.setSelectedIndex(0);
+            setAllComponentsEnable(true);
+        }
+    }
+    
+    /**
+     * Adds the territory list dropdown listener.
+     *
+     * @param listenerForTerritoryListDropdown the listener for territory list dropdown
+     */
+    public void addTerritoryListDropdownListener(ActionListener listenerForTerritoryListDropdown) {
+        territoriesListDropdown.addActionListener(listenerForTerritoryListDropdown);
+    }
+    
+    /**
+     * Adds the save territory button listener.
+     *
+     * @param listenerForSaveTerritoryButton the listener for save territory button
+     */
+    public void addSaveTerritoryButtonListener(ActionListener listenerForSaveTerritoryButton) {
+        saveTerritoryButton.addActionListener(listenerForSaveTerritoryButton);
+    }
+    
+    /**
+     * Adds the remove territory button listener.
+     *
+     * @param listenerForRemoveTerritoryButton the listener for remove territory button
+     */
+    public void addRemoveTerritoryButtonListener(ActionListener listenerForRemoveTerritoryButton) {
+        removeTerritoryButton.addActionListener(listenerForRemoveTerritoryButton);
+    }
+    
+    /**
+     * Gets the territory name text.
+     *
+     * @return the territory name text
+     */
+    public JTextField getTerritoryNameText() {
+        return territoryNameText;
+    }
+    
+    /**
+     * Gets the check box panel.
+     *
+     * @return the check box panel
+     */
+    public JPanel getCheckBoxPanel() {
+        return checkBoxPanel;
+    }
+    
+    /**
+     * Gets the radio buttons panel.
+     *
+     * @return the radio buttons panel
+     */
+    public JPanel getRadioButtonsPanel() {
+        return radioButtonsPanel;
+    }
+    
+    /**
+     * Gets the removes the territory button.
+     *
+     * @return the removes the territory button
+     */
+    public JButton getRemoveTerritoryButton() {
+        return removeTerritoryButton;
+    }
+    // endregion
+    
+    // region Private methods
+    
+    /**
+     * Gets the save territory button.
+     *
+     * @return the save territory button
+     */
+    public JButton getSaveTerritoryButton() {
+        return saveTerritoryButton;
+    }
+    
+    /**
+     * Gets the territories list dropdown.
+     *
+     * @return the territories list dropdown
+     */
+    public JComboBox<String> getTerritoriesListDropdown() {
+        return territoriesListDropdown;
     }
     // endregion
 }
