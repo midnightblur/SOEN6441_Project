@@ -19,7 +19,6 @@ import static shared_resources.utilities.Config.DEFAULT_NUM_OF_PLAYERS;
  * @version 1.0
  */
 public class GameMap {
-    
     // region Attributes declaration
     private static final String MSG_CONTINENT_EXIST = "The %s continent already exists! No change has been made to the map";
     private static final String MSG_TERRITORY_EXIST = "The %s territory already exists! No change has been made to the map";
@@ -31,6 +30,7 @@ public class GameMap {
     private static final String MSG_TERRITORY_EDIT_SUCCESS = "The %s territory has been edited successfully";
     private static final String MSG_TERRITORY_ADD_SUCCESS = "The %s territory has been added successfully";
     private static final String MSG_TERRITORY_REMOVE_SUCCESS = "The %s territory has been removed successfully";
+    private String mapName;
     private Map<String, Territory> territories;
     private Map<String, Continent> continents;
     // endregion
@@ -40,13 +40,23 @@ public class GameMap {
     /**
      * Instantiates a new game map.
      */
-    public GameMap() {
+    public GameMap(String mapName) {
+        this.mapName = mapName;
         this.territories = new TreeMap<>();
         this.continents = new TreeMap<>();
     }
     // endregion
     
     // region Getters & Setters
+    
+    /**
+     * Get the game map name
+     *
+     * @return the game map name
+     */
+    public String getMapName() {
+        return mapName;
+    }
     
     /**
      * Gets the territories.

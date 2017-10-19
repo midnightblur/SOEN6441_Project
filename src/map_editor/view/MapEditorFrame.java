@@ -7,9 +7,12 @@
 package map_editor.view;
 
 import game_play.view.ui_components.GameMapTable;
+import map_editor.model.MapEditorModel;
 import shared_resources.helper.UIHelper;
 
 import javax.swing.*;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * The Class MapEditorFrame is the main screen frame for map editor component.
@@ -17,7 +20,7 @@ import javax.swing.*;
  * @author Team 2
  * @version 1.0
  */
-public class MapEditorFrame extends JFrame {
+public class MapEditorFrame extends JFrame implements Observer {
     // region Attributes declaration
     private static final String TITLE = "Map Editor";
     private static final int WIDTH = 1366;
@@ -103,6 +106,14 @@ public class MapEditorFrame extends JFrame {
      */
     public EditMapPanel getEditMapPanel() {
         return editMapPanel;
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof MapEditorModel) {
+            MapEditorModel mapEditorModel = (MapEditorModel) o;
+            setTitle(String.valueOf(mapEditorModel.getGameMap().getMapName()));
+        }
     }
     // endregion
 }

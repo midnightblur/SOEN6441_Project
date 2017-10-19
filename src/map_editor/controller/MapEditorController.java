@@ -38,7 +38,6 @@ import java.util.Vector;
  * @version 1.0
  */
 public class MapEditorController {
-    
     // region Attributes declaration
     private static final String NONE_RADIO_BUTTON = "NONE";
     private static final String CONTINENT_NAME_GENERATOR = "continent_";
@@ -75,6 +74,7 @@ public class MapEditorController {
         this.mapEditorFrame.getEditMapPanel().getMapLoadPanel().getChooseMapDropdown().setModel(mapEditorModel.getMapDropdownModel());
         
         /* Register Observer to Observable */
+        this.mapEditorModel.addObserver(this.mapEditorFrame);
         this.mapEditorModel.addObserver(this.mapEditorFrame.getGameMapTable());
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapPanel().getMapLoadPanel());
         this.mapEditorModel.addObserver(this.mapEditorFrame.getEditMapPanel().getEditContinentPanel());

@@ -27,7 +27,6 @@ import java.util.*;
  * @version 1.0
  */
 public class GameMapHelper {
-    
     // region Attributes declaration
      private enum MAP_PARTS {
         MAP,
@@ -65,7 +64,7 @@ public class GameMapHelper {
         String line;
         int lineCounter = 0;
         
-        gameMap = new GameMap();
+        gameMap = new GameMap(mapName);
         Map<String, Continent> continentsMap = new HashMap<>();
         Set<String> allNeighbors = new HashSet<>(); // Used to check Territories and Neighbors declaration match
         MAP_PARTS mapParts = null;

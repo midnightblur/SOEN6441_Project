@@ -279,7 +279,7 @@ public class MapEditorModel extends Observable {
      * Initialize a new Game Map, update the models and broadcast the changes to observers.
      */
     public void initNewMap() {
-        gameMap = new GameMap();
+        gameMap = new GameMap("");
         updateModels();
         broadcastGameMapChanges();
     }

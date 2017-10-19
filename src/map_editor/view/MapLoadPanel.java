@@ -22,25 +22,12 @@ import java.util.Observer;
  */
 public class MapLoadPanel extends JPanel implements Observer {
     // region Attributes declaration
-    /** The Constant LABEL_CHOOSE_MAP. */
     private static final String LABEL_CHOOSE_MAP = "Choose a Map to edit";
-    
-    /** The Constant LOAD_BUTTON_LABEL. */
     private static final String LOAD_BUTTON_LABEL = "Load Map";
-    
-    /** The Constant NEW_MAP_BUTTON_LABEL. */
     private static final String NEW_MAP_BUTTON_LABEL = "Create a new Map";
-    
-    /** The Constant LABEL_OR. */
     private static final String LABEL_OR = " or ";
-    
-    /** The new map button. */
     private JButton newMapButton;
-    
-    /** The load map button. */
     private JButton loadMapButton;
-    
-    /** The choose map dropdown. */
     private JComboBox<String> chooseMapDropdown;
     // endregion
     
