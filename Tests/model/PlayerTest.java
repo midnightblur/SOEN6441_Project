@@ -8,8 +8,6 @@ package model;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * The Class PlayerTest.
  */
@@ -18,7 +16,6 @@ public class PlayerTest {
     /**
      * Gets the id.
      *
-     * @return the id
      * @throws Exception the exception
      */
     @Test

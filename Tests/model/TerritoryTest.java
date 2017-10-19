@@ -6,8 +6,8 @@
  */
 package model;
 
-import shared_resources.game_entities.Territory;
 import org.junit.Test;
+import shared_resources.game_entities.Territory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -22,7 +22,6 @@ public class TerritoryTest {
     /**
      * Gets the name.
      *
-     * @return the name
      * @throws Exception the exception
      */
     @Test

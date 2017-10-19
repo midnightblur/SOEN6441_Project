@@ -6,9 +6,9 @@
  */
 package model;
 
-import shared_resources.game_entities.Continent;
 import org.junit.Before;
 import org.junit.Test;
+import shared_resources.game_entities.Continent;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -40,7 +40,6 @@ public class ContinentTest {
     /**
      * This test checks the name of continent.
      *
-     * @return the name
      */
     @Test
     public void getName() {
@@ -51,7 +50,6 @@ public class ContinentTest {
     /**
      * This test checks the value of the control.
      *
-     * @return the control value
      * @throws Exception the exception
      */
     @Test

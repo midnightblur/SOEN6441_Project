@@ -45,6 +45,7 @@ public class Player {
     // endregion
     
     // region Constructors
+    
     /**
      * Instantiates a new player.
      */
@@ -59,6 +60,7 @@ public class Player {
     // endregion
     
     // region Getters & Setters
+    
     /**
      * Gets the player ID.
      *
@@ -78,15 +80,6 @@ public class Player {
     }
     
     /**
-     * Gets the color.
-     *
-     * @return the color
-     */
-    public Color getColor() {
-        return color;
-    }
-    
-    /**
      * Sets the player name.
      *
      * @param playerName the new player name
@@ -96,13 +89,12 @@ public class Player {
     }
     
     /**
-     * Sets the unallocated armies.
+     * Gets the color.
      *
-     * @param unallocatedArmies the new unallocated armies
+     * @return the color
      */
-    public void setUnallocatedArmies(int unallocatedArmies) {
-        this.unallocatedArmies = unallocatedArmies;
-//        broadcastPlayerChanges();
+    public Color getColor() {
+        return color;
     }
     
     /**
@@ -112,6 +104,15 @@ public class Player {
      */
     public int getUnallocatedArmies() {
         return this.unallocatedArmies;
+    }
+    
+    /**
+     * Sets the unallocated armies.
+     *
+     * @param unallocatedArmies the new unallocated armies
+     */
+    public void setUnallocatedArmies(int unallocatedArmies) {
+        this.unallocatedArmies = unallocatedArmies;
     }
     
     /**
@@ -143,7 +144,6 @@ public class Player {
      */
     public void reduceUnallocatedArmies(int num) {
         this.unallocatedArmies -= num;
-//        broadcastPlayerChanges();
     }
     
     /**
@@ -153,7 +153,6 @@ public class Player {
      */
     public void addUnallocatedArmies(int num) {
         this.unallocatedArmies += num;
-//        broadcastPlayerChanges();
     }
     
     /**
@@ -215,6 +214,5 @@ public class Player {
     
     // region Private methods
     // endregion
-    
     
 }
