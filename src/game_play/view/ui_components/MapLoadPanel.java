@@ -141,7 +141,7 @@ public class MapLoadPanel extends JPanel implements Observer {
         newMapButton.addActionListener(listenerForNewMapButton);
     }
     
-    /* (non-Javadoc)
+    /**
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override

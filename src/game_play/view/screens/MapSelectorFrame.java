@@ -125,7 +125,7 @@ public class MapSelectorFrame extends JFrame implements Observer {
         backBtn.addActionListener(listenerForBackButton);
     }
     
-    /* (non-Javadoc)
+    /**
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override

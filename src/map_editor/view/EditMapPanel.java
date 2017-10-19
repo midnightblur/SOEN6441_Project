@@ -122,7 +122,7 @@ public class EditMapPanel extends JPanel implements Observer {
         saveMapButton.addActionListener(listenerForSaveMapButton);
     }
     
-    /* (non-Javadoc)
+    /**
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override

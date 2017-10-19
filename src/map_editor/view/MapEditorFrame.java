@@ -59,7 +59,7 @@ public class MapEditorFrame extends JFrame {
     // endregion
     
     // region Getters & Setters
-    /* (non-Javadoc)
+    /**
      * @see javax.swing.JFrame#getContentPane()
      */
     @Override

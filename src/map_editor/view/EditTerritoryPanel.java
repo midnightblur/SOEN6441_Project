@@ -81,7 +81,7 @@ public class EditTerritoryPanel extends JPanel implements Observer {
     
     // region MVC & Observer pattern methods
     
-    /* (non-Javadoc)
+    /**
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override

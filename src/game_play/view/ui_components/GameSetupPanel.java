@@ -109,7 +109,7 @@ public class GameSetupPanel extends JPanel implements Observer {
     }
     
     
-    /* (non-Javadoc)
+    /**
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override

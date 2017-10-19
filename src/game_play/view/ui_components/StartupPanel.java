@@ -110,7 +110,7 @@ public class StartupPanel extends JPanel implements Observer {
     // endregion
     
     // region Public methods
-    /* (non-Javadoc)
+    /**
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override

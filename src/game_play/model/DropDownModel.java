@@ -27,9 +27,10 @@ public class DropDownModel extends DefaultComboBoxModel<String> {
     // endregion
     
     // region Getters & Setters
-    /* (non-Javadoc)
+    /**
      * @see javax.swing.DefaultComboBoxModel#getSelectedItem()
      */
+    @Override
     public String getSelectedItem() {
         return String.valueOf(super.getSelectedItem());
     }

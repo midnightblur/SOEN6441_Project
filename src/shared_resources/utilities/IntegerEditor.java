@@ -23,9 +23,10 @@ public class IntegerEditor extends DefaultCellEditor {
         super(new JTextField());
     }
     
-    /* (non-Javadoc)
+    /**
      * @see javax.swing.DefaultCellEditor#stopCellEditing()
      */
+    @Override
     public boolean stopCellEditing() {
         try {
             Integer editingValue = Integer.parseInt((String) getCellEditorValue());
@@ -53,9 +54,10 @@ public class IntegerEditor extends DefaultCellEditor {
         return super.stopCellEditing();
     }
     
-    /* (non-Javadoc)
+    /**
      * @see javax.swing.DefaultCellEditor#getTableCellEditorComponent(javax.swing.JTable, java.lang.Object, boolean, int, int)
      */
+    @Override
     public Component getTableCellEditorComponent(
             JTable table, Object value, boolean isSelected, int row, int column) {
         Component component = super.getTableCellEditorComponent(

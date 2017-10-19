@@ -224,7 +224,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
         tradeCardsButton.addActionListener(listenerForTradeCardsButton);
     }
     
-    /* (non-Javadoc)
+    /**
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override

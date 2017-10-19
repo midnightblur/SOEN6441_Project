@@ -152,7 +152,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
         backToReinforcementButton.addActionListener(listenerForBackToReinforcement);
     }
     
-    /* (non-Javadoc)
+    /**
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override

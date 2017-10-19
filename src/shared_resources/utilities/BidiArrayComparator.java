@@ -29,7 +29,7 @@ public class BidiArrayComparator implements Comparator {
         this.colToSort = colToSort;
     }
     
-    /* (non-Javadoc)
+    /**
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */
     @Override

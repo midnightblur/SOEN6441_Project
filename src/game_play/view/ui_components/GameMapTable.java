@@ -52,7 +52,7 @@ public class GameMapTable extends JTable implements Observer {
         resizeColumns();
     }
     
-    /* (non-Javadoc)
+    /**
      * @see javax.swing.JTable#isCellEditable(int, int)
      */
     @Override
@@ -60,7 +60,7 @@ public class GameMapTable extends JTable implements Observer {
         return false;
     }
     
-    /* (non-Javadoc)
+    /**
      * @see javax.swing.JTable#prepareRenderer(javax.swing.table.TableCellRenderer, int, int)
      */
     @Override

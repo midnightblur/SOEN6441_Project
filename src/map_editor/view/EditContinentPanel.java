@@ -238,7 +238,7 @@ public class EditContinentPanel extends JPanel implements Observer {
         removeContinentButton.addActionListener(listenerForRemoveContinentButton);
     }
     
-    /* (non-Javadoc)
+    /**
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override

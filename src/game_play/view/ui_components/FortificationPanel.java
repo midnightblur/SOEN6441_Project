@@ -167,7 +167,7 @@ public class FortificationPanel extends JPanel implements Observer {
         nextPlayerButton.addActionListener(listenerForNextPlayerButton);
     }
     
-    /* (non-Javadoc)
+    /**
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override

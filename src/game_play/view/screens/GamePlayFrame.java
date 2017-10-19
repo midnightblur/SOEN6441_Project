@@ -78,7 +78,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     // endregion
     
     // region Getters & Setters
-    /* (non-Javadoc)
+    /**
      * @see javax.swing.JFrame#getContentPane()
      */
     @Override
@@ -182,7 +182,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     // endregion
     
     // region MVC & Observer pattern methods
-    /* (non-Javadoc)
+    /**
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override
