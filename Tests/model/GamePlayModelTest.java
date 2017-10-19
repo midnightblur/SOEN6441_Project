@@ -29,10 +29,10 @@ public class GamePlayModelTest {
     GamePlayModel gamePlayModel;
     
     /** The num of players. */
-    int numOfPlayers = Config.DEFAULT_NUM_OF_PLAYERS;
+    final int numOfPlayers = 6;
     
     /** The map file path. */
-    String mapFilePath = Config.DEFAULT_MAP;
+    final String mapFilePath = "World.map";
     
     /**
      * Before tests.
@@ -62,7 +62,7 @@ public class GamePlayModelTest {
                 System.out.println("\t" + entry.getKey());
             }
             assertEquals(7, player.getTerritories().size());
-            assertEquals(8, player.getUnallocatedArmies() + player.getTerritories().size());
+            assertEquals(19, player.getUnallocatedArmies() + player.getTerritories().size());
         }
         assertEquals(6, gamePlayModel.getPlayers().size());
         System.out.println();
