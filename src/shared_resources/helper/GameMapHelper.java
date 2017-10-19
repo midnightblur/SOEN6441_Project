@@ -179,13 +179,15 @@ public class GameMapHelper {
     
     /**
      * Validate the Map file. Check if
-     * 1. The map has no more than 255 territories
-     * 2. The map has no more than 32 continents
-     * 3. Each and every territory has the number of neighbors from 1 to 10
-     * 4. Each territory has a continent
-     * 5. Every relationship between territories is 2-ways
-     * 6. Each continent has at least one territory
-     * 7. The whole map is a connected graph
+     * <ol>
+     * <li>The map has no more than 255 territories
+     * <li>The map has no more than 32 continents
+     * <li>Each and every territory has the number of neighbors from 1 to 10
+     * <li>Each territory has a continent
+     * <li>Every relationship between territories is 2-ways
+     * <li>Each continent has at least one territory
+     * <li>The whole map is a connected graph
+     * </ol>
      *
      * @param gameMap the game map
      *
