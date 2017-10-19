@@ -19,41 +19,20 @@ import java.util.Observer;
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
- * Trade Cards Panel representing the controls for Trade Cards phase of the game.
+ * TradeCardsPanel is responsible for representing the ui components for trading cards in Reinforcement phase of the game.
  */
 public class TradeCardsPanel extends JPanel implements Observer {
     // region Attributes declaration
-    /** The Constant CARDS_LIST_LABEL. */
     private static final String CARDS_LIST_LABEL = "List of cards owned: ";
-    
-    /** The Constant ARMY_VALUE_LABEL. */
     private static final String ARMY_VALUE_LABEL = "Current army value: ";
-    
-    /** The Constant TRADE_CARDS_BUTTON. */
     private static final String TRADE_CARDS_BUTTON = "Trade cards";
-    
-    /** The Constant GAINED_ARMIES_LABEL. */
     private static final String GAINED_ARMIES_LABEL = "# of armies gained: ";
-    
-    /** The Constant BACK_TO_REINFORCEMENT_BUTTON. */
     private static final String BACK_TO_REINFORCEMENT_BUTTON = "Back to Reinforcement";
-    
-    /** The player ID. */
     private JLabel playerID;
-    
-    /** The gained armies label. */
     private JLabel gainedArmiesLabel;
-    
-    /** The army value label. */
     private JLabel armyValueLabel;
-    
-    /** The card list. */
     private JPanel cardList;
-    
-    /** The trade cards. */
     private JButton tradeCards;
-    
-    /** The back to reinforcement button. */
     private JButton backToReinforcementButton;
     // endregion
     

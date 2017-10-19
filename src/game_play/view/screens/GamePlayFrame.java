@@ -16,49 +16,32 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * The Class GamePlayFrame represents the main frame for UI while playing the game.
+ * GamePlayFrame is responsible for displaying all UI components to play the game.
  *
  * It is composed of a left side that renders the map as a table, and
  * an interchangeable right side for various control panels.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class GamePlayFrame extends JFrame implements Observer {
-    
     // region Attributes declaration
-    /** The Constant TITLE. */
     private static final String TITLE = "Game Play";
-    
-    /** The Constant WIDTH. */
     private static final int WIDTH = 1366;
-    
-    /** The Constant HEIGHT. */
     private static final int HEIGHT = 700;
-    
-    /** The content pane. */
     private JSplitPane contentPane;
-    
-    /** The game map table. */
     private GameMapTable gameMapTable;
-    
-    /** The control area. */
     private JPanel controlArea;
-    
-    /** The game setup panel. */
     private GameSetupPanel gameSetupPanel;
-    
-    /** The startup panel. */
     private StartupPanel startupPanel;
-    
-    /** The reinforcement panel. */
     private ReinforcementPanel reinforcementPanel;
-    
-    /** The fortification panel. */
     private FortificationPanel fortificationPanel;
     // endregion
     
     // region Constructors
     
     /**
-     * Instantiates a new game play frame.
+     * Instantiates and show the GamePlayFrame.
      */
     public GamePlayFrame() {
         /* Setup main container */
@@ -78,6 +61,15 @@ public class GamePlayFrame extends JFrame implements Observer {
     // endregion
     
     // region Getters & Setters
+    /**
+     * Gets the fortification panel.
+     *
+     * @return the fortification panel
+     */
+    public FortificationPanel getFortificationPanel() {
+        return fortificationPanel;
+    }
+    
     /**
      * @see javax.swing.JFrame#getContentPane()
      */
@@ -130,7 +122,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     // region Private methods
     
     /**
-     * Setup content pane layout.
+     * Setup the layout for the main screen.
      */
     private void setupContentPaneLayout() {
         contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
@@ -153,7 +145,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     }
     
     /**
-     * Setup control area.
+     * Setup ui components in control area.
      */
     private void setupControlArea() {
         /* Use CardLayout to let different panels share the same space */
@@ -169,15 +161,6 @@ public class GamePlayFrame extends JFrame implements Observer {
         controlArea.add(fortificationPanel, FortificationPanel.class.getName());
         
         contentPane.setRightComponent(controlArea);
-    }
-    
-    /**
-     * Gets the fortification panel.
-     *
-     * @return the fortification panel
-     */
-    public FortificationPanel getFortificationPanel() {
-        return fortificationPanel;
     }
     // endregion
     

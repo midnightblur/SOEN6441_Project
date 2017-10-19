@@ -12,16 +12,23 @@ import java.util.Arrays;
 
 /**
  * Objects of this class are created by specifying the number of dice to roll
- * A pip is the index within array representing the number of a die face (it represents the 'up-facing' index of a die)
- * Each pip is a index between 1 and MAX_PIPS (default is 1 to 6)
- * The roll() action will return the 2 most largest values from dice array after randomizing.
+ * <ul>
+ * <li> A pip is the index within array representing the number of a die face (it represents the 'up-facing' index of a die)
+ * <li> Each pip is a index between 1 and MAX_PIPS (default is 1 to 6)
+ * <li> The roll() action will return the 2 most largest values from dice array after randomizing.
+ * </ul>
  *
  * @author Team 2
  * @version 1.0
  */
 public class Dice {
+    
+    // region Attributes declaration
     /** The dice object is represented as an array of integers. */
     private int[] dice;
+    // endregion
+    
+    // region Constructors
     
     /**
      * Default constructor delegating to parametrized constructor.
@@ -31,7 +38,7 @@ public class Dice {
     }
     
     /**
-     * Parameterized constructor
+     * Parametrized constructor
      * Build an array of dice with default pips showing 1.
      *
      * @param numberOfDice represents the number of dice to be rolled
@@ -49,6 +56,9 @@ public class Dice {
             dice[i] = (int) (Math.random() * Config.MAX_PIPS) + 1;
         }
     }
+    // endregion
+    
+    // region Getters & Setters
     
     /**
      * Gets the max pips.
@@ -76,6 +86,9 @@ public class Dice {
     public void setDice(int[] dice) {
         this.dice = dice;
     }
+    // endregion
+    
+    // region Public methods
     
     /**
      * Rolling the dice and returning the maximum 2 values obtained sorted in descending order.
@@ -111,4 +124,6 @@ public class Dice {
             return result;
         }
     }
+    // endregion
+    
 }

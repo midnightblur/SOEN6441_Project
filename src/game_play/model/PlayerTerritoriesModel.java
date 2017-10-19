@@ -14,26 +14,21 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
 
 /**
- * This class holds the game_entities representing a player's specific territories.
+ * PlayerTerritoriesModel is responsible for providing data for the table of distributing armies to territories
  *
- * This game_entities is based on a DefaultTableModel, and
- * serves as the underlining game_entities for a JTable on Reinforcement phase
+ * @author Team 2
+ * @version 1.0
  */
 public class PlayerTerritoriesModel {
-    
     // region Attributes declaration
-    /** The game_entities. */
     private DefaultTableModel model;
-    
-    /** The columns. */
     private Vector<String> columns;
-    
     // endregion
     
     // region Constructors
     
     /**
-     * Makes a new empty Player Territory game_entities
+     * Makes a new empty PlayerTerritoryModel
      * 
      * The game_entities would later be updated once players change.
      */
@@ -47,7 +42,7 @@ public class PlayerTerritoriesModel {
     // region Getters & setters
     
     /**
-     * Accessor for the table game_entities.
+     * Accessor for data model.
      *
      * @return a default table game_entities holding territories information when player was indicated,
      * or an empty game_entities if no player was indicated
@@ -61,7 +56,7 @@ public class PlayerTerritoriesModel {
     // region Public methods
     
     /**
-     * Updating the table game_entities and notifying the subscribers.
+     * Updating the data model according to the player.
      *
      * @param player the player object for which we collect the owned territories
      */

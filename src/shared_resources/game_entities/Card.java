@@ -9,6 +9,9 @@ package shared_resources.game_entities;
 /**
  * Card class contains all the different types that are available of cards in the deck in
  * cardType vector. Card type 1 is Infantry, type 2 is Cavalry, and type 3 is Artillery.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class Card {
     // region Attributes declaration

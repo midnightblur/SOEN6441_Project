@@ -17,8 +17,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * This class is the game_entities class for GameMapTable which
- * implements Observer class since it is using Observer Pattern.
+ * GameMapTable is responsible for displaying the GameMap object in a table form
+ * This class display information inputted from a MapTableModel
  *
  * @author Team 2
  * @version 1.0
@@ -39,10 +39,7 @@ public class GameMapTable extends JTable implements Observer {
     // region Public methods
     
     /**
-     * This is update function used by Observer Pattern.
-     *
-     * @param o   This is Observer object type.
-     * @param arg This is Object type parameter.
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override
     public void update(Observable o, Object arg) {
@@ -103,7 +100,7 @@ public class GameMapTable extends JTable implements Observer {
     
     // region Private methods
     /**
-     * Resize the table columns to fit.
+     * Resize the table columns to fit with the data.
      */
     private void resizeColumns() {
         final TableColumnModel columnModel = getColumnModel();

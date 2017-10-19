@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.Vector;
 
 /**
- * Continent is a connected subgraph of the whole map
+ * Continent is a connected sub-graph of the whole map
  * One continent contains several territories
  * Continents don't share mutual territory
  * Each continent has a control index as an integer.

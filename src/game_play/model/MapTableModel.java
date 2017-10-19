@@ -9,7 +9,7 @@ package game_play.model;
 import shared_resources.game_entities.Continent;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
-import shared_resources.utilities.BidiArrayComparator;
+import shared_resources.utilities.BidirectionalArrayComparator;
 import shared_resources.utilities.Config;
 
 import javax.swing.table.DefaultTableModel;
@@ -17,24 +17,21 @@ import java.util.Arrays;
 import java.util.Vector;
 
 /**
- * Model to hold the gameMap data in order to displayJFrame it within a JTable.
+ * MapTableModel is responsible for providing data for JTable.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class MapTableModel {
-    
     // region Attributes declaration
-    /** The game_entities. */
     private DefaultTableModel model;
-    
-    /** The rows. */
     private String[][] rows;
-    
-    /** The columns. */
     private Vector<String> columns;
     // endregion
     
     // region Constructors
     /**
-     * Instantiates a new map table game_entities.
+     * Instantiates a new blank MapTableModel object.
      */
     /* Constructors */
     public MapTableModel() {
@@ -109,7 +106,7 @@ public class MapTableModel {
             i++;
         }
         this.model.setColumnIdentifiers(columns);
-        Arrays.sort(rows, new BidiArrayComparator(0));        // perform sort on Continents column
+        Arrays.sort(rows, new BidirectionalArrayComparator(0));        // perform sort on Continents column
         groupRows();
     }
     // endregion
@@ -117,7 +114,7 @@ public class MapTableModel {
     // region Getters & Setters
     
     /**
-     * Gets the game_entities.
+     * Gets the data model.
      *
      * @return the game_entities
      */

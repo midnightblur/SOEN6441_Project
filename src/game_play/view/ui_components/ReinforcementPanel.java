@@ -22,59 +22,28 @@ import java.util.Observer;
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
- * Reinforcement Panel representing the controls for Reinforcement phase of the game.
+ * ReinforcementPanel is responsible for representing the ui components for Reinforcement phase of the game.
  *
  * @author Team 2
  * @version 1.0
  */
 public class ReinforcementPanel extends JPanel implements Observer {
     // region Attributes declaration
-    /** The Constant CONTROL_WRAPPER_PANEL_NAME. */
     private static final String CONTROL_WRAPPER_PANEL_NAME = "ControlWrapper";
-    
-    /** The Constant TRADE_CARDS_PANEL_NAME. */
     private static final String TRADE_CARDS_PANEL_NAME = "TradeCards";
-    
-    /** The Constant PLACE_ARMIES_BUTTON. */
     private static final String PLACE_ARMIES_BUTTON = "Place armies";
-    
-    /** The Constant TOTAL_ARMIES_TO_PLACE_LABEL. */
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
-    
-    /** The Constant GO_TO_FORTIFICATION_BUTTON. */
     private static final String GO_TO_FORTIFICATION_BUTTON = "Go to Fortification";
-    
-    /** The Constant TRADE_CARDS_BUTTON. */
     private static final String TRADE_CARDS_BUTTON = "Trade Cards";
-    
-    /** The Constant ATTACK_BUTTON. */
     private static final String ATTACK_BUTTON = "Attack!";
-    
-    /** The Constant ARMIES_TO_PLACE_LABEL. */
     private static final String ARMIES_TO_PLACE_LABEL = "Use table to place armies:";
-    
-    /** The cards panel. */
     private JPanel cardsPanel;
-    
-    /** The trade cards panel. */
     private TradeCardsPanel tradeCardsPanel;
-    
-    /** The trade cards button. */
     private JButton tradeCardsButton;
-    
-    /** The go to fortification button. */
     private JButton goToFortificationButton;
-    
-    /** The place armies button. */
     private JButton placeArmiesButton;
-    
-    /** The player territory table. */
     private JTable playerTerritoryTable;
-    
-    /** The player name. */
     private JLabel playerName;
-    
-    /** The total armies to place. */
     private JLabel totalArmiesToPlace;
     // endregion
     

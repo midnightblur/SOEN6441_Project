@@ -9,7 +9,16 @@ package shared_resources.utilities;
 import java.awt.*;
 
 /**
- * Configuration class providing static attributes for the application.
+ * Configuration class providing static attributes for the application:
+ * <ul>
+ *     <li> The states of the game
+ *     <li> The players' colors
+ *     <li> Constants for handling *.map files
+ *     <li> Constants and settings for other entities of the game
+ * </ul>
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class Config {
     
@@ -84,9 +93,9 @@ public class Config {
     public static final String MAPS_FLAG_MAP = "[Map]";
     public static final String MAPS_FLAG_CONTINENTS = "[Continents]";
     public static final String MAPS_FLAG_TERRITORIES = "[Territories]";
-    public static final String MAPS_DELIMETER_MAP = "=";
-    public static final String MAPS_DELIMETER_CONTINENTS = "=";
-    public static final String MAPS_DELIMETER_TERRITORIES = ",";
+    public static final String MAPS_DELIMITER_MAP = "=";
+    public static final String MAPS_DELIMITER_CONTINENTS = "=";
+    public static final String MAPS_DELIMITER_TERRITORIES = ",";
     public static final String MAPS_DEFAULT_COORDINATION = "0,0";
     public static final String MAPS_FOLDER = "Maps/";
     public static final String MSG_MAPFILE_VALID = "The file map is valid";

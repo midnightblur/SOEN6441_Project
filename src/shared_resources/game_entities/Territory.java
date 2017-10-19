@@ -11,31 +11,28 @@ import java.util.Vector;
 /**
  * A territory/country in the map
  * Represented by a node in the graph
- * A territory must belong to one and only one continent
- * A territory must be owned by one and only one player at a time
- * A territory must have at least one neighbor/adjacent territory
- * A territory must contain one or more armies.
+ * <ul>
+ * <li> A territory must belong to one and only one continent
+ * <li> A territory must be owned by one and only one player at a time
+ * <li> A territory must have at least one neighbor/adjacent territory
+ * <li> A territory must contain one or more armies.
+ * </ul>
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class Territory {
     
     // region Attributes declaration
-    /** The name. */
     private String name;
-    
-    /** The continent. */
     private String continent;
-    
-    /** The owner. */
     private Player owner;
-    
-    /** The armies. */
     private int armies;
-    
-    /** The neighbors. */
     private Vector<String> neighbors;
     // endregion
-
+    
     // region Constructors
+    
     /**
      * Instantiate a new territory object given its name and the continent it belongs to.
      *
@@ -61,6 +58,7 @@ public class Territory {
     // endregion
     
     // region Getters & Setters
+    
     /**
      * Gets the name.
      *
@@ -153,6 +151,7 @@ public class Territory {
     // endregion
     
     // region Public methods
+    
     /**
      * Add a territory as new neighbor.
      *
@@ -186,6 +185,7 @@ public class Territory {
      * Check if the given Territory is a neighbor.
      *
      * @param territoryName the territory name
+     *
      * @return true if given territory name is an neighbor, false otherwise
      */
     public boolean isNeighbor(String territoryName) {
@@ -196,6 +196,7 @@ public class Territory {
      * Check if the territory is in a given continent.
      *
      * @param continent name of the continent
+     *
      * @return true if
      */
     public boolean belongToContinent(String continent) {
@@ -206,6 +207,7 @@ public class Territory {
      * Check if the owner of the territory is a given player.
      *
      * @param playerID the player ID
+     *
      * @return true, if is owned by
      */
     public boolean isOwnedBy(int playerID) {
@@ -260,6 +262,7 @@ public class Territory {
      * Facilitate comparision between two territory objects.
      *
      * @param other other object
+     *
      * @return true if equals, false otherwise
      */
     @Override

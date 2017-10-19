@@ -24,9 +24,10 @@ import java.util.Vector;
 import static shared_resources.utilities.Config.GAME_STATES.*;
 
 /**
- * This class is used as a controller to read and set map filepath
- * to the game_entities, and dispatchToController
- * the view to displayJFrame the map.
+ * GamePlayController is responsible for coordinating the GamePlayModel and GamePlayFrame
+ * Listen to user input from the views
+ * Interpret user's input and call appropriate functions from the models
+ * In some case, directly update the views if it doesn't involve the models
  *
  * @author Team 2
  * @version 1.0
@@ -34,13 +35,8 @@ import static shared_resources.utilities.Config.GAME_STATES.*;
 public class GamePlayController {
     
     // region Attributes declaration
-    /** The caller controller. */
     private MainMenuController callerController;
-    
-    /** The game play frame. */
     private GamePlayFrame gamePlayFrame;
-    
-    /** The game play game_entities. */
     private GamePlayModel gamePlayModel;
     // endregion
     
@@ -48,10 +44,10 @@ public class GamePlayController {
     
     /**
      * Constructor for the mainGameController
-     * responsible for launching the game phases.
+     * Responsible for initializing all the data and UI required to play the game.
      *
-     * @param callerController the caller controller
-     * @param gameMap          The already loaded map for the game
+     * @param callerController The controller who calls this controller (to help go back to previous screen
+     * @param gameMap          The valid game map loaded in the map selector screen
      */
     public GamePlayController(MainMenuController callerController, GameMap gameMap) {
         this.callerController = callerController;
@@ -72,7 +68,7 @@ public class GamePlayController {
     // region Private methods
     
     /**
-     * Register observers to observable.
+     * Register the views to be observers of the GamePlayModel.
      */
     private void registerObserversToObservable() {
         gamePlayModel.addObserver(gamePlayFrame);
@@ -85,7 +81,7 @@ public class GamePlayController {
     }
     
     /**
-     * Register to be listener.
+     * Register the controller to be the listener to all UI component of the views.
      */
     private void registerToBeListener() {
         /* Play button to start the game */
@@ -112,7 +108,7 @@ public class GamePlayController {
     // region For Setup Phase
     
     /**
-     * Start the game.
+     * Called when the number of players for the game is decided, the game then starts.
      */
     private void startTheGame() {
         /* initialize the game */
@@ -140,7 +136,7 @@ public class GamePlayController {
     // region For Startup Phase
     
     /**
-     * Place an army to the selected territory.
+     * This function allows players to place their initial armies into their territories one-by-one.
      */
     private void placeArmy() {
         String selectedTerritoryName = String.valueOf(gamePlayFrame.getStartupPanel().getTerritoryDropdown().getSelectedItem());
@@ -151,7 +147,7 @@ public class GamePlayController {
     // region For Reinforcement Phase
     
     /**
-     * Shows the controller responsible for trading cards.
+     * Hide the Reinforcement Panel, show the Trade Cards Panel.
      */
     private void goToTradeCardsPanel() {
         CardLayout cardLayout = (CardLayout) gamePlayFrame.getReinforcementPanel().getCardsPanel().getLayout();
@@ -189,7 +185,7 @@ public class GamePlayController {
     }
     
     /**
-     * Go to fortification phase.
+     * Validate player's armies distributing and cards trading, then change the game state to Fortification Phase
      */
     private void goToFortificationPhase() {
         if (gamePlayModel.getCurrentPlayer().getUnallocatedArmies() != 0 || gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
@@ -219,7 +215,7 @@ public class GamePlayController {
     }
     
     /**
-     * Back to reinforcement panel.
+     * Hide the Trade Cards Panel, show the Reinforcement Panel.
      */
     private void backToReinforcementPanel() {
         CardLayout cardLayout = (CardLayout) gamePlayFrame.getReinforcementPanel().getCardsPanel().getLayout();
@@ -231,6 +227,7 @@ public class GamePlayController {
     
     /**
      * Move armies from selected source territory to selected target territory
+     * Validate the user's input
      * If move is successful the action is disabled.
      */
     private void moveArmies() {
@@ -253,7 +250,7 @@ public class GamePlayController {
     }
     
     /**
-     * Update target territories dropdown.
+     * Update the list of target territories according to the players' selected source territory.
      *
      * @param selectedTerritory the selected territory
      */
@@ -274,7 +271,7 @@ public class GamePlayController {
     }
     
     /**
-     * Change to next player.
+     * This function advances the game to next player's turn.
      */
     private void changeToNextPlayer() {
         gamePlayModel.setGameState(REINFORCEMENT);

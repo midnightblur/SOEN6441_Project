@@ -13,25 +13,17 @@ import javax.swing.*;
 
 /**
  * The Class MapEditorFrame is the main screen frame for map editor component.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class MapEditorFrame extends JFrame {
     // region Attributes declaration
-    /** The Constant TITLE. */
     private static final String TITLE = "Map Editor";
-    
-    /** The Constant WIDTH. */
     private static final int WIDTH = 1366;
-    
-    /** The Constant HEIGHT. */
     private static final int HEIGHT = 700;
-    
-    /** The content pane. */
     private JSplitPane contentPane;
-    
-    /** The game map table. */
     private GameMapTable gameMapTable;
-    
-    /** The edit map panel. */
     private EditMapPanel editMapPanel;
     // endregion
     
@@ -59,6 +51,31 @@ public class MapEditorFrame extends JFrame {
     // endregion
     
     // region Getters & Setters
+    
+    /**
+     * Setup content pane layout.
+     */
+    /* Private methods */
+    private void setupContentPaneLayout() {
+        contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
+            private final int location = 850;
+            
+            {
+                setDividerLocation(location);
+            }
+            
+            @Override
+            public int getLastDividerLocation() {
+                return location;
+            }
+            
+            @Override
+            public int getDividerLocation() {
+                return location;
+            }
+        };
+    }
+    
     /**
      * @see javax.swing.JFrame#getContentPane()
      */
@@ -75,6 +92,9 @@ public class MapEditorFrame extends JFrame {
     public GameMapTable getGameMapTable() {
         return gameMapTable;
     }
+    // endregion
+    
+    // region Private methods
     
     /**
      * Gets the edits the map panel.
@@ -83,33 +103,6 @@ public class MapEditorFrame extends JFrame {
      */
     public EditMapPanel getEditMapPanel() {
         return editMapPanel;
-    }
-    // endregion
-    
-    // region Private methods
-    
-    /**
-     * Setup content pane layout.
-     */
-    /* Private methods */
-    private void setupContentPaneLayout() {
-        contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
-            private final int location = 850;
-            
-            {
-                setDividerLocation(location);
-            }
-            
-            @Override
-            public int getDividerLocation() {
-                return location;
-            }
-            
-            @Override
-            public int getLastDividerLocation() {
-                return location;
-            }
-        };
     }
     // endregion
 }

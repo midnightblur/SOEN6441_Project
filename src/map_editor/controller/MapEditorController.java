@@ -25,8 +25,14 @@ import java.io.File;
 import java.util.Vector;
 
 /**
- * This is the Map editor controller used to control the
- * actions of map editor.
+ * The MapEditorController is responsible for creating and editing map files:
+ * <ul>
+ * <li> Loading maps from Maps folder
+ * <li> Creating new maps
+ * <li> Creating needed controls for editing territories or continents
+ * <li> Saving the map
+ * <li> Navigating back to main game menu
+ * </ul>
  *
  * @author Team 2
  * @version 1.0
@@ -34,31 +40,14 @@ import java.util.Vector;
 public class MapEditorController {
     
     // region Attributes declaration
-    /** The Constant NONE_RADIO_BUTTON. */
     private static final String NONE_RADIO_BUTTON = "NONE";
-    
-    /** The Constant CONTINENT_NAME_GENERATOR. */
     private static final String CONTINENT_NAME_GENERATOR = "continent_";
-    
-    /** The Constant TERRITORY_NAME_GENERATOR. */
     private static final String TERRITORY_NAME_GENERATOR = "territory_";
-    
-    /** The Constant DEFAULT_CONTROL_VALUE. */
     private static final int DEFAULT_CONTROL_VALUE = 1;
-    
-    /** The map editor frame. */
     private MapEditorFrame mapEditorFrame;
-    
-    /** The map editor game_entities. */
     private MapEditorModel mapEditorModel;
-    
-    /** The caller controller. */
     private MainMenuController callerController;
-    
-    /** The new continent ID. */
     private int newContinentID; // helps generate new continent name => faster demo
-    
-    /** The new territory ID. */
     private int newTerritoryID; // helps generate new territory name => faster demo
     // endregion
     
@@ -66,6 +55,11 @@ public class MapEditorController {
     
     /**
      * Instantiates a new map editor controller.
+     * <ul>
+     * <li> Creates the view and model objects
+     * <li> Subscribes the views to models
+     * <li> Register itself as listener to user actions from view
+     * </ul>
      *
      * @param mainMenuController the main menu controller
      */
@@ -131,7 +125,7 @@ public class MapEditorController {
     }
     
     /**
-     * Prepare the content for Continent Editing area.
+     * Prepare the content for Continent Editing UI area.
      */
     private void prepareContinentEditArea() {
         String selectedContinents = String.valueOf(mapEditorModel.getContinentsDropdownModel().getSelectedItem());
@@ -139,7 +133,7 @@ public class MapEditorController {
         if (selectedContinents.compareTo(MapEditorModel.getCreateNewContinentItem()) == 0) {
             String newContinentName = CONTINENT_NAME_GENERATOR + newContinentID;
             mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentNameText().setText(newContinentName);
-            mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContientControlValueText().setText(String.valueOf(DEFAULT_CONTROL_VALUE));
+            mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentControlValueText().setText(String.valueOf(DEFAULT_CONTROL_VALUE));
             for (Territory territory : mapEditorModel.getGameMap().getTerritories().values()) {
                 JCheckBox checkBox = new JCheckBox();
                 checkBox.setText(territory.getName());
@@ -153,7 +147,7 @@ public class MapEditorController {
         } else {
             Continent continent = mapEditorModel.getGameMap().getAContinent(selectedContinents);
             mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentNameText().setText(continent.getName());
-            mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContientControlValueText().setText(String.valueOf(continent.getControlValue()));
+            mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentControlValueText().setText(String.valueOf(continent.getControlValue()));
             for (Territory territory : mapEditorModel.getGameMap().getTerritories().values()) {
                 JCheckBox checkBox = new JCheckBox();
                 checkBox.setText(territory.getName());
@@ -248,11 +242,13 @@ public class MapEditorController {
     
     /**
      * Get information from Continent Editing area and save to GameMap object.
+     *
+     * It handles both adding and editing/updating a continent.
      */
     private void saveContinentInfo() {
         try {
             String newContinentName = mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentNameText().getText();
-            int controlValue = Integer.parseInt(mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContientControlValueText().getText());
+            int controlValue = Integer.parseInt(mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentControlValueText().getText());
             Continent newContinent = new Continent(newContinentName, controlValue);
             
             Vector<String> territoryVector = new Vector<>();
@@ -285,6 +281,8 @@ public class MapEditorController {
     
     /**
      * Get information from Territory Editing area and save to GameMap object.
+     *
+     * It handles both adding and editing/updating a territory.
      */
     private void saveTerritoryInfo() {
         String newTerritoryName = mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoryNameText().getText();
@@ -349,6 +347,12 @@ public class MapEditorController {
     
     /**
      * This method is used to save the map.
+     * <ul>
+     * <li> It detects if user uses correct extension and ads it if not present.
+     * <li> Provides confirmation for saving action
+     * <li> Reloads the dropdown making available the newly saved map
+     * <li> Displays errors/exceptions to user if any
+     * </ul>
      */
     private void saveMap() {
         File mapFileToSave;
@@ -376,9 +380,7 @@ public class MapEditorController {
                     e.printStackTrace(System.err);
                     UIHelper.displayMessage(mapEditorFrame, e.getMessage());
                 }
-                
             }
-            
         }
     }
     // endregion

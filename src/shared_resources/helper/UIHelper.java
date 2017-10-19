@@ -19,6 +19,9 @@ import java.awt.event.WindowEvent;
  * <li> providing means of navigating between frames
  * <li> providing common elements like spacing
  * </ul>
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class UIHelper {
     
