@@ -14,10 +14,14 @@ import java.io.FileFilter;
  * Overrides super class to open the save dialog into game map folder
  * and apply a custom map filter
  * This class is used to save a map to file.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class SaveDialog extends JFileChooser {
     
     // region Constructors
+    
     /**
      * Instantiates a new save dialog.
      */
@@ -31,15 +35,20 @@ public class SaveDialog extends JFileChooser {
 
 /**
  * Override the map filter to display only map files
+ *
+ * @author Team 2
+ * @version 1.0
  */
 class MapFilter extends javax.swing.filechooser.FileFilter implements FileFilter {
     
     // region Public methods
+    
     /**
      * Determines whether or not the file is of the default extension type (.map)
      * in order to display only the valid map files in the save drop down list.
      *
      * @param file An object of File to be determined valid or not
+     *
      * @return Returns true if the file type is of the default extension, false otherwise
      */
     @Override

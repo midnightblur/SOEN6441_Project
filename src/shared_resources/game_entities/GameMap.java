@@ -21,40 +21,17 @@ import static shared_resources.utilities.Config.DEFAULT_NUM_OF_PLAYERS;
 public class GameMap {
     
     // region Attributes declaration
-    /** The Constant MSG_CONTINENT_EXIST. */
     private static final String MSG_CONTINENT_EXIST = "The %s continent already exists! No change has been made to the map";
-    
-    /** The Constant MSG_TERRITORY_EXIST. */
     private static final String MSG_TERRITORY_EXIST = "The %s territory already exists! No change has been made to the map";
-    
-    /** The Constant MSG_TERRITORY_NOT_EXIST. */
     private static final String MSG_TERRITORY_NOT_EXIST = "The %s territory doesn't exist!. No change has been made to the map";
-    
-    /** The Constant MSG_CONTINENT_NOT_EXIST. */
     private static final String MSG_CONTINENT_NOT_EXIST = "The %s continent doesn't exist!. No change has been made to the map";
-    
-    /** The Constant MSG_CONTINENT_EDIT_SUCCESS. */
     private static final String MSG_CONTINENT_EDIT_SUCCESS = "The %s continent has been edited successfully";
-    
-    /** The Constant MSG_CONTINENT_ADD_SUCCESS. */
     private static final String MSG_CONTINENT_ADD_SUCCESS = "The %s continent has been added successfully";
-    
-    /** The Constant MSG_CONTINENT_REMOVE_SUCCESS. */
     private static final String MSG_CONTINENT_REMOVE_SUCCESS = "The %s continent has been removed successfully";
-    
-    /** The Constant MSG_TERRITORY_EDIT_SUCCESS. */
     private static final String MSG_TERRITORY_EDIT_SUCCESS = "The %s territory has been edited successfully";
-    
-    /** The Constant MSG_TERRITORY_ADD_SUCCESS. */
     private static final String MSG_TERRITORY_ADD_SUCCESS = "The %s territory has been added successfully";
-    
-    /** The Constant MSG_TERRITORY_REMOVE_SUCCESS. */
     private static final String MSG_TERRITORY_REMOVE_SUCCESS = "The %s territory has been removed successfully";
-    
-    /** The territories. */
     private Map<String, Territory> territories;
-    
-    /** The continents. */
     private Map<String, Continent> continents;
     // endregion
     

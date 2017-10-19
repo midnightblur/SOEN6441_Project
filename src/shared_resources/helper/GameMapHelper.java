@@ -16,18 +16,20 @@ import java.util.*;
 
 /**
  * GameMapHandler is responsible for reading the map text file from computer storage
- * Validate the validity of the map file
- * Then store all retrieved information to a GameMap object
- * In case of editing an existing map or creating a brand new one
- * This class helps write map's information to a text file.
+ * <ul>
+ * <li> Validate the correctness of the map file
+ * <li> Then store all retrieved information to a GameMap object
+ * <li> In case of editing an existing map or creating a brand new one
+ * <li> This class helps write map's information to a text file.
+ * </ul>
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class GameMapHelper {
     
     // region Attributes declaration
-    /**
-     * The Enum MAP_PARTS.
-     */
-    private enum MAP_PARTS {
+     private enum MAP_PARTS {
         MAP,
         CONTINENTS,
         TERRITORIES

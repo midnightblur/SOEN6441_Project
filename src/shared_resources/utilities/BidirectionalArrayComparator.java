@@ -9,27 +9,26 @@ package shared_resources.utilities;
 import java.util.Comparator;
 
 /**
- * This is a Comparator Class.
+ * This is a Comparator Class for ascending sorting a bidirectional array.
  *
  * @author Team 2
  * @version 1.0
  */
 
-public class BidiArrayComparator implements Comparator {
+public class BidirectionalArrayComparator implements Comparator {
     
     // region Attributes declaration
-    /** The col to sort. */
-    private int colToSort;
+    private int columnToSort;
     // endregion
     
     // region Constructors
     /**
      * Constructor taking the column used for sorting.
      *
-     * @param colToSort the col to sort
+     * @param columnToSort the column to sort by
      */
-    public BidiArrayComparator(int colToSort) {
-        this.colToSort = colToSort;
+    public BidirectionalArrayComparator(int columnToSort) {
+        this.columnToSort = columnToSort;
     }
     // endregion
     
@@ -42,7 +41,7 @@ public class BidiArrayComparator implements Comparator {
         String[] row1 = (String[]) o1;
         String[] row2 = (String[]) o2;
         
-        return row1[colToSort].compareTo(row2[colToSort]);
+        return row1[columnToSort].compareTo(row2[columnToSort]);
     }
     // endregion
 }

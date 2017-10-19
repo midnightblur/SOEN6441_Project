@@ -9,7 +9,7 @@ package game_play.model;
 import shared_resources.game_entities.Continent;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
-import shared_resources.utilities.BidiArrayComparator;
+import shared_resources.utilities.BidirectionalArrayComparator;
 import shared_resources.utilities.Config;
 
 import javax.swing.table.DefaultTableModel;
@@ -106,7 +106,7 @@ public class MapTableModel {
             i++;
         }
         this.model.setColumnIdentifiers(columns);
-        Arrays.sort(rows, new BidiArrayComparator(0));        // perform sort on Continents column
+        Arrays.sort(rows, new BidirectionalArrayComparator(0));        // perform sort on Continents column
         groupRows();
     }
     // endregion
