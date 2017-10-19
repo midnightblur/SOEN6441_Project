@@ -50,7 +50,7 @@ public class  MapSelectorController {
     }
     // endregion
     
-    // region Private methods
+    // region Methods to handle events from UI
     /**
      * Update list of maps.
      *

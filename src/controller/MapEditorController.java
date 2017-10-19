@@ -110,7 +110,6 @@ public class MapEditorController {
             String mapName = String.valueOf(mapEditorFrame.getEditMapPanel().getMapLoadPanel().getChooseMapDropdown().getSelectedItem());
             mapEditorModel.loadNewGameMap(mapName);
         } catch (Exception e) {
-            e.printStackTrace(System.err);
             UIHelper.displayMessage(mapEditorFrame, e.getMessage());
         }
     }
