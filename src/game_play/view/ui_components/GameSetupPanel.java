@@ -59,7 +59,7 @@ public class GameSetupPanel extends JPanel implements Observer {
 
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
+        setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
         JPanel controlWrapper = new JPanel();
         controlWrapper.setLayout(new GridLayout(15, 1));
 
