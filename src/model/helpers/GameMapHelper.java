@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * GameMapHelper.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package model.helpers;
 
 import model.game_entities.Continent;
@@ -13,9 +19,16 @@ import java.util.*;
  * Validate the validity of the map file
  * Then store all retrieved information to a GameMap object
  * In case of editing an existing map or creating a brand new one
- * This class helps write map's information to a text file
+ * This class helps write map's information to a text file.
  */
 public class GameMapHelper {
+    
+    /**
+     * Gets the continents countries.
+     *
+     * @param gameMap the game map
+     * @return the continents countries
+     */
     public static Vector<String> getContinentsCountries(GameMap gameMap) {
         Vector<String> continentsCountries = new Vector<>();
         continentsCountries.add("SELECT TO EDIT/DELETE");
@@ -30,9 +43,18 @@ public class GameMapHelper {
         return continentsCountries;
     }
     
-    private enum MAP_PARTS {MAP, CONTINENTS, TERRITORIES}
+    /**
+     * The Enum MAP_PARTS.
+     */
+    private enum MAP_PARTS {/** The map. */
+MAP, /** The continents. */
+ CONTINENTS, /** The territories. */
+ TERRITORIES}
     
     /* Constructors */
+    /**
+     * Instantiates a new game map helper.
+     */
     // Intentionally make ctor private
     private GameMapHelper() {
     }
@@ -42,13 +64,11 @@ public class GameMapHelper {
     /**
      * Input: map text file name path
      * Output: A GameMap object containing map's info including territories, continents, adjacency
-     * Operation: read the map text file content line by line to get map info
+     * Operation: read the map text file content line by line to get map info.
      *
-     * @param mapName
-     *
-     * @return
-     *
-     * @throws Exception
+     * @param mapName the map name
+     * @return the game map
+     * @throws Exception the exception
      */
     public static GameMap loadGameMap(String mapName) throws Exception {
         GameMap gameMap;
@@ -182,10 +202,8 @@ public class GameMapHelper {
      * 6. Each continent has at least one territory
      * 7. The whole map is a connected graph
      *
-     *
-     * @param
-     *
-     * @return
+     * @param gameMap the game map
+     * @return the string
      */
     public static String validateMap(GameMap gameMap) {
         /* 1. 0 < number of territories <= 255 */
@@ -234,6 +252,10 @@ public class GameMapHelper {
     
     /**
      * Write a gamemap info to a .map text file
+     *
+     * @param gameMap the game map
+     * @param path the path
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     public static void writeToFile(GameMap gameMap, String path) throws IOException {
         BufferedWriter writer = null;
@@ -287,9 +309,8 @@ public class GameMapHelper {
     /**
      * Find the files with *.map extension in given folder
      *
-     * @param directory
-     *
-     * @return
+     * @param directory the directory
+     * @return the maps in folder
      */
     public static Vector<String> getMapsInFolder(String directory) {
         Vector<String> mapFiles = new Vector<>();
@@ -311,10 +332,9 @@ public class GameMapHelper {
      * Using Breadth-First-Search algorithm to check if the graph is connected
      * BFS will create a new graph from any arbitrary node (territory) in the graph (map)
      * If the newly created graph has the same number of nodes as in the original graph
-     * Then the original graph is connected
+     * Then the original graph is connected.
      *
-     * @param gameMap: the GameMap object needs to be validated
-     *
+     * @param gameMap the game map
      * @return true if the gameMap is a connected graph, false if it is not
      */
     private static boolean isConnectedGraph(GameMap gameMap) {

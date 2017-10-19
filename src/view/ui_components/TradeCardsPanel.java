@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * TradeCardsPanel.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package view.ui_components;
 
 import model.game_entities.Card;
@@ -13,22 +19,46 @@ import java.util.Observer;
 import static view.helpers.UIHelper.addVerticalSpacing;
 
 /**
- * Trade Cards Panel representing the controls for Trade Cards phase of the game
+ * Trade Cards Panel representing the controls for Trade Cards phase of the game.
  */
 public class TradeCardsPanel extends JPanel implements Observer {
+    
+    /** The Constant CARDS_LIST_LABEL. */
     private static final String CARDS_LIST_LABEL = "List of cards owned: ";
+    
+    /** The Constant ARMY_VALUE_LABEL. */
     private static final String ARMY_VALUE_LABEL = "Current army value: ";
+    
+    /** The Constant TRADE_CARDS_BUTTON. */
     private static final String TRADE_CARDS_BUTTON = "Trade cards";
+    
+    /** The Constant GAINED_ARMIES_LABEL. */
     private static final String GAINED_ARMIES_LABEL = "# of armies gained: ";
+    
+    /** The Constant BACK_TO_REINFORCEMENT_BUTTON. */
     private static final String BACK_TO_REINFORCEMENT_BUTTON = "Back to Reinforcement";
     
+    /** The player ID. */
     private JLabel playerID;
+    
+    /** The gained armies label. */
     private JLabel gainedArmiesLabel;
+    
+    /** The army value label. */
     private JLabel armyValueLabel;
+    
+    /** The card list. */
     private JPanel cardList;
+    
+    /** The trade cards. */
     private JButton tradeCards;
+    
+    /** The back to reinforcement button. */
     private JButton backToReinforcementButton;
     
+    /**
+     * Instantiates a new trade cards panel.
+     */
     /* Constructors */
     public TradeCardsPanel() {
         /* Instantiate elements */
@@ -77,28 +107,56 @@ public class TradeCardsPanel extends JPanel implements Observer {
         add(controlWrapper);
     }
     
+    /**
+     * Gets the card list.
+     *
+     * @return the card list
+     */
     /* Getters & Setters */
     public JPanel getCardList() {
         return cardList;
     }
     
+    /**
+     * Sets the player ID.
+     *
+     * @param playerID the new player ID
+     */
     public void setPlayerID(int playerID) {
         this.playerID.setText("Player " + playerID);
     }
     
+    /**
+     * Sets the army value label.
+     *
+     * @param armyValue the new army value label
+     */
     public void setArmyValueLabel(int armyValue) {
         this.armyValueLabel.setText(ARMY_VALUE_LABEL + Integer.toString(armyValue));
     }
     
+    /**
+     * Adds the trade cards button listener.
+     *
+     * @param listenerForTradeCardsButton the listener for trade cards button
+     */
     /* MVC & Observer pattern methods */
     public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
         tradeCards.addActionListener(listenerForTradeCardsButton);
     }
     
+    /**
+     * Adds the back to reinforcement listener.
+     *
+     * @param listenerForBackToReinforcement the listener for back to reinforcement
+     */
     public void addBackToReinforcementListener(ActionListener listenerForBackToReinforcement) {
         backToReinforcementButton.addActionListener(listenerForBackToReinforcement);
     }
     
+    /* (non-Javadoc)
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {

@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * ReinforcementPanel.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package view.ui_components;
 
 import model.ui_models.GamePlayModel;
@@ -16,33 +22,69 @@ import java.util.Observer;
 import static view.helpers.UIHelper.addVerticalSpacing;
 
 /**
- * Reinforcement Panel representing the controls for Reinforcement phase of the game
+ * Reinforcement Panel representing the controls for Reinforcement phase of the game.
  *
- * @author
+ * @author Team 2
  * @version 1.0
  */
 public class ReinforcementPanel extends JPanel implements Observer {
+    
+    /** The Constant CONTROL_WRAPPER_PANEL_NAME. */
     // region Attributes declaration
     private static final String CONTROL_WRAPPER_PANEL_NAME = "ControlWrapper";
+    
+    /** The Constant TRADE_CARDS_PANEL_NAME. */
     private static final String TRADE_CARDS_PANEL_NAME = "TradeCards";
+    
+    /** The Constant PLACE_ARMIES_BUTTON. */
     private static final String PLACE_ARMIES_BUTTON = "Place armies";
+    
+    /** The Constant TOTAL_ARMIES_TO_PLACE_LABEL. */
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
+    
+    /** The Constant GO_TO_FORTIFICATION_BUTTON. */
     private static final String GO_TO_FORTIFICATION_BUTTON = "Go to Fortification";
+    
+    /** The Constant TRADE_CARDS_BUTTON. */
     private static final String TRADE_CARDS_BUTTON = "Trade Cards";
+    
+    /** The Constant ATTACK_BUTTON. */
     private static final String ATTACK_BUTTON = "Attack!";
+    
+    /** The Constant ARMIES_TO_PLACE_LABEL. */
     private static final String ARMIES_TO_PLACE_LABEL = "Use table to place armies:";
     
+    /** The cards panel. */
     private JPanel cardsPanel;
+    
+    /** The control wrapper. */
     private JPanel controlWrapper;
+    
+    /** The trade cards panel. */
     private TradeCardsPanel tradeCardsPanel;
+    
+    /** The trade cards button. */
     private JButton tradeCardsButton;
+    
+    /** The go to fortification button. */
     private JButton goToFortificationButton;
+    
+    /** The place armies button. */
     private JButton placeArmiesButton;
+    
+    /** The player territory table. */
     private JTable playerTerritoryTable;
+    
+    /** The player name. */
     private JLabel playerName;
+    
+    /** The total armies to place. */
     private JLabel totalArmiesToPlace;
     // endregion
     
+    /**
+     * Instantiates a new reinforcement panel.
+     */
     // region Constructors
     public ReinforcementPanel() {
         cardsPanel = new JPanel(new CardLayout());
@@ -106,29 +148,59 @@ public class ReinforcementPanel extends JPanel implements Observer {
     }
     // endregion
     
+    /**
+     * Gets the player territory table.
+     *
+     * @return the player territory table
+     */
     // region Getters & Setters
     public JTable getPlayerTerritoryTable() {
         return playerTerritoryTable;
     }
     
+    /**
+     * Gets the cards panel.
+     *
+     * @return the cards panel
+     */
     public JPanel getCardsPanel() {
         return cardsPanel;
     }
     
+    /**
+     * Gets the trade cards panel.
+     *
+     * @return the trade cards panel
+     */
     public TradeCardsPanel getTradeCardsPanel() {
         return tradeCardsPanel;
     }
     
+    /**
+     * Gets the control wrapper panel name.
+     *
+     * @return the control wrapper panel name
+     */
     public static String getControlWrapperPanelName() {
         return CONTROL_WRAPPER_PANEL_NAME;
     }
     
+    /**
+     * Gets the trade cards panel name.
+     *
+     * @return the trade cards panel name
+     */
     public static String getTradeCardsPanelName() {
         return TRADE_CARDS_PANEL_NAME;
     }
     
     // endregion
     
+    /**
+     * Adds the place armies button listener.
+     *
+     * @param listenerForPlaceArmiesButton the listener for place armies button
+     */
     // region MVC & Observer pattern methods
     public void addPlaceArmiesButtonListener(ActionListener listenerForPlaceArmiesButton) {
         placeArmiesButton.addActionListener(listenerForPlaceArmiesButton);
@@ -137,16 +209,24 @@ public class ReinforcementPanel extends JPanel implements Observer {
     /**
      * Adding Listener for fortification phase.
      *
-     * @param listenerForGoToFortificationButton
+     * @param listenerForGoToFortificationButton the listener for go to fortification button
      */
     public void addGoToFortificationButtonListener(ActionListener listenerForGoToFortificationButton) {
         goToFortificationButton.addActionListener(listenerForGoToFortificationButton);
     }
     
+    /**
+     * Adds the trade cards button listener.
+     *
+     * @param listenerForTradeCardsButton the listener for trade cards button
+     */
     public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
         tradeCardsButton.addActionListener(listenerForTradeCardsButton);
     }
     
+    /* (non-Javadoc)
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
@@ -162,7 +242,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     // endregion
 
     /**
-     * The territory table is constructor in this method
+     * The territory table is constructor in this method.
      */
     private void constructTerritoryTable() {
         playerTerritoryTable = new JTable() {

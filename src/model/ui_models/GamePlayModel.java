@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * GamePlayModel.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package model.ui_models;
 
 import model.game_entities.*;
@@ -5,9 +11,7 @@ import model.game_entities.*;
 import java.util.*;
 
 import static utilities.Config.GAME_STATES;
-import static utilities.Config.GAME_STATES.ENTRY_MENU;
-import static utilities.Config.GAME_STATES.REINFORCEMENT;
-import static utilities.Config.GAME_STATES.STARTUP;
+import static utilities.Config.GAME_STATES.*;
 import static utilities.Config.INITIAL_ARMY_RATIO;
 
 /**
@@ -19,22 +23,42 @@ import static utilities.Config.INITIAL_ARMY_RATIO;
  * a) reinforcement phase
  * b) attack phase
  * c) fortifications phase
- * 5) end of game
+ * 5) end of game.
  */
 public class GamePlayModel extends Observable {
+    
+    /** The Constant DEFAULT_ARMY_VALUE. */
     // region Attributes declaration
     private static final int DEFAULT_ARMY_VALUE = 5;
     
+    /** The instance. */
     private static GamePlayModel instance = null;
+    
+    /** The game map. */
     private GameMap gameMap;
+    
+    /** The map table model. */
     private MapTableModel mapTableModel;
+    
+    /** The game state. */
     private GAME_STATES gameState;
+    
+    /** The current player. */
     private Player currentPlayer;
+    
+    /** The player territories model. */
     private PlayerTerritoriesModel playerTerritoriesModel;
     
+    /** The army value. */
     private int armyValue;
+    
+    /** The deck. */
     private Vector<Card> deck;
+    
+    /** The players. */
     private Vector<Player> players;
+    
+    /** The rand. */
     private Random rand;
     // endregion
     
@@ -54,7 +78,7 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * Static instance method to determine if an object of RiskGame already exists
+     * Static instance method to determine if an object of RiskGame already exists.
      *
      * @return instance of the singleton object
      */
@@ -79,22 +103,47 @@ public class GamePlayModel extends Observable {
         broadcastGamePlayChanges();
     }
     
+    /**
+     * Gets the game map.
+     *
+     * @return the game map
+     */
     public GameMap getGameMap() {
         return gameMap;
     }
     
+    /**
+     * Gets the map table model.
+     *
+     * @return the map table model
+     */
     public MapTableModel getMapTableModel() {
         return mapTableModel;
     }
     
+    /**
+     * Gets the players.
+     *
+     * @return the players
+     */
     public Vector<Player> getPlayers() {
         return this.players;
     }
     
+    /**
+     * Gets the deck.
+     *
+     * @return the deck
+     */
     public Vector<Card> getDeck() {
         return this.deck;
     }
     
+    /**
+     * Sets the current player.
+     *
+     * @param player the new current player
+     */
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
         if (gameState == REINFORCEMENT) {
@@ -104,30 +153,60 @@ public class GamePlayModel extends Observable {
         broadcastGamePlayChanges();
     }
     
+    /**
+     * Gets the current player.
+     *
+     * @return the current player
+     */
     public Player getCurrentPlayer() {
         return this.currentPlayer;
     }
     
+    /**
+     * Gets the army value.
+     *
+     * @return the army value
+     */
     public int getArmyValue() {
         return this.armyValue;
     }
     
+    /**
+     * Gets the game state.
+     *
+     * @return the game state
+     */
     public GAME_STATES getGameState() {
         return this.gameState;
     }
     
+    /**
+     * Sets the game state.
+     *
+     * @param gameStates the new game state
+     */
     public void setGameState(GAME_STATES gameStates) {
         this.gameState = gameStates;
         updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
     
+    /**
+     * Gets the player territories model.
+     *
+     * @return the player territories model
+     */
     public PlayerTerritoriesModel getPlayerTerritoriesModel() {
         return playerTerritoriesModel;
     }
     
     // endregion
     
+    /**
+     * Gets the current player territories.
+     *
+     * @return the current player territories
+     */
     // region Public methods
     public Vector<String> getCurrentPlayerTerritories() {
         Vector<String> territoriesList = new Vector<>();
@@ -193,6 +272,11 @@ public class GamePlayModel extends Observable {
         broadcastGamePlayChanges();
     }
     
+    /**
+     * Gets the next player.
+     *
+     * @return the next player
+     */
     public Player getNextPlayer() {
         int currPlayerIndex = players.indexOf(currentPlayer);
         if (currPlayerIndex == players.size() - 1) {
@@ -437,6 +521,8 @@ public class GamePlayModel extends Observable {
     /**
      * Private helper method to initialize the players according to
      * the number of players (currPlayers).
+     *
+     * @param numOfPlayers the num of players
      */
     private void initPlayers(int numOfPlayers) {
         System.out.println("Initializing players...");
@@ -565,12 +651,15 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * Update the GameMapTableModel according to the newly updated GameMap object
+     * Update the GameMapTableModel according to the newly updated GameMap object.
      */
     private void updateGameMapTableModel() {
         mapTableModel.updateMapTableModel(gameMap, gameState);
     }
     
+    /**
+     * Update player territories model.
+     */
     private void updatePlayerTerritoriesModel() {
         playerTerritoriesModel.updateMapTableModel(currentPlayer);
     }

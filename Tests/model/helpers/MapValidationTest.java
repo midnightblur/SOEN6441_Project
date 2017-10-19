@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * MapValidationTest.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package model.helpers;
 
 import model.game_entities.Continent;
@@ -13,6 +19,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * The Class MapValidationTest.
+ */
 public class MapValidationTest {
     private GameMap gameMap;
     private String message;

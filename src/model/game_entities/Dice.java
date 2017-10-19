@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * Dice.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package model.game_entities;
 
 import utilities.Config;
@@ -10,7 +16,7 @@ import java.util.Arrays;
  * Each pip is a index between 1 and MAX_PIPS (default is 1 to 6)
  * The roll() action will return the 2 most largest values from dice array after randomizing.
  *
- * @author
+ * @author Team 2
  * @version 1.0
  */
 public class Dice {
@@ -19,21 +25,35 @@ public class Dice {
      */
     private int[] dice;
     
-    /* Getters & Setters */
+    /**
+     * Gets the max pips.
+     *
+     * @return the max pips
+     */
     public int getMAX_PIPS() {
         return Config.MAX_PIPS;
     }
     
+    /**
+     * Gets the dice.
+     *
+     * @return the dice
+     */
     public int[] getDice() {
         return dice;
     }
     
+    /**
+     * Sets the dice.
+     *
+     * @param dice the new dice
+     */
     public void setDice(int[] dice) {
         this.dice = dice;
     }
     
     /**
-     * Default constructor delegating to parametrized constructor
+     * Default constructor delegating to parametrized constructor.
      */
     public Dice() {
         this(1);
@@ -41,7 +61,7 @@ public class Dice {
     
     /**
      * Parameterized constructor
-     * Build an array of dice with default pips showing 1
+     * Build an array of dice with default pips showing 1.
      *
      * @param numberOfDice represents the number of dice to be rolled
      */
@@ -60,9 +80,11 @@ public class Dice {
     }
     
     /**
-     * Rolling the dice and returning the maximum 2 values obtained sorted in descending order
+     * Rolling the dice and returning the maximum 2 values obtained sorted in descending order.
      *
      * @return an array containing the maximum 2 values obtained sorted in descending order
+     *
+     * @throws Exception the exception
      */
     public int[] roll() throws Exception {
 
@@ -83,15 +105,11 @@ public class Dice {
         if (dice.length == 1) {
             int[] result = new int[1];
             result[0] = dice[dice.length - 1];
-            //setChanged();
-            //notifyObservers();
             return result;
         } else {
             int[] result = new int[2];
             result[0] = dice[dice.length - 1];
             result[0] = dice[dice.length - 2];
-            //setChanged();
-            //notifyObservers();
             return result;
         }
         

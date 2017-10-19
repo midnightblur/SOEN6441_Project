@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * MainMenuController.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package controller;
 
 import view.helpers.UIHelper;
@@ -8,21 +14,25 @@ import javax.swing.*;
 
 /**
  * The Class MainGameController  is
- * responsible for launching different game screens
+ * responsible for launching different game screens.
  *
- * @author
+ * @author Team 2
  * @version 1.0
  */
 public class MainMenuController extends JFrame {
+    
+    /** The main menu frame. */
     // region Attributes declaration
     private MainMenuFrame mainMenuFrame;
+    
+    /** The map selector frame. */
     private MapSelectorFrame mapSelectorFrame;
     // endregion
     
     // region Constructors
     
     /**
-     * This method is used to launch main screen of application
+     * This method is used to launch main screen of application.
      */
     public MainMenuController() {
         mainMenuFrame = new MainMenuFrame();
@@ -32,6 +42,11 @@ public class MainMenuController extends JFrame {
     
     // region Getters & Setters
     
+    /**
+     * Gets the main menu frame.
+     *
+     * @return the main menu frame
+     */
     public MainMenuFrame getMainMenuFrame() {
         return mainMenuFrame;
     }
@@ -42,6 +57,9 @@ public class MainMenuController extends JFrame {
     
     // endregion
     
+    /**
+     * Register to be listener.
+     */
     // region Private methods
     private void registerToBeListener() {
         mainMenuFrame.addMapEditorButtonListener(e -> openMapEditorScreen());
@@ -49,16 +67,25 @@ public class MainMenuController extends JFrame {
         mainMenuFrame.addQuitButtonListener(e -> exitGame());
     }
     
+    /**
+     * Open map editor screen.
+     */
     private void openMapEditorScreen() {
         UIHelper.disableFrame(mainMenuFrame);
         new MapEditorController(this);
     }
     
+    /**
+     * Open play game screen.
+     */
     private void openPlayGameScreen() {
         UIHelper.disableFrame(mainMenuFrame);
         new MapSelectorController(this);
     }
     
+    /**
+     * Exit game.
+     */
     private void exitGame() {
         UIHelper.closeFrame(mainMenuFrame);
     }

@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * MapSelectorFrame.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package view.screens;
 
 import model.ui_models.MapEditorModel;
@@ -11,20 +17,43 @@ import java.util.Observer;
 
 import static view.helpers.UIHelper.addVerticalSpacing;
 
+/**
+ * The Class MapSelectorFrame.
+ */
 public class MapSelectorFrame extends JFrame implements Observer {
+    
+    /** The Constant TITLE. */
     // region Attributes declaration
     private static final String TITLE = "Selecting a map to play";
+    
+    /** The Constant PLAY_GAME_BUTTON. */
     private static final String PLAY_GAME_BUTTON = "Play Game";
+    
+    /** The Constant BACK_BUTTON. */
     private static final String BACK_BUTTON = "Back";
+    
+    /** The Constant SELECT_MAP_LABEL. */
     private static final String SELECT_MAP_LABEL = "Select a map:";
+    
+    /** The Constant WIDTH. */
     private static final int WIDTH = 500;
+    
+    /** The Constant HEIGHT. */
     private static final int HEIGHT = 230;
     
+    /** The map dropdown. */
     private JComboBox<String> mapDropdown;
+    
+    /** The play game btn. */
     private JButton playGameBtn;
+    
+    /** The back btn. */
     private JButton backBtn;
     // endregion
     
+    /**
+     * Instantiates a new map selector frame.
+     */
     // region Constructors
     public MapSelectorFrame() {
         setupContentPane();
@@ -32,22 +61,40 @@ public class MapSelectorFrame extends JFrame implements Observer {
     }
     // endregion
     
+    /**
+     * Gets the map dropdown.
+     *
+     * @return the map dropdown
+     */
     // region Getters & Setters
     public JComboBox<String> getMapDropdown() {
         return mapDropdown;
     }
     // endregion
     
+    /**
+     * Adds the play game button listener.
+     *
+     * @param listenerForPlayGameButton the listener for play game button
+     */
     // region MVC & Observer pattern methods
     public void addPlayGameButtonListener(ActionListener listenerForPlayGameButton) {
         playGameBtn.addActionListener(listenerForPlayGameButton);
     }
     
+    /**
+     * Adds the back button listener.
+     *
+     * @param listenerForBackButton the listener for back button
+     */
     public void addBackButtonListener(ActionListener listenerForBackButton) {
         backBtn.addActionListener(listenerForBackButton);
     }
     // endregion
     
+    /* (non-Javadoc)
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
     // region Public methods
     @Override
     public void update(Observable o, Object arg) {
@@ -57,6 +104,9 @@ public class MapSelectorFrame extends JFrame implements Observer {
     }
     // endregion
     
+    /**
+     * Setup content pane.
+     */
     // region Private methods
     private void setupContentPane() {
         JPanel contentPane = new JPanel();

@@ -1,11 +1,23 @@
+/* 
+ * Risk Game Team 2
+ * DiceTest.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package model;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The Class DiceTest.
+ */
 class DiceTest {
 
+    /**
+     * Roll for tree dice.
+     */
     @Test
     void rollForTreeDice() {
         int diceCount = 3;
@@ -21,6 +33,9 @@ class DiceTest {
         }
     }
 
+    /**
+     * Roll for one dice.
+     */
     @Test
     void rollForOneDice() {
         int diceCount = 1;
@@ -36,6 +51,9 @@ class DiceTest {
         }
     }
 
+    /**
+     * Roll for zero dice.
+     */
     @Test
     void rollForZeroDice() {
         int diceCount = 0;

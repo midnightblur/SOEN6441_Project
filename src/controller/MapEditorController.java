@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * MapEditorController.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package controller;
 
 import model.game_entities.Continent;
@@ -19,25 +25,47 @@ import java.util.Vector;
 
 /**
  * This is the Map editor controller used to control the
- * actions of map editor
+ * actions of map editor.
  *
- * @author
+ * @author Team 2
  * @version 1.0
  */
 public class MapEditorController {
+    
+    /** The Constant NONE_RADIO_BUTTON. */
     //region Attributes declaration
     private static final String NONE_RADIO_BUTTON = "NONE";
+    
+    /** The Constant CONTINENT_NAME_GENERATOR. */
     private static final String CONTINENT_NAME_GENERATOR = "continent_";
+    
+    /** The Constant TERRITORY_NAME_GENERATOR. */
     private static final String TERRITORY_NAME_GENERATOR = "territory_";
+    
+    /** The Constant DEFAULT_CONTROL_VALUE. */
     private static final int DEFAULT_CONTROL_VALUE = 1;
     
+    /** The map editor frame. */
     private MapEditorFrame mapEditorFrame;
+    
+    /** The map editor model. */
     private MapEditorModel mapEditorModel;
+    
+    /** The caller controller. */
     private MainMenuController callerController;
+    
+    /** The new continent ID. */
     private int newContinentID; // helps generate new continent name => faster demo
+    
+    /** The new territory ID. */
     private int newTerritoryID; // helps generate new territory name => faster demo
     //endregion
     
+    /**
+     * Instantiates a new map editor controller.
+     *
+     * @param mainMenuController the main menu controller
+     */
     //region Constructors
     public MapEditorController(MainMenuController mainMenuController) {
         this.callerController = mainMenuController;
@@ -73,7 +101,7 @@ public class MapEditorController {
     
     //region Methods to handle events from UI
     /**
-     * Update the GameMap object from the selected items from DropdownList
+     * Update the GameMap object from the selected items from DropdownList.
      */
     private void loadMap() {
         try {
@@ -86,7 +114,7 @@ public class MapEditorController {
     }
     
     /**
-     * This method Closes the current MapEditor screen and navigates back to the MainMenu screen
+     * This method Closes the current MapEditor screen and navigates back to the MainMenu screen.
      */
     private void backToMainMenu() {
         UIHelper.closeFrame(mapEditorFrame);
@@ -94,14 +122,14 @@ public class MapEditorController {
     }
     
     /**
-     * Create a new GameMap object for users to make their own map from scratch
+     * Create a new GameMap object for users to make their own map from scratch.
      */
     private void initiateNewGameMap() {
         mapEditorModel.initNewMap();
     }
     
     /**
-     * Prepare the content for Continent Editing area
+     * Prepare the content for Continent Editing area.
      */
     private void prepareContinentEditArea() {
         String selectedContinents = String.valueOf(mapEditorModel.getContinentsDropdownModel().getSelectedItem());
@@ -143,7 +171,7 @@ public class MapEditorController {
     }
     
     /**
-     * Prepare the content for Territory Editing area
+     * Prepare the content for Territory Editing area.
      */
     private void prepareTerritoryEditArea() {
         String selectedTerritories = String.valueOf(mapEditorModel.getTerritoriesDropdownModel().getSelectedItem());
@@ -217,7 +245,7 @@ public class MapEditorController {
     }
     
     /**
-     * Get information from Continent Editing area and save to GameMap object
+     * Get information from Continent Editing area and save to GameMap object.
      */
     private void saveContinentInfo() {
         try {
@@ -254,7 +282,7 @@ public class MapEditorController {
     }
 
     /**
-     * This method is used to remove the continent
+     * This method is used to remove the continent.
      */
     private void removeContinentInfo() {
         String continentName = String.valueOf(mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentsListDropdown().getSelectedItem());
@@ -265,7 +293,7 @@ public class MapEditorController {
     }
     
     /**
-     * Get information from Territory Editing area and save to GameMap object
+     * Get information from Territory Editing area and save to GameMap object.
      */
     private void saveTerritoryInfo() {
         String newTerritoryName = mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoryNameText().getText();

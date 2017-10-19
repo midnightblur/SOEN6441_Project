@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * ReadingInvalidMapFileTest.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package model;
 
 import model.game_entities.GameMap;
@@ -12,12 +18,21 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+/**
+ * The Class ReadingInvalidMapFileTest.
+ */
 public class ReadingInvalidMapFileTest {
+    
+    /** The message. */
     private String message;
+    
+    /** The game map. */
     private GameMap gameMap;
 
     /**
-     *This test runs before each testcase
+     * This test runs before each testcase.
+     *
+     * @throws Exception the exception
      */
     @Before
     public void setUp() throws Exception {
@@ -26,7 +41,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks the one way relationship
+     * This test checks the one way relationship.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void one_way_relationship() throws Exception {
@@ -41,7 +58,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks if the continent has no control value
+     * This test checks if the continent has no control value.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void continent_has_no_control_value() throws Exception {
@@ -56,7 +75,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks the continent has no territory
+     * This test checks the continent has no territory.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void continent_has_no_territory() throws Exception {
@@ -71,7 +92,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks if the continent has been duplicated
+     * This test checks if the continent has been duplicated.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void duplicated_continent() throws Exception {
@@ -86,7 +109,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks the if the territories has been duplicated
+     * This test checks the if the territories has been duplicated.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void duplicated_territories() throws Exception {
@@ -101,7 +126,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks the if format is invalid
+     * This test checks the if format is invalid.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void invalid_format_1() throws Exception {
@@ -116,7 +143,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks the if format is invalid test 2
+     * This test checks the if format is invalid test 2.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void invalid_format_2() throws Exception {
@@ -131,7 +160,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks the if format is invalid test 3
+     * This test checks the if format is invalid test 3.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void invalid_format_3() throws Exception {
@@ -146,7 +177,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks the if missing coordination
+     * This test checks the if missing coordination.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void missing_coordination() throws Exception {
@@ -161,7 +194,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks the if there is no continent
+     * This test checks the if there is no continent.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void no_continent() throws Exception {
@@ -176,7 +211,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks the if there is no neighbor
+     * This test checks the if there is no neighbor.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void no_neighbor() throws Exception {
@@ -191,7 +228,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks if there is no territory
+     * This test checks if there is no territory.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void no_territory() throws Exception {
@@ -206,7 +245,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks the if the territory has no continent
+     * This test checks the if the territory has no continent.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void territory_has_no_continent() throws Exception {
@@ -221,7 +262,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks the if there are too many neighbors
+     * This test checks the if there are too many neighbors.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void too_many_neighbors() throws Exception {
@@ -236,7 +279,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks the if there is undefined continent
+     * This test checks the if there is undefined continent.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void undefined_continent() throws Exception {
@@ -251,7 +296,9 @@ public class ReadingInvalidMapFileTest {
     }
 
     /**
-     *This test checks the if there is undefined territory
+     * This test checks the if there is undefined territory.
+     *
+     * @throws Exception the exception
      */
     @Test
     public void undefined_territory() throws Exception {
@@ -266,7 +313,7 @@ public class ReadingInvalidMapFileTest {
     }
     
     /**
-     * This test checks if the map file is actually a valid map
+     * This test checks if the map file is actually a valid map.
      */
     @Test
     public void valid_map() {

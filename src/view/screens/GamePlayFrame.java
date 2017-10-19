@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * GamePlayFrame.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package view.screens;
 
 import model.ui_models.GamePlayModel;
@@ -11,21 +17,46 @@ import java.util.Observer;
 
 import static view.helpers.UIHelper.setDivider;
 
+/**
+ * The Class GamePlayFrame.
+ */
 public class GamePlayFrame extends JFrame implements Observer {
+    
+    /** The Constant TITLE. */
     // region Attributes declaration
     private static final String TITLE = "Game Play";
+    
+    /** The Constant WIDTH. */
     private static final int WIDTH = 1600;
+    
+    /** The Constant HEIGHT. */
     private static final int HEIGHT = 800;
     
+    /** The content pane. */
     private JSplitPane contentPane;
+    
+    /** The game map table. */
     private GameMapTable gameMapTable;
+    
+    /** The control area. */
     private JPanel controlArea;
+    
+    /** The game setup panel. */
     private GameSetupPanel gameSetupPanel;
+    
+    /** The startup panel. */
     private StartupPanel startupPanel;
+    
+    /** The reinforcement panel. */
     private ReinforcementPanel reinforcementPanel;
+    
+    /** The fortification panel. */
     private FortificationPanel fortificationPanel;
     // endregion
     
+    /**
+     * Instantiates a new game play frame.
+     */
     // region Constructors
     public GamePlayFrame() {
         /* Setup main container */
@@ -44,34 +75,65 @@ public class GamePlayFrame extends JFrame implements Observer {
     }
     // endregion
     
+    /* (non-Javadoc)
+     * @see javax.swing.JFrame#getContentPane()
+     */
     // region Getters & Setters
     @Override
     public JSplitPane getContentPane() {
         return contentPane;
     }
     
+    /**
+     * Gets the game map table.
+     *
+     * @return the game map table
+     */
     public GameMapTable getGameMapTable() {
         return gameMapTable;
     }
     
+    /**
+     * Gets the game setup panel.
+     *
+     * @return the game setup panel
+     */
     public GameSetupPanel getGameSetupPanel() {
         return gameSetupPanel;
     }
     
+    /**
+     * Gets the startup panel.
+     *
+     * @return the startup panel
+     */
     public StartupPanel getStartupPanel() {
         return startupPanel;
     }
     
+    /**
+     * Gets the reinforcement panel.
+     *
+     * @return the reinforcement panel
+     */
     public ReinforcementPanel getReinforcementPanel() {
         return reinforcementPanel;
     }
     
+    /**
+     * Gets the fortification panel.
+     *
+     * @return the fortification panel
+     */
     public FortificationPanel getFortificationPanel() {
         return fortificationPanel;
     }
     
     // endregion
     
+    /* (non-Javadoc)
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
     // region Public methods
     @Override
     public void update(Observable o, Object arg) {
@@ -103,6 +165,9 @@ public class GamePlayFrame extends JFrame implements Observer {
     }
     // endregion
     
+    /**
+     * Setup content pane layout.
+     */
     // region Private methods
     private void setupContentPaneLayout() {
         contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
@@ -125,6 +190,9 @@ public class GamePlayFrame extends JFrame implements Observer {
         setDivider(contentPane);
     }
     
+    /**
+     * Setup control area.
+     */
     private void setupControlArea() {
         /* Use CardLayout to let different panels share the same space */
         controlArea = new JPanel(new CardLayout());

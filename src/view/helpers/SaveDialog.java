@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * SaveDialog.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package view.helpers;
 
 import utilities.Config;
@@ -9,10 +15,13 @@ import java.io.FileFilter;
 /**
  * Overrides super class to open the save dialog into game map folder
  * and apply a custom map filter
- * This class is used to save a map to file
+ * This class is used to save a map to file.
  */
 public class SaveDialog extends JFileChooser {
     
+    /**
+     * Instantiates a new save dialog.
+     */
     public SaveDialog() {
         super(new File(Config.MAPS_FOLDER));
         this.setDialogTitle("Saving the map file");

@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * Player.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package model.game_entities;
 
 import utilities.Config;
@@ -11,18 +17,36 @@ import java.util.Vector;
  * which determines whether or not that player is a bot or a human controlled Player.
  */
 public class Player {
+    
+    /** The next ID. */
     // region Attributes declaration
     private static int nextID = 0;
+    
+    /** The rand. */
     private Random rand;
+    
+    /** The color. */
     private Color color;
     
+    /** The player ID. */
     private int playerID;
+    
+    /** The player name. */
     private String playerName;
+    
+    /** The unallocated armies. */
     private int unallocatedArmies;
+    
+    /** The players hand. */
     private Vector<Card> playersHand;
+    
+    /** The territories. */
     private Vector<Territory> territories;
     // endregion
     
+    /**
+     * Instantiates a new player.
+     */
     // region Constructors
     public Player() {
         rand = new Random();
@@ -34,36 +58,76 @@ public class Player {
     }
     // endregion
     
+    /**
+     * Gets the player ID.
+     *
+     * @return the player ID
+     */
     // region Getters & Setters
     public int getPlayerID() {
         return this.playerID;
     }
     
+    /**
+     * Gets the player name.
+     *
+     * @return the player name
+     */
     public String getPlayerName() {
         return playerName;
     }
     
+    /**
+     * Gets the color.
+     *
+     * @return the color
+     */
     public Color getColor() {
         return color;
     }
     
+    /**
+     * Sets the player name.
+     *
+     * @param playerName the new player name
+     */
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
     
+    /**
+     * Sets the unallocated armies.
+     *
+     * @param unallocatedArmies the new unallocated armies
+     */
     public void setUnallocatedArmies(int unallocatedArmies) {
         this.unallocatedArmies = unallocatedArmies;
 //        broadcastPlayerChanges();
     }
     
+    /**
+     * Gets the unallocated armies.
+     *
+     * @return the unallocated armies
+     */
     public int getUnallocatedArmies() {
         return this.unallocatedArmies;
     }
     
+    /**
+     * Gets the players hand.
+     *
+     * @return the players hand
+     */
     public Vector<Card> getPlayersHand() {
         return this.playersHand;
     }
     
+    /**
+     * Gets the territories.
+     *
+     * @return the territories
+     */
     public Vector<Territory> getTerritories() {
         return territories;
     }
@@ -101,12 +165,22 @@ public class Player {
         this.playersHand.add(card);
     }
     
+    /**
+     * Adds the territory.
+     *
+     * @param territory the territory
+     */
     public void addTerritory(Territory territory) {
         if (!territories.contains(territory)) {
             territories.add(territory);
         }
     }
     
+    /**
+     * Removes the territory.
+     *
+     * @param territoryName the territory name
+     */
     public void removeTerritory(String territoryName) {
         for (Territory territory : territories) {
             if (territory.getName().compareTo(territoryName) == 0) {

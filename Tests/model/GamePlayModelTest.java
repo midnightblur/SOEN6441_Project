@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * GamePlayModelTest.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package model;
 
 import model.game_entities.Continent;
@@ -14,11 +20,23 @@ import java.util.Vector;
 
 import static org.junit.Assert.*;
 
+/**
+ * The Class GamePlayModelTest.
+ */
 public class GamePlayModelTest {
+    
+    /** The game play model. */
     GamePlayModel gamePlayModel;
+    
+    /** The num of players. */
     int numOfPlayers = Config.DEFAULT_NUM_OF_PLAYERS;
+    
+    /** The map file path. */
     String mapFilePath = Config.DEFAULT_MAP;
     
+    /**
+     * Before tests.
+     */
     @Before
     public void beforeTests() {
         gamePlayModel = GamePlayModel.getInstance();
@@ -27,6 +45,9 @@ public class GamePlayModelTest {
         } catch (Exception e) {}
     }
     
+    /**
+     * Game play model test case.
+     */
     @Test
     public void gamePlayModelTestCase() {
         gamePlayModel.initializeNewGame(numOfPlayers);

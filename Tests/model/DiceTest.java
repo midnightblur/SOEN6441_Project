@@ -1,3 +1,9 @@
+/* 
+ * Risk Game Team 2
+ * DiceTest.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package model;
 
 import model.game_entities.Dice;
@@ -5,10 +11,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * The Class DiceTest.
+ */
 public class DiceTest {
 
     /**
-     *This test checks roll of dice
+     * This test checks roll of dice.
      */
     @Test
     public void rollForTreeDice() {
@@ -26,7 +35,7 @@ public class DiceTest {
     }
 
     /**
-     *This test checks roll for one dice
+     * This test checks roll for one dice.
      */
     @Test
     public void rollForOneDice() {
@@ -44,7 +53,7 @@ public class DiceTest {
     }
 
     /**
-     *This test checks the roll for zero dice
+     * This test checks the roll for zero dice.
      */
     @Test
     public void rollForZeroDice() {
