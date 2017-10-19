@@ -51,7 +51,7 @@ public class GamePlayController {
      * responsible for launching the game phases.
      *
      * @param callerController the caller controller
-     * @param gameMap The already loaded map for the game
+     * @param gameMap          The already loaded map for the game
      */
     public GamePlayController(MainMenuController callerController, GameMap gameMap) {
         this.callerController = callerController;
@@ -148,6 +148,7 @@ public class GamePlayController {
     // endregion
     
     // region For Reinforcement Phase
+    
     /**
      * Looping through view table, get the quantity of armies for each territory
      * then place them using the placeArmiesReinforcement in the model.
@@ -182,6 +183,7 @@ public class GamePlayController {
      * Collect the selected cards from UI and trade them by calling the tradeInCards() from the model.
      */
     private void tradeSelectedCards() {
+        int previousUnallocatedArmies = gamePlayModel.getCurrentPlayer().getUnallocatedArmies();
         Vector<String> selectedCards = new Vector<>();
         for (Component component : gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().getCardList().getComponents()) {
             JCheckBox checkBox = (JCheckBox) component;
@@ -190,7 +192,8 @@ public class GamePlayController {
             }
         }
         String message = gamePlayModel.tradeInCards(selectedCards);
-        
+        int gainedArmies = gamePlayModel.getCurrentPlayer().getUnallocatedArmies() - previousUnallocatedArmies;
+        gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().setGainedArmiesLabel(gainedArmies);
         // confirmation message
         UIHelper.displayMessage(gamePlayFrame, message);
     }
@@ -243,15 +246,15 @@ public class GamePlayController {
             
             if ((quantity > 0) && targetTerritory.compareTo("No neighbors owned. Please select another territory") != 0) {
                 String message = gamePlayModel.moveArmiesFortification(sourceTerritory, targetTerritory, quantity);
-                UIHelper.displayMessage(gamePlayFrame,message);
+                UIHelper.displayMessage(gamePlayFrame, message);
             } else {
-                UIHelper.displayMessage(gamePlayFrame,"Please validate your selection.");
+                UIHelper.displayMessage(gamePlayFrame, "Please validate your selection.");
             }
         } catch (ClassCastException | NumberFormatException nfe) {
             UIHelper.displayMessage(gamePlayFrame, "Invalid entry. Please re-enter a number.");
         }
     }
-
+    
     /**
      * Update target territories dropdown.
      *

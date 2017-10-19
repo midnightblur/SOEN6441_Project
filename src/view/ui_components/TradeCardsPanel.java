@@ -59,7 +59,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
     /**
      * Instantiates a new trade cards panel.
      */
-    /* Constructors */
+    // region Constructors
     public TradeCardsPanel() {
         /* Instantiate elements */
         JLabel gameState = new JLabel();
@@ -106,41 +106,31 @@ public class TradeCardsPanel extends JPanel implements Observer {
         
         add(controlWrapper);
     }
+    // endregion
     
+    // region Getters & Setters
     /**
      * Gets the card list.
      *
      * @return the card list
      */
-    /* Getters & Setters */
     public JPanel getCardList() {
         return cardList;
     }
     
-    /**
-     * Sets the player ID.
-     *
-     * @param playerID the new player ID
-     */
-    public void setPlayerID(int playerID) {
-        this.playerID.setText("Player " + playerID);
+    public void setGainedArmiesLabel(int armyValue) {
+        gainedArmiesLabel.setVisible(true);
+        gainedArmiesLabel.setText(GAINED_ARMIES_LABEL + armyValue);
     }
     
-    /**
-     * Sets the army value label.
-     *
-     * @param armyValue the new army value label
-     */
-    public void setArmyValueLabel(int armyValue) {
-        this.armyValueLabel.setText(ARMY_VALUE_LABEL + Integer.toString(armyValue));
-    }
+    // endregion
     
+    // region MVC & Observer pattern methods
     /**
      * Adds the trade cards button listener.
      *
      * @param listenerForTradeCardsButton the listener for trade cards button
      */
-    /* MVC & Observer pattern methods */
     public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
         tradeCards.addActionListener(listenerForTradeCardsButton);
     }
@@ -162,7 +152,8 @@ public class TradeCardsPanel extends JPanel implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == GAME_STATES.REINFORCEMENT) {
-                setArmyValueLabel(gamePlayModel.getArmyValue());
+                armyValueLabel.setText(ARMY_VALUE_LABEL + Integer.toString(gamePlayModel.getArmyValue()));
+                gainedArmiesLabel.setVisible(false);
                 playerID.setForeground(gamePlayModel.getCurrentPlayer().getColor());
                 playerID.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                 
@@ -178,4 +169,5 @@ public class TradeCardsPanel extends JPanel implements Observer {
             }
         }
     }
+    // endregion
 }
