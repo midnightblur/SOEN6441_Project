@@ -205,6 +205,13 @@ public class Player {
         }
         return false;
     }
+    
+    /**
+     * Resets the static counter, nextID, in Player class to zero.
+     */
+    public static void resetStaticNextID() {
+        nextID = 0;
+    }
     // endregion
     
     // region Private methods

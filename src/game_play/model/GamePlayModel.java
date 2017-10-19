@@ -245,6 +245,7 @@ public class GamePlayModel extends Observable {
         gameState = STARTUP;
 
          /* Initialization of game attributes */
+        Player.resetStaticNextID();
         initPlayers(numOfPlayers);
         initDeck();
         distributeTerritories();
