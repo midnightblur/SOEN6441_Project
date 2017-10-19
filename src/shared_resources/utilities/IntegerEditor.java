@@ -16,13 +16,16 @@ import java.awt.*;
  */
 public class IntegerEditor extends DefaultCellEditor {
     
+    // region Constructors
     /**
      * Instantiates a new integer editor.
      */
     public IntegerEditor() {
         super(new JTextField());
     }
+    // endregion
     
+    // region Public methods
     /**
      * @see javax.swing.DefaultCellEditor#stopCellEditing()
      */
@@ -66,5 +69,5 @@ public class IntegerEditor extends DefaultCellEditor {
         
         return component;
     }
-    
+    // endregion
 }

@@ -17,9 +17,12 @@ import java.util.Comparator;
 
 public class BidiArrayComparator implements Comparator {
     
+    // region Attributes declaration
     /** The col to sort. */
     private int colToSort;
+    // endregion
     
+    // region Constructors
     /**
      * Constructor taking the column used for sorting.
      *
@@ -28,7 +31,9 @@ public class BidiArrayComparator implements Comparator {
     public BidiArrayComparator(int colToSort) {
         this.colToSort = colToSort;
     }
+    // endregion
     
+    // region Public methods
     /**
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */
@@ -39,5 +44,6 @@ public class BidiArrayComparator implements Comparator {
         
         return row1[colToSort].compareTo(row2[colToSort]);
     }
+    // endregion
 }
 

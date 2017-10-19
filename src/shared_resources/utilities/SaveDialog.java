@@ -17,6 +17,7 @@ import java.io.FileFilter;
  */
 public class SaveDialog extends JFileChooser {
     
+    // region Constructors
     /**
      * Instantiates a new save dialog.
      */
@@ -25,6 +26,7 @@ public class SaveDialog extends JFileChooser {
         this.setDialogTitle("Saving the map file");
         this.setFileFilter(new MapFilter());
     }
+    // endregion
 }
 
 /**
@@ -32,18 +34,31 @@ public class SaveDialog extends JFileChooser {
  */
 class MapFilter extends javax.swing.filechooser.FileFilter implements FileFilter {
     
+    // region Public methods
+    /**
+     * Determines whether or not the file is of the default extension type (.map)
+     * in order to display only the valid map files in the save drop down list.
+     *
+     * @param file An object of File to be determined valid or not
+     * @return Returns true if the file type is of the default extension, false otherwise
+     */
     @Override
-    public boolean accept(File f) {
-        if (f.isDirectory()) {
+    public boolean accept(File file) {
+        if (file.isDirectory()) {
             return true;
         }
-        final String name = f.getName();
+        final String name = file.getName();
         return name.toLowerCase().endsWith(Config.MAPS_EXTENSION);
     }
     
+    /**
+     * Provides the description for the map file type.
+     *
+     * @return String that describes the map file type
+     */
     @Override
     public String getDescription() {
         return "Map files (" + Config.MAPS_EXTENSION + ")";
     }
-    
+    // endregion
 }

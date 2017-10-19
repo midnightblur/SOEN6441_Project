@@ -22,12 +22,15 @@ import java.awt.event.WindowEvent;
  */
 public class UIHelper {
     
+    // region Constructors
     /**
      * Instantiates a new UI helper.
      */
     private UIHelper() {
     }
+    // endregion
     
+    // region Public methods
     /**
      * Display a frame to screen.
      *
@@ -97,4 +100,5 @@ public class UIHelper {
     public static void closeFrame(JFrame frame) {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
+    // endregion
 }
