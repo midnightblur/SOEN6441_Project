@@ -28,7 +28,6 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
  * @version 1.0
  */
 public class ReinforcementPanel extends JPanel implements Observer {
-    
     // region Attributes declaration
     /** The Constant CONTROL_WRAPPER_PANEL_NAME. */
     private static final String CONTROL_WRAPPER_PANEL_NAME = "ControlWrapper";
@@ -57,9 +56,6 @@ public class ReinforcementPanel extends JPanel implements Observer {
     /** The cards panel. */
     private JPanel cardsPanel;
     
-    /** The control wrapper. */
-    private JPanel controlWrapper;
-    
     /** The trade cards panel. */
     private TradeCardsPanel tradeCardsPanel;
     
@@ -83,6 +79,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     // endregion
     
     // region Constructors
+    
     /**
      * Instantiates a new reinforcement panel.
      */
@@ -99,11 +96,11 @@ public class ReinforcementPanel extends JPanel implements Observer {
         totalArmiesToPlace = new JLabel();
         totalArmiesToPlace.setFont(new Font("Sans Serif", Font.BOLD, 16));
         JLabel howManyArmiesToPlace = new JLabel(ARMIES_TO_PLACE_LABEL);
-    
+        
         constructTerritoryTable();
         playerTerritoryTable.setDefaultEditor(Integer.class, new IntegerEditor());
         playerTerritoryTable.getTableHeader().setReorderingAllowed(false);
-    
+        
         placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON);
         placeArmiesButton.setForeground(Color.BLUE);
         goToFortificationButton = new JButton(GO_TO_FORTIFICATION_BUTTON);
@@ -114,7 +111,8 @@ public class ReinforcementPanel extends JPanel implements Observer {
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
-        controlWrapper = new JPanel();
+        /* The control wrapper. */
+        JPanel controlWrapper = new JPanel();
         controlWrapper.setLayout(new BoxLayout(controlWrapper, BoxLayout.PAGE_AXIS));
         JPanel topGrid = new JPanel(new GridLayout(7, 1));
         JPanel bottomGrid = new JPanel(new GridLayout(7, 1));
@@ -130,7 +128,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
         controlWrapper.add(topGrid);
         
         controlWrapper.add(new JScrollPane(playerTerritoryTable));
-       
+        
         addVerticalSpacing(bottomGrid);
         bottomGrid.add(placeArmiesButton);
         addVerticalSpacing(bottomGrid);
@@ -149,6 +147,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     // endregion
     
     // region Getters & Setters
+    
     /**
      * Gets the player territory table.
      *
@@ -197,6 +196,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     // endregion
     
     // region MVC & Observer pattern methods
+    
     /**
      * Adds the place armies button listener.
      *
@@ -205,7 +205,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     public void addPlaceArmiesButtonListener(ActionListener listenerForPlaceArmiesButton) {
         placeArmiesButton.addActionListener(listenerForPlaceArmiesButton);
     }
-
+    
     /**
      * Adding Listener for fortification phase.
      *
@@ -240,7 +240,9 @@ public class ReinforcementPanel extends JPanel implements Observer {
         }
     }
     // endregion
-
+    
+    // region Private methods
+    
     /**
      * The territory table is constructor in this method.
      */
@@ -256,22 +258,22 @@ public class ReinforcementPanel extends JPanel implements Observer {
                 }
                 return getValueAt(0, column).getClass();
             }
-        
+            
             @Override   // only allow editing in second column
             public boolean isCellEditable(int row, int column) {
                 return column == 1;
             }
-        
+            
             @Override   // set font
             public void setFont(Font font) {
                 super.setFont(new Font("Sans Serif", Font.PLAIN, 16));
             }
-        
+            
             @Override   // set the row height
             public void setRowHeight(int rowHeight) {
                 super.setRowHeight(25);
             }
-        
+            
             @Override // select all
             public boolean editCellAt(int row, int column, EventObject e) {
                 boolean result = super.editCellAt(row, column, e);

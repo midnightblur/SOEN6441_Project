@@ -14,6 +14,8 @@ import java.util.Vector;
  */
 public class DropDownModel extends DefaultComboBoxModel<String> {
     
+    // region Constructors
+    
     /**
      * Instantiates a new drop down game_entities.
      *
@@ -22,13 +24,15 @@ public class DropDownModel extends DefaultComboBoxModel<String> {
     public DropDownModel(Vector<String> items) {
         super(items);
     }
-
+    // endregion
+    
+    // region Getters & Setters
     /* (non-Javadoc)
      * @see javax.swing.DefaultComboBoxModel#getSelectedItem()
      */
     public String getSelectedItem() {
         return String.valueOf(super.getSelectedItem());
     }
-
-
+    // endregion
+    
 }

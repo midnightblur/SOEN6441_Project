@@ -6,10 +6,9 @@
  */
 package game_play.controller;
 
+import game_play.view.screens.MainMenuFrame;
 import map_editor.controller.MapEditorController;
 import shared_resources.helper.UIHelper;
-import game_play.view.screens.MainMenuFrame;
-import game_play.view.screens.MapSelectorFrame;
 
 import javax.swing.*;
 
@@ -25,9 +24,6 @@ public class MainMenuController extends JFrame {
     // region Attributes declaration
     /** The main menu frame. */
     private MainMenuFrame mainMenuFrame;
-    
-    /** The map selector frame. */
-    private MapSelectorFrame mapSelectorFrame;
     // endregion
     
     // region Constructors
@@ -53,7 +49,7 @@ public class MainMenuController extends JFrame {
     }
     // endregion
     
-    // region Private methods
+    // region Methods to handle events
     
     /**
      * Register to be listener.

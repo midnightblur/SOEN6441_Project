@@ -22,7 +22,6 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
  * Startup Panel representing the controls for Startup phase of the game.
  */
 public class StartupPanel extends JPanel implements Observer {
-    
     // region Attributes declaration
     /** The Constant PLACE_ARMY_BUTTON. */
     private static final String PLACE_ARMY_BUTTON = "Place Army";
@@ -47,7 +46,6 @@ public class StartupPanel extends JPanel implements Observer {
     // endregion
     
     // region Constructors
-    
     /**
      * Instantiates a new startup panel.
      */

@@ -22,7 +22,7 @@ import java.util.Observer;
  * @see map_editor.view.EditMapPanel
  */
 public class MapLoadPanel extends JPanel implements Observer {
-    
+    // region Attributes declaration
     /** The Constant LABEL_CHOOSE_MAP. */
     private static final String LABEL_CHOOSE_MAP = "Choose a Map to edit";
     
@@ -35,9 +35,6 @@ public class MapLoadPanel extends JPanel implements Observer {
     /** The Constant LABEL_OR. */
     private static final String LABEL_OR = " or ";
     
-    /** The choose map label. */
-    private JLabel chooseMapLabel;
-    
     /** The new map button. */
     private JButton newMapButton;
     
@@ -46,6 +43,9 @@ public class MapLoadPanel extends JPanel implements Observer {
     
     /** The choose map dropdown. */
     private JComboBox<String> chooseMapDropdown;
+    // endregion
+    
+    // region Constructors
     
     /**
      * Instantiates a new map load panel.
@@ -55,11 +55,13 @@ public class MapLoadPanel extends JPanel implements Observer {
         setupComponents();
         setAllComponentsEnable(true);
     }
+    // endregion
+    
+    // region Private methods
     
     /**
      * Setup components.
      */
-    /* Private methods */
     private void setupComponents() {
         /* Setup grid panel */
         JPanel load_map_panel = new JPanel(new FlowLayout());
@@ -73,7 +75,8 @@ public class MapLoadPanel extends JPanel implements Observer {
         /* right panel */
         JPanel right_panel = new JPanel();
         right_panel.setLayout(new BoxLayout(right_panel, BoxLayout.Y_AXIS));
-        chooseMapLabel = new JLabel(LABEL_CHOOSE_MAP);
+        /* The choose map label. */
+        JLabel chooseMapLabel = new JLabel(LABEL_CHOOSE_MAP);
         chooseMapLabel.setAlignmentX(CENTER_ALIGNMENT);
         
         chooseMapDropdown = new JComboBox<>();
@@ -104,15 +107,27 @@ public class MapLoadPanel extends JPanel implements Observer {
         loadMapButton.setEnabled(isEnable);
         newMapButton.setEnabled(isEnable);
     }
+    // endregion
     
-    /* Getters & Setters */
+    // region Getters & Setters
+    
+    /**
+     * Gets the choose map dropdown.
+     *
+     * @return the choose map dropdown
+     */
+    public JComboBox<String> getChooseMapDropdown() {
+        return chooseMapDropdown;
+    }
+    // endregion
+    
+    // region MVC & Observer pattern methods
     
     /**
      * Adds the load map button listener.
      *
      * @param listenerForLoadMapButton the listener for load map button
      */
-    /* MVC & Observer pattern methods */
     public void addLoadMapButtonListener(ActionListener listenerForLoadMapButton) {
         loadMapButton.addActionListener(listenerForLoadMapButton);
     }
@@ -126,15 +141,6 @@ public class MapLoadPanel extends JPanel implements Observer {
         newMapButton.addActionListener(listenerForNewMapButton);
     }
     
-    /**
-     * Gets the choose map dropdown.
-     *
-     * @return the choose map dropdown
-     */
-    public JComboBox<String> getChooseMapDropdown() {
-        return chooseMapDropdown;
-    }
-    
     /* (non-Javadoc)
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
@@ -146,6 +152,6 @@ public class MapLoadPanel extends JPanel implements Observer {
             setAllComponentsEnable(true);
         }
     }
-    
+    // region
     
 }

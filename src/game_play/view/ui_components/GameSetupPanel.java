@@ -21,6 +21,7 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
  */
 public class GameSetupPanel extends JPanel implements Observer {
     
+    // region Attributes declaration
     /** The Constant MAX_PLAYERS_LABEL. */
     private static final String MAX_PLAYERS_LABEL = "Maximum players you can enter is ";
     
@@ -30,12 +31,6 @@ public class GameSetupPanel extends JPanel implements Observer {
     /** The Constant PLAY_BUTTON. */
     private static final String PLAY_BUTTON = "Play";
     
-    /** The total players. */
-    private int totalPlayers = 0;
-    
-    /** The players label. */
-    private JLabel playersLabel;
-    
     /** The max players label. */
     private JLabel maxPlayersLabel;
     
@@ -44,15 +39,20 @@ public class GameSetupPanel extends JPanel implements Observer {
     
     /** The play button. */
     private JButton playButton;
+    // endregion
+    
+    // region Constructors
     
     /**
      * Instantiates a new game setup panel.
      */
-    /* Constructors */
     public GameSetupPanel() {
-        playersLabel = new JLabel(PLAYERS_LABEL);
+        /* The players label. */
+        JLabel playersLabel = new JLabel(PLAYERS_LABEL);
         maxPlayersLabel = new JLabel();
         playersLabel.setFont(new Font("Sans Serif", Font.BOLD, 16));
+        /* The total players. */
+        int totalPlayers = 0;
         playerCount = new JTextField(totalPlayers);
         playButton = new JButton(PLAY_BUTTON);
         playButton.setForeground(Color.BLUE);
@@ -74,24 +74,17 @@ public class GameSetupPanel extends JPanel implements Observer {
         
         add(controlWrapper);
     }
+    // endregion
+    
+    // region Getters & Setters
     
     /**
      * Sets the max players label.
      *
      * @param playerCount the new max players label
      */
-    /* Getters & Setters */
     public void setMaxPlayersLabel(int playerCount) {
         this.maxPlayersLabel.setText(MAX_PLAYERS_LABEL + Integer.toString(playerCount));
-    }
-    
-    /**
-     * Sets the player count.
-     *
-     * @param playerCount the new player count
-     */
-    public void setPlayerCount(JTextField playerCount) {
-        this.playerCount = playerCount;
     }
     
     /**
@@ -102,13 +95,15 @@ public class GameSetupPanel extends JPanel implements Observer {
     public JTextField getPlayerCount() {
         return playerCount;
     }
+    // endregion
+    
+    // region MVC & Observer pattern methods
     
     /**
      * Adds the play button listener.
      *
      * @param listenerForPlayButton the listener for play button
      */
-    /* MVC & Observer pattern methods */
     public void addPlayButtonListener(ActionListener listenerForPlayButton) {
         playButton.addActionListener(listenerForPlayButton);
     }
@@ -123,4 +118,5 @@ public class GameSetupPanel extends JPanel implements Observer {
             setMaxPlayersLabel(((GamePlayModel) o).getGameMap().getMaxPlayers());
         }
     }
+    // endregion
 }

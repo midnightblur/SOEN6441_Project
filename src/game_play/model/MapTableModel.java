@@ -21,6 +21,7 @@ import java.util.Vector;
  */
 public class MapTableModel {
     
+    // region Attributes declaration
     /** The game_entities. */
     private DefaultTableModel model;
     
@@ -29,7 +30,9 @@ public class MapTableModel {
     
     /** The columns. */
     private Vector<String> columns;
+    // endregion
     
+    // region Constructors
     /**
      * Instantiates a new map table game_entities.
      */
@@ -38,6 +41,24 @@ public class MapTableModel {
         model = new DefaultTableModel();
         columns = new Vector<>();
     }
+    // endregion
+    
+    // region Public methods
+    /**
+     * If rows have same continent as previous row, clear the continent name.
+     */
+    private void groupRows() {
+        String prevGroup = "";
+        for (String[] row : rows) {
+            if (row[0].equals(prevGroup)) {
+                row[0] = "  ";
+            } else {
+                // add a row and shift down the rest
+                prevGroup = row[0];
+            }
+            this.model.addRow(row);
+        }
+    }
     
     /**
      * Updating the table game_entities and notifying the subscribers
@@ -45,9 +66,8 @@ public class MapTableModel {
      *
      * @param gameMap the gameMap object that provides the data
      * @param gameStates the game states
-     * @return a table game_entities to be used to generate the view
      */
-    public DefaultTableModel updateMapTableModel(GameMap gameMap, Config.GAME_STATES gameStates) {
+    public void updateMapTableModel(GameMap gameMap, Config.GAME_STATES gameStates) {
         /* clears the game_entities data and reinitialize it with new values */
         model.setRowCount(0);
         columns.clear();
@@ -90,11 +110,11 @@ public class MapTableModel {
         }
         this.model.setColumnIdentifiers(columns);
         Arrays.sort(rows, new BidiArrayComparator(0));        // perform sort on Continents column
-        groupRows();                                                  // 'group' the rows
-        return model;
+        groupRows();
     }
+    // endregion
     
-    /* Getters & setters */
+    // region Getters & Setters
     
     /**
      * Gets the game_entities.
@@ -104,22 +124,5 @@ public class MapTableModel {
     public DefaultTableModel getModel() {
         return model;
     }
-    
-    /* Public methods */
-    
-    /**
-     * If rows have same continent as previous row, clear the continent name.
-     */
-    private void groupRows() {
-        String prevGroup = "";
-        for (String[] row : rows) {
-            if (row[0].equals(prevGroup)) {
-                row[0] = "  ";
-            } else {
-                // add a row and shift down the rest
-                prevGroup = row[0];
-            }
-            this.model.addRow(row);
-        }
-    }
+    // endregion
 }

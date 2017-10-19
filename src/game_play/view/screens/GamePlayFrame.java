@@ -77,48 +77,6 @@ public class GamePlayFrame extends JFrame implements Observer {
     }
     // endregion
     
-    /**
-     * Setup content pane layout.
-     */
-    private void setupContentPaneLayout() {
-        contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
-            private final int location = 950;
-            
-            {
-                setDividerLocation(location);
-            }
-            
-            @Override
-            public int getLastDividerLocation() {
-                return location;
-            }
-            
-            @Override
-            public int getDividerLocation() {
-                return location;
-            }
-        };
-    }
-    
-    /**
-     * Setup control area.
-     */
-    private void setupControlArea() {
-        /* Use CardLayout to let different panels share the same space */
-        controlArea = new JPanel(new CardLayout());
-        
-        gameSetupPanel = new GameSetupPanel();
-        controlArea.add(gameSetupPanel, GameSetupPanel.class.getName());
-        startupPanel = new StartupPanel();
-        controlArea.add(startupPanel, StartupPanel.class.getName());
-        reinforcementPanel = new ReinforcementPanel();
-        controlArea.add(reinforcementPanel, ReinforcementPanel.class.getName());
-        fortificationPanel = new FortificationPanel();
-        controlArea.add(fortificationPanel, FortificationPanel.class.getName());
-        
-        contentPane.setRightComponent(controlArea);
-    }
-    
     // region Getters & Setters
     /* (non-Javadoc)
      * @see javax.swing.JFrame#getContentPane()
@@ -172,6 +130,48 @@ public class GamePlayFrame extends JFrame implements Observer {
     // region Private methods
     
     /**
+     * Setup content pane layout.
+     */
+    private void setupContentPaneLayout() {
+        contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
+            private final int location = 950;
+            
+            {
+                setDividerLocation(location);
+            }
+            
+            @Override
+            public int getLastDividerLocation() {
+                return location;
+            }
+            
+            @Override
+            public int getDividerLocation() {
+                return location;
+            }
+        };
+    }
+    
+    /**
+     * Setup control area.
+     */
+    private void setupControlArea() {
+        /* Use CardLayout to let different panels share the same space */
+        controlArea = new JPanel(new CardLayout());
+        
+        gameSetupPanel = new GameSetupPanel();
+        controlArea.add(gameSetupPanel, GameSetupPanel.class.getName());
+        startupPanel = new StartupPanel();
+        controlArea.add(startupPanel, StartupPanel.class.getName());
+        reinforcementPanel = new ReinforcementPanel();
+        controlArea.add(reinforcementPanel, ReinforcementPanel.class.getName());
+        fortificationPanel = new FortificationPanel();
+        controlArea.add(fortificationPanel, FortificationPanel.class.getName());
+        
+        contentPane.setRightComponent(controlArea);
+    }
+    
+    /**
      * Gets the fortification panel.
      *
      * @return the fortification panel
@@ -179,7 +179,9 @@ public class GamePlayFrame extends JFrame implements Observer {
     public FortificationPanel getFortificationPanel() {
         return fortificationPanel;
     }
+    // endregion
     
+    // region MVC & Observer pattern methods
     /* (non-Javadoc)
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
@@ -188,7 +190,7 @@ public class GamePlayFrame extends JFrame implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
-            
+        
             CardLayout cardLayout = (CardLayout) controlArea.getLayout();
             switch (gamePlayModel.getGameState()) {
                 case SETUP:
