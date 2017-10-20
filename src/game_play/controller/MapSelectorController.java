@@ -72,7 +72,7 @@ public class MapSelectorController {
      * Close MapSelectorFrame, invoke MainMenuFrame.
      */
     private void backToMainMenu() {
-        UIHelper.closeFrame(mapSelectorFrame);
+        mapSelectorFrame.dispose();
         UIHelper.invokeFrame(callerController.getMainMenuFrame());
     }
     

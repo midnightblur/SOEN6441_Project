@@ -49,7 +49,7 @@ public class MapEditorFrame extends JFrame implements Observer {
         contentPane.setRightComponent(editMapPanel);
         
         /* Setup & Display frame */
-        UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
+        UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
     }
     // endregion
     

@@ -117,7 +117,7 @@ public class MapEditorController {
      * This method Closes the current MapEditor screen and navigates back to the MainMenu screen.
      */
     private void backToMainMenu() {
-        UIHelper.closeFrame(mapEditorFrame);
+        mapEditorFrame.dispose();
         UIHelper.invokeFrame(callerController.getMainMenuFrame());
     }
     
