@@ -114,6 +114,13 @@ public class MapEditorModel extends Observable {
     
     // region Public methods
     
+    /**
+     * Load new game map.
+     *
+     * @param mapName the map name
+     *
+     * @throws Exception the exception
+     */
     public void loadNewGameMap(String mapName) throws Exception {
         gameMap = GameMapHelper.loadGameMap(mapName);
         updateModels();
