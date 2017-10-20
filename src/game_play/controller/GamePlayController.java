@@ -46,7 +46,7 @@ public class GamePlayController {
      * Constructor for the mainGameController
      * Responsible for initializing all the data and UI required to play the game.
      *
-     * @param callerController
+     * @param callerController The controller who calls this controller (to help go back to previous screen
      * @param gameMap          The valid game map loaded in the map selector screen
      */
     public GamePlayController(MainMenuController callerController, GameMap gameMap) {
