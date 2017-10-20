@@ -41,7 +41,9 @@ public class GamePlayModelTest {
         gamePlayModel = GamePlayModel.getInstance();
         try {
             gamePlayModel.setGameMap(GameMapHelper.loadGameMap(mapFilePath));
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     /**

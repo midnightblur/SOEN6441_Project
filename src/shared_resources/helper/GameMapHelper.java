@@ -28,6 +28,10 @@ import java.util.*;
  */
 public class GameMapHelper {
     // region Attributes declaration
+    
+    /**
+     * The map entities
+     */
      private enum MAP_PARTS {
         MAP,
         CONTINENTS,

@@ -6,12 +6,12 @@
  */
 package model;
 
+import org.junit.Before;
+import org.junit.Test;
 import shared_resources.game_entities.Continent;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.GameMapHelper;
-import org.junit.Before;
-import org.junit.Test;
 import shared_resources.utilities.Config;
 
 import static org.junit.Assert.*;
@@ -105,7 +105,7 @@ public class MapValidationTest {
     }
     
     /**
-     * Test map validadtion when a territory has too many neighbors
+     * Test map validation when a territory has too many neighbors
      */
     @Test
     public void territory_too_many_neighbors() {

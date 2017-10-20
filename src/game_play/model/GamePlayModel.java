@@ -402,7 +402,7 @@ public class GamePlayModel extends Observable {
     private void distributeTerritoriesRiggedForDemo() {
         /*
         For build 1 demo purposes only using World.map and 6 players.
-        Give player 1 all the territories of europ.
+        Give player 1 all the territories of europe.
          */
         
         System.out.println("Distributing territories...");

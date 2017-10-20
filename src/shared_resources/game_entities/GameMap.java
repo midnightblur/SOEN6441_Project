@@ -39,6 +39,8 @@ public class GameMap {
     
     /**
      * Instantiates a new game map.
+     *
+     * @param mapName the name of the map
      */
     public GameMap(String mapName) {
         this.mapName = mapName;
@@ -48,33 +50,6 @@ public class GameMap {
     // endregion
     
     // region Getters & Setters
-    
-    /**
-     * Get the game map name
-     *
-     * @return the game map name
-     */
-    public String getMapName() {
-        return mapName;
-    }
-    
-    /**
-     * Gets the territories.
-     *
-     * @return the territories
-     */
-    public Map<String, Territory> getTerritories() {
-        return territories;
-    }
-    
-    /**
-     * Gets the continents.
-     *
-     * @return the continents
-     */
-    public Map<String, Continent> getContinents() {
-        return continents;
-    }
     
     /**
      * Gets the msg continent edit success.
@@ -129,14 +104,22 @@ public class GameMap {
     public static String getMsgTerritoryRemoveSuccess() {
         return MSG_TERRITORY_REMOVE_SUCCESS;
     }
-    // endregion
     
-    // region Public methods
+    /**
+     * Get the game map name
+     *
+     * @return the game map name
+     */
+    public String getMapName() {
+        return mapName;
+    }
+    
     /**
      * Takes a player object as a parameter and returns a hash map of the territories
      * that belong to that player object.
      *
      * @param player the player
+     *
      * @return {@literal Map<String, Territory>}
      */
     public Map<String, Territory> getTerritoriesOfPlayer(Player player) {
@@ -152,8 +135,9 @@ public class GameMap {
     /**
      * Add a new territory.
      *
-     * @param territory the territory
+     * @param territory     the territory
      * @param isReadingFile the is reading file
+     *
      * @return the string
      */
     public String addTerritory(Territory territory, boolean isReadingFile) {
@@ -183,12 +167,27 @@ public class GameMap {
         
         return String.format(MSG_TERRITORY_ADD_SUCCESS, territory.getName());
     }
+    // endregion
+    
+    // region Public methods
+    
+    /**
+     * Get a territory object from the game map given the territory name.
+     *
+     * @param territoryName String value for the name of territory.
+     *
+     * @return the a territory
+     */
+    public Territory getATerritory(String territoryName) {
+        return territories.getOrDefault(territoryName, null);
+    }
     
     /**
      * Update an existing territory info.
      *
      * @param oldTerritoryName the old territory name
-     * @param newTerritory the new territory
+     * @param newTerritory     the new territory
+     *
      * @return the string
      */
     public String updateTerritory(String oldTerritoryName, Territory newTerritory) {
@@ -227,9 +226,26 @@ public class GameMap {
     }
     
     /**
+     * Get a continent object from the game map given the continent name.
+     *
+     * @param continentName String type value of continent name.
+     *
+     * @return the a continent
+     */
+    public Continent getAContinent(String continentName) {
+        for (Continent continent : continents.values()) {
+            if (continent.getName().compareTo(continentName) == 0) {
+                return continent;
+            }
+        }
+        return null;
+    }
+    
+    /**
      * Remove a territoryName from the GameMap.
      *
      * @param territoryName the territory name
+     *
      * @return the string
      */
     public String removeTerritory(String territoryName) {
@@ -261,6 +277,7 @@ public class GameMap {
      * Add a new newContinent to the game map.
      *
      * @param newContinent the new continent
+     *
      * @return the string
      */
     public String addContinent(Continent newContinent) {
@@ -289,7 +306,8 @@ public class GameMap {
      * Update info of an existing continent.
      *
      * @param oldContinentName the old continent name
-     * @param newContinent the new continent
+     * @param newContinent     the new continent
+     *
      * @return the string
      */
     public String updateContinent(String oldContinentName, Continent newContinent) {
@@ -325,6 +343,7 @@ public class GameMap {
      * Remove a continent from the game map given the continent's name.
      *
      * @param continentName the continent name
+     *
      * @return the string
      */
     public String removeContinent(String continentName) {
@@ -347,46 +366,12 @@ public class GameMap {
     }
     
     /**
-     * Get the number of territories in the game map.
-     *
-     * @return returns int value for the size of territories.
-     */
-    public int getTerritoriesCount() {
-        return territories.size();
-    }
-    
-    /**
      * Get the number of continent in the game map.
      *
      * @return returns int value for the size of continents.
      */
     public int getContinentsCount() {
         return continents.size();
-    }
-    
-    /**
-     * Get a territory object from the game map given the territory name.
-     *
-     * @param territoryName String value for the name of territory.
-     * @return the a territory
-     */
-    public Territory getATerritory(String territoryName) {
-        return territories.getOrDefault(territoryName, null);
-    }
-    
-    /**
-     * Get a continent object from the game map given the continent name.
-     *
-     * @param continentName String type value of continent name.
-     * @return the a continent
-     */
-    public Continent getAContinent(String continentName) {
-        for (Continent continent : continents.values()) {
-            if (continent.getName().compareTo(continentName) == 0) {
-                return continent;
-            }
-        }
-        return null;
     }
     
     /**
@@ -412,6 +397,15 @@ public class GameMap {
     }
     
     /**
+     * Gets the continents.
+     *
+     * @return the continents
+     */
+    public Map<String, Continent> getContinents() {
+        return continents;
+    }
+    
+    /**
      * Get the names of all territories in this map.
      *
      * @return a vector holding the territory names
@@ -422,6 +416,15 @@ public class GameMap {
             result.add(territory.getName());
         }
         return result;
+    }
+    
+    /**
+     * Gets the territories.
+     *
+     * @return the territories
+     */
+    public Map<String, Territory> getTerritories() {
+        return territories;
     }
     
     /**
@@ -441,6 +444,15 @@ public class GameMap {
             players = territoryCount;               // there should be a maximum of player equal to territories or at least one player
         }
         return players;
+    }
+    
+    /**
+     * Get the number of territories in the game map.
+     *
+     * @return returns int value for the size of territories.
+     */
+    public int getTerritoriesCount() {
+        return territories.size();
     }
     
     // endregion

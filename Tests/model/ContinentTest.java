@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import shared_resources.game_entities.Continent;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * This test case is used to test the continent class.

@@ -66,15 +66,15 @@ public class MapSelectorFrame extends JFrame implements Observer {
         contentPane.add(mapDropdown);
         addVerticalSpacing(contentPane);
         
-        JPanel btnsPanel = new JPanel(new FlowLayout());
+        JPanel buttonsPanel = new JPanel(new FlowLayout());
         backBtn = new JButton(BACK_BUTTON);
         backBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnsPanel.add(backBtn);
+        buttonsPanel.add(backBtn);
         
         playGameBtn = new JButton(PLAY_GAME_BUTTON);
         playGameBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnsPanel.add(playGameBtn);
-        contentPane.add(btnsPanel);
+        buttonsPanel.add(playGameBtn);
+        contentPane.add(buttonsPanel);
         addVerticalSpacing(contentPane);
         
         this.setContentPane(contentPane);
