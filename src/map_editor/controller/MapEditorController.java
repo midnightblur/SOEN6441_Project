@@ -24,7 +24,19 @@ import java.awt.*;
 import java.io.File;
 import java.util.Vector;
 
-
+/**
+ * The MapEditorController is responsible for creating and editing map files:
+ * <ul>
+ * <li> Loading maps from Maps folder
+ * <li> Creating new maps
+ * <li> Creating needed controls for editing territories or continents
+ * <li> Saving the map
+ * <li> Navigating back to main game menu
+ * </ul>
+ *
+ * @author Team 2
+ * @version 1.0
+ */
 public class MapEditorController {
     // region Attributes declaration
     private static final String NONE_RADIO_BUTTON = "NONE";
