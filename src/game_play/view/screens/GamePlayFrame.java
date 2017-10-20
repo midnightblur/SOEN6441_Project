@@ -56,7 +56,7 @@ public class GamePlayFrame extends JFrame implements Observer {
         setupControlArea();
         
         /* Setup & Display frame */
-        UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, false);
+        UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
     }
     // endregion
     
