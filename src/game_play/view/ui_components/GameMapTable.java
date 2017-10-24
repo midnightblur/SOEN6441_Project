@@ -33,6 +33,7 @@ public class GameMapTable extends JTable implements Observer {
     public GameMapTable() {
         this.setPreferredScrollableViewportSize(this.getPreferredSize());
         this.setFillsViewportHeight(true);
+        this.setRowHeight(20);
     }
     // endregion
     
@@ -62,7 +63,6 @@ public class GameMapTable extends JTable implements Observer {
      */
     @Override
     public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
-        setRowHeight(20);
         getColumn("Continent").setPreferredWidth(5);
         getColumn("Territory").setPreferredWidth(10);
         getColumn("Neighbors").setPreferredWidth(500);
