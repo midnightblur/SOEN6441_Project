@@ -198,4 +198,28 @@ public class Player {
         nextID = 0;
     }
     // endregion
+    
+    // region Private methods
+    
+    /**
+     * Implement the Reinforcement Phase of a particular player
+     */
+    private void reinforcement() {
+    
+    }
+    
+    /**
+     * Implement the Attack Phase of a particular player
+     */
+    private void attack() {
+    
+    }
+    
+    /**
+     * Implement the Foritifcation Phase of a particular player
+     */
+    private void fortification() {
+    
+    }
+    // endregion
 }
