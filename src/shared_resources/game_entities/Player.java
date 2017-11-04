@@ -6,6 +6,8 @@
  */
 package shared_resources.game_entities;
 
+import shared_resources.utilities.Config;
+
 import java.awt.*;
 import java.util.Vector;
 
@@ -28,6 +30,7 @@ public class Player {
     private int unallocatedArmies;
     private Vector<Card> playersHand;
     private Vector<Territory> territories;
+    private Config.GAME_STATES gameState;
     // endregion
     
     // region Constructors
@@ -41,6 +44,7 @@ public class Player {
         playersHand = new Vector<>();
         territories = new Vector<>();
         color = PLAYER_COLOR[playerID - 1];
+        gameState = Config.GAME_STATES.PLAYER_REINFORCEMENT;
     }
     // endregion
     
@@ -107,6 +111,24 @@ public class Player {
      */
     public Vector<Territory> getTerritories() {
         return territories;
+    }
+    
+    /**
+     * Gets the current phase of the player
+     *
+     * @return the game phase
+     */
+    public Config.GAME_STATES getGameState() {
+        return gameState;
+    }
+    
+    /**
+     * Set the game phase for the player
+     *
+     * @param gameState the next phase
+     */
+    public void setGameState(Config.GAME_STATES gameState) {
+        this.gameState = gameState;
     }
     
     // endregion
