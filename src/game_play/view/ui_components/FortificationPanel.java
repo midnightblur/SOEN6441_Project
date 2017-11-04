@@ -50,7 +50,7 @@ public class FortificationPanel extends JPanel implements Observer {
         JLabel gameState = new JLabel();
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         gameState.setForeground(Color.BLUE);
-        gameState.setText(Config.GAME_STATES.FORTIFICATION.name());
+        gameState.setText(Config.GAME_STATES.PLAYER_FORTIFICATION.name());
         playerName = new JLabel();
         playerName.setFont(new Font("Sans Serif", Font.BOLD, 20));
         armiesToMoveField = new JTextField();
@@ -157,7 +157,7 @@ public class FortificationPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
-            if (gamePlayModel.getGameState() == Config.GAME_STATES.FORTIFICATION) {
+            if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAYER_FORTIFICATION) {
                 playerName.setForeground(gamePlayModel.getCurrentPlayer().getColor());
                 playerName.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                 

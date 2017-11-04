@@ -35,9 +35,10 @@ public class Config {
         ENTRY_MENU(1),
         MAP_EDITOR(2),
         STARTUP(3),
-        REINFORCEMENT(4),
-        ATTACKING(5),
-        FORTIFICATION(6);
+        PLAY(4),
+        PLAYER_REINFORCEMENT(5),
+        PLAYER_ATTACKING(6),
+        PLAYER_FORTIFICATION(7);
         
         /** The value of the game state. */
         int value;

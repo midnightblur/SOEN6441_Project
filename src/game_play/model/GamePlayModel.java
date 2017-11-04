@@ -152,7 +152,7 @@ public class GamePlayModel extends Observable {
      */
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
-        if (gameState == REINFORCEMENT) {
+        if (gameState == PLAYER_REINFORCEMENT) {
             addReinforcementForCurrPlayer();
             updatePlayerTerritoriesModel();
         }
@@ -310,7 +310,7 @@ public class GamePlayModel extends Observable {
         
         /* If all player run out of unallocated army, move to the next phase */
         if (count == players.size()) {
-            setGameState(REINFORCEMENT);
+            setGameState(PLAYER_REINFORCEMENT);
             setCurrentPlayer(players.firstElement());
         }
         
@@ -633,7 +633,7 @@ public class GamePlayModel extends Observable {
         fromTerritory.reduceArmies(noOfArmies);
         toTerritory.addArmies(noOfArmies);
         
-        setGameState(REINFORCEMENT);
+        setGameState(PLAYER_REINFORCEMENT);
         setCurrentPlayer(getNextPlayer());
         
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
