@@ -85,10 +85,11 @@ public class GamePlayController {
      */
     private void registerToBeListener() {
         /* Play button to start the game */
-        gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> startTheGame());
+        gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> gameStartupPhase());
         
         /* For Startup Panel */
         gamePlayFrame.getStartupPanel().addPlaceArmyButtonListener(e -> placeArmy());
+        gamePlayFrame.getStartupPanel().addPlayButtonListener(e -> startTheGame());
         
         /* For Reinforcement Panel */
         gamePlayFrame.getReinforcementPanel().addTradeCardsButtonListener(e -> goToTradeCardsPanel());
@@ -110,7 +111,7 @@ public class GamePlayController {
     /**
      * Called when the number of players for the game is decided, the game then starts.
      */
-    private void startTheGame() {
+    private void gameStartupPhase() {
         /* initialize the game */
         try {
             int enteredPlayers = Integer.parseInt(gamePlayFrame.getGameSetupPanel().getPlayerCount().getText());
@@ -122,7 +123,8 @@ public class GamePlayController {
                 UIHelper.closeFrame(gamePlayFrame);
                 UIHelper.invokeFrame(callerController.getMainMenuFrame());
             } else {
-                UIHelper.displayMessage(gamePlayFrame, "You must enter an amount of players between 1 and " + gamePlayModel.getGameMap().getMaxPlayers());
+                UIHelper.displayMessage(gamePlayFrame, "You must enter an amount of players between 1 and " +
+                        gamePlayModel.getGameMap().getMaxPlayers());
             }
         } catch (ClassCastException | NumberFormatException e) {
             JOptionPane.showMessageDialog(
@@ -141,6 +143,13 @@ public class GamePlayController {
     private void placeArmy() {
         String selectedTerritoryName = String.valueOf(gamePlayFrame.getStartupPanel().getTerritoryDropdown().getSelectedItem());
         gamePlayModel.placeArmyStartup(selectedTerritoryName);
+    }
+    
+    /**
+     * This function change the game state to Play phase
+     */
+    private void startTheGame() {
+        // TODO: implement this function
     }
     // endregion
     

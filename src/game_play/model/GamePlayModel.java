@@ -556,7 +556,7 @@ public class GamePlayModel extends Observable {
             }
         }
         
-          /* -- console printout for demo -- */
+        /* -- console printout for demo -- */
         System.out.println();
         System.out.println("-- Reinforcement Phase Status Console Printout --");
         System.out.println("Player " + currentPlayer.getPlayerID());

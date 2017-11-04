@@ -219,28 +219,25 @@ public class Player {
     public static void resetStaticNextID() {
         nextID = 0;
     }
-    // endregion
-    
-    // region Private methods
     
     /**
      * Implement the Reinforcement Phase of a particular player
      */
-    private void reinforcement() {
+    public void reinforcement() {
     
     }
     
     /**
      * Implement the Attack Phase of a particular player
      */
-    private void attack() {
+    public void attack() {
     
     }
     
     /**
      * Implement the Foritifcation Phase of a particular player
      */
-    private void fortification() {
+    public void fortification() {
     
     }
     // endregion

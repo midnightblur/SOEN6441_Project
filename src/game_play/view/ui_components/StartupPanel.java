@@ -27,9 +27,11 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
 public class StartupPanel extends JPanel implements Observer {
     // region Attributes declaration
     private static final String PLACE_ARMY_BUTTON = "Place Army";
+    private static final String PLAY_BUTTON = "Play";
     private static final String TERRITORY_LABEL = "Choose territory to place army on";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
     private JButton placeArmyButton;
+    private JButton playButton;
     private JLabel playerNameLabel;
     private JLabel totalArmiesToPlaceLabel;
     private JComboBox<String> territoryDropdown;
@@ -52,6 +54,8 @@ public class StartupPanel extends JPanel implements Observer {
         territoryDropdown = new JComboBox<>();
         placeArmyButton = new JButton(PLACE_ARMY_BUTTON);
         placeArmyButton.setForeground(Color.BLUE);
+        playButton = new JButton(PLAY_BUTTON);
+        playButton.setEnabled(false);
 
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -69,6 +73,8 @@ public class StartupPanel extends JPanel implements Observer {
         controlWrapper.add(territoryDropdown);
         addVerticalSpacing(controlWrapper);
         controlWrapper.add(placeArmyButton);
+        addVerticalSpacing(controlWrapper);
+        controlWrapper.add(playButton);
         addVerticalSpacing(controlWrapper);
         
         add(controlWrapper);
@@ -96,6 +102,15 @@ public class StartupPanel extends JPanel implements Observer {
      */
     public void addPlaceArmyButtonListener(ActionListener listenerForPlaceArmiesButton) {
         placeArmyButton.addActionListener(listenerForPlaceArmiesButton);
+    }
+    
+    /**
+     * Adds the play button listener
+     *
+     * @param listenerForPlaybutton the listener for play button
+     */
+    public void addPlayButtonListener(ActionListener listenerForPlaybutton) {
+        playButton.addActionListener(listenerForPlaybutton);
     }
     // endregion
     
