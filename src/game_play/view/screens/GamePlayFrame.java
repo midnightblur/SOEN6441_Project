@@ -61,6 +61,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     // endregion
     
     // region Getters & Setters
+    
     /**
      * Gets the fortification panel.
      *
@@ -165,6 +166,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     // endregion
     
     // region MVC & Observer pattern methods
+    
     /**
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
@@ -173,7 +175,7 @@ public class GamePlayFrame extends JFrame implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
-        
+            
             CardLayout cardLayout = (CardLayout) controlArea.getLayout();
             switch (gamePlayModel.getGameState()) {
                 case SETUP:
@@ -182,14 +184,20 @@ public class GamePlayFrame extends JFrame implements Observer {
                 case STARTUP:
                     cardLayout.show(controlArea, StartupPanel.class.getName());
                     break;
-                case PLAYER_REINFORCEMENT:
-                    cardLayout.show(controlArea, ReinforcementPanel.class.getName());
-                    break;
-                case PLAYER_ATTACKING:
-                    // TODO: add the attack panel cardLayout.show(controlArea, AttackPanel.class.getName());
-                    break;
-                case PLAYER_FORTIFICATION:
-                    cardLayout.show(controlArea, FortificationPanel.class.getName());
+                case PLAY:
+                    switch (gamePlayModel.getCurrentPlayer().getGameState()) {
+                        case PLAYER_REINFORCEMENT:
+                            cardLayout.show(controlArea, ReinforcementPanel.class.getName());
+                            break;
+                        case PLAYER_ATTACKING:
+                            // TODO: add the attack panel cardLayout.show(controlArea, AttackPanel.class.getName());
+                            break;
+                        case PLAYER_FORTIFICATION:
+                            cardLayout.show(controlArea, FortificationPanel.class.getName());
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 default:
                     break;

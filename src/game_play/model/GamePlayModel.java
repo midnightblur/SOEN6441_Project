@@ -310,7 +310,7 @@ public class GamePlayModel extends Observable {
         
         /* If all player run out of unallocated army, move to the next phase */
         if (count == players.size()) {
-            setGameState(PLAYER_REINFORCEMENT);
+            setGameState(PLAY);
             setCurrentPlayer(players.firstElement());
         }
         
