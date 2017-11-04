@@ -152,7 +152,7 @@ public class GamePlayModel extends Observable {
      */
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
-        if (gameState == PLAYER_REINFORCEMENT) {
+        if (gameState == PLAY && currentPlayer.getGameState() == PLAYER_REINFORCEMENT) {
             addReinforcementForCurrPlayer();
             updatePlayerTerritoriesModel();
         }
@@ -632,12 +632,27 @@ public class GamePlayModel extends Observable {
         
         fromTerritory.reduceArmies(noOfArmies);
         toTerritory.addArmies(noOfArmies);
+        updateGameMapTableModel();
         
-        setGameState(PLAYER_REINFORCEMENT);
+        currentPlayer.setGameState(PLAYER_REINFORCEMENT);
         setCurrentPlayer(getNextPlayer());
         
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
+    // endregion
+    
+    // region Public methods
+    
+    /**
+     * Change the game phase of the current player to other phase
+     *
+     * @param newGameStates the game phase
+     */
+    public void changePhaseOfCurrentPlayer(GAME_STATES newGameStates) {
+        currentPlayer.setGameState(newGameStates);
+        broadcastGamePlayChanges();
+    }
+    
     // endregion
     
     // region Private methods

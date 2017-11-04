@@ -157,7 +157,8 @@ public class FortificationPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
-            if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAYER_FORTIFICATION) {
+            if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAY &&
+                    gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.PLAYER_FORTIFICATION) {
                 playerName.setForeground(gamePlayModel.getCurrentPlayer().getColor());
                 playerName.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                 

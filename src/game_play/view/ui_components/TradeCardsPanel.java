@@ -138,7 +138,8 @@ public class TradeCardsPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
-            if (gamePlayModel.getGameState() == GAME_STATES.PLAYER_REINFORCEMENT) {
+            if (gamePlayModel.getGameState() == GAME_STATES.PLAY &&
+                    gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.PLAYER_REINFORCEMENT) {
                 armyValueLabel.setText(ARMY_VALUE_LABEL + Integer.toString(gamePlayModel.getArmyValue()));
                 gainedArmiesLabel.setVisible(false);
                 playerID.setForeground(gamePlayModel.getCurrentPlayer().getColor());

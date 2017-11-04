@@ -191,7 +191,7 @@ public class GamePlayController {
         if (gamePlayModel.getCurrentPlayer().getUnallocatedArmies() != 0 || gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
             UIHelper.displayMessage(gamePlayFrame, "You have to allocate all of your armies or trade in your cards");
         } else {
-            gamePlayModel.setGameState(PLAYER_FORTIFICATION);
+            gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_FORTIFICATION);
         }
     }
     
@@ -274,7 +274,6 @@ public class GamePlayController {
      * This function advances the game to next player's turn.
      */
     private void changeToNextPlayer() {
-        gamePlayModel.setGameState(PLAYER_REINFORCEMENT);
         gamePlayModel.setCurrentPlayer(gamePlayModel.getNextPlayer());
     }
     // endregion

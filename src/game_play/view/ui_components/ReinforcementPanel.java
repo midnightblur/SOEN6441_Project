@@ -200,7 +200,8 @@ public class ReinforcementPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
-            if (gamePlayModel.getGameState() == GAME_STATES.PLAYER_REINFORCEMENT) {
+            if (gamePlayModel.getGameState() == GAME_STATES.PLAY &&
+                    gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.PLAYER_REINFORCEMENT) {
                 playerName.setForeground(gamePlayModel.getCurrentPlayer().getColor());
                 playerName.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                 totalArmiesToPlace.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
