@@ -92,11 +92,9 @@ public class GamePlayController {
         gamePlayFrame.getStartupPanel().addPlayButtonListener(e -> startTheGame());
         
         /* For Reinforcement Panel */
-        gamePlayFrame.getReinforcementPanel().addTradeCardsButtonListener(e -> goToTradeCardsPanel());
         gamePlayFrame.getReinforcementPanel().addPlaceArmiesButtonListener(e -> distributeArmies());
         gamePlayFrame.getReinforcementPanel().addGoToFortificationButtonListener(e -> goToFortificationPhase());
         gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addTradeCardsButtonListener(e -> tradeSelectedCards());
-        gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addBackToReinforcementListener(e -> backToReinforcementPanel());
         
         /* For Fortification Panel */
         gamePlayFrame.getFortificationPanel().addMoveArmiesButtonListener(e -> moveArmies());
@@ -154,14 +152,6 @@ public class GamePlayController {
     // endregion
     
     // region For Reinforcement Phase
-    
-    /**
-     * Hide the Reinforcement Panel, show the Trade Cards Panel.
-     */
-    private void goToTradeCardsPanel() {
-        CardLayout cardLayout = (CardLayout) gamePlayFrame.getReinforcementPanel().getCardsPanel().getLayout();
-        cardLayout.show(gamePlayFrame.getReinforcementPanel().getCardsPanel(), ReinforcementPanel.getTradeCardsPanelName());
-    }
     
     /**
      * Looping through view table, get the quantity of armies for each territory

@@ -34,12 +34,10 @@ public class ReinforcementPanel extends JPanel implements Observer {
     private static final String PLACE_ARMIES_BUTTON = "Place armies";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
     private static final String GO_TO_FORTIFICATION_BUTTON = "Go to Fortification";
-    private static final String TRADE_CARDS_BUTTON = "Trade Cards";
     private static final String ATTACK_BUTTON = "Attack!";
     private static final String ARMIES_TO_PLACE_LABEL = "Use table to place armies:";
     private JPanel cardsPanel;
     private TradeCardsPanel tradeCardsPanel;
-    private JButton tradeCardsButton;
     private JButton goToFortificationButton;
     private JButton placeArmiesButton;
     private JTable playerTerritoryTable;
@@ -60,8 +58,6 @@ public class ReinforcementPanel extends JPanel implements Observer {
         gameState.setText(GAME_STATES.PLAYER_REINFORCEMENT.name());
         playerName = new JLabel();
         playerName.setFont(new Font("Sans Serif", Font.BOLD, 20));
-        tradeCardsButton = new JButton(TRADE_CARDS_BUTTON);
-        tradeCardsButton.setForeground(Color.BLUE);
         totalArmiesToPlace = new JLabel();
         totalArmiesToPlace.setFont(new Font("Sans Serif", Font.BOLD, 16));
         JLabel howManyArmiesToPlace = new JLabel(ARMIES_TO_PLACE_LABEL);
@@ -89,8 +85,6 @@ public class ReinforcementPanel extends JPanel implements Observer {
         /* Add the elements to the panel */
         topGrid.add(gameState);
         topGrid.add(playerName);
-        addVerticalSpacing(topGrid);
-        topGrid.add(tradeCardsButton);
         addVerticalSpacing(topGrid);
         topGrid.add(totalArmiesToPlace);
         topGrid.add(howManyArmiesToPlace);
@@ -185,15 +179,6 @@ public class ReinforcementPanel extends JPanel implements Observer {
     }
     
     /**
-     * Adds the trade cards button listener.
-     *
-     * @param listenerForTradeCardsButton the listener for trade cards button
-     */
-    public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
-        tradeCardsButton.addActionListener(listenerForTradeCardsButton);
-    }
-    
-    /**
      * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
      */
     @Override
@@ -206,6 +191,13 @@ public class ReinforcementPanel extends JPanel implements Observer {
                 playerName.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                 totalArmiesToPlace.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
                 playerTerritoryTable.setModel(gamePlayModel.getPlayerTerritoriesModel().getModel());
+    
+                CardLayout cardLayout = (CardLayout) cardsPanel.getLayout();
+                if (gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
+                    cardLayout.show(cardsPanel, ReinforcementPanel.getTradeCardsPanelName());
+                } else {
+                    cardLayout.show(cardsPanel, ReinforcementPanel.getControlWrapperPanelName());
+                }
             }
         }
     }

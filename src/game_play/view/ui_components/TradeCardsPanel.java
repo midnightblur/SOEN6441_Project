@@ -27,13 +27,11 @@ public class TradeCardsPanel extends JPanel implements Observer {
     private static final String ARMY_VALUE_LABEL = "Current army value: ";
     private static final String TRADE_CARDS_BUTTON = "Trade cards";
     private static final String GAINED_ARMIES_LABEL = "# of armies gained: ";
-    private static final String BACK_TO_REINFORCEMENT_BUTTON = "Back to Reinforcement";
     private JLabel playerID;
     private JLabel gainedArmiesLabel;
     private JLabel armyValueLabel;
     private JPanel cardList;
-    private JButton tradeCards;
-    private JButton backToReinforcementButton;
+    private JButton tradeCardsButton;
     // endregion
     
     // region Constructors
@@ -49,9 +47,8 @@ public class TradeCardsPanel extends JPanel implements Observer {
         gameState.setText(GAME_STATES.PLAYER_REINFORCEMENT.name());
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
-        tradeCards = new JButton(TRADE_CARDS_BUTTON);
-        tradeCards.setForeground(Color.BLUE);
-        backToReinforcementButton = new JButton(BACK_TO_REINFORCEMENT_BUTTON);
+        tradeCardsButton = new JButton(TRADE_CARDS_BUTTON);
+        tradeCardsButton.setForeground(Color.BLUE);
         armyValueLabel = new JLabel();
         JLabel cardsListLabel = new JLabel(CARDS_LIST_LABEL);
         gainedArmiesLabel = new JLabel();
@@ -80,9 +77,8 @@ public class TradeCardsPanel extends JPanel implements Observer {
         bottomGrid.add(gainedArmiesLabel);
         gainedArmiesLabel.setVisible(false);
         addVerticalSpacing(bottomGrid);
-        bottomGrid.add(tradeCards);
+        bottomGrid.add(tradeCardsButton);
         addVerticalSpacing(bottomGrid);
-        bottomGrid.add(backToReinforcementButton);
         controlWrapper.add(bottomGrid);
         
         add(controlWrapper);
@@ -119,16 +115,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
      * @param listenerForTradeCardsButton the listener for trade cards button
      */
     public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
-        tradeCards.addActionListener(listenerForTradeCardsButton);
-    }
-    
-    /**
-     * Adds the back to reinforcement listener.
-     *
-     * @param listenerForBackToReinforcement the listener for back to reinforcement
-     */
-    public void addBackToReinforcementListener(ActionListener listenerForBackToReinforcement) {
-        backToReinforcementButton.addActionListener(listenerForBackToReinforcement);
+        tradeCardsButton.addActionListener(listenerForTradeCardsButton);
     }
     
     /**
