@@ -187,9 +187,10 @@ public class GamePlayFrame extends JFrame implements Observer {
                 case PLAY:
                     switch (gamePlayModel.getCurrentPlayer().getGameState()) {
                         case PLAYER_REINFORCEMENT:
+                        case PLAYER_TRADE_CARDS:
                             cardLayout.show(controlArea, ReinforcementPanel.class.getName());
                             break;
-                        case PLAYER_ATTACKING:
+                        case PLAYER_ATTACK:
                             // TODO: add the attack panel
                             // cardLayout.show(controlArea, AttackPanel.class.getName());
                             break;

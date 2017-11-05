@@ -9,7 +9,6 @@ package game_play.controller;
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
 import game_play.view.screens.GamePlayFrame;
-import game_play.view.ui_components.ReinforcementPanel;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.UIHelper;
@@ -21,7 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import static shared_resources.utilities.Config.GAME_STATES.*;
+import static shared_resources.utilities.Config.GAME_STATES.PLAYER_FORTIFICATION;
+import static shared_resources.utilities.Config.GAME_STATES.SETUP;
 
 /**
  * GamePlayController is responsible for coordinating the GamePlayModel and GamePlayFrame
@@ -209,17 +209,9 @@ public class GamePlayController {
         String message = gamePlayModel.tradeInCards(selectedCards);
         int gainedArmies = gamePlayModel.getCurrentPlayer().getUnallocatedArmies() - previousUnallocatedArmies;
         gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().setGainedArmiesLabel(gainedArmies);
-        // confirmation message
         UIHelper.displayMessage(gamePlayFrame, message);
     }
     
-    /**
-     * Hide the Trade Cards Panel, show the Reinforcement Panel.
-     */
-    private void backToReinforcementPanel() {
-        CardLayout cardLayout = (CardLayout) gamePlayFrame.getReinforcementPanel().getCardsPanel().getLayout();
-        cardLayout.show(gamePlayFrame.getReinforcementPanel().getCardsPanel(), ReinforcementPanel.getControlWrapperPanelName());
-    }
     // endregion
     
     // region For Fortification Phase

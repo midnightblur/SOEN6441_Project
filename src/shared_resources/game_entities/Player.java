@@ -6,11 +6,14 @@
  */
 package shared_resources.game_entities;
 
+import game_play.model.GamePlayModel;
 import shared_resources.utilities.Config;
 
 import java.awt.*;
+import java.util.Map;
 import java.util.Vector;
 
+import static shared_resources.utilities.Config.GAME_STATES.PLAYER_REINFORCEMENT;
 import static shared_resources.utilities.Config.PLAYER_COLOR;
 
 /**
@@ -44,7 +47,7 @@ public class Player {
         playersHand = new Vector<>();
         territories = new Vector<>();
         color = PLAYER_COLOR[playerID - 1];
-        gameState = Config.GAME_STATES.PLAYER_REINFORCEMENT;
+        gameState = Config.GAME_STATES.PLAY;
     }
     // endregion
     
@@ -209,7 +212,7 @@ public class Player {
         Player tempPlayer = (Player) other;
         return this.playerID == tempPlayer.playerID
                 && ((this.playerName == null && tempPlayer.playerName == null)
-                || this.playerName.equals(tempPlayer.playerName))
+                || this.playerName.compareTo(tempPlayer.playerName) == 0)
                 && this.unallocatedArmies == tempPlayer.unallocatedArmies;
     }
     
@@ -220,12 +223,106 @@ public class Player {
         nextID = 0;
     }
     
+    // region Reinforcement Phase
     /**
      * Implement the Reinforcement Phase of a particular player
      */
-    public void reinforcement() {
-    
+    public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
+        switch (gameState) {
+            case PLAYER_TRADE_CARDS:
+                return tradeInCards(gamePlayModel, selectedCards);
+            case PLAYER_REINFORCEMENT:
+                distributeArmies(gamePlayModel, armiesToPlace);
+                break;
+        }
+        return "";
     }
+    
+    /**
+     * Looping through view table, get the quantity of armies for each territory
+     * then place them using the placeArmiesReinforcement in the game_entities.
+     */
+    private void distributeArmies(GamePlayModel gamePlayModel, Map<Territory, Integer> armiesToPlace) {
+        for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
+            entry.getKey().addArmies(entry.getValue());
+            reduceUnallocatedArmies(entry.getValue());
+        }
+    }
+    
+    /**
+     * This method processes the exchange of cards to the armies if the user selected cards
+     * make a valid set. The method checks for a selection of exactly three cards, and checks
+     * for either three cards of the same type, or 3 cards one of each type. If so, those cards
+     * are removed from the players hand, and the number of armies (unallocated armies) are
+     * rewarded according to the current army value. The army value starts at 5 at the beginning
+     * of the game, but increases by 5 every time a player makes a valid card exchange move.
+     *
+     * @param gamePlayModel The Game Play Model containing all the state of the game
+     * @param selectedCards Vector of Strings that details the type of cards in the player's possession
+     *
+     * @return String for the error message to validate the result of the trade in
+     */
+    private String tradeInCards(GamePlayModel gamePlayModel, Vector<String> selectedCards) {
+        if (selectedCards.size() == 3) {
+            /* check if selected cards are three of a kind or one of each */
+            int choice = 0;
+            if (selectedCards.elementAt(0).equals(selectedCards.elementAt(1))
+                    && selectedCards.elementAt(0).equals(selectedCards.elementAt(2))) {
+                choice = 1;
+            } else if (!selectedCards.elementAt(0).equals(selectedCards.elementAt(1))
+                    && !selectedCards.elementAt(0).equals(selectedCards.elementAt(2))
+                    && !selectedCards.elementAt(1).equals(selectedCards.elementAt(2))) {
+                choice = 2;
+            }
+            
+            /* carry out card trading according to the choice */
+            int counter = 0;
+            if (choice == 1) {  // for three of a kind exchange
+                for (int i = 0; i < playersHand.size(); i++) {
+                    if (playersHand.get(i).getCardType().name().compareTo(selectedCards.firstElement()) == 0) {
+                        counter++;
+                    }
+                }
+                if (counter >= 3) {
+                    Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.firstElement()));
+                    for (int i = 0; i < selectedCards.size(); i++) {
+                        playersHand.remove(tempCard);
+                        gamePlayModel.getDeck().add(tempCard);
+                    }
+                    playersHand.trimToSize();
+                    addUnallocatedArmies(gamePlayModel.getArmyValue());
+                    gamePlayModel.setArmyValue(gamePlayModel.getArmyValue() + 5);
+                }
+            } else if (choice == 2) {  // for one of each exchange
+                for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
+                    Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
+                    if (playersHand.contains(tempCard)) {
+                        counter++;
+                    }
+                }
+                if (counter == 3) {
+                    for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
+                        Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
+                        playersHand.remove(tempCard);
+                        gamePlayModel.getDeck().add(tempCard);
+                    }
+                    playersHand.trimToSize();
+                    addUnallocatedArmies(gamePlayModel.getArmyValue());
+                    gamePlayModel.setArmyValue(gamePlayModel.getArmyValue() + 5);
+                }
+            } else {
+//                broadcastGamePlayChanges();
+                return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
+            }
+            setGameState(PLAYER_REINFORCEMENT);
+//            broadcastGamePlayChanges();
+            return "Cards successfully traded in!";
+        } else {
+//            broadcastGamePlayChanges();
+            return "No cards traded in!\nPlease select exactly 3 cards.\n(all of same type or one of each type)";
+        }
+    }
+    // endregion
     
     /**
      * Implement the Attack Phase of a particular player
@@ -239,6 +336,37 @@ public class Player {
      */
     public void fortification() {
     
+    }
+    
+    /**
+     * Set the next player phase depending on the current phase and current state of the player
+     */
+    public void nextPhase() {
+        switch (gameState) {
+            case PLAYER_TRADE_CARDS:
+                gameState = Config.GAME_STATES.PLAYER_REINFORCEMENT;
+                break;
+            case PLAYER_REINFORCEMENT:
+                gameState = Config.GAME_STATES.PLAYER_ATTACK;
+                break;
+            case PLAYER_ATTACK:
+                gameState = Config.GAME_STATES.PLAYER_FORTIFICATION;
+                break;
+            case PLAYER_FORTIFICATION:
+                if (playersHand.size() >= 5) {
+                    gameState = Config.GAME_STATES.PLAYER_TRADE_CARDS;
+                } else {
+                    gameState = Config.GAME_STATES.PLAYER_REINFORCEMENT;
+                }
+                break;
+            default: // the player does not have a game state in his very first turn
+                if (playersHand.size() >= 5) {
+                    gameState = Config.GAME_STATES.PLAYER_TRADE_CARDS;
+                } else {
+                    gameState = Config.GAME_STATES.PLAYER_REINFORCEMENT;
+                }
+                break;
+        }
     }
     // endregion
 }

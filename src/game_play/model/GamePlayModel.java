@@ -152,11 +152,6 @@ public class GamePlayModel extends Observable {
      */
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
-        if (gameState == PLAY && currentPlayer.getGameState() == PLAYER_REINFORCEMENT) {
-            addReinforcementForCurrPlayer();
-            updatePlayerTerritoriesModel();
-        }
-        broadcastGamePlayChanges();
     }
     
     /**
@@ -166,6 +161,15 @@ public class GamePlayModel extends Observable {
      */
     public int getArmyValue() {
         return this.armyValue;
+    }
+    
+    /**
+     * Sets the army value.
+     *
+     * @param armyValue new army value
+     */
+    public void setArmyValue(int armyValue) {
+        this.armyValue = armyValue;
     }
     
     /**
@@ -184,8 +188,6 @@ public class GamePlayModel extends Observable {
      */
     public void setGameState(GAME_STATES gameStates) {
         this.gameState = gameStates;
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
     }
     
     /**
@@ -312,10 +314,16 @@ public class GamePlayModel extends Observable {
         if (count == players.size()) {
             setGameState(PLAY);
             setCurrentPlayer(players.firstElement());
+            currentPlayer.nextPhase();
+            addReinforcementForCurrPlayer();
+            
+            updateGameMapTableModel();
+            updatePlayerTerritoriesModel();
+            broadcastGamePlayChanges();
+        } else {
+            updateGameMapTableModel();
+            broadcastGamePlayChanges();
         }
-        
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
     }
     
     /**
@@ -468,75 +476,30 @@ public class GamePlayModel extends Observable {
     
     // region For Reinforcement Phase
     /**
-     * This method processes the exchange of cards to the armies if the user selected cards
-     * make a valid set. The method checks for a selection of exactly three cards, and checks
-     * for either three cards of the same type, or 3 cards one of each type. If so, those cards
-     * are removed from the players hand, and the number of armies (unallocated armies) are
-     * rewarded according to the current army value. The army value starts at 5 at the beginning
-     * of the game, but increases by 5 every time a player makes a valid card exchange move.
+     * Delegate the job to reinforcement() function of Player class
+     * Broadcast the change to Observers
      *
      * @param selectedCards Vector of Strings that details the type of cards in the player's possession
      *
      * @return String for the error message to validate the result of the trade in
      */
     public String tradeInCards(Vector<String> selectedCards) {
-        if (selectedCards.size() == 3) {
-            /* check if selected cards are three of a kind or one of each */
-            int choice = 0;
-            if (selectedCards.elementAt(0).equals(selectedCards.elementAt(1))
-                    && selectedCards.elementAt(0).equals(selectedCards.elementAt(2))) {
-                choice = 1;
-            } else if (!selectedCards.elementAt(0).equals(selectedCards.elementAt(1))
-                    && !selectedCards.elementAt(0).equals(selectedCards.elementAt(2))
-                    && !selectedCards.elementAt(1).equals(selectedCards.elementAt(2))) {
-                choice = 2;
-            }
-            
-            /* carry out card trading according to the choice */
-            int counter = 0;
-            if (choice == 1) {  // for three of a kind exchange
-                for (int i = 0; i < currentPlayer.getPlayersHand().size(); i++) {
-                    if (currentPlayer.getPlayersHand().get(i).getCardType().name().compareTo(selectedCards.firstElement()) == 0) {
-                        counter++;
-                    }
-                }
-                if (counter >= 3) {
-                    Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.firstElement()));
-                    for (int i = 0; i < selectedCards.size(); i++) {
-                        currentPlayer.getPlayersHand().remove(tempCard);
-                        deck.add(tempCard);
-                    }
-                    currentPlayer.getPlayersHand().trimToSize();
-                    currentPlayer.addUnallocatedArmies(armyValue);
-                    armyValue += 5;
-                }
-            } else if (choice == 2) {  // for one of each exchange
-                for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
-                    Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
-                    if (currentPlayer.getPlayersHand().contains(tempCard)) {
-                        counter++;
-                    }
-                }
-                if (counter == 3) {
-                    for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
-                        Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
-                        currentPlayer.getPlayersHand().remove(tempCard);
-                        deck.add(tempCard);
-                    }
-                    currentPlayer.getPlayersHand().trimToSize();
-                    currentPlayer.addUnallocatedArmies(armyValue);
-                    armyValue += 5;
-                }
-            } else {
-                broadcastGamePlayChanges();
-                return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
-            }
-            broadcastGamePlayChanges();
-            return "Cards successfully traded in!";
-        } else {
-            broadcastGamePlayChanges();
-            return "No cards traded in!\nPlease select exactly 3 cards.\n(all of same type or one of each type)";
-        }
+        String message = currentPlayer.reinforcement(this, selectedCards, null);
+        broadcastGamePlayChanges();
+        return message;
+    }
+    
+    /**
+     * Delegate the job to reinforcement() function of Player class
+     * Broadcast the change to Observers
+     *
+     * @param armiesToPlace {@literal Map<Territory, Integer>} that contains the key of
+     *                      Territory objects and values of Integer to represent armies
+     */
+    public void placeArmiesReinforcement(Map<Territory, Integer> armiesToPlace) {
+        currentPlayer.reinforcement(this, null, armiesToPlace);
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
     }
     
     /**
@@ -548,14 +511,14 @@ public class GamePlayModel extends Observable {
     public void addReinforcementForCurrPlayer() {
         // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
         int armiesToGive = Math.max(3, gameMap.getTerritoriesOfPlayer(currentPlayer).size() / 3);
-        
+
         // Assign players additional number armies to allocate if that player owns a continent.
         for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
             if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner()) == 0) {
                 armiesToGive += entry.getValue().getControlValue();
             }
         }
-        
+
         /* -- console printout for demo -- */
         System.out.println();
         System.out.println("-- Reinforcement Phase Status Console Printout --");
@@ -579,25 +542,10 @@ public class GamePlayModel extends Observable {
         }
         System.out.print("-------------------------------------------------\n");
         /* ------------------------------- */
-        
+
         currentPlayer.addUnallocatedArmies(armiesToGive);
     }
     
-    /**
-     * A method that allows a player to place armies to the territories as specified
-     * from the Reinforcement Phase view panel.
-     *
-     * @param armiesToPlace {@literal Map<Territory, Integer>} that contains the key of
-     *                      Territory objects and values of Integer to represent armies
-     */
-    public void placeArmiesReinforcement(Map<Territory, Integer> armiesToPlace) {
-        for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
-            entry.getKey().addArmies(entry.getValue());
-            currentPlayer.reduceUnallocatedArmies(entry.getValue());
-        }
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
-    }
     // endregion
     
     // region For Fortification Phase
@@ -633,9 +581,10 @@ public class GamePlayModel extends Observable {
         fromTerritory.reduceArmies(noOfArmies);
         toTerritory.addArmies(noOfArmies);
         updateGameMapTableModel();
-        
-        currentPlayer.setGameState(PLAYER_REINFORCEMENT);
+    
         setCurrentPlayer(getNextPlayer());
+        currentPlayer.nextPhase();
+        addReinforcementForCurrPlayer();
         
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
