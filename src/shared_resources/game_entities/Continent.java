@@ -145,14 +145,15 @@ public class Continent {
     /**
      * Calculate the number of armies within the continent.
      *
+     * @param gameMap the game map
      * @return the count of all armies within a given continent
      *
      * @throws NullPointerException if territories are not yet allocated to players
      */
-    public int getContinentArmies() throws NullPointerException {
+    public int getContinentArmies(GameMap gameMap) throws NullPointerException {
         int count = 0;
         for (String territoryName : territories) {
-            count += GamePlayModel.getInstance().getGameMap().getATerritory(territoryName).getArmies();
+            count += gameMap.getATerritory(territoryName).getArmies();
         }
         return count;
     }
@@ -160,16 +161,17 @@ public class Continent {
     /**
      * Determine if a continent was fully conquered and return the id of the owner if so.
      *
+     * @param gameMap the game map model
      * @return the int value of the id of the owner having conquered all territories within this continent, 0  if none
      *
      * @throws NullPointerException if territories are not yet allocated to players
      */
-    public String getContinentOwner() throws NullPointerException {
+    public String getContinentOwner(GameMap gameMap) throws NullPointerException {
         String continentOwner;
-        if (GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).isOwned()) {
-            continentOwner = GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerName();
+        if (gameMap.getATerritory(territories.get(0)).isOwned()) {
+            continentOwner = gameMap.getATerritory(territories.get(0)).getOwner().getPlayerName();
             for (String territoryName : territories) {
-                if (!Objects.equals(continentOwner, GamePlayModel.getInstance().getGameMap().getATerritory(territoryName).getOwner().getPlayerName())) {
+                if (!Objects.equals(continentOwner, gameMap.getATerritory(territoryName).getOwner().getPlayerName())) {
                     return "";
                 }
             }

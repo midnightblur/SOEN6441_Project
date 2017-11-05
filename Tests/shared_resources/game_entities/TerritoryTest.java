@@ -4,10 +4,9 @@
  * Version 1.0
  * Oct 18, 2017
  */
-package model;
+package shared_resources.game_entities;
 
 import org.junit.Test;
-import shared_resources.game_entities.Territory;
 
 import static org.junit.Assert.assertEquals;
 

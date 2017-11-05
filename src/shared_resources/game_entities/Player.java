@@ -226,6 +226,10 @@ public class Player {
     // region Reinforcement Phase
     /**
      * Implement the Reinforcement Phase of a particular player
+     * @param gamePlayModel the game play model
+     * @param selectedCards the selected cards
+     * @param armiesToPlace the amount of armies to be placed
+     * @return the message to user if reinforcement was successful or not
      */
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         switch (gameState) {
@@ -241,6 +245,8 @@ public class Player {
     /**
      * Looping through view table, get the quantity of armies for each territory
      * then place them using the placeArmiesReinforcement in the game_entities.
+     * @param gamePlayModel the game play model
+     * @param armiesToPlace the amount of armies to place
      */
     private void distributeArmies(GamePlayModel gamePlayModel, Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
@@ -323,6 +329,7 @@ public class Player {
     
     /**
      * Implement the Attack Phase of a particular player
+     * @param gamePlayModel the game play model
      */
     public void attack(GamePlayModel gamePlayModel) {
     
@@ -330,7 +337,7 @@ public class Player {
     
     // region Fortification Phase
     /**
-     * Implement the Foritifcation Phase of a particular player
+     * Implement the Fortification Phase of a particular player
      *
      * The method gives a player an option to move any number of armies from one country to
      * another. The method only allows only one such move that is valid, which requires that

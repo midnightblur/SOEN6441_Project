@@ -4,12 +4,12 @@
  * Version 1.0
  * Oct 18, 2017
  */
-package model;
+package map_editor.model;
 
-import shared_resources.game_entities.GameMap;
-import shared_resources.helper.GameMapHelper;
 import org.junit.Before;
 import org.junit.Test;
+import shared_resources.game_entities.GameMap;
+import shared_resources.helper.GameMapHelper;
 import shared_resources.utilities.Config;
 
 import static org.junit.Assert.*;

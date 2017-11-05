@@ -82,12 +82,12 @@ public class MapTableModel {
         for (Continent continent : gameMap.getContinents().values()) {
             rows[i][0] = continent.getName();
             if (gameStates.getValue() >= 3) {
-                if (continent.getContinentOwner().compareTo("") == 0) {
+                if (continent.getContinentOwner(gameMap).compareTo("") == 0) {
                     rows[i][3] = "nobody owns it yet";
                 } else {
-                    rows[i][3] = continent.getContinentOwner();
+                    rows[i][3] = continent.getContinentOwner(gameMap);
                 }
-                rows[i][4] = Integer.toString(continent.getContinentArmies());
+                rows[i][4] = Integer.toString(continent.getContinentArmies(gameMap));
             }
             i++;
         }
@@ -114,7 +114,7 @@ public class MapTableModel {
     // region Getters & Setters
     
     /**
-     * Gets the data model.
+     * Gets the data game_play.
      *
      * @return the game_entities
      */

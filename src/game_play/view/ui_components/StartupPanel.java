@@ -107,10 +107,10 @@ public class StartupPanel extends JPanel implements Observer {
     /**
      * Adds the play button listener
      *
-     * @param listenerForPlaybutton the listener for play button
+     * @param listenerForPlayButton the listener for play button
      */
-    public void addPlayButtonListener(ActionListener listenerForPlaybutton) {
-        playButton.addActionListener(listenerForPlaybutton);
+    public void addPlayButtonListener(ActionListener listenerForPlayButton) {
+        playButton.addActionListener(listenerForPlayButton);
     }
     // endregion
     

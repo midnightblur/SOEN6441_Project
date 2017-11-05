@@ -515,7 +515,7 @@ public class GamePlayModel extends Observable {
 
         // Assign players additional number armies to allocate if that player owns a continent.
         for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
-            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner()) == 0) {
+            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner(gameMap)) == 0) {
                 armiesToGive += entry.getValue().getControlValue();
             }
         }
@@ -531,7 +531,7 @@ public class GamePlayModel extends Observable {
         int continentCounter = 0;
         String continentStr = "";
         for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
-            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner()) == 0) {
+            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner(gameMap)) == 0) {
                 continentCounter++;
                 continentStr += "\t" + entry.getValue().getName()
                         + ", control value " + entry.getValue().getControlValue() + "\n";

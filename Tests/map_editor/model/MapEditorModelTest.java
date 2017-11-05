@@ -4,15 +4,15 @@
  * Version 1.0
  * Oct 18, 2017
  */
-package model;
+package map_editor.model;
 
-import shared_resources.game_entities.GameMap;
-import shared_resources.helper.GameMapHelper;
 import game_play.model.MapTableModel;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import shared_resources.game_entities.GameMap;
+import shared_resources.helper.GameMapHelper;
 import shared_resources.utilities.Config;
 
 import java.io.IOException;

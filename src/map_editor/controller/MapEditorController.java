@@ -55,7 +55,7 @@ public class MapEditorController {
     /**
      * Instantiates a new map editor controller.
      * <ul>
-     * <li> Creates the view and model objects
+     * <li> Creates the view and game_play objects
      * <li> Subscribes the views to models
      * <li> Register itself as listener to user actions from view
      * </ul>

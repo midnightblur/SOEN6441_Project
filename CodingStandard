@@ -6,7 +6,7 @@ all of the developers in the team for the Risk game.
 File organization
 -----------------
 - Source code files should be organized into four different package folders
-(controller, model, and view folders) according to the appropriate
+(controller, game_play, and view folders) according to the appropriate
 functions in regards to the Model-View-Controller architectural pattern,
 in addition to the utilities package folder which should contain miscellaneous
 code that is designed to store various configurations.
@@ -51,13 +51,13 @@ Indentation
 4 spaces or by a tab space (see example) with respect to its header or the first line.
 - Lengthy line of code can be written in multiple continuous lines, but all lines
 succeeding the first line should be indented with respect to the first line.
-- In a file with multiple classes and or methods, an empty space should be present
+- In a file with multiple classes and or methods, an shared_resources.empty space should be present
 between the end of one and the start of the other.
 - Curly brackets must be used following if, while, for, switch statements.
 - The brackets following the if, while, for, switch can be separated from the key words
 and the succeeding curly brackets (see example).
 - All comments should start with a single space from the comment symbol (// or *)
-- Line or lines of code can be separated by an empty line in order to improve readability
+- Line or lines of code can be separated by an shared_resources.empty line in order to improve readability
 for major sections of a long and complicated function (see example).
 
 Example:
@@ -82,7 +82,7 @@ public class Player {
                 ++id;
             }
 
-            System.out.println("Example of empty line spacing for better readability");
+            System.out.println("Example of shared_resources.empty line spacing for better readability");
             return;
         }
     }

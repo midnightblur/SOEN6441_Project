@@ -5,10 +5,18 @@
  * Oct 18, 2017
  */
 
-import model.*;
+import game_play.model.GamePlayModelTest;
+import map_editor.model.MapEditorModelTest;
+import map_editor.model.MapValidationTest;
+import map_editor.model.MapsLoaderTest;
+import map_editor.model.ReadingInvalidMapFileTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import shared_resources.game_entities.ContinentTest;
+import shared_resources.game_entities.DiceTest;
+import shared_resources.game_entities.PlayerTest;
+import shared_resources.game_entities.TerritoryTest;
 
 /**
  * The Class AllTestSuite.

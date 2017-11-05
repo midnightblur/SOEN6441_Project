@@ -28,7 +28,7 @@ public class PlayerTerritoriesModel {
     // region Constructors
     
     /**
-     * Makes a new empty PlayerTerritoryModel
+     * Makes a new shared_resources.empty PlayerTerritoryModel
      * 
      * The game_entities would later be updated once players change.
      */
@@ -42,10 +42,10 @@ public class PlayerTerritoriesModel {
     // region Getters & setters
     
     /**
-     * Accessor for data model.
+     * Accessor for data game_play.
      *
      * @return a default table game_entities holding territories information when player was indicated,
-     * or an empty game_entities if no player was indicated
+     * or an shared_resources.empty game_entities if no player was indicated
      */
     public DefaultTableModel getModel() {
         return model;
@@ -56,7 +56,7 @@ public class PlayerTerritoriesModel {
     // region Public methods
     
     /**
-     * Updating the data model according to the player.
+     * Updating the data game_play according to the player.
      *
      * @param player the player object for which we collect the owned territories
      */

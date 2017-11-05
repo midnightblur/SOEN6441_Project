@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.util.Vector;
 
 /**
- * DropDownModel is responsible for providing the data model for JComboBox
+ * DropDownModel is responsible for providing the data game_play for JComboBox
  * The input data need to be in type of a Vector of Strings.
  *
  * @author Team 2

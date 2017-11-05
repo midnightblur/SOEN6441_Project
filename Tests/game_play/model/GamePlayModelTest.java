@@ -4,9 +4,8 @@
  * Version 1.0
  * Oct 18, 2017
  */
-package model;
+package game_play.model;
 
-import game_play.model.GamePlayModel;
 import org.junit.Before;
 import org.junit.Test;
 import shared_resources.game_entities.Continent;
@@ -83,7 +82,7 @@ public class GamePlayModelTest {
             System.out.println("Reinforcement armies gained by Player " + player.getPlayerID() + ": "
                     + (gamePlayModel.getCurrentPlayer().getUnallocatedArmies() - initialUnallocatedArmies));
             for (Map.Entry<String, Continent> entry : gamePlayModel.getGameMap().getContinents().entrySet()) {
-                if (gamePlayModel.getCurrentPlayer().getPlayerName().compareTo(entry.getValue().getContinentOwner()) == 0) {
+                if (gamePlayModel.getCurrentPlayer().getPlayerName().compareTo(entry.getValue().getContinentOwner(gamePlayModel.getGameMap())) == 0) {
                     continentValue = entry.getValue().getControlValue();
                 }
             }

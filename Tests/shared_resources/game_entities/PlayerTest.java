@@ -4,11 +4,10 @@
  * Version 1.0
  * Oct 18, 2017
  */
-package model;
+package shared_resources.game_entities;
 
 import org.junit.Before;
 import org.junit.Test;
-import shared_resources.game_entities.Player;
 
 import static org.junit.Assert.assertEquals;
 import static shared_resources.utilities.Config.PLAYER_COLOR;

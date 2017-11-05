@@ -4,7 +4,7 @@
  * Version 1.0
  * Oct 18, 2017
  */
-package model;
+package map_editor.model;
 
 import org.junit.Before;
 import org.junit.Test;
