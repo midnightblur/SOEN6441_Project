@@ -609,9 +609,11 @@ public class GamePlayModel extends Observable {
 
     public void DemoForTests()
     {
-        GameMap gamemap = new GameMap("Alberta.map");
+        GameMap gamemap = new GameMap("3D.map");
         setGameMap(gamemap);
-
+        initPlayers(2);
+        //placeArmiesReinforcement(10);
+        distributeTerritories();
 
     }
 
