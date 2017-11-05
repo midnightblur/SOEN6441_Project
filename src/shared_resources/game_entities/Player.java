@@ -327,6 +327,7 @@ public class Player {
     }
     // endregion
     
+    // region Attack Phase
     /**
      * Implement the Attack Phase of a particular player
      * @param gamePlayModel the game play model
@@ -334,6 +335,7 @@ public class Player {
     public void attack(GamePlayModel gamePlayModel) {
     
     }
+    // endregion
     
     // region Fortification Phase
     /**

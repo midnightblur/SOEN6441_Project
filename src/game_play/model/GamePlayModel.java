@@ -249,19 +249,6 @@ public class GamePlayModel extends Observable {
         distributeTerritories();
         giveInitialArmies();
         currentPlayer = players.firstElement();
-
-        /* Hand out cards for build 1 presentation. To be commented out for normal game play */
-        int cardsToHandOut = 0;
-        for (Player player : players) {
-            if (gameMap.getTerritoriesCount() / numOfPlayers >= 5) {
-                cardsToHandOut = 5;
-            } else {
-                cardsToHandOut = gameMap.getTerritoriesCount() / numOfPlayers;
-            }
-            for (int i = 0; i < cardsToHandOut; i++) {
-                player.addCardToPlayersHand(drawCard());
-            }
-        }
         
         /* -- console printout for demo -- */
         System.out.println();
