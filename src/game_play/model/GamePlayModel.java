@@ -551,12 +551,7 @@ public class GamePlayModel extends Observable {
     
     // region For Fortification Phase
     /**
-     * The method gives a player an option to move any number of armies from one country to
-     * another. The method only allows only one such move that is valid, which requires that
-     * the two countries that the player picks must be owned by that player, be different
-     * territories from one another, be adjacent to one another, and must have more armies
-     * in the territory than the number of armies specified by the player (a territory must
-     * have more than 1 army at minimum).
+     * Delegate the job to fortification() of Player class
      *
      * @param sourceTerritory String value of the name of the source Territory
      * @param targetTerritory String value of the name of the target Territory
@@ -565,26 +560,11 @@ public class GamePlayModel extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String moveArmiesFortification(String sourceTerritory, String targetTerritory, int noOfArmies) {
-        Territory fromTerritory = gameMap.getATerritory(sourceTerritory);
-        Territory toTerritory = gameMap.getATerritory(targetTerritory);
-        
-        // Validate if the two territories are owned by the player, are different, and are neighbors.
-        if (!fromTerritory.isOwnedBy(currentPlayer.getPlayerID()) ||
-                !toTerritory.isOwnedBy(currentPlayer.getPlayerID()) ||
-                fromTerritory == toTerritory) {
-            return "No armies moved!\nYou must pick two Territories that are neighbors.";
-        }
-        
-        if (fromTerritory.getArmies() == 1 || fromTerritory.getArmies() <= noOfArmies) {
-            return "No armies moved!\nYou must always have at least 1 army in each Territory";
-        }
-        
-        fromTerritory.reduceArmies(noOfArmies);
-        toTerritory.addArmies(noOfArmies);
+        String message = currentPlayer.fortification(this, sourceTerritory, targetTerritory, noOfArmies);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
         
-        return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
+        return message;
     }
     // endregion
     
