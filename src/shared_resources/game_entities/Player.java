@@ -311,14 +311,11 @@ public class Player {
                     gamePlayModel.setArmyValue(gamePlayModel.getArmyValue() + 5);
                 }
             } else {
-//                broadcastGamePlayChanges();
                 return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
             }
             setGameState(PLAYER_REINFORCEMENT);
-//            broadcastGamePlayChanges();
             return "Cards successfully traded in!";
         } else {
-//            broadcastGamePlayChanges();
             return "No cards traded in!\nPlease select exactly 3 cards.\n(all of same type or one of each type)";
         }
     }

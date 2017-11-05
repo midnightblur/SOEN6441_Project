@@ -129,8 +129,6 @@ public class FortificationPanel extends JPanel implements Observer {
         return moveArmiesButton;
     }
     
-    
-    
     // endregion
     
     // region MVC & Observer pattern methods
