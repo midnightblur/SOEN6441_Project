@@ -231,6 +231,12 @@ public class GamePlayController {
             
             if ((quantity > 0) && targetTerritory.compareTo("No neighbors owned. Please select another territory") != 0) {
                 String message = gamePlayModel.moveArmiesFortification(sourceTerritory, targetTerritory, quantity);
+                if (message.contains("Successfully moved")) {
+                    gamePlayFrame.getFortificationPanel().getMoveArmiesButton().setEnabled(false);
+                    gamePlayFrame.getFortificationPanel().getSourceTerritoryDropdown().setEnabled(false);
+                    gamePlayFrame.getFortificationPanel().getTargetTerritoryDropdown().setEnabled(false);
+                    gamePlayFrame.getFortificationPanel().getArmiesToMoveField().setEnabled(false);
+                }
                 UIHelper.displayMessage(gamePlayFrame, message);
             } else {
                 UIHelper.displayMessage(gamePlayFrame, "Please validate your selection.");
@@ -265,7 +271,7 @@ public class GamePlayController {
      * This function advances the game to next player's turn.
      */
     private void changeToNextPlayer() {
-        gamePlayModel.setCurrentPlayer(gamePlayModel.getNextPlayer());
+        gamePlayModel.nextPlayerTurn();
     }
     // endregion
     

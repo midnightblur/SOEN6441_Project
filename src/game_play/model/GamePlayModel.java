@@ -152,6 +152,7 @@ public class GamePlayModel extends Observable {
      */
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
+        broadcastGamePlayChanges();
     }
     
     /**
@@ -247,7 +248,7 @@ public class GamePlayModel extends Observable {
 //        distributeTerritoriesRiggedForDemo();  // uncomment this method and comment out distributeTerritories() for demo
         distributeTerritories();
         giveInitialArmies();
-        setCurrentPlayer(players.firstElement());
+        currentPlayer = players.firstElement();
 
         /* Hand out cards for build 1 presentation. To be commented out for normal game play */
         int cardsToHandOut = 0;
@@ -298,7 +299,7 @@ public class GamePlayModel extends Observable {
     public void placeArmyStartup(String territory) {
         currentPlayer.reduceUnallocatedArmies(1);
         gameMap.getATerritory(territory).addArmies(1);
-        setCurrentPlayer(getNextPlayer());
+        currentPlayer = getNextPlayer();
         
         /*
          * Get next player if current player's unallocated army is 0
@@ -306,14 +307,14 @@ public class GamePlayModel extends Observable {
          */
         int count = 1;
         while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
-            setCurrentPlayer(getNextPlayer());
+            currentPlayer = getNextPlayer();
             count++;
         }
         
         /* If all player run out of unallocated army, move to the next phase */
         if (count == players.size()) {
             setGameState(PLAY);
-            setCurrentPlayer(players.firstElement());
+            currentPlayer = players.firstElement();
             currentPlayer.nextPhase();
             addReinforcementForCurrPlayer();
             
@@ -581,16 +582,26 @@ public class GamePlayModel extends Observable {
         fromTerritory.reduceArmies(noOfArmies);
         toTerritory.addArmies(noOfArmies);
         updateGameMapTableModel();
-    
-        setCurrentPlayer(getNextPlayer());
-        currentPlayer.nextPhase();
-        addReinforcementForCurrPlayer();
+        broadcastGamePlayChanges();
         
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
     // endregion
     
     // region Public methods
+    
+    /**
+     * Set the current player to be the next one in round-robin-fashion
+     * Change the phase of the current player to Reinforcement/TradeCard
+     * Broadcast the change to Observers
+     */
+    public void nextPlayerTurn() {
+        currentPlayer = getNextPlayer();
+        currentPlayer.nextPhase();
+        addReinforcementForCurrPlayer();
+        updatePlayerTerritoriesModel();
+        broadcastGamePlayChanges();
+    }
     
     /**
      * Change the game phase of the current player to other phase

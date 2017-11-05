@@ -120,6 +120,17 @@ public class FortificationPanel extends JPanel implements Observer {
         return targetTerritoryDropdown;
     }
     
+    /**
+     * Gets the moveArmiesButton
+     *
+     * @return the move armies button
+     */
+    public JButton getMoveArmiesButton() {
+        return moveArmiesButton;
+    }
+    
+    
+    
     // endregion
     
     // region MVC & Observer pattern methods
@@ -159,6 +170,11 @@ public class FortificationPanel extends JPanel implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAY &&
                     gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.PLAYER_FORTIFICATION) {
+                moveArmiesButton.setEnabled(true);
+                sourceTerritoryDropdown.setEnabled(true);
+                targetTerritoryDropdown.setEnabled(true);
+                armiesToMoveField.setEnabled(true);
+                
                 playerName.setForeground(gamePlayModel.getCurrentPlayer().getColor());
                 playerName.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                 
