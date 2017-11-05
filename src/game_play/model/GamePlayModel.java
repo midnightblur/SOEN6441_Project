@@ -14,6 +14,7 @@ import static shared_resources.utilities.Config.GAME_STATES;
 import static shared_resources.utilities.Config.GAME_STATES.*;
 import static shared_resources.utilities.Config.INITIAL_ARMY_RATIO;
 
+
 /**
  * This class is responsible for updating the game states (phases) and broadcasting the changes
  * to the view, and carrying out appropriate Risk game play functions according to the game states.
@@ -605,4 +606,13 @@ public class GamePlayModel extends Observable {
         playerTerritoriesModel.updateMapTableModel(currentPlayer);
     }
     // endregion
+
+    public void DemoForTests()
+    {
+        GameMap gamemap = new GameMap("Alberta.map");
+        setGameMap(gamemap);
+
+
+    }
+
 }
