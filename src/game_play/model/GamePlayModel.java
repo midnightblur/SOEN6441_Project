@@ -607,6 +607,9 @@ public class GamePlayModel extends Observable {
     }
     // endregion
 
+    /**
+     * This is method used for testing gamemaps.
+     */
     public void DemoForTests()
     {
         GameMap gamemap = new GameMap("Alberta.map");
