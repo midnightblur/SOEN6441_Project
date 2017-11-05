@@ -321,12 +321,14 @@ public class Player {
     }
     // endregion
     
+    // region Attack Phase
     /**
      * Implement the Attack Phase of a particular player
      */
     public void attack(GamePlayModel gamePlayModel) {
     
     }
+    // endregion
     
     // region Fortification Phase
     /**
