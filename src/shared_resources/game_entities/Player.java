@@ -311,14 +311,11 @@ public class Player {
                     gamePlayModel.setArmyValue(gamePlayModel.getArmyValue() + 5);
                 }
             } else {
-//                broadcastGamePlayChanges();
                 return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
             }
             setGameState(PLAYER_REINFORCEMENT);
-//            broadcastGamePlayChanges();
             return "Cards successfully traded in!";
         } else {
-//            broadcastGamePlayChanges();
             return "No cards traded in!\nPlease select exactly 3 cards.\n(all of same type or one of each type)";
         }
     }
@@ -327,15 +324,48 @@ public class Player {
     /**
      * Implement the Attack Phase of a particular player
      */
-    public void attack() {
+    public void attack(GamePlayModel gamePlayModel) {
     
     }
     
+    // region Fortification Phase
     /**
      * Implement the Foritifcation Phase of a particular player
+     *
+     * The method gives a player an option to move any number of armies from one country to
+     * another. The method only allows only one such move that is valid, which requires that
+     * the two countries that the player picks must be owned by that player, be different
+     * territories from one another, be adjacent to one another, and must have more armies
+     * in the territory than the number of armies specified by the player (a territory must
+     * have more than 1 army at minimum).
+     *
+     * @param gamePlayModel   The GamePlayModel containing the state of the game
+     * @param sourceTerritory String value of the name of the source Territory
+     * @param targetTerritory String value of the name of the target Territory
+     * @param noOfArmies      Integer value of the number of armies to be moved
+     *
+     * @return String value of the messages that will be displayed to the user
+     *
      */
-    public void fortification() {
+    public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
+        Territory fromTerritory = gamePlayModel.getGameMap().getATerritory(sourceTerritory);
+        Territory toTerritory = gamePlayModel.getGameMap().getATerritory(targetTerritory);
     
+        // Validate if the two territories are owned by the player, are different, and are neighbors.
+        if (!fromTerritory.isOwnedBy(playerID) ||
+                !toTerritory.isOwnedBy(playerID) ||
+                fromTerritory == toTerritory) {
+            return "No armies moved!\nYou must pick two Territories that are neighbors.";
+        }
+    
+        if (fromTerritory.getArmies() == 1 || fromTerritory.getArmies() <= noOfArmies) {
+            return "No armies moved!\nYou must always have at least 1 army in each Territory";
+        }
+    
+        fromTerritory.reduceArmies(noOfArmies);
+        toTerritory.addArmies(noOfArmies);
+    
+        return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
     
     /**
