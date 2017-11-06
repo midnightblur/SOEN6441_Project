@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import static shared_resources.utilities.Config.GAME_STATES.PLAYER_REINFORCEMENT;
 import static shared_resources.utilities.Config.PLAYER_COLOR;
+import static shared_resources.utilities.Config.log;
 
 /**
  * Each Player in a new game has a unique ID number (starting from 1) and the isBot status
@@ -251,6 +252,7 @@ public class Player {
     private void distributeArmies(GamePlayModel gamePlayModel, Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
             entry.getKey().addArmies(entry.getValue());
+            log.append(entry.getValue() + " armies placed on " + entry.getKey());
             reduceUnallocatedArmies(entry.getValue());
         }
     }
@@ -294,10 +296,13 @@ public class Player {
                     for (int i = 0; i < selectedCards.size(); i++) {
                         playersHand.remove(tempCard);
                         gamePlayModel.getDeck().add(tempCard);
+                        log.append(playerName +  " is trading card " + tempCard.getCardType() + ", having an army value of " + gamePlayModel.getArmyValue());
                     }
                     playersHand.trimToSize();
                     addUnallocatedArmies(gamePlayModel.getArmyValue());
                     gamePlayModel.setArmyValue(gamePlayModel.getArmyValue() + 5);
+                    log.append("Cards traded. New army value is now " + gamePlayModel.getArmyValue());
+    
                 }
             } else if (choice == 2) {  // for one of each exchange
                 for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
@@ -311,11 +316,15 @@ public class Player {
                         Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
                         playersHand.remove(tempCard);
                         gamePlayModel.getDeck().add(tempCard);
+                        log.append(playerName +  " is trading card " + tempCard.getCardType() + ", having an army value of " + gamePlayModel.getArmyValue());
                     }
                     playersHand.trimToSize();
                     addUnallocatedArmies(gamePlayModel.getArmyValue());
                     gamePlayModel.setArmyValue(gamePlayModel.getArmyValue() + 5);
+                    log.append("Cards traded. New army value is now " + gamePlayModel.getArmyValue());
                 }
+                
+    
             } else {
                 return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
             }

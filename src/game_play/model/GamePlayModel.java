@@ -6,14 +6,12 @@
  */
 package game_play.model;
 
-import game_play.view.screens.LoggingWindow;
 import shared_resources.game_entities.*;
 
 import java.util.*;
 
-import static shared_resources.utilities.Config.GAME_STATES;
+import static shared_resources.utilities.Config.*;
 import static shared_resources.utilities.Config.GAME_STATES.*;
-import static shared_resources.utilities.Config.INITIAL_ARMY_RATIO;
 
 
 /**
@@ -60,7 +58,6 @@ public class GamePlayModel extends Observable {
     private Vector<Card> deck;
     private Vector<Player> players;
     private Random rand;
-    private LoggingWindow log;
     // endregion
     
     // region Constructors
@@ -76,7 +73,6 @@ public class GamePlayModel extends Observable {
         gameState = ENTRY_MENU;
         rand = new Random();
         playerTerritoriesModel = new PlayerTerritoriesModel();
-        log = LoggingWindow.getInstance();
     }
     
     /**
