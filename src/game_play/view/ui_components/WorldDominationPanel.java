@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class WorldDominationPanel extends JPanel implements Observer {
     // region Attributes declaration
-    private static final int WIDTH = 900;
+    private static final int WIDTH = 850;
     private static final int HEIGHT = 20;
     private int totalTerritoriesCount;
     private Map<Integer, Player> playersMap;
@@ -61,6 +61,16 @@ public class WorldDominationPanel extends JPanel implements Observer {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setFont(new Font("Sans Serif", Font.BOLD, 12));
+        
+        /* Draw the initial blank bar */
+        g.setColor(Color.darkGray);
+        g.fillRect(0,0, WIDTH, HEIGHT);
+        g.setColor(Color.WHITE);
+        FontMetrics f = g.getFontMetrics();
+        String ratioStr = "Players World Domination View";
+        int xStr = WIDTH / 2 - f.stringWidth(ratioStr) / 2;
+        int yStr = HEIGHT / 2 + 4;
+        g.drawString(ratioStr, xStr, yStr);
     
         int startPoint;
         int endPoint = -1;
@@ -86,7 +96,7 @@ public class WorldDominationPanel extends JPanel implements Observer {
     private void drawPlayerDomination(Graphics g, int startPoint, int endPoint, Color color, float ratio) {
         // Draw the colored rectangle
         g.setColor(color);
-        g.fillRect(startPoint, 0, endPoint - startPoint, HEIGHT);
+        g.fillRect(startPoint, 0, endPoint - startPoint + 1, HEIGHT);
     
         // Only draw ratio string if there's enough space
         if (ratio > 0.1) {
