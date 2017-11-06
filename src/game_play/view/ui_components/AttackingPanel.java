@@ -11,6 +11,9 @@ import java.util.Observer;
 
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
+/**
+ * AttackingPanel is responsible for displaying UI letting player attack other players' territories
+ */
 public class AttackingPanel extends JPanel implements Observer {
     // region Attributes declaration
     private static final String ATTACK_FROM_LABEL = "Attack from:";
@@ -29,12 +32,20 @@ public class AttackingPanel extends JPanel implements Observer {
     // endregion
     
     // region Constructors
+    
+    /**
+     * Instantiate new AttackingPanel
+     */
     public AttackingPanel() {
         populateUI();
     }
     // endregion
     
     // region Private methods
+    
+    /**
+     * Populate all the necessary UI components for the panel
+     */
     private void populateUI() {
         /* Steup layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -47,6 +58,9 @@ public class AttackingPanel extends JPanel implements Observer {
         add(cardsPanel);
     }
     
+    /**
+     * Populate all the UI components for attacking preparation step
+     */
     private void populateAttackPreparation() {
         JPanel attackPreparationPanel = new JPanel();
         attackPreparationPanel.setLayout(new GridLayout(0, 1));

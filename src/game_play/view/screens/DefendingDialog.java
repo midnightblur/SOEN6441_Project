@@ -7,6 +7,9 @@ import java.util.Vector;
 
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
+/**
+ * DefendingDialog is responsible for displaying a frame letting defender choosing how many dice to defend his territory
+ */
 public class DefendingDialog extends JDialog {
     // region Attribute declaration
     private static final String TITLE = "Defender choice";
@@ -18,6 +21,14 @@ public class DefendingDialog extends JDialog {
     // endregion
     
     // region Constructors
+    
+    /**
+     * Instantiate a new Defending dialog
+     *
+     * @param owner             the frame containing the dialog
+     * @param situation         the string informing the situation to defender
+     * @param maxDefendingDice  the maximum number of dice the defender might use
+     */
     public DefendingDialog(JFrame owner, String situation, int maxDefendingDice) {
         super(owner, TITLE);
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
