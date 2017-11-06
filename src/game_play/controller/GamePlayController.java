@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import static shared_resources.utilities.Config.GAME_STATES.PLAYER_ATTACK;
 import static shared_resources.utilities.Config.GAME_STATES.PLAYER_FORTIFICATION;
 import static shared_resources.utilities.Config.GAME_STATES.SETUP;
 
@@ -78,6 +79,7 @@ public class GamePlayController {
         gamePlayModel.addObserver(gamePlayFrame.getStartupPanel());
         gamePlayModel.addObserver(gamePlayFrame.getReinforcementPanel());
         gamePlayModel.addObserver(gamePlayFrame.getReinforcementPanel().getTradeCardsPanel());
+        gamePlayModel.addObserver(gamePlayFrame.getAttackingPanel());
         gamePlayModel.addObserver(gamePlayFrame.getFortificationPanel());
     }
     
@@ -94,8 +96,12 @@ public class GamePlayController {
         
         /* For Reinforcement Panel */
         gamePlayFrame.getReinforcementPanel().addPlaceArmiesButtonListener(e -> distributeArmies());
-        gamePlayFrame.getReinforcementPanel().addGoToFortificationButtonListener(e -> goToFortificationPhase());
+        gamePlayFrame.getReinforcementPanel().addGoToFortificationButtonListener(e -> goToAttackingPhase());
         gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addTradeCardsButtonListener(e -> tradeSelectedCards());
+        
+        /* For Attacking Panel */
+        gamePlayFrame.getAttackingPanel().addAttackButtonListener(e -> attackTerritory());
+        gamePlayFrame.getAttackingPanel().addDoneButtonListener(e -> goToFortificationPhase());
         
         /* For Fortification Panel */
         gamePlayFrame.getFortificationPanel().addMoveArmiesButtonListener(e -> moveArmies());
@@ -187,11 +193,11 @@ public class GamePlayController {
     /**
      * Validate player's armies distributing and cards trading, then change the game state to Fortification Phase
      */
-    private void goToFortificationPhase() {
+    private void goToAttackingPhase() {
         if (gamePlayModel.getCurrentPlayer().getUnallocatedArmies() != 0 || gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
             UIHelper.displayMessage(gamePlayFrame, "You have to allocate all of your armies or trade in your cards");
         } else {
-            gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_FORTIFICATION);
+            gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_ATTACK);
         }
     }
     
@@ -213,6 +219,23 @@ public class GamePlayController {
         UIHelper.displayMessage(gamePlayFrame, message);
     }
     
+    // endregion
+    
+    // region For Attacking Phase
+    
+    /**
+     * Call appropriate function in GamePlayModel to perform an attack from one territory to another
+     */
+    private void attackTerritory() {
+    
+    }
+    
+    /**
+     * Move to Fortification phase
+     */
+    private void goToFortificationPhase() {
+        gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_FORTIFICATION);
+    }
     // endregion
     
     // region For Fortification Phase

@@ -219,8 +219,7 @@ public class GamePlayFrame extends JFrame implements Observer {
                             cardLayout.show(controlArea, ReinforcementPanel.class.getName());
                             break;
                         case PLAYER_ATTACK:
-                            // TODO: add the attack panel
-                            // cardLayout.show(controlArea, AttackPanel.class.getName());
+                             cardLayout.show(controlArea, AttackingPanel.class.getName());
                             break;
                         case PLAYER_FORTIFICATION:
                             cardLayout.show(controlArea, FortificationPanel.class.getName());

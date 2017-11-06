@@ -33,8 +33,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     private static final String TRADE_CARDS_PANEL_NAME = "TradeCards";
     private static final String PLACE_ARMIES_BUTTON = "Place armies";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
-    private static final String GO_TO_FORTIFICATION_BUTTON = "Go to Fortification";
-    private static final String ATTACK_BUTTON = "Attack!";
+    private static final String GO_TO_ATTACKING_BUTTON = "Go to Attacking";
     private static final String ARMIES_TO_PLACE_LABEL = "Use table to place armies:";
     private JPanel cardsPanel;
     private TradeCardsPanel tradeCardsPanel;
@@ -68,10 +67,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
         
         placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON);
         placeArmiesButton.setForeground(Color.BLUE);
-        goToFortificationButton = new JButton(GO_TO_FORTIFICATION_BUTTON);
-        JButton attackButton = new JButton(ATTACK_BUTTON);
-        attackButton.setEnabled(false);
-        attackButton.setForeground(Color.RED);
+        goToFortificationButton = new JButton(GO_TO_ATTACKING_BUTTON);
 
         /* Set layout */
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -96,8 +92,6 @@ public class ReinforcementPanel extends JPanel implements Observer {
         bottomGrid.add(placeArmiesButton);
         addVerticalSpacing(bottomGrid);
         bottomGrid.add(goToFortificationButton);
-        addVerticalSpacing(bottomGrid);
-        bottomGrid.add(attackButton);
         addVerticalSpacing(bottomGrid);
         controlWrapper.add(bottomGrid);
     
