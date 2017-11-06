@@ -592,6 +592,64 @@ public class GamePlayModel extends Observable {
 
         return message;
     }
+    
+    /**
+     * Gets a list of territories owned by a player that can attack another territory
+     *
+     * A valid territory is a territory that has at least one neighbors which is not owned by the player
+     * and contains at least 2 armies
+     *
+     * @param player the player
+     *
+     * @return a list of territories' names in form of an array of strings
+     */
+    public String[] getValidAttackingTerritories(Player player) {
+        Vector<String> territoriesList = new Vector<>();
+        for (Territory territory : player.getTerritories()) {
+            if (territory.getArmies() < 2 || getNeighborsNotOwnedBySamePlayer(territory.getName()).length == 0) {
+                continue;
+            }
+            
+            territoriesList.add(territory.getName());
+        }
+        return territoriesList.toArray(new String[territoriesList.size()]);
+    }
+    
+    /**
+     * Gets the list of all neighbors that are not owned by the same owner
+     *
+     * @param territoryName the territory name
+     *
+     * @return the list of neighbors in form of an array of territory names
+     */
+    public String[] getNeighborsNotOwnedBySamePlayer(String territoryName) {
+        Territory territory = gameMap.getATerritory(territoryName);
+        Vector<String> neighborsList = new Vector<>();
+        for (String neighborName : territory.getNeighbors()) {
+            Territory neighbor = gameMap.getATerritory(neighborName);
+            if (!neighbor.isOwnedBy(territory.getOwner().getPlayerID())) {
+                neighborsList.add(neighborName);
+            }
+        }
+        return neighborsList.toArray(new String[neighborsList.size()]);
+    }
+    
+    /**
+     * Get the maximum number of attacking dice roll that attacker can use depending on the attacking territory
+     *
+     * @param territoryName the territory name
+     *
+     * @return the maximum number of dice roll that attacker may use
+     */
+    public int getMaxAttackingRoll(String territoryName) {
+        Territory territory = gameMap.getATerritory(territoryName);
+        int armies = territory.getArmies();
+        if (armies >= 4) {
+            return 3;
+        } else {
+            return armies - 1;
+        }
+    }
     // endregion
 
     // region For Fortification Phase

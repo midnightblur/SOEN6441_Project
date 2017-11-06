@@ -102,6 +102,9 @@ public class GamePlayController {
         /* For Attacking Panel */
         gamePlayFrame.getAttackingPanel().addAttackButtonListener(e -> attackTerritory());
         gamePlayFrame.getAttackingPanel().addDoneButtonListener(e -> goToFortificationPhase());
+        gamePlayFrame.getAttackingPanel().addAttackingTerritoryDropdownListener(e -> updateDefendingTerritoriesAndAttackingDice(
+                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackingTerritoriesDropdown().getSelectedItem())
+        ));
         
         /* For Fortification Panel */
         gamePlayFrame.getFortificationPanel().addMoveArmiesButtonListener(e -> moveArmies());
@@ -235,6 +238,31 @@ public class GamePlayController {
      */
     private void goToFortificationPhase() {
         gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_FORTIFICATION);
+    }
+    
+    /**
+     * Updates the defending territories dropdown & number of attacking dice according to selected attacking territory
+     *
+     * @param attackingTerritory the selected attacking territory
+     */
+    private void updateDefendingTerritoriesAndAttackingDice(String attackingTerritory) {
+        /* Update defending territories dropdown */
+        gamePlayFrame.getAttackingPanel().getDefendingTerritoriesDropdown().setModel(
+                new DefaultComboBoxModel<>(gamePlayModel.getNeighborsNotOwnedBySamePlayer(attackingTerritory))
+        );
+        gamePlayFrame.getAttackingPanel().getDefendingTerritoriesDropdown().setSelectedIndex(0);
+        
+        /* Update attacking dice dropdown */
+        int maxRoll = gamePlayModel.getMaxAttackingRoll(attackingTerritory);
+        Vector<Integer> rollChoice = new Vector<>();
+        for (int i = 1; i <= maxRoll; i++) {
+            rollChoice.add(i);
+        }
+        gamePlayFrame.getAttackingPanel().getAttackerNoOfDice().setModel(
+                new DefaultComboBoxModel<>(rollChoice.toArray(new Integer[rollChoice.size()]))
+        );
+        gamePlayFrame.getAttackingPanel().getAttackerNoOfDice().setSelectedIndex(
+                gamePlayFrame.getAttackingPanel().getAttackerNoOfDice().getItemCount() - 1);
     }
     // endregion
     
