@@ -55,6 +55,13 @@ public class Player {
     // region Getters & Setters
     
     /**
+     * Resets the static counter, nextID, in Player class to zero.
+     */
+    public static void resetStaticNextID() {
+        nextID = 0;
+    }
+    
+    /**
      * Gets the player ID.
      *
      * @return the player ID
@@ -79,24 +86,6 @@ public class Player {
      */
     public Color getColor() {
         return color;
-    }
-    
-    /**
-     * Gets the unallocated armies.
-     *
-     * @return the unallocated armies
-     */
-    public int getUnallocatedArmies() {
-        return this.unallocatedArmies;
-    }
-    
-    /**
-     * Sets the unallocated armies.
-     *
-     * @param unallocatedArmies the new unallocated armies
-     */
-    public void setUnallocatedArmies(int unallocatedArmies) {
-        this.unallocatedArmies = unallocatedArmies;
     }
     
     /**
@@ -135,37 +124,6 @@ public class Player {
         this.gameState = gameState;
     }
     
-    // endregion
-    
-    // region Public methods
-    
-    /**
-     * Reduces the number of unallocated armies for this player by the specified number.
-     *
-     * @param num The int index of the number of unallocated armies to reduce
-     */
-    public void reduceUnallocatedArmies(int num) {
-        this.unallocatedArmies -= num;
-    }
-    
-    /**
-     * Increases the number of unallocated armies for this player by the specified number.
-     *
-     * @param num The int index of the number o unallocated armies to add
-     */
-    public void addUnallocatedArmies(int num) {
-        this.unallocatedArmies += num;
-    }
-    
-    /**
-     * Adds a card to the player's hand.
-     *
-     * @param card An object of Card class to be added to the players hand
-     */
-    public void addCardToPlayersHand(Card card) {
-        this.playersHand.add(card);
-    }
-    
     /**
      * Adds the territory.
      *
@@ -176,6 +134,10 @@ public class Player {
             territories.add(territory);
         }
     }
+    
+    // endregion
+    
+    // region Public methods
     
     /**
      * Removes the territory.
@@ -218,18 +180,12 @@ public class Player {
     }
     
     /**
-     * Resets the static counter, nextID, in Player class to zero.
-     */
-    public static void resetStaticNextID() {
-        nextID = 0;
-    }
-    
-    // region Reinforcement Phase
-    /**
      * Implement the Reinforcement Phase of a particular player
+     *
      * @param gamePlayModel the game play model
      * @param selectedCards the selected cards
      * @param armiesToPlace the amount of armies to be placed
+     *
      * @return the message to user if reinforcement was successful or not
      */
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
@@ -241,20 +197,6 @@ public class Player {
                 break;
         }
         return "";
-    }
-    
-    /**
-     * Looping through view table, get the quantity of armies for each territory
-     * then place them using the placeArmiesReinforcement in the game_entities.
-     * @param gamePlayModel the game play model
-     * @param armiesToPlace the amount of armies to place
-     */
-    private void distributeArmies(GamePlayModel gamePlayModel, Map<Territory, Integer> armiesToPlace) {
-        for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
-            entry.getKey().addArmies(entry.getValue());
-            log.append(entry.getValue() + " armies placed on " + entry.getKey());
-            reduceUnallocatedArmies(entry.getValue());
-        }
     }
     
     /**
@@ -271,6 +213,7 @@ public class Player {
      * @return String for the error message to validate the result of the trade in
      */
     private String tradeInCards(GamePlayModel gamePlayModel, Vector<String> selectedCards) {
+        int previousUnallocatedArmies = this.getUnallocatedArmies();
         if (selectedCards.size() == 3) {
             /* check if selected cards are three of a kind or one of each */
             int choice = 0;
@@ -296,13 +239,14 @@ public class Player {
                     for (int i = 0; i < selectedCards.size(); i++) {
                         playersHand.remove(tempCard);
                         gamePlayModel.getDeck().add(tempCard);
-                        log.append(playerName +  " is trading card " + tempCard.getCardType() + ", having an army value of " + gamePlayModel.getArmyValue());
+                        log.append(playerName + " is trading card " + tempCard.getCardType() + ", having an army value of " + gamePlayModel.getArmyValue());
                     }
                     playersHand.trimToSize();
                     addUnallocatedArmies(gamePlayModel.getArmyValue());
                     gamePlayModel.setArmyValue(gamePlayModel.getArmyValue() + 5);
-                    log.append("Cards traded. New army value is now " + gamePlayModel.getArmyValue());
-    
+                    log.append("Total armies gained by " + playerName + " is " + (this.getUnallocatedArmies() - previousUnallocatedArmies));
+                    log.append("New army value is now " + gamePlayModel.getArmyValue());
+                    
                 }
             } else if (choice == 2) {  // for one of each exchange
                 for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
@@ -316,15 +260,16 @@ public class Player {
                         Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
                         playersHand.remove(tempCard);
                         gamePlayModel.getDeck().add(tempCard);
-                        log.append(playerName +  " is trading card " + tempCard.getCardType() + ", having an army value of " + gamePlayModel.getArmyValue());
+                        log.append(playerName + " is trading card " + tempCard.getCardType() + ", having an army value of " + gamePlayModel.getArmyValue());
                     }
                     playersHand.trimToSize();
                     addUnallocatedArmies(gamePlayModel.getArmyValue());
                     gamePlayModel.setArmyValue(gamePlayModel.getArmyValue() + 5);
-                    log.append("Cards traded. New army value is now " + gamePlayModel.getArmyValue());
+                    log.append("Total armies gained by " + playerName + " is " + (this.getUnallocatedArmies() - previousUnallocatedArmies));
+                    log.append("New army value is now " + gamePlayModel.getArmyValue());
                 }
                 
-    
+                
             } else {
                 return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
             }
@@ -334,10 +279,60 @@ public class Player {
             return "No cards traded in!\nPlease select exactly 3 cards.\n(all of same type or one of each type)";
         }
     }
-    // endregion
     
-    // region Attack Phase
-
+    /**
+     * Looping through view table, get the quantity of armies for each territory
+     * then place them using the placeArmiesReinforcement in the game_entities.
+     *
+     * @param gamePlayModel the game play model
+     * @param armiesToPlace the amount of armies to place
+     */
+    private void distributeArmies(GamePlayModel gamePlayModel, Map<Territory, Integer> armiesToPlace) {
+        for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
+            entry.getKey().addArmies(entry.getValue());
+            log.append(playerName + " placed " + entry.getValue() + " armies on " + entry.getKey().getName());
+            reduceUnallocatedArmies(entry.getValue());
+        }
+    }
+    
+    /**
+     * Gets the unallocated armies.
+     *
+     * @return the unallocated armies
+     */
+    public int getUnallocatedArmies() {
+        return this.unallocatedArmies;
+    }
+    
+    /**
+     * Sets the unallocated armies.
+     *
+     * @param unallocatedArmies the new unallocated armies
+     */
+    public void setUnallocatedArmies(int unallocatedArmies) {
+        this.unallocatedArmies = unallocatedArmies;
+    }
+    
+    // region Reinforcement Phase
+    
+    /**
+     * Increases the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number o unallocated armies to add
+     */
+    public void addUnallocatedArmies(int num) {
+        this.unallocatedArmies += num;
+    }
+    
+    /**
+     * Reduces the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number of unallocated armies to reduce
+     */
+    public void reduceUnallocatedArmies(int num) {
+        this.unallocatedArmies -= num;
+    }
+    
     /**
      * Implement the Attack Phase of a particular player.
      *
@@ -386,7 +381,7 @@ public class Player {
             atkRoll = atkDice.roll();
             defRoll = defDice.roll();
         } catch (Exception e) {
-            return(e.toString());
+            return (e.toString());
         }
 
         /* decide the battle */
@@ -399,11 +394,14 @@ public class Player {
         }
 
         /* check for player elimination */
-
-
+        
+        
         return "";
     }
-
+    // endregion
+    
+    // region Attack Phase
+    
     /**
      * This method gives control of the conquered territory to the attacking player who eliminated all of the armies
      * in an opponent's defending territory, and makes the conquering player to move a number of armies to it from the
@@ -427,10 +425,19 @@ public class Player {
 
         /* give a card to the conqueror */
         addCardToPlayersHand(gamePlayModel.drawCard());
-
+        
         return "";
     }
-
+    
+    /**
+     * Adds a card to the player's hand.
+     *
+     * @param card An object of Card class to be added to the players hand
+     */
+    public void addCardToPlayersHand(Card card) {
+        this.playersHand.add(card);
+    }
+    
     /**
      * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
      * player.
@@ -445,12 +452,13 @@ public class Player {
                 this.addCardToPlayersHand(card);
             }
         }
-
+        
         return "";
     }
     // endregion
     
     // region Fortification Phase
+    
     /**
      * Implement the Fortification Phase of a particular player.
      *
@@ -471,21 +479,21 @@ public class Player {
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
         Territory fromTerritory = gamePlayModel.getGameMap().getATerritory(sourceTerritory);
         Territory toTerritory = gamePlayModel.getGameMap().getATerritory(targetTerritory);
-    
+        
         // Validate if the two territories are owned by the player, are different, and are neighbors.
         if (!fromTerritory.isOwnedBy(playerID) ||
                 !toTerritory.isOwnedBy(playerID) ||
                 fromTerritory == toTerritory) {
             return "No armies moved!\nYou must pick two Territories that are neighbors.";
         }
-    
+        
         if (fromTerritory.getArmies() == 1 || fromTerritory.getArmies() <= noOfArmies) {
             return "No armies moved!\nYou must always have at least 1 army in each Territory";
         }
-    
+        
         fromTerritory.reduceArmies(noOfArmies);
         toTerritory.addArmies(noOfArmies);
-    
+        
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
     
