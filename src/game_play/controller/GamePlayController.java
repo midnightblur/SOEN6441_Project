@@ -8,6 +8,7 @@ package game_play.controller;
 
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
+import game_play.view.screens.DefendingDialog;
 import game_play.view.screens.GamePlayFrame;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
@@ -230,7 +231,26 @@ public class GamePlayController {
      * Call appropriate function in GamePlayModel to perform an attack from one territory to another
      */
     private void attackTerritory() {
+        String situation = String.format("%s attacks from %s to %s using %s dice",
+                gamePlayModel.getCurrentPlayer().getPlayerName(),
+                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackingTerritoriesDropdown().getSelectedItem()),
+                String.valueOf(gamePlayFrame.getAttackingPanel().getDefendingTerritoriesDropdown().getSelectedItem()),
+                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackerNoOfDice().getSelectedItem()));
+        int maxDefendingDice = gamePlayModel.getMaxDefendingRoll(
+                String.valueOf(gamePlayFrame.getAttackingPanel().getDefendingTerritoriesDropdown().getSelectedItem()));
+        gamePlayFrame.setEnabled(false);
+        
+        JFrame frame = new JFrame();
+        DefendingDialog defendingDialog = new DefendingDialog(frame, situation, maxDefendingDice);
+        defendingDialog.addDoneButtonListener(e -> startTheBattle(frame, gamePlayFrame));
+    }
     
+    /**
+     * Call appropriate function in GamePlayModel to perform a battle
+     */
+    private void startTheBattle(JFrame frame, JFrame owner) {
+        frame.dispose();
+        owner.setEnabled(true);
     }
     
     /**

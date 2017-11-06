@@ -631,7 +631,7 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * Get the maximum number of attacking dice roll that attacker can use depending on the attacking territory
+     * Get the maximum number of attacking dice roll that attacker can use depending on the attacking territory's armies
      *
      * @param territoryName the territory name
      *
@@ -644,6 +644,23 @@ public class GamePlayModel extends Observable {
             return 3;
         } else {
             return armies - 1;
+        }
+    }
+    
+    /**
+     * Get the maximum number of defending dice roll that defender can use depending on the defending territory's armies
+     *
+     * @param territoryName the territory name
+     *
+     * @return the maximum number of dice roll that defender may use
+     */
+    public int getMaxDefendingRoll(String territoryName) {
+        Territory territory = gameMap.getATerritory(territoryName);
+        int armies = territory.getArmies();
+        if (armies >= 2) {
+            return 2;
+        } else {
+            return 1;
         }
     }
     // endregion
