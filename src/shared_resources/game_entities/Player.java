@@ -351,23 +351,35 @@ public class Player {
     public String attack(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int numOfAtkDice, int numOfDefDice) {
         Territory fromTerritory = gamePlayModel.getGameMap().getATerritory(sourceTerritory);
         Territory toTerritory = gamePlayModel.getGameMap().getATerritory(targetTerritory);
+        Dice atkDice, defDice;
 
         /* check for valid territories */
-        if (fromTerritory.getArmies() >= 2 && fromTerritory.isNeighbor(toTerritory.getName())) {
-
-        } else {
+        if (!(fromTerritory.getArmies() >= Config.MIN_ARMY_TO_ATTACK && fromTerritory.isNeighbor(toTerritory.getName()))) {
             return "Invalid territories have been chosen for the attack move!";
         }
 
-        /* check for valid numOfAtkDice */
-        if (fromTerritory.getArmies() > numOfAtkDice && numOfAtkDice > 0) {
-            Dice atkDice = new Dice(numOfAtkDice);
+        /* check for valid number of dice */
+        if (fromTerritory.getArmies() > numOfAtkDice && numOfAtkDice > 0 && numOfAtkDice <= Config.MAX_NUM_ATK_DICE) {
+            atkDice = new Dice(numOfAtkDice);
         } else {
-            return "You must have at least one more army in attacking Territory than the number of attacking dice!";
+            return "Allowed number of attacking dice: (1 to 3). Must have at least one more army in " +
+                    "attacking Territory than the number of attacking dice!";
+        }
+        if (toTerritory.getArmies() >= numOfDefDice && numOfDefDice > 0 && numOfDefDice <= Config.MAX_NUM_DEF_DICE) {
+            defDice = new Dice(numOfDefDice);
+        } else {
+            return "Allowed number of defending dice: (1 to 2). Must have at least two armies in " +
+                    "defending Territory to use two defending dice!";
         }
 
-        /* allow defender to choose the number of dice */
-        Player defender = gamePlayModel.getGameMap().getATerritory(targetTerritory).getOwner() ;
+        /* roll dice and compare */
+        try {
+            atkDice.roll();
+            defDice.roll();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
 
         return "";
     }
