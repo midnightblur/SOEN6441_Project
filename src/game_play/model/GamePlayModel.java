@@ -301,13 +301,9 @@ public class GamePlayModel extends Observable {
         
         /* If all player run out of unallocated army, move to the next phase */
         if (count == players.size()) {
-            setGameState(PLAY);
-            currentPlayer = players.firstElement();
-            currentPlayer.nextPhase();
-            addReinforcementForCurrPlayer();
+            
             
             updateGameMapTableModel();
-            updatePlayerTerritoriesModel();
             broadcastGamePlayChanges();
         } else {
             updateGameMapTableModel();
@@ -461,6 +457,17 @@ public class GamePlayModel extends Observable {
         }
     }
     
+    /**
+     * Change the phase of the game to PLAY phase and let the first player's turn begins
+     */
+    public void startTheGame() {
+        setGameState(PLAY);
+        currentPlayer = players.firstElement();
+        currentPlayer.nextPhase();
+        addReinforcementForCurrPlayer();
+        updatePlayerTerritoriesModel();
+        broadcastGamePlayChanges();
+    }
     // endregion
     
     // region For Reinforcement Phase

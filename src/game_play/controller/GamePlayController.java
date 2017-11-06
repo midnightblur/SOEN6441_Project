@@ -147,7 +147,7 @@ public class GamePlayController {
      * This function change the game state to Play phase
      */
     private void startTheGame() {
-        // TODO: implement this function
+        gamePlayModel.startTheGame();
     }
     // endregion
     
