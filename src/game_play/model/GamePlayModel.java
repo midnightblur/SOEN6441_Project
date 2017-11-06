@@ -524,17 +524,16 @@ public class GamePlayModel extends Observable {
             System.out.println("\t" + territory.getName());
         }
         int continentCounter = 0;
-        String continentStr = "";
+        StringBuilder continentStr = new StringBuilder();
         for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
             if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner(gameMap)) == 0) {
                 continentCounter++;
-                continentStr += "\t" + entry.getValue().getName()
-                        + ", control value " + entry.getValue().getControlValue() + "\n";
+                continentStr.append("\t").append(entry.getValue().getName()).append(", control value ").append(entry.getValue().getControlValue()).append("\n");
             }
         }
         System.out.println("Number of continents owned by this player: " + continentCounter);
         if (continentCounter != 0) {
-            System.out.println(continentStr);
+            System.out.println(continentStr.toString());
         }
         System.out.print("-------------------------------------------------\n");
         /* ------------------------------- */
