@@ -304,7 +304,7 @@ public class GamePlayModel extends Observable {
      *
      * @return Card object
      */
-    private Card drawCard() {
+    public Card drawCard() {
         int index = rand.nextInt(deck.size());
         Card card = deck.elementAt(index);
         deck.remove(deck.elementAt(index));

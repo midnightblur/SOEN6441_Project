@@ -397,7 +397,16 @@ public class Player {
     }
 
     public String conquer(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int armiesToMove) {
-        
+        Territory fromTerritory = gamePlayModel.getGameMap().getATerritory(sourceTerritory);
+        Territory toTerritory = gamePlayModel.getGameMap().getATerritory(targetTerritory);
+
+        /* change owner of the conquered territory, and move armies */
+        toTerritory.setOwner(fromTerritory.getOwner());
+        fromTerritory.reduceArmies(armiesToMove);
+        toTerritory.addArmies(armiesToMove);
+
+        /* give a card to the conqueror */
+        addCardToPlayersHand(gamePlayModel.drawCard());
 
         return "";
     }
