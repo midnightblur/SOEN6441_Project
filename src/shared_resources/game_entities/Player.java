@@ -372,37 +372,29 @@ public class Player {
                     "defending Territory to use two defending dice!";
         }
 
-        /* roll dice and compare */
+        /* roll dice */
+        int[] atkRoll, defRoll;
         try {
-            atkDice.roll();
-            defDice.roll();
-
-            if (atkDice.roll().length == )
-
+            atkRoll = atkDice.roll();
+            defRoll = defDice.roll();
         } catch (Exception e) {
             return(e.toString());
         }
 
+        /* decide the battle */
+        for (int i = 0; i < Math.min(atkRoll.length, defRoll.length); i++) {
+            if (atkRoll[i] > defRoll[i]) {
+                toTerritory.reduceArmies(1);
+            } else {
+                fromTerritory.reduceArmies(1);
+            }
+        }
+
+        /* check for captured territories */
+
+        /* check for player elimination */
 
         return "";
-    }
-
-    public String defend(GamePlayModel gamePlayModel, String targetTerritory, int numOfDefDice) {
-        // allow defender to choose number of dice
-
-        return "";
-    }
-
-    public void battle() {
-        // roll and check results of battle
-    }
-
-    public void captureTerritory() {
-        // must draw from deck and move armies
-    }
-
-    public void eliminationCheck() {
-        // check for player elimination
     }
     // endregion
     
