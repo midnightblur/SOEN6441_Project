@@ -6,6 +6,7 @@
  */
 package game_play.model;
 
+import game_play.view.screens.LoggingWindow;
 import shared_resources.game_entities.*;
 
 import java.util.*;
@@ -59,6 +60,7 @@ public class GamePlayModel extends Observable {
     private Vector<Card> deck;
     private Vector<Player> players;
     private Random rand;
+    private LoggingWindow log;
     // endregion
     
     // region Constructors
@@ -74,6 +76,7 @@ public class GamePlayModel extends Observable {
         gameState = ENTRY_MENU;
         rand = new Random();
         playerTerritoriesModel = new PlayerTerritoriesModel();
+        log = LoggingWindow.getInstance();
     }
     
     /**
@@ -240,24 +243,23 @@ public class GamePlayModel extends Observable {
         currentPlayer = players.firstElement();
         
         /* -- console printout for demo -- */
-        System.out.println();
-        System.out.println("-- Startup Phase Status Console Printout --");
-        System.out.println("Number of players: " + players.size());
-        System.out.println("Number of territories: " + gameMap.getTerritoriesCount());
+        log.append("\n-- Startup Phase Status Console Printout --");
+        log.append("Number of players: " + players.size());
+        log.append("Number of territories: " + gameMap.getTerritoriesCount());
         for (Player player : players) {
-            System.out.println("Player " + player.getPlayerID());
-            System.out.println("\tInitial armies: " + player.getUnallocatedArmies());
-            System.out.println("\tNumber of territories: " + gameMap.getTerritoriesOfPlayer(player).size());
+            log.append("Player " + player.getPlayerID());
+            log.append("\tInitial armies: " + player.getUnallocatedArmies());
+            log.append("\tNumber of territories: " + gameMap.getTerritoriesOfPlayer(player).size());
             for (Territory territory : player.getTerritories()) {
-                System.out.println("\t\t" + territory.getName());
+                log.append("\t\t" + territory.getName());
             }
-            System.out.println("\tNumber of cards: " + player.getPlayersHand().size());
+            log.append("\tNumber of cards: " + player.getPlayersHand().size());
             for (Card card : player.getPlayersHand()) {
-                System.out.println("\t\t" + card.getCardType().name());
+                log.append("\t\t" + card.getCardType().name());
             }
         }
-        System.out.println("Deck size: " + deck.size());
-        System.out.println("-------------------------------------------");
+        log.append("Deck size: " + deck.size());
+        log.append("-------------------------------------------");
         /* ------------------------------- */
         
         assignOneArmyPerTerritory();
@@ -275,6 +277,7 @@ public class GamePlayModel extends Observable {
     public void placeArmyStartup(String territory) {
         currentPlayer.reduceUnallocatedArmies(1);
         gameMap.getATerritory(territory).addArmies(1);
+        log.append("\t" + currentPlayer.getPlayerName() + " placed 1 army on " + territory);
         currentPlayer = getNextPlayer();
         
         /*
@@ -283,13 +286,15 @@ public class GamePlayModel extends Observable {
          */
         int count = 1;
         while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
+            log.append("\t" + currentPlayer.getPlayerName() + " has no unallocated armies to place");
             currentPlayer = getNextPlayer();
             count++;
         }
         
         /* If all player run out of unallocated army, move to the next phase */
         if (count == players.size()) {
-            
+            log.append("All players placed all their unallocated armies");
+            log.append("-------------------------------------------");
             
             updateGameMapTableModel();
             broadcastGamePlayChanges();
@@ -319,7 +324,7 @@ public class GamePlayModel extends Observable {
      * @param numOfPlayers the num of players
      */
     private void initPlayers(int numOfPlayers) {
-        System.out.println("Initializing players...");
+        log.append("Initializing " + numOfPlayers + " players...");
         
         for (int i = 0; i < numOfPlayers; i++) {
             players.add(new Player());
@@ -332,7 +337,7 @@ public class GamePlayModel extends Observable {
      * that is a factor of three, and is greater or equal to the total number of territories.
      */
     private void initDeck() {
-        System.out.println("Initializing deck...");
+        log.append("Initializing deck...");
         int typeNumber = 0;
         int numOfCards = gameMap.getTerritoriesCount() + (gameMap.getTerritoriesCount() % Card.getTypesCount()) * Card.getTypesCount();
         for (int i = 0; i < numOfCards; i++) {
@@ -350,7 +355,7 @@ public class GamePlayModel extends Observable {
      * evenly distributed as possible between all of the players.
      */
     private void distributeTerritories() {
-        System.out.println("Distributing territories...");
+        log.append("Distributing territories...");
         
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
@@ -386,7 +391,7 @@ public class GamePlayModel extends Observable {
         Give player 1 all the territories of europe.
          */
         
-        System.out.println("Distributing territories...");
+        log.append("Distributing territories...");
         
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
@@ -505,12 +510,11 @@ public class GamePlayModel extends Observable {
         }
 
         /* -- console printout for demo -- */
-        System.out.println();
-        System.out.println("-- Reinforcement Phase Status Console Printout --");
-        System.out.println("Player " + currentPlayer.getPlayerID());
-        System.out.println("Number of territories owned by this player: " + currentPlayer.getTerritories().size());
+        log.append("\n-- Reinforcement Phase Status Console Printout --");
+        log.append("Player " + currentPlayer.getPlayerID());
+        log.append("Number of territories owned by this player: " + currentPlayer.getTerritories().size());
         for (Territory territory : currentPlayer.getTerritories()) {
-            System.out.println("\t" + territory.getName());
+            log.append("\t" + territory.getName());
         }
         int continentCounter = 0;
         StringBuilder continentStr = new StringBuilder();
@@ -520,11 +524,11 @@ public class GamePlayModel extends Observable {
                 continentStr.append("\t").append(entry.getValue().getName()).append(", control value ").append(entry.getValue().getControlValue()).append("\n");
             }
         }
-        System.out.println("Number of continents owned by this player: " + continentCounter);
+        log.append("Number of continents owned by this player: " + continentCounter);
         if (continentCounter != 0) {
-            System.out.println(continentStr.toString());
+            log.append(continentStr.toString());
         }
-        System.out.print("-------------------------------------------------\n");
+        log.append("-------------------------------------------------\n");
         /* ------------------------------- */
         
         currentPlayer.addUnallocatedArmies(armiesToGive);
