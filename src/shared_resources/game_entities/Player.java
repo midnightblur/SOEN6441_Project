@@ -353,16 +353,21 @@ public class Player {
 
         /* check for valid numOfAtkDice */
         if (fromTerritory.getArmies() > numOfAtkDice && numOfAtkDice > 0) {
-
+            Dice atkDice = new Dice(numOfAtkDice);
         } else {
             return "You must have at least one more army in attacking Territory than the number of attacking ";
         }
 
+        /* allow defender to choose the number of dice */
+
+
         return "";
     }
 
-    public void defend() {
+    public String defend(GamePlayModel gamePlayModel, String targetTerritory, int numOfDefDice) {
         // allow defender to choose number of dice
+
+        return "";
     }
 
     public void battle() {
