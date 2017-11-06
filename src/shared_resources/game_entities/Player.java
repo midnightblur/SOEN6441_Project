@@ -390,9 +390,14 @@ public class Player {
             }
         }
 
-        /* check for captured territories */
-
         /* check for player elimination */
+
+
+        return "";
+    }
+
+    public String conquer(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int armiesToMove) {
+        
 
         return "";
     }

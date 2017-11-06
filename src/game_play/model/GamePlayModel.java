@@ -551,6 +551,14 @@ public class GamePlayModel extends Observable {
 
         return message;
     }
+
+    public String captureTerritory(String sourceTerritory, String targetTerritory, int armiesToMove) {
+        String message = gameMap.getATerritory(targetTerritory).getOwner().conquer(this, sourceTerritory, targetTerritory, armiesToMove);
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+
+        return message;
+    }
     // endregion
 
     // region For Fortification Phase
