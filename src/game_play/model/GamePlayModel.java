@@ -242,8 +242,10 @@ public class GamePlayModel extends Observable {
         giveInitialArmies();
         currentPlayer = players.firstElement();
         
-        /* -- console printout for demo -- */
-        log.append("\n-- Startup Phase Status Console Printout --");
+        /* -- logging printout for demo -- */
+        log.append("=======================================");
+        log.append("============ Startup Phase ============");
+        log.append("=======================================");
         log.append("Number of players: " + players.size());
         log.append("Number of territories: " + gameMap.getTerritoriesCount());
         for (Player player : players) {
@@ -509,8 +511,11 @@ public class GamePlayModel extends Observable {
             }
         }
 
-        /* -- console printout for demo -- */
-        log.append("\n-- Reinforcement Phase Status Console Printout --");
+        /* -- logging for demo -- */
+        log.append("=========================================");
+        log.append("========== Reinforcement Phase ==========");
+        log.append("=========================================");
+    
         log.append("Player " + currentPlayer.getPlayerID());
         log.append("Number of territories owned by this player: " + currentPlayer.getTerritories().size());
         for (Territory territory : currentPlayer.getTerritories()) {
