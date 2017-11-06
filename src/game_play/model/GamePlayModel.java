@@ -577,7 +577,7 @@ public class GamePlayModel extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String eliminatePlayer(Player eliminatedPlayer) {
-        String message = currentPlayer.eliminated(this, eliminatedPlayer);
+        String message = currentPlayer.eliminated(eliminatedPlayer);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
 
