@@ -275,7 +275,7 @@ public class GamePlayModel extends Observable {
     public void placeArmyStartup(String territory) {
         currentPlayer.reduceUnallocatedArmies(1);
         gameMap.getATerritory(territory).addArmies(1);
-        log.append("\t" + currentPlayer.getPlayerName() + " placed 1 army on " + territory);
+        log.append(currentPlayer.getPlayerName() + " placed 1 army on " + territory);
         currentPlayer = getNextPlayer();
         
         /*
@@ -284,7 +284,7 @@ public class GamePlayModel extends Observable {
          */
         int count = 1;
         while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
-            log.append("\t" + currentPlayer.getPlayerName() + " has no unallocated armies to place");
+            log.append(currentPlayer.getPlayerName() + " has no unallocated armies to place");
             currentPlayer = getNextPlayer();
             count++;
         }
@@ -507,7 +507,7 @@ public class GamePlayModel extends Observable {
             }
         }
 
-        /* -- logging for demo -- */
+        /* -- logging window -- */
         log.append("=========================================");
         log.append("========== Reinforcement Phase ==========");
         log.append("=========================================");
@@ -529,7 +529,7 @@ public class GamePlayModel extends Observable {
         if (continentCounter != 0) {
             log.append(continentStr.toString());
         }
-        log.append("-------------------------------------------------\n");
+        log.append("-------------------------------------------------");
         /* ------------------------------- */
         
         currentPlayer.addUnallocatedArmies(armiesToGive);
