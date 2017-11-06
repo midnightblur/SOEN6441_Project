@@ -332,7 +332,15 @@ public class Player {
     /**
      * Implement the Attack Phase of a particular player.
      *
-     * The method gives a player an option to attack
+     * The method gives a player an option to attack (or multiple attacks). The method allows a player to initiate
+     * an attack from one of his/her territories with at least 2 armies, to one of the neighboring territories of
+     * that attacking territory that is owned by another player. This method also requires both the attacking player
+     * and the defending player to choose the number of dice he/she will use to determine the outcome of the battle.
+     * The attacks can be made as many times as possible, and the method checks for any captured territories and/or
+     * any eliminated players at the end of each attack move. In the case where the attacking player captures the
+     * opponent's territory, the attacking player is given control of the conquered territory and is required to
+     * move a number of armies to it from the attacking territory (at least by the number of attacking dice used),
+     * and is also given a randomly drawn card from the deck.
      *
      * @param gamePlayModel   The GamePlayModel containing the state of the game
      * @param sourceTerritory String value of the name of the source Territory
@@ -354,19 +362,19 @@ public class Player {
     }
 
     public void defend() {
-
+        // allow defender to choose number of dice
     }
 
     public void battle() {
-
+        // roll and check results of battle
     }
 
     public void captureTerritory() {
-
+        // must draw from deck and move armies
     }
 
     public void eliminationCheck() {
-
+        // check for player elimination
     }
     // endregion
     
