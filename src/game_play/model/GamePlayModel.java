@@ -531,7 +531,27 @@ public class GamePlayModel extends Observable {
     }
     
     // endregion
-    
+
+    // region For Attack Phase
+
+    /**
+     * Delegate the job to attack() of Player class
+     *
+     * @param sourceTerritory String value of the name of the source Territory
+     * @param targetTerritory String value of the name of the target Territory
+     * @param numOfAtkDice    Integer value of the number of dice to be used by the attacker
+     *
+     * @return String value of the messages that will be displayed to the user
+     */
+    public String declareAttack(String sourceTerritory, String targetTerritory, int numOfAtkDice) {
+        String message = currentPlayer.attack(this, sourceTerritory, targetTerritory, numOfAtkDice);
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+
+        return message;
+    }
+    // endregion
+
     // region For Fortification Phase
     
     /**
