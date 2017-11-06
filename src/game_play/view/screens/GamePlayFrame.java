@@ -37,6 +37,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     private StartupPanel startupPanel;
     private ReinforcementPanel reinforcementPanel;
     private FortificationPanel fortificationPanel;
+    private AttackingPanel attackingPanel;
     // endregion
     
     // region Constructors
@@ -134,6 +135,15 @@ public class GamePlayFrame extends JFrame implements Observer {
         return worldDominationPanel;
     }
     
+    /**
+     * Gets the attacking panel
+     *
+     * @return the attacking panel
+     */
+    public AttackingPanel getAttackingPanel() {
+        return attackingPanel;
+    }
+    
     // endregion
     
     // region Private methods
@@ -176,6 +186,8 @@ public class GamePlayFrame extends JFrame implements Observer {
         controlArea.add(reinforcementPanel, ReinforcementPanel.class.getName());
         fortificationPanel = new FortificationPanel();
         controlArea.add(fortificationPanel, FortificationPanel.class.getName());
+        attackingPanel = new AttackingPanel();
+        controlArea.add(attackingPanel, AttackingPanel.class.getName());
         
         contentPane.setRightComponent(controlArea);
     }
