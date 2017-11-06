@@ -346,20 +346,28 @@ public class Player {
      * @param sourceTerritory String value of the name of the source Territory
      * @param targetTerritory String value of the name of the target Territory
      * @param numOfAtkDice    Integer value of the number of dice to be used for the attacker
+     * @param numOfDefDice    Integer value of the number of dice to be used for the defender
      */
-    public String attack(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int numOfAtkDice) {
+    public String attack(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int numOfAtkDice, int numOfDefDice) {
         Territory fromTerritory = gamePlayModel.getGameMap().getATerritory(sourceTerritory);
         Territory toTerritory = gamePlayModel.getGameMap().getATerritory(targetTerritory);
+
+        /* check for valid territories */
+        if (fromTerritory.getArmies() >= 2 && fromTerritory.isNeighbor(toTerritory.getName())) {
+
+        } else {
+            return "Invalid territories have been chosen for the attack move!";
+        }
 
         /* check for valid numOfAtkDice */
         if (fromTerritory.getArmies() > numOfAtkDice && numOfAtkDice > 0) {
             Dice atkDice = new Dice(numOfAtkDice);
         } else {
-            return "You must have at least one more army in attacking Territory than the number of attacking ";
+            return "You must have at least one more army in attacking Territory than the number of attacking dice!";
         }
 
         /* allow defender to choose the number of dice */
-
+        Player defender = gamePlayModel.getGameMap().getATerritory(targetTerritory).getOwner() ;
 
         return "";
     }

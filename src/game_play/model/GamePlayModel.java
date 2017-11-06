@@ -540,28 +540,12 @@ public class GamePlayModel extends Observable {
      * @param sourceTerritory String value of the name of the source Territory
      * @param targetTerritory String value of the name of the target Territory
      * @param numOfAtkDice    Integer value of the number of dice to be used by the attacker
+     * @param numOfDefDice    Integer value of the number of dice to be used by the defender
      *
      * @return String value of the messages that will be displayed to the user
      */
-    public String declareAttack(String sourceTerritory, String targetTerritory, int numOfAtkDice) {
-        String message = currentPlayer.attack(this, sourceTerritory, targetTerritory, numOfAtkDice);
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
-
-        return message;
-    }
-
-    /**
-     * Delegate the job to defend() of Player class
-     *
-     * @param targetTerritory String value of the name of the target Territory
-     * @param numOfDefDice    Integer value of the number of dice to be used by the defender
-     *
-     * @return String value of the messages that will be displayed to the defender
-     */
-    public String declareDefend(String targetTerritory, int numOfDefDice) {
-        Player defender = gameMap.getATerritory(targetTerritory).getOwner() ;
-        String message =  defender.defend(this, targetTerritory, numOfDefDice);
+    public String declareAttack(String sourceTerritory, String targetTerritory, int numOfAtkDice, int numOfDefDice) {
+        String message = currentPlayer.attack(this, sourceTerritory, targetTerritory, numOfAtkDice, numOfDefDice);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
 
