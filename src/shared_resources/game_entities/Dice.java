@@ -1,4 +1,4 @@
-/* 
+/*
  * Risk Game Team 2
  * Dice.java
  * Version 1.0
@@ -22,21 +22,21 @@ import java.util.Arrays;
  * @version 1.0
  */
 public class Dice {
-    
+
     // region Attributes declaration
     /** The dice object is represented as an array of integers. */
     private int[] dice;
     // endregion
-    
+
     // region Constructors
-    
+
     /**
      * Default constructor delegating to parametrized constructor.
      */
     public Dice() {
         this(1);
     }
-    
+
     /**
      * Parametrized constructor
      * Build an array of dice with default pips showing 1.
@@ -48,18 +48,18 @@ public class Dice {
         if (numberOfDice < 1) {
             numberOfDice = 1;
         }
-        
+
         dice = new int[numberOfDice];
 
         /* set initial index of each die to a random number */
-        for (int i : dice) {
-            dice[i] = (int) (Math.random() * Config.MAX_PIPS) + 1;
+        for (int i=0; i<dice.length; i++) {
+            dice[i] = (int) (Math.random() * 6) + 1;
         }
     }
     // endregion
-    
+
     // region Getters & Setters
-    
+
     /**
      * Gets the dice.
      *
@@ -68,7 +68,7 @@ public class Dice {
     public int[] getDice() {
         return dice;
     }
-    
+
     /**
      * Sets the dice.
      *
@@ -78,9 +78,9 @@ public class Dice {
         this.dice = dice;
     }
     // endregion
-    
+
     // region Public methods
-    
+
     /**
      * Rolling the dice and returning the maximum 2 values obtained sorted in descending order.
      *
@@ -97,24 +97,25 @@ public class Dice {
 
         /* rolling the dice */
         for (int i : dice) {
-            i = (int) (Math.random() * Config.MAX_PIPS) + 1;
+            i = (int) (Math.random() * 6) + 1;
         }
 
         /* sorting ascending */
         Arrays.sort(dice);
+        System.out.println("sorted:");
 
-        /* defining a the returned result array of 1 or 2 entries and copy the largest values */
+        /* defining the returned result array of 1 or 2 entries and copy the largest values */
         if (dice.length == 1) {
             int[] result = new int[1];
-            result[0] = dice[dice.length - 1];
+            result[0] = dice[dice.length - 1];  // largest value (at index 0)
             return result;
         } else {
             int[] result = new int[2];
-            result[0] = dice[dice.length - 1];
-            result[0] = dice[dice.length - 2];
+            result[0] = dice[dice.length - 1];  // largest value (at index 0)
+            result[1] = dice[dice.length - 2];  // second largest value (at index 1)
             return result;
         }
     }
     // endregion
-    
+
 }

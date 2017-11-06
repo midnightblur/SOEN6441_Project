@@ -376,8 +376,11 @@ public class Player {
         try {
             atkDice.roll();
             defDice.roll();
+
+            if (atkDice.roll().length == )
+
         } catch (Exception e) {
-            System.err.println(e);
+            return(e.toString());
         }
 
 
