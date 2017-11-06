@@ -421,6 +421,21 @@ public class Player {
 
         return "";
     }
+
+    /**
+     * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
+     * player.
+     *
+     * @param gamePlayModel    The GamePlayModel containing the state of the game
+     * @param eliminatedPlayer Player object that has no more territories left and is declared eliminated
+     *
+     * @return String value of the messages that will be displayed to the user
+     */
+    public String eliminated(GamePlayModel gamePlayModel, Player eliminatedPlayer) {
+        
+
+        return "";
+    }
     // endregion
     
     // region Fortification Phase

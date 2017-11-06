@@ -434,7 +434,7 @@ public class GamePlayModel extends Observable {
     /**
      * For every player, this method automatically assigns one army to all of the territories
      * that player owns. The placed armies get spent from the players' initial given number of
-     * unallocated armies
+     * unallocated armies.
      */
     private void assignOneArmyPerTerritory() {
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
@@ -446,7 +446,7 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * Change the phase of the game to PLAY phase and let the first player's turn begins
+     * Change the phase of the game to PLAY phase and let the first player's turn begins.
      */
     public void startTheGame() {
         setGameState(PLAY);
@@ -462,7 +462,7 @@ public class GamePlayModel extends Observable {
     
     /**
      * Delegate the job to reinforcement() function of Player class
-     * Broadcast the change to Observers
+     * Broadcast the change to Observers.
      *
      * @param selectedCards Vector of Strings that details the type of cards in the player's possession
      *
@@ -476,7 +476,7 @@ public class GamePlayModel extends Observable {
     
     /**
      * Delegate the job to reinforcement() function of Player class
-     * Broadcast the change to Observers
+     * Broadcast the change to Observers.
      *
      * @param armiesToPlace {@literal Map<Territory, Integer>} that contains the key of
      *                      Territory objects and values of Integer to represent armies
@@ -535,7 +535,7 @@ public class GamePlayModel extends Observable {
     // region For Attack Phase
 
     /**
-     * Delegate the job to attack() of Player class
+     * Delegate the job to attack() of Player class.
      *
      * @param sourceTerritory String value of the name of the source Territory
      * @param targetTerritory String value of the name of the target Territory
@@ -552,8 +552,32 @@ public class GamePlayModel extends Observable {
         return message;
     }
 
+    /**
+     * Delegate the job to conquer() of Player class.
+     *
+     * @param sourceTerritory String value of the name of the source Territory
+     * @param targetTerritory String value of the name of the target Territory
+     * @param armiesToMove    Integer value of the number of armies to be moved to the captured territory
+     *
+     * @return String value of the messages that will be displayed to the user
+     */
     public String captureTerritory(String sourceTerritory, String targetTerritory, int armiesToMove) {
         String message = gameMap.getATerritory(targetTerritory).getOwner().conquer(this, sourceTerritory, targetTerritory, armiesToMove);
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+
+        return message;
+    }
+
+    /**
+     * Delegate the job to eliminate() of Player class.
+     *
+     * @param eliminatedPlayer Player object that has no more territories left and is declared eliminated
+     *
+     * @return String value of the messages that will be displayed to the user
+     */
+    public String eliminatePlayer(Player eliminatedPlayer) {
+        String message = currentPlayer.eliminated(this, eliminatedPlayer);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
 
@@ -564,7 +588,7 @@ public class GamePlayModel extends Observable {
     // region For Fortification Phase
     
     /**
-     * Delegate the job to fortification() of Player class
+     * Delegate the job to fortification() of Player class.
      *
      * @param sourceTerritory String value of the name of the source Territory
      * @param targetTerritory String value of the name of the target Territory
@@ -586,7 +610,7 @@ public class GamePlayModel extends Observable {
     /**
      * Set the current player to be the next one in round-robin-fashion
      * Change the phase of the current player to Reinforcement/TradeCard
-     * Broadcast the change to Observers
+     * Broadcast the change to Observers.
      */
     public void nextPlayerTurn() {
         currentPlayer = getNextPlayer();
@@ -597,7 +621,7 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * Change the game phase of the current player to other phase
+     * Change the game phase of the current player to other phase.
      *
      * @param newGameStates the game phase
      */
