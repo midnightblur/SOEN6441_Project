@@ -30,6 +30,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     private static final int WIDTH = 1366;
     private static final int HEIGHT = 700;
     private JSplitPane contentPane;
+    private WorldDominationPanel worldDominationPanel;
     private GameMapTable gameMapTable;
     private JPanel controlArea;
     private GameSetupPanel gameSetupPanel;
@@ -48,9 +49,14 @@ public class GamePlayFrame extends JFrame implements Observer {
         setupContentPaneLayout();
         setContentPane(contentPane);
         
-        /* Setup table area */
+        /* Setup world domination view & table area */
+        worldDominationPanel = new WorldDominationPanel();
         gameMapTable = new GameMapTable();
-        contentPane.setLeftComponent(new JScrollPane(gameMapTable));
+        JPanel leftComponent = new JPanel();
+        leftComponent.setLayout(new BoxLayout(leftComponent, BoxLayout.Y_AXIS));
+        leftComponent.add(worldDominationPanel);
+        leftComponent.add(new JScrollPane(gameMapTable));
+        contentPane.setLeftComponent(leftComponent);
         
         /* Setup control area */
         setupControlArea();
@@ -118,6 +124,16 @@ public class GamePlayFrame extends JFrame implements Observer {
     public ReinforcementPanel getReinforcementPanel() {
         return reinforcementPanel;
     }
+    
+    /**
+     * Gets the world domination panel
+     *
+     * @return the world domination panel
+     */
+    public WorldDominationPanel getWorldDominationPanel() {
+        return worldDominationPanel;
+    }
+    
     // endregion
     
     // region Private methods

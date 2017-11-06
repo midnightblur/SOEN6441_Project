@@ -72,6 +72,7 @@ public class GamePlayController {
      */
     private void registerObserversToObservable() {
         gamePlayModel.addObserver(gamePlayFrame);
+        gamePlayModel.addObserver(gamePlayFrame.getWorldDominationPanel());
         gamePlayModel.addObserver(gamePlayFrame.getGameMapTable());
         gamePlayModel.addObserver(gamePlayFrame.getGameSetupPanel());
         gamePlayModel.addObserver(gamePlayFrame.getStartupPanel());
