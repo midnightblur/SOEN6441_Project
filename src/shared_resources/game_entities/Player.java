@@ -337,16 +337,15 @@ public class Player {
      * that attacking territory that is owned by another player. This method also requires both the attacking player
      * and the defending player to choose the number of dice he/she will use to determine the outcome of the battle.
      * The attacks can be made as many times as possible, and the method checks for any captured territories and/or
-     * any eliminated players at the end of each attack move. In the case where the attacking player captures the
-     * opponent's territory, the attacking player is given control of the conquered territory and is required to
-     * move a number of armies to it from the attacking territory (at least by the number of attacking dice used),
-     * and is also given a randomly drawn card from the deck.
+     * any eliminated players at the end of each attack move.
      *
      * @param gamePlayModel   The GamePlayModel containing the state of the game
      * @param sourceTerritory String value of the name of the source Territory
      * @param targetTerritory String value of the name of the target Territory
      * @param numOfAtkDice    Integer value of the number of dice to be used for the attacker
      * @param numOfDefDice    Integer value of the number of dice to be used for the defender
+     *
+     * @return String value of the messages that will be displayed to the user
      */
     public String attack(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int numOfAtkDice, int numOfDefDice) {
         Territory fromTerritory = gamePlayModel.getGameMap().getATerritory(sourceTerritory);
@@ -396,6 +395,18 @@ public class Player {
         return "";
     }
 
+    /**
+     * This method gives control of the conquered territory to the attacking player who eliminated all of the armies
+     * in an opponent's defending territory, and makes the conquering player to move a number of armies to it from the
+     * attacking territory. A randomly drawn card from the deck is also given to the conquering player.
+     *
+     * @param gamePlayModel   The GamePlayModel containing the state of the game
+     * @param sourceTerritory String value of the name of the source Territory
+     * @param targetTerritory String value of the name of the target Territory
+     * @param armiesToMove    Integer value of the number of armies to be moved to the captured territory
+     *
+     * @return String value of the messages that will be displayed to the user
+     */
     public String conquer(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int armiesToMove) {
         Territory fromTerritory = gamePlayModel.getGameMap().getATerritory(sourceTerritory);
         Territory toTerritory = gamePlayModel.getGameMap().getATerritory(targetTerritory);
@@ -429,7 +440,6 @@ public class Player {
      * @param noOfArmies      Integer value of the number of armies to be moved
      *
      * @return String value of the messages that will be displayed to the user
-     *
      */
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
         Territory fromTerritory = gamePlayModel.getGameMap().getATerritory(sourceTerritory);
