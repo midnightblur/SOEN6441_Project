@@ -22,23 +22,23 @@ import static shared_resources.utilities.Config.INITIAL_ARMY_RATIO;
  * <ol>
  * <li>Startup Phase
  * <ul>
- *     <li>Initialize a new game
- *     <li>Randomly (but fairly) distribute territories to players
+ * <li>Initialize a new game
+ * <li>Randomly (but fairly) distribute territories to players
  * </ul>
  * <li>Reinforcement Phase
  * <ul>
- *     <li>Allow current player to trade in cards
- *     <li>Calculate and give unallocated armies to current player
- *     <li>Allow current player to allocate armies in territories
+ * <li>Allow current player to trade in cards
+ * <li>Calculate and give unallocated armies to current player
+ * <li>Allow current player to allocate armies in territories
  * </ul>
  * <li>Attack Phase
  * <ul>
- *     <li>Attack neighboring territories owned by other player(s)
- *     <li>Give card(s) to current player if that player takes over any territories that turn
+ * <li>Attack neighboring territories owned by other player(s)
+ * <li>Give card(s) to current player if that player takes over any territories that turn
  * </ul>
  * <li>Fortification Phase
  * <ul>
- *     <li>Allow current player to make one valid fortification move
+ * <li>Allow current player to make one valid fortification move
  * </ul>
  * </ol>
  *
@@ -90,6 +90,7 @@ public class GamePlayModel extends Observable {
     // endregion
     
     // region Getters and Setters
+    
     /**
      * Gets the game map.
      *
@@ -213,23 +214,10 @@ public class GamePlayModel extends Observable {
         }
         return territoriesList;
     }
-    
-    /**
-     * Gets the next player.
-     *
-     * @return the next player
-     */
-    public Player getNextPlayer() {
-        int currPlayerIndex = players.indexOf(currentPlayer);
-        if (currPlayerIndex == players.size() - 1) {
-            return players.get(0);
-        } else {
-            return players.get(currPlayerIndex + 1);
-        }
-    }
     // endregion
     
     // region For Startup Phase
+    
     /**
      * Initializes a new game with the specified number of players. This method involves
      * initialization of the specified number of players, the size of the deck of cards depending
@@ -471,6 +459,7 @@ public class GamePlayModel extends Observable {
     // endregion
     
     // region For Reinforcement Phase
+    
     /**
      * Delegate the job to reinforcement() function of Player class
      * Broadcast the change to Observers
@@ -507,7 +496,7 @@ public class GamePlayModel extends Observable {
     public void addReinforcementForCurrPlayer() {
         // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
         int armiesToGive = Math.max(3, gameMap.getTerritoriesOfPlayer(currentPlayer).size() / 3);
-
+        
         // Assign players additional number armies to allocate if that player owns a continent.
         for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
             if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner(gameMap)) == 0) {
@@ -537,13 +526,14 @@ public class GamePlayModel extends Observable {
         }
         System.out.print("-------------------------------------------------\n");
         /* ------------------------------- */
-
+        
         currentPlayer.addUnallocatedArmies(armiesToGive);
     }
     
     // endregion
     
     // region For Fortification Phase
+    
     /**
      * Delegate the job to fortification() of Player class
      *
@@ -590,6 +580,21 @@ public class GamePlayModel extends Observable {
     // endregion
     
     // region Private methods
+    
+    /**
+     * Gets the next player.
+     *
+     * @return the next player
+     */
+    private Player getNextPlayer() {
+        int currPlayerIndex = players.indexOf(currentPlayer);
+        if (currPlayerIndex == players.size() - 1) {
+            return players.get(0);
+        } else {
+            return players.get(currPlayerIndex + 1);
+        }
+    }
+    
     /**
      * Update the GameMapTableModel according to the newly updated GameMap object.
      */
@@ -612,18 +617,17 @@ public class GamePlayModel extends Observable {
         playerTerritoriesModel.updateMapTableModel(currentPlayer);
     }
     // endregion
-
+    
     /**
      * This is method used for testing gamemaps.
      */
-    public void DemoForTests()
-    {
+    public void DemoForTests() {
         GameMap gamemap = new GameMap("3D.map");
         setGameMap(gamemap);
         initPlayers(2);
         //placeArmiesReinforcement(10);
         distributeTerritories();
-
+        
     }
-
+    
 }

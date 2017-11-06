@@ -73,7 +73,7 @@ public class PlayerTerritoriesModel {
         int i = 0;
         for (Territory territory : gameMap.getTerritoriesOfPlayer(player).values()) {
             rows[i][0] = territory.getName();
-            rows[i][1] = new Integer(0);
+            rows[i][1] = 0;
             i++;
         }
         this.model.setColumnIdentifiers(columns);

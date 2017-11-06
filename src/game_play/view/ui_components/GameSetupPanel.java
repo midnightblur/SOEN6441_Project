@@ -74,7 +74,7 @@ public class GameSetupPanel extends JPanel implements Observer {
      *
      * @param playerCount the new max players label
      */
-    public void setMaxPlayersLabel(int playerCount) {
+    private void setMaxPlayersLabel(int playerCount) {
         this.maxPlayersLabel.setText(MAX_PLAYERS_LABEL + Integer.toString(playerCount));
     }
     

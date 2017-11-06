@@ -284,8 +284,8 @@ public class Player {
             /* carry out card trading according to the choice */
             int counter = 0;
             if (choice == 1) {  // for three of a kind exchange
-                for (int i = 0; i < playersHand.size(); i++) {
-                    if (playersHand.get(i).getCardType().name().compareTo(selectedCards.firstElement()) == 0) {
+                for (Card aPlayersHand : playersHand) {
+                    if (aPlayersHand.getCardType().name().compareTo(selectedCards.firstElement()) == 0) {
                         counter++;
                     }
                 }

@@ -61,15 +61,6 @@ public class Dice {
     // region Getters & Setters
     
     /**
-     * Gets the max pips.
-     *
-     * @return the max pips
-     */
-    public int getMAX_PIPS() {
-        return Config.MAX_PIPS;
-    }
-    
-    /**
      * Gets the dice.
      *
      * @return the dice

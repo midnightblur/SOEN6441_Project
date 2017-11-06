@@ -83,11 +83,8 @@ public class Card {
         }
         
         Card card = (Card) other;
-        if (cardType == card.getCardType()) {
-            return true;
-        }
-        
-        return false;
+        return cardType == card.getCardType();
+    
     }
     // endregion
 }
