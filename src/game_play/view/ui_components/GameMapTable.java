@@ -118,9 +118,9 @@ public class GameMapTable extends JTable implements Observer {
                 Component comp = prepareRenderer(renderer, r, c);
                 width = Math.max(comp.getPreferredSize().width + 1, width);
             }
-//            if (width > 500) {    // cap the width
-//                width = 500;
-//            }
+            if (width > 500) {    // cap the width
+                width = 500;
+            }
             columnModel.getColumn(c).setPreferredWidth(width);
         }
     }

@@ -22,9 +22,10 @@ public class BattleResultPanel extends JPanel implements Observer {
     // region Attributes declaration
     private static final String ATTACKER_ROLL_RESULT = "Attacker roll results: ";
     private static final String DEFENDER_ROLL_RESULT = "Defender roll results: ";
-    private static final String ATTACKER_LOSE_ARMIES = "Attacker lose # armies:";
-    private static final String DEFENDER_LOSE_ARMIES = "Defender lose # armies:";
-    private static final String TERRITORY_ARMIES = "%s territory has %s armies";
+    private static final String ATTACKER_LOSE_ARMIES = "Attacker lose %s armies:";
+    private static final String DEFENDER_LOSE_ARMIES = "Defender lose %s armies:";
+    private static final String ATT_TERRITORY_ARMIES = "%s (attacking) now has %s armies left";
+    private static final String DEF_TERRITORY_ARMIES = "%s (defending) now has %s armies left";
     private static final String CONTINUE_ATTACK_BUTTON = "Continue attack this territory";
     private static final String ANOTHER_ATTACK_BUTTON = "Attack another territory";
     private static final String DONE_BUTTON = "Done (to Fortification)";
@@ -91,20 +92,26 @@ public class BattleResultPanel extends JPanel implements Observer {
                 
                 StringBuilder rollResultStrBuilder = new StringBuilder(ATTACKER_ROLL_RESULT);
                 for (Integer rollResult : currentBattle.getAttackerDice().getRollsResult()) {
-                    rollResultStrBuilder.append(rollResult).append(" - ");
+                    rollResultStrBuilder.append(rollResult);
+                    if (currentBattle.getAttackerDice().getRollsResult().indexOf(rollResult) != currentBattle.getAttackerDice().getRollsResult().size() - 1) {
+                        rollResultStrBuilder.append(" - ");
+                    }
                 }
                 attackerRolls.setText(rollResultStrBuilder.toString());
-                attackerLoseArmies.setText(ATTACKER_LOSE_ARMIES + currentBattle.getAttackerLoseCount());
-                attackingArmies.setText(String.format(TERRITORY_ARMIES, currentBattle.getAttackingTerritory().getName(),
+                attackerLoseArmies.setText(String.format(ATTACKER_LOSE_ARMIES, currentBattle.getAttackerLoseCount()));
+                attackingArmies.setText(String.format(ATT_TERRITORY_ARMIES, currentBattle.getAttackingTerritory().getName(),
                         currentBattle.getAttackingTerritory().getArmies()));
     
                 rollResultStrBuilder = new StringBuilder(DEFENDER_ROLL_RESULT);
                 for (Integer rollResult : currentBattle.getDefenderDice().getRollsResult()) {
-                    rollResultStrBuilder.append(rollResult).append(" - ");
+                    rollResultStrBuilder.append(rollResult);
+                    if (currentBattle.getDefenderDice().getRollsResult().indexOf(rollResult) != currentBattle.getDefenderDice().getRollsResult().size() - 1) {
+                        rollResultStrBuilder.append(" - ");
+                    }
                 }
                 defenderRolls.setText(rollResultStrBuilder.toString());
-                defenderLoseArmies.setText(DEFENDER_LOSE_ARMIES + currentBattle.getDefenderLoseCount());
-                defendingArmies.setText(String.format(TERRITORY_ARMIES, currentBattle.getDefendingTerritory().getName(),
+                defenderLoseArmies.setText(String.format(DEFENDER_LOSE_ARMIES, currentBattle.getDefenderLoseCount()));
+                defendingArmies.setText(String.format(DEF_TERRITORY_ARMIES, currentBattle.getDefendingTerritory().getName(),
                         currentBattle.getDefendingTerritory().getArmies()));
             }
         }
