@@ -74,10 +74,21 @@ public class BattleResultPanel extends JPanel implements Observer {
     // endregion
     
     // region MVC & Observer pattern methods
+    
+    /**
+     * Add listener for another attack button
+     *
+     * @param listenerForAnotherAttackBtn the listener for another attack button
+     */
     public void addAnotherAttackButtonListener(ActionListener listenerForAnotherAttackBtn) {
         anotherAttackBtn.addActionListener(listenerForAnotherAttackBtn);
     }
     
+    /**
+     * Add listener for done button
+     *
+     * @param listenerForDoneButton the listener for done button
+     */
     public void addDoneButtonListener(ActionListener listenerForDoneButton) {
         doneBtn.addActionListener(listenerForDoneButton);
     }

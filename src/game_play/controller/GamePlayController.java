@@ -230,6 +230,10 @@ public class GamePlayController {
     // endregion
     
     // region For Attacking Phase
+    
+    /**
+     * Called when players want to prepare another attack
+     */
     private void prepareAnotherAttack() {
         /* Check if the defending territory has been conquered */
         if (gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
@@ -238,6 +242,12 @@ public class GamePlayController {
         gamePlayModel.prepareNewAttack();
     }
     
+    /**
+     * Call appropriate function in GamePlayModel to move a number of armies from attacking territory to the defending one
+     *
+     * @param conquerDialog The conquer dialog
+     * @param owner         The owner frame
+     */
     private void moveArmiesToConqueredTerritory(ConquerDialog conquerDialog, JFrame owner) {
         gamePlayModel.moveArmiesToConqueredTerritory((Integer) conquerDialog.getMoveArmiesDropdown().getSelectedItem());
         conquerDialog.getOwner().dispose();
@@ -279,6 +289,10 @@ public class GamePlayController {
         gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_FORTIFICATION);
     }
     
+    /**
+     * Hide the GamePlayFrame and display a dialog for player
+     * to choose how many armies to place on newly conquered territory
+     */
     private void openMoveArmiesToConqueredTerritoryDialog() {
         gamePlayFrame.setVisible(false);
         JFrame frame = new JFrame();
@@ -287,7 +301,8 @@ public class GamePlayController {
     }
     
     /**
-     * Updates the defending territories dropdown & number of attacking dice according to selected attacking territory
+     * Updates the defending territories dropdown & number
+     * of attacking dice according to selected attacking territory
      *
      * @param attackingTerritory the selected attacking territory
      */

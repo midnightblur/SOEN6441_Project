@@ -98,6 +98,7 @@ public class WorldDominationPanel extends JPanel implements Observer {
      * @param endPoint   The ending point in Y axis
      * @param color      The player's color
      * @param ratio      The player's domination ratio
+     * @param playerID   The player ID
      */
     private void drawPlayerDomination(Graphics g, int playerID, int startPoint, int endPoint, Color color, float ratio) {
         // Draw the colored rectangle

@@ -51,6 +51,8 @@ public class GamePlayFrame extends JFrame implements Observer {
     
     /**
      * Instantiates and show the GamePlayFrame.
+     *
+     * @param callerController the main menu controller
      */
     public GamePlayFrame(MainMenuController callerController) {
         /* Setup main container */
@@ -210,6 +212,10 @@ public class GamePlayFrame extends JFrame implements Observer {
     // endregion
     
     // region Private methods
+    
+    /**
+     * Close GamePlayFrame, open MainMenuFrame
+     */
     private void backToMainMenu() {
         this.dispose();
         UIHelper.invokeFrame(callerController.getMainMenuFrame());

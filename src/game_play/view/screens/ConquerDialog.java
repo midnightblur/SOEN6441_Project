@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
+/**
+ * ConquerDialog is responsible for the attacker choose the number of armies to place on the newly conquered territory
+ */
 public class ConquerDialog extends JDialog {
     // region Attributes declaration
     private static final String INSTRUCTION = "Select the number of armies %s want to move from %s to %s?";
@@ -18,6 +21,13 @@ public class ConquerDialog extends JDialog {
     // endregion
     
     // region Constructors
+    
+    /**
+     * Instantiate a new ConquerDialog
+     *
+     * @param owner         The frame containing this dialog
+     * @param currentBattle The current battle
+     */
     public ConquerDialog(JFrame owner, Battle currentBattle) {
         super(owner);
         this.owner = owner;
@@ -63,6 +73,11 @@ public class ConquerDialog extends JDialog {
         return owner;
     }
     
+    /**
+     * Gets the move armies dropdown
+     *
+     * @return the move armies dropdown
+     */
     public JComboBox<Integer> getMoveArmiesDropdown() {
         return moveArmiesDropdown;
     }
@@ -70,6 +85,12 @@ public class ConquerDialog extends JDialog {
     // endregion
     
     // region MVC & Observer pattern methods
+    
+    /**
+     * Add the listener for move armies button
+     *
+     * @param listenerForMoveArmiesButton The listener for move armies button
+     */
     public void addMoveArmiesButtonListener(ActionListener listenerForMoveArmiesButton) {
         moveArmiesButton.addActionListener(listenerForMoveArmiesButton);
     }

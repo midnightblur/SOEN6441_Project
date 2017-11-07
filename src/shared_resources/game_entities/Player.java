@@ -430,6 +430,7 @@ public class Player {
      * attacking territory. A randomly drawn card from the deck is also given to the conquering player.
      *
      * @param gamePlayModel The GamePlayModel containing the state of the game
+     * @param armiesToMove  The number of armies to move
      *
      * @return String value of the messages that will be displayed to the user
      */

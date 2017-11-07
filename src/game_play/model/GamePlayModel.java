@@ -602,12 +602,20 @@ public class GamePlayModel extends Observable {
         }
     }
     
+    /**
+     * Delegate the job to conquer() function of Player class
+     *
+     * @param armiesToMove the number of armies to move
+     */
     public void moveArmiesToConqueredTerritory(int armiesToMove) {
         currentPlayer.conquer(this, armiesToMove);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
     
+    /**
+     * Change the player's state to ATTACK_PREPARE
+     */
     public void prepareNewAttack() {
         currentPlayer.setGameState(PLAYER_ATTACK_PREPARE);
         updateGameMapTableModel();
