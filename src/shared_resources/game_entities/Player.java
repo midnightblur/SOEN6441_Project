@@ -347,6 +347,20 @@ public class Player {
     
     // region Attack Phase
     
+    /**
+     * Implements the Attack Phase of particular player.
+     *
+     * This method allows a player to make an attack move with an opponent player based on the
+     * current battle state of the game. The method rolls the number of dice for the attacker
+     * and the defender, and decides the outcome of the battle by comparing the highest roll
+     * depending on the number of dice used by both players. Then also checks if the attacking
+     * player in current battle has conquered any territories, or eliminated any players in
+     * that attack turn.
+     *
+     * @param gamePlayModel the game play model
+     *
+     * @return the message to the user if attack phase was successful or not
+     */
     public String attack(GamePlayModel gamePlayModel) {
         Battle currentBattle = gamePlayModel.getCurrentBattle();
         Territory attackingTerritory = currentBattle.getAttackingTerritory();
@@ -354,7 +368,7 @@ public class Player {
         int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
         int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
 
-        /* Both players oll dice */
+        /* Both players roll dice */
         currentBattle.attackerRollDice();
         currentBattle.defenderRollDice();
         log.append(playerName + " is attacking from " + attackingTerritory.getName() + " > dice rolled: " +
@@ -385,6 +399,17 @@ public class Player {
         return "";
     }
     
+    /**
+     * This method decides the outcome of the current battle by comparing the attacker's dice
+     * roll value and the defender's dice roll value. Depending on the result, the method
+     * increases the lose count for the player who rolled a lower value than the opponent.
+     *
+     * @param currentBattle      Battle object of the current battle state
+     * @param attackingTerritory Territory object of the territory that is attacking
+     * @param defendingTerritory Territory object of the territory that is defending
+     * @param attackerRoll       Integer value of the attacker's dice roll
+     * @param defenderRoll       Integer value of the defender's dice roll
+     */
     private void decideResult(Battle currentBattle, Territory attackingTerritory, Territory defendingTerritory,
                               int attackerRoll, int defenderRoll) {
         if (attackerRoll > defenderRoll) { // the attacker wins
