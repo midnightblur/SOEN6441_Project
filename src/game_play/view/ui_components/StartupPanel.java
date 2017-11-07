@@ -48,7 +48,7 @@ public class StartupPanel extends JPanel implements Observer {
         gameStateLabel.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         gameStateLabel.setText(Config.GAME_STATES.STARTUP.name());
         playerNameLabel = new JLabel();
-        playerNameLabel.setFont(new Font("Sans Serif", Font.BOLD, 20));
+        //playerNameLabel.setFont(new Font("Sans Serif", Font.BOLD, 20));
         totalArmiesToPlaceLabel = new JLabel();
         totalArmiesToPlaceLabel.setFont(new Font("Sans Serif", Font.BOLD, 16));
         JLabel territoryLabel = new JLabel(TERRITORY_LABEL);
@@ -145,7 +145,7 @@ public class StartupPanel extends JPanel implements Observer {
                     territoryDropdown.setSelectedIndex((int) (Math.random() * (gamePlayModel.getCurrentPlayerTerritories().size() - 1)));
     
                     playerNameLabel.setForeground(gamePlayModel.getCurrentPlayer().getColor());
-                    playerNameLabel.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
+                    playerNameLabel.setText(gamePlayModel.getCurrentPlayer().playerInfo());
                     totalArmiesToPlaceLabel.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
                 } else {
                     playerNameLabel.setForeground(Color.BLACK);

@@ -99,13 +99,11 @@ public class Player {
     /**
      * Player information to be used on phase view
      *
-     * @param player the player
-     *
      * @return a string  with player statistics
      */
-    public String playerInfo(Player player) {
+    public String playerInfo() {
         StringBuilder info = new StringBuilder();
-        info.append("<html>" + playerName + "<br>");
+        info.append("<html><font size=6>" + playerName + "</font><br>");
         info.append("Owns: ");
         info.append(getTerritories().size() + " territories | ");
         info.append(getContinents(GamePlayModel.getInstance().getGameMap()).size() + " continents | ");
@@ -175,31 +173,6 @@ public class Player {
     // endregion
     
     // region Public methods
-    
-    /**
-     * Adds the territory.
-     *
-     * @param territory the territory
-     */
-    public void addTerritory(Territory territory) {
-        if (!territories.contains(territory)) {
-            territories.add(territory);
-        }
-    }
-    
-    /**
-     * Removes the territory.
-     *
-     * @param territoryName the territory name
-     */
-    public void removeTerritory(String territoryName) {
-        for (Territory territory : territories) {
-            if (territory.getName().compareTo(territoryName) == 0) {
-                territories.remove(territory);
-                return;
-            }
-        }
-    }
     
     /**
      * Override equals method to check whether or not two Player objects are the same.
@@ -361,8 +334,6 @@ public class Player {
         this.unallocatedArmies = unallocatedArmies;
     }
     
-    // region Reinforcement Phase
-    
     /**
      * Increases the number of unallocated armies for this player by the specified number.
      *
@@ -380,6 +351,8 @@ public class Player {
     public void reduceUnallocatedArmies(int num) {
         this.unallocatedArmies -= num;
     }
+    
+    // region Reinforcement Phase
     
     /**
      * Implements the Attack Phase of particular player.
@@ -426,10 +399,6 @@ public class Player {
         
         return "";
     }
-    
-    // endregion
-    
-    // region Attack Phase
     
     /**
      * This method decides the outcome of the current battle by comparing the attacker's dice
@@ -480,6 +449,35 @@ public class Player {
         log.append(attackingTerritory.getOwner().getPlayerName() + " received the " + card + " card");
         
         return "";
+    }
+    
+    // endregion
+    
+    // region Attack Phase
+    
+    /**
+     * Removes the territory.
+     *
+     * @param territoryName the territory name
+     */
+    public void removeTerritory(String territoryName) {
+        for (Territory territory : territories) {
+            if (territory.getName().compareTo(territoryName) == 0) {
+                territories.remove(territory);
+                return;
+            }
+        }
+    }
+    
+    /**
+     * Adds the territory.
+     *
+     * @param territory the territory
+     */
+    public void addTerritory(Territory territory) {
+        if (!territories.contains(territory)) {
+            territories.add(territory);
+        }
     }
     
     /**
