@@ -760,7 +760,7 @@ public class GamePlayModel extends Observable {
     // endregion
     
     /**
-     * This is method used for testing gamemaps.
+     * This is method used for testing game maps.
      */
     public void DemoForTests() {
         GameMap gamemap = new GameMap("3D.map");

@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * AttackingPreparePanel.java
+ * Version 1.0
+ * Nov 6, 2017
+ */
 package game_play.view.ui_components;
 
 import game_play.model.GamePlayModel;
@@ -11,6 +17,12 @@ import java.util.Observer;
 
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
+/**
+ * Attacking Prepare Panel class used to start an attack
+ * Player to attack will decide source and target for the attack
+ * Then it will roll the dice
+ * Defender will have the chance to protect its territory using a modal dialog
+ */
 public class AttackPreparePanel extends JPanel implements Observer {
     // region Attributes declaration
     private static final String ATTACK_FROM_LABEL = "Attack from:";
@@ -27,6 +39,10 @@ public class AttackPreparePanel extends JPanel implements Observer {
     // endregion
     
     // region Constructors
+    
+    /**
+     * The constructor for Attack Prepare Panel
+     */
     public AttackPreparePanel() {
         setLayout(new GridLayout(0, 1));
         
@@ -95,6 +111,7 @@ public class AttackPreparePanel extends JPanel implements Observer {
     // endregion
     
     // region MVC & Observer pattern methods
+    
     /**
      * Adds the attack button listener
      *

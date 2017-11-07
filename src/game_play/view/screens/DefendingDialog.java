@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * DefendingDialog.java
+ * Version 1.0
+ * Nov 6, 2017
+ */
 package game_play.view.screens;
 
 import javax.swing.*;
