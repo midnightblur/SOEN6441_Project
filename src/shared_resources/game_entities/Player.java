@@ -71,6 +71,15 @@ public class Player {
     }
     
     /**
+     * Gets the player name.
+     *
+     * @return the player name
+     */
+    public String getPlayerName() {
+        return playerName;
+    }
+    
+    /**
      * Gets the color of a player.
      *
      * @return the color
@@ -116,6 +125,28 @@ public class Player {
     }
     
     /**
+     * Gets the unallocated armies.
+     *
+     * @return the unallocated armies
+     */
+    public int getUnallocatedArmies() {
+        return this.unallocatedArmies;
+    }
+    
+    /**
+     * Sets the unallocated armies.
+     *
+     * @param unallocatedArmies the new unallocated armies
+     */
+    public void setUnallocatedArmies(int unallocatedArmies) {
+        this.unallocatedArmies = unallocatedArmies;
+    }
+    
+    // endregion
+    
+    // region Public methods
+    
+    /**
      * Adds the territory.
      *
      * @param territory the territory
@@ -139,10 +170,6 @@ public class Player {
             }
         }
     }
-    
-    // endregion
-    
-    // region Public methods
     
     /**
      * Override equals method to check whether or not two Player objects are the same.
@@ -169,6 +196,35 @@ public class Player {
                 || this.playerName.compareTo(tempPlayer.playerName) == 0)
                 && this.unallocatedArmies == tempPlayer.unallocatedArmies;
     }
+    
+    /**
+     * Adds a card to the player's hand.
+     *
+     * @param card An object of Card class to be added to the players hand
+     */
+    public void addCardToPlayersHand(Card card) {
+        this.playersHand.add(card);
+    }
+    
+    /**
+     * Increases the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number o unallocated armies to add
+     */
+    public void addUnallocatedArmies(int num) {
+        this.unallocatedArmies += num;
+    }
+    
+    /**
+     * Reduces the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number of unallocated armies to reduce
+     */
+    public void reduceUnallocatedArmies(int num) {
+        this.unallocatedArmies -= num;
+    }
+    
+    // region Reinforcement Phase
     
     /**
      * Implement the Reinforcement Phase of a particular player
@@ -286,44 +342,24 @@ public class Player {
         }
     }
     
-    /**
-     * Gets the unallocated armies.
-     *
-     * @return the unallocated armies
-     */
-    public int getUnallocatedArmies() {
-        return this.unallocatedArmies;
-    }
+    // endregion
+    
+    // region Attack Phase
     
     /**
-     * Sets the unallocated armies.
+     * Implements the Attack Phase of particular player.
      *
-     * @param unallocatedArmies the new unallocated armies
-     */
-    public void setUnallocatedArmies(int unallocatedArmies) {
-        this.unallocatedArmies = unallocatedArmies;
-    }
-    
-    /**
-     * Increases the number of unallocated armies for this player by the specified number.
+     * This method allows a player to make an attack move with an opponent player based on the
+     * current battle state of the game. The method rolls the number of dice for the attacker
+     * and the defender, and decides the outcome of the battle by comparing the highest roll
+     * depending on the number of dice used by both players. Then also checks if the attacking
+     * player in current battle has conquered any territories, or eliminated any players in
+     * that attack turn.
      *
-     * @param num The int index of the number o unallocated armies to add
-     */
-    public void addUnallocatedArmies(int num) {
-        this.unallocatedArmies += num;
-    }
-    
-    // region Reinforcement Phase
-    
-    /**
-     * Reduces the number of unallocated armies for this player by the specified number.
+     * @param gamePlayModel the game play model
      *
-     * @param num The int index of the number of unallocated armies to reduce
+     * @return the message to the user if attack phase was successful or not
      */
-    public void reduceUnallocatedArmies(int num) {
-        this.unallocatedArmies -= num;
-    }
-    
     public String attack(GamePlayModel gamePlayModel) {
         Battle currentBattle = gamePlayModel.getCurrentBattle();
         Territory attackingTerritory = currentBattle.getAttackingTerritory();
@@ -331,7 +367,7 @@ public class Player {
         int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
         int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
 
-        /* Both players oll dice */
+        /* Both players roll dice */
         currentBattle.attackerRollDice();
         currentBattle.defenderRollDice();
         log.append(playerName + " is attacking from " + attackingTerritory.getName() + " > dice rolled: " +
@@ -350,8 +386,8 @@ public class Player {
             int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
             decideResult(currentBattle, attackingTerritory, defendingTerritory, secondBestOfAttacker, secondBestOfDefender);
         }
-        log.append("Defended territory " + defendingTerritory.getName() + " loses " + currentBattle.getDefenderLoseCount() + " armies");
-        log.append("Attacker territory " + attackingTerritory.getName() + " loses " + currentBattle.getAttackerLoseCount() + " armies");
+        log.append("Defended territory " + defendingTerritory.getName() + " loses " + currentBattle.getDefenderLossCount() + " armies");
+        log.append("Attacker territory " + attackingTerritory.getName() + " loses " + currentBattle.getAttackerLossCount() + " armies");
         
         /* Check for territory conquer */
         // TODO: check if the defending territory has no army left
@@ -362,14 +398,25 @@ public class Player {
         return "";
     }
     
+    /**
+     * This method decides the outcome of the current battle by comparing the attacker's dice
+     * roll value and the defender's dice roll value. Depending on the result, the method
+     * increases the lose count for the player who rolled a lower value than the opponent.
+     *
+     * @param currentBattle      Battle object of the current battle state
+     * @param attackingTerritory Territory object of the territory that is attacking
+     * @param defendingTerritory Territory object of the territory that is defending
+     * @param attackerRoll       Integer value of the attacker's dice roll
+     * @param defenderRoll       Integer value of the defender's dice roll
+     */
     private void decideResult(Battle currentBattle, Territory attackingTerritory, Territory defendingTerritory,
                               int attackerRoll, int defenderRoll) {
         if (attackerRoll > defenderRoll) { // the attacker wins
             defendingTerritory.reduceArmies(1);
-            currentBattle.increaseDefenderLoseCount();
+            currentBattle.increaseDefenderLossCount();
         } else { // the defender wins
             attackingTerritory.reduceArmies(1);
-            currentBattle.increaseAttackerLoseCount();
+            currentBattle.increaseAttackerLossCount();
         }
     }
     
@@ -398,27 +445,6 @@ public class Player {
         log.append(attackingTerritory.getOwner().getPlayerName() + " received the " + card + " card");
         
         return "";
-    }
-    // endregion
-    
-    // region Attack Phase
-    
-    /**
-     * Gets the player name.
-     *
-     * @return the player name
-     */
-    public String getPlayerName() {
-        return playerName;
-    }
-    
-    /**
-     * Adds a card to the player's hand.
-     *
-     * @param card An object of Card class to be added to the players hand
-     */
-    public void addCardToPlayersHand(Card card) {
-        this.playersHand.add(card);
     }
     
     /**

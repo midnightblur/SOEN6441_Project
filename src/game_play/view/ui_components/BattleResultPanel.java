@@ -103,7 +103,7 @@ public class BattleResultPanel extends JPanel implements Observer {
                     }
                 }
                 attackerRolls.setText(rollResultStrBuilder.toString());
-                attackerLoseArmies.setText(String.format(ATTACKER_LOSE_ARMIES, currentBattle.getAttackerLoseCount()));
+                attackerLoseArmies.setText(String.format(ATTACKER_LOSE_ARMIES, currentBattle.getAttackerLossCount()));
                 attackingArmies.setText(String.format(ATT_TERRITORY_ARMIES, currentBattle.getAttackingTerritory().getName(),
                         currentBattle.getAttackingTerritory().getArmies()));
     
@@ -115,7 +115,7 @@ public class BattleResultPanel extends JPanel implements Observer {
                     }
                 }
                 defenderRolls.setText(rollResultStrBuilder.toString());
-                defenderLoseArmies.setText(String.format(DEFENDER_LOSE_ARMIES, currentBattle.getDefenderLoseCount()));
+                defenderLoseArmies.setText(String.format(DEFENDER_LOSE_ARMIES, currentBattle.getDefenderLossCount()));
                 defendingArmies.setText(String.format(DEF_TERRITORY_ARMIES, currentBattle.getDefendingTerritory().getName(),
                         currentBattle.getDefendingTerritory().getArmies()));
             }
