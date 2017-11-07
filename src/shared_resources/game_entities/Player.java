@@ -25,7 +25,6 @@ import static shared_resources.utilities.Config.log;
  * @version 1.0
  */
 public class Player {
-    
     // region Attributes declaration
     private static int nextID = 0;
     private Color color;
@@ -71,39 +70,12 @@ public class Player {
     }
     
     /**
-     * Gets the player name.
-     *
-     * @return the player name
-     */
-    public String getPlayerName() {
-        return playerName;
-    }
-    
-    /**
      * Gets the color of a player.
      *
      * @return the color
      */
     public Color getColor() {
         return color;
-    }
-    
-    /**
-     * Gets the players hand.
-     *
-     * @return the players hand
-     */
-    public Vector<Card> getPlayersHand() {
-        return this.playersHand;
-    }
-    
-    /**
-     * Gets the territories.
-     *
-     * @return the territories
-     */
-    public Vector<Territory> getTerritories() {
-        return territories;
     }
     
     /**
@@ -125,51 +97,82 @@ public class Player {
     }
     
     /**
-     * Gets the unallocated armies.
+     * Player information to be used on phase view
      *
-     * @return the unallocated armies
+     * @return a string  with player statistics
      */
-    public int getUnallocatedArmies() {
-        return this.unallocatedArmies;
+    public String playerInfo() {
+        StringBuilder info = new StringBuilder();
+        info.append("<html><font size=6>" + playerName + "</font><br>");
+        info.append("Owns: ");
+        info.append(getTerritories().size() + " territories | ");
+        info.append(getContinents(GamePlayModel.getInstance().getGameMap()).size() + " continents | ");
+        info.append(getTotalArmiesCount() + " armies | ");
+        info.append(getPlayersHand().size() + " cards");
+        info.append("</html>");
+        return info.toString();
     }
     
     /**
-     * Sets the unallocated armies.
+     * Gets the territories.
      *
-     * @param unallocatedArmies the new unallocated armies
+     * @return the territories
      */
-    public void setUnallocatedArmies(int unallocatedArmies) {
-        this.unallocatedArmies = unallocatedArmies;
+    public Vector<Territory> getTerritories() {
+        return territories;
+    }
+    
+    /**
+     * Obtains the continents owned by this player
+     *
+     * @param gameMap the game map
+     *
+     * @return a vector of continents owned by this player
+     */
+    public Vector<Continent> getContinents(GameMap gameMap) {
+        Vector<Continent> continents = new Vector<>();
+        for (Continent c : gameMap.getContinents().values()) {
+            if (c.getContinentOwner(gameMap).equals(getPlayerName())) {
+                continents.add(c);
+            }
+        }
+        return continents;
+    }
+    
+    /**
+     * Get the total armies for this player
+     *
+     * @return the number of armies for this player
+     */
+    public int getTotalArmiesCount() {
+        int armies = 0;
+        for (Territory t : getTerritories()) {
+            armies += t.getArmies();
+        }
+        return armies;
+    }
+    
+    /**
+     * Gets the players hand.
+     *
+     * @return the players hand
+     */
+    public Vector<Card> getPlayersHand() {
+        return this.playersHand;
+    }
+    
+    /**
+     * Gets the player name.
+     *
+     * @return the player name
+     */
+    public String getPlayerName() {
+        return playerName;
     }
     
     // endregion
     
     // region Public methods
-    
-    /**
-     * Adds the territory.
-     *
-     * @param territory the territory
-     */
-    public void addTerritory(Territory territory) {
-        if (!territories.contains(territory)) {
-            territories.add(territory);
-        }
-    }
-    
-    /**
-     * Removes the territory.
-     *
-     * @param territoryName the territory name
-     */
-    public void removeTerritory(String territoryName) {
-        for (Territory territory : territories) {
-            if (territory.getName().compareTo(territoryName) == 0) {
-                territories.remove(territory);
-                return;
-            }
-        }
-    }
     
     /**
      * Override equals method to check whether or not two Player objects are the same.
@@ -198,35 +201,6 @@ public class Player {
     }
     
     /**
-     * Adds a card to the player's hand.
-     *
-     * @param card An object of Card class to be added to the players hand
-     */
-    public void addCardToPlayersHand(Card card) {
-        this.playersHand.add(card);
-    }
-    
-    /**
-     * Increases the number of unallocated armies for this player by the specified number.
-     *
-     * @param num The int index of the number o unallocated armies to add
-     */
-    public void addUnallocatedArmies(int num) {
-        this.unallocatedArmies += num;
-    }
-    
-    /**
-     * Reduces the number of unallocated armies for this player by the specified number.
-     *
-     * @param num The int index of the number of unallocated armies to reduce
-     */
-    public void reduceUnallocatedArmies(int num) {
-        this.unallocatedArmies -= num;
-    }
-    
-    // region Reinforcement Phase
-    
-    /**
      * Implement the Reinforcement Phase of a particular player
      *
      * @param gamePlayModel the game play model
@@ -238,8 +212,10 @@ public class Player {
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         switch (gameState) {
             case PLAYER_TRADE_CARDS:
+                log.append(gamePlayModel.getCurrentPlayer().getPlayerName() + " wants to trade-in cards...");
                 return tradeInCards(gamePlayModel, selectedCards);
             case PLAYER_REINFORCEMENT:
+                log.append(gamePlayModel.getCurrentPlayer().getPlayerName() + " wants to distribute armies...");
                 distributeArmies(gamePlayModel, armiesToPlace);
                 break;
         }
@@ -342,9 +318,43 @@ public class Player {
         }
     }
     
-    // endregion
+    /**
+     * Gets the unallocated armies.
+     *
+     * @return the unallocated armies
+     */
+    public int getUnallocatedArmies() {
+        return this.unallocatedArmies;
+    }
     
-    // region Attack Phase
+    /**
+     * Sets the unallocated armies.
+     *
+     * @param unallocatedArmies the new unallocated armies
+     */
+    public void setUnallocatedArmies(int unallocatedArmies) {
+        this.unallocatedArmies = unallocatedArmies;
+    }
+    
+    /**
+     * Increases the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number o unallocated armies to add
+     */
+    public void addUnallocatedArmies(int num) {
+        this.unallocatedArmies += num;
+    }
+    
+    /**
+     * Reduces the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number of unallocated armies to reduce
+     */
+    public void reduceUnallocatedArmies(int num) {
+        this.unallocatedArmies -= num;
+    }
+    
+    // region Reinforcement Phase
     
     /**
      * Implements the Attack Phase of particular player.
@@ -419,7 +429,7 @@ public class Player {
      * in an opponent's defending territory, and makes the conquering player to move a number of armies to it from the
      * attacking territory. A randomly drawn card from the deck is also given to the conquering player.
      *
-     * @param gamePlayModel   The GamePlayModel containing the state of the game
+     * @param gamePlayModel The GamePlayModel containing the state of the game
      *
      * @return String value of the messages that will be displayed to the user
      */
@@ -435,6 +445,61 @@ public class Player {
         return "";
     }
     
+    // endregion
+    
+    // region Attack Phase
+    
+    /**
+     * Removes the territory.
+     *
+     * @param territoryName the territory name
+     */
+    public void removeTerritory(String territoryName) {
+        for (Territory territory : territories) {
+            if (territory.getName().compareTo(territoryName) == 0) {
+                territories.remove(territory);
+                return;
+            }
+        }
+    }
+    
+    /**
+     * Adds the territory.
+     *
+     * @param territory the territory
+     */
+    public void addTerritory(Territory territory) {
+        if (!territories.contains(territory)) {
+            territories.add(territory);
+        }
+    }
+    
+    /**
+     * Adds a card to the player's hand.
+     *
+     * @param card An object of Card class to be added to the players hand
+     */
+    public void addCardToPlayersHand(Card card) {
+        this.playersHand.add(card);
+    }
+    
+    /**
+     * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
+     * player.
+     *
+     * @param eliminatedPlayer Player object that has no more territories left and is declared eliminated
+     *
+     * @return String value of the messages that will be displayed to the user
+     */
+    public String eliminated(Player eliminatedPlayer) {
+        if (eliminatedPlayer.playersHand.size() != 0) {
+            for (Card card : eliminatedPlayer.playersHand) {
+                this.addCardToPlayersHand(card);
+            }
+        }
+        
+        return "";
+    }
     // endregion
     
     // region Fortification Phase

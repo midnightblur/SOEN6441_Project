@@ -83,6 +83,7 @@ public class GamePlayController {
         gamePlayModel.addObserver(gamePlayFrame.getAttackingPanel().getAttackPreparePanel());
         gamePlayModel.addObserver(gamePlayFrame.getAttackingPanel().getBattleResultPanel());
         gamePlayModel.addObserver(gamePlayFrame.getFortificationPanel());
+        gamePlayModel.addObserver(gamePlayFrame.getPhaseViewPanel());
     }
     
     /**
@@ -312,6 +313,8 @@ public class GamePlayController {
         }
     }
     
+    // region For Attacking Phase
+    
     /**
      * Move armies from selected source territory to selected target territory
      * Validate the user's input
@@ -341,9 +344,6 @@ public class GamePlayController {
             UIHelper.displayMessage(gamePlayFrame, "Invalid entry. Please re-enter a number.");
         }
     }
-    // endregion
-    
-    // region For Fortification Phase
     
     /**
      * Update the list of target territories according to the players' selected source territory.
@@ -365,6 +365,9 @@ public class GamePlayController {
         DropDownModel targetTerritoriesModel = new DropDownModel(targetTerritoriesList);
         gamePlayFrame.getFortificationPanel().getTargetTerritoryDropdown().setModel(targetTerritoriesModel);
     }
+    // endregion
+    
+    // region For Fortification Phase
     
     /**
      * This function advances the game to next player's turn.
@@ -391,6 +394,7 @@ public class GamePlayController {
         );
         
     }
+    
     // endregion
     
     // endregion
