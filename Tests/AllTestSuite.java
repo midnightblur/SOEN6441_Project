@@ -13,10 +13,7 @@ import map_editor.model.ReadingInvalidMapFileTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import shared_resources.game_entities.ContinentTest;
-import shared_resources.game_entities.DiceTest;
-import shared_resources.game_entities.PlayerTest;
-import shared_resources.game_entities.TerritoryTest;
+import shared_resources.game_entities.*;
 
 /**
  * The Class AllTestSuite.
@@ -30,6 +27,7 @@ import shared_resources.game_entities.TerritoryTest;
         MapsLoaderTest.class,
         MapEditorModelTest.class,
         PlayerTest.class,
+        GameMapTest.class,
 //        GamePlayModelTest.class,
         TerritoryTest.class,
 })
