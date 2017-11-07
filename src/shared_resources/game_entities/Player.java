@@ -25,7 +25,6 @@ import static shared_resources.utilities.Config.log;
  * @version 1.0
  */
 public class Player {
-    
     // region Attributes declaration
     private static int nextID = 0;
     private Color color;
@@ -71,39 +70,12 @@ public class Player {
     }
     
     /**
-     * Gets the player name.
-     *
-     * @return the player name
-     */
-    public String getPlayerName() {
-        return playerName;
-    }
-    
-    /**
      * Gets the color of a player.
      *
      * @return the color
      */
     public Color getColor() {
         return color;
-    }
-    
-    /**
-     * Gets the players hand.
-     *
-     * @return the players hand
-     */
-    public Vector<Card> getPlayersHand() {
-        return this.playersHand;
-    }
-    
-    /**
-     * Gets the territories.
-     *
-     * @return the territories
-     */
-    public Vector<Territory> getTerritories() {
-        return territories;
     }
     
     /**
@@ -125,21 +97,79 @@ public class Player {
     }
     
     /**
-     * Gets the unallocated armies.
+     * Player information to be used on phase view
      *
-     * @return the unallocated armies
+     * @param player the player
+     *
+     * @return a string  with player statistics
      */
-    public int getUnallocatedArmies() {
-        return this.unallocatedArmies;
+    public String playerInfo(Player player) {
+        StringBuilder info = new StringBuilder();
+        info.append("<html>" + playerName + "<br>");
+        info.append("Owns: ");
+        info.append(getTerritories().size() + " territories | ");
+        info.append(getContinents(GamePlayModel.getInstance().getGameMap()).size() + " continents | ");
+        info.append(getTotalArmiesCount() + " armies | ");
+        info.append(getPlayersHand().size() + " cards");
+        info.append("</html>");
+        return info.toString();
     }
     
     /**
-     * Sets the unallocated armies.
+     * Gets the territories.
      *
-     * @param unallocatedArmies the new unallocated armies
+     * @return the territories
      */
-    public void setUnallocatedArmies(int unallocatedArmies) {
-        this.unallocatedArmies = unallocatedArmies;
+    public Vector<Territory> getTerritories() {
+        return territories;
+    }
+    
+    /**
+     * Obtains the continents owned by this player
+     *
+     * @param gameMap the game map
+     *
+     * @return a vector of continents owned by this player
+     */
+    public Vector<Continent> getContinents(GameMap gameMap) {
+        Vector<Continent> continents = new Vector<>();
+        for (Continent c : gameMap.getContinents().values()) {
+            if (c.getContinentOwner(gameMap).equals(getPlayerName())) {
+                continents.add(c);
+            }
+        }
+        return continents;
+    }
+    
+    /**
+     * Get the total armies for this player
+     *
+     * @return the number of armies for this player
+     */
+    public int getTotalArmiesCount() {
+        int armies = 0;
+        for (Territory t : getTerritories()) {
+            armies += t.getArmies();
+        }
+        return armies;
+    }
+    
+    /**
+     * Gets the players hand.
+     *
+     * @return the players hand
+     */
+    public Vector<Card> getPlayersHand() {
+        return this.playersHand;
+    }
+    
+    /**
+     * Gets the player name.
+     *
+     * @return the player name
+     */
+    public String getPlayerName() {
+        return playerName;
     }
     
     // endregion
@@ -196,35 +226,6 @@ public class Player {
                 || this.playerName.compareTo(tempPlayer.playerName) == 0)
                 && this.unallocatedArmies == tempPlayer.unallocatedArmies;
     }
-    
-    /**
-     * Adds a card to the player's hand.
-     *
-     * @param card An object of Card class to be added to the players hand
-     */
-    public void addCardToPlayersHand(Card card) {
-        this.playersHand.add(card);
-    }
-    
-    /**
-     * Increases the number of unallocated armies for this player by the specified number.
-     *
-     * @param num The int index of the number o unallocated armies to add
-     */
-    public void addUnallocatedArmies(int num) {
-        this.unallocatedArmies += num;
-    }
-    
-    /**
-     * Reduces the number of unallocated armies for this player by the specified number.
-     *
-     * @param num The int index of the number of unallocated armies to reduce
-     */
-    public void reduceUnallocatedArmies(int num) {
-        this.unallocatedArmies -= num;
-    }
-    
-    // region Reinforcement Phase
     
     /**
      * Implement the Reinforcement Phase of a particular player
@@ -342,9 +343,43 @@ public class Player {
         }
     }
     
-    // endregion
+    /**
+     * Gets the unallocated armies.
+     *
+     * @return the unallocated armies
+     */
+    public int getUnallocatedArmies() {
+        return this.unallocatedArmies;
+    }
     
-    // region Attack Phase
+    /**
+     * Sets the unallocated armies.
+     *
+     * @param unallocatedArmies the new unallocated armies
+     */
+    public void setUnallocatedArmies(int unallocatedArmies) {
+        this.unallocatedArmies = unallocatedArmies;
+    }
+    
+    // region Reinforcement Phase
+    
+    /**
+     * Increases the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number o unallocated armies to add
+     */
+    public void addUnallocatedArmies(int num) {
+        this.unallocatedArmies += num;
+    }
+    
+    /**
+     * Reduces the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number of unallocated armies to reduce
+     */
+    public void reduceUnallocatedArmies(int num) {
+        this.unallocatedArmies -= num;
+    }
     
     /**
      * Implements the Attack Phase of particular player.
@@ -392,6 +427,10 @@ public class Player {
         return "";
     }
     
+    // endregion
+    
+    // region Attack Phase
+    
     /**
      * This method decides the outcome of the current battle by comparing the attacker's dice
      * roll value and the defender's dice roll value. Depending on the result, the method
@@ -419,7 +458,7 @@ public class Player {
      * in an opponent's defending territory, and makes the conquering player to move a number of armies to it from the
      * attacking territory. A randomly drawn card from the deck is also given to the conquering player.
      *
-     * @param gamePlayModel   The GamePlayModel containing the state of the game
+     * @param gamePlayModel The GamePlayModel containing the state of the game
      *
      * @return String value of the messages that will be displayed to the user
      */
@@ -441,6 +480,15 @@ public class Player {
         log.append(attackingTerritory.getOwner().getPlayerName() + " received the " + card + " card");
         
         return "";
+    }
+    
+    /**
+     * Adds a card to the player's hand.
+     *
+     * @param card An object of Card class to be added to the players hand
+     */
+    public void addCardToPlayersHand(Card card) {
+        this.playersHand.add(card);
     }
     
     /**
