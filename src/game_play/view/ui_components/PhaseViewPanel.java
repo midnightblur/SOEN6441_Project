@@ -14,6 +14,9 @@ public class PhaseViewPanel extends JPanel implements Observer {
     // region Attributes declaration
     private static final int WIDTH = 1366;
     private static final int HEIGHT = 100;
+    private GridLayout contentGrid;
+    private JLabel gameStateLabel;
+    private JLabel playerInfoLabel;
     // endregion
     
     // region Constructors
@@ -24,6 +27,18 @@ public class PhaseViewPanel extends JPanel implements Observer {
     public PhaseViewPanel() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setMaximumSize(new Dimension(WIDTH, HEIGHT));
+        
+        setLayout(new GridLayout(1,2));
+        gameStateLabel = new JLabel();
+        gameStateLabel.setForeground(Color.BLUE);
+        gameStateLabel.setFont(new Font("Sans Serif", Font.ITALIC, 20));
+        
+        playerInfoLabel = new JLabel();
+    
+        
+        add(gameStateLabel);
+        add(playerInfoLabel);
+    
     }
     // endregion
     
@@ -42,8 +57,13 @@ public class PhaseViewPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
-            
+
             /* Refresh the UI elements */
+            gameStateLabel.setText(gamePlayModel.getGameState().toString());
+            if (gamePlayModel.getGameState().getValue() >= 3) {
+                playerInfoLabel.setForeground(gamePlayModel.getCurrentPlayer().getColor());
+                playerInfoLabel.setText(gamePlayModel.getCurrentPlayer().playerInfo());
+            }
             
             
             /* Draw the view based on current state of world domination */

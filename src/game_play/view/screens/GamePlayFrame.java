@@ -192,6 +192,15 @@ public class GamePlayFrame extends JFrame implements Observer {
     }
     
     /**
+     * Gets the phase view panel
+     *
+     * @return the phase view panel
+     */
+    public PhaseViewPanel getPhaseViewPanel() {
+        return phaseViewPanel;
+    }
+    
+    /**
      * Gets the attacking panel
      *
      * @return the attacking panel
