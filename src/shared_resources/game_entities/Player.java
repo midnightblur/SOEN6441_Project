@@ -389,12 +389,6 @@ public class Player {
         log.append("Defended territory " + defendingTerritory.getName() + " loses " + currentBattle.getDefenderLossCount() + " armies");
         log.append("Attacker territory " + attackingTerritory.getName() + " loses " + currentBattle.getAttackerLossCount() + " armies");
         
-        /* Check for territory conquer */
-        // TODO: check if the defending territory has no army left
-        
-        /* Check for player elimination */
-        // TODO: check if the defender loses all of his territories
-        
         return "";
     }
     
@@ -434,7 +428,9 @@ public class Player {
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
         
         /* Change owner of the conquered territory, and move armies */
+        defendingTerritory.getOwner().removeTerritory(defendingTerritory.getName());
         defendingTerritory.setOwner(attackingTerritory.getOwner());
+        attackingTerritory.getOwner().addTerritory(defendingTerritory);
         attackingTerritory.reduceArmies(armiesToMove);
         defendingTerritory.addArmies(armiesToMove);
         log.append(attackingTerritory.getOwner().getPlayerName() + " conquered " + defendingTerritory.getName());
