@@ -64,9 +64,9 @@ public class GamePlayModel extends Observable {
     // region Constructors
     
     /**
-     * Private constructor preventing any other class from instantiating GamePlayModel object.
+     * Public GamePlayModel constructor.
      */
-    private GamePlayModel() {
+    public GamePlayModel() {
         armyValue = DEFAULT_ARMY_VALUE;
         mapTableModel = new MapTableModel();
         deck = new Vector<>();
@@ -79,7 +79,7 @@ public class GamePlayModel extends Observable {
     /**
      * Static instance method to determine if an object of GamePlayModel already exists.
      *
-     * @return instance of the singleton GamePlayModel object
+     * @return instance of the GamePlayModel object
      */
     public static GamePlayModel getInstance() {
         if (instance == null) {
