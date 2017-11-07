@@ -428,38 +428,13 @@ public class Player {
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
         
         /* Change owner of the conquered territory, and move armies */
-        defendingTerritory.getOwner().removeTerritory(defendingTerritory.getName());
-        defendingTerritory.setOwner(attackingTerritory.getOwner());
-        attackingTerritory.getOwner().addTerritory(defendingTerritory);
         attackingTerritory.reduceArmies(armiesToMove);
         defendingTerritory.addArmies(armiesToMove);
         log.append(attackingTerritory.getOwner().getPlayerName() + " conquered " + defendingTerritory.getName());
-
-        /* Give a card to the conqueror */
-        Card card = gamePlayModel.drawCard();
-        addCardToPlayersHand(card);
-        log.append(attackingTerritory.getOwner().getPlayerName() + " received the " + card + " card");
         
         return "";
     }
     
-    /**
-     * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
-     * player.
-     *
-     * @param eliminatedPlayer Player object that has no more territories left and is declared eliminated
-     *
-     * @return String value of the messages that will be displayed to the user
-     */
-    public String eliminated(Player eliminatedPlayer) {
-        if (eliminatedPlayer.playersHand.size() != 0) {
-            for (Card card : eliminatedPlayer.playersHand) {
-                this.addCardToPlayersHand(card);
-            }
-        }
-        
-        return "";
-    }
     // endregion
     
     // region Fortification Phase

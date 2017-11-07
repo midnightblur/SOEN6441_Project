@@ -53,7 +53,7 @@ public class GamePlayController {
     public GamePlayController(MainMenuController callerController, GameMap gameMap) {
         this.callerController = callerController;
         gamePlayModel = GamePlayModel.getInstance();
-        gamePlayFrame = new GamePlayFrame();
+        gamePlayFrame = new GamePlayFrame(callerController);
         
         registerObserversToObservable();
         
@@ -104,10 +104,10 @@ public class GamePlayController {
         /* For Attacking Panel */
         gamePlayFrame.getAttackingPanel().getAttackPreparePanel().addAttackButtonListener(e -> attackTerritory());
         gamePlayFrame.getAttackingPanel().getAttackPreparePanel().addDoneButtonListener(e -> goToFortificationPhase());
-        gamePlayFrame.getAttackingPanel().getBattleResultPanel().addDoneButtonListener(e -> goToFortificationPhase());
         gamePlayFrame.getAttackingPanel().getAttackPreparePanel().addAttackingTerritoryDropdownListener(e -> updateDefendingTerritoriesAndAttackingDice(
                 String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem())
         ));
+        gamePlayFrame.getAttackingPanel().getBattleResultPanel().addDoneButtonListener(e -> goToFortificationPhase());
         gamePlayFrame.getAttackingPanel().getBattleResultPanel().addAnotherAttackButtonListener(e -> prepareAnotherAttack());
         
         /* For Fortification Panel */
@@ -232,10 +232,7 @@ public class GamePlayController {
     private void prepareAnotherAttack() {
         /* Check if the defending territory has been conquered */
         if (gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
-            gamePlayFrame.setVisible(false);
-            JFrame frame = new JFrame();
-            ConquerDialog conquerDialog = new ConquerDialog(frame, gamePlayModel.getCurrentBattle());
-            conquerDialog.addMoveArmiesButtonListener(e -> moveArmiesToConqueredTerritory(conquerDialog, gamePlayFrame));
+            openMoveArmiesToConqueredTerritoryDialog();
         }
         gamePlayModel.prepareNewAttack();
     }
@@ -274,7 +271,18 @@ public class GamePlayController {
      * Move to Fortification phase
      */
     private void goToFortificationPhase() {
+        if (gamePlayModel.getCurrentPlayer().getGameState() == PLAYER_ATTACK_BATTLE &&
+                gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
+            openMoveArmiesToConqueredTerritoryDialog();
+        }
         gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_FORTIFICATION);
+    }
+    
+    private void openMoveArmiesToConqueredTerritoryDialog() {
+        gamePlayFrame.setVisible(false);
+        JFrame frame = new JFrame();
+        ConquerDialog conquerDialog = new ConquerDialog(frame, gamePlayModel.getCurrentBattle());
+        conquerDialog.addMoveArmiesButtonListener(e -> moveArmiesToConqueredTerritory(conquerDialog, gamePlayFrame));
     }
     
     /**

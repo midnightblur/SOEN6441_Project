@@ -6,14 +6,17 @@
  */
 package game_play.view.screens;
 
+import game_play.controller.MainMenuController;
 import game_play.model.GamePlayModel;
 import game_play.view.ui_components.*;
+import shared_resources.game_entities.Player;
 import shared_resources.helper.UIHelper;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Vector;
 
 /**
  * GamePlayFrame is responsible for displaying all UI components to play the game.
@@ -38,6 +41,8 @@ public class GamePlayFrame extends JFrame implements Observer {
     private ReinforcementPanel reinforcementPanel;
     private FortificationPanel fortificationPanel;
     private AttackingPanel attackingPanel;
+    private Vector<Player> playersList;
+    private MainMenuController callerController;
     // endregion
     
     // region Constructors
@@ -45,8 +50,10 @@ public class GamePlayFrame extends JFrame implements Observer {
     /**
      * Instantiates and show the GamePlayFrame.
      */
-    public GamePlayFrame() {
+    public GamePlayFrame(MainMenuController callerController) {
         /* Setup main container */
+        this.callerController = callerController;
+        playersList = new Vector<>();
         setupContentPaneLayout();
         setContentPane(contentPane);
         
@@ -147,7 +154,10 @@ public class GamePlayFrame extends JFrame implements Observer {
     // endregion
     
     // region Private methods
-    
+    private void backToMainMenu() {
+        this.dispose();
+        UIHelper.invokeFrame(callerController.getMainMenuFrame());
+    }
     /**
      * Setup the layout for the main screen.
      */
@@ -208,6 +218,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
+            
             gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
             
             CardLayout cardLayout = (CardLayout) controlArea.getLayout();
@@ -237,6 +248,25 @@ public class GamePlayFrame extends JFrame implements Observer {
                     break;
                 default:
                     break;
+            }
+    
+            Vector<Player> oldPlayersList = new Vector<>();
+            oldPlayersList.addAll(playersList);
+    
+            playersList.clear();
+            playersList.addAll(gamePlayModel.getPlayers());
+            if (oldPlayersList.size() > playersList.size()) {
+                if (playersList.size() != 1) {
+                    for (Player player : oldPlayersList) {
+                        if (!playersList.contains(player)) {
+                            UIHelper.displayMessage(this, String.format("%s has been eliminated", player.getPlayerName()));
+                        }
+                    }
+                } else {
+                    Player player = playersList.firstElement();
+                    UIHelper.displayMessage(this, String.format("%s is the winner", player.getPlayerName()));
+                    backToMainMenu();
+                }
             }
         }
     }

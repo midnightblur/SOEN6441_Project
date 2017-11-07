@@ -105,7 +105,7 @@ public class WorldDominationPanel extends JPanel implements Observer {
         g.fillRect(startPoint, 0, endPoint - startPoint + 1, HEIGHT);
     
         // Only draw ratio string if there's enough space
-        if (ratio > 0.1) {
+        if (ratio > 0.05) {
             FontMetrics f = g.getFontMetrics();
             
             g.setColor(Color.WHITE);

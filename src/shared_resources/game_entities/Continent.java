@@ -6,9 +6,6 @@
  */
 package shared_resources.game_entities;
 
-import game_play.model.GamePlayModel;
-
-import java.util.Objects;
 import java.util.Vector;
 
 /**
@@ -167,16 +164,16 @@ public class Continent {
      * @throws NullPointerException if territories are not yet allocated to players
      */
     public String getContinentOwner(GameMap gameMap) throws NullPointerException {
-        String continentOwner;
+        String continentOwner = "";
         if (gameMap.getATerritory(territories.get(0)).isOwned()) {
             continentOwner = gameMap.getATerritory(territories.get(0)).getOwner().getPlayerName();
             for (String territoryName : territories) {
-                if (!Objects.equals(continentOwner, gameMap.getATerritory(territoryName).getOwner().getPlayerName())) {
+                if (continentOwner.compareTo(gameMap.getATerritory(territoryName).getOwner().getPlayerName()) != 0) {
                     return "";
                 }
             }
         }
-        return GamePlayModel.getInstance().getGameMap().getATerritory(territories.get(0)).getOwner().getPlayerName();
+        return gameMap.getATerritory(territories.get(0)).getOwner().getPlayerName();
     }
     
     /**

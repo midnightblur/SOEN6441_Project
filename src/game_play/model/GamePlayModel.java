@@ -82,7 +82,7 @@ public class GamePlayModel extends Observable {
      * @return instance of the singleton GamePlayModel object
      */
     public static GamePlayModel getInstance() {
-        if (instance == null) {
+        if (instance == null || instance.players.size() == 1) {
             instance = new GamePlayModel();
         }
         return instance;
@@ -90,6 +90,7 @@ public class GamePlayModel extends Observable {
     // endregion
     
     // region Getters and Setters
+    
     /**
      * Gets the current battle of the game
      *
@@ -317,11 +318,14 @@ public class GamePlayModel extends Observable {
      * @return Card object
      */
     public Card drawCard() {
-        int index = rand.nextInt(deck.size());
-        Card card = deck.elementAt(index);
-        deck.remove(deck.elementAt(index));
-        deck.trimToSize();
-        return card;
+        if (deck.size() >= 1) {
+            int index = rand.nextInt(deck.size());
+            Card card = deck.elementAt(index);
+            deck.remove(deck.elementAt(index));
+            deck.trimToSize();
+            return card;
+        }
+        return null;
     }
     
     /**
@@ -520,7 +524,7 @@ public class GamePlayModel extends Observable {
         log.append("=========================================");
         log.append("========== Reinforcement Phase ==========");
         log.append("=========================================");
-    
+        
         log.append("Player " + currentPlayer.getPlayerID());
         log.append("Number of territories owned by this player: " + currentPlayer.getTerritories().size());
         for (Territory territory : currentPlayer.getTerritories()) {
@@ -545,16 +549,16 @@ public class GamePlayModel extends Observable {
     }
     
     // endregion
-
+    
     // region For Attack Phase
-
+    
     /**
      * Delegate the job to attack() of Player class.
      *
      * @param attackingTerritoryName String value of the name of the attacking Territory
      * @param defendingTerritoryName String value of the name of the defending Territory
-     * @param numOfAtkDice    Integer value of the number of dice to be used by the attacker
-     * @param numOfDefDice    Integer value of the number of dice to be used by the defender
+     * @param numOfAtkDice           Integer value of the number of dice to be used by the attacker
+     * @param numOfDefDice           Integer value of the number of dice to be used by the defender
      *
      * @return String value of the messages that will be displayed to the user
      */
@@ -570,43 +574,56 @@ public class GamePlayModel extends Observable {
         log.append("============= Attack Phase ==============");
         log.append("=========================================");
         String message = currentPlayer.attack(this);
+        
+        // If the defending territory has been conquered
+        if (currentBattle.getDefendingTerritory().getArmies() == 0) {
+            // Change the owner of this territory to the attacker
+            defender.removeTerritory(defendingTerritory.getName());
+            defendingTerritory.setOwner(attacker);
+            attacker.addTerritory(defendingTerritory);
+            
+            // Check if the defender has been eliminated
+            if (defender.getTerritories().size() == 0) {
+                // Give all of his cards to the attacker
+                for (Card card : defender.getPlayersHand()) {
+                    attacker.addCardToPlayersHand(card);
+                }
+                
+                // Remove him from the game
+                eliminatePlayer(defender);
+            }
+            
+            // Give a card to the attacker
+            if (players.size() != 1) { // Only draw a new card if the game has no winner yet
+                Card card = drawCard();
+                if (card != null) {
+                    attacker.addCardToPlayersHand(card);
+                    log.append(attackingTerritory.getOwner().getPlayerName() + " received the " + card.getCardType().name() + " card");
+                } else {
+                    log.append(attackingTerritory.getOwner().getPlayerName() + " doesn't receive any card since the deck has run out of card");
+                }
+            }
+        }
+        
         updateGameMapTableModel();
         broadcastGamePlayChanges();
-
+        
         return message;
     }
-
+    
     /**
-     * Delegate the job to conquer() of Player class.
-     *
-     * @param sourceTerritory String value of the name of the source Territory
-     * @param targetTerritory String value of the name of the target Territory
-     * @param armiesToMove    Integer value of the number of armies to be moved to the captured territory
-     *
-     * @return String value of the messages that will be displayed to the user
-     */
-    public String captureTerritory(String sourceTerritory, String targetTerritory, int armiesToMove) {
-        String message = gameMap.getATerritory(targetTerritory).getOwner().conquer(this, armiesToMove);
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
-
-        return message;
-    }
-
-    /**
-     * Delegate the job to eliminate() of Player class.
+     * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
+     * player.
      *
      * @param eliminatedPlayer Player object that has no more territories left and is declared eliminated
      *
      * @return String value of the messages that will be displayed to the user
      */
-    public String eliminatePlayer(Player eliminatedPlayer) {
+    private void eliminatePlayer(Player eliminatedPlayer) {
+        players.remove(eliminatedPlayer);
         log.append(currentPlayer.getPlayerName() + " just eliminated " + eliminatedPlayer.getPlayerName());
-        String message = currentPlayer.eliminated(eliminatedPlayer);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
-
-        return message;
     }
     
     /**
@@ -697,7 +714,7 @@ public class GamePlayModel extends Observable {
     }
     
     // endregion
-
+    
     // region For Fortification Phase
     
     /**
