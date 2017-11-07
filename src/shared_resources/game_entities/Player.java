@@ -10,6 +10,7 @@ import game_play.model.GamePlayModel;
 import shared_resources.utilities.Config;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Vector;
 
@@ -71,15 +72,6 @@ public class Player {
     }
     
     /**
-     * Gets the player name.
-     *
-     * @return the player name
-     */
-    public String getPlayerName() {
-        return playerName;
-    }
-    
-    /**
      * Gets the color of a player.
      *
      * @return the color
@@ -135,10 +127,6 @@ public class Player {
         }
     }
     
-    // endregion
-    
-    // region Public methods
-    
     /**
      * Removes the territory.
      *
@@ -152,6 +140,10 @@ public class Player {
             }
         }
     }
+    
+    // endregion
+    
+    // region Public methods
     
     /**
      * Override equals method to check whether or not two Player objects are the same.
@@ -313,8 +305,6 @@ public class Player {
         this.unallocatedArmies = unallocatedArmies;
     }
     
-    // region Reinforcement Phase
-    
     /**
      * Increases the number of unallocated armies for this player by the specified number.
      *
@@ -323,6 +313,8 @@ public class Player {
     public void addUnallocatedArmies(int num) {
         this.unallocatedArmies += num;
     }
+    
+    // region Reinforcement Phase
     
     /**
      * Reduces the number of unallocated armies for this player by the specified number.
@@ -380,17 +372,24 @@ public class Player {
         try {
             atkRoll = atkDice.roll();
             defRoll = defDice.roll();
+            log.append(playerName + "attacking from " + fromTerritory.getName() + ", dice rolled: [ " + Arrays.toString(atkRoll) + " ] vs. " + toTerritory.getName() + ", dice rolled [ " + Arrays.toString(defRoll) + " ]");
         } catch (Exception e) {
             return (e.toString());
         }
 
         /* decide the battle */
+        int attackerLoss = 0;
+        int defenderLoss = 0;
         for (int i = 0; i < Math.min(atkRoll.length, defRoll.length); i++) {
             if (atkRoll[i] > defRoll[i]) {
                 toTerritory.reduceArmies(1);
+                defenderLoss++;
             } else {
                 fromTerritory.reduceArmies(1);
+                attackerLoss++;
             }
+            log.append("Defended territory " + toTerritory.getName() + " loses " + defenderLoss + " armies");
+            log.append("Attacker territory " + fromTerritory.getName() + " loses " + attackerLoss + " armies");
         }
 
         /* check for player elimination */
@@ -398,9 +397,6 @@ public class Player {
         
         return "";
     }
-    // endregion
-    
-    // region Attack Phase
     
     /**
      * This method gives control of the conquered territory to the attacking player who eliminated all of the armies
@@ -422,11 +418,26 @@ public class Player {
         toTerritory.setOwner(fromTerritory.getOwner());
         fromTerritory.reduceArmies(armiesToMove);
         toTerritory.addArmies(armiesToMove);
+        log.append(fromTerritory.getOwner().getPlayerName() + " conquered " + toTerritory.getName());
 
         /* give a card to the conqueror */
-        addCardToPlayersHand(gamePlayModel.drawCard());
+        Card card = gamePlayModel.drawCard();
+        addCardToPlayersHand(card);
+        log.append(fromTerritory.getOwner().getPlayerName() + " received the " + card + " card");
         
         return "";
+    }
+    // endregion
+    
+    // region Attack Phase
+    
+    /**
+     * Gets the player name.
+     *
+     * @return the player name
+     */
+    public String getPlayerName() {
+        return playerName;
     }
     
     /**
@@ -494,6 +505,7 @@ public class Player {
         fromTerritory.reduceArmies(noOfArmies);
         toTerritory.addArmies(noOfArmies);
         
+        log.append(playerName + " moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory);
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
     

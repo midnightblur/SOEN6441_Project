@@ -551,6 +551,9 @@ public class GamePlayModel extends Observable {
      */
     public String declareAttack(String sourceTerritory, String targetTerritory, int numOfAtkDice, int numOfDefDice) {
         currentPlayer.setGameState(PLAYER_ATTACK_BATTLE);
+        log.append("=========================================");
+        log.append("============= Attack Phase ==============");
+        log.append("=========================================");
         String message = currentPlayer.attack(this, sourceTerritory, targetTerritory, numOfAtkDice, numOfDefDice);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -583,6 +586,7 @@ public class GamePlayModel extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String eliminatePlayer(Player eliminatedPlayer) {
+        log.append(currentPlayer.getPlayerName() + " just eliminated " + eliminatedPlayer.getPlayerName());
         String message = currentPlayer.eliminated(eliminatedPlayer);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -678,6 +682,9 @@ public class GamePlayModel extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String moveArmiesFortification(String sourceTerritory, String targetTerritory, int noOfArmies) {
+        log.append("=========================================");
+        log.append("========== Fortification Phase ==========");
+        log.append("=========================================");
         String message = currentPlayer.fortification(this, sourceTerritory, targetTerritory, noOfArmies);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
