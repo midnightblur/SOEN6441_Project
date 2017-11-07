@@ -102,15 +102,13 @@ public class Player {
      * @return a string  with player statistics
      */
     public String playerInfo() {
-        StringBuilder info = new StringBuilder();
-        info.append("<html><font size=6>" + playerName + "</font><br>");
-        info.append("Owns: ");
-        info.append(getTerritories().size() + " territories | ");
-        info.append(getContinents(GamePlayModel.getInstance().getGameMap()).size() + " continents | ");
-        info.append(getTotalArmiesCount() + " armies | ");
-        info.append(getPlayersHand().size() + " cards");
-        info.append("</html>");
-        return info.toString();
+        return "<html><font size=6>" + playerName + "</font><br>" +
+                "Owns: " +
+                getTerritories().size() + " territories | " +
+                getContinents(GamePlayModel.getInstance().getGameMap()).size() + " continents | " +
+                getTotalArmiesCount() + " armies | " +
+                getPlayersHand().size() + " cards" +
+                "</html>";
     }
     
     /**
