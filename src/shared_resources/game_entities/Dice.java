@@ -6,7 +6,8 @@
  */
 package shared_resources.game_entities;
 
-import java.util.Arrays;
+import java.util.Random;
+import java.util.Vector;
 
 /**
  * Objects of this class are created by specifying the number of dice to roll
@@ -20,99 +21,74 @@ import java.util.Arrays;
  * @version 1.0
  */
 public class Dice {
-    
     // region Attributes declaration
-    /** The dice object is represented as an array of integers. */
-    private int[] dice;
+    private int rollsCount;
+    private Vector<Integer> rollsResult;
     // endregion
     
     // region Constructors
-    
     /**
-     * Default constructor delegating to parametrized constructor.
-     */
-    public Dice() {
-        this(1);
-    }
-    
-    /**
-     * Parametrized constructor
      * Build an array of dice with default pips showing 1.
      *
-     * @param numberOfDice represents the number of dice to be rolled
+     * @param rollsCount represents the number of dice to be rolled
      */
-    public Dice(int numberOfDice) {
-        /* enforce at least 1 die to be rolled */
-        if (numberOfDice < 1) {
-            numberOfDice = 1;
-        }
-        
-        dice = new int[numberOfDice];
-
-        /* set initial index of each die to a random number */
-        for (int i = 0; i < dice.length; i++) {
-            dice[i] = (int) (Math.random() * 6) + 1;
-        }
+    public Dice(int rollsCount) {
+        this.rollsCount = rollsCount;
+        rollsResult = new Vector<>();
     }
     // endregion
     
     // region Getters & Setters
     
-    /**
-     * Gets the dice.
-     *
-     * @return the dice
-     */
-    public int[] getDice() {
-        return dice;
+    public int getRollsCount() {
+        return rollsCount;
     }
     
-    /**
-     * Sets the dice.
-     *
-     * @param dice the new dice
-     */
-    public void setDice(int[] dice) {
-        this.dice = dice;
+    public Vector<Integer> getRollsResult() {
+        return rollsResult;
     }
+    
+    public void setRollsResult(Vector<Integer> rollsResult) {
+        this.rollsResult = rollsResult;
+    }
+    
     // endregion
     
     // region Public methods
+    public void roll() {
+        for (int i = 0; i < rollsCount; i++) {
+            rollsResult.add(new Random().nextInt(6) + 1);
+        }
+    }
     
-    /**
-     * Rolling the dice and returning the maximum 2 values obtained sorted in descending order.
-     *
-     * @return an array containing the maximum 2 values obtained sorted in descending order
-     *
-     * @throws Exception the exception
-     */
-    public int[] roll() throws Exception {
-
-        /* validating the dice size */
-        if (dice.length == 0) {
-            throw new Exception("No dice to roll");
+    public int getTheBestResult() {
+        int max = Integer.MIN_VALUE;
+        for (Integer result : rollsResult) {
+            if (max < result) {
+                max = result;
+            }
         }
-
-        /* rolling the dice */
-        for (int i : dice) {
-            i = (int) (Math.random() * 6) + 1;
+        return max;
+    }
+    
+    public int getSecondBestResult() {
+        int max = 1;
+        int second_max = 1;
+        for (Integer result : rollsResult) {
+            int tmp_max = max;
+            boolean isMaxChanged = false;
+            if (max <= result) {
+                max = result;
+                isMaxChanged = true;
+            }
+            
+            if (isMaxChanged) {
+                second_max = tmp_max;
+            } else if (second_max <= result) {
+                second_max = result;
+            }
         }
-
-        /* sorting ascending */
-        Arrays.sort(dice);
-        System.out.println("sorted:");
-
-        /* defining the returned result array of 1 or 2 entries and copy the largest values */
-        if (dice.length == 1) {
-            int[] result = new int[1];
-            result[0] = dice[dice.length - 1];  // largest value (at index 0)
-            return result;
-        } else {
-            int[] result = new int[2];
-            result[0] = dice[dice.length - 1];  // largest value (at index 0)
-            result[1] = dice[dice.length - 2];  // second largest value (at index 1)
-            return result;
-        }
+        return second_max;
     }
     // endregion
     

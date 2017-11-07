@@ -1,7 +1,5 @@
 package shared_resources.game_entities;
 
-import java.util.Vector;
-
 /**
  * Battle is responsible for encapsulating all information about a battle between 2 territories
  */
@@ -9,26 +7,27 @@ public class Battle {
     // region Attributes declaration
     private Player attacker;
     private Territory attackingTerritory;
-    private int attackingDice;
+    private Dice attackerDice;
+    private int attackerLoseCount;
     
     private Player defender;
     private Territory defendingTerritory;
-    private int defendingDice;
-    
-    private Vector<Integer> attackerRolls;
-    private Vector<Integer> defenderRolls;
+    private Dice defenderDice;
+    private int defenderLoseCount;
     // endregion
     
     // region Constructors/
-    public Battle(Player attacker, Territory attackingTerritory, int attackingDice, Player defender, Territory defendingTerritory) {
+    public Battle(Player attacker, Territory attackingTerritory, int attackingDice,
+                  Player defender, Territory defendingTerritory, int defendingDice) {
         this.attacker = attacker;
         this.attackingTerritory = attackingTerritory;
-        this.attackingDice = attackingDice;
+        attackerDice = new Dice(attackingDice);
+        attackerLoseCount = 0;
+        
         this.defender = defender;
         this.defendingTerritory = defendingTerritory;
-    
-        attackerRolls = new Vector<>();
-        defenderRolls = new Vector<>();
+        defenderDice = new Dice(defendingDice);
+        defenderLoseCount = 0;
     }
     // endregion
     
@@ -41,10 +40,6 @@ public class Battle {
         return attackingTerritory;
     }
     
-    public int getAttackingDice() {
-        return attackingDice;
-    }
-    
     public Player getDefender() {
         return defender;
     }
@@ -53,18 +48,38 @@ public class Battle {
         return defendingTerritory;
     }
     
-    public int getDefendingDice() {
-        return defendingDice;
+    public Dice getAttackerDice() {
+        return attackerDice;
     }
     
-    public void setDefendingDice(int defendingDice) {
-        this.defendingDice = defendingDice;
+    public Dice getDefenderDice() {
+        return defenderDice;
+    }
+    
+    public int getAttackerLoseCount() {
+        return attackerLoseCount;
+    }
+    
+    public int getDefenderLoseCount() {
+        return defenderLoseCount;
     }
     // endregion
     
     // region Public methods
     public void attackerRollDice() {
-        
+        attackerDice.roll();
+    }
+    
+    public void defenderRollDice() {
+        defenderDice.roll();
+    }
+    
+    public void increaseAttackerLoseCount() {
+        attackerLoseCount++;
+    }
+    
+    public void increaseDefenderLoseCount() {
+        defenderLoseCount++;
     }
     // endregion
 }

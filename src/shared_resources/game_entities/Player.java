@@ -344,59 +344,51 @@ public class Player {
      * any eliminated players at the end of each attack move.
      *
      * @param gamePlayModel   The GamePlayModel containing the state of the game
-     * @param sourceTerritory String value of the name of the source Territory
-     * @param targetTerritory String value of the name of the target Territory
-     * @param numOfAtkDice    Integer value of the number of dice to be used for the attacker
-     * @param numOfDefDice    Integer value of the number of dice to be used for the defender
      *
      * @return String value of the messages that will be displayed to the user
      */
-    public String attack(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int numOfAtkDice, int numOfDefDice) {
-        Territory fromTerritory = gamePlayModel.getGameMap().getATerritory(sourceTerritory);
-        Territory toTerritory = gamePlayModel.getGameMap().getATerritory(targetTerritory);
-        Dice atkDice, defDice;
+    public String attack(GamePlayModel gamePlayModel) {
+        Battle currentBattle = gamePlayModel.getCurrentBattle();
+        Territory attackingTerritory = currentBattle.getAttackingTerritory();
+        Territory defendingTerritory = currentBattle.getDefendingTerritory();
+        int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
+        int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
 
-        /* check for valid territories */
-        if (!(fromTerritory.getArmies() >= Config.MIN_ARMY_TO_ATTACK && fromTerritory.isNeighbor(toTerritory.getName()))) {
-            return "Invalid territories have been chosen for the attack move!";
-        }
+        /* Both players oll dice */
+        currentBattle.attackerRollDice();
+        currentBattle.defenderRollDice();
 
-        /* check for valid number of dice */
-        if (fromTerritory.getArmies() > numOfAtkDice && numOfAtkDice > 0 && numOfAtkDice <= Config.MAX_NUM_ATK_DICE) {
-            atkDice = new Dice(numOfAtkDice);
-        } else {
-            return "Allowed number of attacking dice: (1 to 3). Must have at least one more army in " +
-                    "attacking Territory than the number of attacking dice!";
+        /* Decide the battle */
+        // Compare the best result of both players
+        int bestOfAttacker = currentBattle.getAttackerDice().getTheBestResult();
+        int bestOfDefender = currentBattle.getDefenderDice().getTheBestResult();
+        decideResult(currentBattle, attackingTerritory, defendingTerritory, bestOfAttacker, bestOfDefender);
+        
+        // If both players roll at least 2 dice
+        if (numOfAtkDice >= 2 && numOfDefDice >= 2) {
+            int secondBestOfAttacker = currentBattle.getAttackerDice().getSecondBestResult();
+            int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
+            decideResult(currentBattle, attackingTerritory, defendingTerritory, secondBestOfAttacker, secondBestOfDefender);
         }
-        if (toTerritory.getArmies() >= numOfDefDice && numOfDefDice > 0 && numOfDefDice <= Config.MAX_NUM_DEF_DICE) {
-            defDice = new Dice(numOfDefDice);
-        } else {
-            return "Allowed number of defending dice: (1 to 2). Must have at least two armies in " +
-                    "defending Territory to use two defending dice!";
-        }
-
-        /* roll dice */
-        int[] atkRoll, defRoll;
-        try {
-            atkRoll = atkDice.roll();
-            defRoll = defDice.roll();
-        } catch (Exception e) {
-            return (e.toString());
-        }
-
-        /* decide the battle */
-        for (int i = 0; i < Math.min(atkRoll.length, defRoll.length); i++) {
-            if (atkRoll[i] > defRoll[i]) {
-                toTerritory.reduceArmies(1);
-            } else {
-                fromTerritory.reduceArmies(1);
-            }
-        }
-
-        /* check for player elimination */
-        // TODO: check for player elimination
+        
+        /* Check for territory conquer */
+        // TODO: check if the defending territory has no army left
+        
+        /* Check for player elimination */
+        // TODO: check if the defender loses all of his territories
         
         return "";
+    }
+    
+    private void decideResult(Battle currentBattle, Territory attackingTerritory, Territory defendingTerritory,
+                              int attackerRoll, int defenderRoll) {
+        if (attackerRoll > defenderRoll) { // the attacker wins
+            defendingTerritory.reduceArmies(1);
+            currentBattle.increaseDefenderLoseCount();
+        } else { // the defender wins
+            attackingTerritory.reduceArmies(1);
+            currentBattle.increaseAttackerLoseCount();
+        }
     }
     // endregion
     

@@ -6,7 +6,10 @@
  */
 package shared_resources.game_entities;
 
+import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Vector;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,54 +17,142 @@ import static org.junit.Assert.assertEquals;
  * The Class DiceTest.
  */
 public class DiceTest {
+    private Vector<Integer> inputResult;
     
-    /**
-     * This test checks roll of dice.
-     *
-     * @throws Exception if there is no die
-     */
+    @Before
+    public void setup() {
+        inputResult = new Vector<>();
+    }
+    
     @Test
-    public void rollForTreeDice() throws Exception {
-        int diceCount = 3;
-        System.out.println("\nTesting with " + diceCount + " dice ...");
-        Dice myDice = new Dice(diceCount);
-        int resultingSize = myDice.roll().length;
-        assertEquals(2, resultingSize);
-        System.out.println("Expected size of rolled result:\t2\n" +
-                "Actual size of rolled result:\t" + resultingSize);
+    public void testGetResult_1() {
+        inputResult.add(1);
+        inputResult.add(4);
+        inputResult.add(5);
         
+        Dice dice = new Dice(3);
+        dice.setRollsResult(inputResult);
+        assertEquals(5, dice.getTheBestResult());
+        assertEquals(4, dice.getSecondBestResult());
     }
     
-    /**
-     * This test checks roll for one dice.
-     *
-     * @throws Exception if there is no die
-     */
     @Test
-    public void rollForOneDice() throws Exception {
-        int diceCount = 1;
-        System.out.println("\nTesting with " + diceCount + " dice ...");
-        Dice myDice = new Dice(diceCount);
-        int resultingSize = myDice.roll().length;
-        assertEquals(1, resultingSize);
-        System.out.println("Expected size of rolled result:\t1\n" +
-                "Actual size of rolled result:\t" + resultingSize);
+    public void testGetResult_2() {
+        inputResult.add(6);
+        inputResult.add(4);
+        inputResult.add(3);
+        
+        Dice dice = new Dice(3);
+        dice.setRollsResult(inputResult);
+        assertEquals(6, dice.getTheBestResult());
+        assertEquals(4, dice.getSecondBestResult());
     }
     
-    /**
-     * This test checks the roll for zero dice.
-     *
-     * @throws Exception if there is no die
-     */
     @Test
-    public void rollForZeroDice() throws Exception {
-        int diceCount = 0;
-        System.out.println("\nTesting with " + diceCount + " dice ... \nWe expect that Dice constructor validates and makes one die array");
-        Dice myDice = new Dice(diceCount);
-        int resultingSize = myDice.roll().length;
-        assertEquals(1, resultingSize);
-        System.out.println("Expected size of rolled result:\t1\n" +
-                "Actual size of rolled result:\t" + resultingSize);
+    public void testGetResult_3() {
+        inputResult.add(1);
+        inputResult.add(5);
+        inputResult.add(5);
+        
+        Dice dice = new Dice(3);
+        dice.setRollsResult(inputResult);
+        assertEquals(5, dice.getTheBestResult());
+        assertEquals(5, dice.getSecondBestResult());
     }
     
+    @Test
+    public void testGetResult_4() {
+        inputResult.add(6);
+        inputResult.add(6);
+        inputResult.add(2);
+        
+        Dice dice = new Dice(3);
+        dice.setRollsResult(inputResult);
+        assertEquals(6, dice.getTheBestResult());
+        assertEquals(6, dice.getSecondBestResult());
+    }
+    
+    @Test
+    public void testGetResult_5() {
+        inputResult.add(3);
+        inputResult.add(3);
+        inputResult.add(6);
+        
+        Dice dice = new Dice(3);
+        dice.setRollsResult(inputResult);
+        assertEquals(6, dice.getTheBestResult());
+        assertEquals(3, dice.getSecondBestResult());
+    }
+    
+    @Test
+    public void testGetResult_6() {
+        inputResult.add(5);
+        inputResult.add(2);
+        inputResult.add(2);
+        
+        Dice dice = new Dice(3);
+        dice.setRollsResult(inputResult);
+        assertEquals(5, dice.getTheBestResult());
+        assertEquals(2, dice.getSecondBestResult());
+    }
+    
+    @Test
+    public void testGetResult_7() {
+        inputResult.add(6);
+        inputResult.add(6);
+        inputResult.add(6);
+        
+        Dice dice = new Dice(3);
+        dice.setRollsResult(inputResult);
+        assertEquals(6, dice.getTheBestResult());
+        assertEquals(6, dice.getSecondBestResult());
+    }
+    
+    @Test
+    public void testGetResult_8() {
+        inputResult.add(2);
+        inputResult.add(5);
+        inputResult.add(2);
+        
+        Dice dice = new Dice(3);
+        dice.setRollsResult(inputResult);
+        assertEquals(5, dice.getTheBestResult());
+        assertEquals(2, dice.getSecondBestResult());
+    }
+    
+    @Test
+    public void testGetResult_9() {
+        inputResult.add(5);
+        inputResult.add(2);
+        inputResult.add(5);
+        
+        Dice dice = new Dice(3);
+        dice.setRollsResult(inputResult);
+        assertEquals(5, dice.getTheBestResult());
+        assertEquals(5, dice.getSecondBestResult());
+    }
+    
+    @Test
+    public void testGetResult_10() {
+        inputResult.add(2);
+        inputResult.add(6);
+        inputResult.add(5);
+        
+        Dice dice = new Dice(3);
+        dice.setRollsResult(inputResult);
+        assertEquals(6, dice.getTheBestResult());
+        assertEquals(5, dice.getSecondBestResult());
+    }
+    
+    @Test
+    public void testGetResult_11() {
+        inputResult.add(4);
+        inputResult.add(6);
+        inputResult.add(3);
+        
+        Dice dice = new Dice(3);
+        dice.setRollsResult(inputResult);
+        assertEquals(6, dice.getTheBestResult());
+        assertEquals(4, dice.getSecondBestResult());
+    }
 }

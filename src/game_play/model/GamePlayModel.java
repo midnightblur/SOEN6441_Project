@@ -58,6 +58,7 @@ public class GamePlayModel extends Observable {
     private Vector<Card> deck;
     private Vector<Player> players;
     private Random rand;
+    private Battle currentBattle;
     // endregion
     
     // region Constructors
@@ -542,16 +543,22 @@ public class GamePlayModel extends Observable {
     /**
      * Delegate the job to attack() of Player class.
      *
-     * @param sourceTerritory String value of the name of the source Territory
-     * @param targetTerritory String value of the name of the target Territory
+     * @param attackingTerritoryName String value of the name of the attacking Territory
+     * @param defendingTerritoryName String value of the name of the defending Territory
      * @param numOfAtkDice    Integer value of the number of dice to be used by the attacker
      * @param numOfDefDice    Integer value of the number of dice to be used by the defender
      *
      * @return String value of the messages that will be displayed to the user
      */
-    public String declareAttack(String sourceTerritory, String targetTerritory, int numOfAtkDice, int numOfDefDice) {
+    public String declareAttack(String attackingTerritoryName, String defendingTerritoryName, int numOfAtkDice, int numOfDefDice) {
+        Player attacker = currentPlayer;
+        Territory attackingTerritory = gameMap.getATerritory(attackingTerritoryName);
+        Player defender = gameMap.getATerritory(defendingTerritoryName).getOwner();
+        Territory defendingTerritory = gameMap.getATerritory(defendingTerritoryName);
+        
+        currentBattle = new Battle(attacker, attackingTerritory, numOfAtkDice, defender, defendingTerritory, numOfDefDice);
         currentPlayer.setGameState(PLAYER_ATTACK_BATTLE);
-        String message = currentPlayer.attack(this, sourceTerritory, targetTerritory, numOfAtkDice, numOfDefDice);
+        String message = currentPlayer.attack(this);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
 
@@ -664,6 +671,16 @@ public class GamePlayModel extends Observable {
             return 1;
         }
     }
+    
+    /**
+     * Gets the current battle of the game
+     *
+     * @return the current battle of the game
+     */
+    public Battle getCurrentBattle() {
+        return currentBattle;
+    }
+    
     // endregion
 
     // region For Fortification Phase
