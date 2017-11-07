@@ -32,6 +32,7 @@ public class Battle {
      * @param attackingDice      the dice for attacking player
      * @param defender           the defender player
      * @param defendingTerritory the territory being attached
+     * @param defendingDice      the dice for defending player
      */
     public Battle(Player attacker, Territory attackingTerritory, int attackingDice,
                   Player defender, Territory defendingTerritory, int defendingDice) {
@@ -103,11 +104,21 @@ public class Battle {
         return defenderDice;
     }
     
-    public int getAttackerLoseCount() {
+    /**
+     * Get the attacker loss count
+     *
+     * @return the attacker loss count
+     */
+    public int getAttackerLossCount() {
         return attackerLoseCount;
     }
     
-    public int getDefenderLoseCount() {
+    /**
+     * Get the defender loss count
+     *
+     * @return the defender loss count
+     */
+    public int getDefenderLossCount() {
         return defenderLoseCount;
     }
     // endregion
@@ -128,11 +139,17 @@ public class Battle {
         defenderDice.roll();
     }
     
-    public void increaseAttackerLoseCount() {
+    /**
+     * Increase the attacker loss count
+     */
+    public void increaseAttackerLossCount() {
         attackerLoseCount++;
     }
     
-    public void increaseDefenderLoseCount() {
+    /**
+     * Increase the defender loss count
+     */
+    public void increaseDefenderLossCount() {
         defenderLoseCount++;
     }
     // endregion
