@@ -196,7 +196,13 @@ public class GamePlayFrame extends JFrame implements Observer {
     // region MVC & Observer pattern methods
     
     /**
-     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     * This method is called whenever the observed object is changed. An
+     * application calls an <tt>Observable</tt> object's
+     * <code>notifyObservers</code> method to have all the object's
+     * observers notified of the change.
+     *
+     * @param o   the observable object.
+     * @param arg an argument passed to the <code>notifyObservers</code>
      */
     @Override
     public void update(Observable o, Object arg) {
@@ -218,7 +224,8 @@ public class GamePlayFrame extends JFrame implements Observer {
                         case PLAYER_TRADE_CARDS:
                             cardLayout.show(controlArea, ReinforcementPanel.class.getName());
                             break;
-                        case PLAYER_ATTACK:
+                        case PLAYER_ATTACK_PREPARE:
+                        case PLAYER_ATTACK_BATTLE:
                              cardLayout.show(controlArea, AttackingPanel.class.getName());
                             break;
                         case PLAYER_FORTIFICATION:
