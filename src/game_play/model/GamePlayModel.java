@@ -90,6 +90,14 @@ public class GamePlayModel extends Observable {
     // endregion
     
     // region Getters and Setters
+    /**
+     * Gets the current battle of the game
+     *
+     * @return the current battle of the game
+     */
+    public Battle getCurrentBattle() {
+        return currentBattle;
+    }
     
     /**
      * Gets the game map.
@@ -578,7 +586,7 @@ public class GamePlayModel extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String captureTerritory(String sourceTerritory, String targetTerritory, int armiesToMove) {
-        String message = gameMap.getATerritory(targetTerritory).getOwner().conquer(this, sourceTerritory, targetTerritory, armiesToMove);
+        String message = gameMap.getATerritory(targetTerritory).getOwner().conquer(this, armiesToMove);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
 
@@ -676,13 +684,16 @@ public class GamePlayModel extends Observable {
         }
     }
     
-    /**
-     * Gets the current battle of the game
-     *
-     * @return the current battle of the game
-     */
-    public Battle getCurrentBattle() {
-        return currentBattle;
+    public void prepareNewAttack() {
+        currentPlayer.setGameState(PLAYER_ATTACK_PREPARE);
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+    }
+    
+    public void moveArmiesToConqueredTerritory(int armiesToMove) {
+        currentPlayer.conquer(this, armiesToMove);
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
     }
     
     // endregion

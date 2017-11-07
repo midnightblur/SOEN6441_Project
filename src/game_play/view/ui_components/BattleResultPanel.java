@@ -12,6 +12,7 @@ import shared_resources.utilities.Config;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,12 +23,11 @@ public class BattleResultPanel extends JPanel implements Observer {
     // region Attributes declaration
     private static final String ATTACKER_ROLL_RESULT = "Attacker roll results: ";
     private static final String DEFENDER_ROLL_RESULT = "Defender roll results: ";
-    private static final String ATTACKER_LOSE_ARMIES = "Attacker lose %s armies:";
-    private static final String DEFENDER_LOSE_ARMIES = "Defender lose %s armies:";
+    private static final String ATTACKER_LOSE_ARMIES = "Attacker lose %s armies";
+    private static final String DEFENDER_LOSE_ARMIES = "Defender lose %s armies";
     private static final String ATT_TERRITORY_ARMIES = "%s (attacking) now has %s armies left";
     private static final String DEF_TERRITORY_ARMIES = "%s (defending) now has %s armies left";
-    private static final String CONTINUE_ATTACK_BUTTON = "Continue attack this territory";
-    private static final String ANOTHER_ATTACK_BUTTON = "Attack another territory";
+    private static final String ANOTHER_ATTACK_BUTTON = "Do another Attack";
     private static final String DONE_BUTTON = "Done (to Fortification)";
     
     private JLabel attackerRolls;
@@ -36,8 +36,7 @@ public class BattleResultPanel extends JPanel implements Observer {
     private JLabel defenderLoseArmies;
     private JLabel attackingArmies;
     private JLabel defendingArmies;
-    private JButton continueAttackBtn;
-    private JButton attackAnotherOneBtn;
+    private JButton anotherAttackBtn;
     private JButton doneBtn;
     // endregion
     
@@ -54,24 +53,30 @@ public class BattleResultPanel extends JPanel implements Observer {
         defenderLoseArmies = new JLabel();
         attackingArmies = new JLabel();
         defendingArmies = new JLabel();
-        continueAttackBtn = new JButton(CONTINUE_ATTACK_BUTTON);
-        attackAnotherOneBtn = new JButton(ANOTHER_ATTACK_BUTTON);
+        anotherAttackBtn = new JButton(ANOTHER_ATTACK_BUTTON);
         doneBtn = new JButton(DONE_BUTTON);
         
         add(attackerRolls);
         add(defenderRolls);
+        add(new JLabel());
+        add(new JLabel());
         add(attackerLoseArmies);
         add(attackingArmies);
+        add(new JLabel());
+        add(new JLabel());
         add(defenderLoseArmies);
         add(defendingArmies);
-        
-        add(continueAttackBtn);
-        add(attackAnotherOneBtn);
+        add(new JLabel());
+        add(new JLabel());
+        add(anotherAttackBtn);
         add(doneBtn);
     }
     // endregion
     
     // region MVC & Observer pattern methods
+    public void addAnotherAttackButtonListener(ActionListener listenerForAnotherAttackBtn) {
+        anotherAttackBtn.addActionListener(listenerForAnotherAttackBtn);
+    }
     
     /**
      * This method is called whenever the observed object is changed. An

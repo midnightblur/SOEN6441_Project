@@ -8,6 +8,7 @@ package game_play.controller;
 
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
+import game_play.view.screens.ConquerDialog;
 import game_play.view.screens.DefendingDialog;
 import game_play.view.screens.GamePlayFrame;
 import shared_resources.game_entities.GameMap;
@@ -106,6 +107,7 @@ public class GamePlayController {
         gamePlayFrame.getAttackingPanel().getAttackPreparePanel().addAttackingTerritoryDropdownListener(e -> updateDefendingTerritoriesAndAttackingDice(
                 String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem())
         ));
+        gamePlayFrame.getAttackingPanel().getBattleResultPanel().addAnotherAttackButtonListener(e -> prepareAnotherAttack());
         
         /* For Fortification Panel */
         gamePlayFrame.getFortificationPanel().addMoveArmiesButtonListener(e -> moveArmies());
@@ -226,6 +228,22 @@ public class GamePlayController {
     // endregion
     
     // region For Attacking Phase
+    private void prepareAnotherAttack() {
+        /* Check if the defending territory has been conquered */
+        if (gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
+            gamePlayFrame.setVisible(false);
+            JFrame frame = new JFrame();
+            ConquerDialog conquerDialog = new ConquerDialog(frame, gamePlayModel.getCurrentBattle());
+            conquerDialog.addMoveArmiesButtonListener(e -> moveArmiesToConqueredTerritory(conquerDialog, gamePlayFrame));
+        }
+        gamePlayModel.prepareNewAttack();
+    }
+    
+    private void moveArmiesToConqueredTerritory(ConquerDialog conquerDialog, JFrame owner) {
+        gamePlayModel.moveArmiesToConqueredTerritory((Integer) conquerDialog.getMoveArmiesDropdown().getSelectedItem());
+        conquerDialog.getOwner().dispose();
+        owner.setVisible(true);
+    }
     
     /**
      * Call appropriate function in GamePlayModel to perform an attack from one territory to another

@@ -10,7 +10,6 @@ import game_play.model.GamePlayModel;
 import shared_resources.utilities.Config;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Vector;
 
@@ -380,26 +379,23 @@ public class Player {
      * attacking territory. A randomly drawn card from the deck is also given to the conquering player.
      *
      * @param gamePlayModel   The GamePlayModel containing the state of the game
-     * @param sourceTerritory String value of the name of the source Territory
-     * @param targetTerritory String value of the name of the target Territory
-     * @param armiesToMove    Integer value of the number of armies to be moved to the captured territory
      *
      * @return String value of the messages that will be displayed to the user
      */
-    public String conquer(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int armiesToMove) {
-        Territory fromTerritory = gamePlayModel.getGameMap().getATerritory(sourceTerritory);
-        Territory toTerritory = gamePlayModel.getGameMap().getATerritory(targetTerritory);
+    public String conquer(GamePlayModel gamePlayModel, int armiesToMove) {
+        Territory attackingTerritory = gamePlayModel.getCurrentBattle().getAttackingTerritory();
+        Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
+        
+        /* Change owner of the conquered territory, and move armies */
+        defendingTerritory.setOwner(attackingTerritory.getOwner());
+        attackingTerritory.reduceArmies(armiesToMove);
+        defendingTerritory.addArmies(armiesToMove);
+        log.append(attackingTerritory.getOwner().getPlayerName() + " conquered " + defendingTerritory.getName());
 
-        /* change owner of the conquered territory, and move armies */
-        toTerritory.setOwner(fromTerritory.getOwner());
-        fromTerritory.reduceArmies(armiesToMove);
-        toTerritory.addArmies(armiesToMove);
-        log.append(fromTerritory.getOwner().getPlayerName() + " conquered " + toTerritory.getName());
-
-        /* give a card to the conqueror */
+        /* Give a card to the conqueror */
         Card card = gamePlayModel.drawCard();
         addCardToPlayersHand(card);
-        log.append(fromTerritory.getOwner().getPlayerName() + " received the " + card + " card");
+        log.append(attackingTerritory.getOwner().getPlayerName() + " received the " + card + " card");
         
         return "";
     }
