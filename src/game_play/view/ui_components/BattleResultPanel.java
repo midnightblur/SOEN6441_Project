@@ -78,6 +78,10 @@ public class BattleResultPanel extends JPanel implements Observer {
         anotherAttackBtn.addActionListener(listenerForAnotherAttackBtn);
     }
     
+    public void addDoneButtonListener(ActionListener listenerForDoneButton) {
+        doneBtn.addActionListener(listenerForDoneButton);
+    }
+    
     /**
      * This method is called whenever the observed object is changed. An
      * application calls an <tt>Observable</tt> object's

@@ -104,6 +104,7 @@ public class GamePlayController {
         /* For Attacking Panel */
         gamePlayFrame.getAttackingPanel().getAttackPreparePanel().addAttackButtonListener(e -> attackTerritory());
         gamePlayFrame.getAttackingPanel().getAttackPreparePanel().addDoneButtonListener(e -> goToFortificationPhase());
+        gamePlayFrame.getAttackingPanel().getBattleResultPanel().addDoneButtonListener(e -> goToFortificationPhase());
         gamePlayFrame.getAttackingPanel().getAttackPreparePanel().addAttackingTerritoryDropdownListener(e -> updateDefendingTerritoriesAndAttackingDice(
                 String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem())
         ));
