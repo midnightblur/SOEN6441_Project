@@ -212,8 +212,10 @@ public class Player {
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         switch (gameState) {
             case PLAYER_TRADE_CARDS:
+                log.append(gamePlayModel.getCurrentPlayer().getPlayerName() + " wants to trade-in cards...");
                 return tradeInCards(gamePlayModel, selectedCards);
             case PLAYER_REINFORCEMENT:
+                log.append(gamePlayModel.getCurrentPlayer().getPlayerName() + " wants to distribute armies...");
                 distributeArmies(gamePlayModel, armiesToPlace);
                 break;
         }
