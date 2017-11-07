@@ -72,6 +72,15 @@ public class Player {
     }
     
     /**
+     * Gets the player name.
+     *
+     * @return the player name
+     */
+    public String getPlayerName() {
+        return playerName;
+    }
+    
+    /**
      * Gets the color of a player.
      *
      * @return the color
@@ -117,6 +126,28 @@ public class Player {
     }
     
     /**
+     * Gets the unallocated armies.
+     *
+     * @return the unallocated armies
+     */
+    public int getUnallocatedArmies() {
+        return this.unallocatedArmies;
+    }
+    
+    /**
+     * Sets the unallocated armies.
+     *
+     * @param unallocatedArmies the new unallocated armies
+     */
+    public void setUnallocatedArmies(int unallocatedArmies) {
+        this.unallocatedArmies = unallocatedArmies;
+    }
+    
+    // endregion
+    
+    // region Public methods
+    
+    /**
      * Adds the territory.
      *
      * @param territory the territory
@@ -140,10 +171,6 @@ public class Player {
             }
         }
     }
-    
-    // endregion
-    
-    // region Public methods
     
     /**
      * Override equals method to check whether or not two Player objects are the same.
@@ -170,6 +197,35 @@ public class Player {
                 || this.playerName.compareTo(tempPlayer.playerName) == 0)
                 && this.unallocatedArmies == tempPlayer.unallocatedArmies;
     }
+    
+    /**
+     * Adds a card to the player's hand.
+     *
+     * @param card An object of Card class to be added to the players hand
+     */
+    public void addCardToPlayersHand(Card card) {
+        this.playersHand.add(card);
+    }
+    
+    /**
+     * Increases the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number o unallocated armies to add
+     */
+    public void addUnallocatedArmies(int num) {
+        this.unallocatedArmies += num;
+    }
+    
+    /**
+     * Reduces the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number of unallocated armies to reduce
+     */
+    public void reduceUnallocatedArmies(int num) {
+        this.unallocatedArmies -= num;
+    }
+    
+    // region Reinforcement Phase
     
     /**
      * Implement the Reinforcement Phase of a particular player
@@ -287,43 +343,9 @@ public class Player {
         }
     }
     
-    /**
-     * Gets the unallocated armies.
-     *
-     * @return the unallocated armies
-     */
-    public int getUnallocatedArmies() {
-        return this.unallocatedArmies;
-    }
+    // endregion
     
-    /**
-     * Sets the unallocated armies.
-     *
-     * @param unallocatedArmies the new unallocated armies
-     */
-    public void setUnallocatedArmies(int unallocatedArmies) {
-        this.unallocatedArmies = unallocatedArmies;
-    }
-    
-    /**
-     * Increases the number of unallocated armies for this player by the specified number.
-     *
-     * @param num The int index of the number o unallocated armies to add
-     */
-    public void addUnallocatedArmies(int num) {
-        this.unallocatedArmies += num;
-    }
-    
-    // region Reinforcement Phase
-    
-    /**
-     * Reduces the number of unallocated armies for this player by the specified number.
-     *
-     * @param num The int index of the number of unallocated armies to reduce
-     */
-    public void reduceUnallocatedArmies(int num) {
-        this.unallocatedArmies -= num;
-    }
+    // region Attack Phase
     
     public String attack(GamePlayModel gamePlayModel) {
         Battle currentBattle = gamePlayModel.getCurrentBattle();
@@ -402,27 +424,6 @@ public class Player {
         log.append(fromTerritory.getOwner().getPlayerName() + " received the " + card + " card");
         
         return "";
-    }
-    // endregion
-    
-    // region Attack Phase
-    
-    /**
-     * Gets the player name.
-     *
-     * @return the player name
-     */
-    public String getPlayerName() {
-        return playerName;
-    }
-    
-    /**
-     * Adds a card to the player's hand.
-     *
-     * @param card An object of Card class to be added to the players hand
-     */
-    public void addCardToPlayersHand(Card card) {
-        this.playersHand.add(card);
     }
     
     /**
