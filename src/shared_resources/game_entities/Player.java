@@ -10,7 +10,6 @@ import game_play.model.GamePlayModel;
 import shared_resources.utilities.Config;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Vector;
 
@@ -387,8 +386,8 @@ public class Player {
             int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
             decideResult(currentBattle, attackingTerritory, defendingTerritory, secondBestOfAttacker, secondBestOfDefender);
         }
-        log.append("Defended territory " + defendingTerritory.getName() + " loses " + currentBattle.getDefenderLoseCount() + " armies");
-        log.append("Attacker territory " + attackingTerritory.getName() + " loses " + currentBattle.getAttackerLoseCount() + " armies");
+        log.append("Defended territory " + defendingTerritory.getName() + " loses " + currentBattle.getDefenderLossCount() + " armies");
+        log.append("Attacker territory " + attackingTerritory.getName() + " loses " + currentBattle.getAttackerLossCount() + " armies");
         
         /* Check for territory conquer */
         // TODO: check if the defending territory has no army left
@@ -414,10 +413,10 @@ public class Player {
                               int attackerRoll, int defenderRoll) {
         if (attackerRoll > defenderRoll) { // the attacker wins
             defendingTerritory.reduceArmies(1);
-            currentBattle.increaseDefenderLoseCount();
+            currentBattle.increaseDefenderLossCount();
         } else { // the defender wins
             attackingTerritory.reduceArmies(1);
-            currentBattle.increaseAttackerLoseCount();
+            currentBattle.increaseAttackerLossCount();
         }
     }
     
