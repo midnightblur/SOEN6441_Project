@@ -282,23 +282,25 @@ public class GamePlayController {
      * @param attackingTerritory the selected attacking territory
      */
     private void updateDefendingTerritoriesAndAttackingDice(String attackingTerritory) {
-        /* Update defending territories dropdown */
-        gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().setModel(
-                new DefaultComboBoxModel<>(gamePlayModel.getNeighborsNotOwnedBySamePlayer(attackingTerritory))
-        );
-        gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().setSelectedIndex(0);
+        if (attackingTerritory != null) {
+            /* Update defending territories dropdown */
+            gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().setModel(
+                    new DefaultComboBoxModel<>(gamePlayModel.getNeighborsNotOwnedBySamePlayer(attackingTerritory))
+            );
+            gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().setSelectedIndex(0);
         
         /* Update attacking dice dropdown */
-        int maxRoll = gamePlayModel.getMaxAttackingRoll(attackingTerritory);
-        Vector<Integer> rollChoice = new Vector<>();
-        for (int i = 1; i <= maxRoll; i++) {
-            rollChoice.add(i);
+            int maxRoll = gamePlayModel.getMaxAttackingRoll(attackingTerritory);
+            Vector<Integer> rollChoice = new Vector<>();
+            for (int i = 1; i <= maxRoll; i++) {
+                rollChoice.add(i);
+            }
+            gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().setModel(
+                    new DefaultComboBoxModel<>(rollChoice.toArray(new Integer[rollChoice.size()]))
+            );
+            gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().setSelectedIndex(
+                    gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getItemCount() - 1);
         }
-        gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().setModel(
-                new DefaultComboBoxModel<>(rollChoice.toArray(new Integer[rollChoice.size()]))
-        );
-        gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().setSelectedIndex(
-                gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getItemCount() - 1);
     }
     
     /**
