@@ -1,11 +1,11 @@
-/* 
+/*
  * Risk Game Team 2
  * AllTestSuite.java
  * Version 1.0
  * Oct 18, 2017
  */
 
-import game_play.model.GamePlayModelTest;
+//import game_play.model.GamePlayModelTest;
 import map_editor.model.MapEditorModelTest;
 import map_editor.model.MapValidationTest;
 import map_editor.model.MapsLoaderTest;
@@ -30,9 +30,9 @@ import shared_resources.game_entities.TerritoryTest;
         MapsLoaderTest.class,
         MapEditorModelTest.class,
         PlayerTest.class,
-        GamePlayModelTest.class,
+//        GamePlayModelTest.class,
         TerritoryTest.class,
 })
 
 public class AllTestSuite {
-}  
+}

@@ -52,7 +52,7 @@ public class GamePlayController {
      */
     public GamePlayController(MainMenuController callerController, GameMap gameMap) {
         this.callerController = callerController;
-        gamePlayModel = GamePlayModel.getInstance();
+        gamePlayModel = new GamePlayModel();
         gamePlayFrame = new GamePlayFrame(callerController);
         
         registerObserversToObservable();

@@ -101,11 +101,11 @@ public class Player {
      *
      * @return a string  with player statistics
      */
-    public String playerInfo() {
+    public String playerInfo(GamePlayModel gamePlayModel) {
         return "<html><font size=6>" + playerName + "</font><br>" +
                 "Owns: " +
                 getTerritories().size() + " territories | " +
-                getContinents(GamePlayModel.getInstance().getGameMap()).size() + " continents | " +
+                getContinents(gamePlayModel.getGameMap()).size() + " continents | " +
                 getTotalArmiesCount() + " armies | " +
                 getPlayersHand().size() + " cards" +
                 "</html>";

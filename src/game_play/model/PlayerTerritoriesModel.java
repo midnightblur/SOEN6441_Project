@@ -60,13 +60,13 @@ public class PlayerTerritoriesModel {
      *
      * @param player the player object for which we collect the owned territories
      */
-    public void updateMapTableModel(Player player) {
+    public void updateMapTableModel(Player player, GamePlayModel gamePlayModel) {
         /* clears the game_entities data and reinitialize it with new values */
         model.setRowCount(0);
         columns.clear();
         columns.add("Territory");
         columns.add("Armies to place");
-        GameMap gameMap = GamePlayModel.getInstance().getGameMap();
+        GameMap gameMap = gamePlayModel.getGameMap();
         /* The rows. */
         Object[][] rows = new Object[gameMap.getTerritoriesOfPlayer(player).size()][columns.size()];
         

@@ -76,17 +76,17 @@ public class GamePlayModel extends Observable {
         playerTerritoriesModel = new PlayerTerritoriesModel();
     }
     
-    /**
-     * Static instance method to determine if an object of GamePlayModel already exists.
-     *
-     * @return instance of the GamePlayModel object
-     */
-    public static GamePlayModel getInstance() {
-        if (instance == null || instance.players.size() == 1) {
-            instance = new GamePlayModel();
-        }
-        return instance;
-    }
+//    /**
+//     * Static instance method to determine if an object of GamePlayModel already exists.
+//     *
+//     * @return instance of the GamePlayModel object
+//     */
+//    public static GamePlayModel getInstance() {
+//        if (instance == null || instance.players.size() == 1) {
+//            instance = new GamePlayModel();
+//        }
+//        return instance;
+//    }
     // endregion
     
     // region Getters and Setters
@@ -418,7 +418,7 @@ public class GamePlayModel extends Observable {
      * Update player territories game_entities.
      */
     private void updatePlayerTerritoriesModel() {
-        playerTerritoriesModel.updateMapTableModel(currentPlayer);
+        playerTerritoriesModel.updateMapTableModel(currentPlayer, this);
     }
     
     /**

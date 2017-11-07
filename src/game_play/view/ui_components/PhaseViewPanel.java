@@ -65,9 +65,8 @@ public class PhaseViewPanel extends JPanel implements Observer {
             gameStateLabel.setText(gamePlayModel.getGameState().toString());
             if (gamePlayModel.getGameState().getValue() >= 3) {
                 playerInfoLabel.setForeground(gamePlayModel.getCurrentPlayer().getColor());
-                playerInfoLabel.setText(gamePlayModel.getCurrentPlayer().playerInfo());
+                playerInfoLabel.setText(gamePlayModel.getCurrentPlayer().playerInfo(gamePlayModel));
             }
-            
             
             /* Draw the view based on current state of world domination */
             repaint();
