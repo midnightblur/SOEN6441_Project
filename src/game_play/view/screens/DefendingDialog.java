@@ -16,6 +16,7 @@ public class DefendingDialog extends JDialog {
     private static final String INSTRUCTION = "Choose the Number of Dice for defence:";
     private static final String DONE_BUTTON = "Done";
     
+    private JFrame owner;
     private JComboBox<Integer> defendingDiceDropdown;
     private JButton doneButton;
     // endregion
@@ -31,6 +32,7 @@ public class DefendingDialog extends JDialog {
      */
     public DefendingDialog(JFrame owner, String situation, int maxDefendingDice) {
         super(owner, TITLE);
+        this.owner = owner;
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         
         JPanel mainPanel = new JPanel(new GridLayout(0, 1   ));
@@ -61,6 +63,27 @@ public class DefendingDialog extends JDialog {
         setLocationRelativeTo(owner);
         setVisible(true);
     }
+    // endregion
+    
+    // region Getters & Setters
+    
+    /**
+     * Gets the defending dice dropdown
+     *
+     * @return the defending dice dropdown
+     */
+    public JComboBox<Integer> getDefendingDiceDropdown() {
+        return defendingDiceDropdown;
+    }
+    
+    /**
+     * @see JFrame#getOwner()
+     */
+    @Override
+    public JFrame getOwner() {
+        return owner;
+    }
+    
     // endregion
     
     // region MVC & Observer pattern methods

@@ -506,9 +506,10 @@ public class Player {
                 gameState = Config.GAME_STATES.PLAYER_REINFORCEMENT;
                 break;
             case PLAYER_REINFORCEMENT:
-                gameState = Config.GAME_STATES.PLAYER_ATTACK;
+                gameState = Config.GAME_STATES.PLAYER_ATTACK_PREPARE;
                 break;
-            case PLAYER_ATTACK:
+            case PLAYER_ATTACK_PREPARE:
+            case PLAYER_ATTACK_BATTLE:
                 gameState = Config.GAME_STATES.PLAYER_FORTIFICATION;
                 break;
             case PLAYER_FORTIFICATION:

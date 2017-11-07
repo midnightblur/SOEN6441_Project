@@ -550,6 +550,7 @@ public class GamePlayModel extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String declareAttack(String sourceTerritory, String targetTerritory, int numOfAtkDice, int numOfDefDice) {
+        currentPlayer.setGameState(PLAYER_ATTACK_BATTLE);
         String message = currentPlayer.attack(this, sourceTerritory, targetTerritory, numOfAtkDice, numOfDefDice);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
