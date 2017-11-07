@@ -153,7 +153,7 @@ public class GamePlayFrame extends JFrame implements Observer {
      */
     private void setupContentPaneLayout() {
         contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
-            private final int location = 950;
+            private final int location = 1000;
             
             {
                 setDividerLocation(location);

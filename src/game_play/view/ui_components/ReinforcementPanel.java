@@ -226,7 +226,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
             
             @Override   // set font
             public void setFont(Font font) {
-                super.setFont(new Font("Sans Serif", Font.PLAIN, 16));
+                super.setFont(new Font("Sans Serif", Font.PLAIN, 12));
             }
             
             @Override   // set the row height
