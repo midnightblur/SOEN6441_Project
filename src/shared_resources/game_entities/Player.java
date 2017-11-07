@@ -372,7 +372,7 @@ public class Player {
         try {
             atkRoll = atkDice.roll();
             defRoll = defDice.roll();
-            log.append(playerName + "attacking from " + fromTerritory.getName() + ", dice rolled: [ " + Arrays.toString(atkRoll) + " ] vs. " + toTerritory.getName() + ", dice rolled [ " + Arrays.toString(defRoll) + " ]");
+            log.append(playerName + " is attacking from " + fromTerritory.getName() + " > dice rolled: " + Arrays.toString(atkRoll) + " vs. " + toTerritory.getName() + " > dice rolled: " + Arrays.toString(defRoll));
         } catch (Exception e) {
             return (e.toString());
         }
@@ -388,9 +388,9 @@ public class Player {
                 fromTerritory.reduceArmies(1);
                 attackerLoss++;
             }
-            log.append("Defended territory " + toTerritory.getName() + " loses " + defenderLoss + " armies");
-            log.append("Attacker territory " + fromTerritory.getName() + " loses " + attackerLoss + " armies");
         }
+        log.append("Defended territory " + toTerritory.getName() + " loses " + defenderLoss + " armies");
+        log.append("Attacker territory " + fromTerritory.getName() + " loses " + attackerLoss + " armies");
 
         /* check for player elimination */
         // TODO: check for player elimination
