@@ -9,6 +9,9 @@ import java.util.Vector;
 
 /**
  * ConquerDialog is responsible for the attacker choose the number of armies to place on the newly conquered territory
+ *
+ * @author Team 2
+ * @version 2.0
  */
 public class ConquerDialog extends JDialog {
     // region Attributes declaration

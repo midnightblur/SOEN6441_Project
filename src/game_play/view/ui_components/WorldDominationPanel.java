@@ -9,6 +9,9 @@ import java.util.*;
 
 /**
  * WorldDominationPanel is responsible for representing the ui components for player's domination ratio.
+ *
+ * @author Team 2
+ * @version 2.0
  */
 public class WorldDominationPanel extends JPanel implements Observer {
     // region Attributes declaration

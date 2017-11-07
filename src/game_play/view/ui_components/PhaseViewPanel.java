@@ -8,7 +8,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * WorldDominationPanel is responsible for representing the ui components for player's domination ratio.
+ * PhaseViewPanel is responsible for displaying all information related to current phase of the game.
+ *
+ * @author Team 2
+ * @version 2.0
  */
 public class PhaseViewPanel extends JPanel implements Observer {
     // region Attributes declaration

@@ -8,6 +8,9 @@ package shared_resources.game_entities;
 
 /**
  * Battle is responsible for encapsulating all information about a battle between 2 territories
+ *
+ * @author Team 2
+ * @version 2.0
  */
 public class Battle {
     // region Attributes declaration

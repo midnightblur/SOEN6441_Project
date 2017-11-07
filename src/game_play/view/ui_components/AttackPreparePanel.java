@@ -22,6 +22,9 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
  * Player to attack will decide source and target for the attack
  * Then it will roll the dice
  * Defender will have the chance to protect its territory using a modal dialog
+ *
+ * @author Team 2
+ * @version 2.0
  */
 public class AttackPreparePanel extends JPanel implements Observer {
     // region Attributes declaration

@@ -11,6 +11,9 @@ import java.awt.*;
 
 /**
  * The window used to display the game progression
+ *
+ * @author Team 2
+ * @version 2.0
  */
 public class LoggingWindow {
     private static LoggingWindow instance = null;

@@ -18,6 +18,9 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
  * AttackingPanel is responsible for displaying UI letting player attack other players' territories
+ *
+ * @author Team 2
+ * @version 2.0
  */
 public class AttackingPanel extends JPanel implements Observer {
     // region Attributes declaration

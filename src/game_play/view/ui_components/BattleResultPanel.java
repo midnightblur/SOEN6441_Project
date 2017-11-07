@@ -18,6 +18,9 @@ import java.util.Observer;
 
 /**
  * Battle Result Panel used to display the information for battle outcome
+ *
+ * @author Team 2
+ * @version 2.0
  */
 public class BattleResultPanel extends JPanel implements Observer {
     // region Attributes declaration

@@ -15,6 +15,9 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
  * DefendingDialog is responsible for displaying a frame letting defender choosing how many dice to defend his territory
+ *
+ * @author Team 2
+ * @version 2.0
  */
 public class DefendingDialog extends JDialog {
     // region Attribute declaration
