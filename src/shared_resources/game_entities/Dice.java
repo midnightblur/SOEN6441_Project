@@ -6,8 +6,6 @@
  */
 package shared_resources.game_entities;
 
-import shared_resources.utilities.Config;
-
 import java.util.Arrays;
 
 /**
@@ -22,21 +20,21 @@ import java.util.Arrays;
  * @version 1.0
  */
 public class Dice {
-
+    
     // region Attributes declaration
     /** The dice object is represented as an array of integers. */
     private int[] dice;
     // endregion
-
+    
     // region Constructors
-
+    
     /**
      * Default constructor delegating to parametrized constructor.
      */
     public Dice() {
         this(1);
     }
-
+    
     /**
      * Parametrized constructor
      * Build an array of dice with default pips showing 1.
@@ -48,18 +46,18 @@ public class Dice {
         if (numberOfDice < 1) {
             numberOfDice = 1;
         }
-
+        
         dice = new int[numberOfDice];
 
         /* set initial index of each die to a random number */
-        for (int i=0; i<dice.length; i++) {
+        for (int i = 0; i < dice.length; i++) {
             dice[i] = (int) (Math.random() * 6) + 1;
         }
     }
     // endregion
-
+    
     // region Getters & Setters
-
+    
     /**
      * Gets the dice.
      *
@@ -68,7 +66,7 @@ public class Dice {
     public int[] getDice() {
         return dice;
     }
-
+    
     /**
      * Sets the dice.
      *
@@ -78,9 +76,9 @@ public class Dice {
         this.dice = dice;
     }
     // endregion
-
+    
     // region Public methods
-
+    
     /**
      * Rolling the dice and returning the maximum 2 values obtained sorted in descending order.
      *
@@ -117,5 +115,5 @@ public class Dice {
         }
     }
     // endregion
-
+    
 }
