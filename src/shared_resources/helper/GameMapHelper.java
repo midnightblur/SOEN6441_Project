@@ -256,7 +256,7 @@ public class GameMapHelper {
             writer = new BufferedWriter(new FileWriter(path, false));
             
             /* Write Continents */
-            writer.append(Config.MAPS_FLAG_CONTINENTS + System.lineSeparator());
+            writer.append(Config.MAPS_FLAG_CONTINENTS).append(System.lineSeparator());
             for (Continent continent : gameMap.getContinents().values()) {
                 writer.append(continent.getName());
                 writer.append(Config.MAPS_DELIMITER_CONTINENTS);
@@ -266,7 +266,7 @@ public class GameMapHelper {
             writer.append(System.lineSeparator());
             
             /* Write Territories */
-            writer.append(Config.MAPS_FLAG_TERRITORIES + System.lineSeparator());
+            writer.append(Config.MAPS_FLAG_TERRITORIES).append(System.lineSeparator());
             
             for (Continent continent : gameMap.getContinents().values()) {
                 for (String territoryName : continent.getTerritories()) {

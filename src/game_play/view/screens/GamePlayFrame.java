@@ -30,12 +30,14 @@ public class GamePlayFrame extends JFrame implements Observer {
     private static final int WIDTH = 1366;
     private static final int HEIGHT = 700;
     private JSplitPane contentPane;
+    private WorldDominationPanel worldDominationPanel;
     private GameMapTable gameMapTable;
     private JPanel controlArea;
     private GameSetupPanel gameSetupPanel;
     private StartupPanel startupPanel;
     private ReinforcementPanel reinforcementPanel;
     private FortificationPanel fortificationPanel;
+    private AttackingPanel attackingPanel;
     // endregion
     
     // region Constructors
@@ -48,9 +50,14 @@ public class GamePlayFrame extends JFrame implements Observer {
         setupContentPaneLayout();
         setContentPane(contentPane);
         
-        /* Setup table area */
+        /* Setup world domination view & table area */
+        worldDominationPanel = new WorldDominationPanel();
         gameMapTable = new GameMapTable();
-        contentPane.setLeftComponent(new JScrollPane(gameMapTable));
+        JPanel leftComponent = new JPanel();
+        leftComponent.setLayout(new BoxLayout(leftComponent, BoxLayout.Y_AXIS));
+        leftComponent.add(worldDominationPanel);
+        leftComponent.add(new JScrollPane(gameMapTable));
+        contentPane.setLeftComponent(leftComponent);
         
         /* Setup control area */
         setupControlArea();
@@ -118,6 +125,25 @@ public class GamePlayFrame extends JFrame implements Observer {
     public ReinforcementPanel getReinforcementPanel() {
         return reinforcementPanel;
     }
+    
+    /**
+     * Gets the world domination panel
+     *
+     * @return the world domination panel
+     */
+    public WorldDominationPanel getWorldDominationPanel() {
+        return worldDominationPanel;
+    }
+    
+    /**
+     * Gets the attacking panel
+     *
+     * @return the attacking panel
+     */
+    public AttackingPanel getAttackingPanel() {
+        return attackingPanel;
+    }
+    
     // endregion
     
     // region Private methods
@@ -160,6 +186,8 @@ public class GamePlayFrame extends JFrame implements Observer {
         controlArea.add(reinforcementPanel, ReinforcementPanel.class.getName());
         fortificationPanel = new FortificationPanel();
         controlArea.add(fortificationPanel, FortificationPanel.class.getName());
+        attackingPanel = new AttackingPanel();
+        controlArea.add(attackingPanel, AttackingPanel.class.getName());
         
         contentPane.setRightComponent(controlArea);
     }
@@ -191,8 +219,7 @@ public class GamePlayFrame extends JFrame implements Observer {
                             cardLayout.show(controlArea, ReinforcementPanel.class.getName());
                             break;
                         case PLAYER_ATTACK:
-                            // TODO: add the attack panel
-                            // cardLayout.show(controlArea, AttackPanel.class.getName());
+                             cardLayout.show(controlArea, AttackingPanel.class.getName());
                             break;
                         case PLAYER_FORTIFICATION:
                             cardLayout.show(controlArea, FortificationPanel.class.getName());

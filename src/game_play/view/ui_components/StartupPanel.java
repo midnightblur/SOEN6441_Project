@@ -8,6 +8,7 @@ package game_play.view.ui_components;
 
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
+import shared_resources.game_entities.Player;
 import shared_resources.utilities.Config;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
 public class StartupPanel extends JPanel implements Observer {
     // region Attributes declaration
     private static final String PLACE_ARMY_BUTTON = "Place Army";
-    private static final String PLAY_BUTTON = "Play";
+    private static final String PLAY_BUTTON = "Play the Game";
     private static final String TERRITORY_LABEL = "Choose territory to place army on";
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
     private JButton placeArmyButton;
@@ -123,14 +124,32 @@ public class StartupPanel extends JPanel implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.STARTUP) {
-                territoryDropdown.setModel(new DropDownModel(gamePlayModel.getCurrentPlayerTerritories()));
+                int count = 0; // count how many players have run out of unallocated armies
+                for (Player player : gamePlayModel.getPlayers()) {
+                    if (player.getUnallocatedArmies() == 0) {
+                        count++;
+                    }
+                }
                 
-                // Randomly select an item from the list for the purpose of demo
-                territoryDropdown.setSelectedIndex((int) (Math.random() * (gamePlayModel.getCurrentPlayerTerritories().size() - 1)));
-                
-                playerNameLabel.setForeground(gamePlayModel.getCurrentPlayer().getColor());
-                playerNameLabel.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
-                totalArmiesToPlaceLabel.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
+                // Let players place armies in a round-robin-fashion until no player has any army left
+                if (count != gamePlayModel.getPlayers().size()) {
+                    territoryDropdown.setModel(new DropDownModel(gamePlayModel.getCurrentPlayerTerritories()));
+    
+                    // Randomly select an item from the list for the purpose of demo
+                    territoryDropdown.setSelectedIndex((int) (Math.random() * (gamePlayModel.getCurrentPlayerTerritories().size() - 1)));
+    
+                    playerNameLabel.setForeground(gamePlayModel.getCurrentPlayer().getColor());
+                    playerNameLabel.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
+                    totalArmiesToPlaceLabel.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
+                } else {
+                    playerNameLabel.setForeground(Color.BLACK);
+                    playerNameLabel.setText("All armies are allocated");
+                    totalArmiesToPlaceLabel.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
+                    territoryDropdown.removeAllItems();
+                    territoryDropdown.setEnabled(false);
+                    placeArmyButton.setEnabled(false);
+                    playButton.setEnabled(true);
+                }
             }
         }
     }

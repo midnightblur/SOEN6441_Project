@@ -8,6 +8,7 @@ package game_play.controller;
 
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
+import game_play.view.screens.DefendingDialog;
 import game_play.view.screens.GamePlayFrame;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import static shared_resources.utilities.Config.GAME_STATES.PLAYER_ATTACK;
 import static shared_resources.utilities.Config.GAME_STATES.PLAYER_FORTIFICATION;
 import static shared_resources.utilities.Config.GAME_STATES.SETUP;
 
@@ -72,11 +74,13 @@ public class GamePlayController {
      */
     private void registerObserversToObservable() {
         gamePlayModel.addObserver(gamePlayFrame);
+        gamePlayModel.addObserver(gamePlayFrame.getWorldDominationPanel());
         gamePlayModel.addObserver(gamePlayFrame.getGameMapTable());
         gamePlayModel.addObserver(gamePlayFrame.getGameSetupPanel());
         gamePlayModel.addObserver(gamePlayFrame.getStartupPanel());
         gamePlayModel.addObserver(gamePlayFrame.getReinforcementPanel());
         gamePlayModel.addObserver(gamePlayFrame.getReinforcementPanel().getTradeCardsPanel());
+        gamePlayModel.addObserver(gamePlayFrame.getAttackingPanel());
         gamePlayModel.addObserver(gamePlayFrame.getFortificationPanel());
     }
     
@@ -93,8 +97,15 @@ public class GamePlayController {
         
         /* For Reinforcement Panel */
         gamePlayFrame.getReinforcementPanel().addPlaceArmiesButtonListener(e -> distributeArmies());
-        gamePlayFrame.getReinforcementPanel().addGoToFortificationButtonListener(e -> goToFortificationPhase());
+        gamePlayFrame.getReinforcementPanel().addGoToFortificationButtonListener(e -> goToAttackingPhase());
         gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addTradeCardsButtonListener(e -> tradeSelectedCards());
+        
+        /* For Attacking Panel */
+        gamePlayFrame.getAttackingPanel().addAttackButtonListener(e -> attackTerritory());
+        gamePlayFrame.getAttackingPanel().addDoneButtonListener(e -> goToFortificationPhase());
+        gamePlayFrame.getAttackingPanel().addAttackingTerritoryDropdownListener(e -> updateDefendingTerritoriesAndAttackingDice(
+                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackingTerritoriesDropdown().getSelectedItem())
+        ));
         
         /* For Fortification Panel */
         gamePlayFrame.getFortificationPanel().addMoveArmiesButtonListener(e -> moveArmies());
@@ -147,7 +158,7 @@ public class GamePlayController {
      * This function change the game state to Play phase
      */
     private void startTheGame() {
-        // TODO: implement this function
+        gamePlayModel.startTheGame();
     }
     // endregion
     
@@ -186,11 +197,11 @@ public class GamePlayController {
     /**
      * Validate player's armies distributing and cards trading, then change the game state to Fortification Phase
      */
-    private void goToFortificationPhase() {
+    private void goToAttackingPhase() {
         if (gamePlayModel.getCurrentPlayer().getUnallocatedArmies() != 0 || gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
             UIHelper.displayMessage(gamePlayFrame, "You have to allocate all of your armies or trade in your cards");
         } else {
-            gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_FORTIFICATION);
+            gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_ATTACK);
         }
     }
     
@@ -212,6 +223,67 @@ public class GamePlayController {
         UIHelper.displayMessage(gamePlayFrame, message);
     }
     
+    // endregion
+    
+    // region For Attacking Phase
+    
+    /**
+     * Call appropriate function in GamePlayModel to perform an attack from one territory to another
+     */
+    private void attackTerritory() {
+        String situation = String.format("%s attacks from %s to %s using %s dice",
+                gamePlayModel.getCurrentPlayer().getPlayerName(),
+                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackingTerritoriesDropdown().getSelectedItem()),
+                String.valueOf(gamePlayFrame.getAttackingPanel().getDefendingTerritoriesDropdown().getSelectedItem()),
+                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackerNoOfDice().getSelectedItem()));
+        int maxDefendingDice = gamePlayModel.getMaxDefendingRoll(
+                String.valueOf(gamePlayFrame.getAttackingPanel().getDefendingTerritoriesDropdown().getSelectedItem()));
+        gamePlayFrame.setEnabled(false);
+        
+        JFrame frame = new JFrame();
+        DefendingDialog defendingDialog = new DefendingDialog(frame, situation, maxDefendingDice);
+        defendingDialog.addDoneButtonListener(e -> startTheBattle(frame, gamePlayFrame));
+    }
+    
+    /**
+     * Call appropriate function in GamePlayModel to perform a battle
+     */
+    private void startTheBattle(JFrame frame, JFrame owner) {
+        frame.dispose();
+        owner.setEnabled(true);
+    }
+    
+    /**
+     * Move to Fortification phase
+     */
+    private void goToFortificationPhase() {
+        gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_FORTIFICATION);
+    }
+    
+    /**
+     * Updates the defending territories dropdown & number of attacking dice according to selected attacking territory
+     *
+     * @param attackingTerritory the selected attacking territory
+     */
+    private void updateDefendingTerritoriesAndAttackingDice(String attackingTerritory) {
+        /* Update defending territories dropdown */
+        gamePlayFrame.getAttackingPanel().getDefendingTerritoriesDropdown().setModel(
+                new DefaultComboBoxModel<>(gamePlayModel.getNeighborsNotOwnedBySamePlayer(attackingTerritory))
+        );
+        gamePlayFrame.getAttackingPanel().getDefendingTerritoriesDropdown().setSelectedIndex(0);
+        
+        /* Update attacking dice dropdown */
+        int maxRoll = gamePlayModel.getMaxAttackingRoll(attackingTerritory);
+        Vector<Integer> rollChoice = new Vector<>();
+        for (int i = 1; i <= maxRoll; i++) {
+            rollChoice.add(i);
+        }
+        gamePlayFrame.getAttackingPanel().getAttackerNoOfDice().setModel(
+                new DefaultComboBoxModel<>(rollChoice.toArray(new Integer[rollChoice.size()]))
+        );
+        gamePlayFrame.getAttackingPanel().getAttackerNoOfDice().setSelectedIndex(
+                gamePlayFrame.getAttackingPanel().getAttackerNoOfDice().getItemCount() - 1);
+    }
     // endregion
     
     // region For Fortification Phase

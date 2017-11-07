@@ -6,6 +6,8 @@
  */
 package shared_resources.utilities;
 
+import game_play.view.screens.LoggingWindow;
+
 import java.awt.*;
 
 /**
@@ -116,8 +118,12 @@ public class Config {
     // endregion
     
     // region Constants used for game play
+    public static LoggingWindow log = LoggingWindow.getInstance();    // the logging window used in game play
     public static final double INITIAL_ARMY_RATIO = 2.75;  // 2.75 for similar gameplay as official Risk Game
     public static final int MAX_PIPS = 6;   // the maximum dots on one side of the die
+    public static final int MIN_ARMY_TO_ATTACK = 2;
+    public static final int MAX_NUM_ATK_DICE = 3;
+    public static final int MAX_NUM_DEF_DICE = 2;
     // endregion
     
     // endregion
