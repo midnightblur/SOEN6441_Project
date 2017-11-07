@@ -252,22 +252,6 @@ public class GamePlayController {
     }
     
     /**
-     * Call appropriate function in GamePlayModel to perform a battle
-     */
-    private void startTheBattle(DefendingDialog dialog, JFrame owner) {
-        int defendingDice = (int) dialog.getDefendingDiceDropdown().getSelectedItem();
-        dialog.getOwner().dispose();
-        owner.setVisible(true);
-        gamePlayModel.declareAttack(
-                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem()),
-                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem()),
-                (Integer) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem(),
-                defendingDice
-        );
-        
-    }
-    
-    /**
      * Move to Fortification phase
      */
     private void goToFortificationPhase() {
@@ -298,9 +282,6 @@ public class GamePlayController {
         gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().setSelectedIndex(
                 gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getItemCount() - 1);
     }
-    // endregion
-    
-    // region For Fortification Phase
     
     /**
      * Move armies from selected source territory to selected target territory
@@ -331,6 +312,9 @@ public class GamePlayController {
             UIHelper.displayMessage(gamePlayFrame, "Invalid entry. Please re-enter a number.");
         }
     }
+    // endregion
+    
+    // region For Fortification Phase
     
     /**
      * Update the list of target territories according to the players' selected source territory.
@@ -358,6 +342,25 @@ public class GamePlayController {
      */
     private void changeToNextPlayer() {
         gamePlayModel.nextPlayerTurn();
+    }
+    
+    /**
+     * Call appropriate function in GamePlayModel to perform a battle
+     *
+     * @param dialog the modal dialog for defender
+     * @param owner  the owner of attacked territory
+     */
+    private void startTheBattle(DefendingDialog dialog, JFrame owner) {
+        int defendingDice = (int) dialog.getDefendingDiceDropdown().getSelectedItem();
+        dialog.getOwner().dispose();
+        owner.setVisible(true);
+        gamePlayModel.declareAttack(
+                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem()),
+                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem()),
+                (Integer) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem(),
+                defendingDice
+        );
+        
     }
     // endregion
     

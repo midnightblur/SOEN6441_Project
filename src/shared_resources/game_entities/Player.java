@@ -10,6 +10,7 @@ import game_play.model.GamePlayModel;
 import shared_resources.utilities.Config;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Vector;
 
@@ -71,15 +72,6 @@ public class Player {
     }
     
     /**
-     * Gets the player name.
-     *
-     * @return the player name
-     */
-    public String getPlayerName() {
-        return playerName;
-    }
-    
-    /**
      * Gets the color of a player.
      *
      * @return the color
@@ -135,10 +127,6 @@ public class Player {
         }
     }
     
-    // endregion
-    
-    // region Public methods
-    
     /**
      * Removes the territory.
      *
@@ -152,6 +140,10 @@ public class Player {
             }
         }
     }
+    
+    // endregion
+    
+    // region Public methods
     
     /**
      * Override equals method to check whether or not two Player objects are the same.
@@ -313,8 +305,6 @@ public class Player {
         this.unallocatedArmies = unallocatedArmies;
     }
     
-    // region Reinforcement Phase
-    
     /**
      * Increases the number of unallocated armies for this player by the specified number.
      *
@@ -323,6 +313,8 @@ public class Player {
     public void addUnallocatedArmies(int num) {
         this.unallocatedArmies += num;
     }
+    
+    // region Reinforcement Phase
     
     /**
      * Reduces the number of unallocated armies for this player by the specified number.
@@ -333,20 +325,6 @@ public class Player {
         this.unallocatedArmies -= num;
     }
     
-    /**
-     * Implement the Attack Phase of a particular player.
-     *
-     * The method gives a player an option to attack (or multiple attacks). The method allows a player to initiate
-     * an attack from one of his/her territories with at least 2 armies, to one of the neighboring territories of
-     * that attacking territory that is owned by another player. This method also requires both the attacking player
-     * and the defending player to choose the number of dice he/she will use to determine the outcome of the battle.
-     * The attacks can be made as many times as possible, and the method checks for any captured territories and/or
-     * any eliminated players at the end of each attack move.
-     *
-     * @param gamePlayModel   The GamePlayModel containing the state of the game
-     *
-     * @return String value of the messages that will be displayed to the user
-     */
     public String attack(GamePlayModel gamePlayModel) {
         Battle currentBattle = gamePlayModel.getCurrentBattle();
         Territory attackingTerritory = currentBattle.getAttackingTerritory();
@@ -357,6 +335,9 @@ public class Player {
         /* Both players oll dice */
         currentBattle.attackerRollDice();
         currentBattle.defenderRollDice();
+        log.append(playerName + " is attacking from " + attackingTerritory.getName() + " > dice rolled: " +
+                currentBattle.getAttackerDice().getRollsResult().toString() + " vs. " + defendingTerritory.getName() +
+                " > dice rolled: " + currentBattle.getDefenderDice().getRollsResult().toString());
 
         /* Decide the battle */
         // Compare the best result of both players
@@ -370,6 +351,8 @@ public class Player {
             int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
             decideResult(currentBattle, attackingTerritory, defendingTerritory, secondBestOfAttacker, secondBestOfDefender);
         }
+        log.append("Defended territory " + defendingTerritory.getName() + " loses " + currentBattle.getDefenderLoseCount() + " armies");
+        log.append("Attacker territory " + attackingTerritory.getName() + " loses " + currentBattle.getAttackerLoseCount() + " armies");
         
         /* Check for territory conquer */
         // TODO: check if the defending territory has no army left
@@ -390,9 +373,6 @@ public class Player {
             currentBattle.increaseAttackerLoseCount();
         }
     }
-    // endregion
-    
-    // region Attack Phase
     
     /**
      * This method gives control of the conquered territory to the attacking player who eliminated all of the armies
@@ -414,11 +394,26 @@ public class Player {
         toTerritory.setOwner(fromTerritory.getOwner());
         fromTerritory.reduceArmies(armiesToMove);
         toTerritory.addArmies(armiesToMove);
+        log.append(fromTerritory.getOwner().getPlayerName() + " conquered " + toTerritory.getName());
 
         /* give a card to the conqueror */
-        addCardToPlayersHand(gamePlayModel.drawCard());
+        Card card = gamePlayModel.drawCard();
+        addCardToPlayersHand(card);
+        log.append(fromTerritory.getOwner().getPlayerName() + " received the " + card + " card");
         
         return "";
+    }
+    // endregion
+    
+    // region Attack Phase
+    
+    /**
+     * Gets the player name.
+     *
+     * @return the player name
+     */
+    public String getPlayerName() {
+        return playerName;
     }
     
     /**
@@ -486,6 +481,7 @@ public class Player {
         fromTerritory.reduceArmies(noOfArmies);
         toTerritory.addArmies(noOfArmies);
         
+        log.append(playerName + " moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory);
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
     

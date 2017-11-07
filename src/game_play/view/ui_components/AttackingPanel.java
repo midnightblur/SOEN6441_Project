@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * AttackingPanel.java
+ * Version 1.0
+ * Nov 6, 2017
+ */
 package game_play.view.ui_components;
 
 import game_play.model.GamePlayModel;

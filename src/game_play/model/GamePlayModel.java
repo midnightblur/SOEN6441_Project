@@ -558,6 +558,9 @@ public class GamePlayModel extends Observable {
         
         currentBattle = new Battle(attacker, attackingTerritory, numOfAtkDice, defender, defendingTerritory, numOfDefDice);
         currentPlayer.setGameState(PLAYER_ATTACK_BATTLE);
+        log.append("=========================================");
+        log.append("============= Attack Phase ==============");
+        log.append("=========================================");
         String message = currentPlayer.attack(this);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -590,6 +593,7 @@ public class GamePlayModel extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String eliminatePlayer(Player eliminatedPlayer) {
+        log.append(currentPlayer.getPlayerName() + " just eliminated " + eliminatedPlayer.getPlayerName());
         String message = currentPlayer.eliminated(eliminatedPlayer);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -695,6 +699,9 @@ public class GamePlayModel extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String moveArmiesFortification(String sourceTerritory, String targetTerritory, int noOfArmies) {
+        log.append("=========================================");
+        log.append("========== Fortification Phase ==========");
+        log.append("=========================================");
         String message = currentPlayer.fortification(this, sourceTerritory, targetTerritory, noOfArmies);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -770,7 +777,7 @@ public class GamePlayModel extends Observable {
     // endregion
     
     /**
-     * This is method used for testing gamemaps.
+     * This is method used for testing game maps.
      */
     public void DemoForTests() {
         GameMap gamemap = new GameMap("3D.map");

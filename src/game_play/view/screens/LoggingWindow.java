@@ -1,6 +1,6 @@
 /*
  * Risk Game Team 2
- * GamePlayController.java
+ * LoggingWindow.java
  * Version 1.0
  * Nov 6, 2017
  */
