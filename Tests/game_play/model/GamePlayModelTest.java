@@ -212,7 +212,7 @@ public class GamePlayModelTest {
     }
     
     /**
-     *
+     * Test case for correct number of maximum dice that can be used to defend Territory 1c for Player 1.
      */
     @Test
     public void getMaxDefendingRollTestCase() {
