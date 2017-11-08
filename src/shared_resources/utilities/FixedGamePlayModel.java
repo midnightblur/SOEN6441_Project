@@ -15,10 +15,6 @@ import shared_resources.helper.GameMapHelper;
  * initialization phase of the game.
  */
 public class FixedGamePlayModel {
-    
-    /** The game play game_entities. */
-    final static GamePlayModel fixedGamePlayModel = new GamePlayModel();
-    
     /** The num of players. */
     final static int numOfPlayers = 2;
     
@@ -33,6 +29,7 @@ public class FixedGamePlayModel {
      * @return GamePlayModel object with fixed distribution of territories
      */
     public static GamePlayModel getFixedGamePlayModel() {
+        GamePlayModel fixedGamePlayModel = new GamePlayModel();
         
         try {
             fixedGamePlayModel.setGameMap(GameMapHelper.loadGameMap(mapFilePath));

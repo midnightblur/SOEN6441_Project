@@ -116,8 +116,6 @@ public class GamePlayModelTest {
      */
     @Test
     public void assignOneArmyPerTerritoryTestCase() {
-        int armiesToGive = (int) (fixedGamePlayModel.getGameMap().getTerritoriesCount() * INITIAL_ARMY_RATIO / fixedGamePlayModel.getPlayers().size());
-    
         System.out.println("Testing assignment of one army per territory:");
         for (Player player : fixedGamePlayModel.getPlayers()) {
             int counter = 1;
@@ -140,7 +138,7 @@ public class GamePlayModelTest {
      */
     @Test
     public void addReinforcementForCurrPlayerTestCase() {
-        GamePlayModel tempGamePlayModel = fixedGamePlayModel;
+        GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
         
         Player player1 = tempGamePlayModel.getPlayers().get(0);
         player1.setUnallocatedArmies(0);  // deplete unallocated armies of player 1 from initialization
@@ -163,11 +161,12 @@ public class GamePlayModelTest {
     }
     
     /**
-     * Test case for correct list of the territories for Player 1 that can be used to make valid attack moves from.
+     * Test case for correct list of the territories for Player 1 that can be used to make valid
+     * attack moves from.
      */
     @Test
     public void getValidAttackingTerritoriesTestCase() {
-        GamePlayModel tempGamePlayModel = fixedGamePlayModel;
+        GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
         
         Player player1 = tempGamePlayModel.getPlayers().get(0);
     
@@ -198,7 +197,7 @@ public class GamePlayModelTest {
      */
     @Test
     public void getMaxAttackingRollTestCase() {
-        GamePlayModel tempGamePlayModel = fixedGamePlayModel;
+        GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
     
         Player player1 = tempGamePlayModel.getPlayers().get(0);
         Territory tempTerritory = player1.getTerritories().get(0);
@@ -239,7 +238,7 @@ public class GamePlayModelTest {
      */
     @Test
     public void getMaxDefendingRollTestCase() {
-        GamePlayModel tempGamePlayModel = fixedGamePlayModel;
+        GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
     
         Player player1 = tempGamePlayModel.getPlayers().get(0);
         Territory tempTerritory = player1.getTerritories().get(0);
@@ -276,10 +275,31 @@ public class GamePlayModelTest {
     }
     
     /**
-     *
+     * Test case for correct check for a victor of the game during the attack phase for an
+     * end-game check.
      */
     @Test
     public void gameVictoryTestCase() {
+        GamePlayModel tempGamePlayModel1 = FixedGamePlayModel.getFixedGamePlayModel();
+        GamePlayModel tempGamePlayModel2 = FixedGamePlayModel.getFixedGamePlayModel();
+        Player player1 = tempGamePlayModel1.getPlayers().get(0);
+        for (Territory t : tempGamePlayModel1.getGameMap().getTerritories().values()) {
+            t.setOwner(player1);
+            player1.addTerritory(t);
+        }
     
+        System.out.println("Testing end-game victor after Player 1's attack turn:");
+    
+        System.out.println("\tIf Player 1 has " + tempGamePlayModel2.getPlayers().get(0)
+                .getTerritories().size() + " out of " + tempGamePlayModel2.getGameMap()
+                .getTerritoriesCount() + " territories, then Player 1 is a victor = " +
+                tempGamePlayModel2.gameVictory(tempGamePlayModel2.getPlayers().get(0)));
+    
+        System.out.println("\tIf Player 1 has " + player1.getTerritories().size() +
+                " out of " + tempGamePlayModel1.getGameMap().getTerritoriesCount() +
+                " territories, then Player 1 is a victor = " + tempGamePlayModel1
+                .gameVictory(player1));
+        
+        System.out.println();
     }
 }

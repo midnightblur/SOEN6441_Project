@@ -709,7 +709,7 @@ public class GamePlayModel extends Observable {
      *
      * @return true if attacking player won the entire game, false otherwise
      */
-    private boolean gameVictory(Player attackingPlayer) {
+    public boolean gameVictory(Player attackingPlayer) {
         for (Continent c : gameMap.getContinents().values()) {
             if (!Objects.equals(c.getContinentOwner(gameMap), attackingPlayer.getPlayerName())) {
                 return false;
