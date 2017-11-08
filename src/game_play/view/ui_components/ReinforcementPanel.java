@@ -177,6 +177,11 @@ public class ReinforcementPanel extends JPanel implements Observer {
         goToFortificationButton.addActionListener(listenerForGoToFortificationButton);
     }
     
+    /**
+     * Add listener for Trade Cards Button
+     *
+     * @param listenerForTradeCardsButton  the listener for trade cards button
+     */
     public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
         tradeCardButton.addActionListener(listenerForTradeCardsButton);
     }

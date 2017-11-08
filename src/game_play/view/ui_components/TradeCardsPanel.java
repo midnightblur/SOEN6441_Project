@@ -123,6 +123,11 @@ public class TradeCardsPanel extends JPanel implements Observer {
         tradeCardsButton.addActionListener(listenerForTradeCardsButton);
     }
     
+    /**
+     * Add the listener for to reinforcement button
+     *
+     * @param listenerForToReinforcementButton the listener for to reinforcement button
+     */
     public void addToReinforcementButtonListener(ActionListener listenerForToReinforcementButton) {
         toReinforcementButton.addActionListener(listenerForToReinforcementButton);
     }
