@@ -9,6 +9,7 @@ package game_play.view.ui_components;
 import game_play.model.GamePlayModel;
 import shared_resources.game_entities.Card;
 import shared_resources.game_entities.Player;
+import shared_resources.utilities.Config;
 
 import javax.swing.*;
 import java.awt.*;
@@ -76,7 +77,11 @@ public class PhaseViewPanel extends JPanel implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
 
             /* Update the game state info */
-            gameStateLabel.setText(gamePlayModel.getGameState().toString());
+            if (gamePlayModel.getGameState() != Config.GAME_STATES.PLAY) {
+                gameStateLabel.setText(gamePlayModel.getGameState().name());
+            } else {
+                gameStateLabel.setText(gamePlayModel.getCurrentPlayer().getGameState().name());
+            }
     
             /* Update all player's info */
             updatePlayersInfo(gamePlayModel);
@@ -115,7 +120,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
         for (Player player : gamePlayModel.getPlayers()) {
             if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.ELIMINATED) {
                 /* If the player was eliminated, display no information */
-                setBackground(Color.WHITE);
+                setBackground(UIManager.getColor ( "Panel.background" ));
                 playerStatsPanels.get(player.getPlayerID() - 1).getPlayerNameLabel().setText(player.getPlayerName() + " WAS ELIMINATED");
                 playerStatsPanels.get(player.getPlayerID() - 1).getTerritoryInfoLabel().setText("");
                 playerStatsPanels.get(player.getPlayerID() - 1).getArmiesInfoLabel().setText("");
@@ -123,9 +128,9 @@ public class PhaseViewPanel extends JPanel implements Observer {
             } else if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
                 /* Current player has different background color */
                 if (gamePlayModel.getCurrentPlayer().getPlayerID() == player.getPlayerID()) {
-                    playerStatsPanels.get(player.getPlayerID() - 1).setBackground(Color.LIGHT_GRAY);
-                } else {
                     playerStatsPanels.get(player.getPlayerID() - 1).setBackground(Color.WHITE);
+                } else {
+                    playerStatsPanels.get(player.getPlayerID() - 1).setBackground(UIManager.getColor ( "Panel.background" ));
                 }
     
                 /* Update player's territory info */

@@ -122,7 +122,7 @@ public class WorldDominationPanel extends JPanel implements Observer {
             FontMetrics f = g.getFontMetrics();
             
             g.setColor(Color.WHITE);
-            String ratioStr = String.format("P%s: %.1f", String.valueOf(playerID), ratio * 100).concat("%");
+            String ratioStr = String.format("P%d %.1f", playerID, ratio * 100).concat("%");
             int xStr = startPoint + (endPoint - startPoint) / 2 - f.stringWidth(ratioStr) / 2;
             int yStr = HEIGHT / 2 + 4;
             g.drawString(ratioStr, xStr, yStr);

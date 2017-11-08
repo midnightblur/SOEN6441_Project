@@ -278,9 +278,9 @@ public class GamePlayController {
         String attackingTerritory = String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem());
         String defendingTerritory = String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem());
         String defendingPlayer = gamePlayModel.getGameMap().getATerritory(defendingTerritory).getOwner().getPlayerName();
-        String attackingDice = String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem());
+        int attackingDice = (int) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem();
         
-        String situation = String.format("%s attacks from %s to %s's %s using %s dice",
+        String situation = String.format("%s attacks from %s to %s's %s using %d dice",
                 attackingPlayer,
                 attackingTerritory,
                 defendingPlayer,
