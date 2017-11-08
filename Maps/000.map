@@ -1,0 +1,11 @@
+[Continents]
+1=20
+2=1
+
+[Territories]
+AAA,0,0,1,BBB
+BBB,0,0,1,AAA,CCC
+
+DDD,0,0,2,CCC
+CCC,0,0,2,DDD,BBB
+
