@@ -34,6 +34,7 @@ public class Player {
     private Vector<Card> playersHand;
     private Vector<Territory> territories;
     private Config.GAME_STATES gameState;
+    private GamePlayModel.PLAYER_STATUS playerStatus;
     // endregion
     
     // region Constructors
@@ -48,6 +49,7 @@ public class Player {
         territories = new Vector<>();
         color = PLAYER_COLOR[playerID - 1];
         gameState = Config.GAME_STATES.PLAY;
+        playerStatus = GamePlayModel.PLAYER_STATUS.IN_GAME;
     }
     // endregion
     
@@ -98,6 +100,8 @@ public class Player {
     
     /**
      * Player information to be used on phase view
+     *
+     * @param gamePlayModel the play model of ongoing game
      *
      * @return a string  with player statistics
      */
@@ -184,6 +188,24 @@ public class Player {
      */
     public void setUnallocatedArmies(int unallocatedArmies) {
         this.unallocatedArmies = unallocatedArmies;
+    }
+
+    /**
+     * Gets the player status
+     *
+     * @return the status of passed player object
+     */
+    public GamePlayModel.PLAYER_STATUS getPlayerStatus() {
+        return playerStatus;
+    }
+    
+    /**
+     * Sets the player status
+     *
+     * @param playerStatus the status to be set for this player object
+     */
+    public void setPlayerStatus(GamePlayModel.PLAYER_STATUS playerStatus) {
+        this.playerStatus = playerStatus;
     }
     // endregion
     
@@ -472,15 +494,6 @@ public class Player {
     }
     
     /**
-     * Adds a card to the player's hand.
-     *
-     * @param card An object of Card class to be added to the players hand
-     */
-    public void addCardToPlayersHand(Card card) {
-        this.playersHand.add(card);
-    }
-    
-    /**
      * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
      * player.
      *
@@ -496,6 +509,15 @@ public class Player {
         }
         
         return "";
+    }
+    
+    /**
+     * Adds a card to the player's hand.
+     *
+     * @param card An object of Card class to be added to the players hand
+     */
+    public void addCardToPlayersHand(Card card) {
+        this.playersHand.add(card);
     }
     // endregion
     

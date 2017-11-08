@@ -59,6 +59,7 @@ public class PlayerTerritoriesModel {
      * Updating the data game_play according to the player.
      *
      * @param player the player object for which we collect the owned territories
+     * @param gamePlayModel the play model of ongoing game
      */
     public void updateMapTableModel(Player player, GamePlayModel gamePlayModel) {
         /* clears the game_entities data and reinitialize it with new values */

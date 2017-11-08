@@ -190,9 +190,9 @@ public class FortificationPanel extends JPanel implements Observer {
                     if (territory.getArmies() > 1) {    // filter out territories with 1 army
                         sourceTerritoriesList.add(territory.getName());
                     }
-                    if (sourceTerritoriesList.size() == 0) {
-                        sourceTerritoriesList.add("There are no territories with more than 1 army. You can't move armies.");
-                    }
+                }
+                if (sourceTerritoriesList.size() == 0) {
+                    sourceTerritoriesList.add("There are no territories with more than 1 army. You can't move armies.");
                 }
                 DropDownModel sourceTerritoriesModel = new DropDownModel(sourceTerritoriesList);
                 sourceTerritoryDropdown.setModel(sourceTerritoriesModel);
