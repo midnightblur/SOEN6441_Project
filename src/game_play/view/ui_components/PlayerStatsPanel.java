@@ -38,17 +38,21 @@ public class PlayerStatsPanel extends JPanel {
         playerID = player.getPlayerID();
         
         playerNameLabel = new JLabel();
+        playerNameLabel.setAlignmentX(CENTER_ALIGNMENT);
         playerNameLabel.setForeground(player.getColor());
         playerNameLabel.setText(player.getPlayerName());
         
         territoryInfoLabel = new JLabel();
         territoryInfoLabel.setForeground(player.getColor());
+        territoryInfoLabel.setAlignmentX(CENTER_ALIGNMENT);
         
         armiesInfoLabel = new JLabel();
         armiesInfoLabel.setForeground(player.getColor());
+        armiesInfoLabel.setAlignmentX(CENTER_ALIGNMENT);
         
         cardsInfoLabel = new JLabel();
         cardsInfoLabel.setForeground(player.getColor());
+        cardsInfoLabel.setAlignmentX(CENTER_ALIGNMENT);
         
         add(playerNameLabel);
         add(territoryInfoLabel);
