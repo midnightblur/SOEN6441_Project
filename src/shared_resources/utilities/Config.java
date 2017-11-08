@@ -42,7 +42,8 @@ public class Config {
         PLAYER_TRADE_CARDS(6),
         PLAYER_ATTACK_PREPARE(7),
         PLAYER_ATTACK_BATTLE(8),
-        PLAYER_FORTIFICATION(9);
+        PLAYER_FORTIFICATION(9),
+        VICTORY(10);
         
         /** The value of the game state. */
         int value;

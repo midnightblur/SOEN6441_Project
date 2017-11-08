@@ -662,6 +662,11 @@ public class GamePlayModel extends Observable {
                 } else {
                     log.append(attackingTerritory.getOwner().getPlayerName() + " doesn't receive any card since the deck has run out of card");
                 }
+            } else {    // VICTORY
+                attackingTerritory.getOwner().setGameState(VICTORY);
+                message = attackingTerritory.getOwner().getPlayerName() + " wins the game!";
+                log.append("\n");
+                log.append("!!!!!!!!!!!!!!!!!! " + message + "!!!!!!!!!!!!!!!!!!");
             }
         }
         
