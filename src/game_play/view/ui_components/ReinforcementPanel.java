@@ -35,6 +35,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
     private static final String GO_TO_ATTACKING_BUTTON = "Go to Attacking";
     private static final String ARMIES_TO_PLACE_LABEL = "Use table to place armies:";
+    private static final String TRADE_CARD_BUTTON = "Trade Cards";
     private JPanel cardsPanel;
     private TradeCardsPanel tradeCardsPanel;
     private JButton goToFortificationButton;
@@ -42,6 +43,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     private JTable playerTerritoryTable;
     private JLabel playerName;
     private JLabel totalArmiesToPlace;
+    private JButton tradeCardButton;
     // endregion
     
     // region Constructors
@@ -67,6 +69,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
         
         placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON);
         placeArmiesButton.setForeground(Color.BLUE);
+        tradeCardButton = new JButton(TRADE_CARD_BUTTON);
         goToFortificationButton = new JButton(GO_TO_ATTACKING_BUTTON);
 
         /* Set layout */
@@ -90,6 +93,8 @@ public class ReinforcementPanel extends JPanel implements Observer {
         
         addVerticalSpacing(bottomGrid);
         bottomGrid.add(placeArmiesButton);
+        addVerticalSpacing(bottomGrid);
+        bottomGrid.add(tradeCardButton);
         addVerticalSpacing(bottomGrid);
         bottomGrid.add(goToFortificationButton);
         addVerticalSpacing(bottomGrid);
@@ -170,6 +175,10 @@ public class ReinforcementPanel extends JPanel implements Observer {
      */
     public void addGoToFortificationButtonListener(ActionListener listenerForGoToFortificationButton) {
         goToFortificationButton.addActionListener(listenerForGoToFortificationButton);
+    }
+    
+    public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
+        tradeCardButton.addActionListener(listenerForTradeCardsButton);
     }
     
     /**

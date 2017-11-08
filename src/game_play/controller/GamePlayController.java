@@ -101,6 +101,8 @@ public class GamePlayController {
         gamePlayFrame.getReinforcementPanel().addPlaceArmiesButtonListener(e -> distributeArmies());
         gamePlayFrame.getReinforcementPanel().addGoToFortificationButtonListener(e -> goToAttackingPhase());
         gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addTradeCardsButtonListener(e -> tradeSelectedCards());
+        gamePlayFrame.getReinforcementPanel().addTradeCardsButtonListener(e -> goToTradeCardsPanel());
+        gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addToReinforcementButtonListener(e -> backToReinforcement());
         
         /* For Attacking Panel */
         gamePlayFrame.getAttackingPanel().getAttackPreparePanel().addAttackButtonListener(e -> attackTerritory());
@@ -167,6 +169,20 @@ public class GamePlayController {
     // endregion
     
     // region For Reinforcement Phase
+    
+    /**
+     * Bring users back to Reinforcement Panel from Trade Cards Panel
+     */
+    private void backToReinforcement() {
+        gamePlayModel.changePhaseOfCurrentPlayer(REINFORCEMENT);
+    }
+    
+    /**
+     * Bring users from Reinforcement Panel to Trade Cards Panel
+     */
+    private void goToTradeCardsPanel() {
+        gamePlayModel.changePhaseOfCurrentPlayer(TRADE_CARDS);
+    }
     
     /**
      * Looping through view table, get the quantity of armies for each territory

@@ -189,10 +189,6 @@ public class GamePlayFrame extends JFrame implements Observer {
         return reinforcementPanel;
     }
     
-    // endregion
-    
-    // region Private methods
-    
     /**
      * Gets the world domination panel
      *

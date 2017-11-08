@@ -27,11 +27,13 @@ public class TradeCardsPanel extends JPanel implements Observer {
     private static final String ARMY_VALUE_LABEL = "Current army value: ";
     private static final String TRADE_CARDS_BUTTON = "Trade cards";
     private static final String GAINED_ARMIES_LABEL = "# of armies gained: ";
+    private static final String REINFORCEMENT_BUTTON = "Back to Reinforcement";
     private JLabel playerID;
     private JLabel gainedArmiesLabel;
     private JLabel armyValueLabel;
     private JPanel cardList;
     private JButton tradeCardsButton;
+    private JButton toReinforcementButton;
     // endregion
     
     // region Constructors
@@ -49,6 +51,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
         tradeCardsButton = new JButton(TRADE_CARDS_BUTTON);
         tradeCardsButton.setForeground(Color.BLUE);
+        toReinforcementButton = new JButton(REINFORCEMENT_BUTTON);
         armyValueLabel = new JLabel();
         JLabel cardsListLabel = new JLabel(CARDS_LIST_LABEL);
         gainedArmiesLabel = new JLabel();
@@ -76,6 +79,8 @@ public class TradeCardsPanel extends JPanel implements Observer {
         bottomGrid.add(armyValueLabel);
         bottomGrid.add(gainedArmiesLabel);
         gainedArmiesLabel.setVisible(false);
+        addVerticalSpacing(bottomGrid);
+        bottomGrid.add(toReinforcementButton);
         addVerticalSpacing(bottomGrid);
         bottomGrid.add(tradeCardsButton);
         addVerticalSpacing(bottomGrid);
@@ -116,6 +121,10 @@ public class TradeCardsPanel extends JPanel implements Observer {
      */
     public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
         tradeCardsButton.addActionListener(listenerForTradeCardsButton);
+    }
+    
+    public void addToReinforcementButtonListener(ActionListener listenerForToReinforcementButton) {
+        toReinforcementButton.addActionListener(listenerForToReinforcementButton);
     }
     
     /**
