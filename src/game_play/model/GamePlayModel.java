@@ -279,7 +279,7 @@ public class GamePlayModel extends Observable {
         Player.resetStaticNextID();
         initPlayers(numOfPlayers);
         initDeck();
-        distributeTerritoriesRiggedForTesting();  // rigged and fixed distribution of the territories
+        fixedDistributeTerritories();  // rigged and fixed distribution of the territories
         giveInitialArmies();
         currentPlayer = players.firstElement();
         
@@ -354,18 +354,13 @@ public class GamePlayModel extends Observable {
      * the territories in Europe to demonstrate that the continent control value
      * of Europe gets added to the calculation of the number of reinforcement armies.
      */
-    private void distributeTerritoriesRiggedForTesting() {
-        /*
-        For build 1 demo purposes only using World.map and 6 players.
-        Give player 1 all the territories of europe.
-         */
-        
-        log.append("Distributing territories...");
-        
+    private void fixedDistributeTerritories() {  //TODO: rewrite javadoc for this method
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
             territoryArrList.add(entry.getValue().getName());
         }
+        
+        Collections.sort(territoryArrList);  // sort the territories in order
         
         for (int i = 0; i < gameMap.getAContinent("europe").getTerritories().size(); i++) {
             int territoryIndex = territoryArrList.indexOf(gameMap.getAContinent("europe").getTerritories().get(i));
@@ -376,19 +371,18 @@ public class GamePlayModel extends Observable {
             territoryArrList.remove(territoryIndex);
         }
         
-        int playerIndex = 1;
-        for (int i = 0; i < gameMap.getTerritoriesCount() - 7; i++) {
+        int playerIndex = 0;
+        for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
             if (playerIndex >= players.size()) {
-                playerIndex = 1;
+                playerIndex = 0;
             }
-            int territoryIndex = rand.nextInt(territoryArrList.size());
-            Territory territory = gameMap.getATerritory(territoryArrList.get(territoryIndex));
+            Territory territory = gameMap.getATerritory(territoryArrList.get(0));
             Player player = players.elementAt(playerIndex);
             territory.setOwner(player);
             player.addTerritory(territory);
-            
+        
             playerIndex++;
-            territoryArrList.remove(territoryIndex);
+            territoryArrList.remove(0);
         }
     }
     

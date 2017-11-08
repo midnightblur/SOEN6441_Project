@@ -1,13 +1,5 @@
 import game_play.model.GamePlayModel;
-import shared_resources.game_entities.Card;
-import shared_resources.game_entities.Player;
-import shared_resources.game_entities.Territory;
 import shared_resources.helper.GameMapHelper;
-
-import java.util.Map;
-
-import static shared_resources.utilities.Config.GAME_STATES.STARTUP;
-import static shared_resources.utilities.Config.log;
 
 public class FixedGamePlayModel {
     public static GamePlayModel getFixedGamePlayModel() {
@@ -26,7 +18,7 @@ public class FixedGamePlayModel {
             System.out.println(e.getMessage());
         }
         
-        
+        fixedGamePlayModel.fixedInitializeNewGame(numOfPlayers);
         
         return fixedGamePlayModel;
     }
