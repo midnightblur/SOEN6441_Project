@@ -41,4 +41,16 @@ public class PlayerTest {
         }
     }
     
+    //    /*
+//    Things to test:
+//    - startup initialization (players, deck, territories, initial armies, army assignment, army placement)
+//    - reinforcement phase (card trade in, add reinforcements, place armies, draw card)
+//    - attack phase (declare attack, get neighboring territories not owned by player, eliminate player, move armies to conquered territory, get roll values)
+//    - fortification phase (move armies)
+//    - next player turn
+//    - change game state phase
+//    - get next player
+//     */
+//
+    
 }
