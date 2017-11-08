@@ -409,12 +409,11 @@ public class GamePlayController {
         );
         
         // if outcome is victory
-        if (gamePlayModel.getGameState() == VICTORY) {
+        if (gamePlayModel.getCurrentPlayer().getGameState() == VICTORY) {
             UIHelper.displayMessage(gamePlayFrame, message);
             UIHelper.closeFrame(gamePlayFrame);
             UIHelper.invokeFrame(callerController.getMainMenuFrame());
         }
-        
         
     }
     
