@@ -163,7 +163,7 @@ public class GamePlayModelTest {
     }
     
     /**
-     *
+     * Test case for correct list of the territories for Player 1 that can be used to make valid attack moves from.
      */
     @Test
     public void getValidAttackingTerritoriesTestCase() {
