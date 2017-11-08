@@ -7,7 +7,6 @@
 package game_play.model;
 
 import shared_resources.game_entities.Card;
-import shared_resources.game_entities.Continent;
 import shared_resources.utilities.FixedGamePlayModel;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
