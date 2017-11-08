@@ -9,6 +9,16 @@ import shared_resources.helper.GameMapHelper;
  * initialization phase of the game.
  */
 public class FixedGamePlayModel {
+    
+    /** The game play game_entities. */
+    final static GamePlayModel fixedGamePlayModel = new GamePlayModel();
+    
+    /** The num of players. */
+    final static int numOfPlayers = 2;
+    
+    /** The map file path. */
+    final static String mapFilePath = "3D.map";
+    
     /**
      * This static method creates an instance of a GamePlayMode object that is initialized with
      * a method to distribute territories in a fixed approach and returns it for the sole purpose
@@ -17,14 +27,6 @@ public class FixedGamePlayModel {
      * @return GamePlayModel object with fixed distribution of territories
      */
     public static GamePlayModel getFixedGamePlayModel() {
-        /** The game play game_entities. */
-        final GamePlayModel fixedGamePlayModel = new GamePlayModel();
-    
-        /** The num of players. */
-        final int numOfPlayers = 2;
-    
-        /** The map file path. */
-        final String mapFilePath = "3D.map";
         
         try {
             fixedGamePlayModel.setGameMap(GameMapHelper.loadGameMap(mapFilePath));
