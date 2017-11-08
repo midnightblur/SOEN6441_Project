@@ -116,8 +116,6 @@ public class GamePlayModelTest {
      */
     @Test
     public void assignOneArmyPerTerritoryTestCase() {
-        int armiesToGive = (int) (fixedGamePlayModel.getGameMap().getTerritoriesCount() * INITIAL_ARMY_RATIO / fixedGamePlayModel.getPlayers().size());
-    
         System.out.println("Testing assignment of one army per territory:");
         for (Player player : fixedGamePlayModel.getPlayers()) {
             int counter = 1;
@@ -140,7 +138,7 @@ public class GamePlayModelTest {
      */
     @Test
     public void addReinforcementForCurrPlayerTestCase() {
-        GamePlayModel tempGamePlayModel = fixedGamePlayModel;
+        GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
         
         Player player1 = tempGamePlayModel.getPlayers().get(0);
         player1.setUnallocatedArmies(0);  // deplete unallocated armies of player 1 from initialization
@@ -149,7 +147,7 @@ public class GamePlayModelTest {
     
         System.out.println("Testing number of reinforcement armies for Player 1:");
         System.out.println("Player 1 has " + player1.getTerritories().size() +
-                " territorie(s) and controls " + player1.getContinents(tempGamePlayModel
+                " territory(ies) and controls " + player1.getContinents(tempGamePlayModel
                 .getGameMap()).size() + " continent(s).");
         if (player1.getContinents(tempGamePlayModel.getGameMap()).size() != 0) {
             for (int i = 0 ; i < player1.getContinents(tempGamePlayModel.getGameMap()).size(); i++) {
@@ -157,39 +155,151 @@ public class GamePlayModelTest {
             }
         }
         System.out.println("\tReinforcement armies given to Player 1 = " + player1.getUnallocatedArmies());
+        System.out.println();
         
         assertEquals(6, player1.getUnallocatedArmies());
     }
     
     /**
-     *
+     * Test case for correct list of the territories for Player 1 that can be used to make valid
+     * attack moves from.
      */
     @Test
     public void getValidAttackingTerritoriesTestCase() {
+        GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
+        
+        Player player1 = tempGamePlayModel.getPlayers().get(0);
     
+        System.out.println("Testing the list of territories that can be used to make valid attack moves for Player 1:");
+        System.out.println("If Player 1 has the following territories and armies...");
+        for (int i = 0; i < player1.getTerritories().size(); i++) {
+            player1.getTerritories().get(i).setArmies(7 - i);
+            System.out.println("\tTerritory " + player1.getTerritories().get(i).getName() +
+                    " with " + player1.getTerritories().get(i).getArmies() + " armies and " +
+                    "neighboring countries of" + player1.getTerritories().get(i).getNeighbors());
+        }
+        
+        System.out.print("\tThen, the list of valid territories to attack from for Player 1 = ");
+        String[] strArrOfValidAttackTerritories = tempGamePlayModel.getValidAttackingTerritories(player1);
+        for (int i = 0; i < strArrOfValidAttackTerritories.length; i++) {
+            if (i != 0) {
+                System.out.print(", ");
+            }
+            System.out.print(strArrOfValidAttackTerritories[i]);
+        }
+        System.out.println("\n");
+        
+        assertEquals("1c", strArrOfValidAttackTerritories[0]);
     }
     
     /**
-     *
+     * Test case for correct number of maximum dice that can be used to attack for Player 1 with Territory 1c.
      */
     @Test
     public void getMaxAttackingRollTestCase() {
+        GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
     
+        Player player1 = tempGamePlayModel.getPlayers().get(0);
+        Territory tempTerritory = player1.getTerritories().get(0);
+    
+        System.out.println("Testing maximum number of dice a Player 1 can use to attack from Territory " +
+                tempTerritory.getName() + ":");
+        
+        tempTerritory.setArmies(5);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " armies, max number of dice that can be used to attack = " + tempGamePlayModel.getMaxAttackingRoll(tempTerritory.getName()));
+        assertEquals(3, tempGamePlayModel.getMaxAttackingRoll(tempTerritory.getName()));
+        
+        tempTerritory.setArmies(4);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " armies, max number of dice that can be used to attack = " + tempGamePlayModel.getMaxAttackingRoll(tempTerritory.getName()));
+        assertEquals(3, tempGamePlayModel.getMaxAttackingRoll(tempTerritory.getName()));
+        
+        tempTerritory.setArmies(3);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " armies, max number of dice that can be used to attack = " + tempGamePlayModel.getMaxAttackingRoll(tempTerritory.getName()));
+        assertEquals(2, tempGamePlayModel.getMaxAttackingRoll(tempTerritory.getName()));
+        
+        tempTerritory.setArmies(2);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " armies, max number of dice that can be used to attack = " + tempGamePlayModel.getMaxAttackingRoll(tempTerritory.getName()));
+        assertEquals(1, tempGamePlayModel.getMaxAttackingRoll(tempTerritory.getName()));
+        
+        tempTerritory.setArmies(1);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " army, max number of dice that can be used to attack = " + tempGamePlayModel.getMaxAttackingRoll(tempTerritory.getName()));
+        assertEquals(0, tempGamePlayModel.getMaxAttackingRoll(tempTerritory.getName()));
+        
+        System.out.println();
     }
     
     /**
-     *
+     * Test case for correct number of maximum dice that can be used to defend Territory 1c for Player 1.
      */
     @Test
     public void getMaxDefendingRollTestCase() {
+        GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
     
+        Player player1 = tempGamePlayModel.getPlayers().get(0);
+        Territory tempTerritory = player1.getTerritories().get(0);
+    
+        System.out.println("Testing maximum number of dice a Player 1 can use to defend Territory " +
+                tempTerritory.getName() + ":");
+    
+        tempTerritory.setArmies(5);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " armies, max number of dice that can be used to defend = " + tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+        assertEquals(2, tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+    
+        tempTerritory.setArmies(4);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " armies, max number of dice that can be used to defend = " + tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+        assertEquals(2, tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+    
+        tempTerritory.setArmies(3);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " armies, max number of dice that can be used to defend = " + tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+        assertEquals(2, tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+    
+        tempTerritory.setArmies(2);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " armies, max number of dice that can be used to defend = " + tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+        assertEquals(2, tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+    
+        tempTerritory.setArmies(1);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " army, max number of dice that can be used to defend = " + tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+        assertEquals(1, tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+    
+        System.out.println();
     }
     
     /**
-     *
+     * Test case for correct check for a victor of the game during the attack phase for an
+     * end-game check.
      */
     @Test
     public void gameVictoryTestCase() {
+        GamePlayModel tempGamePlayModel1 = FixedGamePlayModel.getFixedGamePlayModel();
+        GamePlayModel tempGamePlayModel2 = FixedGamePlayModel.getFixedGamePlayModel();
+        Player player1 = tempGamePlayModel1.getPlayers().get(0);
+        for (Territory t : tempGamePlayModel1.getGameMap().getTerritories().values()) {
+            t.setOwner(player1);
+            player1.addTerritory(t);
+        }
     
+        System.out.println("Testing end-game victor after Player 1's attack turn:");
+    
+        System.out.println("\tIf Player 1 has " + tempGamePlayModel2.getPlayers().get(0)
+                .getTerritories().size() + " out of " + tempGamePlayModel2.getGameMap()
+                .getTerritoriesCount() + " territories, then Player 1 is a victor = " +
+                tempGamePlayModel2.gameVictory(tempGamePlayModel2.getPlayers().get(0)));
+    
+        System.out.println("\tIf Player 1 has " + player1.getTerritories().size() +
+                " out of " + tempGamePlayModel1.getGameMap().getTerritoriesCount() +
+                " territories, then Player 1 is a victor = " + tempGamePlayModel1
+                .gameVictory(player1));
+        
+        System.out.println();
     }
 }

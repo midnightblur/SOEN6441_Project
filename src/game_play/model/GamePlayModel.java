@@ -724,7 +724,7 @@ public class GamePlayModel extends Observable {
      *
      * @return true if attacking player won the entire game, false otherwise
      */
-    private boolean gameVictory(Player attackingPlayer) {
+    public boolean gameVictory(Player attackingPlayer) {
         for (Continent c : gameMap.getContinents().values()) {
             if (!Objects.equals(c.getContinentOwner(gameMap), attackingPlayer.getPlayerName())) {
                 return false;
@@ -768,6 +768,24 @@ public class GamePlayModel extends Observable {
         return territoriesList.toArray(new String[territoriesList.size()]);
     }
     
+    /**
+     * Gets the list of all neighbors that are not owned by the same owner
+     *
+     * @param territoryName the territory name
+     *
+     * @return the list of neighbors in form of an array of territory names
+     */
+    public String[] getNeighborsNotOwnedBySamePlayer(String territoryName) {
+        Territory territory = gameMap.getATerritory(territoryName);
+        Vector<String> neighborsList = new Vector<>();
+        for (String neighborName : territory.getNeighbors()) {
+            Territory neighbor = gameMap.getATerritory(neighborName);
+            if (!neighbor.isOwnedBy(territory.getOwner().getPlayerID())) {
+                neighborsList.add(neighborName);
+            }
+        }
+        return neighborsList.toArray(new String[neighborsList.size()]);
+    }
     // endregion
     
     // region For Fortification Phase
@@ -790,25 +808,6 @@ public class GamePlayModel extends Observable {
         broadcastGamePlayChanges();
         
         return message;
-    }
-    
-    /**
-     * Gets the list of all neighbors that are not owned by the same owner
-     *
-     * @param territoryName the territory name
-     *
-     * @return the list of neighbors in form of an array of territory names
-     */
-    public String[] getNeighborsNotOwnedBySamePlayer(String territoryName) {
-        Territory territory = gameMap.getATerritory(territoryName);
-        Vector<String> neighborsList = new Vector<>();
-        for (String neighborName : territory.getNeighbors()) {
-            Territory neighbor = gameMap.getATerritory(neighborName);
-            if (!neighbor.isOwnedBy(territory.getOwner().getPlayerID())) {
-                neighborsList.add(neighborName);
-            }
-        }
-        return neighborsList.toArray(new String[neighborsList.size()]);
     }
     // endregion
     
