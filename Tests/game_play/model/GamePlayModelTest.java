@@ -4,23 +4,24 @@
  * Version 1.0
  * Oct 18, 2017
  */
-// package game_play.model;
-//
-//import org.junit.Before;
-//import org.junit.Test;
-//import shared_resources.game_entities.Continent;
-//import shared_resources.game_entities.Player;
-//import shared_resources.game_entities.Territory;
-//import shared_resources.helper.GameMapHelper;
-//
-//import java.util.Map;
-//
-//import static org.junit.Assert.assertEquals;
-//
-///**
-// * This test class is used to test the GamePlayModel
-// */
-//public class GamePlayModelTest {
+package game_play.model;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import shared_resources.game_entities.Continent;
+import shared_resources.game_entities.Player;
+import shared_resources.game_entities.Territory;
+import shared_resources.helper.GameMapHelper;
+
+
+
+import static org.junit.Assert.assertEquals;
+
+/**
+ * This test class is used to test the GamePlayModel
+ */
+public class GamePlayModelTest {
 //    /*
 //    Things to test:
 //    - startup initialization (players, deck, territories, initial armies, army assignment, army placement)
@@ -33,29 +34,14 @@
 //     */
 //
 //
-//
-//        /** The game play game_entities. */
-//        GamePlayModel gamePlayModel;
-//
-//        /** The num of players. */
-//        private int numOfPlayers;
-//
-//        /** The map file path. */
-//       final String mapFilePath = "World.map";
-//
-//    /**
-//     * Before tests.
-//     */
-//    @Before
-//    public void beforeTests() {
-//         numOfPlayers = 6;
-//        //gamePlayModel = GamePlayModel.getInstance();
-//        try {
-//            gamePlayModel.setGameMap(GameMapHelper.loadGameMap(mapFilePath));
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
+    /**
+     * Before tests.
+     */
+    @BeforeClass
+    public void beforeClass() {
+    
+    
+    }
 //
 //    /**
 //     * Game play game_entities test case.
@@ -102,4 +88,4 @@
 //                    .getUnallocatedArmies() - initialUnallocatedArmies);
 //        }
 //    }
-//}
+}
