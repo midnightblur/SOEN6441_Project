@@ -102,12 +102,9 @@ public class PlayerTest {
 
 //    Things to test:
 //    - reinforcement phase (card trade in, add reinforcements, place armies, draw card)
-//    - attack phase (declare attack, get neighboring territories not owned by player, eliminate player, move armies to conquered territory, get roll values)
+//    - attack phase (eliminate player and get all of their cards, move armies to conquered territory)
 //    - fortification phase (move armies)
-//    - next player turn
-//    - change game state phase
-//    - get next player
-//    - end game
+
 
     
 }

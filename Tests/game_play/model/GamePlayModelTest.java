@@ -18,9 +18,9 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * This test class is used to test the initialization of the game of a correct startup phase,
- * test the calculation of correct number of reinforcement armies, test various functions of
- * attack phase (such as attacker/defender validation, move function after conquering, and end game
- * state), and test correctness of fortification phase of the GamePlayModel class.
+ * test the calculation of correct number of reinforcement armies, and test various functions of
+ * attack phase, such as attacker/defender validation, moving armies after conquering, and end game
+ * state of the GamePlayModel class.
  */
 public class GamePlayModelTest {
     private GamePlayModel fixedGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
@@ -132,5 +132,45 @@ public class GamePlayModelTest {
         for (Map.Entry<String, Territory> entry : fixedGamePlayModel.getGameMap().getTerritories().entrySet()) {
             assertEquals(1, entry.getValue().getArmies());
         }
+    }
+    
+    /**
+     * Test case for correct number of reinforcement armies for each player.
+     */
+    @Test
+    public void addReinforcementForCurrPlayerTestCase() {
+    
+    }
+    
+    /**
+     *
+     */
+    @Test
+    public void getValidAttackingTerritoriesTestCase() {
+    
+    }
+    
+    /**
+     *
+     */
+    @Test
+    public void getMaxAttackingRollTestCase() {
+    
+    }
+    
+    /**
+     *
+     */
+    @Test
+    public void getMaxDefendingRollTestCase() {
+    
+    }
+    
+    /**
+     *
+     */
+    @Test
+    public void gameVictoryTestCase() {
+    
     }
 }
