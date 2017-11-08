@@ -432,53 +432,6 @@ public class GamePlayModel extends Observable {
         broadcastGamePlayChanges();
     }
     
-    /**
-     * The reinforcement phase includes allowing the players to hand in their cards for
-     * armies (or force them to if they have more than or equal to 5 cards), assign
-     * to-be-allocated armies to the players according to the number of territories and
-     * continents they control (to a minimum of 3), and allows players to place those armies.
-     */
-    public void addReinforcementForCurrPlayer() {
-        // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
-        int armiesToGive = Math.max(3, gameMap.getTerritoriesOfPlayer(currentPlayer).size() / 3);
-        
-        // Assign players additional number armies to allocate if that player owns a continent.
-        for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
-            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner(gameMap)) == 0) {
-                armiesToGive += entry.getValue().getControlValue();
-            }
-        }
-
-        /* -- logging window -- */
-        log.append("\n");
-        log.append("========== Reinforcement ==========");
-        
-        log.append("\n");
-        log.append(currentPlayer.getPlayerName());
-        log.append("----------------------");
-        log.append("Number of territories owned by this player: " + currentPlayer.getTerritories().size());
-        for (Territory territory : currentPlayer.getTerritories()) {
-            log.append("\t" + territory.getName());
-        }
-        int continentCounter = 0;
-        StringBuilder continentStr = new StringBuilder();
-        for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
-            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner(gameMap)) == 0) {
-                continentCounter++;
-                continentStr.append("\t").append(entry.getValue().getName()).append(", control value ").append(entry.getValue().getControlValue()).append("\n");
-            }
-        }
-        log.append("Number of continents owned by this player: " + continentCounter);
-        if (continentCounter != 0) {
-            log.append(continentStr.toString());
-        }
-        log.append("----------------------");
-
-        /* ------------------------------- */
-        
-        currentPlayer.addUnallocatedArmies(armiesToGive);
-    }
-    
     // endregion
     
     // region For Reinforcement Phase
@@ -551,6 +504,53 @@ public class GamePlayModel extends Observable {
         String message = currentPlayer.reinforcement(this, selectedCards, null);
         broadcastGamePlayChanges();
         return message;
+    }
+    
+    /**
+     * The reinforcement phase includes allowing the players to hand in their cards for
+     * armies (or force them to if they have more than or equal to 5 cards), assign
+     * to-be-allocated armies to the players according to the number of territories and
+     * continents they control (to a minimum of 3), and allows players to place those armies.
+     */
+    public void addReinforcementForCurrPlayer() {
+        // Assign players number of armies to allocate (minimum 3) depending on the players' territories.
+        int armiesToGive = Math.max(3, gameMap.getTerritoriesOfPlayer(currentPlayer).size() / 3);
+        
+        // Assign players additional number armies to allocate if that player owns a continent.
+        for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
+            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner(gameMap)) == 0) {
+                armiesToGive += entry.getValue().getControlValue();
+            }
+        }
+
+        /* -- logging window -- */
+        log.append("\n");
+        log.append("========== Reinforcement ==========");
+        
+        log.append("\n");
+        log.append(currentPlayer.getPlayerName());
+        log.append("----------------------");
+        log.append("Number of territories owned by this player: " + currentPlayer.getTerritories().size());
+        for (Territory territory : currentPlayer.getTerritories()) {
+            log.append("\t" + territory.getName());
+        }
+        int continentCounter = 0;
+        StringBuilder continentStr = new StringBuilder();
+        for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
+            if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner(gameMap)) == 0) {
+                continentCounter++;
+                continentStr.append("\t").append(entry.getValue().getName()).append(", control value ").append(entry.getValue().getControlValue()).append("\n");
+            }
+        }
+        log.append("Number of continents owned by this player: " + continentCounter);
+        if (continentCounter != 0) {
+            log.append(continentStr.toString());
+        }
+        log.append("----------------------");
+
+        /* ------------------------------- */
+        
+        currentPlayer.addUnallocatedArmies(armiesToGive);
     }
     
     /**
@@ -758,27 +758,6 @@ public class GamePlayModel extends Observable {
     // region For Fortification Phase
     
     /**
-     * Gets the list of all neighbors that are not owned by the same owner
-     *
-     * @param territoryName the territory name
-     *
-     * @return the list of neighbors in form of an array of territory names
-     */
-    public String[] getNeighborsNotOwnedBySamePlayer(String territoryName) {
-        Territory territory = gameMap.getATerritory(territoryName);
-        Vector<String> neighborsList = new Vector<>();
-        for (String neighborName : territory.getNeighbors()) {
-            Territory neighbor = gameMap.getATerritory(neighborName);
-            if (!neighbor.isOwnedBy(territory.getOwner().getPlayerID())) {
-                neighborsList.add(neighborName);
-            }
-        }
-        return neighborsList.toArray(new String[neighborsList.size()]);
-    }
-    
-    // endregion
-    
-    /**
      * Delegate the job to fortification() of Player class.
      *
      * @param sourceTerritory String value of the name of the source Territory
@@ -797,6 +776,26 @@ public class GamePlayModel extends Observable {
         
         return message;
     }
+    
+    /**
+     * Gets the list of all neighbors that are not owned by the same owner
+     *
+     * @param territoryName the territory name
+     *
+     * @return the list of neighbors in form of an array of territory names
+     */
+    public String[] getNeighborsNotOwnedBySamePlayer(String territoryName) {
+        Territory territory = gameMap.getATerritory(territoryName);
+        Vector<String> neighborsList = new Vector<>();
+        for (String neighborName : territory.getNeighbors()) {
+            Territory neighbor = gameMap.getATerritory(neighborName);
+            if (!neighbor.isOwnedBy(territory.getOwner().getPlayerID())) {
+                neighborsList.add(neighborName);
+            }
+        }
+        return neighborsList.toArray(new String[neighborsList.size()]);
+    }
+    // endregion
     
     // region Public methods
     

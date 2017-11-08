@@ -173,6 +173,24 @@ public class Player {
     }
     
     /**
+     * Gets the unallocated armies.
+     *
+     * @return the unallocated armies
+     */
+    public int getUnallocatedArmies() {
+        return this.unallocatedArmies;
+    }
+    
+    /**
+     * Sets the unallocated armies.
+     *
+     * @param unallocatedArmies the new unallocated armies
+     */
+    public void setUnallocatedArmies(int unallocatedArmies) {
+        this.unallocatedArmies = unallocatedArmies;
+    }
+
+    /**
      * Gets the player status
      *
      * @return the status of passed player object
@@ -189,10 +207,34 @@ public class Player {
     public void setPlayerStatus(GamePlayModel.PLAYER_STATUS playerStatus) {
         this.playerStatus = playerStatus;
     }
-    
     // endregion
     
     // region Public methods
+    
+    /**
+     * Removes the territory.
+     *
+     * @param territoryName the territory name
+     */
+    public void removeTerritory(String territoryName) {
+        for (Territory territory : territories) {
+            if (territory.getName().compareTo(territoryName) == 0) {
+                territories.remove(territory);
+                return;
+            }
+        }
+    }
+    
+    /**
+     * Adds the territory.
+     *
+     * @param territory the territory
+     */
+    public void addTerritory(Territory territory) {
+        if (!territories.contains(territory)) {
+            territories.add(territory);
+        }
+    }
     
     /**
      * Override equals method to check whether or not two Player objects are the same.
@@ -219,6 +261,26 @@ public class Player {
                 || this.playerName.compareTo(tempPlayer.playerName) == 0)
                 && this.unallocatedArmies == tempPlayer.unallocatedArmies;
     }
+    
+    /**
+     * Increases the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number o unallocated armies to add
+     */
+    public void addUnallocatedArmies(int num) {
+        this.unallocatedArmies += num;
+    }
+    
+    /**
+     * Reduces the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number of unallocated armies to reduce
+     */
+    public void reduceUnallocatedArmies(int num) {
+        this.unallocatedArmies -= num;
+    }
+    
+    // region Reinforcement Phase
     
     /**
      * Implement the Reinforcement Phase of a particular player
@@ -255,7 +317,7 @@ public class Player {
      *
      * @return String for the error message to validate the result of the trade in
      */
-    private String tradeInCards(GamePlayModel gamePlayModel, Vector<String> selectedCards) {
+    public String tradeInCards(GamePlayModel gamePlayModel, Vector<String> selectedCards) {
         int previousUnallocatedArmies = this.getUnallocatedArmies();
         if (selectedCards.size() == 3) {
             /* check if selected cards are three of a kind or one of each */
@@ -330,51 +392,16 @@ public class Player {
      * @param gamePlayModel the game play model
      * @param armiesToPlace the amount of armies to place
      */
-    private void distributeArmies(GamePlayModel gamePlayModel, Map<Territory, Integer> armiesToPlace) {
+    public void distributeArmies(GamePlayModel gamePlayModel, Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
             entry.getKey().addArmies(entry.getValue());
             log.append(playerName + " placed " + entry.getValue() + " armies on " + entry.getKey().getName());
             reduceUnallocatedArmies(entry.getValue());
         }
     }
+    // endregion
     
-    /**
-     * Gets the unallocated armies.
-     *
-     * @return the unallocated armies
-     */
-    public int getUnallocatedArmies() {
-        return this.unallocatedArmies;
-    }
-    
-    /**
-     * Sets the unallocated armies.
-     *
-     * @param unallocatedArmies the new unallocated armies
-     */
-    public void setUnallocatedArmies(int unallocatedArmies) {
-        this.unallocatedArmies = unallocatedArmies;
-    }
-    
-    /**
-     * Increases the number of unallocated armies for this player by the specified number.
-     *
-     * @param num The int index of the number o unallocated armies to add
-     */
-    public void addUnallocatedArmies(int num) {
-        this.unallocatedArmies += num;
-    }
-    
-    /**
-     * Reduces the number of unallocated armies for this player by the specified number.
-     *
-     * @param num The int index of the number of unallocated armies to reduce
-     */
-    public void reduceUnallocatedArmies(int num) {
-        this.unallocatedArmies -= num;
-    }
-    
-    // region Reinforcement Phase
+    // region Attack Phase
     
     /**
      * Implements the Attack Phase of particular player.
@@ -464,35 +491,6 @@ public class Player {
         log.append(attackingTerritory.getOwner().getPlayerName() + " conquered " + defendingTerritory.getName());
         
         return "";
-    }
-    
-    // endregion
-    
-    // region Attack Phase
-    
-    /**
-     * Removes the territory.
-     *
-     * @param territoryName the territory name
-     */
-    public void removeTerritory(String territoryName) {
-        for (Territory territory : territories) {
-            if (territory.getName().compareTo(territoryName) == 0) {
-                territories.remove(territory);
-                return;
-            }
-        }
-    }
-    
-    /**
-     * Adds the territory.
-     *
-     * @param territory the territory
-     */
-    public void addTerritory(Territory territory) {
-        if (!territories.contains(territory)) {
-            territories.add(territory);
-        }
     }
     
     /**
