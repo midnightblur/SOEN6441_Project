@@ -308,7 +308,10 @@ public class GamePlayModel extends Observable {
     private void initDeck() {
         log.append("Initializing deck...");
         int typeNumber = 0;
-        int numOfCards = gameMap.getTerritoriesCount() + (gameMap.getTerritoriesCount() % Card.getTypesCount()) * Card.getTypesCount();
+        int numOfCards = gameMap.getTerritoriesCount();
+        if (gameMap.getTerritoriesCount() % Card.getTypesCount() != 0) {
+            numOfCards += Card.getTypesCount() - (gameMap.getTerritoriesCount() % Card.getTypesCount());
+        }
         for (int i = 0; i < numOfCards; i++) {
             if (typeNumber >= Card.getTypesCount()) {
                 typeNumber = 0;

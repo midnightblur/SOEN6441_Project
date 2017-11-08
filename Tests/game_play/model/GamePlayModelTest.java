@@ -38,7 +38,7 @@ public class GamePlayModelTest {
     GamePlayModel fixedGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
     
     /**
-     *
+     * Test case for initPlayer() in GamePlayModel class.
      */
     @Test
     public void initPlayerTestCase() {
@@ -51,6 +51,40 @@ public class GamePlayModelTest {
         }
         
         assertEquals(2, fixedGamePlayModel.getPlayers().size());
+    }
+    
+    /**
+     *
+     */
+    @Test
+    public void initDeckTestCase() {
+        System.out.println(fixedGamePlayModel.getGameMap().getTerritoriesCount());
+        
+        assertEquals(15, fixedGamePlayModel.getDeck().size());
+    }
+    
+    /**
+     *
+     */
+    @Test
+    public void fixedDistributeTerritoriesTestCase() {
+    
+    }
+    
+    /**
+     *
+     */
+    @Test
+    public void giveInitialArmiesTestCase() {
+    
+    }
+    
+    /**
+     *
+     */
+    @Test
+    public void assignOneArmyPerTerritoryTestCase() {
+    
     }
 
     /**

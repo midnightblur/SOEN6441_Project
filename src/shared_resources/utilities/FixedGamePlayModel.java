@@ -24,7 +24,7 @@ public class FixedGamePlayModel {
         final int numOfPlayers = 2;
     
         /** The map file path. */
-        final String mapFilePath = "World.map";
+        final String mapFilePath = "3D.map";
         
         try {
             fixedGamePlayModel.setGameMap(GameMapHelper.loadGameMap(mapFilePath));
