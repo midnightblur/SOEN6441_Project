@@ -44,7 +44,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
         JLabel gameState = new JLabel();
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         gameState.setForeground(Color.BLUE);
-        gameState.setText(GAME_STATES.PLAYER_REINFORCEMENT.name());
+        gameState.setText(GAME_STATES.REINFORCEMENT.name());
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
         tradeCardsButton = new JButton(TRADE_CARDS_BUTTON);
@@ -132,7 +132,7 @@ public class TradeCardsPanel extends JPanel implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == GAME_STATES.PLAY &&
-                    gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.PLAYER_TRADE_CARDS) {
+                    gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.TRADE_CARDS) {
                 armyValueLabel.setText(ARMY_VALUE_LABEL + Integer.toString(gamePlayModel.getArmyValue()));
                 gainedArmiesLabel.setVisible(false);
                 playerID.setForeground(gamePlayModel.getCurrentPlayer().getColor());

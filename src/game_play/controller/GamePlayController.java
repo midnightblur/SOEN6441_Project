@@ -205,7 +205,7 @@ public class GamePlayController {
         if (gamePlayModel.getCurrentPlayer().getUnallocatedArmies() != 0 || gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
             UIHelper.displayMessage(gamePlayFrame, "You have to allocate all of your armies or trade in your cards");
         } else {
-            gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_ATTACK_PREPARE);
+            gamePlayModel.changePhaseOfCurrentPlayer(ATTACK_PREPARE);
         }
     }
     
@@ -282,11 +282,11 @@ public class GamePlayController {
      * Move to Fortification phase
      */
     private void goToFortificationPhase() {
-        if (gamePlayModel.getCurrentPlayer().getGameState() == PLAYER_ATTACK_BATTLE &&
+        if (gamePlayModel.getCurrentPlayer().getGameState() == ATTACK_BATTLE &&
                 gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
             openMoveArmiesToConqueredTerritoryDialog();
         }
-        gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_FORTIFICATION);
+        gamePlayModel.changePhaseOfCurrentPlayer(FORTIFICATION);
     }
     
     /**

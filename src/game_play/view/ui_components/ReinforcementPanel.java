@@ -54,7 +54,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
         JLabel gameState = new JLabel();
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         gameState.setForeground(Color.BLUE);
-        gameState.setText(GAME_STATES.PLAYER_REINFORCEMENT.name());
+        gameState.setText(GAME_STATES.REINFORCEMENT.name());
         playerName = new JLabel();
         playerName.setFont(new Font("Sans Serif", Font.BOLD, 20));
         totalArmiesToPlace = new JLabel();
@@ -187,13 +187,13 @@ public class ReinforcementPanel extends JPanel implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == GAME_STATES.PLAY) {
                 CardLayout cardLayout = (CardLayout) cardsPanel.getLayout();
-                if (gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.PLAYER_REINFORCEMENT) {
+                if (gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.REINFORCEMENT) {
                     playerName.setForeground(gamePlayModel.getCurrentPlayer().getColor());
                     playerName.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                     totalArmiesToPlace.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
                     playerTerritoryTable.setModel(gamePlayModel.getPlayerTerritoriesModel().getModel());
                     cardLayout.show(cardsPanel, ReinforcementPanel.getControlWrapperPanelName());
-                } else if (gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.PLAYER_TRADE_CARDS) {
+                } else if (gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.TRADE_CARDS) {
                     cardLayout.show(cardsPanel, ReinforcementPanel.getTradeCardsPanelName());
                 }
             }

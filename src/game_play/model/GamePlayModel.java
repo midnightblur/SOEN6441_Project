@@ -619,7 +619,7 @@ public class GamePlayModel extends Observable {
      * Change the player's state to ATTACK_PREPARE
      */
     public void prepareNewAttack() {
-        currentPlayer.setGameState(PLAYER_ATTACK_PREPARE);
+        currentPlayer.setGameState(ATTACK_PREPARE);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
@@ -643,7 +643,7 @@ public class GamePlayModel extends Observable {
         Player defender = gameMap.getATerritory(defendingTerritoryName).getOwner();
         Territory defendingTerritory = gameMap.getATerritory(defendingTerritoryName);
         currentBattle = new Battle(attacker, attackingTerritory, numOfAtkDice, defender, defendingTerritory, numOfDefDice);
-        currentPlayer.setGameState(PLAYER_ATTACK_BATTLE);
+        currentPlayer.setGameState(ATTACK_BATTLE);
         
         String message = currentPlayer.attack(this);
         
