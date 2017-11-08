@@ -23,6 +23,8 @@ public class PlayerStatsPanel extends JPanel {
     
     /**
      * Instantiate new player statistics panel
+     *
+     * @param player the player represented by this status panel
      */
     public PlayerStatsPanel(Player player) {
         playerID = player.getPlayerID();
@@ -49,22 +51,47 @@ public class PlayerStatsPanel extends JPanel {
     
     // region Getters & Setters
     
+    /**
+     * Gets the player ID
+     *
+     * @return the player ID
+     */
     public int getPlayerID() {
         return playerID;
     }
     
+    /**
+     * Gets the label for the player name
+     *
+     * @return the label for player name
+     */
     public JLabel getPlayerNameLabel() {
         return playerNameLabel;
     }
     
+    /**
+     * Gets the label for the territory owned
+     *
+     * @return the territory information label
+     */
     public JLabel getTerritoryInfoLabel() {
         return territoryInfoLabel;
     }
     
+    /**
+     * Gets the label for the armies owned
+     *
+     * @return the armies information label
+     */
     public JLabel getArmiesInfoLabel() {
         return armiesInfoLabel;
     }
     
+    /**
+     * Gets the label for the cards owned
+     *
+     * @return the cards information label
+     */
     public JLabel getCardsInfoLabel() {
         return cardsInfoLabel;
     }

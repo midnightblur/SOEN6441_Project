@@ -101,6 +101,7 @@ public class Player {
     /**
      * Player information to be used on phase view
      *
+     * @param gamePlayModel the play model of ongoing game
      * @return a string  with player statistics
      */
     public String playerInfo(GamePlayModel gamePlayModel) {
