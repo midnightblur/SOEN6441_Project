@@ -199,9 +199,6 @@ public class GamePlayModel extends Observable {
     public PlayerTerritoriesModel getPlayerTerritoriesModel() {
         return playerTerritoriesModel;
     }
-    // endregion
-    
-    // region For Startup Phase
     
     /**
      * Gets the current player territories.
@@ -215,6 +212,9 @@ public class GamePlayModel extends Observable {
         }
         return territoriesList;
     }
+    // endregion
+    
+    // region For Startup Phase
     
     /**
      * Initializes a new game with the specified number of players. This method involves
