@@ -32,8 +32,8 @@ public class GamePlayFrame extends JFrame implements Observer {
     private static final String TITLE = "Game Play";
     private static final int WIDTH = 1366;
     private static final int HEIGHT = 800;
-    private JSplitPane contentPane;
-    private JSplitPane topBottom;
+    private JSplitPane topArea;
+    private JPanel contentPane;
     private WorldDominationPanel worldDominationPanel;
     private PhaseViewPanel phaseViewPanel;
     private GameMapTable gameMapTable;
@@ -59,7 +59,6 @@ public class GamePlayFrame extends JFrame implements Observer {
         this.callerController = callerController;
         playersList = new Vector<>();
         setupContentPaneLayout();
-        //setContentPane(contentPane); // TODO: remove this line
         
         /* Setup world domination view & table area */
         worldDominationPanel = new WorldDominationPanel();
@@ -68,13 +67,16 @@ public class GamePlayFrame extends JFrame implements Observer {
         leftComponent.setLayout(new BoxLayout(leftComponent, BoxLayout.Y_AXIS));
         leftComponent.add(worldDominationPanel);
         leftComponent.add(new JScrollPane(gameMapTable));
-        contentPane.setLeftComponent(leftComponent);
+        topArea.setLeftComponent(leftComponent);
         
         /* Setup Phase View */
         phaseViewPanel = new PhaseViewPanel();
-        topBottom = new JSplitPane(JSplitPane.VERTICAL_SPLIT, contentPane, phaseViewPanel);
         
-        setContentPane(topBottom);
+        /* Setup main content pane */
+        contentPane = new JPanel(new BorderLayout());
+        contentPane.add(topArea, BorderLayout.CENTER);
+        contentPane.add(phaseViewPanel, BorderLayout.PAGE_END);
+        setContentPane(contentPane);
         
         /* Setup control area */
         setupControlArea();
@@ -90,7 +92,7 @@ public class GamePlayFrame extends JFrame implements Observer {
      * Setup the layout for the main screen.
      */
     private void setupContentPaneLayout() {
-        contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
+        topArea = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
             private final int location = 1000;
             
             {
@@ -127,7 +129,7 @@ public class GamePlayFrame extends JFrame implements Observer {
         attackingPanel = new AttackingPanel();
         controlArea.add(attackingPanel, AttackingPanel.class.getName());
         
-        contentPane.setRightComponent(controlArea);
+        topArea.setRightComponent(controlArea);
     }
     
     /**
@@ -144,7 +146,7 @@ public class GamePlayFrame extends JFrame implements Observer {
      */
     @Override
     public JSplitPane getContentPane() {
-        return contentPane;
+        return topArea;
     }
     
     /**
@@ -279,10 +281,19 @@ public class GamePlayFrame extends JFrame implements Observer {
             }
     
             Vector<Player> oldPlayersList = new Vector<>();
-            oldPlayersList.addAll(playersList);
+            for (Player player : playersList) {
+                if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
+                    oldPlayersList.add(player);
+                }
+            }
     
             playersList.clear();
-            playersList.addAll(gamePlayModel.getPlayers());
+            for (Player player : gamePlayModel.getPlayers()) {
+                if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
+                    playersList.add(player);
+                }
+            }
+            
             if (oldPlayersList.size() > playersList.size()) {
                 if (playersList.size() != 1) {
                     for (Player player : oldPlayersList) {

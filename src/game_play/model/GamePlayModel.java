@@ -45,8 +45,9 @@ import static shared_resources.utilities.Config.GAME_STATES.*;
  * @version 1.0
  */
 public class GamePlayModel extends Observable {
-    
     // region Attributes declaration
+    public enum PLAYER_STATUS {IN_GAME, ELIMINATED}
+    
     private static final int DEFAULT_ARMY_VALUE = 5;
     private static GamePlayModel instance = null;
     private GameMap gameMap;
@@ -679,7 +680,7 @@ public class GamePlayModel extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     private void eliminatePlayer(Player eliminatedPlayer) {
-        players.remove(eliminatedPlayer);
+        eliminatedPlayer.setPlayerStatus(PLAYER_STATUS.ELIMINATED);
         log.append(currentPlayer.getPlayerName() + " just eliminated " + eliminatedPlayer.getPlayerName());
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -751,6 +752,23 @@ public class GamePlayModel extends Observable {
     // endregion
     
     // region Public methods
+    public Player getAPlayer(int playerID) {
+        for (Player player : players) {
+            if (player.getPlayerID() == playerID) {
+                return player;
+            }
+        }
+        return null;
+    }
+    
+    public Player getAPlayer(String playerName) {
+        for (Player player : players) {
+            if (player.getPlayerName() == playerName) {
+                return player;
+            }
+        }
+        return null;
+    }
     
     /**
      * Set the current player to be the next one in round-robin-fashion

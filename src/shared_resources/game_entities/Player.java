@@ -34,6 +34,7 @@ public class Player {
     private Vector<Card> playersHand;
     private Vector<Territory> territories;
     private Config.GAME_STATES gameState;
+    private GamePlayModel.PLAYER_STATUS playerStatus;
     // endregion
     
     // region Constructors
@@ -48,6 +49,7 @@ public class Player {
         territories = new Vector<>();
         color = PLAYER_COLOR[playerID - 1];
         gameState = Config.GAME_STATES.PLAY;
+        playerStatus = GamePlayModel.PLAYER_STATUS.IN_GAME;
     }
     // endregion
     
@@ -166,6 +168,14 @@ public class Player {
      */
     public String getPlayerName() {
         return playerName;
+    }
+    
+    public GamePlayModel.PLAYER_STATUS getPlayerStatus() {
+        return playerStatus;
+    }
+    
+    public void setPlayerStatus(GamePlayModel.PLAYER_STATUS playerStatus) {
+        this.playerStatus = playerStatus;
     }
     
     // endregion
