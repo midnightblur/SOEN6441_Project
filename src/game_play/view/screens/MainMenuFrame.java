@@ -28,7 +28,7 @@ public class MainMenuFrame extends JFrame {
     private static final String UI_PLAY_GAME_BUTTON = "Play Game";
     private static final String UI_QUIT_BUTTON = "Quit";
     private static final int WIDTH = 500;
-    private static final int HEIGHT = 230;
+    private static final int HEIGHT = 250;
     private JButton mapEditorBtn;
     private JButton playGameBtn;
     private JButton quitBtn;

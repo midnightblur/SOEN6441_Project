@@ -26,7 +26,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
     // region Attributes declaration
     private static final String TERRITORY_INFO_FORMAT = "%d/%d territories";
     private static final String ARMIES_INFO_FORMAT = "%d armies";
-    private static final String CARDS_INFO_FORMAT = "%d cards:%s";
+    private static final String CARDS_INFO_FORMAT = "%d cards:\n%s";
     
     private static final int WIDTH = 1366;
     private static final int HEIGHT = 100;
@@ -48,7 +48,6 @@ public class PhaseViewPanel extends JPanel implements Observer {
         gameStateLabel.setMinimumSize(new Dimension(200, 100));
         gameStateLabel.setPreferredSize((new Dimension(200, 100)));
         gameStateLabel.setMaximumSize(new Dimension(200, 100));
-        
         gameStateLabel.setForeground(Color.BLUE);
         gameStateLabel.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         add(gameStateLabel);
