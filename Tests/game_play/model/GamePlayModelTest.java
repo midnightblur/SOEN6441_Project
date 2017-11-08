@@ -7,6 +7,7 @@
 package game_play.model;
 
 import shared_resources.game_entities.Card;
+import shared_resources.game_entities.Continent;
 import shared_resources.utilities.FixedGamePlayModel;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
@@ -135,11 +136,29 @@ public class GamePlayModelTest {
     }
     
     /**
-     * Test case for correct number of reinforcement armies for each player.
+     * Test case for correct number of reinforcement armies for Player 1.
      */
     @Test
     public void addReinforcementForCurrPlayerTestCase() {
+        GamePlayModel tempGamePlayModel = fixedGamePlayModel;
+        
+        Player player1 = tempGamePlayModel.getPlayers().get(0);
+        player1.setUnallocatedArmies(0);  // deplete unallocated armies of player 1 from initialization
+        tempGamePlayModel.setCurrentPlayer(player1);
+        tempGamePlayModel.addReinforcementForCurrPlayer();
     
+        System.out.println("Testing number of reinforcement armies for Player 1:");
+        System.out.println("Player 1 has " + player1.getTerritories().size() +
+                " territorie(s) and controls " + player1.getContinents(tempGamePlayModel
+                .getGameMap()).size() + " continent(s).");
+        if (player1.getContinents(tempGamePlayModel.getGameMap()).size() != 0) {
+            for (int i = 0 ; i < player1.getContinents(tempGamePlayModel.getGameMap()).size(); i++) {
+                System.out.println("Player 1's total continent control value = " + player1.getContinents(tempGamePlayModel.getGameMap()).get(i).getControlValue());
+            }
+        }
+        System.out.println("\tReinforcement armies given to Player 1 = " + player1.getUnallocatedArmies());
+        
+        assertEquals(6, player1.getUnallocatedArmies());
     }
     
     /**
