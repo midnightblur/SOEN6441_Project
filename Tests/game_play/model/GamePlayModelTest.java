@@ -17,7 +17,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * This test class is used to test the startup initialization of the GamePlayModel class.
+ * This test class is used to test the initialization of the game of a correct startup phase,
+ * test the calculation of correct number of reinforcement armies, test various functions of
+ * attack phase (such as attacker/defender validation, move function after conquering, and end game
+ * state), and test correctness of fortification phase of the GamePlayModel class.
  */
 public class GamePlayModelTest {
     private GamePlayModel fixedGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
