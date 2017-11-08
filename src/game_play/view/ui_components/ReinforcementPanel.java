@@ -35,6 +35,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     private static final String TOTAL_ARMIES_TO_PLACE_LABEL = "Armies to be placed: ";
     private static final String GO_TO_ATTACKING_BUTTON = "Go to Attacking";
     private static final String ARMIES_TO_PLACE_LABEL = "Use table to place armies:";
+    private static final String TRADE_CARD_BUTTON = "Trade Cards";
     private JPanel cardsPanel;
     private TradeCardsPanel tradeCardsPanel;
     private JButton goToFortificationButton;
@@ -42,6 +43,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     private JTable playerTerritoryTable;
     private JLabel playerName;
     private JLabel totalArmiesToPlace;
+    private JButton tradeCardButton;
     // endregion
     
     // region Constructors
@@ -54,7 +56,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
         JLabel gameState = new JLabel();
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         gameState.setForeground(Color.BLUE);
-        gameState.setText(GAME_STATES.PLAYER_REINFORCEMENT.name());
+        gameState.setText(GAME_STATES.REINFORCEMENT.name());
         playerName = new JLabel();
         playerName.setFont(new Font("Sans Serif", Font.BOLD, 20));
         totalArmiesToPlace = new JLabel();
@@ -67,6 +69,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
         
         placeArmiesButton = new JButton(PLACE_ARMIES_BUTTON);
         placeArmiesButton.setForeground(Color.BLUE);
+        tradeCardButton = new JButton(TRADE_CARD_BUTTON);
         goToFortificationButton = new JButton(GO_TO_ATTACKING_BUTTON);
 
         /* Set layout */
@@ -90,6 +93,8 @@ public class ReinforcementPanel extends JPanel implements Observer {
         
         addVerticalSpacing(bottomGrid);
         bottomGrid.add(placeArmiesButton);
+        addVerticalSpacing(bottomGrid);
+        bottomGrid.add(tradeCardButton);
         addVerticalSpacing(bottomGrid);
         bottomGrid.add(goToFortificationButton);
         addVerticalSpacing(bottomGrid);
@@ -172,6 +177,10 @@ public class ReinforcementPanel extends JPanel implements Observer {
         goToFortificationButton.addActionListener(listenerForGoToFortificationButton);
     }
     
+    public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
+        tradeCardButton.addActionListener(listenerForTradeCardsButton);
+    }
+    
     /**
      * This method is called whenever the observed object is changed. An
      * application calls an <tt>Observable</tt> object's
@@ -187,13 +196,13 @@ public class ReinforcementPanel extends JPanel implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == GAME_STATES.PLAY) {
                 CardLayout cardLayout = (CardLayout) cardsPanel.getLayout();
-                if (gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.PLAYER_REINFORCEMENT) {
+                if (gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.REINFORCEMENT) {
                     playerName.setForeground(gamePlayModel.getCurrentPlayer().getColor());
                     playerName.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                     totalArmiesToPlace.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
                     playerTerritoryTable.setModel(gamePlayModel.getPlayerTerritoriesModel().getModel());
                     cardLayout.show(cardsPanel, ReinforcementPanel.getControlWrapperPanelName());
-                } else if (gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.PLAYER_TRADE_CARDS) {
+                } else if (gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.TRADE_CARDS) {
                     cardLayout.show(cardsPanel, ReinforcementPanel.getTradeCardsPanelName());
                 }
             }

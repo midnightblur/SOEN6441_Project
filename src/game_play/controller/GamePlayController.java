@@ -11,6 +11,7 @@ import game_play.model.GamePlayModel;
 import game_play.view.screens.ConquerDialog;
 import game_play.view.screens.DefendingDialog;
 import game_play.view.screens.GamePlayFrame;
+import game_play.view.ui_components.FortificationPanel;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.UIHelper;
@@ -101,6 +102,8 @@ public class GamePlayController {
         gamePlayFrame.getReinforcementPanel().addPlaceArmiesButtonListener(e -> distributeArmies());
         gamePlayFrame.getReinforcementPanel().addGoToFortificationButtonListener(e -> goToAttackingPhase());
         gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addTradeCardsButtonListener(e -> tradeSelectedCards());
+        gamePlayFrame.getReinforcementPanel().addTradeCardsButtonListener(e -> goToTradeCardsPanel());
+        gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().addToReinforcementButtonListener(e -> backToReinforcement());
         
         /* For Attacking Panel */
         gamePlayFrame.getAttackingPanel().getAttackPreparePanel().addAttackButtonListener(e -> attackTerritory());
@@ -169,6 +172,20 @@ public class GamePlayController {
     // region For Reinforcement Phase
     
     /**
+     * Bring users back to Reinforcement Panel from Trade Cards Panel
+     */
+    private void backToReinforcement() {
+        gamePlayModel.changePhaseOfCurrentPlayer(REINFORCEMENT);
+    }
+    
+    /**
+     * Bring users from Reinforcement Panel to Trade Cards Panel
+     */
+    private void goToTradeCardsPanel() {
+        gamePlayModel.changePhaseOfCurrentPlayer(TRADE_CARDS);
+    }
+    
+    /**
      * Looping through view table, get the quantity of armies for each territory
      * then place them using the placeArmiesReinforcement in the game_entities.
      */
@@ -205,7 +222,7 @@ public class GamePlayController {
         if (gamePlayModel.getCurrentPlayer().getUnallocatedArmies() != 0 || gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
             UIHelper.displayMessage(gamePlayFrame, "You have to allocate all of your armies or trade in your cards");
         } else {
-            gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_ATTACK_PREPARE);
+            gamePlayModel.changePhaseOfCurrentPlayer(ATTACK_PREPARE);
         }
     }
     
@@ -262,9 +279,9 @@ public class GamePlayController {
         String attackingTerritory = String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem());
         String defendingTerritory = String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem());
         String defendingPlayer = gamePlayModel.getGameMap().getATerritory(defendingTerritory).getOwner().getPlayerName();
-        String attackingDice = String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem());
+        int attackingDice = (int) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem();
         
-        String situation = String.format("%s attacks from %s to %s's %s using %s dice",
+        String situation = String.format("%s attacks from %s to %s's %s using %d dice",
                 attackingPlayer,
                 attackingTerritory,
                 defendingPlayer,
@@ -282,11 +299,17 @@ public class GamePlayController {
      * Move to Fortification phase
      */
     private void goToFortificationPhase() {
-        if (gamePlayModel.getCurrentPlayer().getGameState() == PLAYER_ATTACK_BATTLE &&
+        if (gamePlayModel.getCurrentPlayer().getGameState() == ATTACK_BATTLE &&
                 gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
             openMoveArmiesToConqueredTerritoryDialog();
         }
-        gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_FORTIFICATION);
+        
+        if (gamePlayModel.getCurrentPlayer().isHasConqueredTerritories()) {
+            gamePlayModel.drawCardForWinner(gamePlayModel.getCurrentPlayer());
+            gamePlayModel.getCurrentPlayer().setHasConqueredTerritories(false);
+        }
+        
+        gamePlayModel.changePhaseOfCurrentPlayer(FORTIFICATION);
     }
     
     /**
@@ -367,16 +390,21 @@ public class GamePlayController {
      */
     private void updateTargetTerritoriesDropdown(String selectedTerritory) {
         Vector<String> targetTerritoriesList = new Vector<>();
-        Vector<String> neighbors = gamePlayModel.getGameMap().getATerritory(selectedTerritory).getNeighbors();
-        for (String neighborName : neighbors) {  // if neighborName is owned by current player, add it to the lost
-            if (gamePlayModel.getGameMap().getATerritory(neighborName).isOwnedBy(gamePlayModel.getCurrentPlayer().getPlayerID())
-                    && neighborName.compareTo(selectedTerritory) != 0) {
-                targetTerritoriesList.add(neighborName);
+        if (selectedTerritory.compareTo(FortificationPanel.getNoValidTerritory()) != 0) {
+            Vector<String> neighbors = gamePlayModel.getGameMap().getATerritory(selectedTerritory).getNeighbors();
+            for (String neighborName : neighbors) {  // if neighborName is owned by current player, add it to the lost
+                if (gamePlayModel.getGameMap().getATerritory(neighborName).isOwnedBy(gamePlayModel.getCurrentPlayer().getPlayerID())
+                        && neighborName.compareTo(selectedTerritory) != 0) {
+                    targetTerritoriesList.add(neighborName);
+                }
             }
+            if (targetTerritoriesList.size() == 0) {
+                targetTerritoriesList.add("No neighbors owned. Please select another territory");
+            }
+        } else {
+            targetTerritoriesList.add("No valid source territory is selected");
         }
-        if (targetTerritoriesList.size() == 0) {
-            targetTerritoriesList.add("No neighbors owned. Please select another territory");
-        }
+    
         DropDownModel targetTerritoriesModel = new DropDownModel(targetTerritoriesList);
         gamePlayFrame.getFortificationPanel().getTargetTerritoryDropdown().setModel(targetTerritoriesModel);
     }

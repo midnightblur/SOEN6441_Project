@@ -28,6 +28,7 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
  */
 public class FortificationPanel extends JPanel implements Observer {
     // region Attributes declaration
+    private static final String NO_VALID_TERRITORY = "There are no territories with more than 1 army. You can't move armies.";
     private static final String MOVE_ARMIES_BUTTON = "Move Armies";
     private static final String DONE_BUTTON = "Done (next player)";
     private static final String TERRITORY_FROM_LABEL = "Move from: ";
@@ -50,7 +51,7 @@ public class FortificationPanel extends JPanel implements Observer {
         JLabel gameState = new JLabel();
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         gameState.setForeground(Color.BLUE);
-        gameState.setText(Config.GAME_STATES.PLAYER_FORTIFICATION.name());
+        gameState.setText(Config.GAME_STATES.FORTIFICATION.name());
         playerName = new JLabel();
         playerName.setFont(new Font("Sans Serif", Font.BOLD, 20));
         armiesToMoveField = new JTextField();
@@ -130,6 +131,15 @@ public class FortificationPanel extends JPanel implements Observer {
         return moveArmiesButton;
     }
     
+    /**
+     * Gets the NO_VALID_TERRITORY attribute
+     *
+     * @return the NO_VALID_TERRITORY attribute value
+     */
+    public static String getNoValidTerritory() {
+        return NO_VALID_TERRITORY;
+    }
+    
     // endregion
     
     // region MVC & Observer pattern methods
@@ -175,7 +185,7 @@ public class FortificationPanel extends JPanel implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAY &&
-                    gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.PLAYER_FORTIFICATION) {
+                    gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.FORTIFICATION) {
                 moveArmiesButton.setEnabled(true);
                 sourceTerritoryDropdown.setEnabled(true);
                 targetTerritoryDropdown.setEnabled(true);
@@ -192,11 +202,23 @@ public class FortificationPanel extends JPanel implements Observer {
                     }
                 }
                 if (sourceTerritoriesList.size() == 0) {
-                    sourceTerritoriesList.add("There are no territories with more than 1 army. You can't move armies.");
+                    sourceTerritoriesList.add(NO_VALID_TERRITORY);
                 }
                 DropDownModel sourceTerritoriesModel = new DropDownModel(sourceTerritoriesList);
                 sourceTerritoryDropdown.setModel(sourceTerritoriesModel);
                 sourceTerritoryDropdown.setSelectedIndex(0);
+                
+                if (String.valueOf(sourceTerritoryDropdown.getSelectedItem()).compareTo(NO_VALID_TERRITORY) == 0) {
+                    sourceTerritoryDropdown.setEnabled(false);
+                    targetTerritoryDropdown.setEnabled(false);
+                    armiesToMoveField.setEnabled(false);
+                    moveArmiesButton.setEnabled(false);
+                } else {
+                    sourceTerritoryDropdown.setEnabled(true);
+                    targetTerritoryDropdown.setEnabled(true);
+                    armiesToMoveField.setEnabled(true);
+                    moveArmiesButton.setEnabled(true);
+                }
                 
                 armiesToMoveField.setText("");
             }

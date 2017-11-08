@@ -9,6 +9,7 @@ package game_play.view.ui_components;
 import game_play.model.GamePlayModel;
 import shared_resources.game_entities.Card;
 import shared_resources.game_entities.Player;
+import shared_resources.utilities.Config;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,8 +26,9 @@ import java.util.Vector;
 public class PhaseViewPanel extends JPanel implements Observer {
     // region Attributes declaration
     private static final String TERRITORY_INFO_FORMAT = "%d/%d territories";
-    private static final String ARMIES_INFO_FORMAT = "%d armies";
+    private static final String ARMIES_INFO_FORMAT = "%d armies + %d";
     private static final String CARDS_INFO_FORMAT = "%d cards:\n%s";
+    private static final String HAS_CONQUERED_FORMAT = "Has conquered: %s";
     
     private static final int WIDTH = 1366;
     private static final int HEIGHT = 100;
@@ -76,7 +78,11 @@ public class PhaseViewPanel extends JPanel implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
 
             /* Update the game state info */
-            gameStateLabel.setText(gamePlayModel.getGameState().toString());
+            if (gamePlayModel.getGameState() != Config.GAME_STATES.PLAY) {
+                gameStateLabel.setText(gamePlayModel.getGameState().name());
+            } else {
+                gameStateLabel.setText(gamePlayModel.getCurrentPlayer().getGameState().name());
+            }
     
             /* Update all player's info */
             updatePlayersInfo(gamePlayModel);
@@ -115,7 +121,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
         for (Player player : gamePlayModel.getPlayers()) {
             if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.ELIMINATED) {
                 /* If the player was eliminated, display no information */
-                setBackground(Color.WHITE);
+                setBackground(UIManager.getColor ( "Panel.background" ));
                 playerStatsPanels.get(player.getPlayerID() - 1).getPlayerNameLabel().setText(player.getPlayerName() + " WAS ELIMINATED");
                 playerStatsPanels.get(player.getPlayerID() - 1).getTerritoryInfoLabel().setText("");
                 playerStatsPanels.get(player.getPlayerID() - 1).getArmiesInfoLabel().setText("");
@@ -123,9 +129,9 @@ public class PhaseViewPanel extends JPanel implements Observer {
             } else if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
                 /* Current player has different background color */
                 if (gamePlayModel.getCurrentPlayer().getPlayerID() == player.getPlayerID()) {
-                    playerStatsPanels.get(player.getPlayerID() - 1).setBackground(Color.LIGHT_GRAY);
-                } else {
                     playerStatsPanels.get(player.getPlayerID() - 1).setBackground(Color.WHITE);
+                } else {
+                    playerStatsPanels.get(player.getPlayerID() - 1).setBackground(UIManager.getColor ( "Panel.background" ));
                 }
     
                 /* Update player's territory info */
@@ -134,7 +140,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
                 playerStatsPanels.get(player.getPlayerID() - 1).getTerritoryInfoLabel().setText(territoryInfo);
                 
                 /* Update player's armies info */
-                String armiesInfo = String.format(ARMIES_INFO_FORMAT, player.getTotalArmiesCount());
+                String armiesInfo = String.format(ARMIES_INFO_FORMAT, player.getTotalArmiesCount(), player.getUnallocatedArmies());
                 playerStatsPanels.get(player.getPlayerID() - 1).getArmiesInfoLabel().setText(armiesInfo);
                 
                 /* Update player's cards info */
@@ -144,6 +150,10 @@ public class PhaseViewPanel extends JPanel implements Observer {
                 }
                 String cardsInfo = String.format(CARDS_INFO_FORMAT, player.getPlayersHand().size(), cardsListStr.toString());
                 playerStatsPanels.get(player.getPlayerID() - 1).getCardsInfoLabel().setText(cardsInfo);
+                
+                /* Update player's has just conquered any territory info */
+                String hasConquered = String.format(HAS_CONQUERED_FORMAT, player.isHasConqueredTerritories()? "YES" : "NO");
+                playerStatsPanels.get(player.getPlayerID() - 1).getHasConquered().setText(hasConquered);
             }
         }
     }

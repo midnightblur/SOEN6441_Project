@@ -125,9 +125,9 @@ public class AttackingPanel extends JPanel implements Observer {
                 playerName.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                 gameState.setText(gamePlayModel.getCurrentPlayer().getGameState().name());
                 CardLayout cardLayout = (CardLayout) cardsPanel.getLayout();
-                if (gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.PLAYER_ATTACK_PREPARE) {
+                if (gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.ATTACK_PREPARE) {
                     cardLayout.show(cardsPanel, AttackPreparePanel.class.getName());
-                } else if (gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.PLAYER_ATTACK_BATTLE) {
+                } else if (gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.ATTACK_BATTLE) {
                     cardLayout.show(cardsPanel, BattleResultPanel.class.getName());
                 }
             }

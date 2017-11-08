@@ -189,10 +189,6 @@ public class GamePlayFrame extends JFrame implements Observer {
         return reinforcementPanel;
     }
     
-    // endregion
-    
-    // region Private methods
-    
     /**
      * Gets the world domination panel
      *
@@ -261,15 +257,15 @@ public class GamePlayFrame extends JFrame implements Observer {
                     break;
                 case PLAY:
                     switch (gamePlayModel.getCurrentPlayer().getGameState()) {
-                        case PLAYER_REINFORCEMENT:
-                        case PLAYER_TRADE_CARDS:
+                        case REINFORCEMENT:
+                        case TRADE_CARDS:
                             cardLayout.show(controlArea, ReinforcementPanel.class.getName());
                             break;
-                        case PLAYER_ATTACK_PREPARE:
-                        case PLAYER_ATTACK_BATTLE:
+                        case ATTACK_PREPARE:
+                        case ATTACK_BATTLE:
                             cardLayout.show(controlArea, AttackingPanel.class.getName());
                             break;
-                        case PLAYER_FORTIFICATION:
+                        case FORTIFICATION:
                             cardLayout.show(controlArea, FortificationPanel.class.getName());
                             break;
                         default:

@@ -26,10 +26,10 @@ public class BattleResultPanel extends JPanel implements Observer {
     // region Attributes declaration
     private static final String ATTACKER_ROLL_RESULT = "Attacker roll results: ";
     private static final String DEFENDER_ROLL_RESULT = "Defender roll results: ";
-    private static final String ATTACKER_LOSE_ARMIES = "Attacker lose %s armies";
-    private static final String DEFENDER_LOSE_ARMIES = "Defender lose %s armies";
-    private static final String ATT_TERRITORY_ARMIES = "%s (attacking) now has %s armies left";
-    private static final String DEF_TERRITORY_ARMIES = "%s (defending) now has %s armies left";
+    private static final String ATTACKER_LOSE_ARMIES = "Attacker lose %d armies";
+    private static final String DEFENDER_LOSE_ARMIES = "Defender lose %d armies";
+    private static final String ATT_TERRITORY_ARMIES = "%s (attacking) now has %d armies left";
+    private static final String DEF_TERRITORY_ARMIES = "%s (defending) now has %d armies left";
     private static final String ANOTHER_ATTACK_BUTTON = "Do another Attack";
     private static final String DONE_BUTTON = "Done (to Fortification)";
     
@@ -110,7 +110,7 @@ public class BattleResultPanel extends JPanel implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAY &&
-                    gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.PLAYER_ATTACK_BATTLE) {
+                    gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.ATTACK_BATTLE) {
                 Battle currentBattle = gamePlayModel.getCurrentBattle();
                 
                 StringBuilder rollResultStrBuilder = new StringBuilder(ATTACKER_ROLL_RESULT);

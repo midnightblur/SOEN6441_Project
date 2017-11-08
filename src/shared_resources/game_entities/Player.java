@@ -13,7 +13,7 @@ import java.awt.*;
 import java.util.Map;
 import java.util.Vector;
 
-import static shared_resources.utilities.Config.GAME_STATES.PLAYER_REINFORCEMENT;
+import static shared_resources.utilities.Config.GAME_STATES.REINFORCEMENT;
 import static shared_resources.utilities.Config.PLAYER_COLOR;
 import static shared_resources.utilities.Config.log;
 
@@ -35,6 +35,7 @@ public class Player {
     private Vector<Territory> territories;
     private Config.GAME_STATES gameState;
     private GamePlayModel.PLAYER_STATUS playerStatus;
+    private boolean hasConqueredTerritories;
     // endregion
     
     // region Constructors
@@ -50,6 +51,7 @@ public class Player {
         color = PLAYER_COLOR[playerID - 1];
         gameState = Config.GAME_STATES.PLAY;
         playerStatus = GamePlayModel.PLAYER_STATUS.IN_GAME;
+        hasConqueredTerritories = false;
     }
     // endregion
     
@@ -207,6 +209,15 @@ public class Player {
     public void setPlayerStatus(GamePlayModel.PLAYER_STATUS playerStatus) {
         this.playerStatus = playerStatus;
     }
+    
+    public boolean isHasConqueredTerritories() {
+        return hasConqueredTerritories;
+    }
+    
+    public void setHasConqueredTerritories(boolean hasConqueredTerritories) {
+        this.hasConqueredTerritories = hasConqueredTerritories;
+    }
+    
     // endregion
     
     // region Public methods
@@ -293,10 +304,10 @@ public class Player {
      */
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         switch (gameState) {
-            case PLAYER_TRADE_CARDS:
+            case TRADE_CARDS:
                 log.append(gamePlayModel.getCurrentPlayer().getPlayerName() + " wants to trade-in cards...");
                 return tradeInCards(gamePlayModel, selectedCards);
-            case PLAYER_REINFORCEMENT:
+            case REINFORCEMENT:
                 log.append(gamePlayModel.getCurrentPlayer().getPlayerName() + " wants to distribute armies...");
                 distributeArmies(armiesToPlace);
                 break;
@@ -378,7 +389,7 @@ public class Player {
             } else {
                 return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
             }
-            setGameState(PLAYER_REINFORCEMENT);
+            setGameState(REINFORCEMENT);
             return "Cards successfully traded in!";
         } else {
             return "No cards traded in!\nPlease select exactly 3 cards.\n(all of same type or one of each type)";
@@ -566,28 +577,28 @@ public class Player {
      */
     public void nextPhase() {
         switch (gameState) {
-            case PLAYER_TRADE_CARDS:
-                gameState = Config.GAME_STATES.PLAYER_REINFORCEMENT;
+            case TRADE_CARDS:
+                gameState = Config.GAME_STATES.REINFORCEMENT;
                 break;
-            case PLAYER_REINFORCEMENT:
-                gameState = Config.GAME_STATES.PLAYER_ATTACK_PREPARE;
+            case REINFORCEMENT:
+                gameState = Config.GAME_STATES.ATTACK_PREPARE;
                 break;
-            case PLAYER_ATTACK_PREPARE:
-            case PLAYER_ATTACK_BATTLE:
-                gameState = Config.GAME_STATES.PLAYER_FORTIFICATION;
+            case ATTACK_PREPARE:
+            case ATTACK_BATTLE:
+                gameState = Config.GAME_STATES.FORTIFICATION;
                 break;
-            case PLAYER_FORTIFICATION:
+            case FORTIFICATION:
                 if (playersHand.size() >= 5) {
-                    gameState = Config.GAME_STATES.PLAYER_TRADE_CARDS;
+                    gameState = Config.GAME_STATES.TRADE_CARDS;
                 } else {
-                    gameState = Config.GAME_STATES.PLAYER_REINFORCEMENT;
+                    gameState = Config.GAME_STATES.REINFORCEMENT;
                 }
                 break;
             default: // the player does not have a game state in his very first turn
                 if (playersHand.size() >= 5) {
-                    gameState = Config.GAME_STATES.PLAYER_TRADE_CARDS;
+                    gameState = Config.GAME_STATES.TRADE_CARDS;
                 } else {
-                    gameState = Config.GAME_STATES.PLAYER_REINFORCEMENT;
+                    gameState = Config.GAME_STATES.REINFORCEMENT;
                 }
                 break;
         }

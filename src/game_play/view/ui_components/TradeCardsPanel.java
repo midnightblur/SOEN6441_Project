@@ -27,11 +27,13 @@ public class TradeCardsPanel extends JPanel implements Observer {
     private static final String ARMY_VALUE_LABEL = "Current army value: ";
     private static final String TRADE_CARDS_BUTTON = "Trade cards";
     private static final String GAINED_ARMIES_LABEL = "# of armies gained: ";
+    private static final String REINFORCEMENT_BUTTON = "Back to Reinforcement";
     private JLabel playerID;
     private JLabel gainedArmiesLabel;
     private JLabel armyValueLabel;
     private JPanel cardList;
     private JButton tradeCardsButton;
+    private JButton toReinforcementButton;
     // endregion
     
     // region Constructors
@@ -44,11 +46,12 @@ public class TradeCardsPanel extends JPanel implements Observer {
         JLabel gameState = new JLabel();
         gameState.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         gameState.setForeground(Color.BLUE);
-        gameState.setText(GAME_STATES.PLAYER_REINFORCEMENT.name());
+        gameState.setText(GAME_STATES.TRADE_CARDS.name());
         playerID = new JLabel();
         playerID.setFont(new Font("Sans Serif", Font.BOLD, 20));
         tradeCardsButton = new JButton(TRADE_CARDS_BUTTON);
         tradeCardsButton.setForeground(Color.BLUE);
+        toReinforcementButton = new JButton(REINFORCEMENT_BUTTON);
         armyValueLabel = new JLabel();
         JLabel cardsListLabel = new JLabel(CARDS_LIST_LABEL);
         gainedArmiesLabel = new JLabel();
@@ -76,6 +79,8 @@ public class TradeCardsPanel extends JPanel implements Observer {
         bottomGrid.add(armyValueLabel);
         bottomGrid.add(gainedArmiesLabel);
         gainedArmiesLabel.setVisible(false);
+        addVerticalSpacing(bottomGrid);
+        bottomGrid.add(toReinforcementButton);
         addVerticalSpacing(bottomGrid);
         bottomGrid.add(tradeCardsButton);
         addVerticalSpacing(bottomGrid);
@@ -118,6 +123,10 @@ public class TradeCardsPanel extends JPanel implements Observer {
         tradeCardsButton.addActionListener(listenerForTradeCardsButton);
     }
     
+    public void addToReinforcementButtonListener(ActionListener listenerForToReinforcementButton) {
+        toReinforcementButton.addActionListener(listenerForToReinforcementButton);
+    }
+    
     /**
      * This method is called whenever the observed object is changed. An
      * application calls an <tt>Observable</tt> object's
@@ -132,7 +141,15 @@ public class TradeCardsPanel extends JPanel implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == GAME_STATES.PLAY &&
-                    gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.PLAYER_TRADE_CARDS) {
+                    gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.TRADE_CARDS) {
+                
+                /* Don't allow players to go back to Reinforcement if they must trade their cards */
+                if (gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
+                    toReinforcementButton.setEnabled(false);
+                } else {
+                    toReinforcementButton.setEnabled(true);
+                }
+                
                 armyValueLabel.setText(ARMY_VALUE_LABEL + Integer.toString(gamePlayModel.getArmyValue()));
                 gainedArmiesLabel.setVisible(false);
                 playerID.setForeground(gamePlayModel.getCurrentPlayer().getColor());

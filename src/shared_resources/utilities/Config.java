@@ -38,11 +38,11 @@ public class Config {
         MAP_EDITOR(2),
         STARTUP(3),
         PLAY(4),
-        PLAYER_REINFORCEMENT(5),
-        PLAYER_TRADE_CARDS(6),
-        PLAYER_ATTACK_PREPARE(7),
-        PLAYER_ATTACK_BATTLE(8),
-        PLAYER_FORTIFICATION(9),
+        REINFORCEMENT(5),
+        TRADE_CARDS(6),
+        ATTACK_PREPARE(7),
+        ATTACK_BATTLE(8),
+        FORTIFICATION(9),
         VICTORY(10);
         
         /** The value of the game state. */
