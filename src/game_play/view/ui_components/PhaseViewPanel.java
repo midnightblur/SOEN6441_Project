@@ -25,7 +25,7 @@ import java.util.Vector;
 public class PhaseViewPanel extends JPanel implements Observer {
     // region Attributes declaration
     private static final String TERRITORY_INFO_FORMAT = "%d/%d territories";
-    private static final String ARMIES_INFO_FORMAT = "%d armies";
+    private static final String ARMIES_INFO_FORMAT = "%d armies + %d";
     private static final String CARDS_INFO_FORMAT = "%d cards:\n%s";
     
     private static final int WIDTH = 1366;
@@ -134,7 +134,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
                 playerStatsPanels.get(player.getPlayerID() - 1).getTerritoryInfoLabel().setText(territoryInfo);
                 
                 /* Update player's armies info */
-                String armiesInfo = String.format(ARMIES_INFO_FORMAT, player.getTotalArmiesCount());
+                String armiesInfo = String.format(ARMIES_INFO_FORMAT, player.getTotalArmiesCount(), player.getUnallocatedArmies());
                 playerStatsPanels.get(player.getPlayerID() - 1).getArmiesInfoLabel().setText(armiesInfo);
                 
                 /* Update player's cards info */
