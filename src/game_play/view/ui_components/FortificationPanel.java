@@ -28,6 +28,7 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
  */
 public class FortificationPanel extends JPanel implements Observer {
     // region Attributes declaration
+    private static final String NO_VALID_TERRITORY = "There are no territories with more than 1 army. You can't move armies.";
     private static final String MOVE_ARMIES_BUTTON = "Move Armies";
     private static final String DONE_BUTTON = "Done (next player)";
     private static final String TERRITORY_FROM_LABEL = "Move from: ";
@@ -130,6 +131,15 @@ public class FortificationPanel extends JPanel implements Observer {
         return moveArmiesButton;
     }
     
+    /**
+     * Gets the NO_VALID_TERRITORY attribute
+     *
+     * @return the NO_VALID_TERRITORY attribute value
+     */
+    public static String getNoValidTerritory() {
+        return NO_VALID_TERRITORY;
+    }
+    
     // endregion
     
     // region MVC & Observer pattern methods
@@ -192,11 +202,21 @@ public class FortificationPanel extends JPanel implements Observer {
                     }
                 }
                 if (sourceTerritoriesList.size() == 0) {
-                    sourceTerritoriesList.add("There are no territories with more than 1 army. You can't move armies.");
+                    sourceTerritoriesList.add(NO_VALID_TERRITORY);
                 }
                 DropDownModel sourceTerritoriesModel = new DropDownModel(sourceTerritoriesList);
                 sourceTerritoryDropdown.setModel(sourceTerritoriesModel);
                 sourceTerritoryDropdown.setSelectedIndex(0);
+                
+                if (String.valueOf(sourceTerritoryDropdown.getSelectedItem()).compareTo(NO_VALID_TERRITORY) == 0) {
+                    sourceTerritoryDropdown.setEnabled(false);
+                    targetTerritoryDropdown.setEnabled(false);
+                    moveArmiesButton.setEnabled(false);
+                } else {
+                    sourceTerritoryDropdown.setEnabled(true);
+                    targetTerritoryDropdown.setEnabled(true);
+                    moveArmiesButton.setEnabled(true);
+                }
                 
                 armiesToMoveField.setText("");
             }

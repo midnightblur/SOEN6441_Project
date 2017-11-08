@@ -11,6 +11,7 @@ import game_play.model.GamePlayModel;
 import game_play.view.screens.ConquerDialog;
 import game_play.view.screens.DefendingDialog;
 import game_play.view.screens.GamePlayFrame;
+import game_play.view.ui_components.FortificationPanel;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.UIHelper;
@@ -389,16 +390,21 @@ public class GamePlayController {
      */
     private void updateTargetTerritoriesDropdown(String selectedTerritory) {
         Vector<String> targetTerritoriesList = new Vector<>();
-        Vector<String> neighbors = gamePlayModel.getGameMap().getATerritory(selectedTerritory).getNeighbors();
-        for (String neighborName : neighbors) {  // if neighborName is owned by current player, add it to the lost
-            if (gamePlayModel.getGameMap().getATerritory(neighborName).isOwnedBy(gamePlayModel.getCurrentPlayer().getPlayerID())
-                    && neighborName.compareTo(selectedTerritory) != 0) {
-                targetTerritoriesList.add(neighborName);
+        if (selectedTerritory.compareTo(FortificationPanel.getNoValidTerritory()) != 0) {
+            Vector<String> neighbors = gamePlayModel.getGameMap().getATerritory(selectedTerritory).getNeighbors();
+            for (String neighborName : neighbors) {  // if neighborName is owned by current player, add it to the lost
+                if (gamePlayModel.getGameMap().getATerritory(neighborName).isOwnedBy(gamePlayModel.getCurrentPlayer().getPlayerID())
+                        && neighborName.compareTo(selectedTerritory) != 0) {
+                    targetTerritoriesList.add(neighborName);
+                }
             }
+            if (targetTerritoriesList.size() == 0) {
+                targetTerritoriesList.add("No neighbors owned. Please select another territory");
+            }
+        } else {
+            targetTerritoriesList.add("No valid source territory is selected");
         }
-        if (targetTerritoriesList.size() == 0) {
-            targetTerritoriesList.add("No neighbors owned. Please select another territory");
-        }
+    
         DropDownModel targetTerritoriesModel = new DropDownModel(targetTerritoriesList);
         gamePlayFrame.getFortificationPanel().getTargetTerritoryDropdown().setModel(targetTerritoriesModel);
     }
