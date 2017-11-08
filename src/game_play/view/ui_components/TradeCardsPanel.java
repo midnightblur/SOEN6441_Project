@@ -142,6 +142,14 @@ public class TradeCardsPanel extends JPanel implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == GAME_STATES.PLAY &&
                     gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.TRADE_CARDS) {
+                
+                /* Don't allow players to go back to Reinforcement if they must trade their cards */
+                if (gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
+                    toReinforcementButton.setEnabled(false);
+                } else {
+                    toReinforcementButton.setEnabled(true);
+                }
+                
                 armyValueLabel.setText(ARMY_VALUE_LABEL + Integer.toString(gamePlayModel.getArmyValue()));
                 gainedArmiesLabel.setVisible(false);
                 playerID.setForeground(gamePlayModel.getCurrentPlayer().getColor());
