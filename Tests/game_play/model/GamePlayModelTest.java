@@ -172,10 +172,22 @@ public class GamePlayModelTest {
         Player player1 = tempGamePlayModel.getPlayers().get(0);
     
         System.out.println("Testing the list of territories that can be used to make valid attack moves for Player 1:");
+        System.out.println("If Player 1 has the following territories and armies...");
         for (int i = 0; i < player1.getTerritories().size(); i++) {
-            System.out.println("\t");
-            
+            player1.getTerritories().get(i).setArmies(i + 1);
+            System.out.println("\tTerritory " + player1.getTerritories().get(i).getName() +
+                    " with " + player1.getTerritories().get(i).getArmies() + " armies and " +
+                    "neighboring countries of" + player1.getTerritories().get(i).getNeighbors());
         }
+        String[] strArr = tempGamePlayModel.getValidAttackingTerritories(player1);
+        System.out.println(strArr.length);
+        for (int i = 0; i < strArr.length; i++) {
+            if (i != 0) {
+                System.out.print(", ");
+            }
+            System.out.print(strArr[i]);
+        }
+        System.out.println("\tThen the list of valid territories to attack from for Player 1 = ");
     }
     
     /**
