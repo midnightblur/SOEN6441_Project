@@ -348,13 +348,11 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * Rigged version of distribution of territories for the sole purpose of
-     * demoing for build 1 presentation. Applicable only on 'World.map' and with
-     * 6 players, otherwise will throw errors. Player 1 gets assigned all of
-     * the territories in Europe to demonstrate that the continent control value
-     * of Europe gets added to the calculation of the number of reinforcement armies.
+     * Rigged version of distribution of territories for the sole purpose of testing. The
+     * territories are first sorted in alphabetical order before being assigned to the
+     * players in round robin fashion from the top of the territory list.
      */
-    private void fixedDistributeTerritories() {  //TODO: rewrite javadoc for this method
+    private void fixedDistributeTerritories() {
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
             territoryArrList.add(entry.getValue().getName());
