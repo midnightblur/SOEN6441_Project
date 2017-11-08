@@ -102,6 +102,7 @@ public class Player {
      * Player information to be used on phase view
      *
      * @param gamePlayModel the play model of ongoing game
+     *
      * @return a string  with player statistics
      */
     public String playerInfo(GamePlayModel gamePlayModel) {
@@ -171,10 +172,20 @@ public class Player {
         return playerName;
     }
     
+    /**
+     * Gets the player status
+     *
+     * @return the status of passed player object
+     */
     public GamePlayModel.PLAYER_STATUS getPlayerStatus() {
         return playerStatus;
     }
     
+    /**
+     * Sets the player status
+     *
+     * @param playerStatus the status to be set for this player object
+     */
     public void setPlayerStatus(GamePlayModel.PLAYER_STATUS playerStatus) {
         this.playerStatus = playerStatus;
     }

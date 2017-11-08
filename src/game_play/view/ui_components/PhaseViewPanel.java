@@ -37,7 +37,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setMaximumSize(new Dimension(WIDTH, HEIGHT));
         
-        setLayout(new GridLayout(1,2));
+        setLayout(new GridLayout(1, 2));
         gameStateLabel = new JLabel();
         gameStateLabel.setForeground(Color.BLUE);
         gameStateLabel.setFont(new Font("Sans Serif", Font.ITALIC, 20));
@@ -75,6 +75,21 @@ public class PhaseViewPanel extends JPanel implements Observer {
     // endregion
     
     // region Private methods
+    
+    /**
+     * Populates the players statistical information depending of the game or player state.
+     *
+     * Prepares a vector of players and displays the information for each one in regards to:
+     * <ul>
+     * <li>If the player was eliminated, display no information
+     * <li>Current player has different background color
+     * <li>Update player's territory info
+     * <li>Update player's armies info
+     * <li>Update player's cards info
+     * </ul>>
+     *
+     * @param gamePlayModel the play model for ongoing game
+     */
     private void updatePlayersInfo(GamePlayModel gamePlayModel) {
         Vector<PlayerStatsPanel> playerStatsPanels = new Vector<>();
         for (Player player : gamePlayModel.getPlayers()) {
@@ -86,7 +101,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
         }
         playerInfoArea.revalidate();
         playerInfoArea.repaint();
-    
+        
         for (Player player : gamePlayModel.getPlayers()) {
             if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.ELIMINATED) {
                 /* If the player was eliminated, display no information */

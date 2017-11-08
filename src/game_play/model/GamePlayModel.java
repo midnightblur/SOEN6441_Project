@@ -799,6 +799,14 @@ public class GamePlayModel extends Observable {
     }
     
     // region Public methods
+    
+    /**
+     * Gets a particular player object based on ID
+     *
+     * @param playerID the passed player ID
+     *
+     * @return the player object
+     */
     public Player getAPlayer(int playerID) {
         for (Player player : players) {
             if (player.getPlayerID() == playerID) {
@@ -808,6 +816,13 @@ public class GamePlayModel extends Observable {
         return null;
     }
     
+    /**
+     * Gets a particular player object based on the name
+     *
+     * @param playerName the passed player name
+     *
+     * @return the player object
+     */
     public Player getAPlayer(String playerName) {
         for (Player player : players) {
             if (player.getPlayerName() == playerName) {
@@ -858,6 +873,10 @@ public class GamePlayModel extends Observable {
     }
     
     // region Attributes declaration
+    
+    /**
+     * The player status
+     */
     public enum PLAYER_STATUS {
         IN_GAME, ELIMINATED
     }
