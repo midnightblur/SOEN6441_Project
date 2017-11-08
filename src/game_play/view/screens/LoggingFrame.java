@@ -1,6 +1,6 @@
 /*
  * Risk Game Team 2
- * LoggingWindow.java
+ * LoggingFrame.java
  * Version 1.0
  * Nov 6, 2017
  */

@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * WorldDominationPanel.java
+ * Version 1.0
+ * Nov 7, 2017
+ */
 package game_play.view.ui_components;
 
 import game_play.model.GamePlayModel;
@@ -5,7 +11,10 @@ import shared_resources.game_entities.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.TreeMap;
 
 /**
  * WorldDominationPanel is responsible for representing the ui components for player's domination ratio.

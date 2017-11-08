@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * PlayerStatsPanel.java
+ * Version 1.0
+ * Nov 7, 2017
+ */
 package game_play.view.ui_components;
 
 import shared_resources.game_entities.Player;
@@ -27,6 +33,8 @@ public class PlayerStatsPanel extends JPanel {
      * @param player the player represented by this status panel
      */
     public PlayerStatsPanel(Player player) {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        
         playerID = player.getPlayerID();
         
         playerNameLabel = new JLabel();

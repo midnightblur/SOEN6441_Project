@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * ConquerDialog.java
+ * Version 1.0
+ * Nov 7, 2017
+ */
 package game_play.view.screens;
 
 import shared_resources.game_entities.Battle;

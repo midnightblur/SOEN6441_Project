@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * FixedGamePlayModel.java
+ * Version 1.0
+ * Nov 7, 2017
+ */
 package shared_resources.utilities;
 
 import game_play.model.GamePlayModel;

@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * PhaseViewPanel.java
+ * Version 1.0
+ * Nov 7, 2017
+ */
 package game_play.view.ui_components;
 
 import game_play.model.GamePlayModel;
@@ -37,8 +43,12 @@ public class PhaseViewPanel extends JPanel implements Observer {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setMaximumSize(new Dimension(WIDTH, HEIGHT));
         
-        setLayout(new GridLayout(1, 2));
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         gameStateLabel = new JLabel();
+        gameStateLabel.setMinimumSize(new Dimension(200, 100));
+        gameStateLabel.setPreferredSize((new Dimension(200, 100)));
+        gameStateLabel.setMaximumSize(new Dimension(200, 100));
+        
         gameStateLabel.setForeground(Color.BLUE);
         gameStateLabel.setFont(new Font("Sans Serif", Font.ITALIC, 20));
         add(gameStateLabel);
@@ -46,6 +56,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
         playerInfoArea = new JPanel();
         playerInfoArea.setLayout(new GridLayout(1, 3));
         add(playerInfoArea);
+        
     }
     // endregion
     
