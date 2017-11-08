@@ -1,3 +1,5 @@
+package shared_resources.utilities;
+
 import game_play.model.GamePlayModel;
 import shared_resources.helper.GameMapHelper;
 
