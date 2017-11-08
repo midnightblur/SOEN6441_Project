@@ -295,7 +295,7 @@ public class Player {
      *
      * @return String for the error message to validate the result of the trade in
      */
-    private String tradeInCards(GamePlayModel gamePlayModel, Vector<String> selectedCards) {
+    public String tradeInCards(GamePlayModel gamePlayModel, Vector<String> selectedCards) {
         int previousUnallocatedArmies = this.getUnallocatedArmies();
         if (selectedCards.size() == 3) {
             /* check if selected cards are three of a kind or one of each */
@@ -370,7 +370,7 @@ public class Player {
      * @param gamePlayModel the game play model
      * @param armiesToPlace the amount of armies to place
      */
-    private void distributeArmies(GamePlayModel gamePlayModel, Map<Territory, Integer> armiesToPlace) {
+    public void distributeArmies(GamePlayModel gamePlayModel, Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
             entry.getKey().addArmies(entry.getValue());
             log.append(playerName + " placed " + entry.getValue() + " armies on " + entry.getKey().getName());

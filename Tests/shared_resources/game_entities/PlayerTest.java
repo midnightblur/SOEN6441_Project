@@ -11,7 +11,12 @@ import org.junit.Before;
 import org.junit.Test;
 import shared_resources.utilities.FixedGamePlayModel;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
+
 import static org.junit.Assert.assertEquals;
+import static shared_resources.game_entities.Card.CARD_TYPE.INFANTRY;
 import static shared_resources.utilities.Config.PLAYER_COLOR;
 
 /**
@@ -37,13 +42,64 @@ public class PlayerTest {
         }
     }
     
-    
+    /**
+     *
+     */
+    @Test
     public void reinforcementTestCase() {
+        GamePlayModel tempGamePlayModel = fixedGamePlayModel;
+        Player player1 = tempGamePlayModel.getPlayers().get(0);
+        Vector<String> selectedCards = new Vector<>();
+        Map<Territory, Integer> armiesToPlace = new HashMap<>();
+        armiesToPlace.put(tempGamePlayModel.getGameMap().getATerritory("1c"), 3);
+        
+        // make all territories in Cubes continent to belong to Player 1
+        for (Map.Entry<String, Territory> entry : tempGamePlayModel.getGameMap().getTerritories().entrySet()) {
+            if (entry.getValue().getContinent() == "Cubes") {
+                entry.getValue().setOwner(player1);
+            }
+        }
+        
+        // give Player 1 three INFANTRY cards and remove them from the deck
+        for (int i = 0 ; i < 4; i++) {
+            int cardCounter = 0;
+            for (Card card : tempGamePlayModel.getDeck()) {
+                if (cardCounter >= 3) {
+                    break;
+                }
+                if (card.getCardType().equals(INFANTRY)) {
+                    player1.addCardToPlayersHand(card);
+                    tempGamePlayModel.getDeck().remove(card);
+                    selectedCards.add("INFANTRY");
+                    cardCounter++;
+                }
+            }
+        }
+        
+        player1.tradeInCards(tempGamePlayModel, selectedCards);
+        
+        assertEquals("Cards successfully traded in!", player1.tradeInCards(tempGamePlayModel, selectedCards));
+        
+        player1.distributeArmies(tempGamePlayModel, armiesToPlace);
+        
+    }
+    
+    /**
+     *
+     */
+    @Test
+    public void attackTestCase() {
     
     }
     
+    /**
+     *
+     */
+    @Test
+    public void fortificationTestCase() {
     
-    //    /*
+    }
+
 //    Things to test:
 //    - reinforcement phase (card trade in, add reinforcements, place armies, draw card)
 //    - attack phase (declare attack, get neighboring territories not owned by player, eliminate player, move armies to conquered territory, get roll values)
@@ -52,7 +108,6 @@ public class PlayerTest {
 //    - change game state phase
 //    - get next player
 //    - end game
-//     */
-//
+
     
 }
