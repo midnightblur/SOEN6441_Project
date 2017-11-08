@@ -298,7 +298,7 @@ public class Player {
                 return tradeInCards(gamePlayModel, selectedCards);
             case PLAYER_REINFORCEMENT:
                 log.append(gamePlayModel.getCurrentPlayer().getPlayerName() + " wants to distribute armies...");
-                distributeArmies(gamePlayModel, armiesToPlace);
+                distributeArmies(armiesToPlace);
                 break;
         }
         return "";
@@ -389,10 +389,9 @@ public class Player {
      * Looping through view table, get the quantity of armies for each territory
      * then place them using the placeArmiesReinforcement in the game_entities.
      *
-     * @param gamePlayModel the game play model
      * @param armiesToPlace the amount of armies to place
      */
-    public void distributeArmies(GamePlayModel gamePlayModel, Map<Territory, Integer> armiesToPlace) {
+    public void distributeArmies(Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
             entry.getKey().addArmies(entry.getValue());
             log.append(playerName + " placed " + entry.getValue() + " armies on " + entry.getKey().getName());

@@ -167,7 +167,15 @@ public class GamePlayModelTest {
      */
     @Test
     public void getValidAttackingTerritoriesTestCase() {
+        GamePlayModel tempGamePlayModel = fixedGamePlayModel;
+        
+        Player player1 = tempGamePlayModel.getPlayers().get(0);
     
+        System.out.println("Testing the list of territories that can be used to make valid attack moves for Player 1:");
+        for (int i = 0; i < player1.getTerritories().size(); i++) {
+            System.out.println("\t");
+            
+        }
     }
     
     /**

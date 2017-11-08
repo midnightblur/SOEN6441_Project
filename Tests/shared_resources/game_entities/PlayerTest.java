@@ -80,7 +80,7 @@ public class PlayerTest {
         
         assertEquals("Cards successfully traded in!", player1.tradeInCards(tempGamePlayModel, selectedCards));
         
-        player1.distributeArmies(tempGamePlayModel, armiesToPlace);
+        player1.distributeArmies(armiesToPlace);
         
     }
     
