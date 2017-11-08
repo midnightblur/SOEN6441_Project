@@ -6,9 +6,9 @@
  */
 package game_play.view.ui_components;
 
-import shared_resources.game_entities.Territory;
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
+import shared_resources.game_entities.Territory;
 import shared_resources.utilities.Config;
 
 import javax.swing.*;
@@ -93,6 +93,7 @@ public class FortificationPanel extends JPanel implements Observer {
     // endregion
     
     // region Getters & Setters
+    
     /**
      * Gets the armies to move field.
      *
@@ -132,6 +133,7 @@ public class FortificationPanel extends JPanel implements Observer {
     // endregion
     
     // region MVC & Observer pattern methods
+    
     /**
      * Adds the move armies button listener.
      *
@@ -185,12 +187,17 @@ public class FortificationPanel extends JPanel implements Observer {
                 /* Set source territories dropdown game_entities */
                 Vector<String> sourceTerritoriesList = new Vector<>();
                 for (Territory territory : gamePlayModel.getCurrentPlayer().getTerritories()) {
-                    sourceTerritoriesList.add(territory.getName());
+                    if (territory.getArmies() > 1) {    // filter out territories with 1 army
+                        sourceTerritoriesList.add(territory.getName());
+                    }
+                    if (sourceTerritoriesList.size() == 0) {
+                        sourceTerritoriesList.add("There are no territories with more than 1 army. You can't move armies.");
+                    }
                 }
                 DropDownModel sourceTerritoriesModel = new DropDownModel(sourceTerritoriesList);
                 sourceTerritoryDropdown.setModel(sourceTerritoriesModel);
                 sourceTerritoryDropdown.setSelectedIndex(0);
-    
+                
                 armiesToMoveField.setText("");
             }
         }
