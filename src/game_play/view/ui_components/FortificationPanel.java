@@ -211,10 +211,12 @@ public class FortificationPanel extends JPanel implements Observer {
                 if (String.valueOf(sourceTerritoryDropdown.getSelectedItem()).compareTo(NO_VALID_TERRITORY) == 0) {
                     sourceTerritoryDropdown.setEnabled(false);
                     targetTerritoryDropdown.setEnabled(false);
+                    armiesToMoveField.setEnabled(false);
                     moveArmiesButton.setEnabled(false);
                 } else {
                     sourceTerritoryDropdown.setEnabled(true);
                     targetTerritoryDropdown.setEnabled(true);
+                    armiesToMoveField.setEnabled(true);
                     moveArmiesButton.setEnabled(true);
                 }
                 
