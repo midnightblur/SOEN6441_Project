@@ -349,7 +349,7 @@ public class GamePlayModel extends Observable {
     
     /**
      * Rigged version of distribution of territories for the sole purpose of testing. The
-     * territories are first sorted in alphabetical order before being assigned to the
+     * territories are first sorted in alphanumerical order before being assigned to the
      * players in round robin fashion from the top of the territory list.
      */
     private void fixedDistributeTerritories() {
