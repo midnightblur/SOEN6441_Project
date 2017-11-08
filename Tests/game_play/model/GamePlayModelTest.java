@@ -216,7 +216,40 @@ public class GamePlayModelTest {
      */
     @Test
     public void getMaxDefendingRollTestCase() {
+        GamePlayModel tempGamePlayModel = fixedGamePlayModel;
     
+        Player player1 = tempGamePlayModel.getPlayers().get(0);
+        Territory tempTerritory = player1.getTerritories().get(0);
+    
+        System.out.println("Testing maximum number of dice a Player 1 can use to defend Territory " +
+                tempTerritory.getName() + ":");
+    
+        tempTerritory.setArmies(5);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " armies, max number of dice that can be used to defend = " + tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+        assertEquals(2, tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+    
+        tempTerritory.setArmies(4);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " armies, max number of dice that can be used to defend = " + tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+        assertEquals(2, tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+    
+        tempTerritory.setArmies(3);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " armies, max number of dice that can be used to defend = " + tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+        assertEquals(2, tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+    
+        tempTerritory.setArmies(2);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " armies, max number of dice that can be used to defend = " + tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+        assertEquals(2, tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+    
+        tempTerritory.setArmies(1);
+        System.out.println("\tIf Territory " + tempTerritory.getName() + " has " + tempTerritory.getArmies() +
+                " army, max number of dice that can be used to defend = " + tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+        assertEquals(1, tempGamePlayModel.getMaxDefendingRoll(tempTerritory.getName()));
+    
+        System.out.println();
     }
     
     /**
