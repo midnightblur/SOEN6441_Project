@@ -484,12 +484,18 @@ public class GamePlayModel extends Observable {
      * @return the next player
      */
     private Player getNextPlayer() {
-        int currPlayerIndex = players.indexOf(currentPlayer);
-        if (currPlayerIndex == players.size() - 1) {
-            return players.get(0);
-        } else {
-            return players.get(currPlayerIndex + 1);
-        }
+        PLAYER_STATUS playerStatus;
+        Player player = currentPlayer;
+        do {
+            int currPlayerIndex = players.indexOf(player);
+            if (currPlayerIndex == players.size() - 1) {
+                player = players.get(0);
+            } else {
+                player = players.get(currPlayerIndex + 1);
+            }
+            playerStatus = player.getPlayerStatus();
+        } while (playerStatus == PLAYER_STATUS.ELIMINATED);
+        return player;
     }
     
     /**
@@ -649,6 +655,8 @@ public class GamePlayModel extends Observable {
         
         // If the defending territory has been conquered
         if (currentBattle.getDefendingTerritory().getArmies() == 0) {
+            attacker.setHasConqueredTerritories(true);
+            
             // Change the owner of this territory to the attacker
             defender.removeTerritory(defendingTerritory.getName());
             defendingTerritory.setOwner(attacker);
@@ -656,7 +664,7 @@ public class GamePlayModel extends Observable {
             
             // Check if the defender has been eliminated
             if (defender.getTerritories().size() == 0) {
-                // Give all of his cards to the attacker
+                // Give all of defender's cards to the attacker
                 for (Card card : defender.getPlayersHand()) {
                     attacker.addCardToPlayersHand(card);
                 }
@@ -665,17 +673,9 @@ public class GamePlayModel extends Observable {
                 eliminatePlayer(defender);
             }
             
-            // Give a card to the attacker
-            if (!gameVictory(attackingTerritory.getOwner())) { // Only draw a new card if the game has no winner yet
-                Card card = drawCard();
-                if (card != null) {
-                    attacker.addCardToPlayersHand(card);
-                    log.append(attackingTerritory.getOwner().getPlayerName() + " received the " + card.getCardType().name() + " card");
-                } else {
-                    log.append(attackingTerritory.getOwner().getPlayerName() + " doesn't receive any card since the deck has run out of card");
-                }
-            } else {    // VICTORY
-                message = attackingTerritory.getOwner().getPlayerName() + " wins the game!";
+            // Declare winner if there is only 1 player left
+            if (gameVictory(attackingTerritory.getOwner())) {
+                message = attacker.getPlayerName() + " wins the game!";
                 log.append("\n");
                 log.append("!!!!!!!!!!!!!!!!!! " + message + "!!!!!!!!!!!!!!!!!!");
             }
@@ -685,6 +685,21 @@ public class GamePlayModel extends Observable {
         broadcastGamePlayChanges();
         
         return message;
+    }
+    
+    /**
+     * Draw a card from the deck for the player if he conquered at least 1 territory in his turn
+     *
+     * @param attacker the attacker
+     */
+    public void drawCardForWinner(Player attacker) {
+        Card card = drawCard();
+        if (card != null) {
+            attacker.addCardToPlayersHand(card);
+            log.append(attacker.getPlayerName() + " received the " + card.getCardType().name() + " card");
+        } else {
+            log.append(attacker.getPlayerName() + " doesn't receive any card since the deck has run out of card");
+        }
     }
     
     /**

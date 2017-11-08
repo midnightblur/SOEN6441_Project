@@ -302,6 +302,12 @@ public class GamePlayController {
                 gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
             openMoveArmiesToConqueredTerritoryDialog();
         }
+        
+        if (gamePlayModel.getCurrentPlayer().isHasConqueredTerritories()) {
+            gamePlayModel.drawCardForWinner(gamePlayModel.getCurrentPlayer());
+            gamePlayModel.getCurrentPlayer().setHasConqueredTerritories(false);
+        }
+        
         gamePlayModel.changePhaseOfCurrentPlayer(FORTIFICATION);
     }
     

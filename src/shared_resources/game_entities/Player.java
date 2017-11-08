@@ -35,6 +35,7 @@ public class Player {
     private Vector<Territory> territories;
     private Config.GAME_STATES gameState;
     private GamePlayModel.PLAYER_STATUS playerStatus;
+    private boolean hasConqueredTerritories;
     // endregion
     
     // region Constructors
@@ -50,6 +51,7 @@ public class Player {
         color = PLAYER_COLOR[playerID - 1];
         gameState = Config.GAME_STATES.PLAY;
         playerStatus = GamePlayModel.PLAYER_STATUS.IN_GAME;
+        hasConqueredTerritories = false;
     }
     // endregion
     
@@ -207,6 +209,15 @@ public class Player {
     public void setPlayerStatus(GamePlayModel.PLAYER_STATUS playerStatus) {
         this.playerStatus = playerStatus;
     }
+    
+    public boolean isHasConqueredTerritories() {
+        return hasConqueredTerritories;
+    }
+    
+    public void setHasConqueredTerritories(boolean hasConqueredTerritories) {
+        this.hasConqueredTerritories = hasConqueredTerritories;
+    }
+    
     // endregion
     
     // region Public methods

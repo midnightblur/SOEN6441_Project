@@ -28,6 +28,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
     private static final String TERRITORY_INFO_FORMAT = "%d/%d territories";
     private static final String ARMIES_INFO_FORMAT = "%d armies + %d";
     private static final String CARDS_INFO_FORMAT = "%d cards:\n%s";
+    private static final String HAS_CONQUERED_FORMAT = "Has conquered: %s";
     
     private static final int WIDTH = 1366;
     private static final int HEIGHT = 100;
@@ -149,6 +150,10 @@ public class PhaseViewPanel extends JPanel implements Observer {
                 }
                 String cardsInfo = String.format(CARDS_INFO_FORMAT, player.getPlayersHand().size(), cardsListStr.toString());
                 playerStatsPanels.get(player.getPlayerID() - 1).getCardsInfoLabel().setText(cardsInfo);
+                
+                /* Update player's has just conquered any territory info */
+                String hasConquered = String.format(HAS_CONQUERED_FORMAT, player.isHasConqueredTerritories()? "YES" : "NO");
+                playerStatsPanels.get(player.getPlayerID() - 1).getHasConquered().setText(hasConquered);
             }
         }
     }

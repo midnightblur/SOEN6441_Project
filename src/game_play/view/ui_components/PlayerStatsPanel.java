@@ -23,6 +23,7 @@ public class PlayerStatsPanel extends JPanel {
     private JLabel territoryInfoLabel;
     private JLabel armiesInfoLabel;
     private JLabel cardsInfoLabel;
+    private JLabel hasConquered;
     // endregion
     
     // region Constructors
@@ -53,11 +54,16 @@ public class PlayerStatsPanel extends JPanel {
         cardsInfoLabel = new JLabel();
         cardsInfoLabel.setForeground(player.getColor());
         cardsInfoLabel.setAlignmentX(CENTER_ALIGNMENT);
+    
+        hasConquered = new JLabel();
+        hasConquered.setForeground(player.getColor());
+        hasConquered.setAlignmentX(CENTER_ALIGNMENT);
         
         add(playerNameLabel);
         add(territoryInfoLabel);
         add(armiesInfoLabel);
         add(cardsInfoLabel);
+        add(hasConquered);
     }
     // endregion
     
@@ -106,6 +112,15 @@ public class PlayerStatsPanel extends JPanel {
      */
     public JLabel getCardsInfoLabel() {
         return cardsInfoLabel;
+    }
+    
+    /**
+     * Gets the has conquered label
+     *
+     * @return the has conquered label
+     */
+    public JLabel getHasConquered() {
+        return hasConquered;
     }
     
     // endregion
