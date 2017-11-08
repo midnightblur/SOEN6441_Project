@@ -33,19 +33,19 @@ public class GamePlayModelTest {
      */
     
     
-//
-//    /** The game play game_entities. */
+
+        /** The game play game_entities. */
         GamePlayModel gamePlayModel;
-//
-//    /** The num of players. */
+
+        /** The num of players. */
         private int numOfPlayers;
-//
-//    /** The map file path. */
+
+        /** The map file path. */
        final String mapFilePath = "World.map";
-//
-//    /**
-//     * Before tests.
-//     */
+
+    /**
+     * Before tests.
+     */
     @Before
     public void beforeTests() {
          numOfPlayers = 6;
@@ -56,10 +56,10 @@ public class GamePlayModelTest {
             System.out.println(e.getMessage());
         }
     }
-//
-//    /**
-//     * Game play game_entities test case.
-//     */
+
+    /**
+     * Game play game_entities test case.
+     */
     @Test
     public void gamePlayModelTestCase() {
         gamePlayModel.initializeNewGame(numOfPlayers);
