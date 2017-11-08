@@ -15,8 +15,8 @@ import java.awt.*;
  * @author Team 2
  * @version 2.0
  */
-public class LoggingWindow {
-    private static LoggingWindow instance = null;
+public class LoggingFrame {
+    private static LoggingFrame instance = null;
     private JTextArea logArea;
     
     // region Constructors
@@ -24,7 +24,7 @@ public class LoggingWindow {
     /**
      * Private constructor for the Logging Window
      */
-    private LoggingWindow() {
+    private LoggingFrame() {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int screenHeight = gd.getDisplayMode().getHeight();
         JFrame frame = new JFrame();
@@ -44,9 +44,9 @@ public class LoggingWindow {
      *
      * @return instance of the singleton LoggingWindow object
      */
-    public static LoggingWindow getInstance() {
+    public static LoggingFrame getInstance() {
         if (instance == null) {
-            instance = new LoggingWindow();
+            instance = new LoggingFrame();
         }
         return instance;
     }
