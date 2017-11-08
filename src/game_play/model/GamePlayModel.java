@@ -360,15 +360,6 @@ public class GamePlayModel extends Observable {
         
         Collections.sort(territoryArrList);  // sort the territories in order
         
-        for (int i = 0; i < gameMap.getAContinent("europe").getTerritories().size(); i++) {
-            int territoryIndex = territoryArrList.indexOf(gameMap.getAContinent("europe").getTerritories().get(i));
-            Territory territory = gameMap.getATerritory(territoryArrList.get(territoryIndex));
-            Player player = players.elementAt(0);
-            territory.setOwner(player);
-            player.addTerritory(territory);
-            territoryArrList.remove(territoryIndex);
-        }
-        
         int playerIndex = 0;
         for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
             if (playerIndex >= players.size()) {
