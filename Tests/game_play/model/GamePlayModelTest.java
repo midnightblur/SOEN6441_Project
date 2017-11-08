@@ -4,7 +4,7 @@
  * Version 1.0
  * Oct 18, 2017
  */
- package game_play.model;
+package game_play.model;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -14,7 +14,7 @@ import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.GameMapHelper;
 
-import java.util.Map;
+
 
 import static org.junit.Assert.assertEquals;
 
@@ -39,12 +39,8 @@ public class GamePlayModelTest {
      */
     @BeforeClass
     public void beforeClass() {
-        
-        try {
-            gamePlayModel.setGameMap(GameMapHelper.loadGameMap(mapFilePath));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    
+    
     }
 //
 //    /**
