@@ -401,12 +401,20 @@ public class GamePlayController {
         int defendingDice = (int) dialog.getDefendingDiceDropdown().getSelectedItem();
         dialog.getOwner().dispose();
         owner.setVisible(true);
-        gamePlayModel.declareAttack(
+        String message = gamePlayModel.declareAttack(
                 String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem()),
                 String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem()),
                 (Integer) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem(),
                 defendingDice
         );
+        
+        // if outcome is victory
+        if (gamePlayModel.getGameState() == VICTORY) {
+            UIHelper.displayMessage(gamePlayFrame, message);
+            UIHelper.closeFrame(gamePlayFrame);
+            UIHelper.invokeFrame(callerController.getMainMenuFrame());
+        }
+        
         
     }
     

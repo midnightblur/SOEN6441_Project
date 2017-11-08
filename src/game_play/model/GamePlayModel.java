@@ -233,7 +233,6 @@ public class GamePlayModel extends Observable {
         Player.resetStaticNextID();
         initPlayers(numOfPlayers);
         initDeck();
-//        distributeTerritoriesRiggedForDemo();  // uncomment this method and comment out distributeTerritories() for demo
         distributeTerritories();
         giveInitialArmies();
         currentPlayer = players.firstElement();
@@ -270,6 +269,25 @@ public class GamePlayModel extends Observable {
     }
     
     /**
+     * Initialization of a new game for the sole purposes of testing. This method utilizes the
+     * rigged (fixed) version of distributing armies to the players instead of the standard
+     * random distribution method.
+     *
+     * @param numOfPlayers The specified integer of the number of players that will play the game
+     */
+    public void fixedInitializeNewGame(int numOfPlayers) {
+         /* Initialization of game attributes */
+        Player.resetStaticNextID();
+        initPlayers(numOfPlayers);
+        initDeck();
+        fixedDistributeTerritories();  // rigged and fixed distribution of the territories
+        giveInitialArmies();
+        currentPlayer = players.firstElement();
+        
+        assignOneArmyPerTerritory();
+    }
+    
+    /**
      * Private helper method to initialize the players according to
      * the number of players (currPlayers).
      *
@@ -291,7 +309,10 @@ public class GamePlayModel extends Observable {
     private void initDeck() {
         log.append("Initializing deck...");
         int typeNumber = 0;
-        int numOfCards = gameMap.getTerritoriesCount() + (gameMap.getTerritoriesCount() % Card.getTypesCount()) * Card.getTypesCount();
+        int numOfCards = gameMap.getTerritoriesCount();
+        if (gameMap.getTerritoriesCount() % Card.getTypesCount() != 0) {
+            numOfCards += Card.getTypesCount() - (gameMap.getTerritoriesCount() % Card.getTypesCount());
+        }
         for (int i = 0; i < numOfCards; i++) {
             if (typeNumber >= Card.getTypesCount()) {
                 typeNumber = 0;
@@ -328,6 +349,46 @@ public class GamePlayModel extends Observable {
             playerIndex++;
             territoryArrList.remove(territoryIndex);
         }
+    }
+    
+    /**
+     * Rigged version of distribution of territories for the sole purpose of testing. The
+     * territories are first sorted in alphanumerical order before being assigned to the
+     * players in round robin fashion from the top of the territory list.
+     */
+    private void fixedDistributeTerritories() {
+        ArrayList<String> territoryArrList = new ArrayList<>();
+        for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
+            territoryArrList.add(entry.getValue().getName());
+        }
+        
+        Collections.sort(territoryArrList);  // sort the territories in order
+        
+        int playerIndex = 0;
+        for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
+            if (playerIndex >= players.size()) {
+                playerIndex = 0;
+            }
+            Territory territory = gameMap.getATerritory(territoryArrList.get(0));
+            Player player = players.elementAt(playerIndex);
+            territory.setOwner(player);
+            player.addTerritory(territory);
+        
+            playerIndex++;
+            territoryArrList.remove(0);
+        }
+    }
+    
+    /**
+     * Change the phase of the game to PLAY phase and let the first player's turn begins.
+     */
+    public void startTheGame() {
+        setGameState(PLAY);
+        currentPlayer = players.firstElement();
+        currentPlayer.nextPhase();
+        addReinforcementForCurrPlayer();
+        updatePlayerTerritoriesModel();
+        broadcastGamePlayChanges();
     }
     
     /**
@@ -498,63 +559,6 @@ public class GamePlayModel extends Observable {
         return card;
     }
     
-    /**
-     * Rigged version of distribution of territories for the sole purpose of
-     * demoing for build 1 presentation. Applicable only on 'World.map' and with
-     * 6 players, otherwise will throw errors. Player 1 gets assigned all of
-     * the territories in Europe to demonstrate that the continent control value
-     * of Europe gets added to the calculation of the number of reinforcement armies.
-     */
-    private void distributeTerritoriesRiggedForDemo() {
-        /*
-        For build 1 demo purposes only using World.map and 6 players.
-        Give player 1 all the territories of europe.
-         */
-        
-        log.append("Distributing territories...");
-        
-        ArrayList<String> territoryArrList = new ArrayList<>();
-        for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
-            territoryArrList.add(entry.getValue().getName());
-        }
-        
-        for (int i = 0; i < gameMap.getAContinent("europe").getTerritories().size(); i++) {
-            int territoryIndex = territoryArrList.indexOf(gameMap.getAContinent("europe").getTerritories().get(i));
-            Territory territory = gameMap.getATerritory(territoryArrList.get(territoryIndex));
-            Player player = players.elementAt(0);
-            territory.setOwner(player);
-            player.addTerritory(territory);
-            territoryArrList.remove(territoryIndex);
-        }
-        
-        int playerIndex = 1;
-        for (int i = 0; i < gameMap.getTerritoriesCount() - 7; i++) {
-            if (playerIndex >= players.size()) {
-                playerIndex = 1;
-            }
-            int territoryIndex = rand.nextInt(territoryArrList.size());
-            Territory territory = gameMap.getATerritory(territoryArrList.get(territoryIndex));
-            Player player = players.elementAt(playerIndex);
-            territory.setOwner(player);
-            player.addTerritory(territory);
-            
-            playerIndex++;
-            territoryArrList.remove(territoryIndex);
-        }
-    }
-    
-    /**
-     * Change the phase of the game to PLAY phase and let the first player's turn begins.
-     */
-    public void startTheGame() {
-        setGameState(PLAY);
-        currentPlayer = players.firstElement();
-        currentPlayer.nextPhase();
-        addReinforcementForCurrPlayer();
-        updatePlayerTerritoriesModel();
-        broadcastGamePlayChanges();
-    }
-    
     // endregion
     
     // region For Attack Phase
@@ -662,6 +666,11 @@ public class GamePlayModel extends Observable {
                 } else {
                     log.append(attackingTerritory.getOwner().getPlayerName() + " doesn't receive any card since the deck has run out of card");
                 }
+            } else {    // VICTORY
+                attackingTerritory.getOwner().setGameState(VICTORY);
+                message = attackingTerritory.getOwner().getPlayerName() + " wins the game!";
+                log.append("\n");
+                log.append("!!!!!!!!!!!!!!!!!! " + message + "!!!!!!!!!!!!!!!!!!");
             }
         }
         

@@ -484,15 +484,6 @@ public class Player {
     }
     
     /**
-     * Adds a card to the player's hand.
-     *
-     * @param card An object of Card class to be added to the players hand
-     */
-    public void addCardToPlayersHand(Card card) {
-        this.playersHand.add(card);
-    }
-    
-    /**
      * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
      * player.
      *
@@ -508,6 +499,15 @@ public class Player {
         }
         
         return "";
+    }
+    
+    /**
+     * Adds a card to the player's hand.
+     *
+     * @param card An object of Card class to be added to the players hand
+     */
+    public void addCardToPlayersHand(Card card) {
+        this.playersHand.add(card);
     }
     // endregion
     
