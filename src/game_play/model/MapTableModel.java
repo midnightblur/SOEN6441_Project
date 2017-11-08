@@ -83,7 +83,7 @@ public class MapTableModel {
             rows[i][0] = continent.getName();
             if (gameStates.getValue() >= 3) {
                 if (continent.getContinentOwner(gameMap).compareTo("") == 0) {
-                    rows[i][3] = "nobody owns it yet";
+                    rows[i][3] = "nobody";
                 } else {
                     rows[i][3] = continent.getContinentOwner(gameMap);
                 }

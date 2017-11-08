@@ -40,14 +40,29 @@ public class Dice {
     
     // region Getters & Setters
     
+    /**
+     * Gets the number of dice rolled
+     *
+     * @return the rolls count
+     */
     public int getRollsCount() {
         return rollsCount;
     }
     
+    /**
+     * Gets the rolls result
+     *
+     * @return the rolls result
+     */
     public Vector<Integer> getRollsResult() {
         return rollsResult;
     }
     
+    /**
+     * Sets the roll result
+     *
+     * @param rollsResult the roll result
+     */
     public void setRollsResult(Vector<Integer> rollsResult) {
         this.rollsResult = rollsResult;
     }
@@ -55,12 +70,21 @@ public class Dice {
     // endregion
     
     // region Public methods
+    
+    /**
+     * Depending on the number of dice, roll the dice
+     */
     public void roll() {
         for (int i = 0; i < rollsCount; i++) {
             rollsResult.add(new Random().nextInt(6) + 1);
         }
     }
     
+    /**
+     * Gets the highest result out of all rolls
+     *
+     * @return the best result
+     */
     public int getTheBestResult() {
         int max = Integer.MIN_VALUE;
         for (Integer result : rollsResult) {
@@ -71,6 +95,11 @@ public class Dice {
         return max;
     }
     
+    /**
+     * Gets the second highest result out of all rolls
+     *
+     * @return the second best result
+     */
     public int getSecondBestResult() {
         int max = 1;
         int second_max = 1;

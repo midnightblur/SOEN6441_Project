@@ -6,14 +6,17 @@
  */
 package game_play.view.screens;
 
+import game_play.controller.MainMenuController;
 import game_play.model.GamePlayModel;
 import game_play.view.ui_components.*;
+import shared_resources.game_entities.Player;
 import shared_resources.helper.UIHelper;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Vector;
 
 /**
  * GamePlayFrame is responsible for displaying all UI components to play the game.
@@ -28,9 +31,11 @@ public class GamePlayFrame extends JFrame implements Observer {
     // region Attributes declaration
     private static final String TITLE = "Game Play";
     private static final int WIDTH = 1366;
-    private static final int HEIGHT = 700;
+    private static final int HEIGHT = 800;
     private JSplitPane contentPane;
+    private JSplitPane topBottom;
     private WorldDominationPanel worldDominationPanel;
+    private PhaseViewPanel phaseViewPanel;
     private GameMapTable gameMapTable;
     private JPanel controlArea;
     private GameSetupPanel gameSetupPanel;
@@ -38,17 +43,23 @@ public class GamePlayFrame extends JFrame implements Observer {
     private ReinforcementPanel reinforcementPanel;
     private FortificationPanel fortificationPanel;
     private AttackingPanel attackingPanel;
+    private Vector<Player> playersList;
+    private MainMenuController callerController;
     // endregion
     
     // region Constructors
     
     /**
      * Instantiates and show the GamePlayFrame.
+     *
+     * @param callerController the main menu controller
      */
-    public GamePlayFrame() {
+    public GamePlayFrame(MainMenuController callerController) {
         /* Setup main container */
+        this.callerController = callerController;
+        playersList = new Vector<>();
         setupContentPaneLayout();
-        setContentPane(contentPane);
+        //setContentPane(contentPane); // TODO: remove this line
         
         /* Setup world domination view & table area */
         worldDominationPanel = new WorldDominationPanel();
@@ -58,6 +69,12 @@ public class GamePlayFrame extends JFrame implements Observer {
         leftComponent.add(worldDominationPanel);
         leftComponent.add(new JScrollPane(gameMapTable));
         contentPane.setLeftComponent(leftComponent);
+        
+        /* Setup Phase View */
+        phaseViewPanel = new PhaseViewPanel();
+        topBottom = new JSplitPane(JSplitPane.VERTICAL_SPLIT, contentPane, phaseViewPanel);
+        
+        setContentPane(topBottom);
         
         /* Setup control area */
         setupControlArea();
@@ -70,90 +87,11 @@ public class GamePlayFrame extends JFrame implements Observer {
     // region Getters & Setters
     
     /**
-     * Gets the fortification panel.
-     *
-     * @return the fortification panel
-     */
-    public FortificationPanel getFortificationPanel() {
-        return fortificationPanel;
-    }
-    
-    /**
-     * @see javax.swing.JFrame#getContentPane()
-     */
-    @Override
-    public JSplitPane getContentPane() {
-        return contentPane;
-    }
-    
-    /**
-     * Gets the game map table.
-     *
-     * @return the game map table
-     */
-    public GameMapTable getGameMapTable() {
-        return gameMapTable;
-    }
-    
-    /**
-     * Gets the game setup panel.
-     *
-     * @return the game setup panel
-     */
-    public GameSetupPanel getGameSetupPanel() {
-        return gameSetupPanel;
-    }
-    
-    /**
-     * Gets the startup panel.
-     *
-     * @return the startup panel
-     */
-    public StartupPanel getStartupPanel() {
-        return startupPanel;
-    }
-    
-    // endregion
-    
-    // region Public methods
-    
-    /**
-     * Gets the reinforcement panel.
-     *
-     * @return the reinforcement panel
-     */
-    public ReinforcementPanel getReinforcementPanel() {
-        return reinforcementPanel;
-    }
-    
-    /**
-     * Gets the world domination panel
-     *
-     * @return the world domination panel
-     */
-    public WorldDominationPanel getWorldDominationPanel() {
-        return worldDominationPanel;
-    }
-    
-    /**
-     * Gets the attacking panel
-     *
-     * @return the attacking panel
-     */
-    public AttackingPanel getAttackingPanel() {
-        return attackingPanel;
-    }
-    
-    // endregion
-    
-    // region Private methods
-    
-    /**
      * Setup the layout for the main screen.
      */
     private void setupContentPaneLayout() {
         contentPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT) {
-            private final int location = 950;
+            private final int location = 1000;
             
             {
                 setDividerLocation(location);
@@ -191,6 +129,106 @@ public class GamePlayFrame extends JFrame implements Observer {
         
         contentPane.setRightComponent(controlArea);
     }
+    
+    /**
+     * Gets the fortification panel.
+     *
+     * @return the fortification panel
+     */
+    public FortificationPanel getFortificationPanel() {
+        return fortificationPanel;
+    }
+    
+    /**
+     * @see javax.swing.JFrame#getContentPane()
+     */
+    @Override
+    public JSplitPane getContentPane() {
+        return contentPane;
+    }
+    
+    /**
+     * Gets the game map table.
+     *
+     * @return the game map table
+     */
+    public GameMapTable getGameMapTable() {
+        return gameMapTable;
+    }
+    
+    // endregion
+    
+    // region Public methods
+    
+    /**
+     * Gets the game setup panel.
+     *
+     * @return the game setup panel
+     */
+    public GameSetupPanel getGameSetupPanel() {
+        return gameSetupPanel;
+    }
+    
+    /**
+     * Gets the startup panel.
+     *
+     * @return the startup panel
+     */
+    public StartupPanel getStartupPanel() {
+        return startupPanel;
+    }
+    
+    /**
+     * Gets the reinforcement panel.
+     *
+     * @return the reinforcement panel
+     */
+    public ReinforcementPanel getReinforcementPanel() {
+        return reinforcementPanel;
+    }
+    
+    // endregion
+    
+    // region Private methods
+    
+    /**
+     * Gets the world domination panel
+     *
+     * @return the world domination panel
+     */
+    public WorldDominationPanel getWorldDominationPanel() {
+        return worldDominationPanel;
+    }
+    
+    /**
+     * Gets the phase view panel
+     *
+     * @return the phase view panel
+     */
+    public PhaseViewPanel getPhaseViewPanel() {
+        return phaseViewPanel;
+    }
+    
+    // endregion
+    
+    // region Private methods
+    
+    /**
+     * Close GamePlayFrame, open MainMenuFrame
+     */
+    private void backToMainMenu() {
+        this.dispose();
+        UIHelper.invokeFrame(callerController.getMainMenuFrame());
+    }
+
+    /**
+     * Gets the attacking panel
+     *
+     * @return the attacking panel
+     */
+    public AttackingPanel getAttackingPanel() {
+        return attackingPanel;
+    }
     // endregion
     
     // region MVC & Observer pattern methods
@@ -208,6 +246,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
+            
             gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
             
             CardLayout cardLayout = (CardLayout) controlArea.getLayout();
@@ -226,7 +265,7 @@ public class GamePlayFrame extends JFrame implements Observer {
                             break;
                         case PLAYER_ATTACK_PREPARE:
                         case PLAYER_ATTACK_BATTLE:
-                             cardLayout.show(controlArea, AttackingPanel.class.getName());
+                            cardLayout.show(controlArea, AttackingPanel.class.getName());
                             break;
                         case PLAYER_FORTIFICATION:
                             cardLayout.show(controlArea, FortificationPanel.class.getName());
@@ -237,6 +276,25 @@ public class GamePlayFrame extends JFrame implements Observer {
                     break;
                 default:
                     break;
+            }
+    
+            Vector<Player> oldPlayersList = new Vector<>();
+            oldPlayersList.addAll(playersList);
+    
+            playersList.clear();
+            playersList.addAll(gamePlayModel.getPlayers());
+            if (oldPlayersList.size() > playersList.size()) {
+                if (playersList.size() != 1) {
+                    for (Player player : oldPlayersList) {
+                        if (!playersList.contains(player)) {
+                            UIHelper.displayMessage(this, String.format("%s has been eliminated", player.getPlayerName()));
+                        }
+                    }
+                } else {
+                    Player player = playersList.firstElement();
+                    UIHelper.displayMessage(this, String.format("%s is the winner", player.getPlayerName()));
+                    backToMainMenu();
+                }
             }
         }
     }

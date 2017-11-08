@@ -9,6 +9,9 @@ import java.util.*;
 
 /**
  * WorldDominationPanel is responsible for representing the ui components for player's domination ratio.
+ *
+ * @author Team 2
+ * @version 2.0
  */
 public class WorldDominationPanel extends JPanel implements Observer {
     // region Attributes declaration
@@ -86,7 +89,7 @@ public class WorldDominationPanel extends JPanel implements Observer {
             startPoint = endPoint + 1;
             endPoint = (int) (startPoint + (WIDTH * playerDominationRatio));
             
-            drawPlayerDomination(g, startPoint, endPoint, player.getColor(), playerDominationRatio);
+            drawPlayerDomination(g, player.getPlayerID(), startPoint, endPoint, player.getColor(), playerDominationRatio);
         }
     }
     
@@ -98,18 +101,19 @@ public class WorldDominationPanel extends JPanel implements Observer {
      * @param endPoint   The ending point in Y axis
      * @param color      The player's color
      * @param ratio      The player's domination ratio
+     * @param playerID   The player ID
      */
-    private void drawPlayerDomination(Graphics g, int startPoint, int endPoint, Color color, float ratio) {
+    private void drawPlayerDomination(Graphics g, int playerID, int startPoint, int endPoint, Color color, float ratio) {
         // Draw the colored rectangle
         g.setColor(color);
         g.fillRect(startPoint, 0, endPoint - startPoint + 1, HEIGHT);
     
         // Only draw ratio string if there's enough space
-        if (ratio > 0.1) {
+        if (ratio > 0.05) {
             FontMetrics f = g.getFontMetrics();
             
             g.setColor(Color.WHITE);
-            String ratioStr = String.format("%.1f", ratio * 100).concat("%");
+            String ratioStr = String.format("P%s: %.1f", String.valueOf(playerID), ratio * 100).concat("%");
             int xStr = startPoint + (endPoint - startPoint) / 2 - f.stringWidth(ratioStr) / 2;
             int yStr = HEIGHT / 2 + 4;
             g.drawString(ratioStr, xStr, yStr);

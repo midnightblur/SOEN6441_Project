@@ -70,15 +70,16 @@ public class GameMapTable extends JTable implements Observer {
     @Override
     public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
         getColumn("Continent").setPreferredWidth(5);
-        getColumn("Territory").setPreferredWidth(10);
+        getColumn("Territory").setPreferredWidth(50);
         getColumn("Neighbors").setPreferredWidth(500);
         Component c = super.prepareRenderer(renderer, row, col);
         String continent = (String) getValueAt(row, 0);
         if (!"  ".equals(continent)) {
-            c.setFont(new Font("Sans Serif", Font.ITALIC, 16));
+            c.setFont(new Font("Sans Serif", Font.ITALIC, 14));
             c.setBackground(Color.ORANGE.brighter());
             c.setForeground(Color.BLACK);
         } else {
+            c.setFont(new Font("Sans Serif", Font.PLAIN, 14));
             c.setBackground(super.getBackground());
             c.setForeground(super.getForeground());
         }
@@ -86,12 +87,12 @@ public class GameMapTable extends JTable implements Observer {
             String owner = (String) getValueAt(row, 3);
             for (int i = 0; i < Config.PLAYER_COLOR.length; i++) {
                 if (("Player " + Integer.toString(i + 1)).compareTo(owner) == 0) {
-                    c.setFont(new Font("Sans Serif", Font.ITALIC, 16));
+                    c.setFont(new Font("Sans Serif", Font.ITALIC, 14));
                     c.setForeground(Config.PLAYER_COLOR[i]);
                 }
             }
-            getColumn("Owner").setPreferredWidth(10);
-            getColumn("Armies").setPreferredWidth(5);
+            getColumn("Owner").setPreferredWidth(5);
+            getColumn("Armies").setPreferredWidth(2);
         }
         if (col == 2) {   // keep the neighbors black
             c.setForeground(Color.BLACK);
@@ -111,7 +112,7 @@ public class GameMapTable extends JTable implements Observer {
     private void resizeColumns() {
         final TableColumnModel columnModel = getColumnModel();
         for (int c = 0; c < getColumnCount(); c++) {
-            int width = 5; // minimum width
+            int width = 2; // minimum width
             for (int r = 0; r < getRowCount(); r++) {
                 TableCellRenderer renderer = getCellRenderer(r, c);
                 Component comp = prepareRenderer(renderer, r, c);

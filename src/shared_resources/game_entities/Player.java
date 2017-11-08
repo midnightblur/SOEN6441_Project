@@ -10,7 +10,6 @@ import game_play.model.GamePlayModel;
 import shared_resources.utilities.Config;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Vector;
 
@@ -26,7 +25,6 @@ import static shared_resources.utilities.Config.log;
  * @version 1.0
  */
 public class Player {
-    
     // region Attributes declaration
     private static int nextID = 0;
     private Color color;
@@ -81,24 +79,6 @@ public class Player {
     }
     
     /**
-     * Gets the players hand.
-     *
-     * @return the players hand
-     */
-    public Vector<Card> getPlayersHand() {
-        return this.playersHand;
-    }
-    
-    /**
-     * Gets the territories.
-     *
-     * @return the territories
-     */
-    public Vector<Territory> getTerritories() {
-        return territories;
-    }
-    
-    /**
      * Gets the current phase of the player
      *
      * @return the game phase
@@ -117,28 +97,75 @@ public class Player {
     }
     
     /**
-     * Adds the territory.
+     * Player information to be used on phase view
      *
-     * @param territory the territory
+     * @return a string  with player statistics
      */
-    public void addTerritory(Territory territory) {
-        if (!territories.contains(territory)) {
-            territories.add(territory);
-        }
+    public String playerInfo(GamePlayModel gamePlayModel) {
+        return "<html><font size=6>" + playerName + "</font><br>" +
+                "Owns: " +
+                getTerritories().size() + " territories | " +
+                getContinents(gamePlayModel.getGameMap()).size() + " continents | " +
+                getTotalArmiesCount() + " armies | " +
+                getPlayersHand().size() + " cards" +
+                "</html>";
     }
     
     /**
-     * Removes the territory.
+     * Gets the territories.
      *
-     * @param territoryName the territory name
+     * @return the territories
      */
-    public void removeTerritory(String territoryName) {
-        for (Territory territory : territories) {
-            if (territory.getName().compareTo(territoryName) == 0) {
-                territories.remove(territory);
-                return;
+    public Vector<Territory> getTerritories() {
+        return territories;
+    }
+    
+    /**
+     * Obtains the continents owned by this player
+     *
+     * @param gameMap the game map
+     *
+     * @return a vector of continents owned by this player
+     */
+    public Vector<Continent> getContinents(GameMap gameMap) {
+        Vector<Continent> continents = new Vector<>();
+        for (Continent c : gameMap.getContinents().values()) {
+            if (c.getContinentOwner(gameMap).equals(getPlayerName())) {
+                continents.add(c);
             }
         }
+        return continents;
+    }
+    
+    /**
+     * Get the total armies for this player
+     *
+     * @return the number of armies for this player
+     */
+    public int getTotalArmiesCount() {
+        int armies = 0;
+        for (Territory t : getTerritories()) {
+            armies += t.getArmies();
+        }
+        return armies;
+    }
+    
+    /**
+     * Gets the players hand.
+     *
+     * @return the players hand
+     */
+    public Vector<Card> getPlayersHand() {
+        return this.playersHand;
+    }
+    
+    /**
+     * Gets the player name.
+     *
+     * @return the player name
+     */
+    public String getPlayerName() {
+        return playerName;
     }
     
     // endregion
@@ -183,8 +210,10 @@ public class Player {
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         switch (gameState) {
             case PLAYER_TRADE_CARDS:
+                log.append(gamePlayModel.getCurrentPlayer().getPlayerName() + " wants to trade-in cards...");
                 return tradeInCards(gamePlayModel, selectedCards);
             case PLAYER_REINFORCEMENT:
+                log.append(gamePlayModel.getCurrentPlayer().getPlayerName() + " wants to distribute armies...");
                 distributeArmies(gamePlayModel, armiesToPlace);
                 break;
         }
@@ -314,8 +343,6 @@ public class Player {
         this.unallocatedArmies += num;
     }
     
-    // region Reinforcement Phase
-    
     /**
      * Reduces the number of unallocated armies for this player by the specified number.
      *
@@ -325,6 +352,22 @@ public class Player {
         this.unallocatedArmies -= num;
     }
     
+    // region Reinforcement Phase
+    
+    /**
+     * Implements the Attack Phase of particular player.
+     *
+     * This method allows a player to make an attack move with an opponent player based on the
+     * current battle state of the game. The method rolls the number of dice for the attacker
+     * and the defender, and decides the outcome of the battle by comparing the highest roll
+     * depending on the number of dice used by both players. Then also checks if the attacking
+     * player in current battle has conquered any territories, or eliminated any players in
+     * that attack turn.
+     *
+     * @param gamePlayModel the game play model
+     *
+     * @return the message to the user if attack phase was successful or not
+     */
     public String attack(GamePlayModel gamePlayModel) {
         Battle currentBattle = gamePlayModel.getCurrentBattle();
         Territory attackingTerritory = currentBattle.getAttackingTerritory();
@@ -332,7 +375,7 @@ public class Player {
         int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
         int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
 
-        /* Both players oll dice */
+        /* Both players roll dice */
         currentBattle.attackerRollDice();
         currentBattle.defenderRollDice();
         log.append(playerName + " is attacking from " + attackingTerritory.getName() + " > dice rolled: " +
@@ -351,26 +394,31 @@ public class Player {
             int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
             decideResult(currentBattle, attackingTerritory, defendingTerritory, secondBestOfAttacker, secondBestOfDefender);
         }
-        log.append("Defended territory " + defendingTerritory.getName() + " loses " + currentBattle.getDefenderLoseCount() + " armies");
-        log.append("Attacker territory " + attackingTerritory.getName() + " loses " + currentBattle.getAttackerLoseCount() + " armies");
-        
-        /* Check for territory conquer */
-        // TODO: check if the defending territory has no army left
-        
-        /* Check for player elimination */
-        // TODO: check if the defender loses all of his territories
+        log.append("Defended territory " + defendingTerritory.getName() + " loses " + currentBattle.getDefenderLossCount() + " armies");
+        log.append("Attacker territory " + attackingTerritory.getName() + " loses " + currentBattle.getAttackerLossCount() + " armies");
         
         return "";
     }
     
+    /**
+     * This method decides the outcome of the current battle by comparing the attacker's dice
+     * roll value and the defender's dice roll value. Depending on the result, the method
+     * increases the lose count for the player who rolled a lower value than the opponent.
+     *
+     * @param currentBattle      Battle object of the current battle state
+     * @param attackingTerritory Territory object of the territory that is attacking
+     * @param defendingTerritory Territory object of the territory that is defending
+     * @param attackerRoll       Integer value of the attacker's dice roll
+     * @param defenderRoll       Integer value of the defender's dice roll
+     */
     private void decideResult(Battle currentBattle, Territory attackingTerritory, Territory defendingTerritory,
                               int attackerRoll, int defenderRoll) {
         if (attackerRoll > defenderRoll) { // the attacker wins
             defendingTerritory.reduceArmies(1);
-            currentBattle.increaseDefenderLoseCount();
+            currentBattle.increaseDefenderLossCount();
         } else { // the defender wins
             attackingTerritory.reduceArmies(1);
-            currentBattle.increaseAttackerLoseCount();
+            currentBattle.increaseAttackerLossCount();
         }
     }
     
@@ -379,41 +427,50 @@ public class Player {
      * in an opponent's defending territory, and makes the conquering player to move a number of armies to it from the
      * attacking territory. A randomly drawn card from the deck is also given to the conquering player.
      *
-     * @param gamePlayModel   The GamePlayModel containing the state of the game
-     * @param sourceTerritory String value of the name of the source Territory
-     * @param targetTerritory String value of the name of the target Territory
-     * @param armiesToMove    Integer value of the number of armies to be moved to the captured territory
+     * @param gamePlayModel The GamePlayModel containing the state of the game
+     * @param armiesToMove  The number of armies to move
      *
      * @return String value of the messages that will be displayed to the user
      */
-    public String conquer(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int armiesToMove) {
-        Territory fromTerritory = gamePlayModel.getGameMap().getATerritory(sourceTerritory);
-        Territory toTerritory = gamePlayModel.getGameMap().getATerritory(targetTerritory);
-
-        /* change owner of the conquered territory, and move armies */
-        toTerritory.setOwner(fromTerritory.getOwner());
-        fromTerritory.reduceArmies(armiesToMove);
-        toTerritory.addArmies(armiesToMove);
-        log.append(fromTerritory.getOwner().getPlayerName() + " conquered " + toTerritory.getName());
-
-        /* give a card to the conqueror */
-        Card card = gamePlayModel.drawCard();
-        addCardToPlayersHand(card);
-        log.append(fromTerritory.getOwner().getPlayerName() + " received the " + card + " card");
+    public String conquer(GamePlayModel gamePlayModel, int armiesToMove) {
+        Territory attackingTerritory = gamePlayModel.getCurrentBattle().getAttackingTerritory();
+        Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
+        
+        /* Change owner of the conquered territory, and move armies */
+        attackingTerritory.reduceArmies(armiesToMove);
+        defendingTerritory.addArmies(armiesToMove);
+        log.append(attackingTerritory.getOwner().getPlayerName() + " conquered " + defendingTerritory.getName());
         
         return "";
     }
+    
     // endregion
     
     // region Attack Phase
     
     /**
-     * Gets the player name.
+     * Removes the territory.
      *
-     * @return the player name
+     * @param territoryName the territory name
      */
-    public String getPlayerName() {
-        return playerName;
+    public void removeTerritory(String territoryName) {
+        for (Territory territory : territories) {
+            if (territory.getName().compareTo(territoryName) == 0) {
+                territories.remove(territory);
+                return;
+            }
+        }
+    }
+    
+    /**
+     * Adds the territory.
+     *
+     * @param territory the territory
+     */
+    public void addTerritory(Territory territory) {
+        if (!territories.contains(territory)) {
+            territories.add(territory);
+        }
     }
     
     /**

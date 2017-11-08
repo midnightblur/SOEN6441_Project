@@ -22,6 +22,9 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
  * Player to attack will decide source and target for the attack
  * Then it will roll the dice
  * Defender will have the chance to protect its territory using a modal dialog
+ *
+ * @author Team 2
+ * @version 2.0
  */
 public class AttackPreparePanel extends JPanel implements Observer {
     // region Attributes declaration
@@ -29,7 +32,7 @@ public class AttackPreparePanel extends JPanel implements Observer {
     private static final String ATTACK_TO_LABEL = "Attack to:";
     private static final String NUMBER_OF_ATTACK_DICE = "Number of Dice for attack:";
     private static final String ATTACK_BUTTON = "ATTACK";
-    private static final String DONE_BUTTON = "Done";
+    private static final String DONE_BUTTON = "Done (to Fortification)";
     
     private JComboBox<String> attackingTerritoriesDropdown;
     private JComboBox<String> defendingTerritoriesDropdown;
@@ -154,9 +157,21 @@ public class AttackPreparePanel extends JPanel implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAY &&
                     gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.PLAYER_ATTACK_PREPARE) {
-                attackingTerritoriesDropdown.setModel(new DefaultComboBoxModel<>(
-                        gamePlayModel.getValidAttackingTerritories(gamePlayModel.getCurrentPlayer())));
-                attackingTerritoriesDropdown.setSelectedIndex(0);
+                DefaultComboBoxModel<String> attackingTerritoriesModel = new DefaultComboBoxModel<>(
+                        gamePlayModel.getValidAttackingTerritories(gamePlayModel.getCurrentPlayer()));
+                if (attackingTerritoriesModel.getSize() > 0) {
+                    attackButton.setEnabled(true);
+                    attackingTerritoriesDropdown.setEnabled(true);
+                    defendingTerritoriesDropdown.setEnabled(true);
+                    attackerNoOfDice.setEnabled(true);
+                    attackingTerritoriesDropdown.setModel(attackingTerritoriesModel);
+                    attackingTerritoriesDropdown.setSelectedIndex(0);
+                } else {
+                    attackButton.setEnabled(false);
+                    attackingTerritoriesDropdown.setEnabled(false);
+                    defendingTerritoriesDropdown.setEnabled(false);
+                    attackerNoOfDice.setEnabled(false);
+                }
             }
         }
     }

@@ -8,6 +8,7 @@ package game_play.controller;
 
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
+import game_play.view.screens.ConquerDialog;
 import game_play.view.screens.DefendingDialog;
 import game_play.view.screens.GamePlayFrame;
 import shared_resources.game_entities.GameMap;
@@ -51,8 +52,8 @@ public class GamePlayController {
      */
     public GamePlayController(MainMenuController callerController, GameMap gameMap) {
         this.callerController = callerController;
-        gamePlayModel = GamePlayModel.getInstance();
-        gamePlayFrame = new GamePlayFrame();
+        gamePlayModel = new GamePlayModel();
+        gamePlayFrame = new GamePlayFrame(callerController);
         
         registerObserversToObservable();
         
@@ -82,6 +83,7 @@ public class GamePlayController {
         gamePlayModel.addObserver(gamePlayFrame.getAttackingPanel().getAttackPreparePanel());
         gamePlayModel.addObserver(gamePlayFrame.getAttackingPanel().getBattleResultPanel());
         gamePlayModel.addObserver(gamePlayFrame.getFortificationPanel());
+        gamePlayModel.addObserver(gamePlayFrame.getPhaseViewPanel());
     }
     
     /**
@@ -106,6 +108,8 @@ public class GamePlayController {
         gamePlayFrame.getAttackingPanel().getAttackPreparePanel().addAttackingTerritoryDropdownListener(e -> updateDefendingTerritoriesAndAttackingDice(
                 String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem())
         ));
+        gamePlayFrame.getAttackingPanel().getBattleResultPanel().addDoneButtonListener(e -> goToFortificationPhase());
+        gamePlayFrame.getAttackingPanel().getBattleResultPanel().addAnotherAttackButtonListener(e -> prepareAnotherAttack());
         
         /* For Fortification Panel */
         gamePlayFrame.getFortificationPanel().addMoveArmiesButtonListener(e -> moveArmies());
@@ -228,6 +232,29 @@ public class GamePlayController {
     // region For Attacking Phase
     
     /**
+     * Called when players want to prepare another attack
+     */
+    private void prepareAnotherAttack() {
+        /* Check if the defending territory has been conquered */
+        if (gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
+            openMoveArmiesToConqueredTerritoryDialog();
+        }
+        gamePlayModel.prepareNewAttack();
+    }
+    
+    /**
+     * Call appropriate function in GamePlayModel to move a number of armies from attacking territory to the defending one
+     *
+     * @param conquerDialog The conquer dialog
+     * @param owner         The owner frame
+     */
+    private void moveArmiesToConqueredTerritory(ConquerDialog conquerDialog, JFrame owner) {
+        gamePlayModel.moveArmiesToConqueredTerritory((Integer) conquerDialog.getMoveArmiesDropdown().getSelectedItem());
+        conquerDialog.getOwner().dispose();
+        owner.setVisible(true);
+    }
+    
+    /**
      * Call appropriate function in GamePlayModel to perform an attack from one territory to another
      */
     private void attackTerritory() {
@@ -255,33 +282,53 @@ public class GamePlayController {
      * Move to Fortification phase
      */
     private void goToFortificationPhase() {
+        if (gamePlayModel.getCurrentPlayer().getGameState() == PLAYER_ATTACK_BATTLE &&
+                gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
+            openMoveArmiesToConqueredTerritoryDialog();
+        }
         gamePlayModel.changePhaseOfCurrentPlayer(PLAYER_FORTIFICATION);
     }
     
     /**
-     * Updates the defending territories dropdown & number of attacking dice according to selected attacking territory
+     * Hide the GamePlayFrame and display a dialog for player
+     * to choose how many armies to place on newly conquered territory
+     */
+    private void openMoveArmiesToConqueredTerritoryDialog() {
+        gamePlayFrame.setVisible(false);
+        JFrame frame = new JFrame();
+        ConquerDialog conquerDialog = new ConquerDialog(frame, gamePlayModel.getCurrentBattle());
+        conquerDialog.addMoveArmiesButtonListener(e -> moveArmiesToConqueredTerritory(conquerDialog, gamePlayFrame));
+    }
+    
+    /**
+     * Updates the defending territories dropdown & number
+     * of attacking dice according to selected attacking territory
      *
      * @param attackingTerritory the selected attacking territory
      */
     private void updateDefendingTerritoriesAndAttackingDice(String attackingTerritory) {
-        /* Update defending territories dropdown */
-        gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().setModel(
-                new DefaultComboBoxModel<>(gamePlayModel.getNeighborsNotOwnedBySamePlayer(attackingTerritory))
-        );
-        gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().setSelectedIndex(0);
+        if (attackingTerritory != null) {
+            /* Update defending territories dropdown */
+            gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().setModel(
+                    new DefaultComboBoxModel<>(gamePlayModel.getNeighborsNotOwnedBySamePlayer(attackingTerritory))
+            );
+            gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().setSelectedIndex(0);
         
         /* Update attacking dice dropdown */
-        int maxRoll = gamePlayModel.getMaxAttackingRoll(attackingTerritory);
-        Vector<Integer> rollChoice = new Vector<>();
-        for (int i = 1; i <= maxRoll; i++) {
-            rollChoice.add(i);
+            int maxRoll = gamePlayModel.getMaxAttackingRoll(attackingTerritory);
+            Vector<Integer> rollChoice = new Vector<>();
+            for (int i = 1; i <= maxRoll; i++) {
+                rollChoice.add(i);
+            }
+            gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().setModel(
+                    new DefaultComboBoxModel<>(rollChoice.toArray(new Integer[rollChoice.size()]))
+            );
+            gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().setSelectedIndex(
+                    gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getItemCount() - 1);
         }
-        gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().setModel(
-                new DefaultComboBoxModel<>(rollChoice.toArray(new Integer[rollChoice.size()]))
-        );
-        gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().setSelectedIndex(
-                gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getItemCount() - 1);
     }
+    
+    // region For Attacking Phase
     
     /**
      * Move armies from selected source territory to selected target territory
@@ -312,9 +359,6 @@ public class GamePlayController {
             UIHelper.displayMessage(gamePlayFrame, "Invalid entry. Please re-enter a number.");
         }
     }
-    // endregion
-    
-    // region For Fortification Phase
     
     /**
      * Update the list of target territories according to the players' selected source territory.
@@ -336,6 +380,9 @@ public class GamePlayController {
         DropDownModel targetTerritoriesModel = new DropDownModel(targetTerritoriesList);
         gamePlayFrame.getFortificationPanel().getTargetTerritoryDropdown().setModel(targetTerritoriesModel);
     }
+    // endregion
+    
+    // region For Fortification Phase
     
     /**
      * This function advances the game to next player's turn.
@@ -362,6 +409,7 @@ public class GamePlayController {
         );
         
     }
+    
     // endregion
     
     // endregion

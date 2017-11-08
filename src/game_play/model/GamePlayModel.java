@@ -64,9 +64,9 @@ public class GamePlayModel extends Observable {
     // region Constructors
     
     /**
-     * Private constructor preventing any other class from instantiating GamePlayModel object.
+     * Public GamePlayModel constructor.
      */
-    private GamePlayModel() {
+    public GamePlayModel() {
         armyValue = DEFAULT_ARMY_VALUE;
         mapTableModel = new MapTableModel();
         deck = new Vector<>();
@@ -76,20 +76,18 @@ public class GamePlayModel extends Observable {
         playerTerritoriesModel = new PlayerTerritoriesModel();
     }
     
-    /**
-     * Static instance method to determine if an object of GamePlayModel already exists.
-     *
-     * @return instance of the singleton GamePlayModel object
-     */
-    public static GamePlayModel getInstance() {
-        if (instance == null) {
-            instance = new GamePlayModel();
-        }
-        return instance;
-    }
     // endregion
     
     // region Getters and Setters
+    
+    /**
+     * Gets the current battle of the game
+     *
+     * @return the current battle of the game
+     */
+    public Battle getCurrentBattle() {
+        return currentBattle;
+    }
     
     /**
      * Gets the game map.
@@ -240,80 +238,34 @@ public class GamePlayModel extends Observable {
         currentPlayer = players.firstElement();
         
         /* -- logging printout for demo -- */
-        log.append("=======================================");
-        log.append("============ Startup Phase ============");
-        log.append("=======================================");
+        log.append("\n");
+        log.append("============ Startup ============");
+        
         log.append("Number of players: " + players.size());
         log.append("Number of territories: " + gameMap.getTerritoriesCount());
         for (Player player : players) {
-            log.append("Player " + player.getPlayerID());
-            log.append("\tInitial armies: " + player.getUnallocatedArmies());
-            log.append("\tNumber of territories: " + gameMap.getTerritoriesOfPlayer(player).size());
+            log.append("\n");
+            log.append(player.getPlayerName());
+            log.append("----------------------");
+            log.append(" * Initial armies: " + player.getUnallocatedArmies());
+            log.append(" * Number of territories: " + gameMap.getTerritoriesOfPlayer(player).size());
             for (Territory territory : player.getTerritories()) {
-                log.append("\t\t" + territory.getName());
+                log.append("\t" + territory.getName());
             }
-            log.append("\tNumber of cards: " + player.getPlayersHand().size());
+            log.append(" * Number of cards: " + player.getPlayersHand().size());
             for (Card card : player.getPlayersHand()) {
-                log.append("\t\t" + card.getCardType().name());
+                log.append("\t" + card.getCardType().name());
             }
         }
         log.append("Deck size: " + deck.size());
-        log.append("-------------------------------------------");
+        log.append("----------------------");
+
         /* ------------------------------- */
         
         assignOneArmyPerTerritory();
         
         updateGameMapTableModel();
         broadcastGamePlayChanges();
-    }
-    
-    /**
-     * This method allows the players to allocate an unallocated army to a territory that
-     * the player owns.
-     *
-     * @param territory The name of the territory as String to place an army on
-     */
-    public void placeArmyStartup(String territory) {
-        currentPlayer.reduceUnallocatedArmies(1);
-        gameMap.getATerritory(territory).addArmies(1);
-        log.append(currentPlayer.getPlayerName() + " placed 1 army on " + territory);
-        currentPlayer = getNextPlayer();
-        
-        /*
-         * Get next player if current player's unallocated army is 0
-         * Stop when current player still has unallocated army or all run out of army
-         */
-        int count = 1;
-        while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
-            log.append(currentPlayer.getPlayerName() + " has no unallocated armies to place");
-            currentPlayer = getNextPlayer();
-            count++;
-        }
-        
-        /* If all player run out of unallocated army, move to the next phase */
-        if (count == players.size()) {
-            log.append("All players placed all their unallocated armies");
-            log.append("-------------------------------------------");
-            
-            updateGameMapTableModel();
-            broadcastGamePlayChanges();
-        } else {
-            updateGameMapTableModel();
-            broadcastGamePlayChanges();
-        }
-    }
-    
-    /**
-     * Draws a random card from the deck and returns it.
-     *
-     * @return Card object
-     */
-    public Card drawCard() {
-        int index = rand.nextInt(deck.size());
-        Card card = deck.elementAt(index);
-        deck.remove(deck.elementAt(index));
-        deck.trimToSize();
-        return card;
     }
     
     /**
@@ -378,51 +330,6 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * Rigged version of distribution of territories for the sole purpose of
-     * demoing for build 1 presentation. Applicable only on 'World.map' and with
-     * 6 players, otherwise will throw errors. Player 1 gets assigned all of
-     * the territories in Europe to demonstrate that the continent control value
-     * of Europe gets added to the calculation of the number of reinforcement armies.
-     */
-    private void distributeTerritoriesRiggedForDemo() {
-        /*
-        For build 1 demo purposes only using World.map and 6 players.
-        Give player 1 all the territories of europe.
-         */
-        
-        log.append("Distributing territories...");
-        
-        ArrayList<String> territoryArrList = new ArrayList<>();
-        for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
-            territoryArrList.add(entry.getValue().getName());
-        }
-        
-        for (int i = 0; i < gameMap.getAContinent("europe").getTerritories().size(); i++) {
-            int territoryIndex = territoryArrList.indexOf(gameMap.getAContinent("europe").getTerritories().get(i));
-            Territory territory = gameMap.getATerritory(territoryArrList.get(territoryIndex));
-            Player player = players.elementAt(0);
-            territory.setOwner(player);
-            player.addTerritory(territory);
-            territoryArrList.remove(territoryIndex);
-        }
-        
-        int playerIndex = 1;
-        for (int i = 0; i < gameMap.getTerritoriesCount() - 7; i++) {
-            if (playerIndex >= players.size()) {
-                playerIndex = 1;
-            }
-            int territoryIndex = rand.nextInt(territoryArrList.size());
-            Territory territory = gameMap.getATerritory(territoryArrList.get(territoryIndex));
-            Player player = players.elementAt(playerIndex);
-            territory.setOwner(player);
-            player.addTerritory(territory);
-            
-            playerIndex++;
-            territoryArrList.remove(territoryIndex);
-        }
-    }
-    
-    /**
      * This method gives initial armies per player according to the following algorithm:
      * <ul>
      * <li>[# of initial armies = (total# of territories) * (2.75) / (total# of players)].
@@ -430,7 +337,9 @@ public class GamePlayModel extends Observable {
      */
     private void giveInitialArmies() {
         int armiesToGive = (int) (gameMap.getTerritoriesCount() * INITIAL_ARMY_RATIO / players.size());
+        log.append("Give initial armies = (total# of territories) * (2.75) / (total# of players) : [ " + gameMap.getTerritoriesCount() + " * " + INITIAL_ARMY_RATIO + " / " + players.size() + " ]");
         for (Player player : players) {
+            log.append(player.getPlayerName() + " receives " + armiesToGive + " armies");
             player.setUnallocatedArmies(armiesToGive);
         }
     }
@@ -450,19 +359,56 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * Change the phase of the game to PLAY phase and let the first player's turn begins.
+     * Update the GameMapTableModel according to the newly updated GameMap object.
      */
-    public void startTheGame() {
-        setGameState(PLAY);
-        currentPlayer = players.firstElement();
-        currentPlayer.nextPhase();
-        addReinforcementForCurrPlayer();
-        updatePlayerTerritoriesModel();
-        broadcastGamePlayChanges();
+    private void updateGameMapTableModel() {
+        mapTableModel.updateMapTableModel(gameMap, gameState);
     }
+    
+    /**
+     * This method allows the players to allocate an unallocated army to a territory that
+     * the player owns.
+     *
+     * @param territory The name of the territory as String to place an army on
+     */
+    public void placeArmyStartup(String territory) {
+        currentPlayer.reduceUnallocatedArmies(1);
+        gameMap.getATerritory(territory).addArmies(1);
+        log.append(currentPlayer.getPlayerName() + " placed 1 army on " + territory);
+        currentPlayer = getNextPlayer();
+        
+        /*
+         * Get next player if current player's unallocated army is 0
+         * Stop when current player still has unallocated army or all run out of army
+         */
+        int count = 1;
+        while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
+            log.append(currentPlayer.getPlayerName() + " has no unallocated armies to place");
+            currentPlayer = getNextPlayer();
+            count++;
+        }
+        
+        /* If all player run out of unallocated army, move to the next phase */
+        if (count == players.size()) {
+            log.append("All players placed all their unallocated armies");
+            
+            updateGameMapTableModel();
+            broadcastGamePlayChanges();
+        } else {
+            updateGameMapTableModel();
+            broadcastGamePlayChanges();
+        }
+    }
+    
     // endregion
     
     // region For Reinforcement Phase
+    /**
+     * Update player territories game_entities.
+     */
+    private void updatePlayerTerritoriesModel() {
+        playerTerritoriesModel.updateMapTableModel(currentPlayer, this);
+    }
     
     /**
      * Delegate the job to reinforcement() function of Player class
@@ -509,11 +455,12 @@ public class GamePlayModel extends Observable {
         }
 
         /* -- logging window -- */
-        log.append("=========================================");
-        log.append("========== Reinforcement Phase ==========");
-        log.append("=========================================");
-    
-        log.append("Player " + currentPlayer.getPlayerID());
+        log.append("\n");
+        log.append("========== Reinforcement ==========");
+        
+        log.append("\n");
+        log.append(currentPlayer.getPlayerName());
+        log.append("----------------------");
         log.append("Number of territories owned by this player: " + currentPlayer.getTerritories().size());
         for (Territory territory : currentPlayer.getTerritories()) {
             log.append("\t" + territory.getName());
@@ -530,118 +477,86 @@ public class GamePlayModel extends Observable {
         if (continentCounter != 0) {
             log.append(continentStr.toString());
         }
-        log.append("-------------------------------------------------");
+        log.append("----------------------");
+
         /* ------------------------------- */
         
         currentPlayer.addUnallocatedArmies(armiesToGive);
     }
     
-    // endregion
-
-    // region For Attack Phase
-
     /**
-     * Delegate the job to attack() of Player class.
+     * Draws a random card from the deck and returns it.
      *
-     * @param attackingTerritoryName String value of the name of the attacking Territory
-     * @param defendingTerritoryName String value of the name of the defending Territory
-     * @param numOfAtkDice    Integer value of the number of dice to be used by the attacker
-     * @param numOfDefDice    Integer value of the number of dice to be used by the defender
-     *
-     * @return String value of the messages that will be displayed to the user
+     * @return Card object
      */
-    public String declareAttack(String attackingTerritoryName, String defendingTerritoryName, int numOfAtkDice, int numOfDefDice) {
-        Player attacker = currentPlayer;
-        Territory attackingTerritory = gameMap.getATerritory(attackingTerritoryName);
-        Player defender = gameMap.getATerritory(defendingTerritoryName).getOwner();
-        Territory defendingTerritory = gameMap.getATerritory(defendingTerritoryName);
+    public Card drawCard() {
+        int index = rand.nextInt(deck.size());
+        Card card = deck.elementAt(index);
+        deck.remove(deck.elementAt(index));
+        deck.trimToSize();
+        return card;
+    }
+    
+    /**
+     * Rigged version of distribution of territories for the sole purpose of
+     * demoing for build 1 presentation. Applicable only on 'World.map' and with
+     * 6 players, otherwise will throw errors. Player 1 gets assigned all of
+     * the territories in Europe to demonstrate that the continent control value
+     * of Europe gets added to the calculation of the number of reinforcement armies.
+     */
+    private void distributeTerritoriesRiggedForDemo() {
+        /*
+        For build 1 demo purposes only using World.map and 6 players.
+        Give player 1 all the territories of europe.
+         */
         
-        currentBattle = new Battle(attacker, attackingTerritory, numOfAtkDice, defender, defendingTerritory, numOfDefDice);
-        currentPlayer.setGameState(PLAYER_ATTACK_BATTLE);
-        log.append("=========================================");
-        log.append("============= Attack Phase ==============");
-        log.append("=========================================");
-        String message = currentPlayer.attack(this);
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
-
-        return message;
-    }
-
-    /**
-     * Delegate the job to conquer() of Player class.
-     *
-     * @param sourceTerritory String value of the name of the source Territory
-     * @param targetTerritory String value of the name of the target Territory
-     * @param armiesToMove    Integer value of the number of armies to be moved to the captured territory
-     *
-     * @return String value of the messages that will be displayed to the user
-     */
-    public String captureTerritory(String sourceTerritory, String targetTerritory, int armiesToMove) {
-        String message = gameMap.getATerritory(targetTerritory).getOwner().conquer(this, sourceTerritory, targetTerritory, armiesToMove);
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
-
-        return message;
-    }
-
-    /**
-     * Delegate the job to eliminate() of Player class.
-     *
-     * @param eliminatedPlayer Player object that has no more territories left and is declared eliminated
-     *
-     * @return String value of the messages that will be displayed to the user
-     */
-    public String eliminatePlayer(Player eliminatedPlayer) {
-        log.append(currentPlayer.getPlayerName() + " just eliminated " + eliminatedPlayer.getPlayerName());
-        String message = currentPlayer.eliminated(eliminatedPlayer);
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
-
-        return message;
-    }
-    
-    /**
-     * Gets a list of territories owned by a player that can attack another territory
-     *
-     * A valid territory is a territory that has at least one neighbors which is not owned by the player
-     * and contains at least 2 armies
-     *
-     * @param player the player
-     *
-     * @return a list of territories' names in form of an array of strings
-     */
-    public String[] getValidAttackingTerritories(Player player) {
-        Vector<String> territoriesList = new Vector<>();
-        for (Territory territory : player.getTerritories()) {
-            if (territory.getArmies() < 2 || getNeighborsNotOwnedBySamePlayer(territory.getName()).length == 0) {
-                continue;
+        log.append("Distributing territories...");
+        
+        ArrayList<String> territoryArrList = new ArrayList<>();
+        for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
+            territoryArrList.add(entry.getValue().getName());
+        }
+        
+        for (int i = 0; i < gameMap.getAContinent("europe").getTerritories().size(); i++) {
+            int territoryIndex = territoryArrList.indexOf(gameMap.getAContinent("europe").getTerritories().get(i));
+            Territory territory = gameMap.getATerritory(territoryArrList.get(territoryIndex));
+            Player player = players.elementAt(0);
+            territory.setOwner(player);
+            player.addTerritory(territory);
+            territoryArrList.remove(territoryIndex);
+        }
+        
+        int playerIndex = 1;
+        for (int i = 0; i < gameMap.getTerritoriesCount() - 7; i++) {
+            if (playerIndex >= players.size()) {
+                playerIndex = 1;
             }
+            int territoryIndex = rand.nextInt(territoryArrList.size());
+            Territory territory = gameMap.getATerritory(territoryArrList.get(territoryIndex));
+            Player player = players.elementAt(playerIndex);
+            territory.setOwner(player);
+            player.addTerritory(territory);
             
-            territoriesList.add(territory.getName());
+            playerIndex++;
+            territoryArrList.remove(territoryIndex);
         }
-        return territoriesList.toArray(new String[territoriesList.size()]);
     }
     
     /**
-     * Gets the list of all neighbors that are not owned by the same owner
-     *
-     * @param territoryName the territory name
-     *
-     * @return the list of neighbors in form of an array of territory names
+     * Change the phase of the game to PLAY phase and let the first player's turn begins.
      */
-    public String[] getNeighborsNotOwnedBySamePlayer(String territoryName) {
-        Territory territory = gameMap.getATerritory(territoryName);
-        Vector<String> neighborsList = new Vector<>();
-        for (String neighborName : territory.getNeighbors()) {
-            Territory neighbor = gameMap.getATerritory(neighborName);
-            if (!neighbor.isOwnedBy(territory.getOwner().getPlayerID())) {
-                neighborsList.add(neighborName);
-            }
-        }
-        return neighborsList.toArray(new String[neighborsList.size()]);
+    public void startTheGame() {
+        setGameState(PLAY);
+        currentPlayer = players.firstElement();
+        currentPlayer.nextPhase();
+        addReinforcementForCurrPlayer();
+        updatePlayerTerritoriesModel();
+        broadcastGamePlayChanges();
     }
     
+    // endregion
+    
+    // region For Attack Phase
     /**
      * Get the maximum number of attacking dice roll that attacker can use depending on the attacking territory's armies
      *
@@ -677,18 +592,142 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * Gets the current battle of the game
+     * Delegate the job to conquer() function of Player class
      *
-     * @return the current battle of the game
+     * @param armiesToMove the number of armies to move
      */
-    public Battle getCurrentBattle() {
-        return currentBattle;
+    public void moveArmiesToConqueredTerritory(int armiesToMove) {
+        currentPlayer.conquer(this, armiesToMove);
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+    }
+    
+    /**
+     * Change the player's state to ATTACK_PREPARE
+     */
+    public void prepareNewAttack() {
+        currentPlayer.setGameState(PLAYER_ATTACK_PREPARE);
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+    }
+    
+    /**
+     * Delegate the job to attack() of Player class.
+     *
+     * @param attackingTerritoryName String value of the name of the attacking Territory
+     * @param defendingTerritoryName String value of the name of the defending Territory
+     * @param numOfAtkDice           Integer value of the number of dice to be used by the attacker
+     * @param numOfDefDice           Integer value of the number of dice to be used by the defender
+     *
+     * @return String value of the messages that will be displayed to the user
+     */
+    public String declareAttack(String attackingTerritoryName, String defendingTerritoryName, int numOfAtkDice, int numOfDefDice) {
+        log.append("\n");
+        log.append("============= Attacking ==============");
+        
+        Player attacker = currentPlayer;
+        Territory attackingTerritory = gameMap.getATerritory(attackingTerritoryName);
+        Player defender = gameMap.getATerritory(defendingTerritoryName).getOwner();
+        Territory defendingTerritory = gameMap.getATerritory(defendingTerritoryName);
+        currentBattle = new Battle(attacker, attackingTerritory, numOfAtkDice, defender, defendingTerritory, numOfDefDice);
+        currentPlayer.setGameState(PLAYER_ATTACK_BATTLE);
+        
+        String message = currentPlayer.attack(this);
+        
+        // If the defending territory has been conquered
+        if (currentBattle.getDefendingTerritory().getArmies() == 0) {
+            // Change the owner of this territory to the attacker
+            defender.removeTerritory(defendingTerritory.getName());
+            defendingTerritory.setOwner(attacker);
+            attacker.addTerritory(defendingTerritory);
+            
+            // Check if the defender has been eliminated
+            if (defender.getTerritories().size() == 0) {
+                // Give all of his cards to the attacker
+                for (Card card : defender.getPlayersHand()) {
+                    attacker.addCardToPlayersHand(card);
+                }
+                
+                // Remove him from the game
+                eliminatePlayer(defender);
+            }
+            
+            // Give a card to the attacker
+            if (players.size() != 1) { // Only draw a new card if the game has no winner yet
+                Card card = drawCard();
+                if (card != null) {
+                    attacker.addCardToPlayersHand(card);
+                    log.append(attackingTerritory.getOwner().getPlayerName() + " received the " + card.getCardType().name() + " card");
+                } else {
+                    log.append(attackingTerritory.getOwner().getPlayerName() + " doesn't receive any card since the deck has run out of card");
+                }
+            }
+        }
+        
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+        
+        return message;
+    }
+    
+    /**
+     * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
+     * player.
+     *
+     * @param eliminatedPlayer Player object that has no more territories left and is declared eliminated
+     *
+     * @return String value of the messages that will be displayed to the user
+     */
+    private void eliminatePlayer(Player eliminatedPlayer) {
+        players.remove(eliminatedPlayer);
+        log.append(currentPlayer.getPlayerName() + " just eliminated " + eliminatedPlayer.getPlayerName());
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+    }
+    
+    /**
+     * Gets a list of territories owned by a player that can attack another territory
+     *
+     * A valid territory is a territory that has at least one neighbors which is not owned by the player
+     * and contains at least 2 armies
+     *
+     * @param player the player
+     *
+     * @return a list of territories' names in form of an array of strings
+     */
+    public String[] getValidAttackingTerritories(Player player) {
+        Vector<String> territoriesList = new Vector<>();
+        for (Territory territory : player.getTerritories()) {
+            if (territory.getArmies() < 2 || getNeighborsNotOwnedBySamePlayer(territory.getName()).length == 0) {
+                continue;
+            }
+            territoriesList.add(territory.getName());
+        }
+        return territoriesList.toArray(new String[territoriesList.size()]);
+    }
+    
+    /**
+     * Gets the list of all neighbors that are not owned by the same owner
+     *
+     * @param territoryName the territory name
+     *
+     * @return the list of neighbors in form of an array of territory names
+     */
+    public String[] getNeighborsNotOwnedBySamePlayer(String territoryName) {
+        Territory territory = gameMap.getATerritory(territoryName);
+        Vector<String> neighborsList = new Vector<>();
+        for (String neighborName : territory.getNeighbors()) {
+            Territory neighbor = gameMap.getATerritory(neighborName);
+            if (!neighbor.isOwnedBy(territory.getOwner().getPlayerID())) {
+                neighborsList.add(neighborName);
+            }
+        }
+        return neighborsList.toArray(new String[neighborsList.size()]);
     }
     
     // endregion
-
-    // region For Fortification Phase
     
+    // region For Fortification Phase
     /**
      * Delegate the job to fortification() of Player class.
      *
@@ -699,15 +738,16 @@ public class GamePlayModel extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String moveArmiesFortification(String sourceTerritory, String targetTerritory, int noOfArmies) {
-        log.append("=========================================");
-        log.append("========== Fortification Phase ==========");
-        log.append("=========================================");
+        log.append("\n");
+        log.append("========== Fortification ==========");
+        
         String message = currentPlayer.fortification(this, sourceTerritory, targetTerritory, noOfArmies);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
         
         return message;
     }
+    
     // endregion
     
     // region Public methods
@@ -732,13 +772,25 @@ public class GamePlayModel extends Observable {
      */
     public void changePhaseOfCurrentPlayer(GAME_STATES newGameStates) {
         currentPlayer.setGameState(newGameStates);
+        log.append("\n");
+        log.append("========== " + newGameStates + " ==========");
         broadcastGamePlayChanges();
     }
     
+    /**
+     * This is method used for testing game maps.
+     */
+    public void demoForTests() {
+        GameMap gamemap = new GameMap("3D.map");
+        setGameMap(gamemap);
+        initPlayers(2);
+        //placeArmiesReinforcement(10);
+        distributeTerritories();
+        
+    }
     // endregion
-    
+
     // region Private methods
-    
     /**
      * Gets the next player.
      *
@@ -754,38 +806,11 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-     * Update the GameMapTableModel according to the newly updated GameMap object.
-     */
-    private void updateGameMapTableModel() {
-        mapTableModel.updateMapTableModel(gameMap, gameState);
-    }
-    
-    /**
      * Method to update the GamePlayModel and notify the Observer.
      */
     private void broadcastGamePlayChanges() {
         setChanged();
         notifyObservers(this);
     }
-    
-    /**
-     * Update player territories game_entities.
-     */
-    private void updatePlayerTerritoriesModel() {
-        playerTerritoriesModel.updateMapTableModel(currentPlayer);
-    }
     // endregion
-    
-    /**
-     * This is method used for testing game maps.
-     */
-    public void DemoForTests() {
-        GameMap gamemap = new GameMap("3D.map");
-        setGameMap(gamemap);
-        initPlayers(2);
-        //placeArmiesReinforcement(10);
-        distributeTerritories();
-        
-    }
-    
 }
