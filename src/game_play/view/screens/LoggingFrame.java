@@ -15,7 +15,7 @@ import java.awt.*;
  * @author Team 2
  * @version 2.0
  */
-public class LoggingFrame {
+public class LoggingFrame extends JFrame {
     private static LoggingFrame instance = null;
     private JTextArea logArea;
     
@@ -30,7 +30,7 @@ public class LoggingFrame {
         JFrame frame = new JFrame();
         frame.setTitle("Game Logging");
         logArea = new JTextArea();
-        logArea.setMargin( new Insets(10,10,10,10) );
+        logArea.setMargin(new Insets(10, 10, 10, 10));
         logArea.setFont(new Font("Sans Serif", Font.PLAIN, 16));
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.add(new JScrollPane(logArea));
