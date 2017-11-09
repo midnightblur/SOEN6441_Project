@@ -415,6 +415,7 @@ public class GamePlayModel extends Observable {
         setGameState(PLAY);
         log.append("The game starts");
         currentPlayer = players.firstElement();
+        log.append("==============================================");
         log.append(currentPlayer.getPlayerName() + "'s turn begins");
         currentPlayer.nextPhase();
         addReinforcementForCurrPlayer();
@@ -690,7 +691,7 @@ public class GamePlayModel extends Observable {
      */
     private void eliminatePlayer(Player eliminatedPlayer) {
         eliminatedPlayer.setPlayerStatus(PLAYER_STATUS.ELIMINATED);
-        log.append(currentPlayer.getPlayerName() + " just eliminated " + eliminatedPlayer.getPlayerName());
+        log.append("    " + currentPlayer.getPlayerName() + " just eliminated " + eliminatedPlayer.getPlayerName());
         updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
@@ -721,9 +722,9 @@ public class GamePlayModel extends Observable {
         Card card = drawCard();
         if (card != null) {
             attacker.addCardToPlayersHand(card);
-            log.append(attacker.getPlayerName() + " received the " + card.getCardType().name() + " card");
+            log.append("        " + attacker.getPlayerName() + " received the " + card.getCardType().name() + " card");
         } else {
-            log.append(attacker.getPlayerName() + " doesn't receive any card since the deck has run out of card");
+            log.append("        " + attacker.getPlayerName() + " doesn't receive any card since the deck has run out of card");
         }
     }
     
@@ -791,9 +792,6 @@ public class GamePlayModel extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String moveArmiesFortification(String sourceTerritory, String targetTerritory, int noOfArmies) {
-        log.append("\n");
-        log.append("========== Fortification ==========");
-        
         String message = currentPlayer.fortification(this, sourceTerritory, targetTerritory, noOfArmies);
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -849,6 +847,7 @@ public class GamePlayModel extends Observable {
      */
     public void nextPlayerTurn() {
         currentPlayer = getNextPlayer();
+        log.append("==============================================");
         log.append(currentPlayer.getPlayerName() + "'s turn begins");
         currentPlayer.nextPhase();
         addReinforcementForCurrPlayer();

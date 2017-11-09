@@ -565,7 +565,7 @@ public class Player {
         fromTerritory.reduceArmies(noOfArmies);
         toTerritory.addArmies(noOfArmies);
         
-        log.append(playerName + " moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory);
+        log.append("    " + playerName + " moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory);
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
     
