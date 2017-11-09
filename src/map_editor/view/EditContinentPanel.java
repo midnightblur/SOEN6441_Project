@@ -67,12 +67,14 @@ public class EditContinentPanel extends JPanel implements Observer {
         continentsListDropdown = new JComboBox<>();
         gridPanel.add(continentsListDropdown);
         
+        /* Setup continent name labels */
         JLabel continentNameLabel = new JLabel(CONTINENT_NAME_LABEL);
         continentNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gridPanel.add(continentNameLabel);
         continentNameText = new JTextField();
         gridPanel.add(continentNameText);
         
+        /* Setup continent control value labels */
         JLabel continentControlValueLabel = new JLabel(CONTINENT_CONTROL_VALUE_LABEL);
         continentControlValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
         gridPanel.add(continentControlValueLabel);

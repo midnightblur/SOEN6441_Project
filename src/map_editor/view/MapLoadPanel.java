@@ -140,7 +140,7 @@ public class MapLoadPanel extends JPanel implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        /* When the dropdown for maps is update */
+        /* When the dropdown for maps is updated */
         if (o instanceof MapEditorModel) {
             chooseMapDropdown.setModel(((MapEditorModel) o).getMapDropdownModel());
             setAllComponentsEnable(true);
