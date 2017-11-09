@@ -302,7 +302,10 @@ public class GamePlayModelTest {
         
         System.out.println();
     }
-
+    /**
+     * Just for demo.
+     */
+    @Test
     public void gameVictoryTestCase1() {
         GamePlayModel tempGamePlayModel11 = FixedGamePlayModel.getFixedGamePlayModel();
         GamePlayModel tempGamePlayModel22 = FixedGamePlayModel.getFixedGamePlayModel();
