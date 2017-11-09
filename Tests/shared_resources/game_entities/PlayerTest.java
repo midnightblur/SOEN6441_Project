@@ -56,21 +56,63 @@ public class PlayerTest {
     @Test
     public void conquerTestCase() {
         GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
-        Player player1Attacker = tempGamePlayModel.getPlayers().get(0);
-        Player player2Defender = tempGamePlayModel.getPlayers().get(1);
+        Player player = tempGamePlayModel.getPlayers().get(0);
+        Territory attackingTerritory = tempGamePlayModel.getGameMap().getATerritory("1c");
+        Territory defendingTerritory = tempGamePlayModel.getGameMap().getATerritory("1t");
+    
+        System.out.println("Testing valid number of armies that can be moved to conquered territory:");
+        
+        int armiesToMove = 1;
+        attackingTerritory.setArmies(3);
+        defendingTerritory.setArmies(0);
+        System.out.println("\tIf Player 1 has [" + (attackingTerritory.getArmies() - 1) + "] armies in " +
+                "Attacking territory and wants to move [" + armiesToMove + "] army to the " +
+                "Conquered territory...");
+        tempGamePlayModel.declareAttack(attackingTerritory.getName(), defendingTerritory.getName(), 0, 0);
+        player.conquer(tempGamePlayModel, armiesToMove);
+        System.out.println("\t\tThen the Attacking territory will have [" + attackingTerritory
+                .getArmies() + "] army left, and Conquered territory will have [" +
+                defendingTerritory.getArmies() + "] army.");
+    
+        armiesToMove = 2;
+        attackingTerritory.setArmies(3);
+        defendingTerritory.setArmies(0);
+        System.out.println("\tIf Player 1 has [" + (attackingTerritory.getArmies() - 1) + "] armies in " +
+                "Attacking territory and wants to move [" + armiesToMove + "] army to the " +
+                "Conquered territory...");
+        tempGamePlayModel.declareAttack(attackingTerritory.getName(), defendingTerritory.getName(), 0, 0);
+        player.conquer(tempGamePlayModel, armiesToMove);
+        System.out.println("\t\tThen the Attacking territory will have [" + attackingTerritory
+                .getArmies() + "] army left, and Conquered territory will have [" +
+                defendingTerritory.getArmies() + "] army (No valid move was made).");
+    
+        armiesToMove = 3;
+        attackingTerritory.setArmies(3);
+        defendingTerritory.setArmies(0);
+        System.out.println("\tIf Player 1 has [" + (attackingTerritory.getArmies() - 1) + "] armies in " +
+                "Attacking territory and wants to move [" + armiesToMove + "] army to the " +
+                "Conquered territory...");
+        tempGamePlayModel.declareAttack(attackingTerritory.getName(), defendingTerritory.getName(), 0, 0);
+        player.conquer(tempGamePlayModel, armiesToMove);
+        System.out.println("\t\tThen the Attacking territory will have [" + attackingTerritory
+                .getArmies() + "] army left, and Conquered territory will have [" +
+                defendingTerritory.getArmies() + "] army (No valid move was made).");
+        
+        System.out.println();
         
         
-        
-        
-        
-        int armiesToMove = ;
-        
-        tempGamePlayModel.declareAttack();
-        
-        player1.conquer();
-        
-        
-        currentBattle = new Battle(attacker, attackingTerritory, numOfAtkDice, defender, defendingTerritory, numOfDefDice);
+        //
+//
+//
+//
+//        int armiesToMove = ;
+//
+//        tempGamePlayModel.declareAttack();
+//
+//        player1.conquer();
+//
+//
+//        currentBattle = new Battle(attacker, attackingTerritory, numOfAtkDice, defender, defendingTerritory, numOfDefDice);
         
         
     }
