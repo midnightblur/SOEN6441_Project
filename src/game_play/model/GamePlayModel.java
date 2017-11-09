@@ -288,8 +288,12 @@ public class GamePlayModel extends Observable {
         log.append("Initializing " + numOfPlayers + " players...");
         
         for (int i = 0; i < numOfPlayers; i++) {
-            players.add(new Player());
+            Player player = new Player();
+            players.add(player);
+            log.append("    Add " + player.getPlayerName() + " to the game");
         }
+        
+        log.append("    Finish initializing players");
     }
     
     /**
@@ -298,19 +302,22 @@ public class GamePlayModel extends Observable {
      * that is a factor of three, and is greater or equal to the total number of territories.
      */
     private void initDeck() {
-        log.append("Initializing deck...");
         int typeNumber = 0;
         int numOfCards = gameMap.getTerritoriesCount();
         if (gameMap.getTerritoriesCount() % Card.getTypesCount() != 0) {
             numOfCards += Card.getTypesCount() - (gameMap.getTerritoriesCount() % Card.getTypesCount());
         }
+        log.append("Initializing deck of " + numOfCards + " cards");
         for (int i = 0; i < numOfCards; i++) {
             if (typeNumber >= Card.getTypesCount()) {
                 typeNumber = 0;
             }
-            deck.add(new Card(Card.CARD_TYPE.values()[typeNumber]));
+            Card card = new Card(Card.CARD_TYPE.values()[typeNumber]);
+            deck.add(card);
+            log.append("    Add " + card.getCardType() + " to the deck");
             typeNumber++;
         }
+        log.append("    Finish initializing deck");
     }
     
     /**
@@ -319,7 +326,7 @@ public class GamePlayModel extends Observable {
      * evenly distributed as possible between all of the players.
      */
     private void distributeTerritories() {
-        log.append("Distributing territories...");
+        log.append("Distributing territories to players");
         
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
@@ -336,10 +343,11 @@ public class GamePlayModel extends Observable {
             Player player = players.elementAt(playerIndex);
             territory.setOwner(player);
             player.addTerritory(territory);
-            
+            log.append("    Assign " + territory.getName() + " to " + player.getPlayerName());
             playerIndex++;
             territoryArrList.remove(territoryIndex);
         }
+        log.append("    Finish assigning territories to players");
     }
     
     /**
@@ -350,9 +358,9 @@ public class GamePlayModel extends Observable {
      */
     private void giveInitialArmies() {
         int armiesToGive = (int) (gameMap.getTerritoriesCount() * INITIAL_ARMY_RATIO / players.size());
-        log.append("Give initial armies = (total# of territories) * (2.75) / (total# of players) : [ " + gameMap.getTerritoriesCount() + " * " + INITIAL_ARMY_RATIO + " / " + players.size() + " ]");
+        log.append("Give initial armies = (total# of territories) * (2.75) / (total# of players) = [ " + gameMap.getTerritoriesCount() + " * " + INITIAL_ARMY_RATIO + " / " + players.size() + " ]");
         for (Player player : players) {
-            log.append(player.getPlayerName() + " receives " + armiesToGive + " armies");
+            log.append("    " + player.getPlayerName() + " receives " + armiesToGive + " armies");
             player.setUnallocatedArmies(armiesToGive);
         }
     }
