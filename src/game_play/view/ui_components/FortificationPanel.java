@@ -208,6 +208,7 @@ public class FortificationPanel extends JPanel implements Observer {
                 sourceTerritoryDropdown.setModel(sourceTerritoriesModel);
                 sourceTerritoryDropdown.setSelectedIndex(0);
                 
+                /* Disable all selection component if there is no valid territory to select */
                 if (String.valueOf(sourceTerritoryDropdown.getSelectedItem()).compareTo(NO_VALID_TERRITORY) == 0) {
                     sourceTerritoryDropdown.setEnabled(false);
                     targetTerritoryDropdown.setEnabled(false);

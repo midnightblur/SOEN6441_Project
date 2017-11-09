@@ -291,7 +291,7 @@ public class GamePlayModel extends Observable {
      */
     private void initDeck() {
         int typeNumber = 0;
-        int numOfCards = gameMap.getTerritoriesCount();
+        int numOfCards = gameMap.getTerritoriesCount(); // Number of cards depends on number of territories in the map
         if (gameMap.getTerritoriesCount() % Card.getTypesCount() != 0) {
             numOfCards += Card.getTypesCount() - (gameMap.getTerritoriesCount() % Card.getTypesCount());
         }
@@ -316,11 +316,13 @@ public class GamePlayModel extends Observable {
     private void distributeTerritories() {
         log.append("Distributing territories to players");
         
+        /* Prepare the territories list */
         ArrayList<String> territoryArrList = new ArrayList<>();
         for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
             territoryArrList.add(entry.getValue().getName());
         }
         
+        /* Distribute territories to players randomly but evenly */
         int playerIndex = 0;
         for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
             if (playerIndex >= players.size()) {
@@ -466,13 +468,10 @@ public class GamePlayModel extends Observable {
         /* If all player run out of unallocated army, move to the next phase */
         if (count == players.size()) {
             log.append("    All players placed all their unallocated armies");
-            
-            updateGameMapTableModel();
-            broadcastGamePlayChanges();
-        } else {
-            updateGameMapTableModel();
-            broadcastGamePlayChanges();
         }
+        
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
     }
     
     /**
@@ -491,7 +490,7 @@ public class GamePlayModel extends Observable {
                 player = players.get(currPlayerIndex + 1);
             }
             playerStatus = player.getPlayerStatus();
-        } while (playerStatus == PLAYER_STATUS.ELIMINATED);
+        } while (playerStatus == PLAYER_STATUS.ELIMINATED); // only get players who are still in the game
         return player;
     }
     
@@ -527,6 +526,7 @@ public class GamePlayModel extends Observable {
             }
         }
         
+        // For logging display player's continent content
         log.append("    " + currentPlayer.getPlayerName() + " owns " + currentPlayer.getTerritories().size() + " territories: ");
         for (Territory territory : currentPlayer.getTerritories()) {
             log.append("        " + territory.getName());
@@ -634,6 +634,8 @@ public class GamePlayModel extends Observable {
         Territory attackingTerritory = gameMap.getATerritory(attackingTerritoryName);
         Player defender = gameMap.getATerritory(defendingTerritoryName).getOwner();
         Territory defendingTerritory = gameMap.getATerritory(defendingTerritoryName);
+        
+        // Create the battle
         currentBattle = new Battle(attacker, attackingTerritory, numOfAtkDice, defender, defendingTerritory, numOfDefDice);
         currentPlayer.setGameState(ATTACK_BATTLE);
     

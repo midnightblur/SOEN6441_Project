@@ -111,8 +111,18 @@ public class BattleResultPanel extends JPanel implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAY &&
                     gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.ATTACK_BATTLE) {
+    
+                // Don't let player to prepare another attack if there is no valid attacking territory
+                String[] validAttackTerritories = gamePlayModel.getValidAttackingTerritories(gamePlayModel.getCurrentPlayer());
+                if (validAttackTerritories.length == 0) {
+                    anotherAttackBtn.setEnabled(false);
+                } else {
+                    anotherAttackBtn.setEnabled(true);
+                }
+                
                 Battle currentBattle = gamePlayModel.getCurrentBattle();
                 
+                /* Show the rolling dice result of attacker */
                 StringBuilder rollResultStrBuilder = new StringBuilder(ATTACKER_ROLL_RESULT);
                 for (Integer rollResult : currentBattle.getAttackerDice().getRollsResult()) {
                     rollResultStrBuilder.append(rollResult);
@@ -125,6 +135,7 @@ public class BattleResultPanel extends JPanel implements Observer {
                 attackingArmies.setText(String.format(ATT_TERRITORY_ARMIES, currentBattle.getAttackingTerritory().getName(),
                         currentBattle.getAttackingTerritory().getArmies()));
     
+                /* Show the rolling dice result of defender */
                 rollResultStrBuilder = new StringBuilder(DEFENDER_ROLL_RESULT);
                 for (Integer rollResult : currentBattle.getDefenderDice().getRollsResult()) {
                     rollResultStrBuilder.append(rollResult);

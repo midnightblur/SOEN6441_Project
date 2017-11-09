@@ -194,6 +194,8 @@ public class GamePlayController {
         String territoryName;
         int armies;
         int runningSum = 0;
+        
+        /* Prepare the list of armies to distribute */
         Map<Territory, Integer> armiesToPlace = new HashMap<>();
         for (int r = 0; r < armiesData.getRowCount(); r++) {
             armies = Integer.parseInt(armiesData.getValueAt(r, 1).toString());
@@ -203,6 +205,8 @@ public class GamePlayController {
                 armiesToPlace.put(gamePlayModel.getGameMap().getATerritory(territoryName), armies);
             }
         }
+        
+        /* Distribute the armies*/
         if (runningSum > 0 && runningSum <= gamePlayModel.getCurrentPlayer().getUnallocatedArmies()) {
             gamePlayModel.placeArmiesReinforcement(armiesToPlace);
             UIHelper.displayMessage(gamePlayFrame, "The armies were placed successfully");
@@ -275,6 +279,7 @@ public class GamePlayController {
      * Call appropriate function in GamePlayModel to perform an attack from one territory to another
      */
     private void attackTerritory() {
+        /* Prepare ingredients for the battle */
         String attackingPlayer = gamePlayModel.getCurrentPlayer().getPlayerName();
         String attackingTerritory = String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem());
         String defendingTerritory = String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem());
@@ -290,6 +295,7 @@ public class GamePlayController {
         int maxDefendingDice = gamePlayModel.getMaxDefendingRoll(defendingTerritory);
         gamePlayFrame.setVisible(false);
         
+        /* Let the defender choose number of dice to defence */
         JFrame frame = new JFrame();
         DefendingDialog defendingDialog = new DefendingDialog(frame, situation, maxDefendingDice);
         defendingDialog.addDoneButtonListener(e -> startTheBattle(defendingDialog, gamePlayFrame));
@@ -337,7 +343,7 @@ public class GamePlayController {
             );
             gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().setSelectedIndex(0);
         
-        /* Update attacking dice dropdown */
+            /* Update attacking dice dropdown */
             int maxRoll = gamePlayModel.getMaxAttackingRoll(attackingTerritory);
             Vector<Integer> rollChoice = new Vector<>();
             for (int i = 1; i <= maxRoll; i++) {
@@ -351,7 +357,8 @@ public class GamePlayController {
         }
     }
     
-    // region For Attacking Phase
+    // endregion
+    // region For Fortification Phase
     
     /**
      * Move armies from selected source territory to selected target territory
@@ -389,6 +396,7 @@ public class GamePlayController {
      * @param selectedTerritory the selected territory
      */
     private void updateTargetTerritoriesDropdown(String selectedTerritory) {
+        /* Prepare the model for target dropdown */
         Vector<String> targetTerritoriesList = new Vector<>();
         if (selectedTerritory.compareTo(FortificationPanel.getNoValidTerritory()) != 0) {
             Vector<String> neighbors = gamePlayModel.getGameMap().getATerritory(selectedTerritory).getNeighbors();
@@ -404,13 +412,11 @@ public class GamePlayController {
         } else {
             targetTerritoriesList.add("No valid source territory is selected");
         }
-    
+        
+        /* Set the model for the dropdown */
         DropDownModel targetTerritoriesModel = new DropDownModel(targetTerritoriesList);
         gamePlayFrame.getFortificationPanel().getTargetTerritoryDropdown().setModel(targetTerritoriesModel);
     }
-    // endregion
-    
-    // region For Fortification Phase
     
     /**
      * This function advances the game to next player's turn.
@@ -426,6 +432,7 @@ public class GamePlayController {
      * @param owner  the owner of attacked territory
      */
     private void startTheBattle(DefendingDialog dialog, JFrame owner) {
+        /* Perform the battle */
         int defendingDice = (int) dialog.getDefendingDiceDropdown().getSelectedItem();
         dialog.getOwner().dispose();
         owner.setVisible(true);
@@ -436,7 +443,7 @@ public class GamePlayController {
                 defendingDice
         );
         
-        // if outcome is victory
+        // If outcome is victory
         if (gamePlayModel.getCurrentPlayer().getGameState() == VICTORY) {
             UIHelper.displayMessage(gamePlayFrame, message);
             UIHelper.closeFrame(gamePlayFrame);
@@ -447,5 +454,4 @@ public class GamePlayController {
     
     // endregion
     
-    // endregion
 }
