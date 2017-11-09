@@ -42,70 +42,37 @@ public class PlayerTest {
         }
     }
     
-    
+    /**
+     *
+     */
+    @Test
     public void tradeInCardsTestCase() {
     
     }
     
+    /**
+     *
+     */
+    @Test
     public void conquerTestCase() {
-    
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    /**
-     *
-     */
-    @Test
-    public void reinforcementTestCase() {
         GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
-        Player player1 = tempGamePlayModel.getPlayers().get(0);
-        Vector<String> selectedCards = new Vector<>();
-        Map<Territory, Integer> armiesToPlace = new HashMap<>();
-        armiesToPlace.put(tempGamePlayModel.getGameMap().getATerritory("1c"), 3);
+        Player player1Attacker = tempGamePlayModel.getPlayers().get(0);
+        Player player2Defender = tempGamePlayModel.getPlayers().get(1);
         
-        // make all territories in Cubes continent to belong to Player 1
-        for (Map.Entry<String, Territory> entry : tempGamePlayModel.getGameMap().getTerritories().entrySet()) {
-            if (entry.getValue().getContinent() == "Cubes") {
-                entry.getValue().setOwner(player1);
-            }
-        }
         
-        // give Player 1 three INFANTRY cards and remove them from the deck
-        for (int i = 0 ; i < 4; i++) {
-            int cardCounter = 0;
-            for (Card card : tempGamePlayModel.getDeck()) {
-                if (cardCounter >= 3) {
-                    break;
-                }
-                if (card.getCardType().equals(INFANTRY)) {
-                    player1.addCardToPlayersHand(card);
-                    tempGamePlayModel.getDeck().remove(card);
-                    selectedCards.add("INFANTRY");
-                    cardCounter++;
-                }
-            }
-        }
         
-        player1.tradeInCards(tempGamePlayModel, selectedCards);
         
-        assertEquals("Cards successfully traded in!", player1.tradeInCards(tempGamePlayModel, selectedCards));
         
-        player1.distributeArmies(armiesToPlace);
+        int armiesToMove = ;
         
-    }
-    
-    /**
-     *
-     */
-    @Test
-    public void attackTestCase() {
-    
+        tempGamePlayModel.declareAttack();
+        
+        player1.conquer();
+        
+        
+        currentBattle = new Battle(attacker, attackingTerritory, numOfAtkDice, defender, defendingTerritory, numOfDefDice);
+        
+        
     }
     
     /**
@@ -113,8 +80,11 @@ public class PlayerTest {
      */
     @Test
     public void fortificationTestCase() {
-    
+        GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
     }
+    
+    
+    
 
 //    Things to test:
 //    - reinforcement phase (card trade in, add reinforcements, place armies, draw card)

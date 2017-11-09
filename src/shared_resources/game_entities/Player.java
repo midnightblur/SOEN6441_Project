@@ -496,8 +496,10 @@ public class Player {
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
         
         /* Change owner of the conquered territory, and move armies */
-        attackingTerritory.reduceArmies(armiesToMove);
-        defendingTerritory.addArmies(armiesToMove);
+        if (armiesToMove < attackingTerritory.getArmies()) {
+            attackingTerritory.reduceArmies(armiesToMove);
+            defendingTerritory.addArmies(armiesToMove);
+        }
         log.append(attackingTerritory.getOwner().getPlayerName() + " conquered " + defendingTerritory.getName());
         
         return "";
