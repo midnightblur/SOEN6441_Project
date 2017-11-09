@@ -7,6 +7,7 @@
 
 //import game_play.model.GamePlayModelTest;
 
+import game_play.model.GamePlayModelTest;
 import map_editor.model.MapEditorModelTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -25,7 +26,7 @@ import shared_resources.helper.GameMapHelperTest;
         MapEditorModelTest.class,
         PlayerTest.class,
         GameMapTest.class,
-//        GamePlayModelTest.class,
+        GamePlayModelTest.class,
         TerritoryTest.class,
 })
 

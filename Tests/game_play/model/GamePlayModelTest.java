@@ -6,16 +6,16 @@
  */
 package game_play.model;
 
+import org.junit.Test;
 import shared_resources.game_entities.Card;
-import shared_resources.game_entities.Continent;
-import shared_resources.utilities.FixedGamePlayModel;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
-import java.util.Map;
-import static shared_resources.utilities.Config.INITIAL_ARMY_RATIO;
+import shared_resources.utilities.FixedGamePlayModel;
 
-import org.junit.Test;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
+import static shared_resources.utilities.Config.INITIAL_ARMY_RATIO;
 
 /**
  * This test class is used to test the initialization of the game of a correct startup phase,

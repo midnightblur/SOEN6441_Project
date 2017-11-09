@@ -168,7 +168,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
                 playerStatsPanels.get(player.getPlayerID() - 1).getCardsInfoLabel().setText(cardsInfo);
                 
                 /* Update player's has just conquered any territory info */
-                String hasConquered = String.format(HAS_CONQUERED_FORMAT, player.isHasConqueredTerritories()? "YES" : "NO");
+                String hasConquered = String.format(HAS_CONQUERED_FORMAT, player.hasConqueredTerritories()? "YES" : "NO");
                 playerStatsPanels.get(player.getPlayerID() - 1).getHasConquered().setText(hasConquered);
             }
         }

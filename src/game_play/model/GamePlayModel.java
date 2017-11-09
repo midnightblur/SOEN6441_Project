@@ -851,7 +851,7 @@ public class GamePlayModel extends Observable {
      */
     public Player getAPlayer(String playerName) {
         for (Player player : players) {
-            if (player.getPlayerName() == playerName) {
+            if (Objects.equals(player.getPlayerName(), playerName)) {
                 return player;
             }
         }

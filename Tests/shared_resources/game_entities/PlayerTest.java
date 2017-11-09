@@ -7,12 +7,12 @@
 package shared_resources.game_entities;
 
 import game_play.model.GamePlayModel;
-import org.junit.Before;
 import org.junit.Test;
 import shared_resources.utilities.FixedGamePlayModel;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Vector;
 
 import static org.junit.Assert.assertEquals;
@@ -55,7 +55,7 @@ public class PlayerTest {
         
         // make all territories in Cubes continent to belong to Player 1
         for (Map.Entry<String, Territory> entry : tempGamePlayModel.getGameMap().getTerritories().entrySet()) {
-            if (entry.getValue().getContinent() == "Cubes") {
+            if (Objects.equals(entry.getValue().getContinent(), "Cubes")) {
                 entry.getValue().setOwner(player1);
             }
         }
