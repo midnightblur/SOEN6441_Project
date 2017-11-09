@@ -43,15 +43,7 @@ public class PlayerTest {
     }
     
     /**
-     *
-     */
-    @Test
-    public void tradeInCardsTestCase() {
-    
-    }
-    
-    /**
-     *
+     * Tests the correct number of armies that can be moved to the conquered country.
      */
     @Test
     public void conquerTestCase() {
@@ -73,6 +65,7 @@ public class PlayerTest {
         System.out.println("\t\tThen the Attacking territory will have [" + attackingTerritory
                 .getArmies() + "] army left, and Conquered territory will have [" +
                 defendingTerritory.getArmies() + "] army.");
+        assertEquals(1, defendingTerritory.getArmies());
     
         armiesToMove = 2;
         attackingTerritory.setArmies(3);
@@ -85,6 +78,7 @@ public class PlayerTest {
         System.out.println("\t\tThen the Attacking territory will have [" + attackingTerritory
                 .getArmies() + "] army left, and Conquered territory will have [" +
                 defendingTerritory.getArmies() + "] army (No valid move was made).");
+        assertEquals(0, defendingTerritory.getArmies());
     
         armiesToMove = 3;
         attackingTerritory.setArmies(3);
@@ -97,24 +91,9 @@ public class PlayerTest {
         System.out.println("\t\tThen the Attacking territory will have [" + attackingTerritory
                 .getArmies() + "] army left, and Conquered territory will have [" +
                 defendingTerritory.getArmies() + "] army (No valid move was made).");
+        assertEquals(0, defendingTerritory.getArmies());
         
         System.out.println();
-        
-        
-        //
-//
-//
-//
-//        int armiesToMove = ;
-//
-//        tempGamePlayModel.declareAttack();
-//
-//        player1.conquer();
-//
-//
-//        currentBattle = new Battle(attacker, attackingTerritory, numOfAtkDice, defender, defendingTerritory, numOfDefDice);
-        
-        
     }
     
     /**
