@@ -45,6 +45,13 @@ import static shared_resources.utilities.Config.GAME_STATES.*;
  * @version 1.0
  */
 public class GamePlayModel extends Observable {
+    // region Attributes declaration
+    /**
+     * The player status
+     */
+    public enum PLAYER_STATUS {
+        IN_GAME, ELIMINATED
+    }
     private static final int DEFAULT_ARMY_VALUE = 5;
     private static GamePlayModel instance = null;
     private GameMap gameMap;
@@ -57,7 +64,9 @@ public class GamePlayModel extends Observable {
     private Vector<Player> players;
     private Random rand;
     private Battle currentBattle;
+    // endregion
     
+    // region Constructors
     /**
      * Public GamePlayModel constructor.
      */
@@ -72,7 +81,7 @@ public class GamePlayModel extends Observable {
     }
     // endregion
     
-    // region Constructors
+    // region Getters and Setters
     
     /**
      * Gets the current battle of the game
@@ -82,10 +91,6 @@ public class GamePlayModel extends Observable {
     public Battle getCurrentBattle() {
         return currentBattle;
     }
-    
-    // endregion
-    
-    // region Getters and Setters
     
     /**
      * Gets the game map.
@@ -886,12 +891,5 @@ public class GamePlayModel extends Observable {
     }
     
     // region Attributes declaration
-    
-    /**
-     * The player status
-     */
-    public enum PLAYER_STATUS {
-        IN_GAME, ELIMINATED
-    }
     // endregion
 }
