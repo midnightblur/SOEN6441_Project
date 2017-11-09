@@ -504,7 +504,6 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-<<<<<<< HEAD
      * The reinforcement phase includes allowing the players to hand in their cards for
      * armies (or force them to if they have more than or equal to 5 cards), assign
      * to-be-allocated armies to the players according to the number of territories and
@@ -542,8 +541,6 @@ public class GamePlayModel extends Observable {
     }
     
     /**
-=======
->>>>>>> fdc026587c4d99660439109135c32b176a05478e
      * Delegate the job to reinforcement() function of Player class
      * Broadcast the change to Observers.
      *
@@ -800,47 +797,9 @@ public class GamePlayModel extends Observable {
     }
     // endregion
     
-    // region For Fortification Phase
-    
-    /**
-<<<<<<< HEAD
-=======
-     * Gets a particular player object based on ID
-     *
-     * @param playerID the passed player ID
-     *
-     * @return the player object
-     */
-    public Player getAPlayer(int playerID) {
-        for (Player player : players) {
-            if (player.getPlayerID() == playerID) {
-                return player;
-            }
-        }
-        return null;
-    }
-    // endregion
-    
     // region Public methods
     
     /**
-     * Gets a particular player object based on the name
-     *
-     * @param playerName the passed player name
-     *
-     * @return the player object
-     */
-    public Player getAPlayer(String playerName) {
-        for (Player player : players) {
-            if (Objects.equals(player.getPlayerName(), playerName)) {
-                return player;
-            }
-        }
-        return null;
-    }
-    
-    /**
->>>>>>> fdc026587c4d99660439109135c32b176a05478e
      * Set the current player to be the next one in round-robin-fashion
      * Change the phase of the current player to Reinforcement/TradeCard
      * Broadcast the change to Observers.
