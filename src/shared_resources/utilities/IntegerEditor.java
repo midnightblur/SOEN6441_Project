@@ -1,7 +1,7 @@
 /* 
  * Risk Game Team 2
  * IntegerEditor.java
- * Version 1.0
+ * Version 2.0
  * Oct 18, 2017
  */
 package shared_resources.utilities;
