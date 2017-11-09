@@ -42,12 +42,28 @@ public class PlayerTest {
         }
     }
     
+    
+    public void tradeInCardsTestCase() {
+    
+    }
+    
+    public void conquerTestCase() {
+    
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      *
      */
     @Test
     public void reinforcementTestCase() {
-        GamePlayModel tempGamePlayModel = fixedGamePlayModel;
+        GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
         Player player1 = tempGamePlayModel.getPlayers().get(0);
         Vector<String> selectedCards = new Vector<>();
         Map<Territory, Integer> armiesToPlace = new HashMap<>();

@@ -504,24 +504,6 @@ public class Player {
     }
     
     /**
-     * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
-     * player.
-     *
-     * @param eliminatedPlayer Player object that has no more territories left and is declared eliminated
-     *
-     * @return String value of the messages that will be displayed to the user
-     */
-    public String eliminated(Player eliminatedPlayer) {
-        if (eliminatedPlayer.playersHand.size() != 0) {
-            for (Card card : eliminatedPlayer.playersHand) {
-                this.addCardToPlayersHand(card);
-            }
-        }
-        
-        return "";
-    }
-    
-    /**
      * Adds a card to the player's hand.
      *
      * @param card An object of Card class to be added to the players hand
