@@ -106,20 +106,41 @@ public class PlayerTest {
         System.out.println("Testing valid number of armies that can be moved during Fortification Phase:");
         
         int noOfArmies = 1;
-        sourceT.setArmies(3);
+        sourceT.setArmies(2);
         targetT.setArmies(10);
+        System.out.println("\tIf Player 1 has [" + sourceT.getArmies() + "] armies in " +
+                "Source territory and wants to move [" + noOfArmies + "] army to the " +
+                "Target territory with " + targetT.getArmies() + " armies...");
         player.fortification(tempGamePlayModel, sourceT.getName(), targetT.getName(), noOfArmies);
-        
+        System.out.println("\t\tThen the Source territory will have [" + sourceT.getArmies() +
+                "] army left, and Target territory will have [" + targetT.getArmies() +
+                "] army.");
+        assertEquals(11, targetT.getArmies());
+    
+        noOfArmies = 2;
+        sourceT.setArmies(2);
+        targetT.setArmies(10);
+        System.out.println("\tIf Player 1 has [" + sourceT.getArmies() + "] armies in " +
+                "Source territory and wants to move [" + noOfArmies + "] army to the " +
+                "Target territory with " + targetT.getArmies() + " armies...");
+        player.fortification(tempGamePlayModel, sourceT.getName(), targetT.getName(), noOfArmies);
+        System.out.println("\t\tThen the Source territory will have [" + sourceT.getArmies() +
+                "] army left, and Target territory will have [" + targetT.getArmies() +
+                "] army (No valid move was made).");
+        assertEquals(10, targetT.getArmies());
+    
+        noOfArmies = 3;
+        sourceT.setArmies(2);
+        targetT.setArmies(10);
+        System.out.println("\tIf Player 1 has [" + sourceT.getArmies() + "] armies in " +
+                "Source territory and wants to move [" + noOfArmies + "] army to the " +
+                "Target territory with " + targetT.getArmies() + " armies...");
+        player.fortification(tempGamePlayModel, sourceT.getName(), targetT.getName(), noOfArmies);
+        System.out.println("\t\tThen the Source territory will have [" + sourceT.getArmies() +
+                "] army left, and Target territory will have [" + targetT.getArmies() +
+                "] army (No valid move was made).");
+        assertEquals(10, targetT.getArmies());
+    
+        System.out.println();
     }
-    
-    
-    
-
-//    Things to test:
-//    - reinforcement phase (card trade in, add reinforcements, place armies, draw card)
-//    - attack phase (eliminate player and get all of their cards, move armies to conquered territory)
-//    - fortification phase (move armies)
-
-
-    
 }
