@@ -101,32 +101,6 @@ public class Player {
     }
     
     /**
-     * Player information to be used on phase view
-     *
-     * @param gamePlayModel the play model of ongoing game
-     *
-     * @return a string  with player statistics
-     */
-    public String playerInfo(GamePlayModel gamePlayModel) {
-        return "<html><font size=6>" + playerName + "</font><br>" +
-                "Owns: " +
-                getTerritories().size() + " territories | " +
-                getContinents(gamePlayModel.getGameMap()).size() + " continents | " +
-                getTotalArmiesCount() + " armies | " +
-                getPlayersHand().size() + " cards" +
-                "</html>";
-    }
-    
-    /**
-     * Gets the territories.
-     *
-     * @return the territories
-     */
-    public Vector<Territory> getTerritories() {
-        return territories;
-    }
-    
-    /**
      * Obtains the continents owned by this player
      *
      * @param gameMap the game map
@@ -144,6 +118,15 @@ public class Player {
     }
     
     /**
+     * Gets the player name.
+     *
+     * @return the player name
+     */
+    public String getPlayerName() {
+        return playerName;
+    }
+    
+    /**
      * Get the total armies for this player
      *
      * @return the number of armies for this player
@@ -157,21 +140,21 @@ public class Player {
     }
     
     /**
+     * Gets the territories.
+     *
+     * @return the territories
+     */
+    public Vector<Territory> getTerritories() {
+        return territories;
+    }
+    
+    /**
      * Gets the players hand.
      *
      * @return the players hand
      */
     public Vector<Card> getPlayersHand() {
         return this.playersHand;
-    }
-    
-    /**
-     * Gets the player name.
-     *
-     * @return the player name
-     */
-    public String getPlayerName() {
-        return playerName;
     }
     
     /**

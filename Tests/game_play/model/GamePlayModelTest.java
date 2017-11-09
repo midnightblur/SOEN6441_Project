@@ -63,8 +63,8 @@ public class GamePlayModelTest {
      */
     @Test
     public void fixedDistributeTerritoriesTestCase() {
-        String p1territories = "";
-        String p2territories = "";
+        StringBuilder p1territories = new StringBuilder();
+        StringBuilder p2territories = new StringBuilder();
 
         System.out.println("Testing fixed distribution of territories:");
         System.out.println("Total of " + fixedGamePlayModel.getGameMap().getTerritoriesCount() + " territories distributed.");
@@ -73,9 +73,9 @@ public class GamePlayModelTest {
             System.out.println("\tPlayer " + player.getPlayerID() + " owns " + player.getTerritories().size() + " territories");
             for (int i = 0; i < player.getTerritories().size(); i++) {
                 if (player.getPlayerID() == 1) {
-                    p1territories += player.getTerritories().get(i).getName();
+                    p1territories.append(player.getTerritories().get(i).getName());
                 } else {
-                    p2territories += player.getTerritories().get(i).getName();
+                    p2territories.append(player.getTerritories().get(i).getName());
                 }
                 System.out.println("\t\t" + counter + ") " + player.getTerritories().get(i).getName());
                 counter++;
@@ -85,9 +85,9 @@ public class GamePlayModelTest {
 
         assertEquals(13, fixedGamePlayModel.getGameMap().getTerritoriesCount());
         assertEquals(7, fixedGamePlayModel.getPlayers().get(0).getTerritories().size());
-        assertEquals("1c2c3c4c5c6c7c", p1territories);
+        assertEquals("1c2c3c4c5c6c7c", p1territories.toString());
         assertEquals(6, fixedGamePlayModel.getPlayers().get(1).getTerritories().size());
-        assertEquals("1t2t3t4t5t6t", p2territories);
+        assertEquals("1t2t3t4t5t6t", p2territories.toString());
     }
 
     /**

@@ -18,6 +18,8 @@ import java.util.Observer;
  * MapLoadPanel is a sub-panel that allows the user to load a map or make a new map.
  * It is used as part of the edit map control panel
  *
+ * @author Team 2
+ * @version 1.0
  * @see map_editor.view.EditMapPanel
  */
 public class MapLoadPanel extends JPanel implements Observer {

@@ -7,6 +7,7 @@ import org.junit.Test;
 public class GameMapTest {
     @Before
     public void setUp() throws Exception {
+    
     }
     
     @After
