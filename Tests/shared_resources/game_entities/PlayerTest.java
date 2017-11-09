@@ -7,20 +7,17 @@
 package shared_resources.game_entities;
 
 import game_play.model.GamePlayModel;
-import org.junit.Before;
 import org.junit.Test;
 import shared_resources.utilities.FixedGamePlayModel;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
-
 import static org.junit.Assert.assertEquals;
-import static shared_resources.game_entities.Card.CARD_TYPE.INFANTRY;
 import static shared_resources.utilities.Config.PLAYER_COLOR;
 
 /**
  * The Class PlayerTest tests the player colour.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class PlayerTest {
     private GamePlayModel fixedGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();

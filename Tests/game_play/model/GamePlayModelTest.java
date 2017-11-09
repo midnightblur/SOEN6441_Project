@@ -6,21 +6,25 @@
  */
 package game_play.model;
 
+import org.junit.Test;
 import shared_resources.game_entities.Card;
-import shared_resources.utilities.FixedGamePlayModel;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
-import java.util.Map;
-import static shared_resources.utilities.Config.INITIAL_ARMY_RATIO;
+import shared_resources.utilities.FixedGamePlayModel;
 
-import org.junit.Test;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
+import static shared_resources.utilities.Config.INITIAL_ARMY_RATIO;
 
 /**
  * This test class is used to test the initialization of the game of a correct startup phase,
  * test the calculation of correct number of reinforcement armies, and test various functions of
  * attack phase, such as attacker/defender validation, moving armies after conquering, and end game
  * state of the GamePlayModel class.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class GamePlayModelTest {
     private GamePlayModel fixedGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
@@ -62,8 +66,8 @@ public class GamePlayModelTest {
      */
     @Test
     public void fixedDistributeTerritoriesTestCase() {
-        String p1territories = "";
-        String p2territories = "";
+        StringBuilder p1territories = new StringBuilder();
+        StringBuilder p2territories = new StringBuilder();
        
         System.out.println("Testing fixed distribution of territories:");
         System.out.println("Total of " + fixedGamePlayModel.getGameMap().getTerritoriesCount() + " territories distributed.");
@@ -72,9 +76,9 @@ public class GamePlayModelTest {
             System.out.println("\tPlayer " + player.getPlayerID() + " owns " + player.getTerritories().size() + " territories");
             for (int i = 0; i < player.getTerritories().size(); i++) {
                 if (player.getPlayerID() == 1) {
-                    p1territories += player.getTerritories().get(i).getName();
+                    p1territories.append(player.getTerritories().get(i).getName());
                 } else {
-                    p2territories += player.getTerritories().get(i).getName();
+                    p2territories.append(player.getTerritories().get(i).getName());
                 }
                 System.out.println("\t\t" + counter + ") " + player.getTerritories().get(i).getName());
                 counter++;
@@ -84,9 +88,9 @@ public class GamePlayModelTest {
     
         assertEquals(13, fixedGamePlayModel.getGameMap().getTerritoriesCount());
         assertEquals(7, fixedGamePlayModel.getPlayers().get(0).getTerritories().size());
-        assertEquals("1c2c3c4c5c6c7c", p1territories);
+        assertEquals("1c2c3c4c5c6c7c", p1territories.toString());
         assertEquals(6, fixedGamePlayModel.getPlayers().get(1).getTerritories().size());
-        assertEquals("1t2t3t4t5t6t", p2territories);
+        assertEquals("1t2t3t4t5t6t", p2territories.toString());
     }
     
     /**
