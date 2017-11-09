@@ -251,6 +251,14 @@ public class GamePlayModel extends Observable {
         giveInitialArmies();
         currentPlayer = players.firstElement();
         
+        // ======= TODO: delete this fxn later
+        for (Player player : players) {
+            for (int i = 0; i < 4; i++) {
+                player.addCardToPlayersHand(drawCard());
+            }
+        }
+        // ===================================
+        
         assignOneArmyPerTerritory();
         updateGameMapTableModel();
         broadcastGamePlayChanges();
