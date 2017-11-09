@@ -33,6 +33,8 @@ public class PhaseViewPanel extends JPanel implements Observer {
     private static final int WIDTH = 1366;
     private static final int HEIGHT = 100;
     private JLabel gameStateLabel;
+    private JLabel tradeCardValueLabel;
+    private JLabel deckSizeLabel;
     private JPanel playerInfoArea;
     // endregion
     
@@ -45,6 +47,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setMaximumSize(new Dimension(WIDTH, HEIGHT));
         
+        JPanel gameInfoArea = new JPanel(new GridLayout(0, 1));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         gameStateLabel = new JLabel();
         gameStateLabel.setMinimumSize(new Dimension(200, 100));
@@ -52,8 +55,15 @@ public class PhaseViewPanel extends JPanel implements Observer {
         gameStateLabel.setMaximumSize(new Dimension(200, 100));
         gameStateLabel.setForeground(Color.BLUE);
         gameStateLabel.setFont(new Font("Sans Serif", Font.ITALIC, 20));
-        add(gameStateLabel);
+        gameInfoArea.add(gameStateLabel);
+    
+        tradeCardValueLabel = new JLabel();
+        gameInfoArea.add(tradeCardValueLabel);
+    
+        deckSizeLabel = new JLabel();
+        gameInfoArea.add(deckSizeLabel);
         
+        add(gameInfoArea);
         playerInfoArea = new JPanel();
         playerInfoArea.setLayout(new GridLayout(1, 3));
         add(playerInfoArea);
@@ -83,6 +93,12 @@ public class PhaseViewPanel extends JPanel implements Observer {
             } else {
                 gameStateLabel.setText(gamePlayModel.getCurrentPlayer().getGameState().name());
             }
+            
+            /* Update current trade card for armies value */
+            tradeCardValueLabel.setText("Trade cards value = " + gamePlayModel.getArmyValue());
+            
+            /* Update the deck size */
+            deckSizeLabel.setText(gamePlayModel.getDeck().size() + " cards in deck");
     
             /* Update all player's info */
             updatePlayersInfo(gamePlayModel);
