@@ -102,6 +102,14 @@ public class PlayerTest {
     @Test
     public void fortificationTestCase() {
         GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
+        Player player = tempGamePlayModel.getPlayers().get(0);
+        Territory sourceT = tempGamePlayModel.getGameMap().getATerritory("1c");
+        Territory targetT = tempGamePlayModel.getGameMap().getATerritory("1t");
+        sourceT.setArmies(0);
+        targetT.setArmies(0);
+        
+        int noOfArmies = 1;
+        player.fortification(tempGamePlayModel, sourceT.getName(), targetT.getName(), noOfArmies);
     }
     
     
