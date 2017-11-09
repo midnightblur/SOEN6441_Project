@@ -12,7 +12,10 @@ import map_editor.model.MapEditorModelTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import shared_resources.game_entities.*;
+import shared_resources.game_entities.ContinentTest;
+import shared_resources.game_entities.DiceTest;
+import shared_resources.game_entities.PlayerTest;
+import shared_resources.game_entities.TerritoryTest;
 import shared_resources.helper.GameMapHelperTest;
 
 /**
@@ -25,7 +28,6 @@ import shared_resources.helper.GameMapHelperTest;
         DiceTest.class,
         MapEditorModelTest.class,
         PlayerTest.class,
-        GameMapTest.class,
         GamePlayModelTest.class,
         TerritoryTest.class,
 })
