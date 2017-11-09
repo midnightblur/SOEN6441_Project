@@ -1,4 +1,4 @@
-/* 
+/*
  * Risk Game Team 2
  * MapEditorModelTest.java
  * Version 1.0
@@ -25,19 +25,19 @@ import static shared_resources.utilities.Config.MAPS_FOLDER;
  * The Class MapEditorModelTest.
  */
 public class MapEditorModelTest {
-    
+
     /** The file name. */
     private static String fileName = "World.map";
-    
+
     /** The input map. */
     private static GameMap inputMap;
-    
+
     /** The output map. */
     private static GameMap outputMap;
-    
+
     /** The map table game_entities. */
     private static MapTableModel mapTableModel;
-    
+
     /**
      * Prepare the test:
      * <ul>
@@ -58,7 +58,7 @@ public class MapEditorModelTest {
         GameMapHelper.writeToFile(inputMap, MAPS_FOLDER + "/TEST.map");
         outputMap = GameMapHelper.loadGameMap("TEST.map");
     }
-    
+
     /**
      * Remove the newly created map test file.
      *
@@ -68,7 +68,7 @@ public class MapEditorModelTest {
     public static void removeTestFile() throws IOException {
         Files.deleteIfExists(Paths.get(MAPS_FOLDER + "/TEST.map"));
     }
-    
+
     /**
      * Assert if the input map has the same continents as the output map.
      *
@@ -78,7 +78,7 @@ public class MapEditorModelTest {
     public void sameContinents() throws Exception {
         Assert.assertArrayEquals(inputMap.getContinentsNames().toArray(), outputMap.getContinentsNames().toArray());
     }
-    
+
     /**
      * Assert if the input map has the same territories as the output map.
      *
@@ -88,5 +88,5 @@ public class MapEditorModelTest {
     public void sameTerritories() throws Exception {
         Assert.assertArrayEquals(inputMap.getTerritories().values().toArray(), outputMap.getTerritories().values().toArray());
     }
-    
+
 }
