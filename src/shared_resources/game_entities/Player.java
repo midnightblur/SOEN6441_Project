@@ -307,7 +307,7 @@ public class Player {
                     for (int i = 0; i < selectedCards.size(); i++) {
                         playersHand.remove(tempCard);
                         log.append("        " + tempCard.getCardType() + " is removed from player");
-                        gamePlayModel.getDeck().add(tempCard);
+                        gamePlayModel.getDeck().add(tempCard);  // add the cards back into the deck
                         log.append("        " + tempCard.getCardType() + " goes back to the deck");
                     }
                     playersHand.trimToSize();
@@ -327,7 +327,7 @@ public class Player {
                 if (counter == 3) {
                     for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
                         Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
-                        playersHand.remove(tempCard);
+                        playersHand.remove(tempCard);  // add the cards back into the deck
                         log.append("        " + tempCard.getCardType() + " is removed from player");
                         gamePlayModel.getDeck().add(tempCard);
                         log.append("        " + tempCard.getCardType() + " goes back to the deck");
