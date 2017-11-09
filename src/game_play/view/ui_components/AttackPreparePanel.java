@@ -159,6 +159,8 @@ public class AttackPreparePanel extends JPanel implements Observer {
                     gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.ATTACK_PREPARE) {
                 DefaultComboBoxModel<String> attackingTerritoriesModel = new DefaultComboBoxModel<>(
                         gamePlayModel.getValidAttackingTerritories(gamePlayModel.getCurrentPlayer()));
+                
+                // Disable all selection controls if no valid territory to attack
                 if (attackingTerritoriesModel.getSize() > 0) {
                     attackButton.setEnabled(true);
                     attackingTerritoriesDropdown.setEnabled(true);

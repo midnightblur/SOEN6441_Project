@@ -111,6 +111,14 @@ public class BattleResultPanel extends JPanel implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAY &&
                     gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.ATTACK_BATTLE) {
+    
+                String[] validAttackTerritories = gamePlayModel.getValidAttackingTerritories(gamePlayModel.getCurrentPlayer());
+                if (validAttackTerritories.length == 0) {
+                    anotherAttackBtn.setEnabled(false);
+                } else {
+                    anotherAttackBtn.setEnabled(true);
+                }
+                
                 Battle currentBattle = gamePlayModel.getCurrentBattle();
                 
                 StringBuilder rollResultStrBuilder = new StringBuilder(ATTACKER_ROLL_RESULT);
