@@ -48,6 +48,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
         setMaximumSize(new Dimension(WIDTH, HEIGHT));
         
         JPanel gameInfoArea = new JPanel(new GridLayout(0, 1));
+        gameInfoArea.setMaximumSize(new Dimension(100, 200));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         gameStateLabel = new JLabel();
         gameStateLabel.setMinimumSize(new Dimension(200, 100));
