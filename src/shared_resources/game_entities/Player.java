@@ -282,7 +282,6 @@ public class Player {
      * @return String for the error message to validate the result of the trade in
      */
     public String tradeInCards(GamePlayModel gamePlayModel, Vector<String> selectedCards) {
-        int previousUnallocatedArmies = this.getUnallocatedArmies();
         if (selectedCards.size() == 3) {
             /* check if selected cards are three of a kind or one of each */
             int choice = 0;
@@ -346,6 +345,7 @@ public class Player {
                 return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
             }
             setGameState(REINFORCEMENT);
+            log.append("    " + getPlayerName() + " move to " + getGameState() + " phase");
             return "Cards successfully traded in!";
         } else {
             return "No cards traded in!\nPlease select exactly 3 cards.\n(all of same type or one of each type)";
@@ -361,7 +361,7 @@ public class Player {
     public void distributeArmies(Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
             entry.getKey().addArmies(entry.getValue());
-            log.append("    " + playerName + " placed " + entry.getValue() + " armies on " + entry.getKey().getName());
+            log.append("        " + playerName + " placed " + entry.getValue() + " armies on " + entry.getKey().getName());
             reduceUnallocatedArmies(entry.getValue());
         }
     }
