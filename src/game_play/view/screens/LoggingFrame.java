@@ -25,8 +25,6 @@ public class LoggingFrame extends JFrame {
      * Private constructor for the Logging Window
      */
     private LoggingFrame() {
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int screenHeight = gd.getDisplayMode().getHeight();
         JFrame frame = new JFrame();
         frame.setTitle("Game Logging");
         logArea = new JTextArea();
@@ -37,7 +35,7 @@ public class LoggingFrame extends JFrame {
         frame.add(new JScrollPane(logArea));
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(500, screenHeight - 50);
+        frame.setSize(500, 1200);
     }
     
     /**
