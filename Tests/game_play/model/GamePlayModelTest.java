@@ -302,4 +302,28 @@ public class GamePlayModelTest {
         
         System.out.println();
     }
+
+    public void gameVictoryTestCase1() {
+        GamePlayModel tempGamePlayModel11 = FixedGamePlayModel.getFixedGamePlayModel();
+        GamePlayModel tempGamePlayModel22 = FixedGamePlayModel.getFixedGamePlayModel();
+        Player player1 = tempGamePlayModel11.getPlayers().get(0);
+        for (Territory t : tempGamePlayModel11.getGameMap().getTerritories().values()) {
+            t.setOwner(player1);
+            player1.addTerritory(t);
+        }
+
+        System.out.println("Testing end-game victor after Player 1's attack turn:");
+
+        System.out.println("\tIf Player 1 has " + tempGamePlayModel22.getPlayers().get(0)
+                .getTerritories().size() + " out of " + tempGamePlayModel22.getGameMap()
+                .getTerritoriesCount() + " territories, then Player 1 is a victor = " +
+                tempGamePlayModel22.gameVictory(tempGamePlayModel22.getPlayers().get(0)));
+
+        System.out.println("\tIf Player 1 has " + player1.getTerritories().size() +
+                " out of " + tempGamePlayModel11.getGameMap().getTerritoriesCount() +
+                " territories, then Player 1 is a victor = " + tempGamePlayModel11
+                .gameVictory(player1));
+
+        System.out.println();
+    }
 }
