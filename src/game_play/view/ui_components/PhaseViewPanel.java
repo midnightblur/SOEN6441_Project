@@ -27,7 +27,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
     // region Attributes declaration
     private static final String TERRITORY_INFO_FORMAT = "%d/%d territories";
     private static final String ARMIES_INFO_FORMAT = "%d armies + %d";
-    private static final String CARDS_INFO_FORMAT = "%d cards:\n%s";
+    private static final String CARDS_INFO_FORMAT = "%d cards:%s";
     private static final String HAS_CONQUERED_FORMAT = "Has conquered: %s";
     
     private static final int WIDTH = 1366;

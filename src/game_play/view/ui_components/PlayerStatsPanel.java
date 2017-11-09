@@ -9,6 +9,7 @@ package game_play.view.ui_components;
 import shared_resources.game_entities.Player;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * PlayerStatsPanel is responsible for displaying a player's info in the PhaseViewPanel
@@ -22,7 +23,7 @@ public class PlayerStatsPanel extends JPanel {
     private JLabel playerNameLabel;
     private JLabel territoryInfoLabel;
     private JLabel armiesInfoLabel;
-    private JLabel cardsInfoLabel;
+    private JTextArea cardsInfoLabel;
     private JLabel hasConquered;
     // endregion
     
@@ -51,8 +52,11 @@ public class PlayerStatsPanel extends JPanel {
         armiesInfoLabel.setForeground(player.getColor());
         armiesInfoLabel.setAlignmentX(CENTER_ALIGNMENT);
         
-        cardsInfoLabel = new JLabel();
+        cardsInfoLabel = new JTextArea();
         cardsInfoLabel.setForeground(player.getColor());
+        cardsInfoLabel.setBackground(null);
+        cardsInfoLabel.setLineWrap(true);
+        cardsInfoLabel.setMargin(new Insets(0, 5, 0, 5));
         cardsInfoLabel.setAlignmentX(CENTER_ALIGNMENT);
     
         hasConquered = new JLabel();
@@ -110,7 +114,7 @@ public class PlayerStatsPanel extends JPanel {
      *
      * @return the cards information label
      */
-    public JLabel getCardsInfoLabel() {
+    public JTextArea getCardsInfoLabel() {
         return cardsInfoLabel;
     }
     
