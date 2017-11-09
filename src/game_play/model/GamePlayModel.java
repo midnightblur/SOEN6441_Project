@@ -498,6 +498,7 @@ public class GamePlayModel extends Observable {
      * @return String for the error message to validate the result of the trade in
      */
     public String tradeInCards(Vector<String> selectedCards) {
+        log.append("    " + currentPlayer.getPlayerName() + " start trading cars");
         String message = currentPlayer.reinforcement(this, selectedCards, null);
         broadcastGamePlayChanges();
         return message;

@@ -307,14 +307,15 @@ public class Player {
                     Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.firstElement()));
                     for (int i = 0; i < selectedCards.size(); i++) {
                         playersHand.remove(tempCard);
+                        log.append("        " + tempCard.getCardType() + " is removed from player");
                         gamePlayModel.getDeck().add(tempCard);
-                        log.append(playerName + " is trading card " + tempCard.getCardType() + ", having an army value of " + gamePlayModel.getArmyValue());
+                        log.append("        " + tempCard.getCardType() + " goes back to the deck");
                     }
                     playersHand.trimToSize();
                     addUnallocatedArmies(gamePlayModel.getArmyValue());
+                    log.append("        " + playerName + " gets " + gamePlayModel.getArmyValue() + " more armies");
                     gamePlayModel.setArmyValue(gamePlayModel.getArmyValue() + 5);
-                    log.append("Total armies gained by " + playerName + " is " + (this.getUnallocatedArmies() - previousUnallocatedArmies));
-                    log.append("New army value is now " + gamePlayModel.getArmyValue());
+                    log.append("        New army value is now " + gamePlayModel.getArmyValue());
                     
                 }
             } else if (choice == 2) {  // for one of each exchange
@@ -328,18 +329,20 @@ public class Player {
                     for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
                         Card tempCard = new Card(Card.CARD_TYPE.valueOf(selectedCards.elementAt(cardIndex)));
                         playersHand.remove(tempCard);
+                        log.append("        " + tempCard.getCardType() + " is removed from player");
                         gamePlayModel.getDeck().add(tempCard);
-                        log.append(playerName + " is trading card " + tempCard.getCardType() + ", having an army value of " + gamePlayModel.getArmyValue());
+                        log.append("        " + tempCard.getCardType() + " goes back to the deck");
                     }
                     playersHand.trimToSize();
                     addUnallocatedArmies(gamePlayModel.getArmyValue());
+                    log.append("        " + playerName + " gets " + gamePlayModel.getArmyValue() + " more armies");
                     gamePlayModel.setArmyValue(gamePlayModel.getArmyValue() + 5);
-                    log.append("Total armies gained by " + playerName + " is " + (this.getUnallocatedArmies() - previousUnallocatedArmies));
-                    log.append("New army value is now " + gamePlayModel.getArmyValue());
+                    log.append("        New army value is now " + gamePlayModel.getArmyValue());
                 }
                 
                 
             } else {
+                log.append("        No card is traded");
                 return "No cards traded in!\nPlease select 3 cards of the same type or one of each type.";
             }
             setGameState(REINFORCEMENT);
