@@ -10,17 +10,14 @@ import game_play.model.GamePlayModel;
 import org.junit.Test;
 import shared_resources.utilities.FixedGamePlayModel;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Vector;
-
 import static org.junit.Assert.assertEquals;
-import static shared_resources.game_entities.Card.CARD_TYPE.INFANTRY;
 import static shared_resources.utilities.Config.PLAYER_COLOR;
 
 /**
  * The Class PlayerTest tests the player colour.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class PlayerTest {
     private GamePlayModel fixedGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
@@ -43,62 +40,80 @@ public class PlayerTest {
     }
     
     /**
-     *
+     * Tests the correct number of armies that can be moved to the conquered country.
      */
     @Test
-    public void reinforcementTestCase() {
-        GamePlayModel tempGamePlayModel = fixedGamePlayModel;
-        Player player1 = tempGamePlayModel.getPlayers().get(0);
-        Vector<String> selectedCards = new Vector<>();
-        Map<Territory, Integer> armiesToPlace = new HashMap<>();
-        armiesToPlace.put(tempGamePlayModel.getGameMap().getATerritory("1c"), 3);
+    public void conquerTestCase() {
+        GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
+        Player player = tempGamePlayModel.getPlayers().get(0);
+        Territory attackingTerritory = tempGamePlayModel.getGameMap().getATerritory("1c");
+        Territory defendingTerritory = tempGamePlayModel.getGameMap().getATerritory("1t");
+    
+        System.out.println("Testing valid number of armies that can be moved to conquered territory:");
         
-        // make all territories in Cubes continent to belong to Player 1
-        for (Map.Entry<String, Territory> entry : tempGamePlayModel.getGameMap().getTerritories().entrySet()) {
-            if (Objects.equals(entry.getValue().getContinent(), "Cubes")) {
-                entry.getValue().setOwner(player1);
-            }
-        }
+        int armiesToMove = 1;
+        attackingTerritory.setArmies(3);
+        defendingTerritory.setArmies(0);
+        System.out.println("\tIf Player 1 has [" + (attackingTerritory.getArmies() - 1) + "] armies in " +
+                "Attacking territory and wants to move [" + armiesToMove + "] army to the " +
+                "Conquered territory...");
+        tempGamePlayModel.declareAttack(attackingTerritory.getName(), defendingTerritory.getName(), 0, 0);
+        player.conquer(tempGamePlayModel, armiesToMove);
+        System.out.println("\t\tThen the Attacking territory will have [" + attackingTerritory
+                .getArmies() + "] army left, and Conquered territory will have [" +
+                defendingTerritory.getArmies() + "] army.");
+        assertEquals(1, defendingTerritory.getArmies());
+    
+        armiesToMove = 2;
+        attackingTerritory.setArmies(3);
+        defendingTerritory.setArmies(0);
+        System.out.println("\tIf Player 1 has [" + (attackingTerritory.getArmies() - 1) + "] armies in " +
+                "Attacking territory and wants to move [" + armiesToMove + "] army to the " +
+                "Conquered territory...");
+        tempGamePlayModel.declareAttack(attackingTerritory.getName(), defendingTerritory.getName(), 0, 0);
+        player.conquer(tempGamePlayModel, armiesToMove);
+        System.out.println("\t\tThen the Attacking territory will have [" + attackingTerritory
+                .getArmies() + "] army left, and Conquered territory will have [" +
+                defendingTerritory.getArmies() + "] army (No valid move was made).");
+        assertEquals(0, defendingTerritory.getArmies());
+    
+        armiesToMove = 3;
+        attackingTerritory.setArmies(3);
+        defendingTerritory.setArmies(0);
+        System.out.println("\tIf Player 1 has [" + (attackingTerritory.getArmies() - 1) + "] armies in " +
+                "Attacking territory and wants to move [" + armiesToMove + "] army to the " +
+                "Conquered territory...");
+        tempGamePlayModel.declareAttack(attackingTerritory.getName(), defendingTerritory.getName(), 0, 0);
+        player.conquer(tempGamePlayModel, armiesToMove);
+        System.out.println("\t\tThen the Attacking territory will have [" + attackingTerritory
+                .getArmies() + "] army left, and Conquered territory will have [" +
+                defendingTerritory.getArmies() + "] army (No valid move was made).");
+        assertEquals(0, defendingTerritory.getArmies());
         
-        // give Player 1 three INFANTRY cards and remove them from the deck
-        for (int i = 0 ; i < 4; i++) {
-            int cardCounter = 0;
-            for (Card card : tempGamePlayModel.getDeck()) {
-                if (cardCounter >= 3) {
-                    break;
-                }
-                if (card.getCardType().equals(INFANTRY)) {
-                    player1.addCardToPlayersHand(card);
-                    tempGamePlayModel.getDeck().remove(card);
-                    selectedCards.add("INFANTRY");
-                    cardCounter++;
-                }
-            }
-        }
-        
-        player1.tradeInCards(tempGamePlayModel, selectedCards);
-        
-        assertEquals("Cards successfully traded in!", player1.tradeInCards(tempGamePlayModel, selectedCards));
-        
-        player1.distributeArmies(armiesToPlace);
-        
+        System.out.println();
     }
     
     /**
-     *
-     */
-    @Test
-    public void attackTestCase() {
-    
-    }
-    
-    /**
-     *
+     * Tests the correct number of armies that can be moved during Fortification Phase.
      */
     @Test
     public void fortificationTestCase() {
+        GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
+        Player player = tempGamePlayModel.getPlayers().get(0);
+        Territory sourceT = tempGamePlayModel.getGameMap().getATerritory("1c");
+        Territory targetT = tempGamePlayModel.getGameMap().getATerritory("2c");
     
+        System.out.println("Testing valid number of armies that can be moved during Fortification Phase:");
+        
+        int noOfArmies = 1;
+        sourceT.setArmies(3);
+        targetT.setArmies(10);
+        player.fortification(tempGamePlayModel, sourceT.getName(), targetT.getName(), noOfArmies);
+        
     }
+    
+    
+    
 
 //    Things to test:
 //    - reinforcement phase (card trade in, add reinforcements, place armies, draw card)
