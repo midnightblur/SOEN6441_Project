@@ -324,7 +324,7 @@ public class GamePlayController {
     }
     
     /**
-     * Updates the defending territories dropdown & number
+     * Updates the defending territories dropdown and number
      * of attacking dice according to selected attacking territory
      *
      * @param attackingTerritory the selected attacking territory

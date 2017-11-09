@@ -118,7 +118,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
      * <li>Update player's territory info
      * <li>Update player's armies info
      * <li>Update player's cards info
-     * </ul>>
+     * </ul>
      *
      * @param gamePlayModel the play model for ongoing game
      */

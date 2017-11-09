@@ -415,8 +415,6 @@ public class Player {
      * that attack turn.
      *
      * @param gamePlayModel the game play model
-     *
-     * @return the message to the user if attack phase was successful or not
      */
     public void attack(GamePlayModel gamePlayModel) {
         Battle currentBattle = gamePlayModel.getCurrentBattle();
@@ -486,8 +484,6 @@ public class Player {
      *
      * @param gamePlayModel The GamePlayModel containing the state of the game
      * @param armiesToMove  The number of armies to move
-     *
-     * @return String value of the messages that will be displayed to the user
      */
     public void conquer(GamePlayModel gamePlayModel, int armiesToMove) {
         Territory attackingTerritory = gamePlayModel.getCurrentBattle().getAttackingTerritory();

@@ -251,11 +251,11 @@ public class GamePlayModel extends Observable {
         giveInitialArmies();
         currentPlayer = players.firstElement();
         
-        // ======= TODO: delete this fxn later
-        for (int i=0; i<4; i++) {
-            players.get(0).addCardToPlayersHand(drawCard());
-        }
-        // ===================================
+//        // ======= TODO: delete this fxn later
+//        for (int i=0; i<4; i++) {
+//            players.get(0).addCardToPlayersHand(drawCard());
+//        }
+//        // ===================================
         
         assignOneArmyPerTerritory();
         updateGameMapTableModel();
@@ -689,8 +689,6 @@ public class GamePlayModel extends Observable {
      * player.
      *
      * @param eliminatedPlayer Player object that has no more territories left and is declared eliminated
-     *
-     * @return String value of the messages that will be displayed to the user
      */
     private void eliminatePlayer(Player eliminatedPlayer) {
         eliminatedPlayer.setPlayerStatus(PLAYER_STATUS.ELIMINATED);
