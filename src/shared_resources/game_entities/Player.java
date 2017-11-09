@@ -494,34 +494,12 @@ public class Player {
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
         
         /* Change owner of the conquered territory, and move armies */
-        attackingTerritory.reduceArmies(armiesToMove);
-        defendingTerritory.addArmies(armiesToMove);
-        log.append("        " + attackingTerritory.getOwner().getPlayerName() + " moves " + armiesToMove + " armies from " +
-                attackingTerritory.getName() + " to " + defendingTerritory.getName());
-    }
-    
-    /**
-     * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
-     * player.
-     *
-     * @param eliminatedPlayer Player object that has no more territories left and is declared eliminated
-     *
-     * @return String value of the messages that will be displayed to the user
-     */
-    public String eliminated(Player eliminatedPlayer) {
-        if (eliminatedPlayer.playersHand.size() != 0) {
-            for (Card card : eliminatedPlayer.playersHand) {
-                this.addCardToPlayersHand(card);
-            }
-        }
-        
         if (armiesToMove < attackingTerritory.getArmies()) {
             attackingTerritory.reduceArmies(armiesToMove);
             defendingTerritory.addArmies(armiesToMove);
         }
-        log.append(attackingTerritory.getOwner().getPlayerName() + " conquered " + defendingTerritory.getName());
-        
-        return "";
+        log.append("        " + attackingTerritory.getOwner().getPlayerName() + " moves " + armiesToMove + " armies from " +
+                attackingTerritory.getName() + " to " + defendingTerritory.getName());
     }
     
     /**
