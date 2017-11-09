@@ -30,6 +30,7 @@ public class LoggingFrame extends JFrame {
         JFrame frame = new JFrame();
         frame.setTitle("Game Logging");
         logArea = new JTextArea();
+        logArea.setEnabled(false);
         logArea.setMargin(new Insets(10, 10, 10, 10));
         logArea.setFont(new Font("Sans Serif", Font.PLAIN, 16));
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -59,6 +60,7 @@ public class LoggingFrame extends JFrame {
      */
     public void append(String text) {
         logArea.append("\n" + text);
+        logArea.setCaretPosition(logArea.getDocument().getLength());
     }
     
 }
