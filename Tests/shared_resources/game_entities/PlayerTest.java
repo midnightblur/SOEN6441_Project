@@ -44,6 +44,7 @@ public class PlayerTest {
      */
     @Test
     public void conquerTestCase() {
+        /* make new instance of GamePlayModel object and instantiation */
         GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
         Player player = tempGamePlayModel.getPlayers().get(0);
         Territory attackingTerritory = tempGamePlayModel.getGameMap().getATerritory("1c");
@@ -51,6 +52,7 @@ public class PlayerTest {
     
         System.out.println("Testing valid number of armies that can be moved to conquered territory:");
         
+        /* check validity by moving 1 army */
         int armiesToMove = 1;
         attackingTerritory.setArmies(3);
         defendingTerritory.setArmies(0);
@@ -64,6 +66,7 @@ public class PlayerTest {
                 defendingTerritory.getArmies() + "] army.");
         assertEquals(1, defendingTerritory.getArmies());
     
+        /* check validity by moving 2 armies */
         armiesToMove = 2;
         attackingTerritory.setArmies(3);
         defendingTerritory.setArmies(0);
@@ -77,6 +80,7 @@ public class PlayerTest {
                 defendingTerritory.getArmies() + "] army (No valid move was made).");
         assertEquals(0, defendingTerritory.getArmies());
     
+        /* check validity by moving 3 armies */
         armiesToMove = 3;
         attackingTerritory.setArmies(3);
         defendingTerritory.setArmies(0);
