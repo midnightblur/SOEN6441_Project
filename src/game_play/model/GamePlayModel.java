@@ -247,35 +247,13 @@ public class GamePlayModel extends Observable {
         giveInitialArmies();
         currentPlayer = players.firstElement();
         
-        /* -- logging printout for demo -- */
-        log.append("\n");
-        log.append("============ Startup ============");
-        
-        log.append("Number of players: " + players.size());
-        log.append("Number of territories: " + gameMap.getTerritoriesCount());
-        for (Player player : players) {
-            log.append("\n");
-            log.append(player.getPlayerName());
-            log.append("----------------------");
-            log.append(" * Initial armies: " + player.getUnallocatedArmies());
-            log.append(" * Number of territories: " + gameMap.getTerritoriesOfPlayer(player).size());
-            for (Territory territory : player.getTerritories()) {
-                log.append("\t" + territory.getName());
-            }
-            log.append(" * Number of cards: " + player.getPlayersHand().size());
-            for (Card card : player.getPlayersHand()) {
-                log.append("\t" + card.getCardType().name());
-            }
-        }
-        log.append("Deck size: " + deck.size());
-        log.append("----------------------");
-
-        /* ------------------------------- */
-        
         assignOneArmyPerTerritory();
-        
         updateGameMapTableModel();
         broadcastGamePlayChanges();
+        log.append("Starting new game");
+        log.append("    Number of continents: " + gameMap.getContinentsCount());
+        log.append("    Number of territories: " + gameMap.getTerritoriesCount());
+        log.append("    Deck size: " + deck.size());
     }
     
     /**
@@ -438,7 +416,9 @@ public class GamePlayModel extends Observable {
      */
     public void startTheGame() {
         setGameState(PLAY);
+        log.append("The game starts");
         currentPlayer = players.firstElement();
+        log.append(currentPlayer.getPlayerName() + "'s turn begins");
         currentPlayer.nextPhase();
         addReinforcementForCurrPlayer();
         updatePlayerTerritoriesModel();
@@ -465,7 +445,7 @@ public class GamePlayModel extends Observable {
     public void placeArmyStartup(String territory) {
         currentPlayer.reduceUnallocatedArmies(1);
         gameMap.getATerritory(territory).addArmies(1);
-        log.append(currentPlayer.getPlayerName() + " placed 1 army on " + territory);
+        log.append("    " + currentPlayer.getPlayerName() + " placed 1 army on " + territory);
         currentPlayer = getNextPlayer();
         
         /*
@@ -474,14 +454,14 @@ public class GamePlayModel extends Observable {
          */
         int count = 1;
         while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
-            log.append(currentPlayer.getPlayerName() + " has no unallocated armies to place");
+            log.append("    " + currentPlayer.getPlayerName() + " has no unallocated armies to place");
             currentPlayer = getNextPlayer();
             count++;
         }
         
         /* If all player run out of unallocated army, move to the next phase */
         if (count == players.size()) {
-            log.append("All players placed all their unallocated armies");
+            log.append("    All players placed all their unallocated armies");
             
             updateGameMapTableModel();
             broadcastGamePlayChanges();
@@ -541,33 +521,23 @@ public class GamePlayModel extends Observable {
                 armiesToGive += entry.getValue().getControlValue();
             }
         }
-
-        /* -- logging window -- */
-        log.append("\n");
-        log.append("========== Reinforcement ==========");
         
-        log.append("\n");
-        log.append(currentPlayer.getPlayerName());
-        log.append("----------------------");
-        log.append("Number of territories owned by this player: " + currentPlayer.getTerritories().size());
+        log.append("    " + currentPlayer.getPlayerName() + " owns " + currentPlayer.getTerritories().size() + " territories: ");
         for (Territory territory : currentPlayer.getTerritories()) {
-            log.append("\t" + territory.getName());
+            log.append("        " + territory.getName());
         }
         int continentCounter = 0;
         StringBuilder continentStr = new StringBuilder();
         for (Map.Entry<String, Continent> entry : gameMap.getContinents().entrySet()) {
             if (currentPlayer.getPlayerName().compareTo(entry.getValue().getContinentOwner(gameMap)) == 0) {
                 continentCounter++;
-                continentStr.append("\t").append(entry.getValue().getName()).append(", control value ").append(entry.getValue().getControlValue()).append("\n");
+                continentStr.append(entry.getValue().getName()).append(", control value ").append(entry.getValue().getControlValue()).append("\n");
             }
         }
-        log.append("Number of continents owned by this player: " + continentCounter);
+        log.append("    " + currentPlayer.getPlayerName() + " owns " + continentCounter + " continents: ");
         if (continentCounter != 0) {
-            log.append(continentStr.toString());
+            log.append("        " + continentStr.toString());
         }
-        log.append("----------------------");
-
-        /* ------------------------------- */
         
         currentPlayer.addUnallocatedArmies(armiesToGive);
     }
@@ -654,20 +624,23 @@ public class GamePlayModel extends Observable {
      * @return String value of the messages that will be displayed to the user
      */
     public String declareAttack(String attackingTerritoryName, String defendingTerritoryName, int numOfAtkDice, int numOfDefDice) {
-        log.append("\n");
-        log.append("============= Attacking ==============");
-        
+        String message = "";
         Player attacker = currentPlayer;
         Territory attackingTerritory = gameMap.getATerritory(attackingTerritoryName);
         Player defender = gameMap.getATerritory(defendingTerritoryName).getOwner();
         Territory defendingTerritory = gameMap.getATerritory(defendingTerritoryName);
         currentBattle = new Battle(attacker, attackingTerritory, numOfAtkDice, defender, defendingTerritory, numOfDefDice);
         currentPlayer.setGameState(ATTACK_BATTLE);
-        
-        String message = currentPlayer.attack(this);
+    
+        log.append("    " + currentBattle.getAttacker().getPlayerName() + " attacks from " + attackingTerritory.getName() +
+                " to " + defendingTerritory.getName() + " of " + defender.getPlayerName());
+        log.append("        " + currentBattle.getAttacker().getPlayerName() + " chooses " + numOfAtkDice + " dice");
+        log.append("        " + currentBattle.getDefender().getPlayerName() + " chooses " + numOfDefDice + " dice");
+        currentPlayer.attack(this);
         
         // If the defending territory has been conquered
         if (currentBattle.getDefendingTerritory().getArmies() == 0) {
+            log.append("        " + defendingTerritoryName + " has been conquered by " + attacker.getPlayerName());
             attacker.setHasConqueredTerritories(true);
             
             // Change the owner of this territory to the attacker
@@ -678,12 +651,19 @@ public class GamePlayModel extends Observable {
             // Check if the defender has been eliminated
             if (defender.getTerritories().size() == 0) {
                 // Give all of defender's cards to the attacker
-                for (Card card : defender.getPlayersHand()) {
-                    attacker.addCardToPlayersHand(card);
+                log.append("        Start giving all " + defender.getPlayerName() + "'s cards to " + attacker.getPlayerName());
+                if (defender.getPlayersHand().size() == 0) {
+                    log.append("            " + defender.getPlayerName() + " has no card");
+                } else {
+                    for (Card card : defender.getPlayersHand()) {
+                        attacker.addCardToPlayersHand(card);
+                        log.append("            Give " + card.getCardType() + " to " + attacker.getPlayerName());
+                    }
                 }
                 
                 // Remove him from the game
                 eliminatePlayer(defender);
+                log.append("        " + defender.getPlayerName() + " has been eliminated");
             }
             
             // Declare winner if there is only 1 player left
@@ -709,9 +689,9 @@ public class GamePlayModel extends Observable {
         Card card = drawCard();
         if (card != null) {
             attacker.addCardToPlayersHand(card);
-            log.append(attacker.getPlayerName() + " received the " + card.getCardType().name() + " card");
+            log.append("        " + attacker.getPlayerName() + " received the " + card.getCardType().name() + " card");
         } else {
-            log.append(attacker.getPlayerName() + " doesn't receive any card since the deck has run out of card");
+            log.append("        " + attacker.getPlayerName() + " doesn't receive any card since the deck has run out of card");
         }
     }
     
@@ -756,6 +736,7 @@ public class GamePlayModel extends Observable {
         int index = rand.nextInt(deck.size());
         Card card = deck.elementAt(index);
         deck.remove(deck.elementAt(index));
+        log.append("    " + card.getCardType() + " is removed from the deck");
         deck.trimToSize();
         return card;
     }
@@ -827,44 +808,13 @@ public class GamePlayModel extends Observable {
     // region Public methods
     
     /**
-     * Gets a particular player object based on ID
-     *
-     * @param playerID the passed player ID
-     *
-     * @return the player object
-     */
-    public Player getAPlayer(int playerID) {
-        for (Player player : players) {
-            if (player.getPlayerID() == playerID) {
-                return player;
-            }
-        }
-        return null;
-    }
-    
-    /**
-     * Gets a particular player object based on the name
-     *
-     * @param playerName the passed player name
-     *
-     * @return the player object
-     */
-    public Player getAPlayer(String playerName) {
-        for (Player player : players) {
-            if (player.getPlayerName() == playerName) {
-                return player;
-            }
-        }
-        return null;
-    }
-    
-    /**
      * Set the current player to be the next one in round-robin-fashion
      * Change the phase of the current player to Reinforcement/TradeCard
      * Broadcast the change to Observers.
      */
     public void nextPlayerTurn() {
         currentPlayer = getNextPlayer();
+        log.append(currentPlayer.getPlayerName() + "'s turn begins");
         currentPlayer.nextPhase();
         addReinforcementForCurrPlayer();
         updatePlayerTerritoriesModel();
@@ -878,8 +828,7 @@ public class GamePlayModel extends Observable {
      */
     public void changePhaseOfCurrentPlayer(GAME_STATES newGameStates) {
         currentPlayer.setGameState(newGameStates);
-        log.append("\n");
-        log.append("========== " + newGameStates + " ==========");
+        log.append("    " + currentPlayer.getPlayerName() + " move to " + currentPlayer.getGameState() + " phase");
         broadcastGamePlayChanges();
     }
     // endregion

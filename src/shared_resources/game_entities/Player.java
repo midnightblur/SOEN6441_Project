@@ -305,10 +305,8 @@ public class Player {
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         switch (gameState) {
             case TRADE_CARDS:
-                log.append(gamePlayModel.getCurrentPlayer().getPlayerName() + " wants to trade-in cards...");
                 return tradeInCards(gamePlayModel, selectedCards);
             case REINFORCEMENT:
-                log.append(gamePlayModel.getCurrentPlayer().getPlayerName() + " wants to distribute armies...");
                 distributeArmies(armiesToPlace);
                 break;
         }
@@ -405,7 +403,7 @@ public class Player {
     public void distributeArmies(Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
             entry.getKey().addArmies(entry.getValue());
-            log.append(playerName + " placed " + entry.getValue() + " armies on " + entry.getKey().getName());
+            log.append("    " + playerName + " placed " + entry.getValue() + " armies on " + entry.getKey().getName());
             reduceUnallocatedArmies(entry.getValue());
         }
     }
@@ -427,7 +425,7 @@ public class Player {
      *
      * @return the message to the user if attack phase was successful or not
      */
-    public String attack(GamePlayModel gamePlayModel) {
+    public void attack(GamePlayModel gamePlayModel) {
         Battle currentBattle = gamePlayModel.getCurrentBattle();
         Territory attackingTerritory = currentBattle.getAttackingTerritory();
         Territory defendingTerritory = currentBattle.getDefendingTerritory();
@@ -436,10 +434,11 @@ public class Player {
 
         /* Both players roll dice */
         currentBattle.attackerRollDice();
+        log.append("        " + currentBattle.getAttacker().getPlayerName() + " roll dice: " +
+                currentBattle.getAttackerDice().getRollsResult());
         currentBattle.defenderRollDice();
-        log.append(playerName + " is attacking from " + attackingTerritory.getName() + " > dice rolled: " +
-                currentBattle.getAttackerDice().getRollsResult().toString() + " vs. " + defendingTerritory.getName() +
-                " > dice rolled: " + currentBattle.getDefenderDice().getRollsResult().toString());
+        log.append("        " + currentBattle.getDefender().getPlayerName() + " roll dice: " +
+                currentBattle.getDefenderDice().getRollsResult());
 
         /* Decide the battle */
         // Compare the best result of both players
@@ -453,10 +452,6 @@ public class Player {
             int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
             decideResult(currentBattle, attackingTerritory, defendingTerritory, secondBestOfAttacker, secondBestOfDefender);
         }
-        log.append("Defended territory " + defendingTerritory.getName() + " loses " + currentBattle.getDefenderLossCount() + " armies");
-        log.append("Attacker territory " + attackingTerritory.getName() + " loses " + currentBattle.getAttackerLossCount() + " armies");
-        
-        return "";
     }
     
     /**
@@ -473,10 +468,20 @@ public class Player {
     private void decideResult(Battle currentBattle, Territory attackingTerritory, Territory defendingTerritory,
                               int attackerRoll, int defenderRoll) {
         if (attackerRoll > defenderRoll) { // the attacker wins
+            log.append("        Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + attackerRoll +
+                ", defender " + currentBattle.getDefender().getPlayerName() + " has " + defenderRoll +
+                ", attacker wins");
             defendingTerritory.reduceArmies(1);
+            log.append("        " + currentBattle.getDefender().getPlayerName() + "'s " +
+                    defendingTerritory.getName() + " loses 1 army");
             currentBattle.increaseDefenderLossCount();
         } else { // the defender wins
+            log.append("        Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + attackerRoll +
+                    ", defender " + currentBattle.getDefender().getPlayerName() + " has " + defenderRoll +
+                    ", defender wins");
             attackingTerritory.reduceArmies(1);
+            log.append("        " + currentBattle.getAttacker().getPlayerName() + "'s " +
+                    attackingTerritory.getName() + " loses 1 army");
             currentBattle.increaseAttackerLossCount();
         }
     }
@@ -491,16 +496,15 @@ public class Player {
      *
      * @return String value of the messages that will be displayed to the user
      */
-    public String conquer(GamePlayModel gamePlayModel, int armiesToMove) {
+    public void conquer(GamePlayModel gamePlayModel, int armiesToMove) {
         Territory attackingTerritory = gamePlayModel.getCurrentBattle().getAttackingTerritory();
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
         
         /* Change owner of the conquered territory, and move armies */
         attackingTerritory.reduceArmies(armiesToMove);
         defendingTerritory.addArmies(armiesToMove);
-        log.append(attackingTerritory.getOwner().getPlayerName() + " conquered " + defendingTerritory.getName());
-        
-        return "";
+        log.append("        " + attackingTerritory.getOwner().getPlayerName() + " moves " + armiesToMove + " armies from " +
+                attackingTerritory.getName() + " to " + defendingTerritory.getName());
     }
     
     /**
@@ -602,6 +606,7 @@ public class Player {
                 }
                 break;
         }
+        log.append("    " + playerName + " move to " + gameState);
     }
     // endregion
 }
