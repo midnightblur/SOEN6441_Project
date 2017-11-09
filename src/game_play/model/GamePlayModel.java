@@ -252,10 +252,8 @@ public class GamePlayModel extends Observable {
         currentPlayer = players.firstElement();
         
         // ======= TODO: delete this fxn later
-        for (Player player : players) {
-            for (int i = 0; i < 4; i++) {
-                player.addCardToPlayersHand(drawCard());
-            }
+        for (int i=0; i<4; i++) {
+            players.get(0).addCardToPlayersHand(drawCard());
         }
         // ===================================
         
