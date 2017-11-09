@@ -1,0 +1,8 @@
+[Continents]
+continent_0=1
+
+[Territories]
+territory_1,0,0,continent_0,territory_2,territory_0
+territory_2,0,0,continent_0,territory_1,territory_0
+territory_0,0,0,continent_0,territory_1,territory_2
+

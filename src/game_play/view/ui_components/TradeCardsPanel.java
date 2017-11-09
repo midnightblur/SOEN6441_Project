@@ -20,6 +20,9 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
  * TradeCardsPanel is responsible for representing the ui components for trading cards in Reinforcement phase of the game.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class TradeCardsPanel extends JPanel implements Observer {
     // region Attributes declaration
@@ -103,18 +106,6 @@ public class TradeCardsPanel extends JPanel implements Observer {
     }
     
     /**
-     * Gets the card list.
-     *
-     * @return the card list
-     */
-    public JPanel getCardList() {
-        return cardList;
-    }
-    // endregion
-    
-    // region MVC & Observer pattern methods
-    
-    /**
      * Adds the trade cards button listener.
      *
      * @param listenerForTradeCardsButton the listener for trade cards button
@@ -122,7 +113,15 @@ public class TradeCardsPanel extends JPanel implements Observer {
     public void addTradeCardsButtonListener(ActionListener listenerForTradeCardsButton) {
         tradeCardsButton.addActionListener(listenerForTradeCardsButton);
     }
+    // endregion
     
+    // region MVC & Observer pattern methods
+    
+    /**
+     * Add the listener for to reinforcement button
+     *
+     * @param listenerForToReinforcementButton the listener for to reinforcement button
+     */
     public void addToReinforcementButtonListener(ActionListener listenerForToReinforcementButton) {
         toReinforcementButton.addActionListener(listenerForToReinforcementButton);
     }
@@ -166,6 +165,15 @@ public class TradeCardsPanel extends JPanel implements Observer {
                 getCardList().repaint();
             }
         }
+    }
+    
+    /**
+     * Gets the card list.
+     *
+     * @return the card list
+     */
+    public JPanel getCardList() {
+        return cardList;
     }
     // endregion
 }

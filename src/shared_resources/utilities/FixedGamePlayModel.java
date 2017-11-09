@@ -13,6 +13,9 @@ import shared_resources.helper.GameMapHelper;
  * This class is responsible for providing an instance of a GamePlayModel object for testing
  * purposes with a fixed order of the territories distributed to the players during the
  * initialization phase of the game.
+ *
+ * @author Team 2
+ * @version 2.0
  */
 public class FixedGamePlayModel {
     /** The num of players. */

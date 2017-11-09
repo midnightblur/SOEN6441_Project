@@ -24,7 +24,7 @@ import java.awt.*;
  */
 public class Config {
     
-    // region Attributes declaration
+    // region Attributes declaration 
     
     // region Enumeration for game states
     /**
