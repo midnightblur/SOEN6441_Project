@@ -25,18 +25,17 @@ public class LoggingFrame extends JFrame {
      * Private constructor for the Logging Window
      */
     private LoggingFrame() {
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int screenHeight = gd.getDisplayMode().getHeight();
         JFrame frame = new JFrame();
         frame.setTitle("Game Logging");
         logArea = new JTextArea();
+        
         logArea.setMargin(new Insets(10, 10, 10, 10));
         logArea.setFont(new Font("Sans Serif", Font.PLAIN, 16));
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.add(new JScrollPane(logArea));
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(500, screenHeight - 50);
+        frame.setSize(500, 1200);
     }
     
     /**
@@ -59,6 +58,7 @@ public class LoggingFrame extends JFrame {
      */
     public void append(String text) {
         logArea.append("\n" + text);
+        logArea.setCaretPosition(logArea.getDocument().getLength());
     }
     
 }
