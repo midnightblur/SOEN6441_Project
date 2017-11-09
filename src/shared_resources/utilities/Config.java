@@ -44,7 +44,8 @@ public class Config {
         ATTACK_BATTLE(8),
         FORTIFICATION(9),
         VICTORY(10);
-        
+     // endregion
+
         /** The value of the game state. */
         int value;
         
@@ -129,4 +130,4 @@ public class Config {
     // endregion
     
     // endregion
-}
+ }

@@ -19,7 +19,7 @@ import shared_resources.game_entities.TerritoryTest;
 import shared_resources.helper.GameMapHelperTest;
 
 /**
- * The Class AllTestSuite.
+ * The Class AllTestSuite used to run unit test classes
  */
 @RunWith(Suite.class)
 @SuiteClasses({
