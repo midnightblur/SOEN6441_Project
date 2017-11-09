@@ -18,12 +18,15 @@ import shared_resources.helper.GameMapHelper;
  * @version 2.0
  */
 public class FixedGamePlayModel {
+    // region Attributes
     /** The num of players. */
     final static int numOfPlayers = 2;
     
     /** The map file path. */
     final static String mapFilePath = "3D.map";
+    // endregion
     
+    // region Public methods
     /**
      * This static method creates an instance of a GamePlayMode object that is initialized with
      * a method to distribute territories in a fixed approach and returns it for the sole purpose
@@ -44,5 +47,6 @@ public class FixedGamePlayModel {
         
         return fixedGamePlayModel;
     }
+    // endregion
 }
 
