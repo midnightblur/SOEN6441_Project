@@ -133,7 +133,10 @@ public class MapEditorController {
      */
     private void prepareContinentEditArea() {
         String selectedContinents = String.valueOf(mapEditorModel.getContinentsDropdownModel().getSelectedItem());
+        // Clearing the selection
         mapEditorFrame.getEditMapPanel().getEditContinentPanel().getCheckBoxPanel().removeAll();
+        /* Setting the text for territories labels on check boxes */
+        // When selected continent is not yet created but rather is a proposed name
         if (selectedContinents.compareTo(MapEditorModel.getCreateNewContinentItem()) == 0) {
             String newContinentName = CONTINENT_NAME_GENERATOR + newContinentID;
             mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentNameText().setText(newContinentName);
@@ -148,7 +151,7 @@ public class MapEditorController {
             mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentNameText().setText(CONTINENT_NAME_GENERATOR + newContinentID++);
             mapEditorFrame.getEditMapPanel().getEditContinentPanel().getSaveContinentButton().setText(EditContinentPanel.getAddButtonLabel());
             mapEditorFrame.getEditMapPanel().getEditContinentPanel().getRemoveContinentButton().setEnabled(false);
-        } else {
+        } else { // When selected continent exists
             Continent continent = mapEditorModel.getGameMap().getAContinent(selectedContinents);
             mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentNameText().setText(continent.getName());
             mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentControlValueText().setText(String.valueOf(continent.getControlValue()));
@@ -162,10 +165,11 @@ public class MapEditorController {
                 }
                 mapEditorFrame.getEditMapPanel().getEditContinentPanel().getCheckBoxPanel().add(checkBox);
             }
+            
             mapEditorFrame.getEditMapPanel().getEditContinentPanel().getSaveContinentButton().setText(EditContinentPanel.getSaveButtonLabel());
             mapEditorFrame.getEditMapPanel().getEditContinentPanel().getRemoveContinentButton().setEnabled(true);
         }
-        
+        // Redraw the panel
         mapEditorFrame.getEditMapPanel().getEditContinentPanel().revalidate();
         mapEditorFrame.getEditMapPanel().getEditContinentPanel().repaint();
     }
@@ -175,13 +179,15 @@ public class MapEditorController {
      */
     private void prepareTerritoryEditArea() {
         String selectedTerritories = String.valueOf(mapEditorModel.getTerritoriesDropdownModel().getSelectedItem());
+        // Clears the selection
         mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getCheckBoxPanel().removeAll();
         mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getRadioButtonsPanel().removeAll();
         ButtonGroup buttonGroup = new ButtonGroup();
+        /* Setting the text for continents labels on check boxes */
+        // When selected territory is not yet created but rather is a proposed name
         if (selectedTerritories.compareTo(MapEditorModel.getCreateNewTerritoryItem()) == 0) {
             String newTerritoryName = TERRITORY_NAME_GENERATOR + newTerritoryID;
             mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoryNameText().setText(newTerritoryName);
-            
             // None radio button to choose no continent
             JRadioButton noneRadioBtn = new JRadioButton(NONE_RADIO_BUTTON);
             buttonGroup.add(noneRadioBtn);
@@ -194,17 +200,17 @@ public class MapEditorController {
             }
             noneRadioBtn.setSelected(true);
             
+            // Adding a checkbox for each territory
             for (Territory territory : mapEditorModel.getGameMap().getTerritories().values()) {
                 JCheckBox checkBox = new JCheckBox();
                 checkBox.setText(territory.getName());
                 checkBox.setSelected(false);
                 mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getCheckBoxPanel().add(checkBox);
             }
-            
             mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoryNameText().setText(TERRITORY_NAME_GENERATOR + newTerritoryID++);
             mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getSaveTerritoryButton().setText(EditTerritoryPanel.getAddButtonLabel());
             mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getRemoveTerritoryButton().setEnabled(false);
-        } else {
+        } else { // When selected territory exists
             Territory currentTerritory = mapEditorModel.getGameMap().getATerritory(selectedTerritories);
             mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoryNameText().setText(currentTerritory.getName());
             
@@ -212,6 +218,8 @@ public class MapEditorController {
             JRadioButton noneRadioBtn = new JRadioButton(NONE_RADIO_BUTTON);
             buttonGroup.add(noneRadioBtn);
             mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getRadioButtonsPanel().add(noneRadioBtn);
+            
+            /* Select the parent continent radio button for each territory */
             for (Continent continent : mapEditorModel.getGameMap().getContinents().values()) {
                 JRadioButton radioButton = new JRadioButton(continent.getName());
                 if (currentTerritory.belongToContinent(continent.getName())) {
@@ -226,6 +234,7 @@ public class MapEditorController {
                 noneRadioBtn.setSelected(true);
             }
             
+            /* Select the children territory checkboxes for each continent */
             for (Territory territory : mapEditorModel.getGameMap().getTerritories().values()) {
                 JCheckBox checkBox = new JCheckBox();
                 checkBox.setText(territory.getName());
@@ -255,6 +264,7 @@ public class MapEditorController {
             int controlValue = Integer.parseInt(mapEditorFrame.getEditMapPanel().getEditContinentPanel().getContinentControlValueText().getText());
             Continent newContinent = new Continent(newContinentName, controlValue);
             
+            /* Adding selected territories to the new continent */
             Vector<String> territoryVector = new Vector<>();
             for (Component component : mapEditorFrame.getEditMapPanel().getEditContinentPanel().getCheckBoxPanel().getComponents()) {
                 JCheckBox checkBox = (JCheckBox) component;
@@ -291,6 +301,7 @@ public class MapEditorController {
     private void saveTerritoryInfo() {
         String newTerritoryName = mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getTerritoryNameText().getText();
         String chosenContinent = "";
+        /* Gets the chosen continent */
         for (Component component : mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getRadioButtonsPanel().getComponents()) {
             JRadioButton radioButton = (JRadioButton) component;
             if (radioButton.isSelected()) {
@@ -301,6 +312,8 @@ public class MapEditorController {
         if (chosenContinent.compareTo(NONE_RADIO_BUTTON) == 0) {
             chosenContinent = "";
         }
+        
+        /* Adding selected neighbors to the new territory */
         Territory newTerritory = new Territory(newTerritoryName, chosenContinent);
         Vector<String> neighborVector = new Vector<>();
         for (Component component : mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getCheckBoxPanel().getComponents()) {
@@ -361,9 +374,10 @@ public class MapEditorController {
     private void saveMap() {
         File mapFileToSave;
         String validateMessage = GameMapHelper.validateMap(mapEditorModel.getGameMap());
+        /* Check to see if the map was valid before attempting to save it */
         if (validateMessage.compareTo(Config.MSG_MAPFILE_VALID) != 0) {
             UIHelper.displayMessage(mapEditorFrame, validateMessage);
-        } else {
+        } else { // When the map is valid, proceed to save
             SaveDialog fileChooser = new SaveDialog();
             int selection = fileChooser.showSaveDialog(fileChooser.getParent());
             if (selection == JFileChooser.APPROVE_OPTION) {

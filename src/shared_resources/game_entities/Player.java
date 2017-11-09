@@ -101,32 +101,6 @@ public class Player {
     }
     
     /**
-     * Player information to be used on phase view
-     *
-     * @param gamePlayModel the play model of ongoing game
-     *
-     * @return a string  with player statistics
-     */
-    public String playerInfo(GamePlayModel gamePlayModel) {
-        return "<html><font size=6>" + playerName + "</font><br>" +
-                "Owns: " +
-                getTerritories().size() + " territories | " +
-                getContinents(gamePlayModel.getGameMap()).size() + " continents | " +
-                getTotalArmiesCount() + " armies | " +
-                getPlayersHand().size() + " cards" +
-                "</html>";
-    }
-    
-    /**
-     * Gets the territories.
-     *
-     * @return the territories
-     */
-    public Vector<Territory> getTerritories() {
-        return territories;
-    }
-    
-    /**
      * Obtains the continents owned by this player
      *
      * @param gameMap the game map
@@ -144,6 +118,15 @@ public class Player {
     }
     
     /**
+     * Gets the player name.
+     *
+     * @return the player name
+     */
+    public String getPlayerName() {
+        return playerName;
+    }
+    
+    /**
      * Get the total armies for this player
      *
      * @return the number of armies for this player
@@ -157,6 +140,15 @@ public class Player {
     }
     
     /**
+     * Gets the territories.
+     *
+     * @return the territories
+     */
+    public Vector<Territory> getTerritories() {
+        return territories;
+    }
+    
+    /**
      * Gets the players hand.
      *
      * @return the players hand
@@ -165,33 +157,6 @@ public class Player {
         return this.playersHand;
     }
     
-    /**
-     * Gets the player name.
-     *
-     * @return the player name
-     */
-    public String getPlayerName() {
-        return playerName;
-    }
-    
-    /**
-     * Gets the unallocated armies.
-     *
-     * @return the unallocated armies
-     */
-    public int getUnallocatedArmies() {
-        return this.unallocatedArmies;
-    }
-    
-    /**
-     * Sets the unallocated armies.
-     *
-     * @param unallocatedArmies the new unallocated armies
-     */
-    public void setUnallocatedArmies(int unallocatedArmies) {
-        this.unallocatedArmies = unallocatedArmies;
-    }
-
     /**
      * Gets the player status
      *
@@ -210,17 +175,23 @@ public class Player {
         this.playerStatus = playerStatus;
     }
     
-    public boolean isHasConqueredTerritories() {
+    /**
+     * Check if the player has conquered territories before going to fortification phase
+     *
+     * @return true if player conquered, false otherwise
+     */
+    public boolean hasConqueredTerritories() {
         return hasConqueredTerritories;
     }
     
+    /**
+     * Sets the "has conquered territories" attribute of the player to false
+     *
+     * @param hasConqueredTerritories the boolean indicating if player conquered territories
+     */
     public void setHasConqueredTerritories(boolean hasConqueredTerritories) {
         this.hasConqueredTerritories = hasConqueredTerritories;
     }
-    
-    // endregion
-    
-    // region Public methods
     
     /**
      * Removes the territory.
@@ -247,6 +218,10 @@ public class Player {
         }
     }
     
+    // endregion
+    
+    // region Public methods
+    
     /**
      * Override equals method to check whether or not two Player objects are the same.
      *
@@ -272,26 +247,6 @@ public class Player {
                 || this.playerName.compareTo(tempPlayer.playerName) == 0)
                 && this.unallocatedArmies == tempPlayer.unallocatedArmies;
     }
-    
-    /**
-     * Increases the number of unallocated armies for this player by the specified number.
-     *
-     * @param num The int index of the number o unallocated armies to add
-     */
-    public void addUnallocatedArmies(int num) {
-        this.unallocatedArmies += num;
-    }
-    
-    /**
-     * Reduces the number of unallocated armies for this player by the specified number.
-     *
-     * @param num The int index of the number of unallocated armies to reduce
-     */
-    public void reduceUnallocatedArmies(int num) {
-        this.unallocatedArmies -= num;
-    }
-    
-    // region Reinforcement Phase
     
     /**
      * Implement the Reinforcement Phase of a particular player
@@ -406,6 +361,44 @@ public class Player {
             log.append("    " + playerName + " placed " + entry.getValue() + " armies on " + entry.getKey().getName());
             reduceUnallocatedArmies(entry.getValue());
         }
+    }
+    
+    /**
+     * Gets the unallocated armies.
+     *
+     * @return the unallocated armies
+     */
+    public int getUnallocatedArmies() {
+        return this.unallocatedArmies;
+    }
+    
+    // region Reinforcement Phase
+    
+    /**
+     * Sets the unallocated armies.
+     *
+     * @param unallocatedArmies the new unallocated armies
+     */
+    public void setUnallocatedArmies(int unallocatedArmies) {
+        this.unallocatedArmies = unallocatedArmies;
+    }
+    
+    /**
+     * Increases the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number o unallocated armies to add
+     */
+    public void addUnallocatedArmies(int num) {
+        this.unallocatedArmies += num;
+    }
+    
+    /**
+     * Reduces the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number of unallocated armies to reduce
+     */
+    public void reduceUnallocatedArmies(int num) {
+        this.unallocatedArmies -= num;
     }
     // endregion
     

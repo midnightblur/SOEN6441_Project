@@ -4,10 +4,14 @@
  * Version 1.0
  * Oct 18, 2017
  */
+
 import game_play.controller.MainMenuController;
 
 /**
  * Main driver class is responsible for starting the Application.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class Driver {
     
@@ -15,6 +19,7 @@ public class Driver {
      * Start the application by making a Main Game Controller.
      *
      * @param args CLI arguments
+     *
      * @throws Exception the exception
      */
     public static void main(String[] args) throws Exception {

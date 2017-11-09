@@ -304,7 +304,7 @@ public class GamePlayController {
             openMoveArmiesToConqueredTerritoryDialog();
         }
         
-        if (gamePlayModel.getCurrentPlayer().isHasConqueredTerritories()) {
+        if (gamePlayModel.getCurrentPlayer().hasConqueredTerritories()) {
             gamePlayModel.drawCardForWinner(gamePlayModel.getCurrentPlayer());
             gamePlayModel.getCurrentPlayer().setHasConqueredTerritories(false);
         }
