@@ -9,7 +9,6 @@ package game_play.view.ui_components;
 import shared_resources.game_entities.Player;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * PlayerStatsPanel is responsible for displaying a player's info in the PhaseViewPanel
@@ -23,7 +22,8 @@ public class PlayerStatsPanel extends JPanel {
     private JLabel playerNameLabel;
     private JLabel territoryInfoLabel;
     private JLabel armiesInfoLabel;
-    private JTextArea cardsInfoLabel;
+    private JLabel cardsInfoLabel;
+    private JLabel cardsListLabel;
     private JLabel hasConquered;
     // endregion
     
@@ -52,12 +52,13 @@ public class PlayerStatsPanel extends JPanel {
         armiesInfoLabel.setForeground(player.getColor());
         armiesInfoLabel.setAlignmentX(CENTER_ALIGNMENT);
         
-        cardsInfoLabel = new JTextArea();
+        cardsInfoLabel = new JLabel();
         cardsInfoLabel.setForeground(player.getColor());
-        cardsInfoLabel.setBackground(null);
-        cardsInfoLabel.setLineWrap(true);
-        cardsInfoLabel.setMargin(new Insets(0, 5, 0, 5));
         cardsInfoLabel.setAlignmentX(CENTER_ALIGNMENT);
+    
+        cardsListLabel = new JLabel();
+        cardsListLabel.setForeground(player.getColor());
+        cardsListLabel.setAlignmentX(CENTER_ALIGNMENT);
     
         hasConquered = new JLabel();
         hasConquered.setForeground(player.getColor());
@@ -67,6 +68,7 @@ public class PlayerStatsPanel extends JPanel {
         add(territoryInfoLabel);
         add(armiesInfoLabel);
         add(cardsInfoLabel);
+        add(cardsListLabel);
         add(hasConquered);
     }
     // endregion
@@ -114,8 +116,17 @@ public class PlayerStatsPanel extends JPanel {
      *
      * @return the cards information label
      */
-    public JTextArea getCardsInfoLabel() {
+    public JLabel getCardsInfoLabel() {
         return cardsInfoLabel;
+    }
+    
+    /**
+     * Gets the label for cards list
+     *
+     * @return the cards list label
+     */
+    public JLabel getCardsListLabel() {
+        return cardsListLabel;
     }
     
     /**
