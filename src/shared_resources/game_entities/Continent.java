@@ -164,7 +164,7 @@ public class Continent {
      * @throws NullPointerException if territories are not yet allocated to players
      */
     public String getContinentOwner(GameMap gameMap) throws NullPointerException {
-        String continentOwner = "";
+        String continentOwner;
         if (gameMap.getATerritory(territories.get(0)).isOwned()) {
             continentOwner = gameMap.getATerritory(territories.get(0)).getOwner().getPlayerName();
             for (String territoryName : territories) {
