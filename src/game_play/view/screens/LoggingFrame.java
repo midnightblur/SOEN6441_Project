@@ -28,13 +28,14 @@ public class LoggingFrame extends JFrame {
         JFrame frame = new JFrame();
         frame.setTitle("Game Logging");
         logArea = new JTextArea();
+        logArea.setEditable(false);
         logArea.setMargin(new Insets(10, 10, 10, 10));
         logArea.setFont(new Font("Sans Serif", Font.PLAIN, 16));
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.add(new JScrollPane(logArea));
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(500, 1200);
+        frame.setSize(500, 1000);
     }
     
     /**
