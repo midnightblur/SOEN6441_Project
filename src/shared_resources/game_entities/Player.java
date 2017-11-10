@@ -8,6 +8,7 @@ package shared_resources.game_entities;
 
 import game_play.model.GamePlayModel;
 import shared_resources.utilities.Config;
+import shared_resources.utilities.Strategy;
 
 import java.awt.*;
 import java.util.Map;
@@ -16,6 +17,7 @@ import java.util.Vector;
 import static shared_resources.utilities.Config.GAME_STATES.REINFORCEMENT;
 import static shared_resources.utilities.Config.PLAYER_COLOR;
 import static shared_resources.utilities.Config.log;
+import static shared_resources.utilities.Strategy.Human;
 
 /**
  * Each Player in a new game has a unique ID number (starting from 1) and the isBot status
@@ -30,6 +32,7 @@ public class Player {
     private Color color;
     private int playerID;
     private String playerName;
+    private Strategy strategy;
     private int unallocatedArmies;
     private Vector<Card> playersHand;
     private Vector<Territory> territories;
@@ -46,6 +49,7 @@ public class Player {
     public Player() {
         playerID = ++Player.nextID;
         playerName = "Player " + playerID;
+        strategy = new Human();     // at the beginning of the game all players are human
         playersHand = new Vector<>();
         territories = new Vector<>();
         color = PLAYER_COLOR[playerID - 1];
@@ -80,24 +84,6 @@ public class Player {
      */
     public Color getColor() {
         return color;
-    }
-    
-    /**
-     * Gets the current phase of the player
-     *
-     * @return the game phase
-     */
-    public Config.GAME_STATES getGameState() {
-        return gameState;
-    }
-    
-    /**
-     * Set the game phase for the player
-     *
-     * @param gameState the next phase
-     */
-    public void setGameState(Config.GAME_STATES gameState) {
-        this.gameState = gameState;
     }
     
     /**
@@ -176,6 +162,15 @@ public class Player {
     }
     
     /**
+     * Sets the player's strategy
+     *
+     * @param strategy the strategy to be used by this player
+     */
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+    }
+    
+    /**
      * Check if the player has conquered territories before going to fortification phase
      *
      * @return true if player conquered, false otherwise
@@ -218,10 +213,6 @@ public class Player {
         }
     }
     
-    // endregion
-    
-    // region Public methods
-    
     /**
      * Override equals method to check whether or not two Player objects are the same.
      *
@@ -248,25 +239,10 @@ public class Player {
                 && this.unallocatedArmies == tempPlayer.unallocatedArmies;
     }
     
-    /**
-     * Implement the Reinforcement Phase of a particular player
-     *
-     * @param gamePlayModel the game play model
-     * @param selectedCards the selected cards
-     * @param armiesToPlace the amount of armies to be placed
-     *
-     * @return the message to user if reinforcement was successful or not
-     */
-    public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
-        switch (gameState) {
-            case TRADE_CARDS:
-                return tradeInCards(gamePlayModel, selectedCards);
-            case REINFORCEMENT:
-                distributeArmies(armiesToPlace);
-                break;
-        }
-        return "";
-    }
+    
+    // endregion
+    
+    // region Public methods
     
     /**
      * This method processes the exchange of cards to the armies if the user selected cards
@@ -367,26 +343,6 @@ public class Player {
     }
     
     /**
-     * Gets the unallocated armies.
-     *
-     * @return the unallocated armies
-     */
-    public int getUnallocatedArmies() {
-        return this.unallocatedArmies;
-    }
-    
-    // region Reinforcement Phase
-    
-    /**
-     * Sets the unallocated armies.
-     *
-     * @param unallocatedArmies the new unallocated armies
-     */
-    public void setUnallocatedArmies(int unallocatedArmies) {
-        this.unallocatedArmies = unallocatedArmies;
-    }
-    
-    /**
      * Increases the number of unallocated armies for this player by the specified number.
      *
      * @param num The int index of the number o unallocated armies to add
@@ -396,12 +352,70 @@ public class Player {
     }
     
     /**
+     * Gets the current phase of the player
+     *
+     * @return the game phase
+     */
+    public Config.GAME_STATES getGameState() {
+        return gameState;
+    }
+    
+    /**
+     * Set the game phase for the player
+     *
+     * @param gameState the next phase
+     */
+    public void setGameState(Config.GAME_STATES gameState) {
+        this.gameState = gameState;
+    }
+    
+    // region Reinforcement Phase
+    
+    /**
+     * Implement the Reinforcement Phase of a particular player
+     *
+     * @param gamePlayModel the game play model
+     * @param selectedCards the selected cards
+     * @param armiesToPlace the amount of armies to be placed
+     *
+     * @return the message to user if reinforcement was successful or not
+     */
+    public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
+        switch (gameState) {
+            case TRADE_CARDS:
+                return tradeInCards(gamePlayModel, selectedCards);
+            case REINFORCEMENT:
+                distributeArmies(armiesToPlace);
+                break;
+        }
+        return "";
+    }
+    
+    /**
      * Reduces the number of unallocated armies for this player by the specified number.
      *
      * @param num The int index of the number of unallocated armies to reduce
      */
     public void reduceUnallocatedArmies(int num) {
         this.unallocatedArmies -= num;
+    }
+    
+    /**
+     * Gets the unallocated armies.
+     *
+     * @return the unallocated armies
+     */
+    public int getUnallocatedArmies() {
+        return this.unallocatedArmies;
+    }
+    
+    /**
+     * Sets the unallocated armies.
+     *
+     * @param unallocatedArmies the new unallocated armies
+     */
+    public void setUnallocatedArmies(int unallocatedArmies) {
+        this.unallocatedArmies = unallocatedArmies;
     }
     // endregion
     
@@ -463,8 +477,8 @@ public class Player {
                               int attackerRoll, int defenderRoll) {
         if (attackerRoll > defenderRoll) { // the attacker wins
             log.append("        Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + attackerRoll +
-                ", defender " + currentBattle.getDefender().getPlayerName() + " has " + defenderRoll +
-                ", attacker wins");
+                    ", defender " + currentBattle.getDefender().getPlayerName() + " has " + defenderRoll +
+                    ", attacker wins");
             defendingTerritory.reduceArmies(1);
             log.append("        " + currentBattle.getDefender().getPlayerName() + "'s " +
                     defendingTerritory.getName() + " loses 1 army");
