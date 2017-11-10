@@ -465,7 +465,7 @@ public class GamePlayController {
      * Setting the player's strategy
      */
     private void setPlayerStrategy() {
-        new StrategyDialog(gamePlayFrame);
+        new StrategyDialog(gamePlayFrame, gamePlayModel.getPlayers());
     }
     // endregion
 }

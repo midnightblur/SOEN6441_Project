@@ -69,6 +69,8 @@ public class PhaseViewPanel extends JPanel implements Observer {
         
         strategyButton = new JButton("Set Players' Strategy");
         gameInfoArea.add(strategyButton);
+        strategyButton.setVisible(false); // will be visible once update() determines we have players
+        
         
         add(gameInfoArea);
         playerInfoArea = new JPanel();
@@ -102,6 +104,11 @@ public class PhaseViewPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
+
+            /* Show strategy button if players are set */
+            if (gamePlayModel.getPlayers().size() > 0) {
+                strategyButton.setVisible(true);
+            }
 
             /* Update the game state info */
             if (gamePlayModel.getGameState() != Config.GAME_STATES.PLAY) {
@@ -191,6 +198,6 @@ public class PhaseViewPanel extends JPanel implements Observer {
             }
         }
     }
-    // endregion
+    // end region
     
 }
