@@ -13,6 +13,7 @@ import shared_resources.utilities.Config;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
@@ -35,6 +36,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
     private JLabel gameStateLabel;
     private JLabel tradeCardValueLabel;
     private JLabel deckSizeLabel;
+    private JButton strategyButton;
     private JPanel playerInfoArea;
     // endregion
     
@@ -50,6 +52,7 @@ public class PhaseViewPanel extends JPanel implements Observer {
         JPanel gameInfoArea = new JPanel(new GridLayout(0, 1));
         gameInfoArea.setMaximumSize(new Dimension(100, 200));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         gameStateLabel = new JLabel();
         gameStateLabel.setMinimumSize(new Dimension(200, 100));
         gameStateLabel.setPreferredSize((new Dimension(200, 100)));
@@ -64,6 +67,9 @@ public class PhaseViewPanel extends JPanel implements Observer {
         deckSizeLabel = new JLabel();
         gameInfoArea.add(deckSizeLabel);
         
+        strategyButton = new JButton("Set Players' Strategy");
+        gameInfoArea.add(strategyButton);
+        
         add(gameInfoArea);
         playerInfoArea = new JPanel();
         playerInfoArea.setLayout(new GridLayout(0, 3));
@@ -73,6 +79,15 @@ public class PhaseViewPanel extends JPanel implements Observer {
     // endregion
     
     // region MVC & Observer pattern methods
+    
+    /**
+     * Adds the player strategy button listener.
+     *
+     * @param listenerForStrategyButton the listener for player strategy button
+     */
+    public void addStrategyButtonListener(ActionListener listenerForStrategyButton) {
+        strategyButton.addActionListener(listenerForStrategyButton);
+    }
     
     /**
      * This method is called whenever the observed object is changed. An
@@ -177,4 +192,5 @@ public class PhaseViewPanel extends JPanel implements Observer {
         }
     }
     // endregion
+    
 }

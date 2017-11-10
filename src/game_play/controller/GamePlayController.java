@@ -11,6 +11,7 @@ import game_play.model.GamePlayModel;
 import game_play.view.screens.ConquerDialog;
 import game_play.view.screens.DefendingDialog;
 import game_play.view.screens.GamePlayFrame;
+import game_play.view.screens.StrategyDialog;
 import game_play.view.ui_components.FortificationPanel;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
@@ -120,6 +121,10 @@ public class GamePlayController {
                 String.valueOf(gamePlayFrame.getFortificationPanel().getSourceTerritoryDropdown().getSelectedItem())
         ));
         gamePlayFrame.getFortificationPanel().addNextPlayerButtonListener(e -> changeToNextPlayer());
+        
+        /* For Strategy Panel */
+        gamePlayFrame.getPhaseViewPanel().addStrategyButtonListener(e -> setPlayerStrategy());
+        
     }
     
     // region For Setup Phase
@@ -454,4 +459,13 @@ public class GamePlayController {
     
     // endregion
     
+    // region
+    
+    /**
+     * Setting the player's strategy
+     */
+    private void setPlayerStrategy() {
+        new StrategyDialog(gamePlayFrame);
+    }
+    // endregion
 }
