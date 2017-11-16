@@ -162,12 +162,39 @@ public class Player {
     }
     
     /**
+     * Gets the player's strategy
+     *
+     * @return the strategy for the player
+     */
+    public Strategy getStrategy() {
+        return strategy;
+    }
+    
+    /**
      * Sets the player's strategy
      *
      * @param strategy the strategy to be used by this player
      */
-    public void setStrategy(Strategy strategy) {
-        this.strategy = strategy;
+    public void setStrategy(String strategy) {
+        switch (strategy) {
+            case "Aggressive":
+                this.strategy = new Strategy.Aggressive();
+                break;
+            case "Benevolent":
+                this.strategy = new Strategy.Benevolent();
+                break;
+            case "Random":
+                this.strategy = new Strategy.Random();
+                break;
+            case "Cheater":
+                this.strategy = new Strategy.Cheater();
+                break;
+            case "Human":
+                this.strategy = new Strategy.Human();
+                break;
+        }
+        
+        
     }
     
     /**
@@ -243,6 +270,26 @@ public class Player {
     // endregion
     
     // region Public methods
+    
+    /**
+     * Implement the Reinforcement Phase of a particular player
+     *
+     * @param gamePlayModel the game play model
+     * @param selectedCards the selected cards
+     * @param armiesToPlace the amount of armies to be placed
+     *
+     * @return the message to user if reinforcement was successful or not
+     */
+    public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
+        switch (gameState) {
+            case TRADE_CARDS:
+                return tradeInCards(gamePlayModel, selectedCards);
+            case REINFORCEMENT:
+                distributeArmies(armiesToPlace);
+                break;
+        }
+        return "";
+    }
     
     /**
      * This method processes the exchange of cards to the armies if the user selected cards
@@ -360,6 +407,8 @@ public class Player {
         return gameState;
     }
     
+    // region Reinforcement Phase
+    
     /**
      * Set the game phase for the player
      *
@@ -367,28 +416,6 @@ public class Player {
      */
     public void setGameState(Config.GAME_STATES gameState) {
         this.gameState = gameState;
-    }
-    
-    // region Reinforcement Phase
-    
-    /**
-     * Implement the Reinforcement Phase of a particular player
-     *
-     * @param gamePlayModel the game play model
-     * @param selectedCards the selected cards
-     * @param armiesToPlace the amount of armies to be placed
-     *
-     * @return the message to user if reinforcement was successful or not
-     */
-    public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
-        switch (gameState) {
-            case TRADE_CARDS:
-                return tradeInCards(gamePlayModel, selectedCards);
-            case REINFORCEMENT:
-                distributeArmies(armiesToPlace);
-                break;
-        }
-        return "";
     }
     
     /**

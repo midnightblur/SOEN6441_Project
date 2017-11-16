@@ -42,6 +42,7 @@ public class GamePlayController {
     private MainMenuController callerController;
     private GamePlayFrame gamePlayFrame;
     private GamePlayModel gamePlayModel;
+    private StrategyDialog strategyDialog;
     // endregion
     
     // region Constructors
@@ -96,7 +97,7 @@ public class GamePlayController {
         /* Menu listeners */
         gamePlayFrame.addSaveMenuListener(e -> saveGame());
         gamePlayFrame.addLoadMenuListener(e -> loadGame());
-        gamePlayFrame.addStrategyMenuListener(e -> setPlayerStrategy());
+        gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions());
         
         /* Play button to start the game */
         gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> gameStartupPhase());
@@ -467,8 +468,24 @@ public class GamePlayController {
     /**
      * Setting the player's strategy
      */
-    private void setPlayerStrategy() {
-        new StrategyDialog(gamePlayFrame, gamePlayModel.getPlayers());
+    private void showStrategyOptions() {
+        strategyDialog = new StrategyDialog(gamePlayFrame, gamePlayModel.getPlayers());
+        gamePlayModel.addObserver(strategyDialog);
+        strategyDialog.addSubmitButtonListener(e -> setStrategy());
+        strategyDialog.update(gamePlayModel, this);
+    }
+    
+    /**
+     * Sets the player strategy as selected in StrategyDialog
+     */
+    private void setStrategy() {
+        StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
+        String chosenStrategy;
+        for (int i = 0; i < opts.length; i++) {
+            chosenStrategy = opts[i].getGroup().getSelection().getActionCommand();
+            gamePlayModel.getPlayers().get(i).setStrategy(chosenStrategy);
+        }
+        strategyDialog.dispose();
     }
     
     /**

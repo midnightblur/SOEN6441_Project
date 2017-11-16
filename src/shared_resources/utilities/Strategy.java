@@ -18,7 +18,9 @@ import java.util.Vector;
  */
 public interface Strategy {
     String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace);
+    
     void attack(GamePlayModel gamePlayModel);
+    
     String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies);
     
     
@@ -31,12 +33,12 @@ public interface Strategy {
         public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
             return null;
         }
-    
+        
         @Override
         public void attack(GamePlayModel gamePlayModel) {
         
         }
-    
+        
         @Override
         public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
             return null;
@@ -46,19 +48,19 @@ public interface Strategy {
     /**
      * The aggressive AI strategy
      */
-    class AggressiveAI implements Strategy {
+    class Aggressive implements Strategy {
         
-    
+        
         @Override
         public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
             return null;
         }
-    
+        
         @Override
         public void attack(GamePlayModel gamePlayModel) {
         
         }
-    
+        
         @Override
         public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
             return null;
@@ -66,21 +68,65 @@ public interface Strategy {
     }
     
     /**
-     * The passive AI strategy
+     * The benevolent AI strategy
      */
-    class PassiveAI implements Strategy {
-    
-    
+    class Benevolent implements Strategy {
+        
+        
         @Override
         public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
             return null;
         }
-    
+        
         @Override
         public void attack(GamePlayModel gamePlayModel) {
         
         }
+        
+        @Override
+        public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
+            return null;
+        }
+    }
     
+    /**
+     * The random AI strategy
+     */
+    class Random implements Strategy {
+        
+        
+        @Override
+        public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
+            return null;
+        }
+        
+        @Override
+        public void attack(GamePlayModel gamePlayModel) {
+        
+        }
+        
+        @Override
+        public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
+            return null;
+        }
+    }
+    
+    /**
+     * The cheater AI strategy
+     */
+    class Cheater implements Strategy {
+        
+        
+        @Override
+        public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
+            return null;
+        }
+        
+        @Override
+        public void attack(GamePlayModel gamePlayModel) {
+        
+        }
+        
         @Override
         public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
             return null;
