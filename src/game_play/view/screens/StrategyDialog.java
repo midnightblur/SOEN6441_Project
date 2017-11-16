@@ -72,23 +72,31 @@ public class StrategyDialog extends JDialog {
     public class BehaviourOptions extends JPanel {
         private JLabel player_label;
         private ButtonGroup group;
-        private JRadioButton ai_aggressive;
-        private JRadioButton ai_passive;
+        private JRadioButton aggressive;
+        private JRadioButton benevolent;
+        private JRadioButton random;
+        private JRadioButton cheater;
         private JRadioButton human;
         
         public BehaviourOptions(Player player) {
             player_label = new JLabel(player.getPlayerName());
-            ai_aggressive = new JRadioButton("AI Aggressive");
-            ai_passive = new JRadioButton("AI Passive");
+            aggressive = new JRadioButton("Aggressive");
+            benevolent = new JRadioButton("Benevolent");
+            random = new JRadioButton("Random");
+            cheater = new JRadioButton("Cheater");
             human = new JRadioButton("Human");
             group = new ButtonGroup();
-            group.add(ai_aggressive);
-            group.add(ai_passive);
+            group.add(aggressive);
+            group.add(benevolent);
+            group.add(random);
+            group.add(cheater);
             group.add(human);
             
             add(player_label);
-            add(ai_aggressive);
-            add(ai_passive);
+            add(aggressive);
+            add(benevolent);
+            add(random);
+            add(cheater);
             add(human);
             
         }

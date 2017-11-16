@@ -16,6 +16,7 @@ import game_play.view.ui_components.FortificationPanel;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.UIHelper;
+import shared_resources.utilities.SavedState;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -474,7 +475,7 @@ public class GamePlayController {
      * Saves the game state to file
      */
     private void saveGame() {
-    
+        new SavedState(gamePlayModel);
     }
     
     /**
