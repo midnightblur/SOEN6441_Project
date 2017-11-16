@@ -7,9 +7,8 @@
 package shared_resources.game_entities;
 
 import game_play.model.GamePlayModel;
+import shared_resources.strategy.*;
 import shared_resources.utilities.Config;
-import shared_resources.utilities.Strategy;
-import shared_resources.utilities.Human;
 
 import java.awt.*;
 import java.util.Map;
@@ -175,8 +174,26 @@ public class Player {
      *
      * @param strategy the strategy to be used by this player
      */
-    public void setStrategy(Strategy strategy) {
-        this.strategy = strategy;
+    public void setStrategy(String strategy) {
+        switch (strategy) {
+            case "Aggressive":
+                this.strategy = new Aggressive();
+                break;
+            case "Benevolent":
+                this.strategy = new Benevolent();
+                break;
+            case "Random":
+                this.strategy = new Random();
+                break;
+            case "Cheater":
+                this.strategy = new Cheater();
+                break;
+            case "Human":
+                this.strategy = new Human();
+                break;
+        }
+        
+        
     }
     
     /**

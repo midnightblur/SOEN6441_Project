@@ -4,7 +4,7 @@
  * Version 3.0
  * Nov 10, 2017
  */
-package shared_resources.utilities;
+package shared_resources.strategy;
 
 import game_play.model.GamePlayModel;
 import shared_resources.game_entities.Territory;
