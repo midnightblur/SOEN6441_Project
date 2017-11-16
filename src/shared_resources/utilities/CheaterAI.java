@@ -11,7 +11,7 @@ import java.util.Vector;
  * conquer all the neighbors of all its countries, and fortification doubles the number of armies on its countries
  * that have neighbors that belong to other players
  */
-class CheaterAI implements Strategy {
+public class CheaterAI implements Strategy {
 
 
     @Override

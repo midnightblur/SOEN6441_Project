@@ -10,7 +10,7 @@ import java.util.Vector;
  * The benevolent AI strategy. Reinforces its weakest countries, never attacks, then fortifies in order
  * to move armies to weaker countries.
  */
-class BenevolentAI implements Strategy {
+public class BenevolentAI implements Strategy {
 
 
     @Override

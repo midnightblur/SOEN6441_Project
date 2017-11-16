@@ -9,6 +9,7 @@ package shared_resources.game_entities;
 import game_play.model.GamePlayModel;
 import shared_resources.utilities.Config;
 import shared_resources.utilities.Strategy;
+import shared_resources.utilities.Human;
 
 import java.awt.*;
 import java.util.Map;
@@ -17,7 +18,6 @@ import java.util.Vector;
 import static shared_resources.utilities.Config.GAME_STATES.REINFORCEMENT;
 import static shared_resources.utilities.Config.PLAYER_COLOR;
 import static shared_resources.utilities.Config.log;
-import static shared_resources.utilities.Strategy.Human;
 
 /**
  * Each Player in a new game has a unique ID number (starting from 1) and the isBot status
@@ -159,6 +159,15 @@ public class Player {
      */
     public void setPlayerStatus(GamePlayModel.PLAYER_STATUS playerStatus) {
         this.playerStatus = playerStatus;
+    }
+    
+    /**
+     * Gets the player's strategy
+     *
+     * @return the strategy for the player
+     */
+    public Strategy getStrategy() {
+        return strategy;
     }
     
     /**
@@ -360,6 +369,8 @@ public class Player {
         return gameState;
     }
     
+    // region Reinforcement Phase
+    
     /**
      * Set the game phase for the player
      *
@@ -368,8 +379,6 @@ public class Player {
     public void setGameState(Config.GAME_STATES gameState) {
         this.gameState = gameState;
     }
-    
-    // region Reinforcement Phase
     
     /**
      * Implement the Reinforcement Phase of a particular player
@@ -381,16 +390,9 @@ public class Player {
      * @return the message to user if reinforcement was successful or not
      */
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
-        switch (gameState) {
-            case TRADE_CARDS:
-                return tradeInCards(gamePlayModel, selectedCards);
-            case REINFORCEMENT:
-                distributeArmies(armiesToPlace);
-                break;
-        }
         return this.strategy.reinforcement(gamePlayModel, selectedCards, armiesToPlace);
     }
-    
+
     /**
      * Reduces the number of unallocated armies for this player by the specified number.
      *

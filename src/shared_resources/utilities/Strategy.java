@@ -23,3 +23,4 @@ public interface Strategy {
 
     String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies);
 }
+

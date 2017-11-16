@@ -10,7 +10,7 @@ import java.util.Vector;
  * The random AI strategy. Reinforces a random country, attacks random countries a random number of times, and
  * fortifies a random country.
  */
-class RandomAI implements Strategy {
+public class RandomAI implements Strategy {
 
 
     @Override
