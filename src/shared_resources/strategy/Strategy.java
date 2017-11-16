@@ -17,6 +17,11 @@ import java.util.Vector;
  * The players use this to adopt a concrete strategy.
  */
 public interface Strategy {
+    
+    default void attack(){
+        System.out.println("hello");
+    }
+    
     String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace);
 
     void attack(GamePlayModel gamePlayModel);
