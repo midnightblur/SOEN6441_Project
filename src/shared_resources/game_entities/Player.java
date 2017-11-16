@@ -388,7 +388,7 @@ public class Player {
                 distributeArmies(armiesToPlace);
                 break;
         }
-        return "";
+        return this.strategy.reinforcement(gamePlayModel, selectedCards, armiesToPlace);
     }
     
     /**
