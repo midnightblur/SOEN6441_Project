@@ -44,7 +44,8 @@ public interface Strategy {
     }
     
     /**
-     * The aggressive AI strategy
+     * The aggressive AI strategy. Reinforces its strongest country, then always attacks with it until it
+     * cannot attack anymore, then fortifies in order to maximize aggregation of forces in one country.
      */
     class AggressiveAI implements Strategy {
         
@@ -66,9 +67,10 @@ public interface Strategy {
     }
     
     /**
-     * The passive AI strategy
+     * The benevolent AI strategy. Reinforces its weakest countries, never attacks, then fortifies in order
+     * to move armies to weaker countries.
      */
-    class PassiveAI implements Strategy {
+    class BenevolentAI implements Strategy {
     
     
         @Override
@@ -81,6 +83,53 @@ public interface Strategy {
         
         }
     
+        @Override
+        public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
+            return null;
+        }
+    }
+
+    /**
+     * The random AI strategy. Reinforces a random country, attacks random countries a random number of times, and
+     * fortifies a random country.
+     */
+    class RandomAI implements Strategy {
+
+
+        @Override
+        public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
+            return null;
+        }
+
+        @Override
+        public void attack(GamePlayModel gamePlayModel) {
+
+        }
+
+        @Override
+        public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
+            return null;
+        }
+    }
+
+    /**
+     * The cheater AI strategy. Reinforcement doubles the number of armies on all its countries, attacks automatically
+     * conquer all the neighbors of all its countries, and fortification doubles the number of armies on its countries
+     * that have neighbors that belong to other players
+     */
+    class CheaterAI implements Strategy {
+
+
+        @Override
+        public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
+            return null;
+        }
+
+        @Override
+        public void attack(GamePlayModel gamePlayModel) {
+
+        }
+
         @Override
         public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
             return null;
