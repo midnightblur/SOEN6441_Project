@@ -8,6 +8,7 @@ package game_play.model;
 
 import shared_resources.game_entities.*;
 
+import java.io.Serializable;
 import java.util.*;
 
 import static shared_resources.utilities.Config.*;
@@ -44,7 +45,7 @@ import static shared_resources.utilities.Config.GAME_STATES.*;
  * @author Team 2
  * @version 1.0
  */
-public class GamePlayModel extends Observable {
+public class GamePlayModel extends Observable implements Serializable{
     // region Attributes declaration
     /**
      * The player status

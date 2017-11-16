@@ -14,6 +14,8 @@ import shared_resources.helper.UIHelper;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
@@ -32,6 +34,12 @@ public class GamePlayFrame extends JFrame implements Observer {
     private static final String TITLE = "Game Play";
     private static final int WIDTH = 1366;
     private static final int HEIGHT = 800;
+    private JMenuBar menu;
+    private JMenu game;
+    private JMenu player;
+    private JMenuItem save;
+    private JMenuItem load;
+    private JMenuItem strategy;
     private JSplitPane topArea;
     private JPanel contentPane;
     private WorldDominationPanel worldDominationPanel;
@@ -55,6 +63,24 @@ public class GamePlayFrame extends JFrame implements Observer {
      * @param callerController the main menu controller
      */
     public GamePlayFrame(MainMenuController callerController) {
+        /* Setup the menu */
+        menu = new JMenuBar();
+        
+        game = new JMenu("Game");
+        save = new JMenuItem("Save game...", KeyEvent.VK_T);
+        load = new JMenuItem("Load game...", KeyEvent.VK_T);
+        game.add(save);
+        game.add(load);
+        menu.add(game);
+        
+        player = new JMenu("Player");
+        strategy = new JMenuItem("Set Strategy...", KeyEvent.VK_T);
+        strategy.setEnabled(false);
+        player.add(strategy);
+        menu.add(player);
+        
+        setJMenuBar(menu);
+        
         /* Setup main container */
         this.callerController = callerController;
         playersList = new Vector<>();
@@ -158,7 +184,33 @@ public class GamePlayFrame extends JFrame implements Observer {
         return gameMapTable;
     }
     
-    // endregion
+    /**
+     * Adds save menu item listener
+     *
+     * @param listenerForLoadMenu the listener for the load menu item
+     */
+    public void addLoadMenuListener(ActionListener listenerForLoadMenu) {
+        load.addActionListener(listenerForLoadMenu);
+    }
+    
+    /**
+     * Adds strategy menu item listener
+     *
+     * @param listenerForStrategyMenu the listener for the strategy menu item
+     */
+    public void addStrategyMenuListener(ActionListener listenerForStrategyMenu) {
+        strategy.addActionListener(listenerForStrategyMenu);
+    }
+    
+    /**
+     * Adds save menu item listener
+     *
+     * @param listenerForSaveMenu the listener for the save menu item
+     */
+    public void addSaveMenuListener(ActionListener listenerForSaveMenu) {
+        save.addActionListener(listenerForSaveMenu);
+    }
+// endregion
     
     // region Public methods
     
@@ -207,18 +259,38 @@ public class GamePlayFrame extends JFrame implements Observer {
         return phaseViewPanel;
     }
     
+    /**
+     * Gets the strategy game menu item
+     *
+     * @return the strategy game menu item
+     */
+    public JMenuItem getStrategy() {
+        return strategy;
+    }
+    
+    /**
+     * Gets the save game menu item
+     *
+     * @return the save game menu item
+     */
+    public JMenuItem getSave() {
+        return save;
+    }
+    
+    /**
+     * Gets the load game menu item
+     *
+     * @return the load game menu item
+     */
+    public JMenuItem getLoad() {
+        return load;
+    }
+    
     // endregion
     
     // region Private methods
     
-    /**
-     * Close GamePlayFrame, open MainMenuFrame
-     */
-    private void backToMainMenu() {
-        this.dispose();
-        UIHelper.invokeFrame(callerController.getMainMenuFrame());
-    }
-
+    
     /**
      * Gets the attacking panel
      *
@@ -227,9 +299,6 @@ public class GamePlayFrame extends JFrame implements Observer {
     public AttackingPanel getAttackingPanel() {
         return attackingPanel;
     }
-    // endregion
-    
-    // region MVC & Observer pattern methods
     
     /**
      * This method is called whenever the observed object is changed. An
@@ -246,6 +315,11 @@ public class GamePlayFrame extends JFrame implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             
             gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
+            
+            /* Enable strategy menu item if players are set */
+            if (gamePlayModel.getPlayers().size() > 0) {
+                strategy.setEnabled(true);
+            }
             
             CardLayout cardLayout = (CardLayout) controlArea.getLayout();
             switch (gamePlayModel.getGameState()) {
@@ -275,14 +349,14 @@ public class GamePlayFrame extends JFrame implements Observer {
                 default:
                     break;
             }
-    
+            
             Vector<Player> oldPlayersList = new Vector<>();
             for (Player player : playersList) {
                 if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
                     oldPlayersList.add(player);
                 }
             }
-    
+            
             playersList.clear();
             for (Player player : gamePlayModel.getPlayers()) {
                 if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
@@ -304,6 +378,17 @@ public class GamePlayFrame extends JFrame implements Observer {
                 }
             }
         }
+    }
+    // endregion
+    
+    // region MVC & Observer pattern methods
+    
+    /**
+     * Close GamePlayFrame, open MainMenuFrame
+     */
+    private void backToMainMenu() {
+        this.dispose();
+        UIHelper.invokeFrame(callerController.getMainMenuFrame());
     }
     // endregion
 }

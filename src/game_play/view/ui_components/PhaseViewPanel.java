@@ -13,7 +13,6 @@ import shared_resources.utilities.Config;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
@@ -36,7 +35,6 @@ public class PhaseViewPanel extends JPanel implements Observer {
     private JLabel gameStateLabel;
     private JLabel tradeCardValueLabel;
     private JLabel deckSizeLabel;
-    private JButton strategyButton;
     private JPanel playerInfoArea;
     // endregion
     
@@ -67,11 +65,6 @@ public class PhaseViewPanel extends JPanel implements Observer {
         deckSizeLabel = new JLabel();
         gameInfoArea.add(deckSizeLabel);
         
-        strategyButton = new JButton("Set Players' Strategy");
-        gameInfoArea.add(strategyButton);
-        strategyButton.setVisible(false); // will be visible once update() determines we have players
-        
-        
         add(gameInfoArea);
         playerInfoArea = new JPanel();
         playerInfoArea.setLayout(new GridLayout(0, 3));
@@ -81,15 +74,6 @@ public class PhaseViewPanel extends JPanel implements Observer {
     // endregion
     
     // region MVC & Observer pattern methods
-    
-    /**
-     * Adds the player strategy button listener.
-     *
-     * @param listenerForStrategyButton the listener for player strategy button
-     */
-    public void addStrategyButtonListener(ActionListener listenerForStrategyButton) {
-        strategyButton.addActionListener(listenerForStrategyButton);
-    }
     
     /**
      * This method is called whenever the observed object is changed. An
@@ -104,11 +88,6 @@ public class PhaseViewPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
-
-            /* Show strategy button if players are set */
-            if (gamePlayModel.getPlayers().size() > 0) {
-                strategyButton.setVisible(true);
-            }
 
             /* Update the game state info */
             if (gamePlayModel.getGameState() != Config.GAME_STATES.PLAY) {

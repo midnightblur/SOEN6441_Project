@@ -92,6 +92,11 @@ public class GamePlayController {
      * Register the controller to be the listener to all UI component of the views.
      */
     private void registerToBeListener() {
+        /* Menu listeners */
+        gamePlayFrame.addSaveMenuListener(e -> saveGame());
+        gamePlayFrame.addLoadMenuListener(e -> loadGame());
+        gamePlayFrame.addStrategyMenuListener(e -> setPlayerStrategy());
+        
         /* Play button to start the game */
         gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> gameStartupPhase());
         
@@ -121,9 +126,6 @@ public class GamePlayController {
                 String.valueOf(gamePlayFrame.getFortificationPanel().getSourceTerritoryDropdown().getSelectedItem())
         ));
         gamePlayFrame.getFortificationPanel().addNextPlayerButtonListener(e -> changeToNextPlayer());
-        
-        /* For Strategy Panel */
-        gamePlayFrame.getPhaseViewPanel().addStrategyButtonListener(e -> setPlayerStrategy());
         
     }
     
@@ -466,6 +468,20 @@ public class GamePlayController {
      */
     private void setPlayerStrategy() {
         new StrategyDialog(gamePlayFrame, gamePlayModel.getPlayers());
+    }
+    
+    /**
+     * Saves the game state to file
+     */
+    private void saveGame() {
+    
+    }
+    
+    /**
+     * Loads the game state from file
+     */
+    private void loadGame() {
+    
     }
     // endregion
 }
