@@ -13,13 +13,6 @@ import java.util.Vector;
 public class Human implements Strategy {
     
     @Override
-    public void attack() {
-        attack();
-        System.out.println("more stuff");
-        
-    }
-    
-    @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         Player player = gamePlayModel.getCurrentPlayer();
         switch (player.getGameState()) {
