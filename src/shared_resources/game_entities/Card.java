@@ -6,6 +6,8 @@
  */
 package shared_resources.game_entities;
 
+import java.io.Serializable;
+
 /**
  * Card class contains all the different types that are available of cards in the deck in
  * cardType vector. Card type 1 is Infantry, type 2 is Cavalry, and type 3 is Artillery.
@@ -13,7 +15,7 @@ package shared_resources.game_entities;
  * @author Team 2
  * @version 1.0
  */
-public class Card {
+public class Card implements Serializable {
     // region Attributes declaration
     
     /** The Enum CARD_TYPE. */

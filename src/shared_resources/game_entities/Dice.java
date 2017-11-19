@@ -6,6 +6,7 @@
  */
 package shared_resources.game_entities;
 
+import java.io.Serializable;
 import java.util.Random;
 import java.util.Vector;
 
@@ -20,13 +21,14 @@ import java.util.Vector;
  * @author Team 2
  * @version 1.0
  */
-public class Dice {
+public class Dice implements Serializable {
     // region Attributes declaration
     private int rollsCount;
     private Vector<Integer> rollsResult;
     // endregion
     
     // region Constructors
+    
     /**
      * Build an array of dice with default pips showing 1.
      *

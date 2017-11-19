@@ -6,6 +6,7 @@
  */
 package shared_resources.game_entities;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 /**
@@ -17,7 +18,7 @@ import java.util.Vector;
  * @author Team 2
  * @version 1.0
  */
-public class Continent {
+public class Continent implements Serializable {
     // region Attributes declaration
     /** The name. */
     private String name;
