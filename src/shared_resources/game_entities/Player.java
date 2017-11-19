@@ -7,7 +7,8 @@
 package shared_resources.game_entities;
 
 import game_play.model.GamePlayModel;
-import shared_resources.strategy.*;
+import shared_resources.strategy.Human;
+import shared_resources.strategy.Strategy;
 import shared_resources.utilities.Config;
 
 import java.awt.*;
@@ -174,26 +175,8 @@ public class Player {
      *
      * @param strategy the strategy to be used by this player
      */
-    public void setStrategy(String strategy) {
-        switch (strategy) {
-            case "Aggressive":
-                this.strategy = new Aggressive();
-                break;
-            case "Benevolent":
-                this.strategy = new Benevolent();
-                break;
-            case "Random":
-                this.strategy = new Random();
-                break;
-            case "Cheater":
-                this.strategy = new Cheater();
-                break;
-            case "Human":
-                this.strategy = new Human();
-                break;
-        }
-        
-        
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
     }
     
     /**
@@ -355,20 +338,6 @@ public class Player {
     }
     
     /**
-     * Looping through view table, get the quantity of armies for each territory
-     * then place them using the placeArmiesReinforcement in the game_entities.
-     *
-     * @param armiesToPlace the amount of armies to place
-     */
-    public void distributeArmies(Map<Territory, Integer> armiesToPlace) {
-        for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
-            entry.getKey().addArmies(entry.getValue());
-            log.append("        " + playerName + " placed " + entry.getValue() + " armies on " + entry.getKey().getName());
-            reduceUnallocatedArmies(entry.getValue());
-        }
-    }
-    
-    /**
      * Increases the number of unallocated armies for this player by the specified number.
      *
      * @param num The int index of the number o unallocated armies to add
@@ -386,8 +355,6 @@ public class Player {
         return gameState;
     }
     
-    // region Reinforcement Phase
-    
     /**
      * Set the game phase for the player
      *
@@ -395,6 +362,31 @@ public class Player {
      */
     public void setGameState(Config.GAME_STATES gameState) {
         this.gameState = gameState;
+    }
+    
+    // region Reinforcement Phase
+    
+    /**
+     * Looping through view table, get the quantity of armies for each territory
+     * then place them using the placeArmiesReinforcement in the game_entities.
+     *
+     * @param armiesToPlace the amount of armies to place
+     */
+    public void distributeArmies(Map<Territory, Integer> armiesToPlace) {
+        for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
+            entry.getKey().addArmies(entry.getValue());
+            log.append("        " + playerName + " placed " + entry.getValue() + " armies on " + entry.getKey().getName());
+            reduceUnallocatedArmies(entry.getValue());
+        }
+    }
+    
+    /**
+     * Reduces the number of unallocated armies for this player by the specified number.
+     *
+     * @param num The int index of the number of unallocated armies to reduce
+     */
+    public void reduceUnallocatedArmies(int num) {
+        this.unallocatedArmies -= num;
     }
     
     /**
@@ -408,15 +400,6 @@ public class Player {
      */
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         return this.strategy.reinforcement(gamePlayModel, selectedCards, armiesToPlace);
-    }
-
-    /**
-     * Reduces the number of unallocated armies for this player by the specified number.
-     *
-     * @param num The int index of the number of unallocated armies to reduce
-     */
-    public void reduceUnallocatedArmies(int num) {
-        this.unallocatedArmies -= num;
     }
     
     /**

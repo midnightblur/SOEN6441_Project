@@ -25,7 +25,7 @@ public class Human implements Strategy {
 
         return "";
     }
-
+    
     @Override
     public void attack(GamePlayModel gamePlayModel) {
     

@@ -8,6 +8,8 @@ package game_play.view.screens;
 
 import game_play.model.GamePlayModel;
 import shared_resources.game_entities.Player;
+import shared_resources.strategy.Strategy;
+import shared_resources.utilities.Config;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,7 +39,7 @@ public class StrategyDialog extends JDialog implements Observer {
      * Instantiate the strategy dialog
      *
      * @param gamePlayFrame the parent frame calling this dialog
-     * @param players the players vector
+     * @param players       the players vector
      */
     public StrategyDialog(JFrame gamePlayFrame, Vector<Player> players) {
         
@@ -114,17 +116,8 @@ public class StrategyDialog extends JDialog implements Observer {
     public class BehaviourOptions extends JPanel {
         private JLabel player_label;
         private ButtonGroup group;
-        private ButtonModel humanModel;
-        private ButtonModel aggressiveModel;
-        private ButtonModel benevolentModel;
-        private ButtonModel randomModel;
-        private ButtonModel cheaterModel;
-        private JRadioButton aggressive;
-        private JRadioButton benevolent;
-        private JRadioButton random;
-        private JRadioButton cheater;
-        private JRadioButton human;
-        
+        JRadioButton radioButton;
+        ButtonModel radioButtonModel;
         /**
          * Constructor that creates a set of option and a name label for each player
          *
@@ -132,36 +125,17 @@ public class StrategyDialog extends JDialog implements Observer {
          */
         BehaviourOptions(Player player) {
             player_label = new JLabel(player.getPlayerName());
-            aggressive = new JRadioButton("Aggressive");
-            benevolent = new JRadioButton("Benevolent");
-            random = new JRadioButton("Random");
-            cheater = new JRadioButton("Cheater");
-            human = new JRadioButton("Human");
-            group = new ButtonGroup();
-            group.add(aggressive);
-            group.add(benevolent);
-            group.add(random);
-            group.add(cheater);
-            group.add(human);
-            
-            humanModel = human.getModel();
-            aggressiveModel = aggressive.getModel();
-            benevolentModel = benevolent.getModel();
-            randomModel = random.getModel();
-            cheaterModel = cheater.getModel();
-            
-            aggressive.setActionCommand("Aggressive");
-            benevolent.setActionCommand("Benevolent");
-            random.setActionCommand("Random");
-            cheater.setActionCommand("Cheater");
-            human.setActionCommand("Human");
-            
             add(player_label);
-            add(aggressive);
-            add(benevolent);
-            add(random);
-            add(cheater);
-            add(human);
+            
+            group = new ButtonGroup();
+            for (Class<? extends Strategy> strategyClass : Config.strategyClases) {
+                String strategy = strategyClass.getSimpleName();
+                radioButton = new JRadioButton(strategy);
+                radioButton.setActionCommand(strategy);
+                radioButtonModel = radioButton.getModel();
+                group.add(radioButton);
+                add(radioButton);
+            }
         }
         
         /**

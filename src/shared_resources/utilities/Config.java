@@ -7,16 +7,21 @@
 package shared_resources.utilities;
 
 import game_play.view.screens.LoggingFrame;
+import org.reflections.Reflections;
+import shared_resources.strategy.Strategy;
 
 import java.awt.*;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Configuration class providing static attributes for the application:
  * <ul>
- *     <li> The states of the game
- *     <li> The players' colors
- *     <li> Constants for handling *.map files
- *     <li> Constants and settings for other entities of the game
+ * <li> The states of the game
+ * <li> The players' colors
+ * <li> Constants for handling *.map files
+ * <li> Constants and settings for other entities of the game
  * </ul>
  *
  * @author Team 2
@@ -27,49 +32,7 @@ public class Config {
     // region Attributes declaration 
     
     // region Enumeration for game states
-    /**
-     * The states of the game encapsulated in an enum
-     * The value is used to determine the advancement of the game
-     * and render various functionality as needed.
-     */
-    public enum GAME_STATES {
-        SETUP(0),
-        ENTRY_MENU(1),
-        MAP_EDITOR(2),
-        STARTUP(3),
-        PLAY(4),
-        REINFORCEMENT(5),
-        TRADE_CARDS(6),
-        ATTACK_PREPARE(7),
-        ATTACK_BATTLE(8),
-        FORTIFICATION(9),
-        VICTORY(10);
-     // endregion
-
-        /** The value of the game state. */
-        int value;
-        
-        /**
-         * Instantiates a new game states.
-         *
-         * @param value the value
-         */
-        GAME_STATES(int value) {
-            this.value = value;
-        }
-        
-        /**
-         * Gets the value of the game state.
-         *
-         * @return the value
-         */
-        public int getValue() {
-            return value;
-        }
-    }
-    // endregion
     
-    // region Enumeration for player color
     /**
      * The Constant players colors.
      */
@@ -83,8 +46,10 @@ public class Config {
     };
     // endregion
     
+    // region Enumeration for player color
     // region Constants used to read game map text file
     public static final int DEFAULT_NUM_OF_PLAYERS = 6;
+    // endregion
     public static final int MAPS_MAX_TERRITORIES = 255;
     public static final int MAPS_MIN_CONTINENTS = 1;
     public static final int MAPS_MAX_CONTINENTS = 32;
@@ -118,20 +83,68 @@ public class Config {
     public static final String MSG_MAPFILE_TERRITORY_NOT_DEFINED = "A territory is not defined";
     public static final String MSG_MAPFILE_TERRITORY_DUPLICATED = "The territory already exist: line %s";
     public static final String MSG_MAPFILE_CONTINENT_NO_TERRITORY = "The %s continent has no territory";
-    // endregion
-    
-    // region Constants used for game play
-    public static LoggingFrame log = LoggingFrame.getInstance();    // the logging window used in game play
     public static final double INITIAL_ARMY_RATIO = 2.75;  // 2.75 for similar gameplay as official Risk Game
+    // endregion
     public static final int MAX_PIPS = 6;   // the maximum dots on one side of the die
     public static final int MIN_ARMY_TO_ATTACK = 2;
     public static final int MAX_NUM_ATK_DICE = 3;
     public static final int MAX_NUM_DEF_DICE = 2;
-    // endregion
-
     // region Constants used for AI strategies
     public static final int MIN_CARDS_TO_TRADE = 3;
+    // region Constants used for game play
+    public static String strategyPath = "shared_resources.strategy";
+    public static Reflections reflections = new Reflections(strategyPath);
+    public static Set<Class<? extends Strategy>> strategyClases = reflections.getSubTypesOf(Strategy.class);
+    public static LoggingFrame log = LoggingFrame.getInstance();    // the logging window used in game play
+
+    public static SortedSet<Class<? extends Strategy>> getStrategies() {
+        SortedSet<Class<? extends Strategy>> sortedStrategySet = new TreeSet<>(); //TODO: implement a comparator for class names
+        sortedStrategySet.addAll(strategyClases);
+        return sortedStrategySet;
+    }
+    // endregion
+    
+    /**
+     * The states of the game encapsulated in an enum
+     * The value is used to determine the advancement of the game
+     * and render various functionality as needed.
+     */
+    public enum GAME_STATES {
+        SETUP(0),
+        ENTRY_MENU(1),
+        MAP_EDITOR(2),
+        STARTUP(3),
+        PLAY(4),
+        REINFORCEMENT(5),
+        TRADE_CARDS(6),
+        ATTACK_PREPARE(7),
+        ATTACK_BATTLE(8),
+        FORTIFICATION(9),
+        VICTORY(10);
+        // endregion
+        
+        /** The value of the game state. */
+        int value;
+        
+        /**
+         * Instantiates a new game states.
+         *
+         * @param value the value
+         */
+        GAME_STATES(int value) {
+            this.value = value;
+        }
+        
+        /**
+         * Gets the value of the game state.
+         *
+         * @return the value
+         */
+        public int getValue() {
+            return value;
+        }
+    }
     // end region
     
     // endregion
- }
+}

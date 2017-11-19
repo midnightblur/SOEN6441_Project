@@ -16,6 +16,7 @@ import game_play.view.ui_components.FortificationPanel;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.UIHelper;
+import shared_resources.strategy.Strategy;
 import shared_resources.utilities.SavedState;
 
 import javax.swing.*;
@@ -26,6 +27,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import static shared_resources.utilities.Config.GAME_STATES.*;
+import static shared_resources.utilities.Config.strategyPath;
 
 /**
  * GamePlayController is responsible for coordinating the GamePlayModel and GamePlayFrame
@@ -483,7 +485,12 @@ public class GamePlayController {
         String chosenStrategy;
         for (int i = 0; i < opts.length; i++) {
             chosenStrategy = opts[i].getGroup().getSelection().getActionCommand();
-            gamePlayModel.getPlayers().get(i).setStrategy(chosenStrategy);
+            try {
+                Class<?> strategyClass = Class.forName(strategyPath + "." + chosenStrategy);
+                gamePlayModel.getPlayers().get(i).setStrategy((Strategy) strategyClass.newInstance());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         strategyDialog.dispose();
     }
