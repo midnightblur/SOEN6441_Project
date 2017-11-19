@@ -19,15 +19,11 @@ public class Aggressive implements Strategy {
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         Player player = gamePlayModel.getCurrentPlayer();
 
-        /* trade cards whenever the Aggressive AI can */
-        boolean doneTrade = false;
+        /* check for tradable cards if the AI has 3 or more cards */
         Vector<Card> infantryCards = new Vector<>();
         Vector<Card> cavalryCards = new Vector<>();
         Vector<Card> artilleryCards = new Vector<>();
-        while (player.getPlayersHand().size() >= Config.MIN_CARDS_TO_TRADE) {
-            selectedCards.clear();
-            int threeOfAKindCounter = 0;
-    
+        if (player.getPlayersHand().size() >= Config.MIN_CARDS_TO_TRADE) {
             for (int i = 0; i < player.getPlayersHand().size(); i++) {
                 Card card = player.getPlayersHand().get(i);
                 switch (card.getCardType().name()) {
@@ -42,7 +38,13 @@ public class Aggressive implements Strategy {
                         break;
                 }
             }
-    
+        }
+        
+        /* trade cards as long as the Aggressive AI can */
+        while (true) {
+            selectedCards.clear();
+            
+            /* if there is a set of 3 cards with each different type */
             if (infantryCards.size() != 0 && cavalryCards.size() != 0 && artilleryCards.size() != 0) {
                 selectedCards.addElement(infantryCards.firstElement().getCardType().name());
                 infantryCards.remove(0);
@@ -55,22 +57,37 @@ public class Aggressive implements Strategy {
                 selectedCards.addElement(artilleryCards.firstElement().getCardType().name());
                 artilleryCards.remove(0);
                 artilleryCards.trimToSize();
-            } else if (infantryCards.size() >= 3) {
-        
-            } else if (cavalryCards.size() >= 3) {
-        
-            } else if (artilleryCards.size() >= 3) {
-        
-            } else {
-                doneTrade = true;
-                break;  // there are no valid card sets to trade, so break the loop.
             }
-        
-    
-        if (doneTrade) {
-            break;
-        }
-    
+            /* if there are 3 infantry cards */
+            else if (infantryCards.size() >= 3) {
+                for (int i = 0; i < 3; i++) {
+                    selectedCards.addElement(infantryCards.firstElement().getCardType().name());
+                    infantryCards.remove(0);
+                    infantryCards.trimToSize();
+                }
+            }
+            /* if there are 3 cavalry cards */
+            else if (cavalryCards.size() >= 3) {
+                for (int i = 0; i < 3; i++) {
+                    selectedCards.addElement(cavalryCards.firstElement().getCardType().name());
+                    cavalryCards.remove(0);
+                    cavalryCards.trimToSize();
+                }
+            }
+            /* if there are 3 artillery cards */
+            else if (artilleryCards.size() >= 3) {
+                for (int i = 0; i < 3; i++) {
+                    selectedCards.addElement(artilleryCards.firstElement().getCardType().name());
+                    artilleryCards.remove(0);
+                    artilleryCards.trimToSize();
+                }
+            }
+            /* if cannot trade anymore */
+            else {
+                break;
+            }
+            
+            player.tradeInCards(gamePlayModel, selectedCards);
     }
 
         switch (player.getGameState()) {
