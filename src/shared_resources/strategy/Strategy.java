@@ -22,7 +22,7 @@ import java.util.Vector;
 public interface Strategy {
     
     /**
-     * 
+     *
      * @param gamePlayModel
      * @param selectedCards
      */
@@ -50,7 +50,7 @@ public interface Strategy {
             }
         }
         
-        /* trade cards as long as the Aggressive AI can */
+        /* trade cards as long as the AI can */
         while (true) {
             selectedCards.clear();
             
