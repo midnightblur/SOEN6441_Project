@@ -128,7 +128,7 @@ public class StrategyDialog extends JDialog implements Observer {
             add(player_label);
             
             group = new ButtonGroup();
-            for (Class<? extends Strategy> strategyClass : Config.strategyClases) {
+            for (Class<? extends Strategy> strategyClass : Config.getStrategies()) {
                 String strategy = strategyClass.getSimpleName();
                 radioButton = new JRadioButton(strategy);
                 radioButton.setActionCommand(strategy);

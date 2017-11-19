@@ -29,10 +29,7 @@ import java.util.TreeSet;
  */
 public class Config {
     
-    // region Attributes declaration 
-    
-    // region Enumeration for game states
-    
+    // region Enumeration for player color
     /**
      * The Constant players colors.
      */
@@ -46,10 +43,8 @@ public class Config {
     };
     // endregion
     
-    // region Enumeration for player color
     // region Constants used to read game map text file
     public static final int DEFAULT_NUM_OF_PLAYERS = 6;
-    // endregion
     public static final int MAPS_MAX_TERRITORIES = 255;
     public static final int MAPS_MIN_CONTINENTS = 1;
     public static final int MAPS_MAX_CONTINENTS = 32;
@@ -85,13 +80,16 @@ public class Config {
     public static final String MSG_MAPFILE_CONTINENT_NO_TERRITORY = "The %s continent has no territory";
     public static final double INITIAL_ARMY_RATIO = 2.75;  // 2.75 for similar gameplay as official Risk Game
     // endregion
+    
+    // region Constants used for game play
     public static final int MAX_PIPS = 6;   // the maximum dots on one side of the die
     public static final int MIN_ARMY_TO_ATTACK = 2;
     public static final int MAX_NUM_ATK_DICE = 3;
     public static final int MAX_NUM_DEF_DICE = 2;
-    // region Constants used for AI strategies
     public static final int MIN_CARDS_TO_TRADE = 3;
-    // region Constants used for game play
+    // endregion
+    
+    // region Constants used for AI strategies
     public static String strategyPath = "shared_resources.strategy";
     public static Reflections reflections = new Reflections(strategyPath);
     public static Set<Class<? extends Strategy>> strategyClases = reflections.getSubTypesOf(Strategy.class);
@@ -99,15 +97,18 @@ public class Config {
     
     /**
      * Gets the available strategy classes in a sorted set
+     * It uses a custom class name comparator
      *
      * @return a sorted set of strategy classes
      */
     public static SortedSet<Class<? extends Strategy>> getStrategies() {
-        SortedSet<Class<? extends Strategy>> sortedStrategySet = new TreeSet<>(); //TODO: implement a comparator for class names
+        SortedSet<Class<? extends Strategy>> sortedStrategySet = new TreeSet<Class<? extends Strategy>>(new ClassNameComparator());
         sortedStrategySet.addAll(strategyClases);
         return sortedStrategySet;
     }
     // endregion
+    
+    // region Enumeration for game states
     
     /**
      * The states of the game encapsulated in an enum
@@ -126,7 +127,6 @@ public class Config {
         ATTACK_BATTLE(8),
         FORTIFICATION(9),
         VICTORY(10);
-        // endregion
         
         /** The value of the game state. */
         int value;
@@ -149,7 +149,5 @@ public class Config {
             return value;
         }
     }
-    // end region
-    
     // endregion
 }
