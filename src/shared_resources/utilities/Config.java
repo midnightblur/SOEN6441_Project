@@ -78,6 +78,7 @@ public class Config {
     public static final String MSG_MAPFILE_TERRITORY_NOT_DEFINED = "A territory is not defined";
     public static final String MSG_MAPFILE_TERRITORY_DUPLICATED = "The territory already exist: line %s";
     public static final String MSG_MAPFILE_CONTINENT_NO_TERRITORY = "The %s continent has no territory";
+    public static final String MSG_MAPFILE_DISCONNECTED_CONTINENT = "The %s continent is disconnected sub-graph";
     public static final double INITIAL_ARMY_RATIO = 2.75;  // 2.75 for similar gameplay as official Risk Game
     // endregion
     

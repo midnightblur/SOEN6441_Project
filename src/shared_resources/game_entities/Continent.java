@@ -178,6 +178,15 @@ public class Continent implements Serializable {
     }
     
     /**
+     * Get an arbitrary territory object (the first one in the territories list).
+     *
+     * @return the arbitrary territory
+     */
+    public String getArbitraryTerritory() {
+        return territories.iterator().next();
+    }
+    
+    /**
      * Facilitate the comparision between two continent objects.
      *
      * @param other the object of the type Continent.
