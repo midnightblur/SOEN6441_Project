@@ -13,11 +13,11 @@ public class SavedState implements Serializable {
     
     public void SaveGame() {
         try {
-            SavedState state = new SavedState(gamePlayModel);
+//            SavedState state = new SavedState(gamePlayModel);
             OutputStream file = new FileOutputStream("savedGame.game");
             OutputStream buffer = new BufferedOutputStream(file);
             ObjectOutput output = new ObjectOutputStream(buffer);
-            output.writeObject(state);
+            output.writeObject(this.gamePlayModel);
             output.flush();
             output.close();
         } catch (IOException e) {
@@ -26,12 +26,12 @@ public class SavedState implements Serializable {
         
     }
     
-    public void LoadGame() {
+    public void LoadGame(String path) {
         SavedState state;
         
         InputStream file;
         try {
-            file = new FileInputStream("savedGame.game");
+            file = new FileInputStream(path);
             InputStream buffer = new BufferedInputStream(file);
             ObjectInput input = new ObjectInputStream(buffer);
             state = (SavedState) input.readObject();

@@ -6,6 +6,7 @@ import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 import shared_resources.utilities.Config;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Vector;
 
@@ -13,7 +14,7 @@ import java.util.Vector;
  * The aggressive AI strategy. Reinforces its strongest country, then always attacks with it until it
  * cannot attack anymore, then fortifies in order to maximize aggregation of forces in one country.
  */
-public class Aggressive implements Strategy {
+public class Aggressive implements Strategy, Serializable {
 
 
     @Override

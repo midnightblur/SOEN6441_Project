@@ -13,6 +13,7 @@ import shared_resources.utilities.BidirectionalArrayComparator;
 import shared_resources.utilities.Config;
 
 import javax.swing.table.DefaultTableModel;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -22,7 +23,7 @@ import java.util.Vector;
  * @author Team 2
  * @version 1.0
  */
-public class MapTableModel {
+public class MapTableModel implements Serializable {
     // region Attributes declaration
     private DefaultTableModel model;
     private String[][] rows;
