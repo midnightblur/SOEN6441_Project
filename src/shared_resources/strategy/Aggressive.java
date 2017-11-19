@@ -19,7 +19,7 @@ public class Aggressive implements Strategy {
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         Player player = gamePlayModel.getCurrentPlayer();
 
-        /* check for tradable cards if the AI has 3 or more cards */
+        /* check for valid card sets to trade if the AI has 3 or more cards */
         Vector<Card> infantryCards = new Vector<>();
         Vector<Card> cavalryCards = new Vector<>();
         Vector<Card> artilleryCards = new Vector<>();
@@ -49,11 +49,11 @@ public class Aggressive implements Strategy {
                 selectedCards.addElement(infantryCards.firstElement().getCardType().name());
                 infantryCards.remove(0);
                 infantryCards.trimToSize();
-        
+            
                 selectedCards.addElement(cavalryCards.firstElement().getCardType().name());
                 cavalryCards.remove(0);
                 cavalryCards.trimToSize();
-        
+            
                 selectedCards.addElement(artilleryCards.firstElement().getCardType().name());
                 artilleryCards.remove(0);
                 artilleryCards.trimToSize();
@@ -86,18 +86,11 @@ public class Aggressive implements Strategy {
             else {
                 break;
             }
-            
+        
             player.tradeInCards(gamePlayModel, selectedCards);
-    }
-
-        switch (player.getGameState()) {
-            case TRADE_CARDS:
-                return player.tradeInCards(gamePlayModel, selectedCards);
-            case REINFORCEMENT:
-                player.distributeArmies(armiesToPlace);
-                break;
         }
-
+    
+    
         return null;
     }
 
