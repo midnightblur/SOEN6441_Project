@@ -42,12 +42,9 @@ public class StrategyDialog extends JDialog implements Observer {
      * @param players       the players vector
      */
     public StrategyDialog(JFrame gamePlayFrame, Vector<Player> players) {
-        
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        
         mainPanel = new JPanel(new GridLayout(0, 1));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
-        
         playersOptions = new BehaviourOptions[players.size()];  // add the options in array for easier access
         for (int i = 0; i < players.size(); i++) {
             BehaviourOptions opts = new BehaviourOptions(players.elementAt(i));
@@ -59,6 +56,7 @@ public class StrategyDialog extends JDialog implements Observer {
         mainPanel.add(submitButton);
         
         setContentPane(mainPanel);
+        setTitle("Set players' strategy");
         pack();
         setResizable(false);
         setLocationRelativeTo(gamePlayFrame);
@@ -114,10 +112,11 @@ public class StrategyDialog extends JDialog implements Observer {
      * Behaviour Options class to dynamically provide options for players' strategy
      */
     public class BehaviourOptions extends JPanel {
-        private JLabel player_label;
-        private ButtonGroup group;
         JRadioButton radioButton;
         ButtonModel radioButtonModel;
+        private JLabel player_label;
+        private ButtonGroup group;
+        
         /**
          * Constructor that creates a set of option and a name label for each player
          *

@@ -144,6 +144,7 @@ public class GamePlayController {
             int enteredPlayers = Integer.parseInt(gamePlayFrame.getGameSetupPanel().getPlayerCount().getText());
             if ((enteredPlayers > 1) && (enteredPlayers <= gamePlayModel.getGameMap().getMaxPlayers())) {
                 gamePlayModel.initializeNewGame(enteredPlayers);
+                showStrategyOptions();
             } else if (enteredPlayers == 1) {
                 gamePlayModel.initializeNewGame(enteredPlayers);
                 UIHelper.displayMessage(gamePlayFrame, "Player 1 Wins!");
