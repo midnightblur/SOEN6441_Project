@@ -21,19 +21,20 @@ public class Aggressive implements Strategy {
         /* trade cards as long as the bot can */
         tradeCardsForBot(gamePlayModel, selectedCards);
 
-        /* double the reinforcement armies for Aggressive AI */
+        /* find the strongest territory and reinforce that territory */
         armiesToPlace.clear();
         Player player = gamePlayModel.getCurrentPlayer();
         Territory strongestTerritory = null;
         for (Territory territory : player.getTerritories()) {
             if (strongestTerritory == null) {
                 strongestTerritory = territory;
-            }
-            
-            if (territory.getArmies() > strongestTerritory.getArmies()) {
-                strongestTerritory = territory;
+            } else {
+                if (territory.getArmies() > strongestTerritory.getArmies()) {
+                    strongestTerritory = territory;
+                }
             }
         }
+        
         
         
         player.distributeArmies(armiesToPlace);
