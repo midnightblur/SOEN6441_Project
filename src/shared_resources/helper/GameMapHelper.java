@@ -220,12 +220,12 @@ public class GameMapHelper {
             }
             
             /* 5. Every relationship between territories is 2-ways */
-            for (String neighborName : territory.getNeighbors()) {
-                Territory neighbor = gameMap.getATerritory(neighborName);
-                if (!neighbor.isNeighbor(territory.getName())) {
-                    return String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, territory.getName(), neighborName);
-                }
-            }
+//            for (String neighborName : territory.getNeighbors()) {
+//                Territory neighbor = gameMap.getATerritory(neighborName);
+//                if (!neighbor.isNeighbor(territory.getName())) {
+//                    return String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, territory.getName(), neighborName);
+//                }
+//            }
         }
         
         /* 6. Each continent has at least one territory */

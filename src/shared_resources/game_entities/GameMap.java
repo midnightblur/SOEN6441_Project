@@ -154,14 +154,14 @@ public class GameMap implements Serializable {
         }
         
         /* Add the territory to be neighbor of its neighbors */
-        if (!isReadingFile) {
-            for (String neighborName : territory.getNeighbors()) {
-                Territory neighbor = getATerritory(neighborName);
-                if (neighbor != null) { // neighbor will be null in case of building new game map from a text file
-                    neighbor.addNeighbor(territory.getName());
-                }
-            }
-        }
+//        if (!isReadingFile) {
+//            for (String neighborName : territory.getNeighbors()) {
+//                Territory neighbor = getATerritory(neighborName);
+//                if (neighbor != null) { // neighbor will be null in case of building new game map from a text file
+//                    neighbor.addNeighbor(territory.getName());
+//                }
+//            }
+//        }
         
         /* Add the territory to the territories list */
         territories.put(territory.getName(), territory);
@@ -214,10 +214,10 @@ public class GameMap implements Serializable {
         }
         
         /* Add new territory to its new neighbors */
-        for (String neighborName : newTerritory.getNeighbors()) {
-            Territory neighbor = getATerritory(neighborName);
-            neighbor.addNeighbor(newTerritory.getName());
-        }
+//        for (String neighborName : newTerritory.getNeighbors()) {
+//            Territory neighbor = getATerritory(neighborName);
+//            neighbor.addNeighbor(newTerritory.getName());
+//        }
         
         /* Update the territory in the territories list */
         territories.remove(oldTerritoryName);
