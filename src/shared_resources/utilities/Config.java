@@ -96,7 +96,12 @@ public class Config {
     public static Reflections reflections = new Reflections(strategyPath);
     public static Set<Class<? extends Strategy>> strategyClases = reflections.getSubTypesOf(Strategy.class);
     public static LoggingFrame log = LoggingFrame.getInstance();    // the logging window used in game play
-
+    
+    /**
+     * Gets the available strategy classes in a sorted set
+     *
+     * @return a sorted set of strategy classes
+     */
     public static SortedSet<Class<? extends Strategy>> getStrategies() {
         SortedSet<Class<? extends Strategy>> sortedStrategySet = new TreeSet<>(); //TODO: implement a comparator for class names
         sortedStrategySet.addAll(strategyClases);
