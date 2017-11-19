@@ -317,7 +317,6 @@ public class Player {
                     log.append("        " + playerName + " gets " + gamePlayModel.getArmyValue() + " more armies");
                     gamePlayModel.setArmyValue(gamePlayModel.getArmyValue() + 5);
                     log.append("        New army value is now " + gamePlayModel.getArmyValue());
-                    
                 }
             } else if (choice == 2) {  // for one of each exchange
                 for (int cardIndex = 0; cardIndex < selectedCards.size(); cardIndex++) {
