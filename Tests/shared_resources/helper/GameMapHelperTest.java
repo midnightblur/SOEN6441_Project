@@ -192,8 +192,7 @@ public class GameMapHelperTest {
             message = e.getMessage();
         }
         
-        assertEquals(String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, "kamchatka", "alaska"), message);
-        assertNull(gameMap);
+        assertEquals(String.format(Config.MSG_MAPFILE_VALID, "kamchatka", "alaska"), message);
     }
     
     /**
