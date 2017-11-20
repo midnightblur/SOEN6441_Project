@@ -218,18 +218,10 @@ public class GameMapHelper {
             if (territory.getContinent().compareTo("") == 0) {
                 return String.format(Config.MSG_MAPFILE_NO_CONTINENT, territory.getName());
             }
-            
-            /* 5. Every relationship between territories is 2-ways */
-//            for (String neighborName : territory.getNeighbors()) {
-//                Territory neighbor = gameMap.getATerritory(neighborName);
-//                if (!neighbor.isNeighbor(territory.getName())) {
-//                    return String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, territory.getName(), neighborName);
-//                }
-//            }
         }
         
-        /* 6. Each continent has at least one territory */
-        /* 7. Each and every continent is a connected sub-graph */
+        /* 5. Each continent has at least one territory */
+        /* 6. Each and every continent is a connected sub-graph */
         for (Continent continent : gameMap.getContinents().values()) {
             if (continent.getTerritoriesCount() == 0) {
                 return String.format(Config.MSG_MAPFILE_CONTINENT_NO_TERRITORY, continent.getName());
@@ -238,7 +230,7 @@ public class GameMapHelper {
             }
         }
         
-        /* 8. The whole map is a connected graph */
+        /* 7. The whole map is a connected graph */
         if (!isConnectedGraph(gameMap)) {
             return Config.MSG_MAPFILE_DISCONNECTED_GRAPH;
         }

@@ -247,7 +247,7 @@ public class GameMapHelperTest {
     }
     
     /**
-     * This test checks the if the territories has been duplicated.
+     * This test checks if the territories has been duplicated.
      *
      * @throws Exception the exception
      */
@@ -264,7 +264,7 @@ public class GameMapHelperTest {
     }
     
     /**
-     * This test checks the if format is invalid.
+     * This test checks if format is invalid.
      *
      * @throws Exception the exception
      */
@@ -281,7 +281,7 @@ public class GameMapHelperTest {
     }
     
     /**
-     * This test checks the if format is invalid test 2.
+     * This test checks if format is invalid test 2.
      *
      * @throws Exception the exception
      */
@@ -298,7 +298,7 @@ public class GameMapHelperTest {
     }
     
     /**
-     * This test checks the if format is invalid test 3.
+     * This test checks if format is invalid test 3.
      *
      * @throws Exception the exception
      */
@@ -315,7 +315,7 @@ public class GameMapHelperTest {
     }
     
     /**
-     * This test checks the if missing coordination.
+     * This test checks if missing coordination.
      *
      * @throws Exception the exception
      */
@@ -332,7 +332,7 @@ public class GameMapHelperTest {
     }
     
     /**
-     * This test checks the if there is no continent.
+     * This test checks if there is no continent.
      *
      * @throws Exception the exception
      */
@@ -349,7 +349,7 @@ public class GameMapHelperTest {
     }
     
     /**
-     * This test checks the if there is no neighbor.
+     * This test checks if there is no neighbor.
      *
      * @throws Exception the exception
      */
@@ -383,7 +383,7 @@ public class GameMapHelperTest {
     }
     
     /**
-     * This test checks the if the territory has no continent.
+     * This test checks if the territory has no continent.
      *
      * @throws Exception the exception
      */
@@ -400,7 +400,7 @@ public class GameMapHelperTest {
     }
     
     /**
-     * This test checks the if there are too many neighbors.
+     * This test checks if there are too many neighbors.
      *
      * @throws Exception the exception
      */
@@ -417,7 +417,7 @@ public class GameMapHelperTest {
     }
     
     /**
-     * This test checks the if there is undefined continent.
+     * This test checks if there is undefined continent.
      *
      * @throws Exception the exception
      */
@@ -434,7 +434,7 @@ public class GameMapHelperTest {
     }
     
     /**
-     * This test checks the if there is undefined territory.
+     * This test checks if there is undefined territory.
      *
      * @throws Exception the exception
      */
@@ -462,6 +462,54 @@ public class GameMapHelperTest {
         }
         
         assertEquals(Config.MSG_MAPFILE_VALID, message);
+        assertNotNull(gameMap);
+    }
+    
+    /**
+     * This test checks validation on disconnected continents
+     */
+    @Test
+    public void disconnected_continent_1() {
+        try {
+            gameMap = GameMapHelper.loadGameMap("Twin Volcano.map");
+        } catch (Exception e) {
+            message = e.getMessage();
+        }
+    
+        assertEquals(Config.MSG_MAPFILE_DISCONNECTED_CONTINENT, message);
+        assertNull(gameMap);
+    }
+    
+    /**
+     * This test checks validation on disconnected continents
+     */
+    @Test
+    public void disconnected_continent_2() {
+        try {
+            gameMap = GameMapHelper.loadGameMap("UnconnectedContinent.map");
+        } catch (Exception e) {
+            message = e.getMessage();
+        }
+        
+        assertEquals(Config.MSG_MAPFILE_DISCONNECTED_CONTINENT, message);
+        assertNull(gameMap);
+    }
+    
+    /**
+     * This test checks validation on disconnected graph
+     */
+    @Test
+    public void disconnected_graph() {
+        try {
+            gameMap = GameMapHelper.loadGameMap("3D.map");
+            Territory one_c = gameMap.getATerritory("1c");
+            one_c.removeNeighbor("1t");
+            message = GameMapHelper.validateMap(gameMap);
+        } catch (Exception e) {
+            message = e.getMessage();
+        }
+    
+        assertEquals(Config.MSG_MAPFILE_DISCONNECTED_GRAPH, message);
         assertNotNull(gameMap);
     }
 }
