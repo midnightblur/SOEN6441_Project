@@ -20,7 +20,6 @@ public class Aggressive implements Strategy {
         tradeCardsForBot(gamePlayModel, selectedCards);
 
         /* find the strongest territory and reinforce that territory */
-        armiesToPlace.clear();
         Player player = gamePlayModel.getCurrentPlayer();
         Territory strongestTerritory = null;
         for (Territory territory : player.getTerritories()) {
@@ -32,11 +31,11 @@ public class Aggressive implements Strategy {
                 }
             }
         }
-        
-        
-        
+        if (armiesToPlace != null) {
+            armiesToPlace.clear();
+        }
+        armiesToPlace.put(strongestTerritory, player.getUnallocatedArmies());
         player.distributeArmies(armiesToPlace);
-    
     
         return null;
     }
