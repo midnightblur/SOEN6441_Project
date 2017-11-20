@@ -6,6 +6,7 @@
  */
 package shared_resources.game_entities;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
@@ -18,7 +19,7 @@ import static shared_resources.utilities.Config.DEFAULT_NUM_OF_PLAYERS;
  * @author Team 2
  * @version 1.0
  */
-public class GameMap {
+public class GameMap implements Serializable {
     // region Attributes declaration
     private static final String MSG_CONTINENT_EXIST = "The %s continent already exists! No change has been made to the map";
     private static final String MSG_TERRITORY_EXIST = "The %s territory already exists! No change has been made to the map";

@@ -12,6 +12,7 @@ import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 import shared_resources.utilities.Config;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Vector;
 
@@ -19,7 +20,7 @@ import java.util.Vector;
  * The classes implementing a concrete strategy should implement this.
  * The players use this to adopt a concrete strategy.
  */
-public interface Strategy {
+public interface Strategy extends Serializable {
     
     /**
      *

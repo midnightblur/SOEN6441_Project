@@ -69,7 +69,7 @@ public class MapSelectorController {
     }
     
     /**
-     * Close MapSelectorFrame, invoke MainMenuFrame.
+     * Close MapSelectorFrame, invoke MainMenuFrame
      */
     private void backToMainMenu() {
         mapSelectorFrame.dispose();

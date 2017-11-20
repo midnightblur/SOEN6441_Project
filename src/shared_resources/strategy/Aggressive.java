@@ -1,10 +1,8 @@
 package shared_resources.strategy;
 
 import game_play.model.GamePlayModel;
-import shared_resources.game_entities.Card;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
-import shared_resources.utilities.Config;
 
 import java.util.HashMap;
 import java.util.Map;

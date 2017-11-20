@@ -11,6 +11,7 @@ import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 
 import javax.swing.table.DefaultTableModel;
+import java.io.Serializable;
 import java.util.Vector;
 
 /**
@@ -19,7 +20,7 @@ import java.util.Vector;
  * @author Team 2
  * @version 1.0
  */
-public class PlayerTerritoriesModel {
+public class PlayerTerritoriesModel implements Serializable {
     // region Attributes declaration
     private DefaultTableModel model;
     private Vector<String> columns;

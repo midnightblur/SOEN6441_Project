@@ -12,6 +12,7 @@ import shared_resources.strategy.Strategy;
 import shared_resources.utilities.Config;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Vector;
 
@@ -26,7 +27,7 @@ import static shared_resources.utilities.Config.log;
  * @author Team 2
  * @version 1.0
  */
-public class Player {
+public class Player implements Serializable {
     // region Attributes declaration
     private static int nextID = 0;
     private Color color;

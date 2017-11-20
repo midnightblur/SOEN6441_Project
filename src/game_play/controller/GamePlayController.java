@@ -97,8 +97,9 @@ public class GamePlayController {
      */
     private void registerToBeListener() {
         /* Menu listeners */
-        gamePlayFrame.addSaveMenuListener(e -> saveGame());
-        gamePlayFrame.addLoadMenuListener(e -> loadGame());
+        
+        gamePlayFrame.addSaveMenuListener(e -> new SavedState(gamePlayModel).SaveGame());
+        gamePlayFrame.addLoadMenuListener(e -> new SavedState(gamePlayModel).LoadGame("savedGame.game"));
         gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions());
         
         /* Play button to start the game */
@@ -496,18 +497,4 @@ public class GamePlayController {
         strategyDialog.dispose();
     }
     
-    /**
-     * Saves the game state to file
-     */
-    private void saveGame() {
-        new SavedState(gamePlayModel);
-    }
-    
-    /**
-     * Loads the game state from file
-     */
-    private void loadGame() {
-    
-    }
-    // endregion
 }

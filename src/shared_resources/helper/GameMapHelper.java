@@ -190,6 +190,7 @@ public class GameMapHelper {
      * <li>Each territory has a continent
      * <li>Every relationship between territories is 2-ways
      * <li>Each continent has at least one territory
+     * <li>Each and every continent is connected sub-graph
      * <li>The whole map is a connected graph
      * </ol>
      *
@@ -228,13 +229,16 @@ public class GameMapHelper {
         }
         
         /* 6. Each continent has at least one territory */
+        /* 7. Each and every continent is a connected sub-graph */
         for (Continent continent : gameMap.getContinents().values()) {
             if (continent.getTerritoriesCount() == 0) {
                 return String.format(Config.MSG_MAPFILE_CONTINENT_NO_TERRITORY, continent.getName());
+            } else if (!isConnectedGraph(gameMap, continent)) {
+                return String.format(Config.MSG_MAPFILE_DISCONNECTED_CONTINENT, continent.getName());
             }
         }
         
-        /* 7. The whole map is a connected graph */
+        /* 8. The whole map is a connected graph */
         if (!isConnectedGraph(gameMap)) {
             return Config.MSG_MAPFILE_DISCONNECTED_GRAPH;
         }
@@ -353,6 +357,43 @@ public class GameMapHelper {
         }
     
         return visitedNodesSet.size() == gameMap.getTerritoriesCount();
+    }
+    
+    /**
+     * A continent is supposed to be a connected sub-graph
+     * Meaning there is a path between any two territories in the continent
+     * A path is a collection of 2-ways relationships between two neighbors
+     * Using Breadth-First-Search algorithm to check if the sub-graph is connected
+     * BFS will create a new sub-graph from any arbitrary node (territory) in the sub-graph (continent)
+     * If the newly created sub-graph has the same number of nodes as in the original sub-graph
+     * Then the original sub-graph is connected.
+     *
+     * @param gameMap the Game Map
+     * @param continent the continent
+     *
+     * @return true if the continent is a connected sub-graph, false if it is not
+     */
+    private static boolean isConnectedGraph(GameMap gameMap, Continent continent) {
+        Set<String> visitedNodesSet = new HashSet<>();
+        Queue<String> nodesQueue = new LinkedList<>();
+        
+        /* Get an arbitrary node (territory) from the sub-graph (continent) to start making a new sub-graph using BFS */
+        String arbitraryNode = continent.getArbitraryTerritory();
+        visitedNodesSet.add(arbitraryNode);
+        nodesQueue.add(arbitraryNode);
+
+        /* Runs BFS */
+        while (!nodesQueue.isEmpty()) {
+            Territory currentNode = gameMap.getATerritory(nodesQueue.poll());
+            for (String neighborName : currentNode.getNeighbors()) {
+                if (continent.isContain(neighborName) && !visitedNodesSet.contains(neighborName)) {
+                    visitedNodesSet.add(neighborName);
+                    nodesQueue.add(neighborName);
+                }
+            }
+        }
+        
+        return visitedNodesSet.size() == continent.getTerritoriesCount();
     }
     // endregion
 }
