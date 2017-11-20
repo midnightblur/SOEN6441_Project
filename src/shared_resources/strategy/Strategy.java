@@ -23,7 +23,7 @@ import java.util.Vector;
 public interface Strategy extends Serializable {
     
     /**
-     * 
+     *
      * @param gamePlayModel
      * @param selectedCards
      */
@@ -51,7 +51,7 @@ public interface Strategy extends Serializable {
             }
         }
         
-        /* trade cards as long as the Aggressive AI can */
+        /* trade cards as long as the AI can */
         while (true) {
             selectedCards.clear();
             

@@ -97,8 +97,9 @@ public class GamePlayController {
      */
     private void registerToBeListener() {
         /* Menu listeners */
+        
         gamePlayFrame.addSaveMenuListener(e -> new SavedState(gamePlayModel).SaveGame());
-        gamePlayFrame.addLoadMenuListener(e -> new SavedState(gamePlayModel).LoadGame("xxx"));
+        gamePlayFrame.addLoadMenuListener(e -> new SavedState(gamePlayModel).LoadGame("savedGame.game"));
         gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions());
         
         /* Play button to start the game */

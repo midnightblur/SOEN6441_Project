@@ -4,6 +4,7 @@ import game_play.model.GamePlayModel;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
@@ -15,12 +16,26 @@ public class Aggressive implements Strategy {
     
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
+        /* trade cards as long as the bot can */
         tradeCardsForBot(gamePlayModel, selectedCards);
-        
-        Player player = gamePlayModel.getCurrentPlayer();
 
-        
-    
+        /* find the strongest territory and reinforce that territory */
+        Player player = gamePlayModel.getCurrentPlayer();
+        Territory strongestTerritory = null;
+        for (Territory territory : player.getTerritories()) {
+            if (strongestTerritory == null) {
+                strongestTerritory = territory;
+            } else {
+                if (territory.getArmies() > strongestTerritory.getArmies()) {
+                    strongestTerritory = territory;
+                }
+            }
+        }
+        if (armiesToPlace != null) {
+            armiesToPlace.clear();
+        }
+        armiesToPlace.put(strongestTerritory, player.getUnallocatedArmies());
+        player.distributeArmies(armiesToPlace);
     
         return null;
     }
