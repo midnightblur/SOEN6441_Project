@@ -454,9 +454,24 @@ public class GameMapHelperTest {
      * This test checks validation on a valid map
      */
     @Test
-    public void valid_map() {
+    public void valid_map_1() {
         try {
             gameMap = GameMapHelper.loadGameMap("World.map");
+        } catch (Exception e) {
+            message = e.getMessage();
+        }
+        
+        assertEquals(Config.MSG_MAPFILE_VALID, message);
+        assertNotNull(gameMap);
+    }
+    
+    /**
+     * This test checks validation on a valid map
+     */
+    @Test
+    public void valid_map_2() {
+        try {
+            gameMap = GameMapHelper.loadGameMap("3D Cliff.map");
         } catch (Exception e) {
             message = e.getMessage();
         }
