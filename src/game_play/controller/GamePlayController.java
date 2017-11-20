@@ -134,6 +134,34 @@ public class GamePlayController {
         
     }
     
+    /**
+     * Setting the player's strategy
+     */
+    private void showStrategyOptions() {
+        strategyDialog = new StrategyDialog(gamePlayFrame, gamePlayModel.getPlayers());
+        gamePlayModel.addObserver(strategyDialog);
+        strategyDialog.addSubmitButtonListener(e -> setStrategy());
+        strategyDialog.update(gamePlayModel, this);
+    }
+    
+    /**
+     * Sets the player strategy as selected in StrategyDialog
+     */
+    private void setStrategy() {
+        StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
+        String chosenStrategy;
+        for (int i = 0; i < opts.length; i++) {
+            chosenStrategy = opts[i].getGroup().getSelection().getActionCommand();
+            try {
+                Class<?> strategyClass = Class.forName(strategyPath + "." + chosenStrategy);
+                gamePlayModel.getPlayers().get(i).setStrategy((Strategy) strategyClass.newInstance());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        strategyDialog.dispose();
+    }
+    
     // region For Setup Phase
     
     /**
@@ -466,35 +494,4 @@ public class GamePlayController {
     }
     
     // endregion
-    
-    // region
-    
-    /**
-     * Setting the player's strategy
-     */
-    private void showStrategyOptions() {
-        strategyDialog = new StrategyDialog(gamePlayFrame, gamePlayModel.getPlayers());
-        gamePlayModel.addObserver(strategyDialog);
-        strategyDialog.addSubmitButtonListener(e -> setStrategy());
-        strategyDialog.update(gamePlayModel, this);
-    }
-    
-    /**
-     * Sets the player strategy as selected in StrategyDialog
-     */
-    private void setStrategy() {
-        StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
-        String chosenStrategy;
-        for (int i = 0; i < opts.length; i++) {
-            chosenStrategy = opts[i].getGroup().getSelection().getActionCommand();
-            try {
-                Class<?> strategyClass = Class.forName(strategyPath + "." + chosenStrategy);
-                gamePlayModel.getPlayers().get(i).setStrategy((Strategy) strategyClass.newInstance());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        strategyDialog.dispose();
-    }
-    
 }
