@@ -37,14 +37,14 @@ public interface Strategy extends Serializable {
         if (player.getPlayersHand().size() >= Config.MIN_CARDS_TO_TRADE) {
             for (int i = 0; i < player.getPlayersHand().size(); i++) {
                 Card card = player.getPlayersHand().get(i);
-                switch (card.getCardType().name()) {
-                    case "INFANTRY":
+                switch (card.getCardType()) {
+                    case INFANTRY:
                         infantryCards.addElement(card);
                         break;
-                    case "CAVALRY":
+                    case CAVALRY:
                         cavalryCards.addElement(card);
                         break;
-                    case "ARTILLERY":
+                    case ARTILLERY:
                         artilleryCards.addElement(card);
                         break;
                 }
