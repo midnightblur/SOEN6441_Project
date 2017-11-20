@@ -432,17 +432,6 @@ public class GamePlayModel extends Observable implements Serializable{
         broadcastGamePlayChanges();
     }
     
-    // endregion
-    
-    // region For Reinforcement Phase
-    
-    /**
-     * Update player territories game_entities.
-     */
-    private void updatePlayerTerritoriesModel() {
-        playerTerritoriesModel.updateMapTableModel(currentPlayer, this);
-    }
-    
     /**
      * This method allows the players to allocate an unallocated army to a territory that
      * the player owns.
@@ -473,6 +462,16 @@ public class GamePlayModel extends Observable implements Serializable{
         
         updateGameMapTableModel();
         broadcastGamePlayChanges();
+    }
+    // endregion
+    
+    // region For Reinforcement Phase
+    
+    /**
+     * Update player territories game_entities.
+     */
+    private void updatePlayerTerritoriesModel() {
+        playerTerritoriesModel.updateMapTableModel(currentPlayer, this);
     }
     
     /**
@@ -557,6 +556,9 @@ public class GamePlayModel extends Observable implements Serializable{
      */
     public void placeArmiesReinforcement(Map<Territory, Integer> armiesToPlace) {
         currentPlayer.reinforcement(this, null, armiesToPlace);
+        if (currentPlayer.isHuman() && !currentPlayer.ableToTradeCards()) {
+            currentPlayer.nextPhase();
+        }
         updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
@@ -577,7 +579,6 @@ public class GamePlayModel extends Observable implements Serializable{
             return armies - 1;
         }
     }
-    
     // endregion
     
     // region For Attack Phase

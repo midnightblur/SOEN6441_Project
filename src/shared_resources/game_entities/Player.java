@@ -364,6 +364,14 @@ public class Player implements Serializable {
         this.gameState = gameState;
     }
     
+    /**
+     * Check whether a player is human or bot
+     *
+     * @return
+     */
+    public boolean isHuman() {
+        return (strategy instanceof Human);
+    }
     // region Reinforcement Phase
     
     /**
@@ -418,6 +426,39 @@ public class Player implements Serializable {
      */
     public void setUnallocatedArmies(int unallocatedArmies) {
         this.unallocatedArmies = unallocatedArmies;
+    }
+    
+    /**
+     * Check if current human's player have a valid set of cards to trade
+     *
+     * @return true if he has a set of one of each kind or three of same kind, false if he does not
+     */
+    public boolean ableToTradeCards() {
+        int infantryCount = 0;
+        int cavalryCount = 0;
+        int artilleryCount = 0;
+        
+        for (Card card : playersHand) {
+            switch (card.getCardType()) {
+                case INFANTRY:
+                    infantryCount++;
+                    break;
+                case CAVALRY:
+                    cavalryCount++;
+                    break;
+                case ARTILLERY:
+                    artilleryCount++;
+                    break;
+            }
+        }
+        
+        if (infantryCount > 0 && cavalryCount > 0 && artilleryCount > 0) {
+            return true;
+        } else if (infantryCount >= 3 || cavalryCount >= 3 || artilleryCount >= 3) {
+            return true;
+        } else {
+            return false;
+        }
     }
     // endregion
     
