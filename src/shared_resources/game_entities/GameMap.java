@@ -208,10 +208,10 @@ public class GameMap implements Serializable {
         newContinent.addTerritory(newTerritory.getName());
         
         /* Remove territory from its old neighbors */
-        for (String neighborName : oldTerritory.getNeighbors()) {
-            Territory neighbor = getATerritory(neighborName);
-            neighbor.removeNeighbor(oldTerritory.getName());
-        }
+//        for (String neighborName : oldTerritory.getNeighbors()) {
+//            Territory neighbor = getATerritory(neighborName);
+//            neighbor.removeNeighbor(oldTerritory.getName());
+//        }
         
         /* Add new territory to its new neighbors */
 //        for (String neighborName : newTerritory.getNeighbors()) {
