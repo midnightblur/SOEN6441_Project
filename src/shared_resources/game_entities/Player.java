@@ -659,5 +659,25 @@ public class Player implements Serializable {
         log.append("    " + playerName + " moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory);
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
+    
+    /**
+     * Check whether the player has any valid territory that can move some armies from it to another territory
+     * A valid territory is the one having at least 2 armies and at least 1 neighbor owned by the same player
+     *
+     * @return true if there is at least 1 valid territory, false if there's none
+     */
+    public boolean ableToForitfy(GameMap gameMap) {
+        for (Territory territory : territories) {
+            if (territory.getArmies() >= 2) {
+                for (String neighborName : territory.getNeighbors()) {
+                    Territory neighbor = gameMap.getATerritory(neighborName);
+                    if (neighbor.getOwner() == territory.getOwner()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
     // endregion
 }
