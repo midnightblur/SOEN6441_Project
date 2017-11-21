@@ -60,6 +60,7 @@ public class GamePlayController {
         this.callerController = callerController;
         gamePlayModel = new GamePlayModel();
         gamePlayFrame = new GamePlayFrame(callerController);
+        gamePlayFrame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
         
         registerObserversToObservable();
         
@@ -135,19 +136,9 @@ public class GamePlayController {
     }
     
     /**
-     * Setting the player's strategy
-     */
-    private void showStrategyOptions() {
-        strategyDialog = new StrategyDialog(gamePlayFrame, gamePlayModel.getPlayers());
-        gamePlayModel.addObserver(strategyDialog);
-        strategyDialog.addSubmitButtonListener(e -> setStrategy());
-        strategyDialog.update(gamePlayModel, this);
-    }
-    
-    /**
      * Sets the player strategy as selected in StrategyDialog
      */
-    private void setStrategy() {
+    public void setStrategy() {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
         String chosenStrategy;
         for (int i = 0; i < opts.length; i++) {
@@ -163,6 +154,13 @@ public class GamePlayController {
     }
     
     // region For Setup Phase
+    
+    /**
+     * Setting the player's strategy
+     */
+    private void showStrategyOptions() {
+        strategyDialog = new StrategyDialog(this, gamePlayFrame, gamePlayModel.getPlayers());
+    }
     
     /**
      * Called when the number of players for the game is decided, the game then starts.

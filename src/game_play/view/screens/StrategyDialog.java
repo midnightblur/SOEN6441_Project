@@ -6,7 +6,7 @@
  */
 package game_play.view.screens;
 
-import game_play.model.GamePlayModel;
+import game_play.controller.GamePlayController;
 import shared_resources.game_entities.Player;
 import shared_resources.strategy.Strategy;
 import shared_resources.utilities.Config;
@@ -15,8 +15,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Vector;
 
 /**
@@ -25,7 +23,7 @@ import java.util.Vector;
  * @author Team 2
  * @version 2.0
  */
-public class StrategyDialog extends JDialog implements Observer {
+public class StrategyDialog extends JDialog {
     // region Attributes declaration
     private static final String SUBMIT_BUTTON_LABEL = "Set Strategies";
     private JButton submitButton;
@@ -41,7 +39,7 @@ public class StrategyDialog extends JDialog implements Observer {
      * @param gamePlayFrame the parent frame calling this dialog
      * @param players       the players vector
      */
-    public StrategyDialog(JFrame gamePlayFrame, Vector<Player> players) {
+    public StrategyDialog(GamePlayController gamePlayController, JFrame gamePlayFrame, Vector<Player> players) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         mainPanel = new JPanel(new GridLayout(0, 1));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
@@ -54,6 +52,9 @@ public class StrategyDialog extends JDialog implements Observer {
         
         submitButton = new JButton(SUBMIT_BUTTON_LABEL);
         mainPanel.add(submitButton);
+    
+        checkRadioButtons(players);
+        addSubmitButtonListener(e -> gamePlayController.setStrategy());
         
         setContentPane(mainPanel);
         setTitle("Set players' strategy");
@@ -89,22 +90,16 @@ public class StrategyDialog extends JDialog implements Observer {
     }
     
     /**
-     * Update based on observed model
+     * Check the radio buttons corresponding to players' type
      *
-     * @param o   the model object that broadcasts changes
-     * @param arg the caller object
+     * @param players
      */
-    @Override
-    public void update(Observable o, Object arg) {
-        if (((GamePlayModel) o).getPlayers().size() > 0) {
-            Vector<Player> players = ((GamePlayModel) o).getPlayers();
-            for (int i = 0; i < players.size(); i++) {
-                if (players.elementAt(i).getPlayerName().equals(playersOptions[i].getPlayer_label().getText())) {
-                    playersOptions[i].setSelection(players.elementAt(i).getStrategy().getClass().getSimpleName());
-                }
+    private void checkRadioButtons(Vector<Player> players) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.elementAt(i).getPlayerName().equals(playersOptions[i].getPlayer_label().getText())) {
+                playersOptions[i].setSelection(players.elementAt(i).getStrategy().getClass().getSimpleName());
             }
         }
-        
     }
     // endregion
     
