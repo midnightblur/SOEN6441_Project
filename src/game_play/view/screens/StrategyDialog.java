@@ -27,7 +27,6 @@ public class StrategyDialog extends JDialog {
     // region Attributes declaration
     private static final String SUBMIT_BUTTON_LABEL = "Set Strategies";
     private JButton submitButton;
-    private JPanel mainPanel;
     private BehaviourOptions[] playersOptions;
     // endregion
     
@@ -40,8 +39,9 @@ public class StrategyDialog extends JDialog {
      * @param players       the players vector
      */
     public StrategyDialog(GamePlayController gamePlayController, JFrame gamePlayFrame, Vector<Player> players) {
+        super(gamePlayFrame, ModalityType.TOOLKIT_MODAL);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        mainPanel = new JPanel(new GridLayout(0, 1));
+        JPanel mainPanel = new JPanel(new GridLayout(0, 1));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
         playersOptions = new BehaviourOptions[players.size()];  // add the options in array for easier access
         for (int i = 0; i < players.size(); i++) {
@@ -54,7 +54,7 @@ public class StrategyDialog extends JDialog {
         mainPanel.add(submitButton);
     
         checkRadioButtons(players);
-        addSubmitButtonListener(e -> gamePlayController.setStrategy());
+        addSubmitButtonListener(e -> gamePlayController.setStrategy(this));
         
         setContentPane(mainPanel);
         setTitle("Set players' strategy");
