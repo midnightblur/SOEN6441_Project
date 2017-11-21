@@ -898,12 +898,15 @@ public class GamePlayModel extends Observable implements Serializable{
         while (!currentPlayer.isHuman()) {
             // Reinforcement phase
             currentPlayer.reinforcement(this, null, null);
+            currentPlayer.nextPhase();
             
             // Attacking phase
             currentPlayer.attack(this);
+            currentPlayer.nextPhase();
             
             // Fortification phase
             currentPlayer.fortification(this, null, null, -1);
+            currentPlayer.nextPhase();
             
             nextPlayerTurn();
         }
