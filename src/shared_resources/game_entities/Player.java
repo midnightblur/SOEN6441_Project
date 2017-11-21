@@ -363,7 +363,7 @@ public class Player implements Serializable {
     /**
      * Check whether a player is human or bot
      *
-     * @return
+     * @return true if the player is human player, false if it is a bot
      */
     public boolean isHuman() {
         return (playerType instanceof Human);
@@ -601,6 +601,8 @@ public class Player implements Serializable {
      * A player can only declare an attack if he has at least one territory having more than 1 army
      * And that particular territory needs to have at least one neighbor territory owned by another player
      *
+     * @param gameMap the game map
+     *
      * @return true if the player can declare another attack, false otherwise
      */
     public boolean ableToAttack(GameMap gameMap) {
@@ -663,6 +665,8 @@ public class Player implements Serializable {
     /**
      * Check whether the player has any valid territory that can move some armies from it to another territory
      * A valid territory is the one having at least 2 armies and at least 1 neighbor owned by the same player
+     *
+     * @param gameMap the game map
      *
      * @return true if there is at least 1 valid territory, false if there's none
      */
