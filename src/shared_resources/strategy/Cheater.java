@@ -11,9 +11,7 @@ import java.util.Vector;
  * conquer all the neighbors of all its countries, and fortification doubles the number of armies on its countries
  * that have neighbors that belong to other players
  */
-public class Cheater implements Strategy {
-
-
+public class Cheater extends Bot {
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         return null;

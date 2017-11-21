@@ -11,7 +11,7 @@ import java.util.Comparator;
 /**
  * Custom comparator for comparing class names
  */
-class ClassNameComparator implements Comparator<Class> {
+public class ClassNameComparator implements Comparator<Class> {
     
     /**
      * @see Comparator#compare(Object, Object)

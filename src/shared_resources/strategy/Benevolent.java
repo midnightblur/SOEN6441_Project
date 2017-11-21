@@ -11,9 +11,7 @@ import java.util.Vector;
  * The benevolent AI strategy. Reinforces its weakest countries, never attacks, then fortifies in order
  * to move armies to weaker countries.
  */
-public class Benevolent implements Strategy {
-
-
+public class Benevolent extends Bot {
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         /* trade cards as long as the bot can */

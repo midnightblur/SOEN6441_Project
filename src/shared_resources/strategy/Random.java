@@ -1,7 +1,6 @@
 package shared_resources.strategy;
 
 import game_play.model.GamePlayModel;
-import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 
 import java.util.Map;
@@ -11,9 +10,7 @@ import java.util.Vector;
  * The random AI strategy. Reinforces a random country, attacks random countries a random number of times, and
  * fortifies a random country.
  */
-public class Random implements Strategy {
-
-
+public class Random extends Bot {
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         /* trade cards as long as the bot can */

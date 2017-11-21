@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Vector;
 
 import static shared_resources.utilities.Config.GAME_STATES.*;
-import static shared_resources.utilities.Config.strategyPath;
 
 /**
  * GamePlayController is responsible for coordinating the GamePlayModel and GamePlayFrame
@@ -144,7 +143,7 @@ public class GamePlayController {
         for (int i = 0; i < opts.length; i++) {
             chosenStrategy = opts[i].getGroup().getSelection().getActionCommand();
             try {
-                Class<?> strategyClass = Class.forName(strategyPath + "." + chosenStrategy);
+                Class<?> strategyClass = Class.forName(strategyDialog.getStrategyPath() + "." + chosenStrategy);
                 gamePlayModel.getPlayers().get(i).setStrategy((Strategy) strategyClass.newInstance());
             } catch (Exception e) {
                 e.printStackTrace();

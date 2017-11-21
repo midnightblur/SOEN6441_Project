@@ -7,13 +7,8 @@
 package shared_resources.utilities;
 
 import game_play.view.screens.LoggingFrame;
-import org.reflections.Reflections;
-import shared_resources.strategy.Strategy;
 
 import java.awt.*;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * Configuration class providing static attributes for the application:
@@ -91,22 +86,7 @@ public class Config {
     // endregion
     
     // region Constants used for AI strategies
-    public static String strategyPath = "shared_resources.strategy";
-    public static Reflections reflections = new Reflections(strategyPath);
-    public static Set<Class<? extends Strategy>> strategyClases = reflections.getSubTypesOf(Strategy.class);
     public static LoggingFrame log = LoggingFrame.getInstance();    // the logging window used in game play
-    
-    /**
-     * Gets the available strategy classes in a sorted set
-     * It uses a custom class name comparator
-     *
-     * @return a sorted set of strategy classes
-     */
-    public static SortedSet<Class<? extends Strategy>> getStrategies() {
-        SortedSet<Class<? extends Strategy>> sortedStrategySet = new TreeSet<Class<? extends Strategy>>(new ClassNameComparator());
-        sortedStrategySet.addAll(strategyClases);
-        return sortedStrategySet;
-    }
     // endregion
     
     // region Enumeration for game states

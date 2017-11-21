@@ -7,15 +7,16 @@
 package game_play.view.screens;
 
 import game_play.controller.GamePlayController;
+import org.reflections.Reflections;
 import shared_resources.game_entities.Player;
 import shared_resources.strategy.Strategy;
-import shared_resources.utilities.Config;
+import shared_resources.utilities.ClassNameComparator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.Enumeration;
-import java.util.Vector;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 /**
  * ConquerDialog is responsible for the attacker choose the number of armies to place on the newly conquered territory
@@ -28,6 +29,9 @@ public class StrategyDialog extends JDialog {
     private static final String SUBMIT_BUTTON_LABEL = "Set Strategies";
     private JButton submitButton;
     private BehaviourOptions[] playersOptions;
+    private String strategyPath = "shared_resources.strategy";
+    private Reflections reflections = new Reflections(strategyPath);
+    private Set<Class<? extends Strategy>> strategyClasses = reflections.getSubTypesOf(Strategy.class);
     // endregion
     
     // region Constructors
@@ -66,6 +70,15 @@ public class StrategyDialog extends JDialog {
     // endregion
     
     // region Getters & Setters
+    
+    /**
+     * Gets the strategy path
+     *
+     * @return the strategy path
+     */
+    public String getStrategyPath() {
+        return strategyPath;
+    }
     
     /**
      * Gets the players entries
@@ -122,7 +135,7 @@ public class StrategyDialog extends JDialog {
             add(player_label);
             
             group = new ButtonGroup();
-            for (Class<? extends Strategy> strategyClass : Config.getStrategies()) {
+            for (Class<? extends Strategy> strategyClass : getStrategies()) {
                 String strategy = strategyClass.getSimpleName();
                 radioButton = new JRadioButton(strategy);
                 radioButton.setActionCommand(strategy);
@@ -164,7 +177,21 @@ public class StrategyDialog extends JDialog {
                 }
             }
         }
-        
     }
+    
+    // region Private methods
+    /**
+     * Gets the available strategy classes in a sorted set
+     * It uses a custom class name comparator
+     *
+     * @return a sorted set of strategy classes
+     */
+    private SortedSet<Class<? extends Strategy>> getStrategies() {
+        SortedSet<Class<? extends Strategy>> sortedStrategySet = new TreeSet<>(new ClassNameComparator());
+        strategyClasses.removeIf(strategy -> Modifier.isAbstract(strategy.getModifiers()));
+        sortedStrategySet.addAll(strategyClasses);
+        return sortedStrategySet;
+    }
+    // endregion
 }
 
