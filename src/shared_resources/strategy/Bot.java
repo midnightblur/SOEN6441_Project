@@ -7,7 +7,7 @@ import shared_resources.utilities.Config;
 
 import java.util.Vector;
 
-public abstract class Bot implements PlayerType {
+abstract class Bot implements PlayerType {
     /**
      *
      * @param gamePlayModel
