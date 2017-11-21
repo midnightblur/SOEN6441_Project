@@ -566,6 +566,28 @@ public class Player implements Serializable {
     public void addCardToPlayersHand(Card card) {
         this.playersHand.add(card);
     }
+    
+    /**
+     * Check whether the player is able to declare another attack
+     * A player can only declare an attack if he has at least one territory having more than 1 army
+     * And that particular territory needs to have at least one neighbor territory owned by another player
+     *
+     * @return true if the player can declare another attack, false otherwise
+     */
+    public boolean ableToAttack(GameMap gameMap) {
+        for (Territory territory : territories) {
+            if (territory.getArmies() > 1) {
+                for (String neighborName : territory.getNeighbors()) {
+                    Territory neighbor = gameMap.getATerritory(neighborName);
+                    if (neighbor.getOwner() != territory.getOwner()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        return false;
+    }
     // endregion
     
     // region Fortification Phase

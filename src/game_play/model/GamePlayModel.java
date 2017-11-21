@@ -608,8 +608,19 @@ public class GamePlayModel extends Observable implements Serializable{
      */
     public void moveArmiesToConqueredTerritory(int armiesToMove) {
         currentPlayer.conquer(this, armiesToMove);
+        moveToFortificationIfCan();
         updateGameMapTableModel();
         broadcastGamePlayChanges();
+    }
+    
+    /**
+     * If current player cannot attack anymore, move to Fortification automatically
+     */
+    private void moveToFortificationIfCan() {
+        if (!currentPlayer.ableToAttack(gameMap)) {
+            log.append("    " + currentPlayer.getPlayerName() + " cannot attack anymore");
+            currentPlayer.nextPhase();
+        }
     }
     
     /**
@@ -683,6 +694,8 @@ public class GamePlayModel extends Observable implements Serializable{
                 log.append("!!!!!!!!!!!!!!!!!! " + message + "!!!!!!!!!!!!!!!!!!");
             }
         }
+        
+        moveToFortificationIfCan();
         
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -788,7 +801,9 @@ public class GamePlayModel extends Observable implements Serializable{
         }
         return neighborsList.toArray(new String[neighborsList.size()]);
     }
+    // endregion
     
+    // region For Fortification Phase
     /**
      * Delegate the job to fortification() of Player class.
      *

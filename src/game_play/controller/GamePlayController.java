@@ -297,10 +297,10 @@ public class GamePlayController {
      * Called when players want to prepare another attack
      */
     private void prepareAnotherAttack() {
-        /* Check if the defending territory has been conquered */
-        if (gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
-            openMoveArmiesToConqueredTerritoryDialog();
-        }
+//        /* Check if the defending territory has been conquered */
+//        if (gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
+//            openMoveArmiesToConqueredTerritoryDialog();
+//        }
         gamePlayModel.prepareNewAttack();
     }
     
@@ -346,10 +346,10 @@ public class GamePlayController {
      * Move to Fortification phase
      */
     private void goToFortificationPhase() {
-        if (gamePlayModel.getCurrentPlayer().getGameState() == ATTACK_BATTLE &&
-                gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
-            openMoveArmiesToConqueredTerritoryDialog();
-        }
+//        if (gamePlayModel.getCurrentPlayer().getGameState() == ATTACK_BATTLE &&
+//                gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
+//            openMoveArmiesToConqueredTerritoryDialog();
+//        }
         
         if (gamePlayModel.getCurrentPlayer().hasConqueredTerritories()) {
             gamePlayModel.drawCardForWinner(gamePlayModel.getCurrentPlayer());
@@ -491,6 +491,11 @@ public class GamePlayController {
             UIHelper.invokeFrame(callerController.getMainMenuFrame());
         }
         
+        /* Display dialog to let the winning attacker to move armies to conquered territory */
+        else if (gamePlayModel.getCurrentPlayer().getGameState() == ATTACK_BATTLE &&
+                gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
+            openMoveArmiesToConqueredTerritoryDialog();
+        }
     }
     
     // endregion
