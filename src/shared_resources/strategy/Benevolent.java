@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import static shared_resources.utilities.Config.log;
+
 /**
  * The benevolent AI strategy. Reinforces its weakest countries, never attacks, then fortifies in order
  * to move armies to weaker countries.
@@ -30,6 +32,8 @@ public class Benevolent extends Bot {
                 }
             }
         }
+        log.append("    " + player.getPlayerName() + "'s weakest territory is " +
+                weakestTerritory.getName() +" having " + weakestTerritory.getArmies() + " armies");
         if (armiesToPlace != null) {
             armiesToPlace.clear();
         } else {

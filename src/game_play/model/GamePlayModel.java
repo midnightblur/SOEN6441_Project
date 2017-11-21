@@ -914,6 +914,8 @@ public class GamePlayModel extends Observable implements Serializable{
             
             nextPlayerTurn();
         }
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
     }
     // endregion
 }
