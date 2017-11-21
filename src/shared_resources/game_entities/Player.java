@@ -436,7 +436,7 @@ public class Player implements Serializable {
      * @return the message to user if reinforcement was successful or not
      */
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
-        return this.playerType.reinforcement(gamePlayModel, selectedCards, armiesToPlace);
+        return playerType.reinforcement(gamePlayModel, selectedCards, armiesToPlace);
     }
     
     /**
@@ -506,64 +506,7 @@ public class Player implements Serializable {
      * @param gamePlayModel the game play model
      */
     public void attack(GamePlayModel gamePlayModel) {
-        Battle currentBattle = gamePlayModel.getCurrentBattle();
-        Territory attackingTerritory = currentBattle.getAttackingTerritory();
-        Territory defendingTerritory = currentBattle.getDefendingTerritory();
-        int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
-        int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
-
-        /* Both players roll dice */
-        currentBattle.attackerRollDice();
-        log.append("        " + currentBattle.getAttacker().getPlayerName() + " roll dice: " +
-                currentBattle.getAttackerDice().getRollsResult());
-        currentBattle.defenderRollDice();
-        log.append("        " + currentBattle.getDefender().getPlayerName() + " roll dice: " +
-                currentBattle.getDefenderDice().getRollsResult());
-
-        /* Decide the battle */
-        // Compare the best result of both players
-        int bestOfAttacker = currentBattle.getAttackerDice().getTheBestResult();
-        int bestOfDefender = currentBattle.getDefenderDice().getTheBestResult();
-        decideResult(currentBattle, attackingTerritory, defendingTerritory, bestOfAttacker, bestOfDefender);
-        
-        // If both players roll at least 2 dice
-        if (numOfAtkDice >= 2 && numOfDefDice >= 2) {
-            int secondBestOfAttacker = currentBattle.getAttackerDice().getSecondBestResult();
-            int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
-            decideResult(currentBattle, attackingTerritory, defendingTerritory, secondBestOfAttacker, secondBestOfDefender);
-        }
-    }
-    
-    /**
-     * This method decides the outcome of the current battle by comparing the attacker's dice
-     * roll value and the defender's dice roll value. Depending on the result, the method
-     * increases the lose count for the player who rolled a lower value than the opponent.
-     *
-     * @param currentBattle      Battle object of the current battle state
-     * @param attackingTerritory Territory object of the territory that is attacking
-     * @param defendingTerritory Territory object of the territory that is defending
-     * @param attackerRoll       Integer value of the attacker's dice roll
-     * @param defenderRoll       Integer value of the defender's dice roll
-     */
-    private void decideResult(Battle currentBattle, Territory attackingTerritory, Territory defendingTerritory,
-                              int attackerRoll, int defenderRoll) {
-        if (attackerRoll > defenderRoll) { // the attacker wins
-            log.append("        Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + attackerRoll +
-                    ", defender " + currentBattle.getDefender().getPlayerName() + " has " + defenderRoll +
-                    ", attacker wins");
-            defendingTerritory.reduceArmies(1);
-            log.append("        " + currentBattle.getDefender().getPlayerName() + "'s " +
-                    defendingTerritory.getName() + " loses 1 army");
-            currentBattle.increaseDefenderLossCount();
-        } else { // the defender wins
-            log.append("        Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + attackerRoll +
-                    ", defender " + currentBattle.getDefender().getPlayerName() + " has " + defenderRoll +
-                    ", defender wins");
-            attackingTerritory.reduceArmies(1);
-            log.append("        " + currentBattle.getAttacker().getPlayerName() + "'s " +
-                    attackingTerritory.getName() + " loses 1 army");
-            currentBattle.increaseAttackerLossCount();
-        }
+        playerType.attack(gamePlayModel);
     }
     
     /**
@@ -641,25 +584,7 @@ public class Player implements Serializable {
      * @return String value of the messages that will be displayed to the user
      */
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
-        Territory fromTerritory = gamePlayModel.getGameMap().getATerritory(sourceTerritory);
-        Territory toTerritory = gamePlayModel.getGameMap().getATerritory(targetTerritory);
-        
-        // Validate if the two territories are owned by the player, are different, and are neighbors.
-        if (!fromTerritory.isOwnedBy(playerID) ||
-                !toTerritory.isOwnedBy(playerID) ||
-                fromTerritory == toTerritory) {
-            return "No armies moved!\nYou must pick two Territories that are neighbors.";
-        }
-        
-        if (fromTerritory.getArmies() == 1 || fromTerritory.getArmies() <= noOfArmies) {
-            return "No armies moved!\nYou must always have at least 1 army in each Territory";
-        }
-        
-        fromTerritory.reduceArmies(noOfArmies);
-        toTerritory.addArmies(noOfArmies);
-        
-        log.append("    " + playerName + " moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory);
-        return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
+        return playerType.fortification(gamePlayModel, sourceTerritory, targetTerritory, noOfArmies);
     }
     
     /**

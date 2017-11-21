@@ -805,6 +805,36 @@ public class GamePlayModel extends Observable implements Serializable{
         }
         return neighborsList.toArray(new String[neighborsList.size()]);
     }
+    
+    /**
+     * This method decides the outcome of the current battle by comparing the attacker's dice
+     * roll value and the defender's dice roll value. Depending on the result, the method
+     * increases the lose count for the player who rolled a lower value than the opponent.
+     *
+     * @param bestOfAttacker       Integer value of the attacker's dice roll
+     * @param bestOfDefender       Integer value of the defender's dice roll
+     */
+    public void decideResult(int bestOfAttacker, int bestOfDefender) {
+        Territory attackingTerritory = currentBattle.getAttackingTerritory();
+        Territory defendingTerritory = currentBattle.getDefendingTerritory();
+        if (bestOfAttacker > bestOfDefender) { // the attacker wins
+            log.append("        Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
+                    ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
+                    ", attacker wins");
+            defendingTerritory.reduceArmies(1);
+            log.append("        " + currentBattle.getDefender().getPlayerName() + "'s " +
+                    defendingTerritory.getName() + " loses 1 army");
+            currentBattle.increaseDefenderLossCount();
+        } else { // the defender wins
+            log.append("        Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
+                    ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
+                    ", defender wins");
+            attackingTerritory.reduceArmies(1);
+            log.append("        " + currentBattle.getAttacker().getPlayerName() + "'s " +
+                    attackingTerritory.getName() + " loses 1 army");
+            currentBattle.increaseAttackerLossCount();
+        }
+    }
     // endregion
     
     // region For Fortification Phase
@@ -857,5 +887,26 @@ public class GamePlayModel extends Observable implements Serializable{
         broadcastGamePlayChanges();
     }
     
+    // endregion
+    
+    // region Private methods
+    
+    /**
+     * This function lets the game advance when the current player is a bot until a human player's turn
+     */
+    private void botsPlayGame() {
+        while (!currentPlayer.isHuman()) {
+            // Reinforcement phase
+            currentPlayer.reinforcement(this, null, null);
+            
+            // Attacking phase
+            currentPlayer.attack(this);
+            
+            // Fortification phase
+            currentPlayer.fortification(this, null, null, -1);
+            
+            nextPlayerTurn();
+        }
+    }
     // endregion
 }

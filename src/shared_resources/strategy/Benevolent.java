@@ -4,6 +4,7 @@ import game_play.model.GamePlayModel;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
@@ -31,11 +32,14 @@ public class Benevolent extends Bot {
         }
         if (armiesToPlace != null) {
             armiesToPlace.clear();
+        } else {
+            armiesToPlace = new HashMap<>();
         }
+    
         armiesToPlace.put(weakestTerritory, player.getUnallocatedArmies());
         player.distributeArmies(armiesToPlace);
     
-        return null;
+        return "";
     }
 
     @Override
