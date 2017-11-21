@@ -10,8 +10,7 @@ import java.util.Vector;
 /**
  * The human strategy
  */
-public class Human implements Strategy {
-    
+public class Human implements PlayerType {
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         Player player = gamePlayModel.getCurrentPlayer();

@@ -9,7 +9,7 @@ package game_play.view.screens;
 import game_play.controller.GamePlayController;
 import org.reflections.Reflections;
 import shared_resources.game_entities.Player;
-import shared_resources.strategy.Strategy;
+import shared_resources.strategy.PlayerType;
 import shared_resources.utilities.ClassNameComparator;
 
 import javax.swing.*;
@@ -30,7 +30,7 @@ public class StrategyDialog extends JDialog {
     private JButton submitButton;
     private BehaviourOptions[] playersOptions;
     private static final String STRATEGY_PATH = "shared_resources.strategy";
-    private Set<Class<? extends Strategy>> strategyClasses;
+    private Set<Class<? extends PlayerType>> strategyClasses;
     // endregion
     
     // region Constructors
@@ -45,7 +45,7 @@ public class StrategyDialog extends JDialog {
         super(gamePlayFrame, ModalityType.TOOLKIT_MODAL);
     
         Reflections reflections = new Reflections(STRATEGY_PATH);
-        strategyClasses = reflections.getSubTypesOf(Strategy.class);
+        strategyClasses = reflections.getSubTypesOf(PlayerType.class);
         
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JPanel mainPanel = new JPanel(new GridLayout(0, 1));
@@ -113,7 +113,7 @@ public class StrategyDialog extends JDialog {
     private void checkRadioButtons(Vector<Player> players) {
         for (int i = 0; i < players.size(); i++) {
             if (players.elementAt(i).getPlayerName().equals(playersOptions[i].getPlayer_label().getText())) {
-                playersOptions[i].setSelection(players.elementAt(i).getStrategy().getClass().getSimpleName());
+                playersOptions[i].setSelection(players.elementAt(i).getPlayerType().getClass().getSimpleName());
             }
         }
     }
@@ -138,7 +138,7 @@ public class StrategyDialog extends JDialog {
             add(player_label);
             
             group = new ButtonGroup();
-            for (Class<? extends Strategy> strategyClass : getStrategies()) {
+            for (Class<? extends PlayerType> strategyClass : getStrategies()) {
                 String strategy = strategyClass.getSimpleName();
                 radioButton = new JRadioButton(strategy);
                 radioButton.setActionCommand(strategy);
@@ -189,8 +189,8 @@ public class StrategyDialog extends JDialog {
      *
      * @return a sorted set of strategy classes
      */
-    private SortedSet<Class<? extends Strategy>> getStrategies() {
-        SortedSet<Class<? extends Strategy>> sortedStrategySet = new TreeSet<>(new ClassNameComparator());
+    private SortedSet<Class<? extends PlayerType>> getStrategies() {
+        SortedSet<Class<? extends PlayerType>> sortedStrategySet = new TreeSet<>(new ClassNameComparator());
         strategyClasses.removeIf(strategy -> Modifier.isAbstract(strategy.getModifiers()));
         sortedStrategySet.addAll(strategyClasses);
         return sortedStrategySet;

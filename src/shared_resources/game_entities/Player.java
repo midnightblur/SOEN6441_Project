@@ -8,7 +8,7 @@ package shared_resources.game_entities;
 
 import game_play.model.GamePlayModel;
 import shared_resources.strategy.Human;
-import shared_resources.strategy.Strategy;
+import shared_resources.strategy.PlayerType;
 import shared_resources.utilities.Config;
 
 import java.awt.*;
@@ -33,7 +33,7 @@ public class Player implements Serializable {
     private Color color;
     private int playerID;
     private String playerName;
-    private Strategy strategy;
+    private PlayerType playerType;
     private int unallocatedArmies;
     private Vector<Card> playersHand;
     private Vector<Territory> territories;
@@ -50,7 +50,7 @@ public class Player implements Serializable {
     public Player() {
         playerID = ++Player.nextID;
         playerName = "Player " + playerID;
-        strategy = new Human();     // at the beginning of the game all players are human
+        playerType = new Human();     // at the beginning of the game all players are human
         playersHand = new Vector<>();
         territories = new Vector<>();
         color = PLAYER_COLOR[playerID - 1];
@@ -177,17 +177,17 @@ public class Player implements Serializable {
      *
      * @return the strategy for the player
      */
-    public Strategy getStrategy() {
-        return strategy;
+    public PlayerType getPlayerType() {
+        return playerType;
     }
     
     /**
      * Sets the player's strategy
      *
-     * @param strategy the strategy to be used by this player
+     * @param playerType the strategy to be used by this player
      */
-    public void setStrategy(Strategy strategy) {
-        this.strategy = strategy;
+    public void setPlayerType(PlayerType playerType) {
+        this.playerType = playerType;
     }
     
     /**
@@ -366,7 +366,7 @@ public class Player implements Serializable {
      * @return
      */
     public boolean isHuman() {
-        return (strategy instanceof Human);
+        return (playerType instanceof Human);
     }
     
     /**
@@ -436,7 +436,7 @@ public class Player implements Serializable {
      * @return the message to user if reinforcement was successful or not
      */
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
-        return this.strategy.reinforcement(gamePlayModel, selectedCards, armiesToPlace);
+        return this.playerType.reinforcement(gamePlayModel, selectedCards, armiesToPlace);
     }
     
     /**

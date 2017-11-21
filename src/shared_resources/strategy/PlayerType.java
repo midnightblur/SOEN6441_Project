@@ -17,7 +17,7 @@ import java.util.Vector;
  * The classes implementing a concrete strategy should implement this.
  * The players use this to adopt a concrete strategy.
  */
-public interface Strategy extends Serializable {
+public interface PlayerType extends Serializable {
     String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace);
 
     void attack(GamePlayModel gamePlayModel);
