@@ -556,7 +556,7 @@ public class GamePlayModel extends Observable implements Serializable{
      */
     public void placeArmiesReinforcement(Map<Territory, Integer> armiesToPlace) {
         currentPlayer.reinforcement(this, null, armiesToPlace);
-        if (currentPlayer.isHuman() && !currentPlayer.ableToTradeCards()) {
+        if (currentPlayer.isHuman() && currentPlayer.getUnallocatedArmies() == 0 && !currentPlayer.ableToTradeCards()) {
             log.append("    " + currentPlayer.getPlayerName() + " has no unallocated army left and no valid cards set to trade");
             currentPlayer.nextPhase();
         }
@@ -815,6 +815,9 @@ public class GamePlayModel extends Observable implements Serializable{
      */
     public String moveArmiesFortification(String sourceTerritory, String targetTerritory, int noOfArmies) {
         String message = currentPlayer.fortification(this, sourceTerritory, targetTerritory, noOfArmies);
+        if (message.contains("Successfully moved")) {
+            nextPlayerTurn();
+        }
         updateGameMapTableModel();
         broadcastGamePlayChanges();
         
