@@ -44,7 +44,11 @@ abstract class Bot implements PlayerType {
         
         /* trade cards as long as the AI can */
         while (true) {
-            selectedCards.clear();
+            if (selectedCards != null) {
+                selectedCards.clear();
+            } else {
+                selectedCards = new Vector<>();
+            }
             
             /* if there is a set of 3 cards with each different type */
             if (infantryCards.size() != 0 && cavalryCards.size() != 0 && artilleryCards.size() != 0) {
