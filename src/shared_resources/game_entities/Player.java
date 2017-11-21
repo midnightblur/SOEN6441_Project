@@ -61,12 +61,22 @@ public class Player implements Serializable {
     // endregion
     
     // region Getters & Setters
+    /**
+     * Gets the current phase of the player
+     *
+     * @return the game phase
+     */
+    public Config.GAME_STATES getGameState() {
+        return gameState;
+    }
     
     /**
-     * Resets the static counter, nextID, in Player class to zero.
+     * Set the game phase for the player
+     *
+     * @param gameState the next phase
      */
-    public static void resetStaticNextID() {
-        nextID = 0;
+    public void setGameState(Config.GAME_STATES gameState) {
+        this.gameState = gameState;
     }
     
     /**
@@ -197,21 +207,9 @@ public class Player implements Serializable {
     public void setHasConqueredTerritories(boolean hasConqueredTerritories) {
         this.hasConqueredTerritories = hasConqueredTerritories;
     }
+    // endregion
     
-    /**
-     * Removes the territory.
-     *
-     * @param territoryName the territory name
-     */
-    public void removeTerritory(String territoryName) {
-        for (Territory territory : territories) {
-            if (territory.getName().compareTo(territoryName) == 0) {
-                territories.remove(territory);
-                return;
-            }
-        }
-    }
-    
+    // region Public methods
     /**
      * Adds the territory.
      *
@@ -249,10 +247,26 @@ public class Player implements Serializable {
                 && this.unallocatedArmies == tempPlayer.unallocatedArmies;
     }
     
+    /**
+     * Removes the territory.
+     *
+     * @param territoryName the territory name
+     */
+    public void removeTerritory(String territoryName) {
+        for (Territory territory : territories) {
+            if (territory.getName().compareTo(territoryName) == 0) {
+                territories.remove(territory);
+                return;
+            }
+        }
+    }
     
-    // endregion
-    
-    // region Public methods
+    /**
+     * Resets the static counter, nextID, in Player class to zero.
+     */
+    public static void resetStaticNextID() {
+        nextID = 0;
+    }
     
     /**
      * This method processes the exchange of cards to the armies if the user selected cards
@@ -347,30 +361,45 @@ public class Player implements Serializable {
     }
     
     /**
-     * Gets the current phase of the player
-     *
-     * @return the game phase
-     */
-    public Config.GAME_STATES getGameState() {
-        return gameState;
-    }
-    
-    /**
-     * Set the game phase for the player
-     *
-     * @param gameState the next phase
-     */
-    public void setGameState(Config.GAME_STATES gameState) {
-        this.gameState = gameState;
-    }
-    
-    /**
      * Check whether a player is human or bot
      *
      * @return
      */
     public boolean isHuman() {
         return (strategy instanceof Human);
+    }
+    
+    /**
+     * Set the next player phase depending on the current phase and current state of the player
+     */
+    public void nextPhase() {
+        switch (gameState) {
+            case TRADE_CARDS:
+                gameState = Config.GAME_STATES.REINFORCEMENT;
+                break;
+            case REINFORCEMENT:
+                gameState = Config.GAME_STATES.ATTACK_PREPARE;
+                break;
+            case ATTACK_PREPARE:
+            case ATTACK_BATTLE:
+                gameState = Config.GAME_STATES.FORTIFICATION;
+                break;
+            case FORTIFICATION:
+                if (playersHand.size() >= 5) {
+                    gameState = Config.GAME_STATES.TRADE_CARDS;
+                } else {
+                    gameState = Config.GAME_STATES.REINFORCEMENT;
+                }
+                break;
+            default: // the player does not have a game state in his very first turn
+                if (playersHand.size() >= 5) {
+                    gameState = Config.GAME_STATES.TRADE_CARDS;
+                } else {
+                    gameState = Config.GAME_STATES.REINFORCEMENT;
+                }
+                break;
+        }
+        log.append("    " + playerName + " move to " + gameState);
     }
     // region Reinforcement Phase
     
@@ -629,39 +658,6 @@ public class Player implements Serializable {
         
         log.append("    " + playerName + " moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory);
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
-    }
-    
-    /**
-     * Set the next player phase depending on the current phase and current state of the player
-     */
-    public void nextPhase() {
-        switch (gameState) {
-            case TRADE_CARDS:
-                gameState = Config.GAME_STATES.REINFORCEMENT;
-                break;
-            case REINFORCEMENT:
-                gameState = Config.GAME_STATES.ATTACK_PREPARE;
-                break;
-            case ATTACK_PREPARE:
-            case ATTACK_BATTLE:
-                gameState = Config.GAME_STATES.FORTIFICATION;
-                break;
-            case FORTIFICATION:
-                if (playersHand.size() >= 5) {
-                    gameState = Config.GAME_STATES.TRADE_CARDS;
-                } else {
-                    gameState = Config.GAME_STATES.REINFORCEMENT;
-                }
-                break;
-            default: // the player does not have a game state in his very first turn
-                if (playersHand.size() >= 5) {
-                    gameState = Config.GAME_STATES.TRADE_CARDS;
-                } else {
-                    gameState = Config.GAME_STATES.REINFORCEMENT;
-                }
-                break;
-        }
-        log.append("    " + playerName + " move to " + gameState);
     }
     // endregion
 }
