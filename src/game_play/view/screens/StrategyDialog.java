@@ -29,9 +29,8 @@ public class StrategyDialog extends JDialog {
     private static final String SUBMIT_BUTTON_LABEL = "Set Strategies";
     private JButton submitButton;
     private BehaviourOptions[] playersOptions;
-    private String strategyPath = "shared_resources.strategy";
-    private Reflections reflections = new Reflections(strategyPath);
-    private Set<Class<? extends Strategy>> strategyClasses = reflections.getSubTypesOf(Strategy.class);
+    private static final String STRATEGY_PATH = "shared_resources.strategy";
+    private Set<Class<? extends Strategy>> strategyClasses;
     // endregion
     
     // region Constructors
@@ -44,6 +43,10 @@ public class StrategyDialog extends JDialog {
      */
     public StrategyDialog(GamePlayController gamePlayController, JFrame gamePlayFrame, Vector<Player> players) {
         super(gamePlayFrame, ModalityType.TOOLKIT_MODAL);
+    
+        Reflections reflections = new Reflections(STRATEGY_PATH);
+        strategyClasses = reflections.getSubTypesOf(Strategy.class);
+        
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JPanel mainPanel = new JPanel(new GridLayout(0, 1));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
@@ -76,8 +79,8 @@ public class StrategyDialog extends JDialog {
      *
      * @return the strategy path
      */
-    public String getStrategyPath() {
-        return strategyPath;
+    public String getSTRATEGY_PATH() {
+        return STRATEGY_PATH;
     }
     
     /**
@@ -98,14 +101,14 @@ public class StrategyDialog extends JDialog {
      *
      * @param listenerForSubmitButton The listener for submit strategy selections button
      */
-    public void addSubmitButtonListener(ActionListener listenerForSubmitButton) {
+    private void addSubmitButtonListener(ActionListener listenerForSubmitButton) {
         submitButton.addActionListener(listenerForSubmitButton);
     }
     
     /**
      * Check the radio buttons corresponding to players' type
      *
-     * @param players
+     * @param players the list of players
      */
     private void checkRadioButtons(Vector<Player> players) {
         for (int i = 0; i < players.size(); i++) {

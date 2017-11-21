@@ -143,7 +143,7 @@ public class GamePlayController {
         for (int i = 0; i < opts.length; i++) {
             chosenStrategy = opts[i].getGroup().getSelection().getActionCommand();
             try {
-                Class<?> strategyClass = Class.forName(strategyDialog.getStrategyPath() + "." + chosenStrategy);
+                Class<?> strategyClass = Class.forName(strategyDialog.getSTRATEGY_PATH() + "." + chosenStrategy);
                 gamePlayModel.getPlayers().get(i).setStrategy((Strategy) strategyClass.newInstance());
             } catch (Exception e) {
                 e.printStackTrace();
