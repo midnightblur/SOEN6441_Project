@@ -38,8 +38,9 @@ public class StrategyDialog extends JDialog {
     /**
      * Instantiate the strategy dialog
      *
-     * @param gamePlayFrame the parent frame calling this dialog
-     * @param players       the players vector
+     * @param gamePlayFrame      the parent frame calling this dialog
+     * @param players            the players vector
+     * @param gamePlayController the game play controller
      */
     public StrategyDialog(GamePlayController gamePlayController, JFrame gamePlayFrame, Vector<Player> players) {
         super(gamePlayFrame, ModalityType.TOOLKIT_MODAL);

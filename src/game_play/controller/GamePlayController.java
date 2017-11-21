@@ -136,6 +136,8 @@ public class GamePlayController {
     
     /**
      * Sets the player strategy as selected in StrategyDialog
+     *
+     * @param strategyDialog the strategy dialog
      */
     public void setStrategy(StrategyDialog strategyDialog) {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
