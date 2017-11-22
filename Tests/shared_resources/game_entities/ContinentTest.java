@@ -14,6 +14,9 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * This test case is used to test the continent class.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class ContinentTest {
     
@@ -38,7 +41,6 @@ public class ContinentTest {
     
     /**
      * This test checks the name of continent.
-     *
      */
     @Test
     public void getName() {

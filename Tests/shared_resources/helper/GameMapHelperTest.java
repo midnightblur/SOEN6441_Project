@@ -17,6 +17,9 @@ import static org.junit.Assert.*;
 
 /**
  * The Class GameMapHelperTest.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class GameMapHelperTest {
     /** The message. */
@@ -490,8 +493,8 @@ public class GameMapHelperTest {
         } catch (Exception e) {
             message = e.getMessage();
         }
-    
-        assertEquals(Config.MSG_MAPFILE_DISCONNECTED_CONTINENT, message);
+        
+        assertEquals(String.format(Config.MSG_MAPFILE_DISCONNECTED_CONTINENT, "barren rocks"), message);
         assertNull(gameMap);
     }
     
@@ -506,7 +509,7 @@ public class GameMapHelperTest {
             message = e.getMessage();
         }
         
-        assertEquals(Config.MSG_MAPFILE_DISCONNECTED_CONTINENT, message);
+        assertEquals(String.format(Config.MSG_MAPFILE_DISCONNECTED_CONTINENT, "a"), message);
         assertNull(gameMap);
     }
     
@@ -523,7 +526,7 @@ public class GameMapHelperTest {
         } catch (Exception e) {
             message = e.getMessage();
         }
-    
+        
         assertEquals(Config.MSG_MAPFILE_DISCONNECTED_GRAPH, message);
         assertNotNull(gameMap);
     }
