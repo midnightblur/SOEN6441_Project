@@ -19,7 +19,7 @@ public class AggressiveBot extends Bot {
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         /* trade cards as long as the bot can */
-        tradeCardsForBot(gamePlayModel, selectedCards);
+        tradeCardsForBots(gamePlayModel);
 
         /* find the strongest territory and reinforce that territory */
         Player player = gamePlayModel.getCurrentPlayer();
@@ -79,6 +79,12 @@ public class AggressiveBot extends Bot {
         }
         
         return null;
+    }
+    
+
+    @Override
+    void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
+        //TODO: implement how an Aggressive bot would move armies to just-conquered territory
     }
     
     /**

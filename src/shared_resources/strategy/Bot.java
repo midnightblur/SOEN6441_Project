@@ -3,6 +3,7 @@ package shared_resources.strategy;
 import game_play.model.GamePlayModel;
 import shared_resources.game_entities.Card;
 import shared_resources.game_entities.Player;
+import shared_resources.game_entities.Territory;
 import shared_resources.utilities.Config;
 
 import java.util.Vector;
@@ -16,9 +17,8 @@ abstract class Bot implements PlayerType {
      * Let a bot player trade his cards as soon as he can
      *
      * @param gamePlayModel the game play model
-     * @param selectedCards the selected cards
      */
-    void tradeCardsForBot(GamePlayModel gamePlayModel, Vector<String> selectedCards) {
+    void tradeCardsForBots(GamePlayModel gamePlayModel) {
         Player player = gamePlayModel.getCurrentPlayer();
         
         /* check for valid card sets to trade if the AI has 3 or more cards */
@@ -44,12 +44,7 @@ abstract class Bot implements PlayerType {
         
         /* trade cards as long as the AI can */
         while (true) {
-            if (selectedCards != null) {
-                selectedCards.clear();
-            } else {
-                selectedCards = new Vector<>();
-            }
-            
+            Vector<String> selectedCards = new Vector<>();
             /* if there is a set of 3 cards with each different type */
             if (infantryCards.size() != 0 && cavalryCards.size() != 0 && artilleryCards.size() != 0) {
                 selectedCards.addElement(infantryCards.firstElement().getCardType().name());
@@ -96,4 +91,21 @@ abstract class Bot implements PlayerType {
             player.tradeInCards(gamePlayModel, selectedCards);
         }
     }
+    
+    void attackForBots(GamePlayModel gamePlayModel) {
+        // Perform the battle
+        attackForAllPlayers(gamePlayModel);
+        
+        // If conquer any territory, move some armies to that territory
+        moveArmiesToConqueredTerritory(gamePlayModel);
+    }
+    
+    void conquerTerritoryForBots(GamePlayModel gamePlayModel) {
+        Player player = gamePlayModel.getCurrentPlayer();
+        Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
+        defendingTerritory.setOwner(player);
+        player.addTerritory(defendingTerritory);
+    }
+    
+    abstract void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel);
 }

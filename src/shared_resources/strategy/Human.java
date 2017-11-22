@@ -1,7 +1,6 @@
 package shared_resources.strategy;
 
 import game_play.model.GamePlayModel;
-import shared_resources.game_entities.Battle;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 
@@ -30,30 +29,7 @@ public class Human implements PlayerType {
     
     @Override
     public void attack(GamePlayModel gamePlayModel) {
-        Battle currentBattle = gamePlayModel.getCurrentBattle();
-        int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
-        int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
-
-        /* Both players roll dice */
-        currentBattle.attackerRollDice();
-        log.append("        " + currentBattle.getAttacker().getPlayerName() + " roll dice: " +
-                currentBattle.getAttackerDice().getRollsResult());
-        currentBattle.defenderRollDice();
-        log.append("        " + currentBattle.getDefender().getPlayerName() + " roll dice: " +
-                currentBattle.getDefenderDice().getRollsResult());
-
-        /* Decide the battle */
-        // Compare the best result of both players
-        int bestOfAttacker = currentBattle.getAttackerDice().getTheBestResult();
-        int bestOfDefender = currentBattle.getDefenderDice().getTheBestResult();
-        gamePlayModel.decideResult(bestOfAttacker, bestOfDefender);
-    
-        // If both players roll at least 2 dice
-        if (numOfAtkDice >= 2 && numOfDefDice >= 2) {
-            int secondBestOfAttacker = currentBattle.getAttackerDice().getSecondBestResult();
-            int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
-            gamePlayModel.decideResult(secondBestOfAttacker, secondBestOfDefender);
-        }
+        attackForAllPlayers(gamePlayModel);
     }
 
     @Override

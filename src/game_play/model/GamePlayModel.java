@@ -249,6 +249,19 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
+     * Set the current battle
+     *
+     * @param currentBattle the current battle
+     */
+    public void setCurrentBattle(Battle currentBattle) {
+        this.currentBattle = currentBattle;
+    }
+    
+    // endregion
+    
+    // region For Startup Phase
+    
+    /**
      * Initializes a new game with the specified number of players. This method involves
      * initialization of the specified number of players, the size of the deck of cards depending
      * on the total number of territories, random (but fair) distribution of territories to the
@@ -860,19 +873,19 @@ public class GamePlayModel extends Observable implements Serializable {
         Territory attackingTerritory = currentBattle.getAttackingTerritory();
         Territory defendingTerritory = currentBattle.getDefendingTerritory();
         if (bestOfAttacker > bestOfDefender) { // the attacker wins
-            log.append("        Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
+            log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
                     ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
                     ", attacker wins");
             defendingTerritory.reduceArmies(1);
-            log.append("        " + currentBattle.getDefender().getPlayerName() + "'s " +
+            log.append("            " + currentBattle.getDefender().getPlayerName() + "'s " +
                     defendingTerritory.getName() + " loses 1 army");
             currentBattle.increaseDefenderLossCount();
         } else { // the defender wins
-            log.append("        Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
+            log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
                     ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
                     ", defender wins");
             attackingTerritory.reduceArmies(1);
-            log.append("        " + currentBattle.getAttacker().getPlayerName() + "'s " +
+            log.append("            " + currentBattle.getAttacker().getPlayerName() + "'s " +
                     attackingTerritory.getName() + " loses 1 army");
             currentBattle.increaseAttackerLossCount();
         }

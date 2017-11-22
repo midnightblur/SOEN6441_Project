@@ -14,6 +14,7 @@ import shared_resources.utilities.Config;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Random;
 import java.util.Vector;
 
 import static shared_resources.utilities.Config.GAME_STATES.REINFORCEMENT;
@@ -367,6 +368,21 @@ public class Player implements Serializable {
      */
     public boolean isHuman() {
         return (playerType instanceof Human);
+    }
+    
+    /**
+     * Gets a random territory owned by the player
+     *
+     * @return a random territory
+     */
+    public Territory getRandomTerritory() {
+        int index = 0;
+        if (territories.size() > 1) {
+            Random rand = new Random();
+            index = rand.nextInt(territories.size() - 1);
+        }
+        
+        return territories.elementAt(index);
     }
     
     /**
