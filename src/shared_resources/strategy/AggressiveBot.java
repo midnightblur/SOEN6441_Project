@@ -45,16 +45,34 @@ public class AggressiveBot extends Bot {
 
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
-        /* if the strongest territory has attackable neighbors, fortify the strongest territory */
         Player player = gamePlayModel.getCurrentPlayer();
         Territory strongestTerritory = findStrongestTerritory(player.getTerritories());
+        Territory toTerritory;
+        Territory fromTerritory;
+        
+        /* if the strongest territory has attackable neighbors, fortify the strongest territory */
         if (hasAttackableNeighbors(strongestTerritory, gamePlayModel)) {
-        
+            toTerritory = strongestTerritory;
+            fromTerritory = findStrongestNeighbor(gamePlayModel, strongestTerritory.getNeighbors());
         }
-        /* if the strongest territory does not have any attackable neighbors, fortify an adjacent territory owned by the player (priority to the adjacent territory that has an attackable neighbor) */
+        /* if the strongest territory does not have any attackable neighbors, fortify a random adjacent territory owned by the player */
         else {
-        
+            toTerritory = findRandomNeighbor(gamePlayModel, strongestTerritory.getNeighbors());
+            fromTerritory = strongestTerritory;
         }
+    
+        /* move armies */
+        if (fromTerritory.getArmies() >= 2) {
+            noOfArmies = fromTerritory.getArmies() - 1;
+            toTerritory.addArmies(noOfArmies);
+            fromTerritory.reduceArmies(noOfArmies);
+            log.append("        " + player.getPlayerName() + " moves " + noOfArmies + " armies from " +
+                    fromTerritory.getName() + " to " + toTerritory.getName());
+        } else {
+            log.append("        " + player.getPlayerName() + " doesn't want to fortify any of his territory");
+            return null;
+        }
+        
         return null;
     }
     
