@@ -42,6 +42,11 @@ public class AggressiveBot extends Bot {
     public void attack(GamePlayModel gamePlayModel) {
         Player player = gamePlayModel.getCurrentPlayer();
         Territory strongestTerritory = findStrongestTerritory(player.getTerritories());
+        if (hasAttackableNeighbors(strongestTerritory, gamePlayModel)) {
+        
+        } else {
+        
+        }
         
         while (strongestTerritory.getArmies() >= 2) {
         
