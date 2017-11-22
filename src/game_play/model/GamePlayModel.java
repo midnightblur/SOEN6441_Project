@@ -740,6 +740,10 @@ public class GamePlayModel extends Observable implements Serializable {
         return message;
     }
     
+    /**
+     * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
+     * And remove defeated player from the game
+     */
     public void eliminatePlayer() {
         Player attacker = currentBattle.getAttacker();
         Player defender = currentBattle.getDefender();
