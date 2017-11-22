@@ -14,7 +14,7 @@ import static shared_resources.utilities.Config.log;
  * The benevolent AI strategy. Reinforces its weakest countries, never attacks, then fortifies in order
  * to move armies to weaker countries.
  */
-public class Benevolent extends Bot {
+public class BenevolentBot extends Bot {
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         /* trade cards as long as the bot can */

@@ -14,7 +14,7 @@ import static shared_resources.utilities.Config.log;
  * conquer all the neighbors of all its countries, and fortification doubles the number of armies on its countries
  * that have neighbors that belong to other players
  */
-public class Cheater extends Bot {
+public class CheaterBot extends Bot {
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         // Double armies in all territories - fantastic @__@

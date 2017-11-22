@@ -12,7 +12,7 @@ import java.util.Vector;
  * The aggressive AI strategy. Reinforces its strongest country, then always attacks with it until it
  * cannot attack anymore, then fortifies in order to maximize aggregation of forces in one country.
  */
-public class Aggressive extends Bot {
+public class AggressiveBot extends Bot {
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         /* trade cards as long as the bot can */
