@@ -40,7 +40,12 @@ public class AggressiveBot extends Bot {
 
     @Override
     public void attack(GamePlayModel gamePlayModel) {
-    
+        Player player = gamePlayModel.getCurrentPlayer();
+        Territory strongestTerritory = findStrongestTerritory(player.getTerritories());
+        
+        while (strongestTerritory.getArmies() >= 2) {
+        
+        }
     }
 
     @Override
@@ -91,7 +96,7 @@ public class AggressiveBot extends Bot {
     }
     
     /**
-     * Find the territory owned by a player having the least number of armies
+     * Find the neighboring territory owned by a player having the most number of armies
      *
      * @param gamePlayModel the game play model
      * @param neighbors     the neighbors list
