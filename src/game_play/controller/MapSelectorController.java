@@ -59,7 +59,6 @@ public class MapSelectorController {
         /* load the selected map and make a new game*/
         try {
             GameMap gameMap = loadGameMap(String.valueOf(mapSelectorFrame.getMapDropdown().getSelectedItem()));
-            
             mapSelectorFrame.setVisible(false);
             mapSelectorFrame.setEnabled(false);
             new GamePlayController(callerController, gameMap);

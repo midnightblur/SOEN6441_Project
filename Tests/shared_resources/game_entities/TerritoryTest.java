@@ -12,6 +12,9 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * This test case is used to test getName function of the territory.
+ *
+ * @author Team 2
+ * @version 1.0
  */
 public class TerritoryTest {
     

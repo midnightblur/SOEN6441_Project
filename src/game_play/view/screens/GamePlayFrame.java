@@ -34,14 +34,10 @@ public class GamePlayFrame extends JFrame implements Observer {
     private static final String TITLE = "Game Play";
     private static final int WIDTH = 1366;
     private static final int HEIGHT = 800;
-    private JMenuBar menu;
-    private JMenu game;
-    private JMenu player;
     private JMenuItem save;
     private JMenuItem load;
     private JMenuItem strategy;
     private JSplitPane topArea;
-    private JPanel contentPane;
     private WorldDominationPanel worldDominationPanel;
     private PhaseViewPanel phaseViewPanel;
     private GameMapTable gameMapTable;
@@ -64,16 +60,16 @@ public class GamePlayFrame extends JFrame implements Observer {
      */
     public GamePlayFrame(MainMenuController callerController) {
         /* Setup the menu */
-        menu = new JMenuBar();
-        
-        game = new JMenu("Game");
+        JMenuBar menu = new JMenuBar();
+    
+        JMenu game = new JMenu("Game");
         save = new JMenuItem("Save game...", KeyEvent.VK_T);
         load = new JMenuItem("Load game...", KeyEvent.VK_T);
         game.add(save);
         game.add(load);
         menu.add(game);
-        
-        player = new JMenu("Player");
+    
+        JMenu player = new JMenu("Player");
         strategy = new JMenuItem("Set Strategy...", KeyEvent.VK_T);
         strategy.setEnabled(false);
         player.add(strategy);
@@ -99,7 +95,7 @@ public class GamePlayFrame extends JFrame implements Observer {
         phaseViewPanel = new PhaseViewPanel();
         
         /* Setup main content pane */
-        contentPane = new JPanel(new BorderLayout());
+        JPanel contentPane = new JPanel(new BorderLayout());
         contentPane.add(topArea, BorderLayout.CENTER);
         contentPane.add(phaseViewPanel, BorderLayout.PAGE_END);
         setContentPane(contentPane);
@@ -312,7 +308,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
-            GamePlayModel gamePlayModel = (GamePlayModel) o;
+                GamePlayModel gamePlayModel = (GamePlayModel) o;
             
             gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
             

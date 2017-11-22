@@ -30,24 +30,14 @@ public class GameMapHelper {
     // region Attributes declaration
     
     /**
-     * The map entities
-     */
-     private enum MAP_PARTS {
-        MAP,
-        CONTINENTS,
-        TERRITORIES
-    }
-    // endregion
-    
-    // region Constructors
-    /**
      * Instantiates a new game map helper.
      */
     private GameMapHelper() {    // Intentionally make ctor private
     }
     // endregion
     
-    // region Public methods
+    // region Constructors
+    
     /**
      * Input: map text file name path
      * Output: A GameMap object containing map's info including territories, continents, adjacency
@@ -180,6 +170,9 @@ public class GameMapHelper {
         bufferedReader.close();
         return gameMap;
     }
+    // endregion
+    
+    // region Public methods
     
     /**
      * Validate the Map file. Check if
@@ -312,9 +305,7 @@ public class GameMapHelper {
         }
         return mapFiles;
     }
-    // endregion
     
-    // region Private methods
     /**
      * The game map is supposed to be a strongly connected graph
      * Meaning there is a path from any territory to any another territory in the map
@@ -343,6 +334,9 @@ public class GameMapHelper {
         
         return isConnected;
     }
+    // endregion
+    
+    // region Private methods
     
     /**
      * Actual functions to run DFS recursively on nodes of graphs
@@ -406,6 +400,15 @@ public class GameMapHelper {
                 DFSVisit(gameMap, continent, visitedNodesSet, gameMap.getATerritory(neighborName));
             }
         }
+    }
+    
+    /**
+     * The map entities
+     */
+    private enum MAP_PARTS {
+        MAP,
+        CONTINENTS,
+        TERRITORIES
     }
     // endregion
 }

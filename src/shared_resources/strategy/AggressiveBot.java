@@ -114,7 +114,15 @@ public class AggressiveBot extends Bot {
 
     @Override
     void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
-        //TODO: implement how an Aggressive bot would move armies to just-conquered territory
+        Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
+        if (defendingTerritory.getArmies() == 0) {
+            // Set player to be new owner of the conquered territory
+            conquerTerritoryForBots(gamePlayModel);
+            
+            //TODO: implement how an Aggressive bot would move armies to just-conquered territory
+            
+            gamePlayModel.eliminatePlayerIfCan();
+        }
     }
     
     /**

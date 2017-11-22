@@ -729,29 +729,7 @@ public class GamePlayModel extends Observable implements Serializable {
             attacker.addTerritory(defendingTerritory);
             
             // Check if the defender has been eliminated
-            if (defender.getTerritories().size() == 0) {
-                // Give all of defender's cards to the attacker
-                log.append("        Start giving all " + defender.getPlayerName() + "'s cards to " + attacker.getPlayerName());
-                if (defender.getPlayersHand().size() == 0) {
-                    log.append("            " + defender.getPlayerName() + " has no card");
-                } else {
-                    for (Card card : defender.getPlayersHand()) {
-                        attacker.addCardToPlayersHand(card);
-                        log.append("            Give " + card.getCardType() + " to " + attacker.getPlayerName());
-                    }
-                }
-                
-                // Remove him from the game
-                eliminatePlayer(defender);
-                log.append("        " + defender.getPlayerName() + " has been eliminated");
-            }
-            
-            // Declare winner if there is only 1 player left
-            if (gameVictory(attackingTerritory.getOwner())) {
-                message = attacker.getPlayerName() + " wins the game!";
-                log.append("\n");
-                log.append("!!!!!!!!!!!!!!!!!! " + message + "!!!!!!!!!!!!!!!!!!");
-            }
+            eliminatePlayerIfCan();
         }
         
         moveToFortificationIfCan();
@@ -764,13 +742,36 @@ public class GamePlayModel extends Observable implements Serializable {
     
     /**
      * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
-     * player.
-     *
-     * @param eliminatedPlayer Player object that has no more territories left and is declared eliminated
+     * And remove defeated player from the game
      */
-    private void eliminatePlayer(Player eliminatedPlayer) {
-        eliminatedPlayer.setPlayerStatus(PLAYER_STATUS.ELIMINATED);
-        log.append("    " + currentPlayer.getPlayerName() + " just eliminated " + eliminatedPlayer.getPlayerName());
+    public void eliminatePlayerIfCan() {
+        Player attacker = currentBattle.getAttacker();
+        Player defender = currentBattle.getDefender();
+        if (defender.getTerritories().size() == 0) {
+            // Remove him from the game
+            defender.setPlayerStatus(PLAYER_STATUS.ELIMINATED);
+            log.append("    " + currentPlayer.getPlayerName() + " just eliminated " + defender.getPlayerName());
+            log.append("        " + defender.getPlayerName() + " has been eliminated");
+            
+            // Give all of defender's cards to the attacker
+            log.append("        Start giving all " + defender.getPlayerName() + "'s cards to " + attacker.getPlayerName());
+            if (defender.getPlayersHand().size() == 0) {
+                log.append("            " + defender.getPlayerName() + " has no card");
+            } else {
+                for (Card card : defender.getPlayersHand()) {
+                    attacker.addCardToPlayersHand(card);
+                    log.append("            Give " + card.getCardType() + " to " + attacker.getPlayerName());
+                }
+            }
+        }
+    
+        // Declare winner if there is only 1 player left
+        if (gameVictory(attacker)) {
+            String message = attacker.getPlayerName() + " wins the game!";
+            log.append("\n");
+            log.append("!!!!!!!!!!!!!!!!!! " + message + "!!!!!!!!!!!!!!!!!!");
+        }
+        
         updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
@@ -783,13 +784,17 @@ public class GamePlayModel extends Observable implements Serializable {
      * @return true if attacking player won the entire game, false otherwise
      */
     public boolean gameVictory(Player attackingPlayer) {
-        for (Continent c : gameMap.getContinents().values()) {
-            if (!Objects.equals(c.getContinentOwner(gameMap), attackingPlayer.getPlayerName())) {
-                return false;
+        boolean isVictory = true;
+        for (Player player : players) {
+            if (player != attackingPlayer && player.getPlayerStatus() != PLAYER_STATUS.ELIMINATED) {
+                isVictory = false;
+                break;
             }
         }
-        attackingPlayer.setGameState(VICTORY);
-        return true;
+        if (isVictory) {
+            attackingPlayer.setGameState(VICTORY);
+        }
+        return isVictory;
     }
     
     /**
@@ -952,13 +957,16 @@ public class GamePlayModel extends Observable implements Serializable {
      * This function lets the game advance when the current player is a bot until a human player's turn
      */
     private void botsPlayGame() {
-        while (!currentPlayer.isHuman()) {
+        while (!currentPlayer.isHuman() && currentPlayer.getGameState() != VICTORY) {
             // Reinforcement phase
             currentPlayer.reinforcement(this, null, null);
             currentPlayer.nextPhase();
             
             // Attacking phase
             currentPlayer.attack(this);
+            if (currentPlayer.getGameState() == VICTORY) {
+                break;
+            }
             currentPlayer.nextPhase();
             
             // Fortification phase

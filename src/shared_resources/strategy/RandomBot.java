@@ -23,18 +23,16 @@ public class RandomBot extends Bot {
 
         /* find a random territory and reinforce that territory */
         Player player = gamePlayModel.getCurrentPlayer();
-        Random rand = new Random();
-        int randIndex = rand.nextInt(player.getTerritories().size() - 1);
-        Territory randomTerritory = player.getTerritories().elementAt(randIndex);
+        Territory randomTerritory = player.getRandomTerritory();
         
         randomTerritory.addArmies(player.getUnallocatedArmies());
         log.append("        " + player.getPlayerName() + " placed " + player.getUnallocatedArmies() +
                 " armies on " + randomTerritory.getName());
         player.setUnallocatedArmies(0);
-    
+        
         return "";
     }
-
+    
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         Player player = gamePlayModel.getCurrentPlayer();
@@ -44,19 +42,17 @@ public class RandomBot extends Bot {
             // Make the choice whether to attack or not randomly
             Random rand = new Random();
             boolean doAttack = rand.nextBoolean();
-    
+            
             if (doAttack) {
                 Vector<Territory> territories = new Vector<>(player.getTerritories());
                 while (territories.size() > 0) {
                     // Find a random territory
-                    int randIndex;
+                    int randIndex = 0;
                     if (territories.size() > 1) {
-                         randIndex = rand.nextInt(territories.size() - 1);
-                    } else {
-                        randIndex = 0;
+                        randIndex = rand.nextInt(territories.size() - 1);
                     }
                     Territory randomTerritory = territories.elementAt(randIndex);
-            
+                    
                     if (randomTerritory.getArmies() >= 2) {
                         // Find one of its neighbor owned by another player
                         for (String neighborName : randomTerritory.getNeighbors()) {
@@ -68,14 +64,14 @@ public class RandomBot extends Bot {
                                 int maxDefenderDice = Math.min(2, neighbor.getArmies());
                                 int defenderDice = 1 + rand.nextInt(maxDefenderDice);
                                 gamePlayModel.setCurrentBattle(new Battle(player, randomTerritory, attackerDice,
-                                                                        neighbor.getOwner(), neighbor, defenderDice));
+                                        neighbor.getOwner(), neighbor, defenderDice));
                                 attackForBots(gamePlayModel);
                                 break;
                             }
                         }
                         break;
                     }
-            
+                    
                     // If this territory choice cannot attack any territory, prevent it from being chosen again
                     territories.remove(randomTerritory);
                 }
@@ -90,10 +86,56 @@ public class RandomBot extends Bot {
             }
         }
     }
-
+    
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
-        return null;
+        Player player = gamePlayModel.getCurrentPlayer();
+        
+        // Randomly decide whether or not to fortify
+        Random rand = new Random();
+        boolean doFortification = rand.nextBoolean();
+        
+        if (doFortification) {
+            Vector<Territory> territories = new Vector<>(player.getTerritories());
+            while (territories.size() > 0) {
+                // Randomly choose a territory that is valid to move armies to another territory
+                int randIndex = 0;
+                if (territories.size() > 1) {
+                    randIndex = rand.nextInt(territories.size() - 1);
+                }
+                Territory fromTerritory = territories.elementAt(randIndex);
+                
+                if (fromTerritory.getArmies() >= 2) {
+                    // Randomly choose a neighbor to move armies to
+                    for (String neighborName : fromTerritory.getNeighbors()) {
+                        Territory toTerritory = gamePlayModel.getGameMap().getATerritory(neighborName);
+    
+                        if (toTerritory.isOwnedBy(player)) {
+                            // Randomly choose a valid number of armies to move
+                            noOfArmies = 1 + rand.nextInt(fromTerritory.getArmies() - 1);
+                            fromTerritory.reduceArmies(noOfArmies);
+                            toTerritory.addArmies(noOfArmies);
+                            log.append("        " + fromTerritory.getOwner().getPlayerName() + " moves " + noOfArmies + " armies from " +
+                                    fromTerritory.getName() + " to " + toTerritory.getName());
+        
+                            return "";
+                        }
+                    }
+                    
+                    territories.remove(fromTerritory);
+                } else {
+                    territories.remove(fromTerritory);
+                }
+            }
+            
+            if (territories.size() == 0) {
+                log.append("        " + player.getPlayerName() + " cannot fortify");
+            }
+        } else {
+            log.append("        " + player.getPlayerName() + " doesn't want to fortify any of his territory");
+        }
+        
+        return "";
     }
     
     @Override
@@ -112,6 +154,8 @@ public class RandomBot extends Bot {
             toTerritory.addArmies(noOfArmies);
             log.append("            " + fromTerritory.getOwner().getPlayerName() + " moves " + noOfArmies + " armies from " +
                     fromTerritory.getName() + " to " + toTerritory.getName());
+            
+            gamePlayModel.eliminatePlayerIfCan();
         }
     }
 }
