@@ -23,9 +23,7 @@ public class RandomBot extends Bot {
 
         /* find a random territory and reinforce that territory */
         Player player = gamePlayModel.getCurrentPlayer();
-        Random rand = new Random();
-        int randIndex = rand.nextInt(player.getTerritories().size() - 1);
-        Territory randomTerritory = player.getTerritories().elementAt(randIndex);
+        Territory randomTerritory = player.getRandomTerritory();
         
         randomTerritory.addArmies(player.getUnallocatedArmies());
         log.append("        " + player.getPlayerName() + " placed " + player.getUnallocatedArmies() +
@@ -49,13 +47,7 @@ public class RandomBot extends Bot {
                 Vector<Territory> territories = new Vector<>(player.getTerritories());
                 while (territories.size() > 0) {
                     // Find a random territory
-                    int randIndex;
-                    if (territories.size() > 1) {
-                         randIndex = rand.nextInt(territories.size() - 1);
-                    } else {
-                        randIndex = 0;
-                    }
-                    Territory randomTerritory = territories.elementAt(randIndex);
+                    Territory randomTerritory = player.getRandomTerritory();
             
                     if (randomTerritory.getArmies() >= 2) {
                         // Find one of its neighbor owned by another player
@@ -93,7 +85,18 @@ public class RandomBot extends Bot {
 
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
-        return null;
+        Player player = gamePlayModel.getCurrentPlayer();
+        // Randomly choose a territory that is valid to move armies to another territory
+        Random rand = new Random();
+        int randIndex;
+        if (player.getTerritories().size() > 1) {
+            rand.nextInt(player.getTerritories().size() - 1);
+        } else {
+            randIndex = 0;
+        }
+        Territory fromTerritory = player.getRandomTerritory();
+        
+        return "";
     }
     
     @Override
