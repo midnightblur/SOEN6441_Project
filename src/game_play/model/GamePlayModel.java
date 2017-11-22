@@ -6,7 +6,9 @@
  */
 package game_play.model;
 
+import game_play.view.screens.StrategyDialog;
 import shared_resources.game_entities.*;
+import shared_resources.strategy.PlayerType;
 
 import java.io.Serializable;
 import java.util.*;
@@ -464,6 +466,20 @@ public class GamePlayModel extends Observable implements Serializable{
         }
         
         updateGameMapTableModel();
+        broadcastGamePlayChanges();
+    }
+    
+    public void setPlayersType(StrategyDialog.BehaviourOptions[] opts) {
+        String chosenStrategy;
+        for (int i = 0; i < opts.length; i++) {
+            chosenStrategy = opts[i].getGroup().getSelection().getActionCommand();
+            try {
+                Class<?> strategyClass = Class.forName(StrategyDialog.getSTRATEGY_PATH() + "." + chosenStrategy);
+                players.get(i).setPlayerType((PlayerType) strategyClass.newInstance());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         broadcastGamePlayChanges();
     }
     // endregion

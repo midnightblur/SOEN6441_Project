@@ -16,7 +16,6 @@ import game_play.view.ui_components.FortificationPanel;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.UIHelper;
-import shared_resources.strategy.PlayerType;
 import shared_resources.utilities.SavedState;
 
 import javax.swing.*;
@@ -141,16 +140,7 @@ public class GamePlayController {
      */
     public void setStrategy(StrategyDialog strategyDialog) {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
-        String chosenStrategy;
-        for (int i = 0; i < opts.length; i++) {
-            chosenStrategy = opts[i].getGroup().getSelection().getActionCommand();
-            try {
-                Class<?> strategyClass = Class.forName(strategyDialog.getSTRATEGY_PATH() + "." + chosenStrategy);
-                gamePlayModel.getPlayers().get(i).setPlayerType((PlayerType) strategyClass.newInstance());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        gamePlayModel.setPlayersType(opts);
         strategyDialog.dispose();
     }
     

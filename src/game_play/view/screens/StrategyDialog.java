@@ -80,7 +80,7 @@ public class StrategyDialog extends JDialog {
      *
      * @return the strategy path
      */
-    public String getSTRATEGY_PATH() {
+    public static String getSTRATEGY_PATH() {
         return STRATEGY_PATH;
     }
     
