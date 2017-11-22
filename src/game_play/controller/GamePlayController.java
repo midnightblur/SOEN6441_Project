@@ -29,8 +29,9 @@ import java.util.Vector;
 
 import static shared_resources.utilities.Config.GAME_EXTENSION;
 import static shared_resources.utilities.Config.GAME_STATES.*;
-import static shared_resources.utilities.SavedState.LoadGame;
-import static shared_resources.utilities.SavedState.SaveGame;
+import static shared_resources.utilities.SavedState.loadGame;
+import static shared_resources.utilities.SavedState.saveGame;
+//import static shared_resources.utilities.SavedJSONState.*; TODO: fix or remove JSON export
 
 /**
  * GamePlayController is responsible for coordinating the GamePlayModel and GamePlayFrame
@@ -161,7 +162,7 @@ public class GamePlayController {
                 gameFileToSave = new File(gameFileToSave.getAbsolutePath() + GAME_EXTENSION);
             }
             try {
-                SaveGame(gamePlayModel, gameFileToSave.getAbsolutePath());
+                saveGame(gamePlayModel, gameFileToSave.getAbsolutePath());
                 UIHelper.displayMessage(gamePlayFrame, "The game was saved at \n" + gameFileToSave.getAbsolutePath());
                 
             } catch (Exception e) {
@@ -181,7 +182,7 @@ public class GamePlayController {
         if (selection == JFileChooser.APPROVE_OPTION) {
             gameFileLoader = fileChooser.getSelectedFile();
             try {
-                gamePlayModel.setGamePlayModel(LoadGame(gameFileLoader.getAbsolutePath()));
+                gamePlayModel.setGamePlayModel(loadGame(gameFileLoader.getAbsolutePath()));
                 UIHelper.displayMessage(gamePlayFrame, "The game was loaded from \n" + gameFileLoader.getAbsolutePath());
             } catch (Exception e) {
                 e.printStackTrace(System.err);

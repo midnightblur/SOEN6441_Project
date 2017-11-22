@@ -6,6 +6,8 @@
  */
 package shared_resources.utilities;
 
+import com.cedarsoftware.util.io.JsonReader;
+import com.cedarsoftware.util.io.JsonWriter;
 import game_play.model.GamePlayModel;
 
 import java.io.*;
@@ -14,29 +16,24 @@ import java.io.*;
  * Class providing serialization capability for specific game objects
  * The main model of the game is used to save the state of the game and later restore it
  */
-public class SavedState implements Serializable {
+public class SavedJSONState {
     
     // region Public Methods
     
     /**
-     * Saving the game to file from the central game model
+     * Saving the game to a JSON file from the central game model
      *
-     * @param gamePlayModel the main game model to be serialized
-     * @param path          the destination to write the serialized object to file
+     * @param gamePlayModel the main game model to be saved
+     * @param path          the destination to write the JSON file
      */
     public static void saveGame(GamePlayModel gamePlayModel, String path) {
-        
-        try {
-            OutputStream file = new FileOutputStream(path);
-            OutputStream buffer = new BufferedOutputStream(file);
-            ObjectOutput output = new ObjectOutputStream(buffer);
-            output.writeObject(gamePlayModel);
-            output.flush();
-            output.close();
+        try (OutputStream outputStream = new FileOutputStream(path)) {
+            JsonWriter jw = new JsonWriter(outputStream);
+            jw.write(gamePlayModel);
+            jw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
     }
     
     /**
@@ -44,18 +41,17 @@ public class SavedState implements Serializable {
      *
      * @param path the absolute location of the file
      *
-     * @return the loaded GamePlayModel restored from the serialized file
+     * @return the loaded GamePlayModel restored from the JSON file
      */
     public static GamePlayModel loadGame(String path) {
         GamePlayModel state = null;
         InputStream file;
         try {
             file = new FileInputStream(path);
-            InputStream buffer = new BufferedInputStream(file);
-            ObjectInput input = new ObjectInputStream(buffer);
-            state = (GamePlayModel) input.readObject();
-            input.close();
-        } catch (IOException | ClassNotFoundException e) {
+            String json = file.toString();
+            state = (GamePlayModel) JsonReader.jsonToJava(json);
+            file.close();
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
         return state;
