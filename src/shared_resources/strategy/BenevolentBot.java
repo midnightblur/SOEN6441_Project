@@ -18,7 +18,7 @@ public class BenevolentBot extends Bot {
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         /* trade cards as long as the bot can */
-        tradeCardsForBot(gamePlayModel, selectedCards);
+        tradeCardsForBots(gamePlayModel);
 
         /* find the weakest territory and reinforce that territory */
         Player player = gamePlayModel.getCurrentPlayer();
@@ -40,7 +40,7 @@ public class BenevolentBot extends Bot {
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         Player currentPlayer = gamePlayModel.getCurrentPlayer();
-        log.append("        " + currentPlayer.getPlayerName() + " doesn't attack any territory");
+        log.append("        " + currentPlayer.getPlayerName() + " quits attacking phase");
     }
 
     @Override
@@ -135,5 +135,10 @@ public class BenevolentBot extends Bot {
             }
         }
         return strongestTerritory;
+    }
+    
+    @Override
+    void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
+        // Do nothing
     }
 }

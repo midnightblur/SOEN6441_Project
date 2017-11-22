@@ -71,4 +71,9 @@ public class CheaterBot extends Bot {
         }
         return "";
     }
+    
+    @Override
+    void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
+        // Do nothing
+    }
 }

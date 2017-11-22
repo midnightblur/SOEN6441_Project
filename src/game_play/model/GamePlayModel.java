@@ -230,6 +230,16 @@ public class GamePlayModel extends Observable implements Serializable{
         }
         return territoriesList;
     }
+    
+    /**
+     * Set the current battle
+     *
+     * @param currentBattle the current battle
+     */
+    public void setCurrentBattle(Battle currentBattle) {
+        this.currentBattle = currentBattle;
+    }
+    
     // endregion
     
     // region For Startup Phase
@@ -843,19 +853,19 @@ public class GamePlayModel extends Observable implements Serializable{
         Territory attackingTerritory = currentBattle.getAttackingTerritory();
         Territory defendingTerritory = currentBattle.getDefendingTerritory();
         if (bestOfAttacker > bestOfDefender) { // the attacker wins
-            log.append("        Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
+            log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
                     ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
                     ", attacker wins");
             defendingTerritory.reduceArmies(1);
-            log.append("        " + currentBattle.getDefender().getPlayerName() + "'s " +
+            log.append("            " + currentBattle.getDefender().getPlayerName() + "'s " +
                     defendingTerritory.getName() + " loses 1 army");
             currentBattle.increaseDefenderLossCount();
         } else { // the defender wins
-            log.append("        Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
+            log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
                     ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
                     ", defender wins");
             attackingTerritory.reduceArmies(1);
-            log.append("        " + currentBattle.getAttacker().getPlayerName() + "'s " +
+            log.append("            " + currentBattle.getAttacker().getPlayerName() + "'s " +
                     attackingTerritory.getName() + " loses 1 army");
             currentBattle.increaseAttackerLossCount();
         }
