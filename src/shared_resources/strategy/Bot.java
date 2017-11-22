@@ -100,7 +100,7 @@ abstract class Bot implements PlayerType {
         moveArmiesToConqueredTerritory(gamePlayModel);
     }
     
-    void conquerTerritory(GamePlayModel gamePlayModel) {
+    void conquerTerritoryForBots(GamePlayModel gamePlayModel) {
         Player player = gamePlayModel.getCurrentPlayer();
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
         defendingTerritory.setOwner(player);
