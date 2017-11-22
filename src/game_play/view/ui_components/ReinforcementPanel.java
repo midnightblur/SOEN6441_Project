@@ -78,7 +78,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
         /* The control wrapper. */
         JPanel controlWrapper = new JPanel();
         controlWrapper.setLayout(new BoxLayout(controlWrapper, BoxLayout.PAGE_AXIS));
-        JPanel topGrid = new JPanel(new GridLayout(7, 1));
+        JPanel topGrid = new JPanel(new GridLayout(6, 1));
         JPanel bottomGrid = new JPanel(new GridLayout(7, 1));
         
         /* Add the elements to the panel */
@@ -88,8 +88,11 @@ public class ReinforcementPanel extends JPanel implements Observer {
         topGrid.add(totalArmiesToPlace);
         topGrid.add(howManyArmiesToPlace);
         controlWrapper.add(topGrid);
-        
-        controlWrapper.add(new JScrollPane(playerTerritoryTable));
+        JScrollPane jScrollPane = new JScrollPane(playerTerritoryTable);
+        jScrollPane.setMinimumSize(new Dimension(350, 100));
+        jScrollPane.setPreferredSize(new Dimension(350, 100));
+        jScrollPane.setMaximumSize(new Dimension(350, 100));
+        controlWrapper.add(jScrollPane);
         
         addVerticalSpacing(bottomGrid);
         bottomGrid.add(placeArmiesButton);

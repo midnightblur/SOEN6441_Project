@@ -16,16 +16,21 @@ import game_play.view.ui_components.FortificationPanel;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.UIHelper;
-import shared_resources.utilities.SavedState;
+import shared_resources.utilities.MapFilter;
+import shared_resources.utilities.SaveOpenDialog;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import static shared_resources.utilities.Config.GAME_EXTENSION;
 import static shared_resources.utilities.Config.GAME_STATES.*;
+import static shared_resources.utilities.SavedState.LoadGame;
+import static shared_resources.utilities.SavedState.SaveGame;
 
 /**
  * GamePlayController is responsible for coordinating the GamePlayModel and GamePlayFrame
@@ -46,7 +51,6 @@ public class GamePlayController {
     // endregion
     
     // region Constructors
-    
     /**
      * Constructor for the mainGameController
      * Responsible for initializing all the data and UI required to play the game.
@@ -69,9 +73,21 @@ public class GamePlayController {
         
         gamePlayFrame.getGameMapTable().setModel(gamePlayModel.getMapTableModel().getModel());
     }
-    // endregion
     
-    // region Private methods
+    /**
+     * Limited constructor to be used when loading a game before starting to play
+     *
+     * @param callerController The controller who calls this controller (to help go back to previous screen
+     */
+    public GamePlayController(MainMenuController callerController) {
+        this.callerController = callerController;
+        gamePlayModel = new GamePlayModel();
+        gamePlayFrame = new GamePlayFrame(callerController);
+        gamePlayFrame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+        
+        registerObserversToObservable();
+        registerToBeListener();
+    }
     
     /**
      * Register the views to be observers of the GamePlayModel.
@@ -90,6 +106,9 @@ public class GamePlayController {
         gamePlayModel.addObserver(gamePlayFrame.getFortificationPanel());
         gamePlayModel.addObserver(gamePlayFrame.getPhaseViewPanel());
     }
+    // endregion
+    
+    // region Private methods
     
     /**
      * Register the controller to be the listener to all UI component of the views.
@@ -97,11 +116,8 @@ public class GamePlayController {
     private void registerToBeListener() {
         /* Menu listeners */
         
-        gamePlayFrame.addSaveMenuListener(e -> SavedState.SaveGame(gamePlayModel));
-        gamePlayFrame.addLoadMenuListener(e -> {
-            gamePlayModel = SavedState.LoadGame("savedGame.game");
-            gamePlayModel.notifyObservers();
-        });
+        gamePlayFrame.addSaveMenuListener(e -> saveGameState());
+        gamePlayFrame.addLoadMenuListener(e -> loadSavedGame());
         gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions());
         
         /* Play button to start the game */
@@ -137,13 +153,55 @@ public class GamePlayController {
     }
     
     /**
+     * Save the game state to file
+     */
+    private void saveGameState() {
+        File gameFileToSave;
+        SaveOpenDialog fileChooser = new SaveOpenDialog(new MapFilter(GAME_EXTENSION), "Save game");
+        int selection = fileChooser.showDialog();
+        if (selection == JFileChooser.APPROVE_OPTION) {
+            gameFileToSave = fileChooser.getSelectedFile();
+            // add file extension if user does not enters it
+            if (!gameFileToSave.getAbsolutePath().toLowerCase().endsWith(GAME_EXTENSION)) {
+                gameFileToSave = new File(gameFileToSave.getAbsolutePath() + GAME_EXTENSION);
+            }
+            try {
+                SaveGame(gamePlayModel, gameFileToSave.getAbsolutePath());
+                UIHelper.displayMessage(gamePlayFrame, "The game was saved at \n" + gameFileToSave.getAbsolutePath());
+                
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
+                UIHelper.displayMessage(gamePlayFrame, e.getMessage());
+            }
+        }
+    }
+    
+    /**
+     * Loads a previously saved game
+     */
+    void loadSavedGame() {
+        File gameFileLoader;
+        SaveOpenDialog fileChooser = new SaveOpenDialog(new MapFilter(GAME_EXTENSION), "Load game");
+        int selection = fileChooser.showDialog();
+        if (selection == JFileChooser.APPROVE_OPTION) {
+            gameFileLoader = fileChooser.getSelectedFile();
+            try {
+                gamePlayModel.setGamePlayModel(LoadGame(gameFileLoader.getAbsolutePath()));
+                UIHelper.displayMessage(gamePlayFrame, "The game was loaded from \n" + gameFileLoader.getAbsolutePath());
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
+                UIHelper.displayMessage(gamePlayFrame, e.getMessage());
+            }
+        }
+        
+    }
+    
+    /**
      * Setting the player's strategy
      */
     private void showStrategyOptions() {
         strategyDialog = new StrategyDialog(this, gamePlayFrame, gamePlayModel.getPlayers());
     }
-    
-    // region For Setup Phase
     
     /**
      * Called when the number of players for the game is decided, the game then starts.
@@ -172,6 +230,8 @@ public class GamePlayController {
         }
     }
     
+    // region For Setup Phase
+    
     /**
      * This function allows players to place their initial armies into their territories one-by-one.
      */
@@ -179,9 +239,6 @@ public class GamePlayController {
         String selectedTerritoryName = String.valueOf(gamePlayFrame.getStartupPanel().getTerritoryDropdown().getSelectedItem());
         gamePlayModel.placeArmyStartup(selectedTerritoryName);
     }
-    // endregion
-    
-    // region For Startup Phase
     
     /**
      * This function change the game state to Play phase
@@ -189,6 +246,9 @@ public class GamePlayController {
     private void startTheGame() {
         gamePlayModel.startTheGame();
     }
+    // endregion
+    
+    // region For Startup Phase
     
     /**
      * Looping through view table, get the quantity of armies for each territory
@@ -223,9 +283,6 @@ public class GamePlayController {
             UIHelper.displayMessage(gamePlayFrame, "The total armies to allocate must be lesser or equal to the indicated total armies to place");
         }
     }
-    // endregion
-    
-    // region For Reinforcement Phase
     
     /**
      * Validate player's armies distributing and cards trading, then change the game state to Fortification Phase
@@ -237,6 +294,9 @@ public class GamePlayController {
             gamePlayModel.changePhaseOfCurrentPlayer(ATTACK_PREPARE);
         }
     }
+    // endregion
+    
+    // region For Reinforcement Phase
     
     /**
      * Collect the selected cards from UI and trade them by calling the tradeInCards() from the game_entities.
@@ -296,10 +356,6 @@ public class GamePlayController {
         defendingDialog.addDoneButtonListener(e -> startTheBattle(defendingDialog, gamePlayFrame));
     }
     
-    // endregion
-    
-    // region For Attacking Phase
-    
     /**
      * Move to Fortification phase
      */
@@ -311,6 +367,10 @@ public class GamePlayController {
         
         gamePlayModel.changePhaseOfCurrentPlayer(FORTIFICATION);
     }
+    
+    // endregion
+    
+    // region For Attacking Phase
     
     /**
      * Updates the defending territories dropdown and number
@@ -412,9 +472,6 @@ public class GamePlayController {
         gamePlayModel.nextPlayerTurn();
     }
     
-    // endregion
-    // region For Fortification Phase
-    
     /**
      * Call appropriate function in GamePlayModel to perform a battle
      *
@@ -447,6 +504,9 @@ public class GamePlayController {
         }
     }
     
+    // endregion
+    // region For Fortification Phase
+    
     /**
      * Hide the GamePlayFrame and display a dialog for player
      * to choose how many armies to place on newly conquered territory
@@ -469,6 +529,7 @@ public class GamePlayController {
         conquerDialog.getOwner().dispose();
         owner.setVisible(true);
     }
+    
     
     /**
      * Sets the player strategy as selected in StrategyDialog

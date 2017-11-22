@@ -38,25 +38,18 @@ public class MainMenuController extends JFrame {
     // region Getters & Setters
     
     /**
-     * Gets the main menu frame object.
-     *
-     * @return the main menu frame
-     */
-    public MainMenuFrame getMainMenuFrame() {
-        return mainMenuFrame;
-    }
-    // endregion
-    
-    // region Methods to handle events
-    
-    /**
      * Register this controller to be the listener of all UI components.
      */
     private void registerToBeListener() {
         mainMenuFrame.addMapEditorButtonListener(e -> openMapEditorScreen());
         mainMenuFrame.addPlayGameButtonListener(e -> openPlayGameScreen());
+        mainMenuFrame.addLoadGameButtonListener(e -> new GamePlayController(this).loadSavedGame());
+//        mainMenuFrame.addTournamentButtonListener(e -> openTournamentScreen());
         mainMenuFrame.addQuitButtonListener(e -> exitGame());
     }
+    // endregion
+    
+    // region Methods to handle events
     
     /**
      * Disable MainMenuFrame, show MapEditorFrame.
@@ -79,6 +72,15 @@ public class MainMenuController extends JFrame {
      */
     private void exitGame() {
         UIHelper.closeFrame(mainMenuFrame);
+    }
+    
+    /**
+     * Gets the main menu frame object.
+     *
+     * @return the main menu frame
+     */
+    public MainMenuFrame getMainMenuFrame() {
+        return mainMenuFrame;
     }
     
     // endregion

@@ -16,13 +16,16 @@ import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.GameMapHelper;
 import shared_resources.helper.UIHelper;
-import shared_resources.utilities.Config;
-import shared_resources.utilities.SaveDialog;
+import shared_resources.utilities.MapFilter;
+import shared_resources.utilities.SaveOpenDialog;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.Vector;
+
+import static shared_resources.utilities.Config.MAPS_EXTENSION;
+import static shared_resources.utilities.Config.MSG_MAPFILE_VALID;
 
 /**
  * The MapEditorController is responsible for creating and editing map files:
@@ -375,16 +378,16 @@ public class MapEditorController {
         File mapFileToSave;
         String validateMessage = GameMapHelper.validateMap(mapEditorModel.getGameMap());
         /* Check to see if the map was valid before attempting to save it */
-        if (validateMessage.compareTo(Config.MSG_MAPFILE_VALID) != 0) {
+        if (validateMessage.compareTo(MSG_MAPFILE_VALID) != 0) {
             UIHelper.displayMessage(mapEditorFrame, validateMessage);
         } else { // When the map is valid, proceed to save
-            SaveDialog fileChooser = new SaveDialog();
-            int selection = fileChooser.showSaveDialog(fileChooser.getParent());
+            SaveOpenDialog fileChooser = new SaveOpenDialog(new MapFilter(MAPS_EXTENSION), "Save Map");
+            int selection = fileChooser.showDialog();
             if (selection == JFileChooser.APPROVE_OPTION) {
                 mapFileToSave = fileChooser.getSelectedFile();
                 // add file extension if user does not enters it
-                if (!mapFileToSave.getAbsolutePath().toLowerCase().endsWith(".map")) {
-                    mapFileToSave = new File(mapFileToSave.getAbsolutePath() + ".map");
+                if (!mapFileToSave.getAbsolutePath().toLowerCase().endsWith(MAPS_EXTENSION)) {
+                    mapFileToSave = new File(mapFileToSave.getAbsolutePath() + MAPS_EXTENSION);
                 }
                 try {
                     GameMapHelper.writeToFile(mapEditorModel.getGameMap(), mapFileToSave.getAbsolutePath());
