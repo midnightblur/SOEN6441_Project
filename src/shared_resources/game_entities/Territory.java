@@ -216,6 +216,17 @@ public class Territory implements Serializable {
     }
     
     /**
+     * Check if the owner of the territory is a given player.
+     *
+     * @param player the player
+     *
+     * @return true, if is owned by
+     */
+    public boolean isOwnedBy(Player player) {
+        return (owner == player);
+    }
+    
+    /**
      * Add a number of armies into the territory.
      *
      * @param addedArmies amount of armies to add
