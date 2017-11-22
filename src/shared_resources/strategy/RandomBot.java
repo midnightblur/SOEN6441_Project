@@ -101,9 +101,7 @@ public class RandomBot extends Bot {
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
         if (defendingTerritory.getArmies() == 0) {
             // Set player to be new owner of the conquered territory
-            Player player = gamePlayModel.getCurrentPlayer();
-            defendingTerritory.setOwner(player);
-            player.addTerritory(defendingTerritory);
+            conquerTerritory(gamePlayModel);
             
             // Randomly choose a (valid) number of armies to move to conquered territory
             Random rand = new Random();
