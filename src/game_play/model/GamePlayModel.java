@@ -430,6 +430,9 @@ public class GamePlayModel extends Observable implements Serializable{
         addReinforcementForCurrPlayer();
         updatePlayerTerritoriesModel();
         broadcastGamePlayChanges();
+        if (!currentPlayer.isHuman()) {
+            botsPlayGame();
+        }
     }
     
     /**
