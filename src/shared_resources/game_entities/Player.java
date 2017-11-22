@@ -499,11 +499,7 @@ public class Player implements Serializable {
         
         if (infantryCount > 0 && cavalryCount > 0 && artilleryCount > 0) {
             return true;
-        } else if (infantryCount >= 3 || cavalryCount >= 3 || artilleryCount >= 3) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return (infantryCount >= 3 || cavalryCount >= 3 || artilleryCount >= 3);
     }
     // endregion
     
