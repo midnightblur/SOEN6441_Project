@@ -63,14 +63,10 @@ public class GamePlayController {
         gamePlayModel = new GamePlayModel();
         gamePlayFrame = new GamePlayFrame(callerController);
         gamePlayFrame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
-        
         registerObserversToObservable();
-        
         registerToBeListener();
-        
         gamePlayModel.setGameMap(gameMap);
         gamePlayModel.setGameState(SETUP);
-        
         gamePlayFrame.getGameMapTable().setModel(gamePlayModel.getMapTableModel().getModel());
     }
     
@@ -84,7 +80,6 @@ public class GamePlayController {
         gamePlayModel = new GamePlayModel();
         gamePlayFrame = new GamePlayFrame(callerController);
         gamePlayFrame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
-        
         registerObserversToObservable();
         registerToBeListener();
     }
