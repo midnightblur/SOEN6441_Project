@@ -469,6 +469,11 @@ public class GamePlayModel extends Observable implements Serializable{
         broadcastGamePlayChanges();
     }
     
+    /**
+     * Change players' type according to selection from the UI
+     *
+     * @param opts the users' selection
+     */
     public void setPlayersType(StrategyDialog.BehaviourOptions[] opts) {
         String chosenStrategy;
         for (int i = 0; i < opts.length; i++) {
