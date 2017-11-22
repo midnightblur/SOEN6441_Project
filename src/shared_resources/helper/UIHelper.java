@@ -26,6 +26,7 @@ import java.awt.event.WindowEvent;
 public class UIHelper {
     
     // region Constructors
+    
     /**
      * Instantiates a new UI helper.
      */
@@ -34,6 +35,7 @@ public class UIHelper {
     // endregion
     
     // region Public methods
+    
     /**
      * Display a frame to screen.
      *
@@ -63,6 +65,16 @@ public class UIHelper {
      */
     public static void addVerticalSpacing(JPanel panel) {
         panel.add(Box.createRigidArea(new Dimension(0, 30)));
+    }
+    
+    /**
+     * Ads horizontal spacing within a panel
+     * It is used withing various control panels.
+     *
+     * @param panel the component subject to this method
+     */
+    public static void addHorizontalSpacing(JPanel panel) {
+        panel.add(Box.createRigidArea(new Dimension(10, 0)));
     }
     
     /**
