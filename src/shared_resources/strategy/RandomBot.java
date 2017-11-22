@@ -93,9 +93,9 @@ public class RandomBot extends Bot {
         
         // Randomly decide whether or not to fortify
         Random rand = new Random();
-        boolean doForitification = rand.nextBoolean();
+        boolean doFortification = rand.nextBoolean();
         
-        if (doForitification) {
+        if (doFortification) {
             Vector<Territory> territories = new Vector<>(player.getTerritories());
             while (territories.size() > 0) {
                 // Randomly choose a territory that is valid to move armies to another territory
@@ -126,6 +126,10 @@ public class RandomBot extends Bot {
                 } else {
                     territories.remove(fromTerritory);
                 }
+            }
+            
+            if (territories.size() == 0) {
+                log.append("        " + player.getPlayerName() + " cannot fortify");
             }
         } else {
             log.append("        " + player.getPlayerName() + " doesn't want to fortify any of his territory");
