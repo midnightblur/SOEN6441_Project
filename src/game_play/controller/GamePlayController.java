@@ -97,8 +97,11 @@ public class GamePlayController {
     private void registerToBeListener() {
         /* Menu listeners */
         
-        gamePlayFrame.addSaveMenuListener(e -> new SavedState(gamePlayModel).SaveGame());
-        gamePlayFrame.addLoadMenuListener(e -> new SavedState(gamePlayModel).LoadGame("savedGame.game"));
+        gamePlayFrame.addSaveMenuListener(e -> SavedState.SaveGame(gamePlayModel));
+        gamePlayFrame.addLoadMenuListener(e -> {
+            gamePlayModel = SavedState.LoadGame("savedGame.game");
+            gamePlayModel.notifyObservers();
+        });
         gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions());
         
         /* Play button to start the game */
@@ -134,24 +137,13 @@ public class GamePlayController {
     }
     
     /**
-     * Sets the player strategy as selected in StrategyDialog
-     *
-     * @param strategyDialog the strategy dialog
-     */
-    public void setStrategy(StrategyDialog strategyDialog) {
-        StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
-        gamePlayModel.setPlayersType(opts);
-        strategyDialog.dispose();
-    }
-    
-    // region For Setup Phase
-    
-    /**
      * Setting the player's strategy
      */
     private void showStrategyOptions() {
         strategyDialog = new StrategyDialog(this, gamePlayFrame, gamePlayModel.getPlayers());
     }
+    
+    // region For Setup Phase
     
     /**
      * Called when the number of players for the game is decided, the game then starts.
@@ -179,9 +171,6 @@ public class GamePlayController {
                     "Entry Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
-    // endregion
-    
-    // region For Startup Phase
     
     /**
      * This function allows players to place their initial armies into their territories one-by-one.
@@ -190,29 +179,15 @@ public class GamePlayController {
         String selectedTerritoryName = String.valueOf(gamePlayFrame.getStartupPanel().getTerritoryDropdown().getSelectedItem());
         gamePlayModel.placeArmyStartup(selectedTerritoryName);
     }
+    // endregion
+    
+    // region For Startup Phase
     
     /**
      * This function change the game state to Play phase
      */
     private void startTheGame() {
         gamePlayModel.startTheGame();
-    }
-    // endregion
-    
-    // region For Reinforcement Phase
-    
-    /**
-     * Bring users back to Reinforcement Panel from Trade Cards Panel
-     */
-    private void backToReinforcement() {
-        gamePlayModel.changePhaseOfCurrentPlayer(REINFORCEMENT);
-    }
-    
-    /**
-     * Bring users from Reinforcement Panel to Trade Cards Panel
-     */
-    private void goToTradeCardsPanel() {
-        gamePlayModel.changePhaseOfCurrentPlayer(TRADE_CARDS);
     }
     
     /**
@@ -248,6 +223,9 @@ public class GamePlayController {
             UIHelper.displayMessage(gamePlayFrame, "The total armies to allocate must be lesser or equal to the indicated total armies to place");
         }
     }
+    // endregion
+    
+    // region For Reinforcement Phase
     
     /**
      * Validate player's armies distributing and cards trading, then change the game state to Fortification Phase
@@ -278,27 +256,18 @@ public class GamePlayController {
         UIHelper.displayMessage(gamePlayFrame, message);
     }
     
-    // endregion
-    
-    // region For Attacking Phase
-    
     /**
-     * Called when players want to prepare another attack
+     * Bring users from Reinforcement Panel to Trade Cards Panel
      */
-    private void prepareAnotherAttack() {
-        gamePlayModel.prepareNewAttack();
+    private void goToTradeCardsPanel() {
+        gamePlayModel.changePhaseOfCurrentPlayer(TRADE_CARDS);
     }
     
     /**
-     * Call appropriate function in GamePlayModel to move a number of armies from attacking territory to the defending one
-     *
-     * @param conquerDialog The conquer dialog
-     * @param owner         The owner frame
+     * Bring users back to Reinforcement Panel from Trade Cards Panel
      */
-    private void moveArmiesToConqueredTerritory(ConquerDialog conquerDialog, JFrame owner) {
-        gamePlayModel.moveArmiesToConqueredTerritory((Integer) conquerDialog.getMoveArmiesDropdown().getSelectedItem());
-        conquerDialog.getOwner().dispose();
-        owner.setVisible(true);
+    private void backToReinforcement() {
+        gamePlayModel.changePhaseOfCurrentPlayer(REINFORCEMENT);
     }
     
     /**
@@ -327,6 +296,10 @@ public class GamePlayController {
         defendingDialog.addDoneButtonListener(e -> startTheBattle(defendingDialog, gamePlayFrame));
     }
     
+    // endregion
+    
+    // region For Attacking Phase
+    
     /**
      * Move to Fortification phase
      */
@@ -337,17 +310,6 @@ public class GamePlayController {
         }
         
         gamePlayModel.changePhaseOfCurrentPlayer(FORTIFICATION);
-    }
-    
-    /**
-     * Hide the GamePlayFrame and display a dialog for player
-     * to choose how many armies to place on newly conquered territory
-     */
-    private void openMoveArmiesToConqueredTerritoryDialog() {
-        gamePlayFrame.setVisible(false);
-        JFrame frame = new JFrame();
-        ConquerDialog conquerDialog = new ConquerDialog(frame, gamePlayModel.getCurrentBattle());
-        conquerDialog.addMoveArmiesButtonListener(e -> moveArmiesToConqueredTerritory(conquerDialog, gamePlayFrame));
     }
     
     /**
@@ -378,8 +340,12 @@ public class GamePlayController {
         }
     }
     
-    // endregion
-    // region For Fortification Phase
+    /**
+     * Called when players want to prepare another attack
+     */
+    private void prepareAnotherAttack() {
+        gamePlayModel.prepareNewAttack();
+    }
     
     /**
      * Move armies from selected source territory to selected target territory
@@ -446,6 +412,9 @@ public class GamePlayController {
         gamePlayModel.nextPlayerTurn();
     }
     
+    // endregion
+    // region For Fortification Phase
+    
     /**
      * Call appropriate function in GamePlayModel to perform a battle
      *
@@ -476,6 +445,40 @@ public class GamePlayController {
                 gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
             openMoveArmiesToConqueredTerritoryDialog();
         }
+    }
+    
+    /**
+     * Hide the GamePlayFrame and display a dialog for player
+     * to choose how many armies to place on newly conquered territory
+     */
+    private void openMoveArmiesToConqueredTerritoryDialog() {
+        gamePlayFrame.setVisible(false);
+        JFrame frame = new JFrame();
+        ConquerDialog conquerDialog = new ConquerDialog(frame, gamePlayModel.getCurrentBattle());
+        conquerDialog.addMoveArmiesButtonListener(e -> moveArmiesToConqueredTerritory(conquerDialog, gamePlayFrame));
+    }
+    
+    /**
+     * Call appropriate function in GamePlayModel to move a number of armies from attacking territory to the defending one
+     *
+     * @param conquerDialog The conquer dialog
+     * @param owner         The owner frame
+     */
+    private void moveArmiesToConqueredTerritory(ConquerDialog conquerDialog, JFrame owner) {
+        gamePlayModel.moveArmiesToConqueredTerritory((Integer) conquerDialog.getMoveArmiesDropdown().getSelectedItem());
+        conquerDialog.getOwner().dispose();
+        owner.setVisible(true);
+    }
+    
+    /**
+     * Sets the player strategy as selected in StrategyDialog
+     *
+     * @param strategyDialog the strategy dialog
+     */
+    public void setStrategy(StrategyDialog strategyDialog) {
+        StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
+        gamePlayModel.setPlayersType(opts);
+        strategyDialog.dispose();
     }
     
     // endregion
