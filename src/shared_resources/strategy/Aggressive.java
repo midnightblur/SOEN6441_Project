@@ -4,6 +4,7 @@ import game_play.model.GamePlayModel;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
@@ -31,6 +32,8 @@ public class Aggressive extends Bot {
         }
         if (armiesToPlace != null) {
             armiesToPlace.clear();
+        } else {
+            armiesToPlace = new HashMap<>();
         }
         armiesToPlace.put(strongestTerritory, player.getUnallocatedArmies());
         player.distributeArmies(armiesToPlace);
