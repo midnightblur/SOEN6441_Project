@@ -154,6 +154,8 @@ public class RandomBot extends Bot {
             toTerritory.addArmies(noOfArmies);
             log.append("            " + fromTerritory.getOwner().getPlayerName() + " moves " + noOfArmies + " armies from " +
                     fromTerritory.getName() + " to " + toTerritory.getName());
+            
+            gamePlayModel.eliminatePlayer();
         }
     }
 }

@@ -1,6 +1,7 @@
 package shared_resources.strategy;
 
 import game_play.model.GamePlayModel;
+import shared_resources.game_entities.Battle;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 
@@ -36,11 +37,15 @@ public class CheaterBot extends Bot {
             for (String neighborName : territory.getNeighbors()) {
                 Territory neighbor = gamePlayModel.getGameMap().getATerritory(neighborName);
                 if (neighbor.getOwner() != player) {
+                    gamePlayModel.setCurrentBattle(new Battle(player, territory, 1,
+                            neighbor.getOwner(), neighbor, 1));
                     conqueredTerritories.add(neighbor);
                     log.append("        " + neighbor.getName() + " of " +
                             neighbor.getOwner().getPlayerName() +" has been conquered by " + player.getPlayerName() +
                             " from " + territory.getName());
+                    neighbor.getOwner().removeTerritory(neighborName);
                     neighbor.setOwner(player);
+                    gamePlayModel.eliminatePlayer();
                 }
             }
         }
