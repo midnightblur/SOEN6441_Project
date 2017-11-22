@@ -3,6 +3,7 @@ package shared_resources.strategy;
 import game_play.model.GamePlayModel;
 import shared_resources.game_entities.Card;
 import shared_resources.game_entities.Player;
+import shared_resources.game_entities.Territory;
 import shared_resources.utilities.Config;
 
 import java.util.Vector;
@@ -97,6 +98,13 @@ abstract class Bot implements PlayerType {
         
         // If conquer any territory, move some armies to that territory
         moveArmiesToConqueredTerritory(gamePlayModel);
+    }
+    
+    void conquerTerritoryForBots(GamePlayModel gamePlayModel) {
+        Player player = gamePlayModel.getCurrentPlayer();
+        Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
+        defendingTerritory.setOwner(player);
+        player.addTerritory(defendingTerritory);
     }
     
     abstract void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel);
