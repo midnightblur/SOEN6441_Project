@@ -40,7 +40,7 @@ public class Benevolent extends Bot {
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         Player currentPlayer = gamePlayModel.getCurrentPlayer();
-        log.append("    " + currentPlayer.getPlayerName() + " doesn't attack any territory");
+        log.append("        " + currentPlayer.getPlayerName() + " doesn't attack any territory");
     }
 
     @Override
@@ -58,7 +58,7 @@ public class Benevolent extends Bot {
                 noOfArmies = (strongestTerritory.getArmies() - weakestNeighbor.getArmies()) / 2;
                 strongestTerritory.reduceArmies(noOfArmies);
                 weakestNeighbor.addArmies(noOfArmies);
-                log.append("    " + player.getPlayerName() + " moved " + noOfArmies +" armies from " +
+                log.append("        " + player.getPlayerName() + " moves " + noOfArmies +" armies from " +
                         strongestTerritory.getName() + " to " + weakestNeighbor.getName());
                 return "";
             } else {
@@ -66,7 +66,7 @@ public class Benevolent extends Bot {
             }
         }
         
-        log.append("    " + player.getPlayerName() + " doesn't want to fortify any of his territory");
+        log.append("        " + player.getPlayerName() + " doesn't want to fortify any of his territory");
         return "";
     }
     

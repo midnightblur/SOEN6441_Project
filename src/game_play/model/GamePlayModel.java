@@ -936,7 +936,6 @@ public class GamePlayModel extends Observable implements Serializable{
             
             // Fortification phase
             currentPlayer.fortification(this, null, null, -1);
-            currentPlayer.nextPhase();
             
             nextPlayerTurn();
         }
