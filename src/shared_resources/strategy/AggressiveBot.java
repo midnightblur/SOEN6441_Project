@@ -91,7 +91,7 @@ public class AggressiveBot extends Bot {
             
             //TODO: implement how an Aggressive bot would move armies to just-conquered territory
             
-            gamePlayModel.eliminatePlayer();
+            gamePlayModel.eliminatePlayerIfCan();
         }
     }
     

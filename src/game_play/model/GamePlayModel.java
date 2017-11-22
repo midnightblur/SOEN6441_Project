@@ -729,7 +729,7 @@ public class GamePlayModel extends Observable implements Serializable {
             attacker.addTerritory(defendingTerritory);
             
             // Check if the defender has been eliminated
-            eliminatePlayer();
+            eliminatePlayerIfCan();
         }
         
         moveToFortificationIfCan();
@@ -744,7 +744,7 @@ public class GamePlayModel extends Observable implements Serializable {
      * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
      * And remove defeated player from the game
      */
-    public void eliminatePlayer() {
+    public void eliminatePlayerIfCan() {
         Player attacker = currentBattle.getAttacker();
         Player defender = currentBattle.getDefender();
         if (defender.getTerritories().size() == 0) {
@@ -784,13 +784,17 @@ public class GamePlayModel extends Observable implements Serializable {
      * @return true if attacking player won the entire game, false otherwise
      */
     public boolean gameVictory(Player attackingPlayer) {
-        for (Continent c : gameMap.getContinents().values()) {
-            if (!Objects.equals(c.getContinentOwner(gameMap), attackingPlayer.getPlayerName())) {
-                return false;
+        boolean isVictory = true;
+        for (Player player : players) {
+            if (player != attackingPlayer && player.getPlayerStatus() != PLAYER_STATUS.ELIMINATED) {
+                isVictory = false;
+                break;
             }
         }
-        attackingPlayer.setGameState(VICTORY);
-        return true;
+        if (isVictory) {
+            attackingPlayer.setGameState(VICTORY);
+        }
+        return isVictory;
     }
     
     /**
@@ -953,13 +957,16 @@ public class GamePlayModel extends Observable implements Serializable {
      * This function lets the game advance when the current player is a bot until a human player's turn
      */
     private void botsPlayGame() {
-        while (!currentPlayer.isHuman()) {
+        while (!currentPlayer.isHuman() && currentPlayer.getGameState() != VICTORY) {
             // Reinforcement phase
             currentPlayer.reinforcement(this, null, null);
             currentPlayer.nextPhase();
             
             // Attacking phase
             currentPlayer.attack(this);
+            if (currentPlayer.getGameState() == VICTORY) {
+                break;
+            }
             currentPlayer.nextPhase();
             
             // Fortification phase

@@ -312,7 +312,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
-            GamePlayModel gamePlayModel = (GamePlayModel) o;
+                GamePlayModel gamePlayModel = (GamePlayModel) o;
             
             gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
             
