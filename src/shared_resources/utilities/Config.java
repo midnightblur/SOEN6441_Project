@@ -47,6 +47,7 @@ public class Config {
     public static final int MAPS_MIN_NEIGHBORS = 1;
     public static final int MAPS_MAX_NEIGHBORS = 10;
     public static final String MAPS_EXTENSION = ".map";
+    public static final String GAME_EXTENSION = ".game";
     public static final String MAPS_AUTHOR = "author";
     public static final String MAPS_IMAGE = "image";
     public static final String MAPS_WRAP = "wrap";

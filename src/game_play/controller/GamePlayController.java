@@ -16,16 +16,21 @@ import game_play.view.ui_components.FortificationPanel;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.UIHelper;
-import shared_resources.utilities.SavedState;
+import shared_resources.utilities.MapFilter;
+import shared_resources.utilities.SaveOpenDialog;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import static shared_resources.utilities.Config.GAME_EXTENSION;
 import static shared_resources.utilities.Config.GAME_STATES.*;
+import static shared_resources.utilities.SavedState.LoadGame;
+import static shared_resources.utilities.SavedState.SaveGame;
 
 /**
  * GamePlayController is responsible for coordinating the GamePlayModel and GamePlayFrame
@@ -97,11 +102,8 @@ public class GamePlayController {
     private void registerToBeListener() {
         /* Menu listeners */
         
-        gamePlayFrame.addSaveMenuListener(e -> SavedState.SaveGame(gamePlayModel));
-        gamePlayFrame.addLoadMenuListener(e -> {
-            gamePlayModel = SavedState.LoadGame("savedGame.game");
-            gamePlayModel.notifyObservers();
-        });
+        gamePlayFrame.addSaveMenuListener(e -> saveGameState());
+        gamePlayFrame.addLoadMenuListener(e -> loadSavedGame());
         gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions());
         
         /* Play button to start the game */
@@ -133,6 +135,50 @@ public class GamePlayController {
                 String.valueOf(gamePlayFrame.getFortificationPanel().getSourceTerritoryDropdown().getSelectedItem())
         ));
         gamePlayFrame.getFortificationPanel().addNextPlayerButtonListener(e -> changeToNextPlayer());
+        
+    }
+    
+    /**
+     * Save the game state to file
+     */
+    private void saveGameState() {
+        File gameFileToSave;
+        SaveOpenDialog fileChooser = new SaveOpenDialog(new MapFilter(GAME_EXTENSION), "Save game");
+        int selection = fileChooser.showDialog();
+        if (selection == JFileChooser.APPROVE_OPTION) {
+            gameFileToSave = fileChooser.getSelectedFile();
+            // add file extension if user does not enters it
+            if (!gameFileToSave.getAbsolutePath().toLowerCase().endsWith(GAME_EXTENSION)) {
+                gameFileToSave = new File(gameFileToSave.getAbsolutePath() + GAME_EXTENSION);
+            }
+            try {
+                SaveGame(gamePlayModel, gameFileToSave.getAbsolutePath());
+                UIHelper.displayMessage(gamePlayFrame, "The game was saved at \n" + gameFileToSave.getAbsolutePath());
+                
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
+                UIHelper.displayMessage(gamePlayFrame, e.getMessage());
+            }
+        }
+    }
+    
+    /**
+     * Loads a previously saved game
+     */
+    private void loadSavedGame() {
+        File gameFileLoader;
+        SaveOpenDialog fileChooser = new SaveOpenDialog(new MapFilter(GAME_EXTENSION), "Load game");
+        int selection = fileChooser.showDialog();
+        if (selection == JFileChooser.APPROVE_OPTION) {
+            gameFileLoader = fileChooser.getSelectedFile();
+            try {
+                gamePlayModel.setGamePlayModel(LoadGame(gameFileLoader.getAbsolutePath()));
+                UIHelper.displayMessage(gamePlayFrame, "The game was loaded from \n" + gameFileLoader.getAbsolutePath());
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
+                UIHelper.displayMessage(gamePlayFrame, e.getMessage());
+            }
+        }
         
     }
     
