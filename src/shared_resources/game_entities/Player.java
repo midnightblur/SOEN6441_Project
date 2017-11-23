@@ -609,6 +609,30 @@ public class Player implements Serializable {
         
         return false;
     }
+    
+    /**
+     * If the player is defender in a battle, gets the number of dice he wants to use to defend
+     *
+     * @return the number of dice to defend
+     */
+    public int chooseDefendingDice(int maxDefendingDice) {
+        // TODO: implement Strategy pattern for this function
+        int defendingDice = 1;
+        if (this.isRandomBot()) {
+            // Choose number of dice randomly
+            if (maxDefendingDice > 1) {
+                Random rand = new Random();
+                defendingDice = 1 + rand.nextInt(maxDefendingDice - 1);
+            }
+        } else if (this.isAggressiveBot() || this.isBenevolentBot()) {
+            // Choose maximum number of dice possible
+            defendingDice = maxDefendingDice;
+        } else if (this.isCheaterBot()) {
+            // Choose 10 dice
+            defendingDice = 10;
+        }
+        return defendingDice;
+    }
     // endregion
     
     // region Fortification Phase

@@ -26,7 +26,6 @@ import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.Vector;
 
 import static shared_resources.utilities.Config.GAME_EXTENSION;
@@ -332,8 +331,8 @@ public class GamePlayController {
                 defendingTerritory,
                 attackingDice);
         int maxDefendingDice = gamePlayModel.getMaxDefendingRoll(defendingTerritory);
-        
         Player defender = gamePlayModel.getAPlayer(defendingPlayer);
+        
         if (defender.isHuman()) {
             /* Let the defender choose number of dice to defence */
             gamePlayFrame.setVisible(false);
@@ -341,20 +340,7 @@ public class GamePlayController {
             DefendingDialog defendingDialog = new DefendingDialog(frame, situation, maxDefendingDice);
             defendingDialog.addDoneButtonListener(e -> startTheBattle(defendingDialog, gamePlayFrame));
         } else {
-            int defendingDice = 1;
-            if (defender.isRandomBot()) {
-                // Choose number of dice randomly
-                if (maxDefendingDice > 1) {
-                    Random rand = new Random();
-                    defendingDice = 1 + rand.nextInt(maxDefendingDice - 1);
-                }
-            } else if (defender.isAggressiveBot() || defender.isBenevolentBot()) {
-                // Choose maximum number of dice possible
-                defendingDice = maxDefendingDice;
-            } else if (defender.isCheaterBot()) {
-                // Choose 10 dice
-                defendingDice = 10;
-            }
+            int defendingDice = defender.chooseDefendingDice(maxDefendingDice);
             startTheBattle(defendingDice);
         }
     }

@@ -93,11 +93,27 @@ abstract class Bot implements PlayerType {
     }
     
     void attackForBots(GamePlayModel gamePlayModel) {
+        // Let the defender choose how many dice to defend
+        letDefenderChooseDefendingDice(gamePlayModel);
+        
         // Perform the battle
         attackForAllPlayers(gamePlayModel);
         
         // If conquer any territory, move some armies to that territory
         moveArmiesToConqueredTerritory(gamePlayModel);
+    }
+    
+    int letDefenderChooseDefendingDice(GamePlayModel gamePlayModel) {
+        int defendingDice = 1;
+        Player defender = gamePlayModel.getCurrentBattle().getDefender();
+        Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
+        if (defender.isHuman()) {
+            // TODO: popup the Defending dialog
+        } else {
+            int maxDefendingDice = gamePlayModel.getMaxDefendingRoll(defendingTerritory.getName());
+            defendingDice = defender.chooseDefendingDice(maxDefendingDice);
+        }
+        return defendingDice;
     }
     
     void conquerTerritoryForBots(GamePlayModel gamePlayModel) {
