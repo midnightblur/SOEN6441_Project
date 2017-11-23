@@ -88,7 +88,7 @@ public class MapLoadPanel extends JPanel implements Observer {
     /**
      * Sets the all components enable.
      *
-     * @param isEnable  makes all new  components enable
+     * @param isEnable the new all components enable
      */
     private void setAllComponentsEnable(boolean isEnable) {
         chooseMapDropdown.setEnabled(isEnable);
