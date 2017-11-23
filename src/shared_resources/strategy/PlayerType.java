@@ -1,6 +1,6 @@
 /*
  * Risk Game Team 2
- * Strategy.java
+ * PlayerType.java
  * Version 3.0
  * Nov 10, 2017
  */
