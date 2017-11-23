@@ -9,6 +9,7 @@ package game_play.view.ui_components;
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
 import shared_resources.game_entities.Player;
+import shared_resources.strategy.Bot;
 import shared_resources.utilities.Config;
 
 import javax.swing.*;
@@ -39,6 +40,7 @@ public class StartupPanel extends JPanel implements Observer {
     // endregion
     
     // region Constructors
+    
     /**
      * Instantiates a new startup panel.
      */
@@ -116,6 +118,7 @@ public class StartupPanel extends JPanel implements Observer {
     // endregion
     
     // region Public methods
+    
     /**
      * This method is called whenever the observed object is changed. An
      * application calls an <tt>Observable</tt> object's
@@ -140,13 +143,19 @@ public class StartupPanel extends JPanel implements Observer {
                 // Let players place armies in a round-robin-fashion until no player has any army left
                 if (count != gamePlayModel.getPlayers().size()) {
                     territoryDropdown.setModel(new DropDownModel(gamePlayModel.getCurrentPlayerTerritories()));
-    
+                    
                     // Randomly select an item from the list for the purpose of demo
                     territoryDropdown.setSelectedIndex((int) (Math.random() * (gamePlayModel.getCurrentPlayerTerritories().size() - 1)));
-    
+                    
                     playerNameLabel.setForeground(gamePlayModel.getCurrentPlayer().getColor());
                     playerNameLabel.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                     totalArmiesToPlaceLabel.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
+                    
+                    // If bots click the button
+                    if (Bot.class.isAssignableFrom(gamePlayModel.getCurrentPlayer().getPlayerType().getClass())) {
+                        placeArmyButton.doClick();
+                    }
+                    
                 } else {
                     playerNameLabel.setForeground(Color.BLACK);
                     playerNameLabel.setText("All armies are allocated");
