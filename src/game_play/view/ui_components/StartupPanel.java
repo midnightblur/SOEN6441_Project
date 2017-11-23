@@ -151,9 +151,9 @@ public class StartupPanel extends JPanel implements Observer {
                     playerNameLabel.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                     totalArmiesToPlaceLabel.setText(TOTAL_ARMIES_TO_PLACE_LABEL + Integer.toString(gamePlayModel.getCurrentPlayer().getUnallocatedArmies()));
                     
-                    // If bots, randomly select the territory to place army
+                    // If bots click the button
                     if (Bot.class.isAssignableFrom(gamePlayModel.getCurrentPlayer().getPlayerType().getClass())) {
-                        placeArmyButton.doClick(1);
+                        placeArmyButton.doClick();
                     }
                     
                 } else {

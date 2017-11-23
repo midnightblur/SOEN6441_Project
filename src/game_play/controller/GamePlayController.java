@@ -534,8 +534,8 @@ public class GamePlayController {
      */
     public void setStrategy(StrategyDialog strategyDialog) {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
-        gamePlayModel.setPlayersType(opts);
         strategyDialog.dispose();
+        gamePlayModel.setPlayersType(opts);
     }
     
     // endregion
