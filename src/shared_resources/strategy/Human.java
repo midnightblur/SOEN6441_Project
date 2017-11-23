@@ -10,7 +10,7 @@ import java.util.Vector;
 import static shared_resources.utilities.Config.log;
 
 /**
- * The human strategy
+ * The human strategy Pattern
  */
 public class Human implements PlayerType {
     @Override
