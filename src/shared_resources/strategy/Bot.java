@@ -99,9 +99,6 @@ public abstract class Bot implements PlayerType {
     }
     
     void attackForBots(GamePlayModel gamePlayModel) {
-        // Let the defender choose how many dice to defend
-        letDefenderChooseDefendingDice(gamePlayModel);
-        
         if (!gamePlayModel.getCurrentBattle().getDefendingTerritory().getOwner().isHuman()) {
             // Perform the battle
             attackForAllPlayers(gamePlayModel);
@@ -109,18 +106,6 @@ public abstract class Bot implements PlayerType {
             // If conquer any territory, move some armies to that territory
             moveArmiesToConqueredTerritory(gamePlayModel);
         }
-    }
-    
-    int letDefenderChooseDefendingDice(GamePlayModel gamePlayModel) {
-        int defendingDice = 1;
-        Player defender = gamePlayModel.getCurrentBattle().getDefender();
-        if (defender.isHuman()) {
-            gamePlayModel.waitForDefenderReaction();
-        } else {
-            int maxDefendingDice = gamePlayModel.getCurrentBattle().getMaxDefendingRoll();
-            defendingDice = defender.botChooseDefendingDice(maxDefendingDice);
-        }
-        return defendingDice;
     }
     
     void conquerTerritoryForBots(GamePlayModel gamePlayModel) {
