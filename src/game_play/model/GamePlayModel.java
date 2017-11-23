@@ -61,6 +61,16 @@ public class GamePlayModel extends Observable implements Serializable {
     private Vector<Player> players;
     private Random rand;
     private Battle currentBattle;
+    
+    /**
+     * The player status
+     */
+    public enum PLAYER_STATUS {
+        IN_GAME, ELIMINATED
+    }
+    // endregion
+    
+    // region Constructors
     /**
      * Public GamePlayModel constructor.
      */
@@ -73,7 +83,9 @@ public class GamePlayModel extends Observable implements Serializable {
         rand = new Random();
         playerTerritoriesModel = new PlayerTerritoriesModel();
     }
+    // endregion
     
+    // region Getters and Setters
     /**
      * Copy constructor to be used when restoring a saved game
      *
@@ -102,9 +114,6 @@ public class GamePlayModel extends Observable implements Serializable {
         return currentBattle;
     }
     
-    // endregion
-    
-    // region Constructors
     
     /**
      * Gets the game map.
@@ -114,9 +123,6 @@ public class GamePlayModel extends Observable implements Serializable {
     public GameMap getGameMap() {
         return gameMap;
     }
-    // endregion
-    
-    // region Getters and Setters
     
     /**
      * Sets new gameMap.
@@ -716,6 +722,7 @@ public class GamePlayModel extends Observable implements Serializable {
                 " to " + defendingTerritory.getName() + " of " + defender.getPlayerName());
         log.append("        " + currentBattle.getAttacker().getPlayerName() + " chooses " + numOfAtkDice + " dice");
         log.append("        " + currentBattle.getDefender().getPlayerName() + " chooses " + numOfDefDice + " dice");
+        
         currentPlayer.attack(this);
         
         // If the defending territory has been conquered
@@ -953,6 +960,9 @@ public class GamePlayModel extends Observable implements Serializable {
         broadcastGamePlayChanges();
     }
     
+    // endregion
+    
+    // region Private methods
     /**
      * This function lets the game advance when the current player is a bot until a human player's turn
      */
@@ -976,17 +986,6 @@ public class GamePlayModel extends Observable implements Serializable {
         }
         updateGameMapTableModel();
         broadcastGamePlayChanges();
-    }
-    
-    // endregion
-    
-    // region Private methods
-    
-    /**
-     * The player status
-     */
-    public enum PLAYER_STATUS {
-        IN_GAME, ELIMINATED
     }
     // endregion
 }
