@@ -31,7 +31,7 @@ public class SavedJSONState {
     public static void saveGame(GamePlayModel gamePlayModel, String path) {
         try (OutputStream outputStream = new FileOutputStream(path)) {
             Map<String, Object> jsonArgs = new HashMap<>();
-            jsonArgs.put(JsonWriter.TYPE, false);
+//            jsonArgs.put(JsonWriter.TYPE, false);
             jsonArgs.put(JsonWriter.PRETTY_PRINT, true);
             JsonWriter jw = new JsonWriter(outputStream, jsonArgs);
             jw.write(gamePlayModel);
@@ -53,11 +53,15 @@ public class SavedJSONState {
         InputStream file;
         try {
             file = new FileInputStream(path);
-            Map<String, Object> jsonArgs = new HashMap<>();
-            jsonArgs.put(JsonReader.FAIL_ON_UNKNOWN_TYPE, false);
-            jsonArgs.put(JsonReader.FAIL_ON_UNKNOWN_TYPE, false);
-            jsonArgs.put(JsonReader.TYPE_NAME_MAP, true);
-            state = (GamePlayModel) JsonReader.jsonToJava(file, jsonArgs);
+//            Map<String, Object> jsonArgs = new HashMap<>();
+//            jsonArgs.put(JsonReader.FAIL_ON_UNKNOWN_TYPE, false);
+//            state = (GamePlayModel) JsonReader.jsonToJava(file, jsonArgs);
+            
+            JsonReader reader = new JsonReader(file);
+            state = (GamePlayModel) reader.readObject();
+
+//            state = (GamePlayModel) JsonReader.jsonToJava(file);
+            
             file.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
