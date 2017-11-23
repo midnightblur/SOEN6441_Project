@@ -15,7 +15,7 @@ import javax.swing.*;
 /**
  * MainMenuController helps functioning the MainMenuFrame, allowing users to go to different screen of the application
  *
- * @author Team
+ * @author Team 2
  * @version 1.0
  */
 public class MainMenuController extends JFrame {
