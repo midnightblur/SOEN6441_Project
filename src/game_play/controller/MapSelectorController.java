@@ -35,7 +35,7 @@ public class MapSelectorController {
     // region Constructors
     
     /**
-     * Instantiate a new map selector controller.
+     * Instantiates a new map selector controller.
      *
      * @param callerController the caller controller
      */
