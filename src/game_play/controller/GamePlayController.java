@@ -14,6 +14,7 @@ import game_play.view.screens.GamePlayFrame;
 import game_play.view.screens.StrategyDialog;
 import game_play.view.ui_components.FortificationPanel;
 import shared_resources.game_entities.GameMap;
+import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.UIHelper;
 import shared_resources.utilities.MapFilter;
@@ -25,6 +26,7 @@ import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Vector;
 
 import static shared_resources.utilities.Config.GAME_EXTENSION;
@@ -48,7 +50,6 @@ public class GamePlayController {
     private MainMenuController callerController;
     private GamePlayFrame gamePlayFrame;
     private GamePlayModel gamePlayModel;
-    private StrategyDialog strategyDialog;
     // endregion
     
     // region Constructors
@@ -183,7 +184,7 @@ public class GamePlayController {
      * Setting the player's strategy
      */
     private void showStrategyOptions() {
-        strategyDialog = new StrategyDialog(this, gamePlayFrame, gamePlayModel.getPlayers());
+        StrategyDialog strategyDialog = new StrategyDialog(this, gamePlayFrame, gamePlayModel.getPlayers());
     }
     
     /**
@@ -331,12 +332,31 @@ public class GamePlayController {
                 defendingTerritory,
                 attackingDice);
         int maxDefendingDice = gamePlayModel.getMaxDefendingRoll(defendingTerritory);
-        gamePlayFrame.setVisible(false);
         
-        /* Let the defender choose number of dice to defence */
-        JFrame frame = new JFrame();
-        DefendingDialog defendingDialog = new DefendingDialog(frame, situation, maxDefendingDice);
-        defendingDialog.addDoneButtonListener(e -> startTheBattle(defendingDialog, gamePlayFrame));
+        Player defender = gamePlayModel.getAPlayer(defendingPlayer);
+        if (defender.isHuman()) {
+            /* Let the defender choose number of dice to defence */
+            gamePlayFrame.setVisible(false);
+            JFrame frame = new JFrame();
+            DefendingDialog defendingDialog = new DefendingDialog(frame, situation, maxDefendingDice);
+            defendingDialog.addDoneButtonListener(e -> startTheBattle(defendingDialog, gamePlayFrame));
+        } else {
+            int defendingDice = 1;
+            if (defender.isRandomBot()) {
+                // Choose number of dice randomly
+                if (maxDefendingDice > 1) {
+                    Random rand = new Random();
+                    defendingDice = 1 + rand.nextInt(maxDefendingDice - 1);
+                }
+            } else if (defender.isAggressiveBot() || defender.isBenevolentBot()) {
+                // Choose maximum number of dice possible
+                defendingDice = maxDefendingDice;
+            } else if (defender.isCheaterBot()) {
+                // Choose 10 dice
+                defendingDice = 10;
+            }
+            startTheBattle(defendingDice);
+        }
     }
     
     /**
@@ -473,6 +493,32 @@ public class GamePlayController {
                 defendingDice
         );
         
+        announceVictoryIfPossible(message);
+    }
+    
+    /**
+     * Call appropriate function in GamePlayModel to perform a battle
+     *
+     * @param defendingDice the number of defender's dice
+     */
+    private void startTheBattle(int defendingDice) {
+        /* Perform the battle */
+        String message = gamePlayModel.declareAttack(
+                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem()),
+                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem()),
+                (Integer) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem(),
+                defendingDice
+        );
+    
+        announceVictoryIfPossible(message);
+    }
+    
+    /**
+     * Pop out the dialog announcing the winner
+     *
+     * @param message the message
+     */
+    private void announceVictoryIfPossible(String message) {
         // If outcome is victory
         if (gamePlayModel.getCurrentPlayer().getGameState() == VICTORY) {
             UIHelper.displayMessage(gamePlayFrame, message);

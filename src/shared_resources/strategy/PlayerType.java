@@ -21,10 +21,13 @@ import static shared_resources.utilities.Config.log;
  * The players use this to adopt a concrete strategy.
  */
 public interface PlayerType extends Serializable {
+    /**
+     * Both players roll their dice
+     *
+     * @param gamePlayModel the game play model
+     */
     default void attackForAllPlayers(GamePlayModel gamePlayModel) {
         Battle currentBattle = gamePlayModel.getCurrentBattle();
-        int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
-        int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
         log.append("        Battle between " + currentBattle.getAttacker().getPlayerName() +
                 "'s " + currentBattle.getAttackingTerritory().getName() +
                     " and " + currentBattle.getDefender().getPlayerName() +
@@ -37,19 +40,6 @@ public interface PlayerType extends Serializable {
         currentBattle.defenderRollDice();
         log.append("            " + currentBattle.getDefender().getPlayerName() + " roll dice: " +
                 currentBattle.getDefenderDice().getRollsResult());
-
-        /* Decide the battle */
-        // Compare the best result of both players
-        int bestOfAttacker = currentBattle.getAttackerDice().getTheBestResult();
-        int bestOfDefender = currentBattle.getDefenderDice().getTheBestResult();
-        gamePlayModel.decideResult(bestOfAttacker, bestOfDefender);
-    
-        // If both players roll at least 2 dice
-        if (numOfAtkDice >= 2 && numOfDefDice >= 2) {
-            int secondBestOfAttacker = currentBattle.getAttackerDice().getSecondBestResult();
-            int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
-            gamePlayModel.decideResult(secondBestOfAttacker, secondBestOfDefender);
-        }
     }
     
     String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace);

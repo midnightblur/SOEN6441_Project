@@ -7,8 +7,7 @@
 package shared_resources.game_entities;
 
 import game_play.model.GamePlayModel;
-import shared_resources.strategy.Human;
-import shared_resources.strategy.PlayerType;
+import shared_resources.strategy.*;
 import shared_resources.utilities.Config;
 
 import java.awt.*;
@@ -368,6 +367,42 @@ public class Player implements Serializable {
      */
     public boolean isHuman() {
         return (playerType instanceof Human);
+    }
+    
+    /**
+     * Check whether a player is a random bot
+     *
+     * @return true if the player is random bot, false otherwise
+     */
+    public boolean isRandomBot() {
+        return (playerType instanceof RandomBot);
+    }
+    
+    /**
+     * Check whether a player is a benevolent bot
+     *
+     * @return true if the player is benevolent bot, false otherwise
+     */
+    public boolean isBenevolentBot() {
+        return (playerType instanceof BenevolentBot);
+    }
+    
+    /**
+     * Check whether a player is a aggressive bot
+     *
+     * @return true if the player is aggressive bot, false otherwise
+     */
+    public boolean isAggressiveBot() {
+        return (playerType instanceof AggressiveBot);
+    }
+    
+    /**
+     * Check whether a player is a cheater bot
+     *
+     * @return true if the player is cheater bot, false otherwise
+     */
+    public boolean isCheaterBot() {
+        return (playerType instanceof CheaterBot);
     }
     
     /**

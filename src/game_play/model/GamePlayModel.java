@@ -206,6 +206,22 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
+     * Gets a player by his name
+     *
+     * @param playerName the player name
+     *
+     * @return the player
+     */
+    public Player getAPlayer(String playerName) {
+        for (Player player : players) {
+            if (player.getPlayerName().compareTo(playerName) == 0) {
+                return player;
+            }
+        }
+        return null;
+    }
+    
+    /**
      * Sets the army value.
      *
      * @param armyValue new army value
@@ -723,7 +739,11 @@ public class GamePlayModel extends Observable implements Serializable {
         log.append("        " + currentBattle.getAttacker().getPlayerName() + " chooses " + numOfAtkDice + " dice");
         log.append("        " + currentBattle.getDefender().getPlayerName() + " chooses " + numOfDefDice + " dice");
         
+        /* Let current human player does his part */
         currentPlayer.attack(this);
+        
+        /* Decide the battle */
+        decideBattleResult();
         
         // If the defending territory has been conquered
         if (currentBattle.getDefendingTerritory().getArmies() == 0) {
@@ -745,6 +765,23 @@ public class GamePlayModel extends Observable implements Serializable {
         broadcastGamePlayChanges();
         
         return message;
+    }
+    
+    private void decideBattleResult() {
+        int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
+        int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
+        
+        // Compare the best result of both players
+        int bestOfAttacker = currentBattle.getAttackerDice().getTheBestResult();
+        int bestOfDefender = currentBattle.getDefenderDice().getTheBestResult();
+        decideResult(bestOfAttacker, bestOfDefender);
+    
+        // If both players roll at least 2 dice
+        if (numOfAtkDice >= 2 && numOfDefDice >= 2) {
+            int secondBestOfAttacker = currentBattle.getAttackerDice().getSecondBestResult();
+            int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
+            decideResult(secondBestOfAttacker, secondBestOfDefender);
+        }
     }
     
     /**
@@ -974,6 +1011,7 @@ public class GamePlayModel extends Observable implements Serializable {
             
             // Attacking phase
             currentPlayer.attack(this);
+            decideBattleResult();
             if (currentPlayer.getGameState() == VICTORY) {
                 break;
             }
