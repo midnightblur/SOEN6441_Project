@@ -121,7 +121,7 @@ public class MapLoadPanel extends JPanel implements Observer {
     }
     
     /**
-     * Adds the new map button listener.
+     * Adds the new map button listener
      *
      * @param listenerForNewMapButton the listener for new map button
      */
