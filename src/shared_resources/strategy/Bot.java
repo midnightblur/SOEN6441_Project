@@ -18,7 +18,7 @@ import java.util.Vector;
  * This class is parent class of all AI bot's classes
  * Bot class is responsible for providing mutual functionality of all kind of bots
  */
-abstract class Bot implements PlayerType {
+public abstract class Bot implements PlayerType {
     /**
      * Let a bot player trade his cards as soon as he can
      *

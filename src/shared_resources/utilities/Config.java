@@ -87,6 +87,7 @@ public class Config {
     // endregion
     
     // region Constants used for AI strategies
+    public static final String STRATEGY_PATH = "shared_resources.strategy";
     public static LoggingFrame log = LoggingFrame.getInstance();    // the logging window used in game play
     // endregion
     

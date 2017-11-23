@@ -13,9 +13,11 @@ import game_play.view.screens.DefendingDialog;
 import game_play.view.screens.GamePlayFrame;
 import game_play.view.screens.StrategyDialog;
 import game_play.view.ui_components.FortificationPanel;
+import org.reflections.Reflections;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.UIHelper;
+import shared_resources.strategy.Bot;
 import shared_resources.utilities.MapFilter;
 import shared_resources.utilities.SaveOpenDialog;
 
@@ -29,6 +31,7 @@ import java.util.Vector;
 
 import static shared_resources.utilities.Config.GAME_EXTENSION;
 import static shared_resources.utilities.Config.GAME_STATES.*;
+import static shared_resources.utilities.Config.STRATEGY_PATH;
 import static shared_resources.utilities.SavedState.loadGame;
 import static shared_resources.utilities.SavedState.saveGame;
 //import static shared_resources.utilities.SavedJSONState.*; //TODO: fix or remove JSON export
@@ -217,7 +220,18 @@ public class GamePlayController {
      * This function allows players to place their initial armies into their territories one-by-one.
      */
     private void placeArmy() {
-        String selectedTerritoryName = String.valueOf(gamePlayFrame.getStartupPanel().getTerritoryDropdown().getSelectedItem());
+        Reflections reflections = new Reflections(STRATEGY_PATH);
+        String selectedTerritoryName;
+        // If bots, randomly select the territory to place army
+        if (gamePlayModel.getCurrentPlayer().getPlayerType().equals(reflections.getSubTypesOf(Bot.class))) {
+            int randomSelection = (int) (Math.random() * (gamePlayModel.getCurrentPlayerTerritories().size() - 1));
+            selectedTerritoryName = gamePlayModel.getCurrentPlayerTerritories().elementAt(randomSelection);
+        }
+        // If humans, read the UI selection
+        else {
+            selectedTerritoryName = String.valueOf(gamePlayFrame.getStartupPanel().getTerritoryDropdown().getSelectedItem());
+        }
+        // Place te army to destination territory
         gamePlayModel.placeArmyStartup(selectedTerritoryName);
     }
     

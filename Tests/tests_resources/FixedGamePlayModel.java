@@ -1,6 +1,6 @@
-/*
+package tests_resources;/*
  * Risk Game Team 2
- * FixedGamePlayModel.java
+ * tests_resources.FixedGamePlayModel.java
  * Version 1.0
  * Nov 7, 2017
  */
