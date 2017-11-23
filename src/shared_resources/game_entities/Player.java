@@ -8,12 +8,13 @@ package shared_resources.game_entities;
 
 import game_play.model.GamePlayModel;
 import shared_resources.strategy.Human;
-import shared_resources.strategy.Strategy;
+import shared_resources.strategy.PlayerType;
 import shared_resources.utilities.Config;
 
 import java.awt.*;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Random;
 import java.util.Vector;
 
 import static shared_resources.utilities.Config.GAME_STATES.REINFORCEMENT;
@@ -33,7 +34,7 @@ public class Player implements Serializable {
     private Color color;
     private int playerID;
     private String playerName;
-    private Strategy strategy;
+    private PlayerType playerType;
     private int unallocatedArmies;
     private Vector<Card> playersHand;
     private Vector<Territory> territories;
@@ -50,7 +51,7 @@ public class Player implements Serializable {
     public Player() {
         playerID = ++Player.nextID;
         playerName = "Player " + playerID;
-        strategy = new Human();     // at the beginning of the game all players are human
+        playerType = new Human();     // at the beginning of the game all players are human
         playersHand = new Vector<>();
         territories = new Vector<>();
         color = PLAYER_COLOR[playerID - 1];
@@ -61,12 +62,22 @@ public class Player implements Serializable {
     // endregion
     
     // region Getters & Setters
+    /**
+     * Gets the current phase of the player
+     *
+     * @return the game phase
+     */
+    public Config.GAME_STATES getGameState() {
+        return gameState;
+    }
     
     /**
-     * Resets the static counter, nextID, in Player class to zero.
+     * Set the game phase for the player
+     *
+     * @param gameState the next phase
      */
-    public static void resetStaticNextID() {
-        nextID = 0;
+    public void setGameState(Config.GAME_STATES gameState) {
+        this.gameState = gameState;
     }
     
     /**
@@ -167,17 +178,17 @@ public class Player implements Serializable {
      *
      * @return the strategy for the player
      */
-    public Strategy getStrategy() {
-        return strategy;
+    public PlayerType getPlayerType() {
+        return playerType;
     }
     
     /**
      * Sets the player's strategy
      *
-     * @param strategy the strategy to be used by this player
+     * @param playerType the strategy to be used by this player
      */
-    public void setStrategy(Strategy strategy) {
-        this.strategy = strategy;
+    public void setPlayerType(PlayerType playerType) {
+        this.playerType = playerType;
     }
     
     /**
@@ -197,21 +208,9 @@ public class Player implements Serializable {
     public void setHasConqueredTerritories(boolean hasConqueredTerritories) {
         this.hasConqueredTerritories = hasConqueredTerritories;
     }
+    // endregion
     
-    /**
-     * Removes the territory.
-     *
-     * @param territoryName the territory name
-     */
-    public void removeTerritory(String territoryName) {
-        for (Territory territory : territories) {
-            if (territory.getName().compareTo(territoryName) == 0) {
-                territories.remove(territory);
-                return;
-            }
-        }
-    }
-    
+    // region Public methods
     /**
      * Adds the territory.
      *
@@ -249,10 +248,26 @@ public class Player implements Serializable {
                 && this.unallocatedArmies == tempPlayer.unallocatedArmies;
     }
     
+    /**
+     * Removes the territory.
+     *
+     * @param territoryName the territory name
+     */
+    public void removeTerritory(String territoryName) {
+        for (Territory territory : territories) {
+            if (territory.getName().compareTo(territoryName) == 0) {
+                territories.remove(territory);
+                return;
+            }
+        }
+    }
     
-    // endregion
-    
-    // region Public methods
+    /**
+     * Resets the static counter, nextID, in Player class to zero.
+     */
+    public static void resetStaticNextID() {
+        nextID = 0;
+    }
     
     /**
      * This method processes the exchange of cards to the armies if the user selected cards
@@ -347,23 +362,61 @@ public class Player implements Serializable {
     }
     
     /**
-     * Gets the current phase of the player
+     * Check whether a player is human or bot
      *
-     * @return the game phase
+     * @return true if the player is human player, false if it is a bot
      */
-    public Config.GAME_STATES getGameState() {
-        return gameState;
+    public boolean isHuman() {
+        return (playerType instanceof Human);
     }
     
     /**
-     * Set the game phase for the player
+     * Gets a random territory owned by the player
      *
-     * @param gameState the next phase
+     * @return a random territory
      */
-    public void setGameState(Config.GAME_STATES gameState) {
-        this.gameState = gameState;
+    public Territory getRandomTerritory() {
+        int index = 0;
+        if (territories.size() > 1) {
+            Random rand = new Random();
+            index = rand.nextInt(territories.size() - 1);
+        }
+        
+        return territories.elementAt(index);
     }
     
+    /**
+     * Set the next player phase depending on the current phase and current state of the player
+     */
+    public void nextPhase() {
+        switch (gameState) {
+            case TRADE_CARDS:
+                gameState = Config.GAME_STATES.REINFORCEMENT;
+                break;
+            case REINFORCEMENT:
+                gameState = Config.GAME_STATES.ATTACK_PREPARE;
+                break;
+            case ATTACK_PREPARE:
+            case ATTACK_BATTLE:
+                gameState = Config.GAME_STATES.FORTIFICATION;
+                break;
+            case FORTIFICATION:
+                if (playersHand.size() >= 5) {
+                    gameState = Config.GAME_STATES.TRADE_CARDS;
+                } else {
+                    gameState = Config.GAME_STATES.REINFORCEMENT;
+                }
+                break;
+            default: // the player does not have a game state in his very first turn
+                if (playersHand.size() >= 5) {
+                    gameState = Config.GAME_STATES.TRADE_CARDS;
+                } else {
+                    gameState = Config.GAME_STATES.REINFORCEMENT;
+                }
+                break;
+        }
+        log.append("    " + playerName + " move to " + gameState);
+    }
     // region Reinforcement Phase
     
     /**
@@ -399,7 +452,7 @@ public class Player implements Serializable {
      * @return the message to user if reinforcement was successful or not
      */
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
-        return this.strategy.reinforcement(gamePlayModel, selectedCards, armiesToPlace);
+        return playerType.reinforcement(gamePlayModel, selectedCards, armiesToPlace);
     }
     
     /**
@@ -419,6 +472,39 @@ public class Player implements Serializable {
     public void setUnallocatedArmies(int unallocatedArmies) {
         this.unallocatedArmies = unallocatedArmies;
     }
+    
+    /**
+     * Check if current human's player have a valid set of cards to trade
+     *
+     * @return true if he has a set of one of each kind or three of same kind, false if he does not
+     */
+    public boolean ableToTradeCards() {
+        int infantryCount = 0;
+        int cavalryCount = 0;
+        int artilleryCount = 0;
+        
+        for (Card card : playersHand) {
+            switch (card.getCardType()) {
+                case INFANTRY:
+                    infantryCount++;
+                    break;
+                case CAVALRY:
+                    cavalryCount++;
+                    break;
+                case ARTILLERY:
+                    artilleryCount++;
+                    break;
+            }
+        }
+        
+        if (infantryCount > 0 && cavalryCount > 0 && artilleryCount > 0) {
+            return true;
+        } else if (infantryCount >= 3 || cavalryCount >= 3 || artilleryCount >= 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     // endregion
     
     // region Attack Phase
@@ -436,64 +522,7 @@ public class Player implements Serializable {
      * @param gamePlayModel the game play model
      */
     public void attack(GamePlayModel gamePlayModel) {
-        Battle currentBattle = gamePlayModel.getCurrentBattle();
-        Territory attackingTerritory = currentBattle.getAttackingTerritory();
-        Territory defendingTerritory = currentBattle.getDefendingTerritory();
-        int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
-        int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
-
-        /* Both players roll dice */
-        currentBattle.attackerRollDice();
-        log.append("        " + currentBattle.getAttacker().getPlayerName() + " roll dice: " +
-                currentBattle.getAttackerDice().getRollsResult());
-        currentBattle.defenderRollDice();
-        log.append("        " + currentBattle.getDefender().getPlayerName() + " roll dice: " +
-                currentBattle.getDefenderDice().getRollsResult());
-
-        /* Decide the battle */
-        // Compare the best result of both players
-        int bestOfAttacker = currentBattle.getAttackerDice().getTheBestResult();
-        int bestOfDefender = currentBattle.getDefenderDice().getTheBestResult();
-        decideResult(currentBattle, attackingTerritory, defendingTerritory, bestOfAttacker, bestOfDefender);
-        
-        // If both players roll at least 2 dice
-        if (numOfAtkDice >= 2 && numOfDefDice >= 2) {
-            int secondBestOfAttacker = currentBattle.getAttackerDice().getSecondBestResult();
-            int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
-            decideResult(currentBattle, attackingTerritory, defendingTerritory, secondBestOfAttacker, secondBestOfDefender);
-        }
-    }
-    
-    /**
-     * This method decides the outcome of the current battle by comparing the attacker's dice
-     * roll value and the defender's dice roll value. Depending on the result, the method
-     * increases the lose count for the player who rolled a lower value than the opponent.
-     *
-     * @param currentBattle      Battle object of the current battle state
-     * @param attackingTerritory Territory object of the territory that is attacking
-     * @param defendingTerritory Territory object of the territory that is defending
-     * @param attackerRoll       Integer value of the attacker's dice roll
-     * @param defenderRoll       Integer value of the defender's dice roll
-     */
-    private void decideResult(Battle currentBattle, Territory attackingTerritory, Territory defendingTerritory,
-                              int attackerRoll, int defenderRoll) {
-        if (attackerRoll > defenderRoll) { // the attacker wins
-            log.append("        Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + attackerRoll +
-                    ", defender " + currentBattle.getDefender().getPlayerName() + " has " + defenderRoll +
-                    ", attacker wins");
-            defendingTerritory.reduceArmies(1);
-            log.append("        " + currentBattle.getDefender().getPlayerName() + "'s " +
-                    defendingTerritory.getName() + " loses 1 army");
-            currentBattle.increaseDefenderLossCount();
-        } else { // the defender wins
-            log.append("        Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + attackerRoll +
-                    ", defender " + currentBattle.getDefender().getPlayerName() + " has " + defenderRoll +
-                    ", defender wins");
-            attackingTerritory.reduceArmies(1);
-            log.append("        " + currentBattle.getAttacker().getPlayerName() + "'s " +
-                    attackingTerritory.getName() + " loses 1 army");
-            currentBattle.increaseAttackerLossCount();
-        }
+        playerType.attack(gamePlayModel);
     }
     
     /**
@@ -525,6 +554,30 @@ public class Player implements Serializable {
     public void addCardToPlayersHand(Card card) {
         this.playersHand.add(card);
     }
+    
+    /**
+     * Check whether the player is able to declare another attack
+     * A player can only declare an attack if he has at least one territory having more than 1 army
+     * And that particular territory needs to have at least one neighbor territory owned by another player
+     *
+     * @param gameMap the game map
+     *
+     * @return true if the player can declare another attack, false otherwise
+     */
+    public boolean ableToAttack(GameMap gameMap) {
+        for (Territory territory : territories) {
+            if (territory.getArmies() > 1) {
+                for (String neighborName : territory.getNeighbors()) {
+                    Territory neighbor = gameMap.getATerritory(neighborName);
+                    if (neighbor.getOwner() != territory.getOwner()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        return false;
+    }
     // endregion
     
     // region Fortification Phase
@@ -547,58 +600,29 @@ public class Player implements Serializable {
      * @return String value of the messages that will be displayed to the user
      */
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
-        Territory fromTerritory = gamePlayModel.getGameMap().getATerritory(sourceTerritory);
-        Territory toTerritory = gamePlayModel.getGameMap().getATerritory(targetTerritory);
-        
-        // Validate if the two territories are owned by the player, are different, and are neighbors.
-        if (!fromTerritory.isOwnedBy(playerID) ||
-                !toTerritory.isOwnedBy(playerID) ||
-                fromTerritory == toTerritory) {
-            return "No armies moved!\nYou must pick two Territories that are neighbors.";
-        }
-        
-        if (fromTerritory.getArmies() == 1 || fromTerritory.getArmies() <= noOfArmies) {
-            return "No armies moved!\nYou must always have at least 1 army in each Territory";
-        }
-        
-        fromTerritory.reduceArmies(noOfArmies);
-        toTerritory.addArmies(noOfArmies);
-        
-        log.append("    " + playerName + " moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory);
-        return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
+        return playerType.fortification(gamePlayModel, sourceTerritory, targetTerritory, noOfArmies);
     }
     
     /**
-     * Set the next player phase depending on the current phase and current state of the player
+     * Check whether the player has any valid territory that can move some armies from it to another territory
+     * A valid territory is the one having at least 2 armies and at least 1 neighbor owned by the same player
+     *
+     * @param gameMap the game map
+     *
+     * @return true if there is at least 1 valid territory, false if there's none
      */
-    public void nextPhase() {
-        switch (gameState) {
-            case TRADE_CARDS:
-                gameState = Config.GAME_STATES.REINFORCEMENT;
-                break;
-            case REINFORCEMENT:
-                gameState = Config.GAME_STATES.ATTACK_PREPARE;
-                break;
-            case ATTACK_PREPARE:
-            case ATTACK_BATTLE:
-                gameState = Config.GAME_STATES.FORTIFICATION;
-                break;
-            case FORTIFICATION:
-                if (playersHand.size() >= 5) {
-                    gameState = Config.GAME_STATES.TRADE_CARDS;
-                } else {
-                    gameState = Config.GAME_STATES.REINFORCEMENT;
+    public boolean ableToForitfy(GameMap gameMap) {
+        for (Territory territory : territories) {
+            if (territory.getArmies() >= 2) {
+                for (String neighborName : territory.getNeighbors()) {
+                    Territory neighbor = gameMap.getATerritory(neighborName);
+                    if (neighbor.getOwner() == territory.getOwner()) {
+                        return true;
+                    }
                 }
-                break;
-            default: // the player does not have a game state in his very first turn
-                if (playersHand.size() >= 5) {
-                    gameState = Config.GAME_STATES.TRADE_CARDS;
-                } else {
-                    gameState = Config.GAME_STATES.REINFORCEMENT;
-                }
-                break;
+            }
         }
-        log.append("    " + playerName + " move to " + gameState);
+        return false;
     }
     // endregion
 }

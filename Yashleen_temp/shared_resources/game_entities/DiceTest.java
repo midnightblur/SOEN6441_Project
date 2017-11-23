@@ -15,9 +15,6 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * The Class DiceTest.
- *
- * @author Team 2
- * @version 1.0
  */
 public class DiceTest {
     private Vector<Integer> inputResult;

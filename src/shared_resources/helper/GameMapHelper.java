@@ -30,24 +30,14 @@ public class GameMapHelper {
     // region Attributes declaration
     
     /**
-     * The map entities
-     */
-     private enum MAP_PARTS {
-        MAP,
-        CONTINENTS,
-        TERRITORIES
-    }
-    // endregion
-    
-    // region Constructors
-    /**
      * Instantiates a new game map helper.
      */
     private GameMapHelper() {    // Intentionally make ctor private
     }
     // endregion
     
-    // region Public methods
+    // region Constructors
+    
     /**
      * Input: map text file name path
      * Output: A GameMap object containing map's info including territories, continents, adjacency
@@ -180,6 +170,9 @@ public class GameMapHelper {
         bufferedReader.close();
         return gameMap;
     }
+    // endregion
+    
+    // region Public methods
     
     /**
      * Validate the Map file. Check if
@@ -218,18 +211,10 @@ public class GameMapHelper {
             if (territory.getContinent().compareTo("") == 0) {
                 return String.format(Config.MSG_MAPFILE_NO_CONTINENT, territory.getName());
             }
-            
-            /* 5. Every relationship between territories is 2-ways */
-            for (String neighborName : territory.getNeighbors()) {
-                Territory neighbor = gameMap.getATerritory(neighborName);
-                if (!neighbor.isNeighbor(territory.getName())) {
-                    return String.format(Config.MSG_MAPFILE_1_WAY_RELATIONSHIP, territory.getName(), neighborName);
-                }
-            }
         }
         
-        /* 6. Each continent has at least one territory */
-        /* 7. Each and every continent is a connected sub-graph */
+        /* 5. Each continent has at least one territory */
+        /* 6. Each and every continent is a connected sub-graph */
         for (Continent continent : gameMap.getContinents().values()) {
             if (continent.getTerritoriesCount() == 0) {
                 return String.format(Config.MSG_MAPFILE_CONTINENT_NO_TERRITORY, continent.getName());
@@ -238,7 +223,7 @@ public class GameMapHelper {
             }
         }
         
-        /* 8. The whole map is a connected graph */
+        /* 7. The whole map is a connected graph */
         if (!isConnectedGraph(gameMap)) {
             return Config.MSG_MAPFILE_DISCONNECTED_GRAPH;
         }
@@ -320,80 +305,110 @@ public class GameMapHelper {
         }
         return mapFiles;
     }
-    // endregion
     
-    // region Private methods
     /**
-     * The game map is supposed to be a connected graph
-     * Meaning there is a path between any two territories in the map
-     * A path is a collection of 2-ways relationships between two neighbors
-     * Using Breadth-First-Search algorithm to check if the graph is connected
-     * BFS will create a new graph from any arbitrary node (territory) in the graph (map)
-     * If the newly created graph has the same number of nodes as in the original graph
-     * Then the original graph is connected.
+     * The game map is supposed to be a strongly connected graph
+     * Meaning there is a path from any territory to any another territory in the map
+     * A path is a collection of 1-way relationship from one territory to another
+     * Using Depth-First-Search algorithm to check if there is a path from one territory to all others
+     * Run the algorithm with all the territory in the map
+     * If all territories can use DFS to reach all other nodes, the map is strongly connected
      *
      * @param gameMap the game map
      *
-     * @return true if the gameMap is a connected graph, false if it is not
+     * @return true if the graph is connected, false if it is not
      */
     private static boolean isConnectedGraph(GameMap gameMap) {
-        Set<String> visitedNodesSet = new HashSet<>();
-        Queue<String> nodesQueue = new LinkedList<>();
+        int totalNodesCount = gameMap.getTerritoriesCount();
+        boolean isConnected = true;
         
-        /* Get an arbitrary node (territory) from the graph (map) to start making a new graph using BFS */
-        String arbitraryNode = gameMap.getArbitraryTerritory().getName();
-        visitedNodesSet.add(arbitraryNode);
-        nodesQueue.add(arbitraryNode);
-
-        /* Runs BFS */
-        while (!nodesQueue.isEmpty()) {
-            Territory currentNode = gameMap.getATerritory(nodesQueue.poll());
-            for (String neighborName : currentNode.getNeighbors()) {
-                if (!visitedNodesSet.contains(neighborName)) {
-                    visitedNodesSet.add(neighborName);
-                    nodesQueue.add(neighborName);
-                }
+        /* Run DFS on each & every node (territory) of the graph (map) */
+        for (Territory territory : gameMap.getTerritories().values()) {
+            Set<String> visitedNodesSet = new HashSet<>();
+            DFSVisit(gameMap, visitedNodesSet, territory);
+            if (visitedNodesSet.size() != totalNodesCount) {
+                isConnected = false;
+                break;
             }
         }
+        
+        return isConnected;
+    }
+    // endregion
     
-        return visitedNodesSet.size() == gameMap.getTerritoriesCount();
+    // region Private methods
+    
+    /**
+     * Actual functions to run DFS recursively on nodes of graphs
+     *
+     * @param gameMap         the game map
+     * @param visitedNodesSet the visited nodes set
+     * @param territory       the territory to be visited
+     */
+    private static void DFSVisit(GameMap gameMap, Set<String> visitedNodesSet, Territory territory) {
+        visitedNodesSet.add(territory.getName());
+        for (String neighborName : territory.getNeighbors()) {
+            if (!visitedNodesSet.contains(neighborName)) {
+                DFSVisit(gameMap, visitedNodesSet, gameMap.getATerritory(neighborName));
+            }
+        }
     }
     
     /**
-     * A continent is supposed to be a connected sub-graph
-     * Meaning there is a path between any two territories in the continent
-     * A path is a collection of 2-ways relationships between two neighbors
-     * Using Breadth-First-Search algorithm to check if the sub-graph is connected
-     * BFS will create a new sub-graph from any arbitrary node (territory) in the sub-graph (continent)
-     * If the newly created sub-graph has the same number of nodes as in the original sub-graph
-     * Then the original sub-graph is connected.
+     * Continents are supposed to be strongly connected graphs
+     * Meaning there is a path from any territory to any another territory in the continent
+     * A path is a collection of 1-way relationships from one territory to another
+     * Using Depth-First-Search algorithm to check if there is a path from one territory to all others
+     * Run the algorithm with all the territories in the contient
+     * If all territories can use DFS to reach all other nodes, the continent is strongly connected
      *
-     * @param gameMap the Game Map
+     * @param gameMap   the game map
      * @param continent the continent
      *
-     * @return true if the continent is a connected sub-graph, false if it is not
+     * @return true if the continent is connected, false if it is not
      */
     private static boolean isConnectedGraph(GameMap gameMap, Continent continent) {
-        Set<String> visitedNodesSet = new HashSet<>();
-        Queue<String> nodesQueue = new LinkedList<>();
+        int totalNodesCount = continent.getTerritoriesCount();
+        boolean isConnected = true;
         
-        /* Get an arbitrary node (territory) from the sub-graph (continent) to start making a new sub-graph using BFS */
-        String arbitraryNode = continent.getArbitraryTerritory();
-        visitedNodesSet.add(arbitraryNode);
-        nodesQueue.add(arbitraryNode);
-
-        /* Runs BFS */
-        while (!nodesQueue.isEmpty()) {
-            Territory currentNode = gameMap.getATerritory(nodesQueue.poll());
-            for (String neighborName : currentNode.getNeighbors()) {
-                if (continent.isContain(neighborName) && !visitedNodesSet.contains(neighborName)) {
-                    visitedNodesSet.add(neighborName);
-                    nodesQueue.add(neighborName);
-                }
+        /* Run DFS on each & every node (territory) of the graph (map) */
+        for (String territoryName : continent.getTerritories()) {
+            Set<String> visitedNodesSet = new HashSet<>();
+            Territory territory = gameMap.getATerritory(territoryName);
+            DFSVisit(gameMap, continent, visitedNodesSet, territory);
+            if (visitedNodesSet.size() != totalNodesCount) {
+                isConnected = false;
+                break;
             }
         }
         
-        return visitedNodesSet.size() == continent.getTerritoriesCount();
+        return isConnected;
+    }
+    
+    /**
+     * Actual functions to run DFS recursively on nodes of graphs
+     *
+     * @param gameMap         the game map
+     * @param continent       the continent
+     * @param visitedNodesSet the visited nodes set
+     * @param territory       the territory to be visited
+     */
+    private static void DFSVisit(GameMap gameMap, Continent continent, Set<String> visitedNodesSet, Territory territory) {
+        visitedNodesSet.add(territory.getName());
+        for (String neighborName : territory.getNeighbors()) {
+            if (continent.isContain(neighborName) && !visitedNodesSet.contains(neighborName)) {
+                DFSVisit(gameMap, continent, visitedNodesSet, gameMap.getATerritory(neighborName));
+            }
+        }
+    }
+    
+    /**
+     * The map entities
+     */
+    private enum MAP_PARTS {
+        MAP,
+        CONTINENTS,
+        TERRITORIES
     }
     // endregion
 }

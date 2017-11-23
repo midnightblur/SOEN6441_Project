@@ -42,7 +42,7 @@ public class PlayerStatsPanel extends JPanel {
         playerNameLabel = new JLabel();
         playerNameLabel.setAlignmentX(CENTER_ALIGNMENT);
         playerNameLabel.setForeground(player.getColor());
-        playerNameLabel.setText(player.getPlayerName() + " - " + player.getStrategy().getClass().getSimpleName());
+        playerNameLabel.setText(player.getPlayerName() + " - " + player.getPlayerType().getClass().getSimpleName());
         
         territoryInfoLabel = new JLabel();
         territoryInfoLabel.setForeground(player.getColor());

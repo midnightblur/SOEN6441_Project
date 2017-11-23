@@ -6,18 +6,17 @@
  */
 package game_play.view.screens;
 
-import game_play.model.GamePlayModel;
+import game_play.controller.GamePlayController;
+import org.reflections.Reflections;
 import shared_resources.game_entities.Player;
-import shared_resources.strategy.Strategy;
-import shared_resources.utilities.Config;
+import shared_resources.strategy.PlayerType;
+import shared_resources.utilities.ClassNameComparator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.Enumeration;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Vector;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 /**
  * ConquerDialog is responsible for the attacker choose the number of armies to place on the newly conquered territory
@@ -25,12 +24,13 @@ import java.util.Vector;
  * @author Team 2
  * @version 2.0
  */
-public class StrategyDialog extends JDialog implements Observer {
+public class StrategyDialog extends JDialog {
     // region Attributes declaration
     private static final String SUBMIT_BUTTON_LABEL = "Set Strategies";
     private JButton submitButton;
-    private JPanel mainPanel;
     private BehaviourOptions[] playersOptions;
+    private static final String STRATEGY_PATH = "shared_resources.strategy";
+    private Set<Class<? extends PlayerType>> strategyClasses;
     // endregion
     
     // region Constructors
@@ -38,12 +38,18 @@ public class StrategyDialog extends JDialog implements Observer {
     /**
      * Instantiate the strategy dialog
      *
-     * @param gamePlayFrame the parent frame calling this dialog
-     * @param players       the players vector
+     * @param gamePlayFrame      the parent frame calling this dialog
+     * @param players            the players vector
+     * @param gamePlayController the game play controller
      */
-    public StrategyDialog(JFrame gamePlayFrame, Vector<Player> players) {
+    public StrategyDialog(GamePlayController gamePlayController, JFrame gamePlayFrame, Vector<Player> players) {
+        super(gamePlayFrame, ModalityType.TOOLKIT_MODAL);
+    
+        Reflections reflections = new Reflections(STRATEGY_PATH);
+        strategyClasses = reflections.getSubTypesOf(PlayerType.class);
+        
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        mainPanel = new JPanel(new GridLayout(0, 1));
+        JPanel mainPanel = new JPanel(new GridLayout(0, 1));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
         playersOptions = new BehaviourOptions[players.size()];  // add the options in array for easier access
         for (int i = 0; i < players.size(); i++) {
@@ -54,6 +60,9 @@ public class StrategyDialog extends JDialog implements Observer {
         
         submitButton = new JButton(SUBMIT_BUTTON_LABEL);
         mainPanel.add(submitButton);
+    
+        checkRadioButtons(players);
+        addSubmitButtonListener(e -> gamePlayController.setStrategy(this));
         
         setContentPane(mainPanel);
         setTitle("Set players' strategy");
@@ -65,6 +74,15 @@ public class StrategyDialog extends JDialog implements Observer {
     // endregion
     
     // region Getters & Setters
+    
+    /**
+     * Gets the strategy path
+     *
+     * @return the strategy path
+     */
+    public static String getSTRATEGY_PATH() {
+        return STRATEGY_PATH;
+    }
     
     /**
      * Gets the players entries
@@ -84,27 +102,21 @@ public class StrategyDialog extends JDialog implements Observer {
      *
      * @param listenerForSubmitButton The listener for submit strategy selections button
      */
-    public void addSubmitButtonListener(ActionListener listenerForSubmitButton) {
+    private void addSubmitButtonListener(ActionListener listenerForSubmitButton) {
         submitButton.addActionListener(listenerForSubmitButton);
     }
     
     /**
-     * Update based on observed model
+     * Check the radio buttons corresponding to players' type
      *
-     * @param o   the model object that broadcasts changes
-     * @param arg the caller object
+     * @param players the list of players
      */
-    @Override
-    public void update(Observable o, Object arg) {
-        if (((GamePlayModel) o).getPlayers().size() > 0) {
-            Vector<Player> players = ((GamePlayModel) o).getPlayers();
-            for (int i = 0; i < players.size(); i++) {
-                if (players.elementAt(i).getPlayerName().equals(playersOptions[i].getPlayer_label().getText())) {
-                    playersOptions[i].setSelection(players.elementAt(i).getStrategy().getClass().getSimpleName());
-                }
+    private void checkRadioButtons(Vector<Player> players) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.elementAt(i).getPlayerName().equals(playersOptions[i].getPlayer_label().getText())) {
+                playersOptions[i].setSelection(players.elementAt(i).getPlayerType().getClass().getSimpleName());
             }
         }
-        
     }
     // endregion
     
@@ -127,7 +139,7 @@ public class StrategyDialog extends JDialog implements Observer {
             add(player_label);
             
             group = new ButtonGroup();
-            for (Class<? extends Strategy> strategyClass : Config.getStrategies()) {
+            for (Class<? extends PlayerType> strategyClass : getStrategies()) {
                 String strategy = strategyClass.getSimpleName();
                 radioButton = new JRadioButton(strategy);
                 radioButton.setActionCommand(strategy);
@@ -169,7 +181,21 @@ public class StrategyDialog extends JDialog implements Observer {
                 }
             }
         }
-        
     }
+    
+    // region Private methods
+    /**
+     * Gets the available strategy classes in a sorted set
+     * It uses a custom class name comparator
+     *
+     * @return a sorted set of strategy classes
+     */
+    private SortedSet<Class<? extends PlayerType>> getStrategies() {
+        SortedSet<Class<? extends PlayerType>> sortedStrategySet = new TreeSet<>(new ClassNameComparator());
+        strategyClasses.removeIf(strategy -> Modifier.isAbstract(strategy.getModifiers()));
+        sortedStrategySet.addAll(strategyClasses);
+        return sortedStrategySet;
+    }
+    // endregion
 }
 

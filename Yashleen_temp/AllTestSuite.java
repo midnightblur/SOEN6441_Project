@@ -8,7 +8,6 @@
 //import game_play.model.GamePlayModelTest;
 
 import game_play.model.GamePlayModelTest;
-import map_editor.model.MapEditorModelTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -17,24 +16,18 @@ import shared_resources.game_entities.DiceTest;
 import shared_resources.game_entities.PlayerTest;
 import shared_resources.game_entities.TerritoryTest;
 import shared_resources.helper.GameMapHelperTest;
-import shared_resources.utilities.SavedStateTest;
 
 /**
  * The Class AllTestSuite used to run unit test classes
- *
- * @author Team 2
- * @version 1.0
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-        GamePlayModelTest.class,
-        MapEditorModelTest.class,
+        GameMapHelperTest.class,
         ContinentTest.class,
         DiceTest.class,
         PlayerTest.class,
+        GamePlayModelTest.class,
         TerritoryTest.class,
-        GameMapHelperTest.class,
-        SavedStateTest.class,
 })
 
 public class AllTestSuite {

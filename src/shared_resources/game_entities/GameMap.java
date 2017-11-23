@@ -153,16 +153,6 @@ public class GameMap implements Serializable {
             continent.addTerritory(territory.getName());
         }
         
-        /* Add the territory to be neighbor of its neighbors */
-        if (!isReadingFile) {
-            for (String neighborName : territory.getNeighbors()) {
-                Territory neighbor = getATerritory(neighborName);
-                if (neighbor != null) { // neighbor will be null in case of building new game map from a text file
-                    neighbor.addNeighbor(territory.getName());
-                }
-            }
-        }
-        
         /* Add the territory to the territories list */
         territories.put(territory.getName(), territory);
         
@@ -206,18 +196,6 @@ public class GameMap implements Serializable {
         }
         Continent newContinent = getAContinent(newTerritory.getContinent());
         newContinent.addTerritory(newTerritory.getName());
-        
-        /* Remove territory from its old neighbors */
-        for (String neighborName : oldTerritory.getNeighbors()) {
-            Territory neighbor = getATerritory(neighborName);
-            neighbor.removeNeighbor(oldTerritory.getName());
-        }
-        
-        /* Add new territory to its new neighbors */
-        for (String neighborName : newTerritory.getNeighbors()) {
-            Territory neighbor = getATerritory(neighborName);
-            neighbor.addNeighbor(newTerritory.getName());
-        }
         
         /* Update the territory in the territories list */
         territories.remove(oldTerritoryName);
@@ -263,9 +241,8 @@ public class GameMap implements Serializable {
         }
         
         /* Remove the territory from being neighbor to other territories */
-        for (String neighborName : territory.getNeighbors()) {
-            Territory neighbor = getATerritory(neighborName);
-            neighbor.removeNeighbor(territoryName);
+        for (Territory possibleSourceTerritory : territories.values()) {
+            possibleSourceTerritory.removeNeighbor(territoryName);
         }
         
         /* Remove the territory from territories list */
