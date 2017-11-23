@@ -61,6 +61,7 @@ public class GamePlayModel extends Observable implements Serializable {
     private Vector<Player> players;
     private Random rand;
     private Battle currentBattle;
+    private boolean needDefenderReaction;
     
     /**
      * The player status
@@ -82,6 +83,7 @@ public class GamePlayModel extends Observable implements Serializable {
         gameState = ENTRY_MENU;
         rand = new Random();
         playerTerritoriesModel = new PlayerTerritoriesModel();
+        needDefenderReaction = false;
     }
     // endregion
     
@@ -231,6 +233,15 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
+     * Check whether the game need defender's reaction
+     *
+     * @return true if need to wait for defender reaction, false otherwise
+     */
+    public boolean isNeedDefenderReaction() {
+        return needDefenderReaction;
+    }
+    
+    /**
      * Gets the game state.
      *
      * @return the game state
@@ -273,10 +284,10 @@ public class GamePlayModel extends Observable implements Serializable {
     /**
      * Set the current battle
      *
-     * @param currentBattle the current battle
+     * @param newBattle the new battle
      */
-    public void setCurrentBattle(Battle currentBattle) {
-        this.currentBattle = currentBattle;
+    public void setCurrentBattle(Battle newBattle) {
+        this.currentBattle = newBattle;
     }
     
     // endregion
@@ -657,23 +668,6 @@ public class GamePlayModel extends Observable implements Serializable {
             return armies - 1;
         }
     }
-    
-    /**
-     * Get the maximum number of defending dice roll that defender can use depending on the defending territory's armies
-     *
-     * @param territoryName the territory name
-     *
-     * @return the maximum number of dice roll that defender may use
-     */
-    public int getMaxDefendingRoll(String territoryName) {
-        Territory territory = gameMap.getATerritory(territoryName);
-        int armies = territory.getArmies();
-        if (armies >= 2) {
-            return 2;
-        } else {
-            return 1;
-        }
-    }
     // endregion
     
     // region For Attack Phase
@@ -685,7 +679,7 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     public void moveArmiesToConqueredTerritory(int armiesToMove) {
         currentPlayer.conquer(this, armiesToMove);
-        moveToFortificationIfCan();
+        moveToFortificationIfPossible();
         updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
@@ -693,7 +687,7 @@ public class GamePlayModel extends Observable implements Serializable {
     /**
      * If current player cannot attack anymore, move to Fortification automatically
      */
-    private void moveToFortificationIfCan() {
+    private void moveToFortificationIfPossible() {
         if (!currentPlayer.ableToAttack(gameMap)) {
             log.append("    " + currentPlayer.getPlayerName() + " cannot attack anymore");
             currentPlayer.nextPhase();
@@ -710,6 +704,14 @@ public class GamePlayModel extends Observable implements Serializable {
     public void prepareNewAttack() {
         currentPlayer.setGameState(ATTACK_PREPARE);
         updateGameMapTableModel();
+        broadcastGamePlayChanges();
+    }
+    
+    /**
+     * Pause the game to wait for human defender's reaction
+     */
+    public void waitForDefenderReaction() {
+        needDefenderReaction = true;
         broadcastGamePlayChanges();
     }
     
@@ -756,10 +758,10 @@ public class GamePlayModel extends Observable implements Serializable {
             attacker.addTerritory(defendingTerritory);
             
             // Check if the defender has been eliminated
-            eliminatePlayerIfCan();
+            eliminatePlayerIfPossible();
         }
         
-        moveToFortificationIfCan();
+        moveToFortificationIfPossible();
         
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -768,19 +770,21 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     private void decideBattleResult() {
-        int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
-        int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
-        
-        // Compare the best result of both players
-        int bestOfAttacker = currentBattle.getAttackerDice().getTheBestResult();
-        int bestOfDefender = currentBattle.getDefenderDice().getTheBestResult();
-        decideResult(bestOfAttacker, bestOfDefender);
+        if (currentBattle != null) {
+            int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
+            int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
     
-        // If both players roll at least 2 dice
-        if (numOfAtkDice >= 2 && numOfDefDice >= 2) {
-            int secondBestOfAttacker = currentBattle.getAttackerDice().getSecondBestResult();
-            int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
-            decideResult(secondBestOfAttacker, secondBestOfDefender);
+            // Compare the best result of both players
+            int bestOfAttacker = currentBattle.getAttackerDice().getTheBestResult();
+            int bestOfDefender = currentBattle.getDefenderDice().getTheBestResult();
+            decideResult(bestOfAttacker, bestOfDefender);
+    
+            // If both players roll at least 2 dice
+            if (numOfAtkDice >= 2 && numOfDefDice >= 2) {
+                int secondBestOfAttacker = currentBattle.getAttackerDice().getSecondBestResult();
+                int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
+                decideResult(secondBestOfAttacker, secondBestOfDefender);
+            }
         }
     }
     
@@ -788,7 +792,7 @@ public class GamePlayModel extends Observable implements Serializable {
      * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
      * And remove defeated player from the game
      */
-    public void eliminatePlayerIfCan() {
+    public void eliminatePlayerIfPossible() {
         Player attacker = currentBattle.getAttacker();
         Player defender = currentBattle.getDefender();
         if (defender.getTerritories().size() == 0) {

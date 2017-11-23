@@ -157,5 +157,19 @@ public class Battle implements Serializable {
     public void increaseDefenderLossCount() {
         defenderLoseCount++;
     }
+    
+    /**
+     * Get the maximum number of defending dice roll that defender can use depending on the defending territory's armies
+     *
+     * @return the maximum number of dice roll that defender may use
+     */
+    public int getMaxDefendingRoll() {
+        int armies = defendingTerritory.getArmies();
+        if (armies >= 2) {
+            return 2;
+        } else {
+            return 1;
+        }
+    }
     // endregion
 }

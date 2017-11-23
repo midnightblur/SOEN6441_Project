@@ -70,12 +70,15 @@ public class AggressiveBot extends Bot {
                 
                 if (strongestTerritory.getArmies() < 2) {
                     log.append("        " + player.getPlayerName() + " cannot attack anymore (no more armies)");
+                    gamePlayModel.setCurrentBattle(null);
                     return;
                 }
             }
             log.append("        " + player.getPlayerName() + " cannot attack anymore (no more neighboring enemy territories)");
+            gamePlayModel.setCurrentBattle(null);
         } else {
             log.append("        " + player.getPlayerName() + " quits attacking phase (strongest territory cannot attack)");
+            gamePlayModel.setCurrentBattle(null);
         }
     }
     
@@ -207,7 +210,7 @@ public class AggressiveBot extends Bot {
             log.append("            " + fromTerritory.getOwner().getPlayerName() + " moves " + noOfArmies + " armies from " +
                     fromTerritory.getName() + " to " + toTerritory.getName());
             
-            gamePlayModel.eliminatePlayerIfCan();
+            gamePlayModel.eliminatePlayerIfPossible();
         }
     }
 }

@@ -49,6 +49,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     private AttackingPanel attackingPanel;
     private Vector<Player> playersList;
     private MainMenuController callerController;
+    private JButton openDefendingDialogButton;
     // endregion
     
     // region Constructors
@@ -61,14 +62,14 @@ public class GamePlayFrame extends JFrame implements Observer {
     public GamePlayFrame(MainMenuController callerController) {
         /* Setup the menu */
         JMenuBar menu = new JMenuBar();
-    
+        
         JMenu game = new JMenu("Game");
         save = new JMenuItem("Save game...", KeyEvent.VK_T);
         load = new JMenuItem("Load game...", KeyEvent.VK_T);
         game.add(save);
         game.add(load);
         menu.add(game);
-    
+        
         JMenu player = new JMenu("Player");
         strategy = new JMenuItem("Set Strategy...", KeyEvent.VK_T);
         strategy.setEnabled(false);
@@ -103,13 +104,15 @@ public class GamePlayFrame extends JFrame implements Observer {
         /* Setup control area */
         setupControlArea();
         
+        /* Setup invisible components */
+        openDefendingDialogButton = new JButton();
+        
         /* Setup & Display frame */
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
     }
     // endregion
     
-    // region Getters & Setters
-    
+    // region Private methods
     /**
      * Setup the layout for the main screen.
      */
@@ -153,7 +156,9 @@ public class GamePlayFrame extends JFrame implements Observer {
         
         topArea.setRightComponent(controlArea);
     }
+    // endregion
     
+    // region Getters & Setters
     /**
      * Gets the fortification panel.
      *
@@ -205,6 +210,15 @@ public class GamePlayFrame extends JFrame implements Observer {
      */
     public void addSaveMenuListener(ActionListener listenerForSaveMenu) {
         save.addActionListener(listenerForSaveMenu);
+    }
+    
+    /**
+     * Adds open defending dialog button listener
+     *
+     * @param listenerForOpenDefendingDialogButton the listener for open defending dialog button
+     */
+    public void addOpenDefendingDialogButtonListener(ActionListener listenerForOpenDefendingDialogButton) {
+        openDefendingDialogButton.addActionListener(listenerForOpenDefendingDialogButton);
     }
 // endregion
     
@@ -282,11 +296,6 @@ public class GamePlayFrame extends JFrame implements Observer {
         return load;
     }
     
-    // endregion
-    
-    // region Private methods
-    
-    
     /**
      * Gets the attacking panel
      *
@@ -295,7 +304,9 @@ public class GamePlayFrame extends JFrame implements Observer {
     public AttackingPanel getAttackingPanel() {
         return attackingPanel;
     }
+    // endregion
     
+    // region MVC & Observer pattern methods
     /**
      * This method is called whenever the observed object is changed. An
      * application calls an <tt>Observable</tt> object's
@@ -308,76 +319,77 @@ public class GamePlayFrame extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
-                GamePlayModel gamePlayModel = (GamePlayModel) o;
+            GamePlayModel gamePlayModel = (GamePlayModel) o;
             
-            gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
+            if (gamePlayModel.isNeedDefenderReaction()) {
+                openDefendingDialogButton.doClick();
+            } else {
+                gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
             
             /* Enable strategy menu item if players are set */
-            if (gamePlayModel.getPlayers().size() > 0) {
-                strategy.setEnabled(true);
-            }
-            
-            CardLayout cardLayout = (CardLayout) controlArea.getLayout();
-            switch (gamePlayModel.getGameState()) {
-                case SETUP:
-                    cardLayout.show(controlArea, GameSetupPanel.class.getName());
-                    break;
-                case STARTUP:
-                    cardLayout.show(controlArea, StartupPanel.class.getName());
-                    break;
-                case PLAY:
-                    switch (gamePlayModel.getCurrentPlayer().getGameState()) {
-                        case REINFORCEMENT:
-                        case TRADE_CARDS:
-                            cardLayout.show(controlArea, ReinforcementPanel.class.getName());
-                            break;
-                        case ATTACK_PREPARE:
-                        case ATTACK_BATTLE:
-                            cardLayout.show(controlArea, AttackingPanel.class.getName());
-                            break;
-                        case FORTIFICATION:
-                            cardLayout.show(controlArea, FortificationPanel.class.getName());
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            
-            Vector<Player> oldPlayersList = new Vector<>();
-            for (Player player : playersList) {
-                if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
-                    oldPlayersList.add(player);
+                if (gamePlayModel.getPlayers().size() > 0) {
+                    strategy.setEnabled(true);
                 }
-            }
-            
-            playersList.clear();
-            for (Player player : gamePlayModel.getPlayers()) {
-                if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
-                    playersList.add(player);
-                }
-            }
-            
-            if (oldPlayersList.size() > playersList.size()) {
-                if (playersList.size() != 1) {
-                    for (Player player : oldPlayersList) {
-                        if (!playersList.contains(player)) {
-                            UIHelper.displayMessage(this, String.format("%s has been eliminated", player.getPlayerName()));
+    
+                CardLayout cardLayout = (CardLayout) controlArea.getLayout();
+                switch (gamePlayModel.getGameState()) {
+                    case SETUP:
+                        cardLayout.show(controlArea, GameSetupPanel.class.getName());
+                        break;
+                    case STARTUP:
+                        cardLayout.show(controlArea, StartupPanel.class.getName());
+                        break;
+                    case PLAY:
+                        switch (gamePlayModel.getCurrentPlayer().getGameState()) {
+                            case REINFORCEMENT:
+                            case TRADE_CARDS:
+                                cardLayout.show(controlArea, ReinforcementPanel.class.getName());
+                                break;
+                            case ATTACK_PREPARE:
+                            case ATTACK_BATTLE:
+                                cardLayout.show(controlArea, AttackingPanel.class.getName());
+                                break;
+                            case FORTIFICATION:
+                                cardLayout.show(controlArea, FortificationPanel.class.getName());
+                                break;
+                            default:
+                                break;
                         }
+                        break;
+                    default:
+                        break;
+                }
+    
+                Vector<Player> oldPlayersList = new Vector<>();
+                for (Player player : playersList) {
+                    if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
+                        oldPlayersList.add(player);
                     }
-                } else {
-                    Player player = playersList.firstElement();
-                    UIHelper.displayMessage(this, String.format("%s is the winner", player.getPlayerName()));
-                    backToMainMenu();
+                }
+    
+                playersList.clear();
+                for (Player player : gamePlayModel.getPlayers()) {
+                    if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
+                        playersList.add(player);
+                    }
+                }
+    
+                if (oldPlayersList.size() > playersList.size()) {
+                    if (playersList.size() != 1) {
+                        for (Player player : oldPlayersList) {
+                            if (!playersList.contains(player)) {
+                                UIHelper.displayMessage(this, String.format("%s has been eliminated", player.getPlayerName()));
+                            }
+                        }
+                    } else {
+                        Player player = playersList.firstElement();
+                        UIHelper.displayMessage(this, String.format("%s is the winner", player.getPlayerName()));
+                        backToMainMenu();
+                    }
                 }
             }
         }
     }
-    // endregion
-    
-    // region MVC & Observer pattern methods
     
     /**
      * Close GamePlayFrame, open MainMenuFrame

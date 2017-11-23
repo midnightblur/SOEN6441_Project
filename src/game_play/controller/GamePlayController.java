@@ -13,6 +13,7 @@ import game_play.view.screens.DefendingDialog;
 import game_play.view.screens.GamePlayFrame;
 import game_play.view.screens.StrategyDialog;
 import game_play.view.ui_components.FortificationPanel;
+import shared_resources.game_entities.Battle;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
@@ -99,6 +100,7 @@ public class GamePlayController {
         gamePlayFrame.addSaveMenuListener(e -> saveGameState());
         gamePlayFrame.addLoadMenuListener(e -> loadSavedGame());
         gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions());
+        gamePlayFrame.addOpenDefendingDialogButtonListener(e -> openDefendingDialog());
         
         /* Play button to start the game */
         gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> gameStartupPhase());
@@ -317,32 +319,51 @@ public class GamePlayController {
      * Call appropriate function in GamePlayModel to perform an attack from one territory to another
      */
     private void attackTerritory() {
-        /* Prepare ingredients for the battle */
-        String attackingPlayer = gamePlayModel.getCurrentPlayer().getPlayerName();
-        String attackingTerritory = String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem());
-        String defendingTerritory = String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem());
-        String defendingPlayer = gamePlayModel.getGameMap().getATerritory(defendingTerritory).getOwner().getPlayerName();
-        int attackingDice = (int) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem();
-        
-        String situation = String.format("%s attacks from %s to %s's %s using %d dice",
-                attackingPlayer,
-                attackingTerritory,
-                defendingPlayer,
-                defendingTerritory,
-                attackingDice);
-        int maxDefendingDice = gamePlayModel.getMaxDefendingRoll(defendingTerritory);
-        Player defender = gamePlayModel.getAPlayer(defendingPlayer);
+        setupTheBattle();
+        Player defender = gamePlayModel.getCurrentBattle().getDefender();
         
         if (defender.isHuman()) {
-            /* Let the defender choose number of dice to defence */
-            gamePlayFrame.setVisible(false);
-            JFrame frame = new JFrame();
-            DefendingDialog defendingDialog = new DefendingDialog(frame, situation, maxDefendingDice);
-            defendingDialog.addDoneButtonListener(e -> startTheBattle(defendingDialog, gamePlayFrame));
+            openDefendingDialog();
         } else {
-            int defendingDice = defender.chooseDefendingDice(maxDefendingDice);
+            int maxDefendingDice = gamePlayModel.getCurrentBattle().getMaxDefendingRoll();
+            int defendingDice = defender.botChooseDefendingDice(maxDefendingDice);
             startTheBattle(defendingDice);
         }
+    }
+    
+    private void setupTheBattle() {
+        /* Prepare ingredients for the battle */
+        String defendingTerritoryName = String.valueOf(
+                gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem());
+        String attackingTerritoryName = String.valueOf(
+                gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem());
+        
+        Player attacker = gamePlayModel.getCurrentPlayer();
+        Player defender = gamePlayModel.getGameMap().getATerritory(defendingTerritoryName).getOwner();
+        
+        Territory attackingTerritory = gamePlayModel.getGameMap().getATerritory(attackingTerritoryName);
+        Territory defendingTerritory = gamePlayModel.getGameMap().getATerritory(defendingTerritoryName);
+        
+        int attackingDice = (int) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem();
+        gamePlayModel.setCurrentBattle(new Battle(attacker, attackingTerritory, attackingDice,
+                                                  defender, defendingTerritory, 0));
+    }
+    
+    private void openDefendingDialog() {
+        Battle currentBattle = gamePlayModel.getCurrentBattle();
+        String situation = String.format("%s attacks from %s to %s's %s using %d dice",
+                currentBattle.getAttacker().getPlayerName(),
+                currentBattle.getAttackingTerritory().getName(),
+                currentBattle.getDefender().getPlayerName(),
+                currentBattle.getDefendingTerritory().getName(),
+                currentBattle.getAttackerDice().getRollsCount());
+        int maxDefendingDice = gamePlayModel.getCurrentBattle().getMaxDefendingRoll();
+        
+        /* Let the defender choose number of dice to defence */
+        gamePlayFrame.setVisible(false);
+        JFrame frame = new JFrame();
+        DefendingDialog defendingDialog = new DefendingDialog(frame, situation, maxDefendingDice);
+        defendingDialog.addDoneButtonListener(e -> startTheBattle(defendingDialog, gamePlayFrame));
     }
     
     /**
