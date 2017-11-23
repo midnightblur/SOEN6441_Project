@@ -10,7 +10,7 @@ import org.junit.Test;
 import shared_resources.game_entities.Card;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
-import shared_resources.utilities.FixedGamePlayModel;
+import tests_resources.FixedGamePlayModel;
 
 import java.util.Map;
 

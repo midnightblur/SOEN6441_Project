@@ -11,6 +11,7 @@ import org.reflections.Reflections;
 import shared_resources.game_entities.Player;
 import shared_resources.strategy.PlayerType;
 import shared_resources.utilities.ClassNameComparator;
+import shared_resources.utilities.Config;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +30,6 @@ public class StrategyDialog extends JDialog {
     private static final String SUBMIT_BUTTON_LABEL = "Set Strategies";
     private JButton submitButton;
     private BehaviourOptions[] playersOptions;
-    private static final String STRATEGY_PATH = "shared_resources.strategy";
     private Set<Class<? extends PlayerType>> strategyClasses;
     // endregion
     
@@ -45,7 +45,7 @@ public class StrategyDialog extends JDialog {
     public StrategyDialog(GamePlayController gamePlayController, JFrame gamePlayFrame, Vector<Player> players) {
         super(gamePlayFrame, ModalityType.TOOLKIT_MODAL);
     
-        Reflections reflections = new Reflections(STRATEGY_PATH);
+        Reflections reflections = new Reflections(Config.STRATEGY_PATH);
         strategyClasses = reflections.getSubTypesOf(PlayerType.class);
         
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -81,7 +81,7 @@ public class StrategyDialog extends JDialog {
      * @return the strategy path
      */
     public static String getSTRATEGY_PATH() {
-        return STRATEGY_PATH;
+        return Config.STRATEGY_PATH;
     }
     
     /**

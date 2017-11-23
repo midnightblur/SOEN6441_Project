@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * MapFilter.java
+ * Version 1.0
+ * Nov 7, 2017
+ */
 package shared_resources.utilities;
 
 import java.io.File;

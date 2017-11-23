@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * BenevolentBot.java
+ * Version 3.0
+ * Nov 22, 2017
+ */
 package shared_resources.strategy;
 
 import game_play.model.GamePlayModel;

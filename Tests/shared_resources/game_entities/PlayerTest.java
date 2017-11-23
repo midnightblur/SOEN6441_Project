@@ -8,7 +8,7 @@ package shared_resources.game_entities;
 
 import game_play.model.GamePlayModel;
 import org.junit.Test;
-import shared_resources.utilities.FixedGamePlayModel;
+import tests_resources.FixedGamePlayModel;
 
 import static org.junit.Assert.assertEquals;
 import static shared_resources.utilities.Config.PLAYER_COLOR;

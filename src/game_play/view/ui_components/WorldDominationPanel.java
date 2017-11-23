@@ -24,7 +24,7 @@ import java.util.TreeMap;
  */
 public class WorldDominationPanel extends JPanel implements Observer {
     // region Attributes declaration
-    private static final int WIDTH = 850;
+    private static final int WIDTH = 1000;  // this is set to the divider location of the split frame parent
     private static final int HEIGHT = 20;
     private int totalTerritoriesCount;
     private Map<Integer, Player> playersMap;
@@ -39,6 +39,7 @@ public class WorldDominationPanel extends JPanel implements Observer {
         playersMap = new TreeMap<>();
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setMaximumSize(new Dimension(WIDTH, HEIGHT));
+        setMinimumSize(new Dimension(WIDTH, HEIGHT));
     }
     // endregion
     

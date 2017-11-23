@@ -10,6 +10,7 @@ import game_play.model.GamePlayModel;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
+import tests_resources.FixedGamePlayModel;
 
 import java.io.File;
 
