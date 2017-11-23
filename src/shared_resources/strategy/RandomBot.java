@@ -105,11 +105,11 @@ public class RandomBot extends Bot {
                 }
                 Territory fromTerritory = territories.elementAt(randIndex);
                 
-                if (fromTerritory.getArmies() >= 2) {
+                if (fromTerritory != null && fromTerritory.getArmies() >= 2) {
                     // Randomly choose a neighbor to move armies to
                     for (String neighborName : fromTerritory.getNeighbors()) {
                         Territory toTerritory = gamePlayModel.getGameMap().getATerritory(neighborName);
-    
+                        
                         if (toTerritory.isOwnedBy(player)) {
                             // Randomly choose a valid number of armies to move
                             noOfArmies = 1 + rand.nextInt(fromTerritory.getArmies() - 1);
@@ -117,7 +117,7 @@ public class RandomBot extends Bot {
                             toTerritory.addArmies(noOfArmies);
                             log.append("        " + fromTerritory.getOwner().getPlayerName() + " moves " + noOfArmies + " armies from " +
                                     fromTerritory.getName() + " to " + toTerritory.getName());
-        
+                            
                             return "";
                         }
                     }

@@ -11,6 +11,8 @@ import com.cedarsoftware.util.io.JsonWriter;
 import game_play.model.GamePlayModel;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class providing serialization capability for specific game objects
@@ -28,7 +30,10 @@ public class SavedJSONState {
      */
     public static void saveGame(GamePlayModel gamePlayModel, String path) {
         try (OutputStream outputStream = new FileOutputStream(path)) {
-            JsonWriter jw = new JsonWriter(outputStream);
+            Map<String, Object> jsonArgs = new HashMap<>();
+            jsonArgs.put(JsonWriter.TYPE, false);
+            jsonArgs.put(JsonWriter.PRETTY_PRINT, true);
+            JsonWriter jw = new JsonWriter(outputStream, jsonArgs);
             jw.write(gamePlayModel);
             jw.close();
         } catch (IOException e) {
@@ -48,8 +53,11 @@ public class SavedJSONState {
         InputStream file;
         try {
             file = new FileInputStream(path);
-            String json = file.toString();
-            state = (GamePlayModel) JsonReader.jsonToJava(json);
+            Map<String, Object> jsonArgs = new HashMap<>();
+            jsonArgs.put(JsonReader.FAIL_ON_UNKNOWN_TYPE, false);
+            jsonArgs.put(JsonReader.FAIL_ON_UNKNOWN_TYPE, false);
+            jsonArgs.put(JsonReader.TYPE_NAME_MAP, true);
+            state = (GamePlayModel) JsonReader.jsonToJava(file, jsonArgs);
             file.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());

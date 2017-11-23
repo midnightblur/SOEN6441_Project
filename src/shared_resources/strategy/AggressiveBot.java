@@ -1,6 +1,7 @@
 package shared_resources.strategy;
 
 import game_play.model.GamePlayModel;
+import shared_resources.game_entities.Battle;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 
@@ -25,7 +26,7 @@ public class AggressiveBot extends Bot {
         Player player = gamePlayModel.getCurrentPlayer();
         Territory strongestTerritory = findStrongestTerritory(player.getTerritories());
         log.append("    " + player.getPlayerName() + "'s strongest territory is " +
-                strongestTerritory.getName() +" having " + strongestTerritory.getArmies() + " armies");
+                strongestTerritory.getName() + " having " + strongestTerritory.getArmies() + " armies");
         if (armiesToPlace != null) {
             armiesToPlace.clear();
         } else {
@@ -33,21 +34,51 @@ public class AggressiveBot extends Bot {
         }
         armiesToPlace.put(strongestTerritory, player.getUnallocatedArmies());
         player.distributeArmies(armiesToPlace);
-    
+        
         return null;
     }
-
-
+    
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         Player player = gamePlayModel.getCurrentPlayer();
         Territory strongestTerritory = findStrongestTerritory(player.getTerritories());
         
-        while (strongestTerritory.getArmies() >= 2) {
-        
+        if (hasAttackableNeighbors(strongestTerritory, gamePlayModel) && strongestTerritory.getArmies() >= 2) {
+            // Find one of its neighbor owned by another player
+            for (String neighborName : strongestTerritory.getNeighbors()) {
+                Territory neighbor = gamePlayModel.getGameMap().getATerritory(neighborName);
+                // Continue attacking the neighboring country until it is conquered or until it no longer can
+                while (strongestTerritory.getArmies() >= 2 && !neighbor.isOwnedBy(player)) {
+                    // Declare an attack using as many dice as possible
+                    int attackerDice;
+                    if (strongestTerritory.getArmies() > 3) {
+                        attackerDice = 3;
+                    } else if (strongestTerritory.getArmies() > 2) {
+                        attackerDice = 2;
+                    } else {
+                        attackerDice = 1;
+                    }
+                    
+                    //TODO: separate humans players' decision to determine the number of def dice
+                    Random rand = new Random();
+                    int maxDefenderDice = Math.min(2, neighbor.getArmies());
+                    int defenderDice = 1 + rand.nextInt(maxDefenderDice);
+                    gamePlayModel.setCurrentBattle(new Battle(player, strongestTerritory, attackerDice,
+                            neighbor.getOwner(), neighbor, defenderDice));
+                    attackForBots(gamePlayModel);
+                }
+                
+                if (strongestTerritory.getArmies() < 2) {
+                    log.append("        " + player.getPlayerName() + " cannot attack anymore (no more armies)");
+                    return;
+                }
+            }
+            log.append("        " + player.getPlayerName() + " cannot attack anymore (no more neighboring enemy territories)");
+        } else {
+            log.append("        " + player.getPlayerName() + " quits attacking phase (strongest territory cannot attack)");
         }
     }
-
+    
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
         Player player = gamePlayModel.getCurrentPlayer();
@@ -67,7 +98,7 @@ public class AggressiveBot extends Bot {
         }
     
         /* move armies */
-        if (fromTerritory.getArmies() >= 2) {
+        if (fromTerritory != null && fromTerritory.getArmies() >= 2) {
             noOfArmies = fromTerritory.getArmies() - 1;
             toTerritory.addArmies(noOfArmies);
             fromTerritory.reduceArmies(noOfArmies);
@@ -79,34 +110,6 @@ public class AggressiveBot extends Bot {
         }
         
         return null;
-    }
-    
-
-    @Override
-    void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
-        Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
-        if (defendingTerritory.getArmies() == 0) {
-            // Set player to be new owner of the conquered territory
-            conquerTerritoryForBots(gamePlayModel);
-            
-            //TODO: implement how an Aggressive bot would move armies to just-conquered territory
-            
-            gamePlayModel.eliminatePlayerIfCan();
-        }
-    }
-    
-    /**
-     * Find a random neighbor territory (assumes that all neighbors are owned by the player)
-     *
-     * @param gamePlayModel the game play model
-     * @param neighbors     the neighbors list
-     *
-     * @return random neighbor territory
-     */
-    private Territory findRandomNeighbor(GamePlayModel gamePlayModel, Vector<String> neighbors) {
-        Random rand = new Random();
-        int randIndex = rand.nextInt(neighbors.size());
-        return gamePlayModel.getGameMap().getATerritory(neighbors.get(randIndex));
     }
     
     /**
@@ -135,10 +138,24 @@ public class AggressiveBot extends Bot {
     }
     
     /**
+     * Find a random neighbor territory (assumes that all neighbors are owned by the player)
+     *
+     * @param gamePlayModel the game play model
+     * @param neighbors     the neighbors list
+     *
+     * @return random neighbor territory
+     */
+    private Territory findRandomNeighbor(GamePlayModel gamePlayModel, Vector<String> neighbors) {
+        Random rand = new Random();
+        int randIndex = rand.nextInt(neighbors.size());
+        return gamePlayModel.getGameMap().getATerritory(neighbors.get(randIndex));
+    }
+    
+    /**
      * Checks to see if a territory has any attackable neighbors (neighboring territories
      * that are not owned by the same player).
      *
-     * @param territory the territory to check for any attackable neighbors
+     * @param territory     the territory to check for any attackable neighbors
      * @param gamePlayModel the game play model
      *
      * @return boolean true if there are any attackable neighbors, false if there aren't
@@ -172,5 +189,25 @@ public class AggressiveBot extends Bot {
             }
         }
         return strongestTerritory;
+    }
+    
+    @Override
+    void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
+        Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
+        if (defendingTerritory.getArmies() == 0) {
+            // Set player to be new owner of the conquered territory
+            conquerTerritoryForBots(gamePlayModel);
+            
+            // Move as little armies (1) as possible to the conquered territory
+            Territory fromTerritory = gamePlayModel.getCurrentBattle().getAttackingTerritory();
+            Territory toTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
+            int noOfArmies = 1;
+            fromTerritory.reduceArmies(noOfArmies);
+            toTerritory.addArmies(noOfArmies);
+            log.append("            " + fromTerritory.getOwner().getPlayerName() + " moves " + noOfArmies + " armies from " +
+                    fromTerritory.getName() + " to " + toTerritory.getName());
+            
+            gamePlayModel.eliminatePlayerIfCan();
+        }
     }
 }
