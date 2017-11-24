@@ -63,6 +63,7 @@ public class GamePlayModel extends Observable implements Serializable {
     private Battle currentBattle;
     private boolean needDefenderReaction;
     private int maxTurns;
+    private int turnCounter;
     
     /**
      * Public GamePlayModel constructor.
@@ -98,6 +99,7 @@ public class GamePlayModel extends Observable implements Serializable {
         this.players = gamePlayModel.players;
         this.rand = gamePlayModel.rand;
         this.currentBattle = gamePlayModel.currentBattle;
+        this.maxTurns = gamePlayModel.maxTurns;
         this.broadcastGamePlayChanges();
     }
     // endregion
@@ -131,12 +133,28 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
+     * Gets the maximum turns a game can be played
+     */
+    public int getMaxTurns() {
+        return maxTurns;
+    }
+    
+    /**
      * Sets the maximum turns a game can be played
      *
      * @param maxTurns the value to be set as max
      */
     public void setMaxTurns(int maxTurns) {
         this.maxTurns = maxTurns;
+    }
+    
+    /**
+     * Gets the game turn counter
+     *
+     * @return how many turns the game run
+     */
+    public int getTurnCounter() {
+        return turnCounter;
     }
     
     /**
@@ -423,6 +441,13 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
+     * Update the GameMapTableModel according to the newly updated GameMap object.
+     */
+    private void updateGameMapTableModel() {
+        mapTableModel.updateMapTableModel(gameMap, gameState);
+    }
+    
+    /**
      * Initialization of a new game for the sole purposes of testing. This method utilizes the
      * rigged (fixed) version of distributing armies to the players instead of the standard
      * random distribution method.
@@ -531,6 +556,12 @@ public class GamePlayModel extends Observable implements Serializable {
         Player player = currentPlayer;
         do {
             int currPlayerIndex = players.indexOf(player);
+            
+            /* Increments the game turn counter */
+            if (currPlayerIndex == 1) {
+                turnCounter++;
+            }
+            
             if (currPlayerIndex == players.size() - 1) {
                 player = players.get(0);
             } else {
@@ -619,6 +650,9 @@ public class GamePlayModel extends Observable implements Serializable {
         
         currentPlayer.addUnallocatedArmies(armiesToGive);
     }
+    // endregion
+    
+    // region For Reinforcement Phase
     
     /**
      * Delegate the job to reinforcement() function of Player class
@@ -636,9 +670,6 @@ public class GamePlayModel extends Observable implements Serializable {
         updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
-    // endregion
-    
-    // region For Reinforcement Phase
     
     /**
      * Delegate the job to conquer() function of Player class
@@ -674,6 +705,9 @@ public class GamePlayModel extends Observable implements Serializable {
         updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
+    // endregion
+    
+    // region For Attack Phase
     
     /**
      * Delegate the job to attack() of Player class.
@@ -728,9 +762,6 @@ public class GamePlayModel extends Observable implements Serializable {
         
         return message;
     }
-    // endregion
-    
-    // region For Attack Phase
     
     private void decideBattleResultIfPossible() {
         if (currentBattle != null) {
@@ -905,13 +936,6 @@ public class GamePlayModel extends Observable implements Serializable {
         this.gameMap = gameMap;
         updateGameMapTableModel();
         broadcastGamePlayChanges();
-    }
-    
-    /**
-     * Update the GameMapTableModel according to the newly updated GameMap object.
-     */
-    private void updateGameMapTableModel() {
-        mapTableModel.updateMapTableModel(gameMap, gameState);
     }
     
     /**

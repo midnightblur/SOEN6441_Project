@@ -109,6 +109,7 @@ public class TournamentController extends GamePlayController {
     
     /* For each game model in the set, start the game */
         GamePlayModel gameToPlay = new GamePlayModel();
+        gameToPlay.setMaxTurns(enteredMaxTurns);
         for (GamePlayModel gamePlayModel : tournamentSet) {
             do {
                 /* Play a copy of the game so we can replay from start if needed */
