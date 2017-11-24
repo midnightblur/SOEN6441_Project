@@ -33,13 +33,9 @@ public class TournamentController extends GamePlayController {
     int enteredPlayers;
     int enteredGames;
     int enteredMaxTurns;
-    // region Attributes declaration
     private TournamentFrame tournamentFrame;
     private MainMenuController callerController;
     private Vector<GamePlayModel> tournamentSet;
-    // endregion
-    
-    // region Constructors
     
     /**
      * Instantiates a new map selector controller.
@@ -59,7 +55,7 @@ public class TournamentController extends GamePlayController {
     }
     // endregion
     
-    // region Methods to handle events from UI
+    // region Constructors
     
     /**
      * Validate the selected map, launch the game if it is valid, show a message if it is not.
@@ -70,7 +66,7 @@ public class TournamentController extends GamePlayController {
         enteredGames = validateEntry(tournamentFrame.getGameCount(), 1, 5);
         enteredMaxTurns = validateEntry(tournamentFrame.getMaxTurns(), 10, 50);
         
-        if (enteredMaps == -1 || enteredGames > -1 || enteredMaxTurns > -1) {
+        if (enteredMaps == -1 || enteredGames == -1 || enteredMaxTurns == -1) {
             JOptionPane.showMessageDialog(
                     null,
                     "Please validate your entries.",
@@ -78,18 +74,19 @@ public class TournamentController extends GamePlayController {
             return;
         }
         
-        /* Load the maps first to determine the allowed number of players*/
-        try {
-            for (String selectedMap : tournamentFrame.getMapList().getSelectedValuesList()) {
+        /* Load the maps first (we will determine the allowed number of players based on maps) */
+        for (String selectedMap : tournamentFrame.getMapList().getSelectedValuesList()) {
+            try {
                 GameMap gameMap = loadGameMap(selectedMap);         // load the selected map
                 GamePlayModel gamePlayModel = new GamePlayModel();  // make a new game model
                 gamePlayModel.setGameMap(gameMap);                  // set the map
                 tournamentSet.add(gamePlayModel);                   // add the game model to the tournament set
+            } catch (Exception e) {
+                UIHelper.displayMessage(tournamentFrame, e.getMessage());
+                return;
             }
-            
-        } catch (Exception e) {
-            UIHelper.displayMessage(tournamentFrame, e.getMessage());
         }
+        
         
         /* determine max players across all games' maps */
         maxPlayers = tournamentSet.firstElement().getGameMap().getMaxPlayers();
@@ -97,18 +94,17 @@ public class TournamentController extends GamePlayController {
             maxPlayers = Math.min(maxPlayers, gamePlayModel.getGameMap().getMaxPlayers());
         }
         
-        /* Now we read the number of games, players*/
-        
-        maxPlayers = validateEntry(tournamentFrame.getPlayers(), 2, maxPlayers);
+        /* Now we read the number of players */
+        enteredPlayers = validateEntry(tournamentFrame.getPlayers(), 2, maxPlayers);
         if (maxPlayers > -1) {
-        /* Pop-up the strategy dialog */
-            StrategyDialog strategyDialog = new StrategyDialog(this, tournamentFrame, tournamentSet.firstElement().getPlayers());
-        
-        /* initialize each game and set the strategy */
+            
+            /* initialize each game */
             for (GamePlayModel gamePlayModel : tournamentSet) {
                 gamePlayModel.initializeNewGame(maxPlayers);
-                setStrategy(strategyDialog);
             }
+            
+            /* Pop-up the strategy dialog and add the submit listener, who will set the strategy */
+            showStrategyOptions();
         }
     
     /* For each game model in the set, start the game */
@@ -121,6 +117,9 @@ public class TournamentController extends GamePlayController {
         }
         
     }
+    // endregion
+    
+    // region Methods to handle events from UI
     
     /**
      * Close MapSelectorFrame, invoke MainMenuFrame.
@@ -142,9 +141,9 @@ public class TournamentController extends GamePlayController {
     
     private int validateEntry(Component component, int min, int max) {
         int entry = -1;
-        if (component.getClass().isInstance(JTextField.class)) {
+        if (component instanceof JTextField) {
             entry = Integer.parseInt(((JTextField) component).getText());
-        } else if (component.getClass().isInstance(JList.class)) {
+        } else if (component instanceof JList) {
             entry = ((JList) component).getSelectedValuesList().size();
         }
         try {
@@ -161,5 +160,39 @@ public class TournamentController extends GamePlayController {
         }
         return entry;
     }
+    
+    // region Attributes declaration
+    
     // endregion
+    
+    /**
+     * Setting the player's strategy
+     */
+    private void showStrategyOptions() {
+        StrategyDialog strategyDialog = new StrategyDialog(this, tournamentFrame, tournamentSet.firstElement().getPlayers());
+        strategyDialog.addSubmitButtonListener(e -> setStrategy(strategyDialog));
+    }
+    
+    /**
+     * Sets the player strategy as selected in StrategyDialog
+     *
+     * @param strategyDialog the strategy options UI
+     */
+    @Override
+    public void setStrategy(StrategyDialog strategyDialog) {
+        StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
+        strategyDialog.dispose();
+        for (GamePlayModel gamePlayModel : tournamentSet) {
+            gamePlayModel.setPlayersType(opts);
+        }
+    }
+    
+    /**
+     * Gets tournamentSet.
+     *
+     * @return Value of tournamentSet.
+     */
+    public Vector<GamePlayModel> getTournamentSet() {
+        return tournamentSet;
+    }
 }
