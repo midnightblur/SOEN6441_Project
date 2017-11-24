@@ -48,31 +48,30 @@ public class AggressiveBot extends Bot {
     public void attack(GamePlayModel gamePlayModel) {
         Player player = gamePlayModel.getCurrentPlayer();
         Territory strongestTerritory = findStrongestTerritory(player.getTerritories());
-        
-        if (hasAttackableNeighbors(strongestTerritory, gamePlayModel) && strongestTerritory.getArmies() >= 2) {
-            // Find one of its neighbor owned by another player
-            for (String neighborName : strongestTerritory.getNeighbors()) {
-                Territory neighbor = gamePlayModel.getGameMap().getATerritory(neighborName);
-                // Continue attacking the neighboring country until it is conquered or until it no longer can
-                while (strongestTerritory.getArmies() >= 2 && !neighbor.isOwnedBy(player)) {
-                    // Declare an attack using as many dice as possible
-                    int attackerDice = Math.min(3, strongestTerritory.getArmies() - 1);
-                    
-                    gamePlayModel.setCurrentBattle(new Battle(player, strongestTerritory, attackerDice,
-                            neighbor.getOwner(), neighbor));
-                }
-                
-                if (strongestTerritory.getArmies() < 2) {
-                    log.append("        " + player.getPlayerName() + " cannot attack anymore (no more armies)");
-                    gamePlayModel.setCurrentBattle(null);
-                    return;
-                }
-            }
-            log.append("        " + player.getPlayerName() + " cannot attack anymore (no more neighboring enemy territories)");
+    
+        if (strongestTerritory.getArmies() < 2) {
+            log.append("        " + player.getPlayerName() + " cannot attack anymore (no more armies)");
             gamePlayModel.setCurrentBattle(null);
         } else {
-            log.append("        " + player.getPlayerName() + " quits attacking phase (strongest territory cannot attack)");
-            gamePlayModel.setCurrentBattle(null);
+            if (hasAttackableNeighbors(strongestTerritory, gamePlayModel)) {
+                // Find one of its neighbor owned by another player
+                for (String neighborName : strongestTerritory.getNeighbors()) {
+                    Territory neighbor = gamePlayModel.getGameMap().getATerritory(neighborName);
+            
+                    if (!neighbor.isOwnedBy(player)) {
+                        // Declare an attack using as many dice as possible
+                        int attackerDice = Math.min(3, strongestTerritory.getArmies() - 1);
+                        gamePlayModel.setCurrentBattle(new Battle(player, strongestTerritory, attackerDice,
+                                neighbor.getOwner(), neighbor));
+                    }
+                    return;
+                }
+                log.append("        " + player.getPlayerName() + " cannot attack anymore (no more neighboring enemy territories)");
+                gamePlayModel.setCurrentBattle(null);
+            } else {
+                log.append("        " + player.getPlayerName() + " quits attacking phase (strongest territory cannot attack)");
+                gamePlayModel.setCurrentBattle(null);
+            }
         }
     }
     
