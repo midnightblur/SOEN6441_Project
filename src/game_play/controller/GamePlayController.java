@@ -389,6 +389,8 @@ public class GamePlayController {
             gamePlayModel.drawCardForWinner(gamePlayModel.getCurrentPlayer());
             gamePlayModel.getCurrentPlayer().setHasConqueredTerritories(false);
         }
+
+        gamePlayModel.setCurrentBattle(null);
         
         gamePlayModel.changePhaseOfCurrentPlayer(FORTIFICATION);
     }

@@ -747,12 +747,11 @@ public class GamePlayModel extends Observable implements Serializable {
             // Check if the defender has been eliminated
             eliminatePlayerIfPossible();
         }
-        currentBattle = null;
         moveToFortificationIfPossible();
         
         updateGameMapTableModel();
         broadcastGamePlayChanges();
-        
+
         return message;
     }
     
