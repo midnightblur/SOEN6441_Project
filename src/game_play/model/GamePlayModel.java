@@ -72,6 +72,7 @@ public class GamePlayModel extends Observable implements Serializable {
     // endregion
     
     // region Constructors
+    
     /**
      * Public GamePlayModel constructor.
      */
@@ -88,6 +89,7 @@ public class GamePlayModel extends Observable implements Serializable {
     // endregion
     
     // region Getters and Setters
+    
     /**
      * Copy constructor to be used when restoring a saved game
      *
@@ -239,6 +241,15 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     public boolean isNeedDefenderReaction() {
         return needDefenderReaction;
+    }
+    
+    /**
+     * Sets if the game play need defender reaction
+     *
+     * @param needDefenderReaction need defender reaction
+     */
+    public void setNeedDefenderReaction(boolean needDefenderReaction) {
+        this.needDefenderReaction = needDefenderReaction;
     }
     
     /**
@@ -496,8 +507,9 @@ public class GamePlayModel extends Observable implements Serializable {
         addReinforcementForCurrPlayer();
         updatePlayerTerritoriesModel();
         broadcastGamePlayChanges();
+        
         if (!currentPlayer.isHuman()) {
-            botsPlayGame();
+            letBotsPlay();
         }
     }
     
@@ -651,23 +663,6 @@ public class GamePlayModel extends Observable implements Serializable {
         updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
-    
-    /**
-     * Get the maximum number of attacking dice roll that attacker can use depending on the attacking territory's armies
-     *
-     * @param territoryName the territory name
-     *
-     * @return the maximum number of dice roll that attacker may use
-     */
-    public int getMaxAttackingRoll(String territoryName) {
-        Territory territory = gameMap.getATerritory(territoryName);
-        int armies = territory.getArmies();
-        if (armies >= 4) {
-            return 3;
-        } else {
-            return armies - 1;
-        }
-    }
     // endregion
     
     // region For Attack Phase
@@ -704,14 +699,6 @@ public class GamePlayModel extends Observable implements Serializable {
     public void prepareNewAttack() {
         currentPlayer.setGameState(ATTACK_PREPARE);
         updateGameMapTableModel();
-        broadcastGamePlayChanges();
-    }
-    
-    /**
-     * Pause the game to wait for human defender's reaction
-     */
-    public void waitForDefenderReaction() {
-        needDefenderReaction = true;
         broadcastGamePlayChanges();
     }
     
@@ -773,12 +760,12 @@ public class GamePlayModel extends Observable implements Serializable {
         if (currentBattle != null) {
             int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
             int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
-    
+            
             // Compare the best result of both players
             int bestOfAttacker = currentBattle.getAttackerDice().getTheBestResult();
             int bestOfDefender = currentBattle.getDefenderDice().getTheBestResult();
             decideResult(bestOfAttacker, bestOfDefender);
-    
+            
             // If both players roll at least 2 dice
             if (numOfAtkDice >= 2 && numOfDefDice >= 2) {
                 int secondBestOfAttacker = currentBattle.getAttackerDice().getSecondBestResult();
@@ -812,7 +799,7 @@ public class GamePlayModel extends Observable implements Serializable {
                 }
             }
         }
-    
+        
         // Declare winner if there is only 1 player left
         if (gameVictory(attacker)) {
             String message = attacker.getPlayerName() + " wins the game!";
@@ -944,6 +931,32 @@ public class GamePlayModel extends Observable implements Serializable {
         }
     }
     
+    public void performBattle() {
+        log.append("        Battle between " + currentBattle.getAttacker().getPlayerName() +
+                "'s " + currentBattle.getAttackingTerritory().getName() +
+                " and " + currentBattle.getDefender().getPlayerName() +
+                "'s " + currentBattle.getDefendingTerritory().getName());
+        
+        /* Both players roll dice */
+        currentBattle.attackerRollDice();
+        log.append("            " + currentBattle.getAttacker().getPlayerName() + " roll dice: " +
+                currentBattle.getAttackerDice().getRollsResult());
+        currentBattle.defenderRollDice();
+        log.append("            " + currentBattle.getDefender().getPlayerName() + " roll dice: " +
+                currentBattle.getDefenderDice().getRollsResult());
+    }
+    
+    public void botsAttackAndFortification() {
+        performBattle();
+        decideBattleResult();
+        currentPlayer.nextPhase();
+        
+        // Fortification phase
+        currentPlayer.fortification(this, null, null, -1);
+        
+        nextPlayerTurn();
+    }
+    
     /**
      * Delegate the job to fortification() of Player class.
      *
@@ -983,7 +996,7 @@ public class GamePlayModel extends Observable implements Serializable {
         broadcastGamePlayChanges();
         
         if (!currentPlayer.isHuman()) {
-            botsPlayGame();
+            letBotsPlay();
         }
     }
     // endregion
@@ -1004,30 +1017,34 @@ public class GamePlayModel extends Observable implements Serializable {
     // endregion
     
     // region Private methods
+    private void letBotsPlay() {
+        // Bots reinforce and declare attack if it wants
+        botsReinforcementAndAttack();
+        
+        // If there's an attack, let defender choose number of defending dice
+        if (currentBattle != null) {
+            Player defender = currentBattle.getDefender();
+            if (defender.isHuman()) {
+                needDefenderReaction = true;
+                broadcastGamePlayChanges();
+            } else {
+                int defendingDice = defender.botChooseDefendingDice(currentBattle.getMaxDefendingRoll());
+                currentBattle.setDefendingDice(defendingDice);
+                botsAttackAndFortification();
+            }
+        }
+    }
+    
     /**
      * This function lets the game advance when the current player is a bot until a human player's turn
      */
-    private void botsPlayGame() {
-        while (!currentPlayer.isHuman() && currentPlayer.getGameState() != VICTORY) {
-            // Reinforcement phase
-            currentPlayer.reinforcement(this, null, null);
-            currentPlayer.nextPhase();
-            
-            // Attacking phase
-            currentPlayer.attack(this);
-            decideBattleResult();
-            if (currentPlayer.getGameState() == VICTORY) {
-                break;
-            }
-            currentPlayer.nextPhase();
-            
-            // Fortification phase
-            currentPlayer.fortification(this, null, null, -1);
-            
-            nextPlayerTurn();
-        }
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
+    private void botsReinforcementAndAttack() {
+        // Reinforcement phase
+        currentPlayer.reinforcement(this, null, null);
+        currentPlayer.nextPhase();
+        
+        // Attacking phase
+        currentPlayer.attack(this);
     }
     // endregion
 }

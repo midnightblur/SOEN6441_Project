@@ -322,6 +322,7 @@ public class GamePlayFrame extends JFrame implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             
             if (gamePlayModel.isNeedDefenderReaction()) {
+                gamePlayModel.setNeedDefenderReaction(false);
                 openDefendingDialogButton.doClick();
             } else {
                 gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());

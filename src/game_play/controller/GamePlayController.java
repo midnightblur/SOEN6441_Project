@@ -393,7 +393,7 @@ public class GamePlayController {
             gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().setSelectedIndex(0);
         
             /* Update attacking dice dropdown */
-            int maxRoll = gamePlayModel.getMaxAttackingRoll(attackingTerritory);
+            int maxRoll = gamePlayModel.getCurrentBattle().getMaxAttackingRoll();
             Vector<Integer> rollChoice = new Vector<>();
             for (int i = 1; i <= maxRoll; i++) {
                 rollChoice.add(i);
@@ -493,14 +493,19 @@ public class GamePlayController {
         int defendingDice = (int) dialog.getDefendingDiceDropdown().getSelectedItem();
         dialog.getOwner().dispose();
         owner.setVisible(true);
-        String message = gamePlayModel.declareAttack(
-                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem()),
-                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem()),
-                (Integer) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem(),
-                defendingDice
-        );
-        
-        announceVictoryIfPossible(message);
+        if (gamePlayModel.getCurrentPlayer().isHuman()) {
+            String message = gamePlayModel.declareAttack(
+                    String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem()),
+                    String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem()),
+                    (Integer) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem(),
+                    defendingDice
+            );
+    
+            announceVictoryIfPossible(message);
+        } else {
+            gamePlayModel.getCurrentBattle().setDefendingDice(defendingDice);
+            gamePlayModel.botsAttackAndFortification();
+        }
     }
     
     /**

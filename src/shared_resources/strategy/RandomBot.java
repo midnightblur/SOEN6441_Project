@@ -43,55 +43,49 @@ public class RandomBot extends Bot {
     public void attack(GamePlayModel gamePlayModel) {
         Player player = gamePlayModel.getCurrentPlayer();
         
-        // The player attacks until he decides to stop or simply cannot attack anymore
-        while (true) {
-            // Make the choice whether to attack or not randomly
-            Random rand = new Random();
-            boolean doAttack = rand.nextBoolean();
-            
-            if (doAttack) {
-                Vector<Territory> territories = new Vector<>(player.getTerritories());
-                while (territories.size() > 0) {
-                    // Find a random territory
-                    int randIndex = 0;
-                    if (territories.size() > 1) {
-                        randIndex = rand.nextInt(territories.size() - 1);
-                    }
-                    Territory randomTerritory = territories.elementAt(randIndex);
-                    
-                    if (randomTerritory.getArmies() >= 2) {
-                        // Find one of its neighbor owned by another player
-                        for (String neighborName : randomTerritory.getNeighbors()) {
-                            Territory neighbor = gamePlayModel.getGameMap().getATerritory(neighborName);
-                            if (!neighbor.isOwnedBy(player)) {
-                                // Declare an attack using a random choice of number of dice
-                                int maxAttackerDice = Math.min(3, randomTerritory.getArmies());
-                                int attackerDice = 1 + rand.nextInt(maxAttackerDice);
-                                int maxDefenderDice = Math.min(2, neighbor.getArmies());
-                                int defenderDice = 1 + rand.nextInt(maxDefenderDice);
-                                gamePlayModel.setCurrentBattle(new Battle(player, randomTerritory, attackerDice,
-                                        neighbor.getOwner(), neighbor, defenderDice));
-                                attackForBots(gamePlayModel);
-                                break;
-                            }
+        // Make the choice whether to attack or not randomly
+        Random rand = new Random();
+        boolean doAttack = rand.nextBoolean();
+        
+        if (doAttack) {
+            Vector<Territory> territories = new Vector<>(player.getTerritories());
+            while (territories.size() > 0) {
+                // Find a random territory
+                int randIndex = 0;
+                if (territories.size() > 1) {
+                    randIndex = rand.nextInt(territories.size() - 1);
+                }
+                Territory randomTerritory = territories.elementAt(randIndex);
+                
+                if (randomTerritory.getArmies() >= 2) {
+                    // Find one of its neighbor owned by another player
+                    for (String neighborName : randomTerritory.getNeighbors()) {
+                        Territory neighbor = gamePlayModel.getGameMap().getATerritory(neighborName);
+                        if (!neighbor.isOwnedBy(player)) {
+                            // Declare an attack using a random choice of number of dice
+                            int maxAttackerDice = Math.min(3, randomTerritory.getArmies());
+                            int attackerDice = 1 + rand.nextInt(maxAttackerDice);
+                            gamePlayModel.setCurrentBattle(new Battle(player, randomTerritory, attackerDice,
+                                    neighbor.getOwner(), neighbor));
+                            break;
                         }
-                        break;
                     }
-                    
-                    // If this territory choice cannot attack any territory, prevent it from being chosen again
-                    territories.remove(randomTerritory);
+                    break;
                 }
                 
-                if (territories.size() == 0) {
-                    log.append("        " + player.getPlayerName() + " cannot attack anymore");
-                    gamePlayModel.setCurrentBattle(null);
-                    return;
-                }
-            } else {
-                log.append("        " + player.getPlayerName() + " quits attacking phase");
+                // If this territory choice cannot attack any territory, prevent it from being chosen again
+                territories.remove(randomTerritory);
+            }
+            
+            if (territories.size() == 0) {
+                log.append("        " + player.getPlayerName() + " cannot attack anymore");
                 gamePlayModel.setCurrentBattle(null);
                 return;
             }
+        } else {
+            log.append("        " + player.getPlayerName() + " quits attacking phase");
+            gamePlayModel.setCurrentBattle(null);
+            return;
         }
     }
     

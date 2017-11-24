@@ -56,22 +56,10 @@ public class AggressiveBot extends Bot {
                 // Continue attacking the neighboring country until it is conquered or until it no longer can
                 while (strongestTerritory.getArmies() >= 2 && !neighbor.isOwnedBy(player)) {
                     // Declare an attack using as many dice as possible
-                    int attackerDice;
-                    if (strongestTerritory.getArmies() > 3) {
-                        attackerDice = 3;
-                    } else if (strongestTerritory.getArmies() > 2) {
-                        attackerDice = 2;
-                    } else {
-                        attackerDice = 1;
-                    }
+                    int attackerDice = Math.min(3, strongestTerritory.getArmies() - 1);
                     
-                    //TODO: separate humans players' decision to determine the number of def dice
-                    Random rand = new Random();
-                    int maxDefenderDice = Math.min(2, neighbor.getArmies());
-                    int defenderDice = 1 + rand.nextInt(maxDefenderDice);
                     gamePlayModel.setCurrentBattle(new Battle(player, strongestTerritory, attackerDice,
-                            neighbor.getOwner(), neighbor, defenderDice));
-                    attackForBots(gamePlayModel);
+                            neighbor.getOwner(), neighbor));
                 }
                 
                 if (strongestTerritory.getArmies() < 2) {

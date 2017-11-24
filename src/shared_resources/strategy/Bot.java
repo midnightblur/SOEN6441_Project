@@ -98,16 +98,6 @@ public abstract class Bot implements PlayerType {
         }
     }
     
-    void attackForBots(GamePlayModel gamePlayModel) {
-        if (!gamePlayModel.getCurrentBattle().getDefendingTerritory().getOwner().isHuman()) {
-            // Perform the battle
-            attackForAllPlayers(gamePlayModel);
-    
-            // If conquer any territory, move some armies to that territory
-            moveArmiesToConqueredTerritory(gamePlayModel);
-        }
-    }
-    
     void conquerTerritoryForBots(GamePlayModel gamePlayModel) {
         Player winner = gamePlayModel.getCurrentPlayer();
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
