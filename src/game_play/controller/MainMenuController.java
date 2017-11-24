@@ -44,7 +44,7 @@ public class MainMenuController extends JFrame {
         mainMenuFrame.addMapEditorButtonListener(e -> openMapEditorScreen());
         mainMenuFrame.addPlayGameButtonListener(e -> openPlayGameScreen());
         mainMenuFrame.addLoadGameButtonListener(e -> new GamePlayController(this).loadSavedGame());
-//        mainMenuFrame.addTournamentButtonListener(e -> openTournamentScreen());
+        mainMenuFrame.addTournamentButtonListener(e -> openTournamentScreen());
         mainMenuFrame.addQuitButtonListener(e -> exitGame());
     }
     // endregion
@@ -58,6 +58,15 @@ public class MainMenuController extends JFrame {
         UIHelper.disableFrame(mainMenuFrame);
         new MapEditorController(this);
     }
+    /**
+     * Disable MainMenuFrame, show TournamentFrame.
+     */
+    private void openTournamentScreen() {
+        UIHelper.disableFrame(mainMenuFrame);
+        new TournamentController(this);
+    }
+    
+    
     
     /**
      * Disable MainMenuFrame, show MapSelectorFrame
