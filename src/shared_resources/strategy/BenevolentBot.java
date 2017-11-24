@@ -47,6 +47,7 @@ public class BenevolentBot extends Bot {
     public void attack(GamePlayModel gamePlayModel) {
         Player currentPlayer = gamePlayModel.getCurrentPlayer();
         log.append("        " + currentPlayer.getPlayerName() + " quits attacking phase");
+        gamePlayModel.setCurrentBattle(null);
     }
 
     @Override

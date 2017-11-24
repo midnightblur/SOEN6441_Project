@@ -51,7 +51,7 @@ public class CheaterBot extends Bot {
                             " from " + territory.getName());
                     neighbor.getOwner().removeTerritory(neighborName);
                     neighbor.setOwner(player);
-                    gamePlayModel.eliminatePlayerIfCan();
+                    gamePlayModel.eliminatePlayerIfPossible();
                 }
             }
         }

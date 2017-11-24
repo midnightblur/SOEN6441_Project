@@ -7,8 +7,7 @@
 package shared_resources.game_entities;
 
 import game_play.model.GamePlayModel;
-import shared_resources.strategy.Human;
-import shared_resources.strategy.PlayerType;
+import shared_resources.strategy.*;
 import shared_resources.utilities.Config;
 
 import java.awt.*;
@@ -371,6 +370,42 @@ public class Player implements Serializable {
     }
     
     /**
+     * Check whether a player is a random bot
+     *
+     * @return true if the player is random bot, false otherwise
+     */
+    public boolean isRandomBot() {
+        return (playerType instanceof RandomBot);
+    }
+    
+    /**
+     * Check whether a player is a benevolent bot
+     *
+     * @return true if the player is benevolent bot, false otherwise
+     */
+    public boolean isBenevolentBot() {
+        return (playerType instanceof BenevolentBot);
+    }
+    
+    /**
+     * Check whether a player is a aggressive bot
+     *
+     * @return true if the player is aggressive bot, false otherwise
+     */
+    public boolean isAggressiveBot() {
+        return (playerType instanceof AggressiveBot);
+    }
+    
+    /**
+     * Check whether a player is a cheater bot
+     *
+     * @return true if the player is cheater bot, false otherwise
+     */
+    public boolean isCheaterBot() {
+        return (playerType instanceof CheaterBot);
+    }
+    
+    /**
      * Gets a random territory owned by the player
      *
      * @return a random territory
@@ -573,6 +608,30 @@ public class Player implements Serializable {
         }
         
         return false;
+    }
+    
+    /**
+     * If the player is defender in a battle, gets the number of dice he wants to use to defend
+     *
+     * @return the number of dice to defend
+     */
+    public int botChooseDefendingDice(int maxDefendingDice) {
+        // TODO: implement Strategy pattern for this function
+        int defendingDice = 1;
+        if (this.isRandomBot()) {
+            // Choose number of dice randomly
+            if (maxDefendingDice > 1) {
+                Random rand = new Random();
+                defendingDice = 1 + rand.nextInt(maxDefendingDice - 1);
+            }
+        } else if (this.isAggressiveBot() || this.isBenevolentBot()) {
+            // Choose maximum number of dice possible
+            defendingDice = maxDefendingDice;
+        } else if (this.isCheaterBot()) {
+            // Choose 10 dice
+            defendingDice = 10;
+        }
+        return defendingDice;
     }
     // endregion
     

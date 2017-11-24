@@ -84,10 +84,12 @@ public class RandomBot extends Bot {
                 
                 if (territories.size() == 0) {
                     log.append("        " + player.getPlayerName() + " cannot attack anymore");
+                    gamePlayModel.setCurrentBattle(null);
                     return;
                 }
             } else {
                 log.append("        " + player.getPlayerName() + " quits attacking phase");
+                gamePlayModel.setCurrentBattle(null);
                 return;
             }
         }
@@ -161,7 +163,7 @@ public class RandomBot extends Bot {
             log.append("            " + fromTerritory.getOwner().getPlayerName() + " moves " + noOfArmies + " armies from " +
                     fromTerritory.getName() + " to " + toTerritory.getName());
             
-            gamePlayModel.eliminatePlayerIfCan();
+            gamePlayModel.eliminatePlayerIfPossible();
         }
     }
 }
