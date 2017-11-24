@@ -732,7 +732,7 @@ public class GamePlayModel extends Observable implements Serializable {
         currentPlayer.attack(this);
         
         /* Decide the battle */
-        decideBattleResult();
+        decideBattleResultIfPossible();
         
         // If the defending territory has been conquered
         if (currentBattle.getDefendingTerritory().getArmies() == 0) {
@@ -747,7 +747,7 @@ public class GamePlayModel extends Observable implements Serializable {
             // Check if the defender has been eliminated
             eliminatePlayerIfPossible();
         }
-        
+        currentBattle = null;
         moveToFortificationIfPossible();
         
         updateGameMapTableModel();
@@ -756,7 +756,7 @@ public class GamePlayModel extends Observable implements Serializable {
         return message;
     }
     
-    private void decideBattleResult() {
+    private void decideBattleResultIfPossible() {
         if (currentBattle != null) {
             int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
             int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
@@ -902,6 +902,16 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
+     * Get the maximum number of attacking dice roll that attacker can use depending on the attacking territory's armies
+     *
+     * @return the maximum number of dice roll that attacker may use
+     */
+    public int getMaxAttackingRoll(String attackingTerritoryName) {
+        Territory attackingTerritory = getGameMap().getATerritory(attackingTerritoryName);
+        return Math.min(3, attackingTerritory.getArmies() - 1);
+    }
+    
+    /**
      * This method decides the outcome of the current battle by comparing the attacker's dice
      * roll value and the defender's dice roll value. Depending on the result, the method
      * increases the lose count for the player who rolled a lower value than the opponent.
@@ -931,24 +941,27 @@ public class GamePlayModel extends Observable implements Serializable {
         }
     }
     
-    public void performBattle() {
-        log.append("        Battle between " + currentBattle.getAttacker().getPlayerName() +
-                "'s " + currentBattle.getAttackingTerritory().getName() +
-                " and " + currentBattle.getDefender().getPlayerName() +
-                "'s " + currentBattle.getDefendingTerritory().getName());
+    public void performBattleIfPossible() {
+        if (currentBattle != null) {
+            log.append("        Battle between " + currentBattle.getAttacker().getPlayerName() +
+                    "'s " + currentBattle.getAttackingTerritory().getName() +
+                    " and " + currentBattle.getDefender().getPlayerName() +
+                    "'s " + currentBattle.getDefendingTerritory().getName());
         
         /* Both players roll dice */
-        currentBattle.attackerRollDice();
-        log.append("            " + currentBattle.getAttacker().getPlayerName() + " roll dice: " +
-                currentBattle.getAttackerDice().getRollsResult());
-        currentBattle.defenderRollDice();
-        log.append("            " + currentBattle.getDefender().getPlayerName() + " roll dice: " +
-                currentBattle.getDefenderDice().getRollsResult());
+            currentBattle.attackerRollDice();
+            log.append("            " + currentBattle.getAttacker().getPlayerName() + " roll dice: " +
+                    currentBattle.getAttackerDice().getRollsResult());
+            currentBattle.defenderRollDice();
+            log.append("            " + currentBattle.getDefender().getPlayerName() + " roll dice: " +
+                    currentBattle.getDefenderDice().getRollsResult());
+        }
     }
     
     public void botsAttackAndFortification() {
-        performBattle();
-        decideBattleResult();
+        performBattleIfPossible();
+        decideBattleResultIfPossible();
+        currentBattle = null;
         currentPlayer.nextPhase();
         
         // Fortification phase
@@ -1032,6 +1045,8 @@ public class GamePlayModel extends Observable implements Serializable {
                 currentBattle.setDefendingDice(defendingDice);
                 botsAttackAndFortification();
             }
+        } else { // bots quit attacking
+            botsAttackAndFortification();
         }
     }
     

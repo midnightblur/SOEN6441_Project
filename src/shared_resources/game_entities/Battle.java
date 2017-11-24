@@ -202,14 +202,5 @@ public class Battle implements Serializable {
             return 1;
         }
     }
-    
-    /**
-     * Get the maximum number of attacking dice roll that attacker can use depending on the attacking territory's armies
-     *
-     * @return the maximum number of dice roll that attacker may use
-     */
-    public int getMaxAttackingRoll() {
-        return Math.min(3, attackingTerritory.getArmies() - 1);
-    }
     // endregion
 }

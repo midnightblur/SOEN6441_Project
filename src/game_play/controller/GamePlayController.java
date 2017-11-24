@@ -393,7 +393,7 @@ public class GamePlayController {
             gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().setSelectedIndex(0);
         
             /* Update attacking dice dropdown */
-            int maxRoll = gamePlayModel.getCurrentBattle().getMaxAttackingRoll();
+            int maxRoll = gamePlayModel.getMaxAttackingRoll(attackingTerritory);
             Vector<Integer> rollChoice = new Vector<>();
             for (int i = 1; i <= maxRoll; i++) {
                 rollChoice.add(i);

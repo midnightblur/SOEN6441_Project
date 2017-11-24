@@ -35,7 +35,7 @@ public class Human implements PlayerType {
     
     @Override
     public void attack(GamePlayModel gamePlayModel) {
-        gamePlayModel.performBattle();
+        gamePlayModel.performBattleIfPossible();
     }
 
     @Override

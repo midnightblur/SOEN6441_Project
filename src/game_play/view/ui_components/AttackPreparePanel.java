@@ -156,7 +156,8 @@ public class AttackPreparePanel extends JPanel implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAY &&
-                    gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.ATTACK_PREPARE) {
+                    gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.ATTACK_PREPARE &&
+                    gamePlayModel.getCurrentPlayer().isHuman()) {
                 DefaultComboBoxModel<String> attackingTerritoriesModel = new DefaultComboBoxModel<>(
                         gamePlayModel.getValidAttackingTerritories(gamePlayModel.getCurrentPlayer()));
                 
