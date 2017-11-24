@@ -958,18 +958,6 @@ public class GamePlayModel extends Observable implements Serializable {
         }
     }
     
-    public void botsAttackAndFortification() {
-        performBattleIfPossible();
-        decideBattleResultIfPossible();
-        currentBattle = null;
-        currentPlayer.nextPhase();
-        
-        // Fortification phase
-        currentPlayer.fortification(this, null, null, -1);
-        
-        nextPlayerTurn();
-    }
-    
     /**
      * Delegate the job to fortification() of Player class.
      *
@@ -1032,9 +1020,14 @@ public class GamePlayModel extends Observable implements Serializable {
     // region Private methods
     private void letBotsPlay() {
         // Bots reinforce and declare attack if it wants
-        botsReinforcementAndAttack();
+        botsReinforcement();
         
-        // If there's an attack, let defender choose number of defending dice
+        botsAttack();
+    }
+    
+    private void botsAttack() {
+        currentPlayer.attack(this);
+        // If bots declare new attack, let defender choose number of defending dice
         if (currentBattle != null) {
             Player defender = currentBattle.getDefender();
             if (defender.isHuman()) {
@@ -1043,23 +1036,36 @@ public class GamePlayModel extends Observable implements Serializable {
             } else {
                 int defendingDice = defender.botChooseDefendingDice(currentBattle.getMaxDefendingRoll());
                 currentBattle.setDefendingDice(defendingDice);
-                botsAttackAndFortification();
+                botsFortification(true);
             }
-        } else { // bots quit attacking
-            botsAttackAndFortification();
+        } else { // If bots quits attacking or cannot attack anymore
+            botsFortification(false);
+        }
+    }
+    
+    public void botsFortification(boolean continueAttack) {
+        performBattleIfPossible();
+        decideBattleResultIfPossible();
+        currentBattle = null;
+        
+        if (!continueAttack) {
+            // Fortification phase
+            currentPlayer.nextPhase();
+            currentPlayer.fortification(this, null, null, -1);
+            
+            nextPlayerTurn();
+        } else {
+            botsAttack();
         }
     }
     
     /**
      * This function lets the game advance when the current player is a bot until a human player's turn
      */
-    private void botsReinforcementAndAttack() {
+    private void botsReinforcement() {
         // Reinforcement phase
         currentPlayer.reinforcement(this, null, null);
         currentPlayer.nextPhase();
-        
-        // Attacking phase
-        currentPlayer.attack(this);
     }
     // endregion
 }

@@ -504,7 +504,7 @@ public class GamePlayController {
             announceVictoryIfPossible(message);
         } else {
             gamePlayModel.getCurrentBattle().setDefendingDice(defendingDice);
-            gamePlayModel.botsAttackAndFortification();
+            gamePlayModel.botsFortification(true);
         }
     }
     
