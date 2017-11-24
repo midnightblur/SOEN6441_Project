@@ -555,6 +555,14 @@ public class GamePlayController {
             UIHelper.invokeFrame(callerController.getMainMenuFrame());
         }
         
+        /* Declare draw if turns are used-up*/
+        else if (gamePlayModel.getTurnCounter() >= gamePlayModel.getMaxTurns()) {
+            message = "Maximum turns reached. No winner. Game is a draw";
+            UIHelper.displayMessage(gamePlayFrame, message);
+            UIHelper.closeFrame(gamePlayFrame);
+            UIHelper.invokeFrame(callerController.getMainMenuFrame());
+        }
+        
         /* Display dialog to let the winning attacker to move armies to conquered territory */
         else if (gamePlayModel.getCurrentPlayer().getGameState() == ATTACK_BATTLE &&
                 gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {

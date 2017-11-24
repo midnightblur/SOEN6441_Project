@@ -104,17 +104,21 @@ public class TournamentController extends GamePlayController {
             }
             /* Pop-up the strategy dialog that will set the strategy for each game */
             showStrategyOptions();
+            tournamentFrame.dispose();
         }
     
     /* For each game model in the set, start the game */
-        for (int i = 0; i < enteredGames; i++) {
-            //TODO....
+        GamePlayModel gameToPlay = new GamePlayModel();
+        gameToPlay.setMaxTurns(enteredMaxTurns);
+        for (GamePlayModel gamePlayModel : tournamentSet) {
             do {
-            /* Play the game */
-                enteredMaxTurns--;
-            } while (enteredMaxTurns > 0);
+                /* Play a copy of the game so we can replay from start if needed */
+                gameToPlay.setGamePlayModel(gamePlayModel);
+                gameToPlay.startTheGame();
+                enteredGames--;
+                // TODO: in GamePlayModel we need a turn counter that kicks-out the players if used-up and declares a draw
+            } while (enteredGames > 0);
         }
-        
     }
     // endregion
     
