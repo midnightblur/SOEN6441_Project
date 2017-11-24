@@ -68,13 +68,16 @@ public class TournamentFrame extends JFrame implements Observer {
         
         selectMap = new JLabel(MAP_LIST_LABEL);
         mapList = new JList<>();
-        
+        mapList.setName("MAP SELECTION");
         playersLabel = new JLabel(PLAYERS_LABEL);
         players = new JTextField();
+        players.setName("PLAYER COUNT");
         gameCountLabel = new JLabel(GAME_COUNT_LABEL);
         gameCount = new JTextField();
+        gameCount.setName("GAME COUNT");
         maxTurnsLabel = new JLabel(MAX_TURNS_LABEL);
         maxTurns = new JTextField();
+        maxTurns.setName("MAX TURNS");
         
         backBtn = new JButton(BACK_BUTTON);
         playTournamentBtn = new JButton(PLAY_GAME_BUTTON);
