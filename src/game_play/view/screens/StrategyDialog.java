@@ -40,9 +40,9 @@ public class StrategyDialog extends JDialog {
      *
      * @param gamePlayFrame      the parent frame calling this dialog
      * @param players            the players vector
-     * @param gamePlayController the game play controller
+     * @param callerController the game play controller
      */
-    public StrategyDialog(GamePlayController gamePlayController, JFrame gamePlayFrame, Vector<Player> players) {
+    public StrategyDialog(GamePlayController callerController, JFrame gamePlayFrame, Vector<Player> players) {
         super(gamePlayFrame, ModalityType.TOOLKIT_MODAL);
     
         Reflections reflections = new Reflections(Config.STRATEGY_PATH);
@@ -62,7 +62,7 @@ public class StrategyDialog extends JDialog {
         mainPanel.add(submitButton);
     
         checkRadioButtons(players);
-        addSubmitButtonListener(e -> gamePlayController.setStrategy(this));
+        addSubmitButtonListener(e -> callerController.setStrategy(this));
         
         setContentPane(mainPanel);
         setTitle("Set players' strategy");

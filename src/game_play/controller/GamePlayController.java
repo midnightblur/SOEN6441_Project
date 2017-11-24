@@ -589,6 +589,7 @@ public class GamePlayController {
      *
      * @param strategyDialog the strategy dialog
      */
+//    public void setStrategy(StrategyDialog strategyDialog) {
     public void setStrategy(StrategyDialog strategyDialog) {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
         strategyDialog.dispose();

@@ -25,7 +25,7 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
 public class TournamentFrame extends JFrame implements Observer {
     // region Attributes declaration
     private static final String TITLE = "Tournament settings";
-    private static final String PLAY_GAME_BUTTON = "Play Game";
+    private static final String PLAY_GAME_BUTTON = "Play Tournament";
     private static final String BACK_BUTTON = "Back";
     private static final String MAP_LIST_LABEL = "Select maps (1 - 5):";
     private static final String PLAYERS_LABEL = "Players (2 - 4):";
@@ -33,8 +33,15 @@ public class TournamentFrame extends JFrame implements Observer {
     private static final String MAX_TURNS_LABEL = "Turns (10 - 50):";
     private static final int WIDTH = 300;
     private static final int HEIGHT = 550;
+    JLabel selectMap;
+    JLabel playersLabel;
+    JTextField players;
+    JLabel gameCountLabel;
+    JTextField gameCount;
+    JLabel maxTurnsLabel;
+    JTextField maxTurns;
     private JList<String> mapList;
-    private JButton playGameBtn;
+    private JButton playTournamentBtn;
     private JButton backBtn;
     // endregion
     
@@ -59,24 +66,24 @@ public class TournamentFrame extends JFrame implements Observer {
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
         contentPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
-        JLabel selectMap = new JLabel(MAP_LIST_LABEL);
+        selectMap = new JLabel(MAP_LIST_LABEL);
         mapList = new JList<>();
         
-        JLabel playersLabel = new JLabel(PLAYERS_LABEL);
-        JTextField players = new JTextField();
-        JLabel gameCountLabel = new JLabel(GAME_COUNT_LABEL);
-        JTextField gameCount = new JTextField();
-        JLabel maxTurnsLabel = new JLabel(MAX_TURNS_LABEL);
-        JTextField maxTurns = new JTextField();
+        playersLabel = new JLabel(PLAYERS_LABEL);
+        players = new JTextField();
+        gameCountLabel = new JLabel(GAME_COUNT_LABEL);
+        gameCount = new JTextField();
+        maxTurnsLabel = new JLabel(MAX_TURNS_LABEL);
+        maxTurns = new JTextField();
         
         backBtn = new JButton(BACK_BUTTON);
-        playGameBtn = new JButton(PLAY_GAME_BUTTON);
+        playTournamentBtn = new JButton(PLAY_GAME_BUTTON);
         
         contentPane.add(selectMap);
         JScrollPane scrollPane = new JScrollPane(mapList);
         contentPane.add(scrollPane);
         addVerticalSpacing(contentPane);
-    
+        
         contentPane.add(playersLabel);
         contentPane.add(players);
         contentPane.add(gameCountLabel);
@@ -84,8 +91,8 @@ public class TournamentFrame extends JFrame implements Observer {
         contentPane.add(maxTurnsLabel);
         contentPane.add(maxTurns);
         addVerticalSpacing(contentPane);
-    
-        contentPane.add(playGameBtn);
+        
+        contentPane.add(playTournamentBtn);
         addVerticalSpacing(contentPane);
         contentPane.add(backBtn);
         
@@ -100,6 +107,34 @@ public class TournamentFrame extends JFrame implements Observer {
     public JList<String> getMapList() {
         return mapList;
     }
+    
+    /**
+     * Gets players.
+     *
+     * @return Value of players.
+     */
+    public JTextField getPlayers() {
+        return players;
+    }
+    
+    /**
+     * Gets maxTurns.
+     *
+     * @return Value of maxTurns.
+     */
+    public JTextField getMaxTurns() {
+        return maxTurns;
+    }
+    
+    /**
+     * Gets gameCount.
+     *
+     * @return Value of gameCount.
+     */
+    public JTextField getGameCount() {
+        return gameCount;
+    }
+    
     // endregion
     
     // region MVC & Observer pattern methods
@@ -107,10 +142,10 @@ public class TournamentFrame extends JFrame implements Observer {
     /**
      * Adds the play game button listener.
      *
-     * @param listenerForPlayGameButton the listener for play game button
+     * @param listenerForPlayTournamentButton the listener for play game button
      */
-    public void addPlayGameButtonListener(ActionListener listenerForPlayGameButton) {
-        playGameBtn.addActionListener(listenerForPlayGameButton);
+    public void addPlayTournamentButtonListener(ActionListener listenerForPlayTournamentButton) {
+        playTournamentBtn.addActionListener(listenerForPlayTournamentButton);
     }
     
     /**
