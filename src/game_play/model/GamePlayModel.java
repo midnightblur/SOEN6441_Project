@@ -1057,6 +1057,9 @@ public class GamePlayModel extends Observable implements Serializable {
         } else {
             botsAttack();
         }
+        
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
     }
     
     /**

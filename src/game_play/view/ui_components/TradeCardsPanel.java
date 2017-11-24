@@ -140,7 +140,8 @@ public class TradeCardsPanel extends JPanel implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == GAME_STATES.PLAY &&
-                    gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.TRADE_CARDS) {
+                    gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.TRADE_CARDS &&
+                    gamePlayModel.getCurrentPlayer().isHuman()) {
                 
                 /* Don't allow players to go back to Reinforcement if they must trade their cards */
                 if (gamePlayModel.getCurrentPlayer().getPlayersHand().size() >= 5) {
