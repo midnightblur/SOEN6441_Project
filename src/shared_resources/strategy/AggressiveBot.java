@@ -63,8 +63,8 @@ public class AggressiveBot extends Bot {
                         int attackerDice = Math.min(3, strongestTerritory.getArmies() - 1);
                         gamePlayModel.setCurrentBattle(new Battle(player, strongestTerritory, attackerDice,
                                 neighbor.getOwner(), neighbor));
+                        return;
                     }
-                    return;
                 }
                 log.append("        " + player.getPlayerName() + " cannot attack anymore (no more neighboring enemy territories)");
                 gamePlayModel.setCurrentBattle(null);
