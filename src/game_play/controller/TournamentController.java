@@ -28,14 +28,13 @@ import static shared_resources.helper.GameMapHelper.loadGameMap;
  * @version 3.0
  */
 public class TournamentController extends GamePlayController {
-    
-    int enteredMaps;
-    int enteredPlayers;
-    int enteredGames;
-    int enteredMaxTurns;
+    // region Attribute declaration
     private TournamentFrame tournamentFrame;
     private MainMenuController callerController;
     private Vector<GamePlayModel> tournamentSet;
+    // endregion
+    
+    // region Constructors
     
     /**
      * Instantiates a new map selector controller.
@@ -55,17 +54,19 @@ public class TournamentController extends GamePlayController {
     }
     // endregion
     
-    // region Constructors
+    // region Starting the tournament
     
     /**
      * Validate the selected map, launch the game if it is valid, show a message if it is not.
      */
     private void startTournament() {
         int maxPlayers; // will be set to the minimum allowed players based on the maps in the set of games
-        enteredMaps = validateEntry(tournamentFrame.getMapList(), 1, 5);
-        enteredGames = validateEntry(tournamentFrame.getGameCount(), 1, 5);
-        enteredMaxTurns = validateEntry(tournamentFrame.getMaxTurns(), 10, 50);
+        /* Validate UI entries */
+        int enteredMaps = validateEntry(tournamentFrame.getMapList(), 1, 5);
+        int enteredGames = validateEntry(tournamentFrame.getGameCount(), 1, 5);
+        int enteredMaxTurns = validateEntry(tournamentFrame.getMaxTurns(), 10, 50);
         
+        /* If one of these entries is invalid return */
         if (enteredMaps == -1 || enteredGames == -1 || enteredMaxTurns == -1) {
             JOptionPane.showMessageDialog(
                     null,
@@ -94,16 +95,14 @@ public class TournamentController extends GamePlayController {
             maxPlayers = Math.min(maxPlayers, gamePlayModel.getGameMap().getMaxPlayers());
         }
         
-        /* Now we read the number of players */
-        enteredPlayers = validateEntry(tournamentFrame.getPlayers(), 2, maxPlayers);
-        if (maxPlayers > -1) {
-            
+        /* Now validate the number of players against the maxPlayers across the games' maps*/
+        int enteredPlayers = validateEntry(tournamentFrame.getPlayers(), 2, maxPlayers);
+        if (enteredPlayers > -1) {
             /* initialize each game */
             for (GamePlayModel gamePlayModel : tournamentSet) {
-                gamePlayModel.initializeNewGame(maxPlayers);
+                gamePlayModel.initializeNewGame(enteredPlayers);
             }
-            
-            /* Pop-up the strategy dialog and add the submit listener, who will set the strategy */
+            /* Pop-up the strategy dialog that will set the strategy for each game */
             showStrategyOptions();
         }
     
@@ -138,7 +137,20 @@ public class TournamentController extends GamePlayController {
         Vector<String> mapList = new Vector<>(getMapsInFolder(Config.MAPS_FOLDER));
         return new DropDownModel(mapList);
     }
+    // endregion
     
+    // region for Tournament helpers
+    
+    /**
+     * Validate UI entries against a min and max values
+     * Method will throw messages to user if exceptions
+     *
+     * @param component the component that holds the user entry
+     * @param min       the minimum bound
+     * @param max       the maximum bound
+     *
+     * @return the valid entry or -1 otherwise
+     */
     private int validateEntry(Component component, int min, int max) {
         int entry = -1;
         if (component instanceof JTextField) {
@@ -161,9 +173,6 @@ public class TournamentController extends GamePlayController {
         return entry;
     }
     
-    // region Attributes declaration
-    
-    // endregion
     
     /**
      * Setting the player's strategy
@@ -178,21 +187,12 @@ public class TournamentController extends GamePlayController {
      *
      * @param strategyDialog the strategy options UI
      */
-    @Override
-    public void setStrategy(StrategyDialog strategyDialog) {
+    private void setStrategy(StrategyDialog strategyDialog) {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
         strategyDialog.dispose();
         for (GamePlayModel gamePlayModel : tournamentSet) {
             gamePlayModel.setPlayersType(opts);
         }
     }
-    
-    /**
-     * Gets tournamentSet.
-     *
-     * @return Value of tournamentSet.
-     */
-    public Vector<GamePlayModel> getTournamentSet() {
-        return tournamentSet;
-    }
+    // endregion
 }

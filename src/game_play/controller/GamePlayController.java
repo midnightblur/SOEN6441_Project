@@ -591,7 +591,7 @@ public class GamePlayController {
      *
      * @param strategyDialog the strategy options UI
      */
-    public void setStrategy(StrategyDialog strategyDialog) {
+    private void setStrategy(StrategyDialog strategyDialog) {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
         strategyDialog.dispose();
         gamePlayModel.setPlayersType(opts);
