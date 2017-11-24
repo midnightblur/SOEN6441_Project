@@ -15,6 +15,7 @@ import shared_resources.helper.UIHelper;
 import shared_resources.utilities.Config;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Vector;
 
 import static shared_resources.helper.GameMapHelper.getMapsInFolder;
@@ -27,8 +28,7 @@ import static shared_resources.helper.GameMapHelper.loadGameMap;
  * @version 3.0
  */
 public class TournamentController extends GamePlayController {
-    
-    // region Attributes declaration
+    // region Attribute declaration
     private TournamentFrame tournamentFrame;
     private MainMenuController callerController;
     private Vector<GamePlayModel> tournamentSet;
@@ -54,25 +54,40 @@ public class TournamentController extends GamePlayController {
     }
     // endregion
     
-    // region Methods to handle events from UI
+    // region Starting the tournament
     
     /**
      * Validate the selected map, launch the game if it is valid, show a message if it is not.
      */
     private void startTournament() {
         int maxPlayers; // will be set to the minimum allowed players based on the maps in the set of games
-    /* Load the maps first to determine the allowed number of players*/
-        try {
-            for (String selectedMap : tournamentFrame.getMapList().getSelectedValuesList()) {
+        /* Validate UI entries */
+        int enteredMaps = validateEntry(tournamentFrame.getMapList(), 1, 5);
+        int enteredGames = validateEntry(tournamentFrame.getGameCount(), 1, 5);
+        int enteredMaxTurns = validateEntry(tournamentFrame.getMaxTurns(), 10, 50);
+        
+        /* If one of these entries is invalid return */
+        if (enteredMaps == -1 || enteredGames == -1 || enteredMaxTurns == -1) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Please validate your entries.",
+                    "Entry Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        /* Load the maps first (we will determine the allowed number of players based on maps) */
+        for (String selectedMap : tournamentFrame.getMapList().getSelectedValuesList()) {
+            try {
                 GameMap gameMap = loadGameMap(selectedMap);         // load the selected map
                 GamePlayModel gamePlayModel = new GamePlayModel();  // make a new game model
                 gamePlayModel.setGameMap(gameMap);                  // set the map
                 tournamentSet.add(gamePlayModel);                   // add the game model to the tournament set
+            } catch (Exception e) {
+                UIHelper.displayMessage(tournamentFrame, e.getMessage());
+                return;
             }
-            
-        } catch (Exception e) {
-            UIHelper.displayMessage(tournamentFrame, e.getMessage());
         }
+        
         
         /* determine max players across all games' maps */
         maxPlayers = tournamentSet.firstElement().getGameMap().getMaxPlayers();
@@ -80,42 +95,30 @@ public class TournamentController extends GamePlayController {
             maxPlayers = Math.min(maxPlayers, gamePlayModel.getGameMap().getMaxPlayers());
         }
         
-        /* Now we read the number of games, players*/
-        try {
-            int enteredPlayers = Integer.parseInt(tournamentFrame.getGameCount().getText());
-            if ((enteredPlayers >= 2) && (enteredPlayers <= maxPlayers)) {
-                
-                /* Pop-up the strategy dialog */
-                StrategyDialog strategyDialog = new StrategyDialog(this, tournamentFrame, tournamentSet.firstElement().getPlayers());
-        
-               /* initialize each game and set the strategy */
-                for (GamePlayModel gamePlayModel : tournamentSet) {
-                    gamePlayModel.initializeNewGame(maxPlayers);
-                    setStrategy(strategyDialog);
-                }
-                
-                
-            } else {
-                UIHelper.displayMessage(tournamentFrame, "You must enter an amount of players between 1 and " + maxPlayers);
+        /* Now validate the number of players against the maxPlayers across the games' maps*/
+        int enteredPlayers = validateEntry(tournamentFrame.getPlayers(), 2, maxPlayers);
+        if (enteredPlayers > -1) {
+            /* initialize each game */
+            for (GamePlayModel gamePlayModel : tournamentSet) {
+                gamePlayModel.initializeNewGame(enteredPlayers);
             }
-        } catch (ClassCastException | NumberFormatException e) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Invalid entry. Please re-enter a number.",
-                    "Entry Error!", JOptionPane.ERROR_MESSAGE);
+            /* Pop-up the strategy dialog that will set the strategy for each game */
+            showStrategyOptions();
         }
     
     /* For each game model in the set, start the game */
-        for (GamePlayModel gamePlayModel : tournamentSet) {
-            new GamePlayController(callerController, gamePlayModel.getGameMap());
-            
-            
+        for (int i = 0; i < enteredGames; i++) {
             //TODO....
+            do {
+            /* Play the game */
+                enteredMaxTurns--;
+            } while (enteredMaxTurns > 0);
         }
         
-        
     }
+    // endregion
     
+    // region Methods to handle events from UI
     
     /**
      * Close MapSelectorFrame, invoke MainMenuFrame.
@@ -133,6 +136,64 @@ public class TournamentController extends GamePlayController {
     private DropDownModel updateListOfMaps() {
         Vector<String> mapList = new Vector<>(getMapsInFolder(Config.MAPS_FOLDER));
         return new DropDownModel(mapList);
+    }
+    // endregion
+    
+    // region for Tournament helpers
+    
+    /**
+     * Validate UI entries against a min and max values
+     * Method will throw messages to user if exceptions
+     *
+     * @param component the component that holds the user entry
+     * @param min       the minimum bound
+     * @param max       the maximum bound
+     *
+     * @return the valid entry or -1 otherwise
+     */
+    private int validateEntry(Component component, int min, int max) {
+        int entry = -1;
+        if (component instanceof JTextField) {
+            entry = Integer.parseInt(((JTextField) component).getText());
+        } else if (component instanceof JList) {
+            entry = ((JList) component).getSelectedValuesList().size();
+        }
+        try {
+            if (min <= entry && entry <= max) {
+                return entry;
+            } else {
+                UIHelper.displayMessage(tournamentFrame, "Your entry for " + component.getName() + " must between " + min + " and " + max);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid entry for " + component.getName() + " . Please revise.",
+                    "Entry Error!", JOptionPane.ERROR_MESSAGE);
+        }
+        return entry;
+    }
+    
+    
+    /**
+     * Setting the player's strategy
+     */
+    private void showStrategyOptions() {
+        StrategyDialog strategyDialog = new StrategyDialog(this, tournamentFrame, tournamentSet.firstElement().getPlayers());
+        strategyDialog.addSubmitButtonListener(e -> setStrategy(strategyDialog));
+    }
+    
+    /**
+     * Sets the player strategy as selected in StrategyDialog
+     *
+     * @param strategyDialog the strategy options UI
+     */
+    @Override
+    public void setStrategy(StrategyDialog strategyDialog) {
+        StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
+        strategyDialog.dispose();
+        for (GamePlayModel gamePlayModel : tournamentSet) {
+            gamePlayModel.setPlayersType(opts);
+        }
     }
     // endregion
 }

@@ -38,13 +38,13 @@ public class StrategyDialog extends JDialog {
     /**
      * Instantiate the strategy dialog
      *
-     * @param gamePlayFrame      the parent frame calling this dialog
-     * @param players            the players vector
+     * @param gamePlayFrame    the parent frame calling this dialog
+     * @param players          the players vector
      * @param callerController the game play controller
      */
     public StrategyDialog(GamePlayController callerController, JFrame gamePlayFrame, Vector<Player> players) {
         super(gamePlayFrame, ModalityType.TOOLKIT_MODAL);
-    
+        
         Reflections reflections = new Reflections(Config.STRATEGY_PATH);
         strategyClasses = reflections.getSubTypesOf(PlayerType.class);
         
@@ -60,7 +60,7 @@ public class StrategyDialog extends JDialog {
         
         submitButton = new JButton(SUBMIT_BUTTON_LABEL);
         mainPanel.add(submitButton);
-    
+        
         checkRadioButtons(players);
         addSubmitButtonListener(e -> callerController.setStrategy(this));
         
@@ -74,6 +74,33 @@ public class StrategyDialog extends JDialog {
     // endregion
     
     // region Getters & Setters
+    
+    /**
+     * Check the radio buttons corresponding to players' type
+     *
+     * @param players the list of players
+     */
+    private void checkRadioButtons(Vector<Player> players) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.elementAt(i).getPlayerName().equals(playersOptions[i].getPlayer_label().getText())) {
+                playersOptions[i].setSelection(players.elementAt(i).getPlayerType().getClass().getSimpleName());
+            }
+        }
+    }
+    
+    /**
+     * Add the listener for submit strategy selections button
+     *
+     * @param listenerForSubmitButton The listener for submit strategy selections button
+     */
+    public void addSubmitButtonListener(ActionListener listenerForSubmitButton) {
+        submitButton.addActionListener(listenerForSubmitButton);
+    }
+    
+    
+    // endregion
+    
+    // region MVC & Observer pattern methods
     
     /**
      * Gets the strategy path
@@ -92,33 +119,22 @@ public class StrategyDialog extends JDialog {
     public BehaviourOptions[] getPlayersOptions() {
         return playersOptions;
     }
-    
     // endregion
     
-    // region MVC & Observer pattern methods
-    
     /**
-     * Add the listener for submit strategy selections button
+     * Gets the available strategy classes in a sorted set
+     * It uses a custom class name comparator
      *
-     * @param listenerForSubmitButton The listener for submit strategy selections button
+     * @return a sorted set of strategy classes
      */
-    private void addSubmitButtonListener(ActionListener listenerForSubmitButton) {
-        submitButton.addActionListener(listenerForSubmitButton);
+    private SortedSet<Class<? extends PlayerType>> getStrategies() {
+        SortedSet<Class<? extends PlayerType>> sortedStrategySet = new TreeSet<>(new ClassNameComparator());
+        strategyClasses.removeIf(strategy -> Modifier.isAbstract(strategy.getModifiers()));
+        sortedStrategySet.addAll(strategyClasses);
+        return sortedStrategySet;
     }
     
-    /**
-     * Check the radio buttons corresponding to players' type
-     *
-     * @param players the list of players
-     */
-    private void checkRadioButtons(Vector<Player> players) {
-        for (int i = 0; i < players.size(); i++) {
-            if (players.elementAt(i).getPlayerName().equals(playersOptions[i].getPlayer_label().getText())) {
-                playersOptions[i].setSelection(players.elementAt(i).getPlayerType().getClass().getSimpleName());
-            }
-        }
-    }
-    // endregion
+    // region Private methods
     
     /**
      * Behaviour Options class to dynamically provide options for players' strategy
@@ -181,20 +197,6 @@ public class StrategyDialog extends JDialog {
                 }
             }
         }
-    }
-    
-    // region Private methods
-    /**
-     * Gets the available strategy classes in a sorted set
-     * It uses a custom class name comparator
-     *
-     * @return a sorted set of strategy classes
-     */
-    private SortedSet<Class<? extends PlayerType>> getStrategies() {
-        SortedSet<Class<? extends PlayerType>> sortedStrategySet = new TreeSet<>(new ClassNameComparator());
-        strategyClasses.removeIf(strategy -> Modifier.isAbstract(strategy.getModifiers()));
-        sortedStrategySet.addAll(strategyClasses);
-        return sortedStrategySet;
     }
     // endregion
 }

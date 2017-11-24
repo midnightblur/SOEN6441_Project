@@ -33,13 +33,9 @@ public class TournamentFrame extends JFrame implements Observer {
     private static final String MAX_TURNS_LABEL = "Turns (10 - 50):";
     private static final int WIDTH = 300;
     private static final int HEIGHT = 550;
-    JLabel selectMap;
-    JLabel playersLabel;
-    JTextField players;
-    JLabel gameCountLabel;
-    JTextField gameCount;
-    JLabel maxTurnsLabel;
-    JTextField maxTurns;
+    private JTextField players;
+    private JTextField gameCount;
+    private JTextField maxTurns;
     private JList<String> mapList;
     private JButton playTournamentBtn;
     private JButton backBtn;
@@ -65,16 +61,19 @@ public class TournamentFrame extends JFrame implements Observer {
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
         contentPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
-        selectMap = new JLabel(MAP_LIST_LABEL);
+    
+        JLabel selectMap = new JLabel(MAP_LIST_LABEL);
         mapList = new JList<>();
-        
-        playersLabel = new JLabel(PLAYERS_LABEL);
+        mapList.setName("MAP SELECTION");
+        JLabel playersLabel = new JLabel(PLAYERS_LABEL);
         players = new JTextField();
-        gameCountLabel = new JLabel(GAME_COUNT_LABEL);
+        players.setName("PLAYER COUNT");
+        JLabel gameCountLabel = new JLabel(GAME_COUNT_LABEL);
         gameCount = new JTextField();
-        maxTurnsLabel = new JLabel(MAX_TURNS_LABEL);
+        gameCount.setName("GAME COUNT");
+        JLabel maxTurnsLabel = new JLabel(MAX_TURNS_LABEL);
         maxTurns = new JTextField();
+        maxTurns.setName("MAX TURNS");
         
         backBtn = new JButton(BACK_BUTTON);
         playTournamentBtn = new JButton(PLAY_GAME_BUTTON);
