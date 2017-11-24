@@ -108,15 +108,16 @@ public class TournamentController extends GamePlayController {
         }
     
     /* For each game model in the set, start the game */
+        GamePlayModel gameToPlay = new GamePlayModel();
         for (GamePlayModel gamePlayModel : tournamentSet) {
             do {
-                /* Play the game */
-                gamePlayModel.startTheGame();
-                enteredMaxTurns--;
-            } while (enteredMaxTurns > 0);
+                /* Play a copy of the game so we can replay from start if needed */
+                gameToPlay.setGamePlayModel(gamePlayModel);
+                gameToPlay.startTheGame();
+                enteredGames--;
+                // TODO: in GamePlayModel we need a turn counter that kicks-out the players if used-up and declares a draw
+            } while (enteredGames > 0);
         }
-        
-        
     }
     // endregion
     

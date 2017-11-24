@@ -91,7 +91,7 @@ public class GamePlayModel extends Observable implements Serializable {
     // region Getters and Setters
     
     /**
-     * Copy constructor to be used when restoring a saved game
+     * Method to be used when restoring a saved game or making a copy of the game to play
      *
      * @param gamePlayModel the restored object
      */
