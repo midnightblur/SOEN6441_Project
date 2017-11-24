@@ -59,7 +59,14 @@ public class AggressiveBot extends Bot {
                 
                 if (!neighbor.isOwnedBy(player)) {
                     // Declare an attack using as many dice as possible
-                    int attackerDice = Math.min(3, strongestTerritory.getArmies() - 1);
+                    int attackerDice;
+                    if (strongestTerritory.getArmies() > 3) {
+                        attackerDice = 3;
+                    } else if (strongestTerritory.getArmies() > 2){
+                        attackerDice = 2;
+                    } else {
+                        attackerDice = 1;
+                    }
                     gamePlayModel.setCurrentBattle(new Battle(player, strongestTerritory, attackerDice,
                             neighbor.getOwner(), neighbor));
                     return;
