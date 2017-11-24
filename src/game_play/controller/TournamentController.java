@@ -187,7 +187,8 @@ public class TournamentController extends GamePlayController {
      *
      * @param strategyDialog the strategy options UI
      */
-    private void setStrategy(StrategyDialog strategyDialog) {
+    @Override
+    public void setStrategy(StrategyDialog strategyDialog) {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
         strategyDialog.dispose();
         for (GamePlayModel gamePlayModel : tournamentSet) {

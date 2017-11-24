@@ -33,12 +33,8 @@ public class TournamentFrame extends JFrame implements Observer {
     private static final String MAX_TURNS_LABEL = "Turns (10 - 50):";
     private static final int WIDTH = 300;
     private static final int HEIGHT = 550;
-    private JLabel selectMap;
-    private JLabel playersLabel;
     private JTextField players;
-    private JLabel gameCountLabel;
     private JTextField gameCount;
-    private JLabel maxTurnsLabel;
     private JTextField maxTurns;
     private JList<String> mapList;
     private JButton playTournamentBtn;
@@ -65,17 +61,17 @@ public class TournamentFrame extends JFrame implements Observer {
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
         contentPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
-        selectMap = new JLabel(MAP_LIST_LABEL);
+    
+        JLabel selectMap = new JLabel(MAP_LIST_LABEL);
         mapList = new JList<>();
         mapList.setName("MAP SELECTION");
-        playersLabel = new JLabel(PLAYERS_LABEL);
+        JLabel playersLabel = new JLabel(PLAYERS_LABEL);
         players = new JTextField();
         players.setName("PLAYER COUNT");
-        gameCountLabel = new JLabel(GAME_COUNT_LABEL);
+        JLabel gameCountLabel = new JLabel(GAME_COUNT_LABEL);
         gameCount = new JTextField();
         gameCount.setName("GAME COUNT");
-        maxTurnsLabel = new JLabel(MAX_TURNS_LABEL);
+        JLabel maxTurnsLabel = new JLabel(MAX_TURNS_LABEL);
         maxTurns = new JTextField();
         maxTurns.setName("MAX TURNS");
         
