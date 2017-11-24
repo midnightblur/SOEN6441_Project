@@ -23,5 +23,7 @@ public interface PlayerType extends Serializable {
     void attack(GamePlayModel gamePlayModel);
 
     String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies);
+    
+    void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel);
 }
 

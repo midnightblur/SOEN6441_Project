@@ -61,4 +61,9 @@ public class Human implements PlayerType {
         log.append("    " + currentPlayer.getPlayerName() + " moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory);
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
+    
+    @Override
+    public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
+        // Do nothing
+    }
 }

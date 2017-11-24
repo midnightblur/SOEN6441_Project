@@ -1043,9 +1043,14 @@ public class GamePlayModel extends Observable implements Serializable {
         }
     }
     
+    private void conquerTerritoryIfPossible() {
+        currentPlayer.moveArmiesToConqueredTerritory(this);
+    }
+    
     public void botsFortification(boolean continueAttack) {
         performBattleIfPossible();
         decideBattleResultIfPossible();
+        conquerTerritoryIfPossible();
         currentBattle = null;
         
         if (!continueAttack) {

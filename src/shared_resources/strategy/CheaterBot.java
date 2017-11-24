@@ -84,7 +84,7 @@ public class CheaterBot extends Bot {
     }
     
     @Override
-    void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
+    public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
         // this Do nothing.
     }
 }

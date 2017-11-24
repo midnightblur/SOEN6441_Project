@@ -633,6 +633,12 @@ public class Player implements Serializable {
         }
         return defendingDice;
     }
+    
+    public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
+        if (gamePlayModel.getCurrentBattle() != null) {
+            playerType.moveArmiesToConqueredTerritory(gamePlayModel);
+        }
+    }
     // endregion
     
     // region Fortification Phase

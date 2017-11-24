@@ -108,6 +108,4 @@ public abstract class Bot implements PlayerType {
         loser.removeTerritory(defendingTerritory.getName());
         winner.addTerritory(defendingTerritory);
     }
-    
-    abstract void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel);
 }
