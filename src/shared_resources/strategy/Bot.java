@@ -14,6 +14,8 @@ import shared_resources.utilities.Config;
 
 import java.util.Vector;
 
+import static shared_resources.utilities.Config.log;
+
 /**
  * This class is parent class of all AI bot's classes
  * Bot class is responsible for providing mutual functionality of all kind of bots
@@ -104,6 +106,10 @@ public abstract class Bot implements PlayerType {
         Player loser = defendingTerritory.getOwner();
         
         defendingTerritory.setOwner(winner);
+    
+        /* declare the winner as a conqueror for this turn (to give cards) */
+        log.append("        " + defendingTerritory.getName() + " has been conquered by " + winner.getPlayerName());
+        winner.setHasConqueredTerritories(true);
         
         loser.removeTerritory(defendingTerritory.getName());
         winner.addTerritory(defendingTerritory);

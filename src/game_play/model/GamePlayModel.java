@@ -1039,6 +1039,10 @@ public class GamePlayModel extends Observable implements Serializable {
                 botsFortification(true);
             }
         } else { // If bots quits attacking or cannot attack anymore
+            if (currentPlayer.hasConqueredTerritories()) {
+                drawCardForWinner(currentPlayer);
+                currentPlayer.setHasConqueredTerritories(false);
+            }
             botsFortification(false);
         }
     }
