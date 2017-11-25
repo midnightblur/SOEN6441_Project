@@ -510,7 +510,7 @@ public class GamePlayController {
         int defendingDice = (int) dialog.getDefendingDiceDropdown().getSelectedItem();
         dialog.getOwner().dispose();
         owner.setVisible(true);
-        if (gamePlayModel.getCurrentPlayer().isHuman()) {
+        if (gamePlayModel.getCurrentPlayer().isHuman()) {  // if human player
             String message = gamePlayModel.declareAttack(
                     String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem()),
                     String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem()),
@@ -519,7 +519,7 @@ public class GamePlayController {
             );
             
             announceVictoryIfPossible(message);
-        } else {
+        } else {  // if bot player
             gamePlayModel.getCurrentBattle().setDefendingDice(defendingDice);
             gamePlayModel.botsFortification(true);
         }
@@ -564,7 +564,7 @@ public class GamePlayController {
         }
         
         /* Display dialog to let the winning attacker to move armies to conquered territory */
-        else if (gamePlayModel.getCurrentPlayer().getGameState() == ATTACK_BATTLE &&
+        else if (
                 gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
             openMoveArmiesToConqueredTerritoryDialog();
         }
