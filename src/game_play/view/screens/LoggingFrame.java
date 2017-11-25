@@ -9,12 +9,15 @@ package game_play.view.screens;
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+
+import static shared_resources.utilities.Config.LOG_FILE_NAME;
 
 /**
  * The window used to display the game progression
@@ -43,6 +46,8 @@ public class LoggingFrame extends JFrame {
         frame.pack();
         frame.setVisible(true);
         frame.setSize(500, 1000);
+        // delete log file if exists
+        new File(LOG_FILE_NAME).delete();
     }
     
     /**
@@ -66,8 +71,8 @@ public class LoggingFrame extends JFrame {
      * @param text the text to be appended on the logging area
      */
     public static void append(String text) {
+        dumpLog(text);
         if (logArea.getText().length() > 100000) {
-            dumpLog();
             logArea.setText("");
         }
         logArea.append("\n" + text);
@@ -78,13 +83,13 @@ public class LoggingFrame extends JFrame {
     /**
      * Dumps the log to file if too large
      */
-    private static void dumpLog() {
-        Path logPath = Paths.get("Log.txt");
+    private static void dumpLog(String text) {
+        Path logPath = Paths.get(LOG_FILE_NAME);
         Charset charset = Charset.forName("UTF-8");
         BufferedWriter bufferedWriter;
         try {
             bufferedWriter = Files.newBufferedWriter(logPath, charset, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-            bufferedWriter.append(logArea.getText(), 0, logArea.getText().length());
+            bufferedWriter.append(text);
             bufferedWriter.newLine();
             bufferedWriter.close();
         } catch (IOException e) {

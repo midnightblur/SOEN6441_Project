@@ -84,6 +84,7 @@ public class Config {
     public static final int MAX_NUM_ATK_DICE = 3;
     public static final int MAX_NUM_DEF_DICE = 2;
     public static final int MIN_CARDS_TO_TRADE = 3;
+    public static final String LOG_FILE_NAME = "Log.txt";
     // endregion
     
     // region Constants used for AI strategies
