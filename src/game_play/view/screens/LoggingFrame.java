@@ -66,7 +66,7 @@ public class LoggingFrame extends JFrame {
      * @param text the text to be appended on the logging area
      */
     public static void append(String text) {
-        if (logArea.getText().length() > 10000) {
+        if (logArea.getText().length() > 100000) {
             dumpLog();
             logArea.setText("");
         }
@@ -75,10 +75,13 @@ public class LoggingFrame extends JFrame {
         logArea.setCaretPosition(logArea.getDocument().getLength());
     }
     
+    /**
+     * Dumps the log to file if too large
+     */
     private static void dumpLog() {
         Path logPath = Paths.get("Log.txt");
         Charset charset = Charset.forName("UTF-8");
-        BufferedWriter bufferedWriter = null;
+        BufferedWriter bufferedWriter;
         try {
             bufferedWriter = Files.newBufferedWriter(logPath, charset, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             bufferedWriter.append(logArea.getText(), 0, logArea.getText().length());
@@ -87,7 +90,6 @@ public class LoggingFrame extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
     }
     
     /**
@@ -105,7 +107,7 @@ public class LoggingFrame extends JFrame {
      * @param logArea New value of logArea.
      */
     public void setLogArea(JTextArea logArea) {
-        this.logArea = logArea;
+        LoggingFrame.logArea = logArea;
     }
     // endregion
 }

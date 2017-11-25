@@ -6,7 +6,6 @@
  */
 package game_play.view.screens;
 
-import game_play.controller.GamePlayController;
 import org.reflections.Reflections;
 import shared_resources.game_entities.Player;
 import shared_resources.strategy.PlayerType;
@@ -28,6 +27,7 @@ import java.util.*;
 public class StrategyDialog extends JDialog {
     // region Attributes declaration
     private static final String SUBMIT_BUTTON_LABEL = "Set Strategies";
+    private JPanel mainPanel;
     private JButton submitButton;
     private BehaviourOptions[] playersOptions;
     private Set<Class<? extends PlayerType>> strategyClasses;
@@ -38,42 +38,56 @@ public class StrategyDialog extends JDialog {
     /**
      * Instantiate the strategy dialog
      *
-     * @param gamePlayFrame    the parent frame calling this dialog
-     * @param players          the players vector
-     * @param callerController the game play controller
+     * @param gamePlayFrame the parent frame calling this dialog
      */
-    public StrategyDialog(GamePlayController callerController, JFrame gamePlayFrame, Vector<Player> players) {
+    public StrategyDialog(JFrame gamePlayFrame) {
         super(gamePlayFrame, ModalityType.TOOLKIT_MODAL);
         
         Reflections reflections = new Reflections(Config.STRATEGY_PATH);
         strategyClasses = reflections.getSubTypesOf(PlayerType.class);
         
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        JPanel mainPanel = new JPanel(new GridLayout(0, 1));
+        mainPanel = new JPanel(new GridLayout(0, 1));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
-        playersOptions = new BehaviourOptions[players.size()];  // add the options in array for easier access
-        for (int i = 0; i < players.size(); i++) {
-            BehaviourOptions opts = new BehaviourOptions(players.elementAt(i));
-            playersOptions[i] = opts;
-            mainPanel.add(opts);
-        }
         
         submitButton = new JButton(SUBMIT_BUTTON_LABEL);
-        mainPanel.add(submitButton);
-        
-        checkRadioButtons(players);
-        addSubmitButtonListener(e -> callerController.setStrategy(this));
         
         setContentPane(mainPanel);
         setTitle("Set players' strategy");
         pack();
         setResizable(false);
         setLocationRelativeTo(gamePlayFrame);
-        setVisible(true);
+        setVisible(false);
     }
     // endregion
     
     // region Getters & Setters
+    
+    /**
+     * Gets the strategy path
+     *
+     * @return the strategy path
+     */
+    public static String getSTRATEGY_PATH() {
+        return Config.STRATEGY_PATH;
+    }
+    
+    /**
+     * Populates the strategy dialog from a players vector once available
+     * @param players the vector of players to populate the dialog
+     */
+    public void populateOptions(Vector<Player> players) {
+        mainPanel.removeAll();
+        playersOptions = new BehaviourOptions[players.size()];  // add the options in array for easier access
+        for (int i = 0; i < players.size(); i++) {
+            BehaviourOptions opts = new BehaviourOptions(players.elementAt(i));
+            playersOptions[i] = opts;
+            mainPanel.add(opts);
+        }
+        mainPanel.add(submitButton);
+        checkRadioButtons(players);
+        pack();
+    }
     
     /**
      * Check the radio buttons corresponding to players' type
@@ -88,6 +102,11 @@ public class StrategyDialog extends JDialog {
         }
     }
     
+    
+    // endregion
+    
+    // region MVC & Observer pattern methods
+    
     /**
      * Add the listener for submit strategy selections button
      *
@@ -95,20 +114,6 @@ public class StrategyDialog extends JDialog {
      */
     public void addSubmitButtonListener(ActionListener listenerForSubmitButton) {
         submitButton.addActionListener(listenerForSubmitButton);
-    }
-    
-    
-    // endregion
-    
-    // region MVC & Observer pattern methods
-    
-    /**
-     * Gets the strategy path
-     *
-     * @return the strategy path
-     */
-    public static String getSTRATEGY_PATH() {
-        return Config.STRATEGY_PATH;
     }
     
     /**

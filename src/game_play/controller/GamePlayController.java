@@ -65,6 +65,7 @@ public class GamePlayController {
         this.callerController = callerController;
         gamePlayModel = new GamePlayModel();
         gamePlayFrame = new GamePlayFrame(callerController);
+        strategyDialog = new StrategyDialog(gamePlayFrame);
         gamePlayFrame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
         registerObserversToObservable();
         registerToBeListener();
@@ -82,6 +83,7 @@ public class GamePlayController {
         this.callerController = callerController;
         gamePlayModel = new GamePlayModel();
         gamePlayFrame = new GamePlayFrame(callerController);
+        strategyDialog = new StrategyDialog(gamePlayFrame);
         gamePlayFrame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
         registerObserversToObservable();
         registerToBeListener();
@@ -116,7 +118,7 @@ public class GamePlayController {
         
         gamePlayFrame.addSaveMenuListener(e -> saveGameState());
         gamePlayFrame.addLoadMenuListener(e -> loadSavedGame());
-        gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions());
+        gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions(gamePlayModel.getPlayers()));
         gamePlayFrame.addOpenDefendingDialogButtonListener(e -> openDefendingDialog());
         
         /* Play button to start the game */
@@ -149,6 +151,8 @@ public class GamePlayController {
         ));
         gamePlayFrame.getFortificationPanel().addNextPlayerButtonListener(e -> changeToNextPlayer());
         
+        /* For Strategy Panel */
+        strategyDialog.addSubmitButtonListener(e -> setStrategy());
     }
     
     /**
@@ -197,10 +201,13 @@ public class GamePlayController {
     
     /**
      * Setting the player's strategy
+     * @param players the players to populate the strategy dialog
      */
-    private void showStrategyOptions() {
-        strategyDialog = new StrategyDialog(this, gamePlayFrame, gamePlayModel.getPlayers());
-        strategyDialog.addSubmitButtonListener(e -> setStrategy(strategyDialog));
+    private void showStrategyOptions(Vector<Player> players) {
+        strategyDialog.populateOptions(players);
+        strategyDialog.revalidate();
+        strategyDialog.repaint();
+        strategyDialog.setVisible(true);
     }
     
     /**
@@ -212,7 +219,7 @@ public class GamePlayController {
             int enteredPlayers = Integer.parseInt(gamePlayFrame.getGameSetupPanel().getPlayerCount().getText());
             if ((enteredPlayers > 1) && (enteredPlayers <= gamePlayModel.getGameMap().getMaxPlayers())) {
                 gamePlayModel.initializeNewGame(enteredPlayers);
-                showStrategyOptions();
+                showStrategyOptions(gamePlayModel.getPlayers());
             } else if (enteredPlayers == 1) {
                 gamePlayModel.initializeNewGame(enteredPlayers);
                 UIHelper.displayMessage(gamePlayFrame, "Player 1 Wins!");
@@ -598,9 +605,8 @@ public class GamePlayController {
     /**
      * Sets the player strategy as selected in StrategyDialog
      *
-     * @param strategyDialog the strategy options UI
      */
-    public void setStrategy(StrategyDialog strategyDialog) {
+    private void setStrategy() {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
         strategyDialog.dispose();
         gamePlayModel.setPlayersType(opts);

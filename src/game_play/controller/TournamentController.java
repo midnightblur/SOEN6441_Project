@@ -11,6 +11,7 @@ import game_play.model.GamePlayModel;
 import game_play.view.screens.StrategyDialog;
 import game_play.view.screens.TournamentFrame;
 import shared_resources.game_entities.GameMap;
+import shared_resources.game_entities.Player;
 import shared_resources.helper.UIHelper;
 import shared_resources.utilities.Config;
 
@@ -27,11 +28,12 @@ import static shared_resources.helper.GameMapHelper.loadGameMap;
  * @author Team 2
  * @version 3.0
  */
-public class TournamentController extends GamePlayController {
+public class TournamentController {
     // region Attribute declaration
     private TournamentFrame tournamentFrame;
     private MainMenuController callerController;
     private Vector<GamePlayModel> tournamentSet;
+    private StrategyDialog strategyDialog;
     // endregion
     
     // region Constructors
@@ -42,7 +44,6 @@ public class TournamentController extends GamePlayController {
      * @param callerController the caller controller
      */
     public TournamentController(MainMenuController callerController) {
-        super(callerController);
         this.callerController = callerController;
         tournamentFrame = new TournamentFrame();
         tournamentSet = new Vector<>();
@@ -51,6 +52,9 @@ public class TournamentController extends GamePlayController {
         
         /* update map list and populate dropdown */
         tournamentFrame.getMapList().setModel(updateListOfMaps());
+    
+        strategyDialog = new StrategyDialog(tournamentFrame);
+        strategyDialog.addSubmitButtonListener(e -> setStrategy());
     }
     // endregion
     
@@ -103,8 +107,8 @@ public class TournamentController extends GamePlayController {
                 gamePlayModel.initializeNewGame(enteredPlayers);
             }
             /* Pop-up the strategy dialog that will set the strategy for each game */
-            showStrategyOptions();
             tournamentFrame.dispose();
+            showStrategyOptions(tournamentSet.firstElement().getPlayers());
         }
     
     /* For each game model in the set, start the game */
@@ -178,19 +182,20 @@ public class TournamentController extends GamePlayController {
     
     /**
      * Setting the player's strategy
+     * @param players the players to populate the strategy dialog
      */
-    private void showStrategyOptions() {
-        StrategyDialog strategyDialog = new StrategyDialog(this, tournamentFrame, tournamentSet.firstElement().getPlayers());
-        strategyDialog.addSubmitButtonListener(e -> setStrategy(strategyDialog));
+    private void showStrategyOptions(Vector<Player> players) {
+        strategyDialog.populateOptions(players);
+        strategyDialog.revalidate();
+        strategyDialog.repaint();
+        strategyDialog.setVisible(true);
     }
     
     /**
      * Sets the player strategy as selected in StrategyDialog
      *
-     * @param strategyDialog the strategy options UI
      */
-    @Override
-    public void setStrategy(StrategyDialog strategyDialog) {
+    private void setStrategy() {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
         strategyDialog.dispose();
         for (GamePlayModel gamePlayModel : tournamentSet) {
