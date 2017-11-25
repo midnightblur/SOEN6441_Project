@@ -196,10 +196,10 @@ public class AggressiveBot extends Bot {
             // Set player to be new owner of the conquered territory
             conquerTerritoryForBots(gamePlayModel);
             
-            // Move as little armies (1) as possible to the conquered territory
+            // Move as little armies as possible to the conquered territory (equal to the number of dice used for the attacker)
             Territory fromTerritory = gamePlayModel.getCurrentBattle().getAttackingTerritory();
             Territory toTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
-            int noOfArmies = 1;
+            int noOfArmies = gamePlayModel.getCurrentBattle().getAttackerDice().getRollsCount();
             fromTerritory.reduceArmies(noOfArmies);
             toTerritory.addArmies(noOfArmies);
             log.append("            " + fromTerritory.getOwner().getPlayerName() + " moves " + noOfArmies + " armies from " +
