@@ -74,6 +74,7 @@ public class StrategyDialog extends JDialog {
     
     /**
      * Populates the strategy dialog from a players vector once available
+     *
      * @param players the vector of players to populate the dialog
      */
     public void populateOptions(Vector<Player> players) {
@@ -102,6 +103,20 @@ public class StrategyDialog extends JDialog {
         }
     }
     
+    /**
+     * Disable "Human" option
+     */
+    public void disableHumans() {
+        for (int i = 0; i < playersOptions.length; i++) {
+            Enumeration<AbstractButton> b = playersOptions[i].getGroup().getElements();
+            while (b.hasMoreElements()) {
+                AbstractButton r = b.nextElement();
+                if (r.getText().contains("Human")) {
+                    r.setEnabled(false);
+                }
+            }
+        }
+    }
     
     // endregion
     

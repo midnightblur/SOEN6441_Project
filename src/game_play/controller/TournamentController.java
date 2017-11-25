@@ -186,6 +186,7 @@ public class TournamentController {
      */
     private void showStrategyOptions(Vector<Player> players) {
         strategyDialog.populateOptions(players);
+        strategyDialog.disableHumans();
         strategyDialog.revalidate();
         strategyDialog.repaint();
         strategyDialog.setVisible(true);
