@@ -564,8 +564,7 @@ public class GamePlayController {
         }
         
         /* Display dialog to let the winning attacker to move armies to conquered territory */
-        else if (
-                gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
+        else if (gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
             openMoveArmiesToConqueredTerritoryDialog();
         }
     }

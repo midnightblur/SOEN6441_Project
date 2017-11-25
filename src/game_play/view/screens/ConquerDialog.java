@@ -53,9 +53,9 @@ public class ConquerDialog extends JDialog {
         mainPanel.add(instructionLabel);
     
         moveArmiesDropdown = new JComboBox<>();
-        int maxMovableArmies = currentBattle.getAttackingTerritory().getArmies() - 1;
+        int maxMovableArmies = currentBattle.getAttackingTerritory().getArmies() - 1;  // maximum armies that could be moved should be equal to the attacking territory's total army - 1
         Vector<Integer> moveArmiesChoices = new Vector<>();
-        for (int i = 1; i <= maxMovableArmies; i++) {
+        for (int i = currentBattle.getAttackerDice().getRollsCount(); i <= maxMovableArmies; i++) {  // minimum armies that must be moved should be equal to the number of atk dice used
             moveArmiesChoices.add(i);
         }
         moveArmiesDropdown.setModel(new DefaultComboBoxModel<>(moveArmiesChoices.toArray(new Integer[moveArmiesChoices.size()])));
