@@ -149,7 +149,8 @@ public class RandomBot extends Bot {
             Random rand = new Random();
             Territory fromTerritory = gamePlayModel.getCurrentBattle().getAttackingTerritory();
             Territory toTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
-            int noOfArmies = 1 + rand.nextInt(fromTerritory.getArmies() - 1);
+            int noOfArmies = gamePlayModel.getCurrentBattle().getAttackerDice().getRollsCount()
+                    + rand.nextInt(fromTerritory.getArmies() - gamePlayModel.getCurrentBattle().getAttackerDice().getRollsCount());
             fromTerritory.reduceArmies(noOfArmies);
             toTerritory.addArmies(noOfArmies);
             log.append("            " + fromTerritory.getOwner().getPlayerName() + " moves " + noOfArmies + " armies from " +
