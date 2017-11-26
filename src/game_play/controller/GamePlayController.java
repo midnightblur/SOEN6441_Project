@@ -120,6 +120,7 @@ public class GamePlayController {
         gamePlayFrame.addLoadMenuListener(e -> loadSavedGame());
         gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions(gamePlayModel.getPlayers()));
         gamePlayFrame.addOpenDefendingDialogButtonListener(e -> openDefendingDialog());
+        gamePlayFrame.addLetBotPlayButtonListener(e -> startBotTurn());
         
         /* Play button to start the game */
         gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> gameStartupPhase());
@@ -400,6 +401,10 @@ public class GamePlayController {
         gamePlayModel.setCurrentBattle(null);
         
         gamePlayModel.changePhaseOfCurrentPlayer(FORTIFICATION);
+    }
+    
+    private void startBotTurn() {
+        gamePlayModel.letBotsPlay();
     }
     
     // endregion

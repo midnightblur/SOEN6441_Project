@@ -530,10 +530,6 @@ public class GamePlayModel extends Observable implements Serializable {
         addReinforcementForCurrPlayer();
         updatePlayerTerritoriesModel();
         broadcastGamePlayChanges();
-        
-        if (!currentPlayer.isHuman()) {
-            letBotsPlay();
-        }
     }
     
     /**
@@ -1036,7 +1032,6 @@ public class GamePlayModel extends Observable implements Serializable {
      * Broadcast the change to Observers.
      */
     public void nextPlayerTurn() {
-        
         currentPlayer = getNextPlayer();
         log.append("==============================================");
         log.append(currentPlayer.getPlayerName() + "'s turn begins");
@@ -1045,10 +1040,6 @@ public class GamePlayModel extends Observable implements Serializable {
         addReinforcementForCurrPlayer();
         updatePlayerTerritoriesModel();
         broadcastGamePlayChanges();
-        
-        if (!currentPlayer.isHuman()) {
-            letBotsPlay();
-        }
     }
     // endregion
     
@@ -1069,7 +1060,7 @@ public class GamePlayModel extends Observable implements Serializable {
     // region Public methods
     
     // region Private methods
-    private void letBotsPlay() {
+    public void letBotsPlay() {
         // Bots reinforce and declare attack if it wants
         botsReinforcement();
         

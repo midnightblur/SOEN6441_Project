@@ -11,6 +11,7 @@ import game_play.model.GamePlayModel;
 import game_play.view.ui_components.*;
 import shared_resources.game_entities.Player;
 import shared_resources.helper.UIHelper;
+import shared_resources.utilities.Config;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,7 +50,8 @@ public class GamePlayFrame extends JFrame implements Observer {
     private AttackingPanel attackingPanel;
     private Vector<Player> playersList;
     private MainMenuController callerController;
-    private JButton openDefendingDialogButton;
+    private JButton openDefendingDialogButton; // invisible button to activate DefendingDialog for human player
+    private JButton letBotPlayButton; // invisible button to activate a bot player's turn
     // endregion
     
     // region Constructors
@@ -106,6 +108,7 @@ public class GamePlayFrame extends JFrame implements Observer {
         
         /* Setup invisible components */
         openDefendingDialogButton = new JButton();
+        letBotPlayButton = new JButton();
         
         /* Setup & Display frame */
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
@@ -220,6 +223,15 @@ public class GamePlayFrame extends JFrame implements Observer {
     public void addOpenDefendingDialogButtonListener(ActionListener listenerForOpenDefendingDialogButton) {
         openDefendingDialogButton.addActionListener(listenerForOpenDefendingDialogButton);
     }
+    
+    /**
+     * Adds let bot player button listener
+     *
+     * @param listenerForLetBotPlayButton the listener for let bot play button
+     */
+    public void addLetBotPlayButtonListener(ActionListener listenerForLetBotPlayButton) {
+        letBotPlayButton.addActionListener(listenerForLetBotPlayButton);
+    }
 // endregion
     
     // region Public methods
@@ -324,6 +336,9 @@ public class GamePlayFrame extends JFrame implements Observer {
                 if (gamePlayModel.isNeedDefenderReaction() && !gamePlayModel.getCurrentPlayer().isHuman()) {
                     gamePlayModel.setNeedDefenderReaction(false);
                     openDefendingDialogButton.doClick();
+                } else if (!gamePlayModel.getCurrentPlayer().isHuman() &&
+                        gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.REINFORCEMENT) {
+                    letBotPlayButton.doClick();
                 } else if (gamePlayModel.getCurrentPlayer().isHuman()) {
                     gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
             
