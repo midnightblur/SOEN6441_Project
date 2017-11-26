@@ -48,6 +48,7 @@ public class RandomBot extends Bot {
         boolean doAttack = rand.nextBoolean();
         
         if (doAttack) {
+            boolean hasAttacked = false;
             Vector<Territory> territories = new Vector<>(player.getTerritories());
             while (territories.size() > 0) {
                 // Find a random territory
@@ -60,6 +61,10 @@ public class RandomBot extends Bot {
                 if (randomTerritory.getArmies() >= 2) {
                     // Find one of its neighbor owned by another player
                     for (String neighborName : randomTerritory.getNeighbors()) {
+                        if (hasAttacked) {
+                            break;
+                        }
+                        
                         Territory neighbor = gamePlayModel.getGameMap().getATerritory(neighborName);
                         if (!neighbor.isOwnedBy(player)) {
                             // Declare an attack using a random choice of number of dice
@@ -67,17 +72,22 @@ public class RandomBot extends Bot {
                             int attackerDice = 1 + rand.nextInt(maxAttackerDice);
                             gamePlayModel.setCurrentBattle(new Battle(player, randomTerritory, attackerDice,
                                     neighbor.getOwner(), neighbor));
-                            break;
+                            
+                            hasAttacked = true;
                         }
                     }
-                    break;
+                    
+                    if (hasAttacked) {
+                        break;
+                    }
                 }
                 
                 // If this territory choice cannot attack any territory, prevent it from being chosen again
                 territories.remove(randomTerritory);
+                territories.trimToSize();
             }
             
-            if (territories.size() == 0) {
+            if (!hasAttacked) {
                 log.append("        " + player.getPlayerName() + " cannot attack anymore");
                 gamePlayModel.setCurrentBattle(null);
             }
