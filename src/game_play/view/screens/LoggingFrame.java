@@ -28,6 +28,9 @@ import static shared_resources.utilities.Config.LOG_FILE_NAME;
 public class LoggingFrame extends JFrame {
     private static LoggingFrame instance = null;
     private static JTextArea logArea;
+    private static Path logPath = Paths.get(LOG_FILE_NAME);
+    private static Charset charset = Charset.forName("UTF-8");
+    private static BufferedWriter bufferedWriter;
     
     // region Constructors
     
@@ -46,8 +49,9 @@ public class LoggingFrame extends JFrame {
         frame.pack();
         frame.setVisible(true);
         frame.setSize(500, 1000);
-        // delete log file if exists
+        // delete log file if exists at beginning of game session
         new File(LOG_FILE_NAME).delete();
+        
     }
     
     /**
@@ -72,9 +76,11 @@ public class LoggingFrame extends JFrame {
      */
     public static void append(String text) {
         dumpLog(text);
+        
         if (logArea.getText().length() > 100000) {
             logArea.setText("");
         }
+        
         logArea.append("\n" + text);
         logArea.repaint();
         logArea.setCaretPosition(logArea.getDocument().getLength());
@@ -82,37 +88,19 @@ public class LoggingFrame extends JFrame {
     
     /**
      * Dumps the log to file if too large
+     *
+     * @param text the text string to be appended to file
      */
     private static void dumpLog(String text) {
-        Path logPath = Paths.get(LOG_FILE_NAME);
-        Charset charset = Charset.forName("UTF-8");
-        BufferedWriter bufferedWriter;
         try {
             bufferedWriter = Files.newBufferedWriter(logPath, charset, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             bufferedWriter.append(text);
             bufferedWriter.newLine();
+            bufferedWriter.flush();
             bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    
-    /**
-     * Gets logArea
-     *
-     * @return Value of logArea.
-     */
-    public static JTextArea getLogArea() {
-        return logArea;
-    }
-    
-    /**
-     * Sets new logArea.
-     *
-     * @param logArea New value of logArea.
-     */
-    public void setLogArea(JTextArea logArea) {
-        LoggingFrame.logArea = logArea;
     }
     // endregion
 }
