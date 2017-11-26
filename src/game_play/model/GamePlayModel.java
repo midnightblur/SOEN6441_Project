@@ -499,6 +499,7 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     public void startTheGame() {
         setGameState(PLAY);
+        log.append("==============================================");
         log.append("The game starts");
         currentPlayer = players.firstElement();
         log.append("==============================================");

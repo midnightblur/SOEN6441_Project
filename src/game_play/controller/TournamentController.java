@@ -8,6 +8,7 @@ package game_play.controller;
 
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
+import game_play.view.screens.ResultsFrame;
 import game_play.view.screens.StrategyDialog;
 import game_play.view.screens.TournamentFrame;
 import shared_resources.game_entities.GameMap;
@@ -34,6 +35,7 @@ public class TournamentController {
     private MainMenuController callerController;
     private Vector<GamePlayModel> tournamentSet;
     private StrategyDialog strategyDialog;
+    private ResultsFrame resultsFrame;
     // endregion
     
     // region Constructors
@@ -52,13 +54,13 @@ public class TournamentController {
         
         /* update map list and populate dropdown */
         tournamentFrame.getMapList().setModel(updateListOfMaps());
-    
+        
         strategyDialog = new StrategyDialog(tournamentFrame);
+        resultsFrame = new ResultsFrame();
+        
         strategyDialog.addSubmitButtonListener(e -> setStrategy());
+        resultsFrame.addOKButtonListener(e -> quit());
     }
-    // endregion
-    
-    // region Starting the tournament
     
     /**
      * Validate the selected map, launch the game if it is valid, show a message if it is not.
@@ -112,19 +114,20 @@ public class TournamentController {
         }
     
     /* For each game model in the set, start the game */
-        GamePlayModel gameToPlay = new GamePlayModel();
+        GamePlayModel gameToPlay;
         for (GamePlayModel gamePlayModel : tournamentSet) {
             for (int i = 0; i < enteredGames; i++) {
                 /* Play a copy of the game so we can replay from start if needed */
-                gameToPlay.setGamePlayModel(gamePlayModel);
+                gameToPlay = gamePlayModel;
                 gameToPlay.setMaxTurns(enteredMaxTurns);
                 gameToPlay.startTheGame();
             }
         }
+        resultsFrame.setVisible(true);
     }
     // endregion
     
-    // region Methods to handle events from UI
+    // region Starting the tournament
     
     /**
      * Close MapSelectorFrame, invoke MainMenuFrame.
@@ -133,6 +136,9 @@ public class TournamentController {
         tournamentFrame.dispose();
         UIHelper.invokeFrame(callerController.getMainMenuFrame());
     }
+    // endregion
+    
+    // region Methods to handle events from UI
     
     /**
      * Show the list of map files to the JComboBox.
@@ -143,9 +149,24 @@ public class TournamentController {
         Vector<String> mapList = new Vector<>(getMapsInFolder(Config.MAPS_FOLDER));
         return new DropDownModel(mapList);
     }
+    
+    /**
+     * Sets the player strategy as selected in StrategyDialog
+     */
+    private void setStrategy() {
+        StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
+        strategyDialog.dispose();
+        for (GamePlayModel gamePlayModel : tournamentSet) {
+            gamePlayModel.setPlayersType(opts);
+        }
+    }
     // endregion
     
     // region for Tournament helpers
+    
+    private void quit() {
+        System.exit(0);
+    }
     
     /**
      * Validate UI entries against a min and max values
@@ -179,9 +200,9 @@ public class TournamentController {
         return entry;
     }
     
-    
     /**
      * Setting the player's strategy
+     *
      * @param players the players to populate the strategy dialog
      */
     private void showStrategyOptions(Vector<Player> players) {
@@ -190,18 +211,6 @@ public class TournamentController {
         strategyDialog.revalidate();
         strategyDialog.repaint();
         strategyDialog.setVisible(true);
-    }
-    
-    /**
-     * Sets the player strategy as selected in StrategyDialog
-     *
-     */
-    private void setStrategy() {
-        StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
-        strategyDialog.dispose();
-        for (GamePlayModel gamePlayModel : tournamentSet) {
-            gamePlayModel.setPlayersType(opts);
-        }
     }
     // endregion
 }
