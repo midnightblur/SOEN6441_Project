@@ -6,7 +6,7 @@
  */
 package game_play.view.screens;
 
-import game_play.model.GamePlayModel;
+import game_play.model.TournamentResultsModel;
 import shared_resources.helper.UIHelper;
 
 import javax.swing.*;
@@ -102,8 +102,8 @@ public class ResultsFrame extends JFrame implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        if (o instanceof GamePlayModel) {
-//            resultsTable.setModel(((GamePlayModel) o).getResultsModel());
+        if (o instanceof TournamentResultsModel) {
+            resultsTable.setModel(((TournamentResultsModel) o).getResultsModel());
         }
     }
     // endregion

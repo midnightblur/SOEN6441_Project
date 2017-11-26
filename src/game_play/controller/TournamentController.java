@@ -8,6 +8,7 @@ package game_play.controller;
 
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
+import game_play.model.TournamentResultsModel;
 import game_play.view.screens.ResultsFrame;
 import game_play.view.screens.StrategyDialog;
 import game_play.view.screens.TournamentFrame;
@@ -37,6 +38,7 @@ public class TournamentController {
     private Vector<GamePlayModel> tournamentSet;
     private StrategyDialog strategyDialog;
     private ResultsFrame resultsFrame;
+    private TournamentResultsModel tournamentResultsModel;
     // endregion
     
     // region Constructors
@@ -57,7 +59,6 @@ public class TournamentController {
         tournamentFrame.getMapList().setModel(updateListOfMaps());
         
         strategyDialog = new StrategyDialog(tournamentFrame);
-        
         strategyDialog.addSubmitButtonListener(e -> setStrategy());
     }
     
@@ -114,7 +115,10 @@ public class TournamentController {
             showStrategyOptions(tournamentSet.firstElement().getPlayers());
         }
     
-    /* For each game model in the set, start the game */
+        /* Instantiate a result model */
+        tournamentResultsModel = new TournamentResultsModel(tournamentSet, enteredGames);
+        
+        /* For each game model in the set, start the game */
         GamePlayModel gameToPlay;
         for (GamePlayModel gamePlayModel : tournamentSet) {
             for (int i = 0; i < enteredGames; i++) {
@@ -126,6 +130,7 @@ public class TournamentController {
             }
         }
         resultsFrame = new ResultsFrame();
+        tournamentResultsModel.addObserver(resultsFrame);
         resultsFrame.addOKButtonListener(e -> backToMainMenu());
     }
     // endregion
