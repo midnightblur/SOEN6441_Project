@@ -758,7 +758,7 @@ public class GamePlayModel extends Observable implements Serializable {
         
         updateGameMapTableModel();
         broadcastGamePlayChanges();
-
+        
         return message;
     }
     
@@ -808,6 +808,7 @@ public class GamePlayModel extends Observable implements Serializable {
         
         // Declare winner if there is only 1 player left
         if (gameVictory(attacker)) {
+            setGameState(VICTORY);
             String message = attacker.getPlayerName() + " wins the game!";
             log.append("\n");
             log.append("!!!!!!!!!!!!!!!!!! " + message + "!!!!!!!!!!!!!!!!!!");
@@ -834,6 +835,7 @@ public class GamePlayModel extends Observable implements Serializable {
         }
         if (isVictory) {
             attackingPlayer.setGameState(VICTORY);
+            setGameState(VICTORY);
         }
         return isVictory;
     }
@@ -996,7 +998,9 @@ public class GamePlayModel extends Observable implements Serializable {
     public String moveArmiesFortification(String sourceTerritory, String targetTerritory, int noOfArmies) {
         String message = currentPlayer.fortification(this, sourceTerritory, targetTerritory, noOfArmies);
         if (message.contains("Successfully moved")) {
-            nextPlayerTurn();
+            if (gameState != VICTORY) {
+                nextPlayerTurn();
+            }
         }
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -1010,6 +1014,7 @@ public class GamePlayModel extends Observable implements Serializable {
      * Broadcast the change to Observers.
      */
     public void nextPlayerTurn() {
+        
         currentPlayer = getNextPlayer();
         log.append("==============================================");
         log.append(currentPlayer.getPlayerName() + "'s turn begins");
@@ -1087,8 +1092,9 @@ public class GamePlayModel extends Observable implements Serializable {
             // Fortification phase
             currentPlayer.nextPhase();
             currentPlayer.fortification(this, null, null, -1);
-            
-            nextPlayerTurn();
+            if (gameState != VICTORY) {
+                nextPlayerTurn();
+            }
         } else {
             botsAttack();
         }
