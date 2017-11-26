@@ -34,8 +34,10 @@ public abstract class Bot implements PlayerType {
         Vector<Card> cavalryCards = new Vector<>();
         Vector<Card> artilleryCards = new Vector<>();
         if (player.getPlayersHand().size() >= Config.MIN_CARDS_TO_TRADE) {
+            log.append("    " + player.getPlayerName() + "'s hand has");
             for (int i = 0; i < player.getPlayersHand().size(); i++) {
                 Card card = player.getPlayersHand().get(i);
+                log.append("        " + card.getCardType());
                 switch (card.getCardType()) {
                     case INFANTRY:
                         infantryCards.addElement(card);
@@ -93,6 +95,7 @@ public abstract class Bot implements PlayerType {
             }
             /* if cannot trade anymore */
             else {
+                log.append("    " + player.getPlayerName() + " cannot trade anymore");
                 break;
             }
             

@@ -1100,20 +1100,23 @@ public class GamePlayModel extends Observable implements Serializable {
         decideBattleResultIfPossible();
         conquerTerritoryIfPossible();
         currentBattle = null;
+    
+        if (gameState == VICTORY) {
+            broadcastGamePlayChanges();
+            return;
+        }
         
         if (!continueAttack) {
             // Fortification phase
             currentPlayer.nextPhase();
             currentPlayer.fortification(this, null, null, -1);
-            if (gameState != VICTORY) {
-                nextPlayerTurn();
-            }
+            nextPlayerTurn();
         } else {
             botsAttack();
         }
         
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
+//        updateGameMapTableModel();
+//        broadcastGamePlayChanges();
     }
     
     /**
