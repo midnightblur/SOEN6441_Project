@@ -68,7 +68,7 @@ public class RandomBot extends Bot {
                         Territory neighbor = gamePlayModel.getGameMap().getATerritory(neighborName);
                         if (!neighbor.isOwnedBy(player)) {
                             // Declare an attack using a random choice of number of dice
-                            int maxAttackerDice = Math.min(3, randomTerritory.getArmies());
+                            int maxAttackerDice = Math.min(3, randomTerritory.getArmies() - 1);
                             int attackerDice = 1 + rand.nextInt(maxAttackerDice);
                             gamePlayModel.setCurrentBattle(new Battle(player, randomTerritory, attackerDice,
                                     neighbor.getOwner(), neighbor));
