@@ -306,7 +306,10 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     public void initializeNewGame(int numOfPlayers) {
         gameState = STARTUP;
-
+        log.append("#####################################");
+        log.append("Starting new game");
+        log.append("    Number of continents: " + gameMap.getContinentsCount());
+        log.append("    Number of territories: " + gameMap.getTerritoriesCount());
          /* Initialization of game attributes */
         Player.resetStaticNextID();
         initPlayers(numOfPlayers);
@@ -324,9 +327,6 @@ public class GamePlayModel extends Observable implements Serializable {
         assignOneArmyPerTerritory();
         updateGameMapTableModel();
         broadcastGamePlayChanges();
-        log.append("Starting new game");
-        log.append("    Number of continents: " + gameMap.getContinentsCount());
-        log.append("    Number of territories: " + gameMap.getTerritoriesCount());
         log.append("    Deck size: " + deck.size());
     }
     
@@ -336,7 +336,7 @@ public class GamePlayModel extends Observable implements Serializable {
      *
      * @param numOfPlayers the num of players
      */
-    private void initPlayers(int numOfPlayers) {
+    public void initPlayers(int numOfPlayers) {
         log.append("Initializing " + numOfPlayers + " players...");
         
         for (int i = 0; i < numOfPlayers; i++) {
@@ -404,10 +404,6 @@ public class GamePlayModel extends Observable implements Serializable {
         log.append("    Finish assigning territories to players");
     }
     
-    // endregion
-    
-    // region For Startup Phase
-    
     /**
      * This method gives initial armies per player according to the following algorithm:
      * <ul>
@@ -422,6 +418,7 @@ public class GamePlayModel extends Observable implements Serializable {
             player.setUnallocatedArmies(armiesToGive);
         }
     }
+    
     // endregion
     
     // region For Startup Phase
@@ -439,12 +436,36 @@ public class GamePlayModel extends Observable implements Serializable {
             player.reduceUnallocatedArmies(gameMap.getTerritoriesOfPlayer(player).size());
         }
     }
+    // endregion
+    
+    // region For Startup Phase
     
     /**
      * Update the GameMapTableModel according to the newly updated GameMap object.
      */
     private void updateGameMapTableModel() {
         mapTableModel.updateMapTableModel(gameMap, gameState);
+    }
+    
+    /**
+     * A subset of GamePlayModel#initializeNewGame(int) used to start the game
+     * once players are already allocated in Tournament mode
+     *
+     * @see GamePlayModel#initializeNewGame(int)
+     */
+    public void initializeNewGameForTournament() {
+        log.append("#####################################");
+        log.append("Starting new game");
+        log.append("    Number of continents: " + gameMap.getContinentsCount());
+        log.append("    Number of territories: " + gameMap.getTerritoriesCount());
+        initDeck();
+        distributeTerritories();
+        giveInitialArmies();
+        currentPlayer = players.firstElement();
+        assignOneArmyPerTerritory();
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+        log.append("    Deck size: " + deck.size());
     }
     
     /**

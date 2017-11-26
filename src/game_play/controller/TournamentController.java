@@ -22,6 +22,7 @@ import java.util.Vector;
 
 import static shared_resources.helper.GameMapHelper.getMapsInFolder;
 import static shared_resources.helper.GameMapHelper.loadGameMap;
+import static shared_resources.utilities.Config.GAME_STATES.STARTUP;
 
 /**
  * TODO
@@ -56,10 +57,8 @@ public class TournamentController {
         tournamentFrame.getMapList().setModel(updateListOfMaps());
         
         strategyDialog = new StrategyDialog(tournamentFrame);
-        resultsFrame = new ResultsFrame();
         
         strategyDialog.addSubmitButtonListener(e -> setStrategy());
-        resultsFrame.addOKButtonListener(e -> quit());
     }
     
     /**
@@ -106,7 +105,9 @@ public class TournamentController {
         if (enteredPlayers > -1) {
             /* initialize each game */
             for (GamePlayModel gamePlayModel : tournamentSet) {
-                gamePlayModel.initializeNewGame(enteredPlayers);
+                gamePlayModel.setGameState(STARTUP);
+                Player.resetStaticNextID();
+                gamePlayModel.initPlayers(enteredPlayers);
             }
             /* Pop-up the strategy dialog that will set the strategy for each game */
             tournamentFrame.dispose();
@@ -119,11 +120,13 @@ public class TournamentController {
             for (int i = 0; i < enteredGames; i++) {
                 /* Play a copy of the game so we can replay from start if needed */
                 gameToPlay = gamePlayModel;
+                gameToPlay.initializeNewGameForTournament();
                 gameToPlay.setMaxTurns(enteredMaxTurns);
                 gameToPlay.startTheGame();
             }
         }
-        resultsFrame.setVisible(true);
+        resultsFrame = new ResultsFrame();
+        resultsFrame.addOKButtonListener(e -> backToMainMenu());
     }
     // endregion
     
@@ -163,10 +166,6 @@ public class TournamentController {
     // endregion
     
     // region for Tournament helpers
-    
-    private void quit() {
-        System.exit(0);
-    }
     
     /**
      * Validate UI entries against a min and max values
@@ -211,6 +210,10 @@ public class TournamentController {
         strategyDialog.revalidate();
         strategyDialog.repaint();
         strategyDialog.setVisible(true);
+    }
+    
+    private void quit() {
+        System.exit(0);
     }
     // endregion
 }

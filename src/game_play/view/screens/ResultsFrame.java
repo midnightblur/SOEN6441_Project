@@ -25,11 +25,11 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
 public class ResultsFrame extends JFrame implements Observer {
     // region Attributes declaration
     private static final String TITLE = "Results";
-    private static final String OK_BUTTON = "OK";
+    private static final String BACK_BUTTON = "Return to main menu";
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 500;
     private JTable resultsTable;
-    private JButton okButton;
+    private JButton returnToMainButton;
     // endregion
     
     // region Constructors
@@ -40,7 +40,6 @@ public class ResultsFrame extends JFrame implements Observer {
     public ResultsFrame() {
         setupContentPane();
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
-        this.setVisible(false);
     }
     // endregion
     
@@ -57,13 +56,13 @@ public class ResultsFrame extends JFrame implements Observer {
         resultsTable = new JTable();
         resultsTable.setName("MAP SELECTION");
         
-        okButton = new JButton(OK_BUTTON);
+        returnToMainButton = new JButton(BACK_BUTTON);
         
         JScrollPane scrollPane = new JScrollPane(resultsTable);
         contentPane.add(scrollPane);
         addVerticalSpacing(contentPane);
         
-        contentPane.add(okButton);
+        contentPane.add(returnToMainButton);
         
         this.setContentPane(contentPane);
     }
@@ -88,7 +87,7 @@ public class ResultsFrame extends JFrame implements Observer {
      * @param listenerForOKButton the listener for OK button
      */
     public void addOKButtonListener(ActionListener listenerForOKButton) {
-        okButton.addActionListener(listenerForOKButton);
+        returnToMainButton.addActionListener(listenerForOKButton);
     }
     
     
