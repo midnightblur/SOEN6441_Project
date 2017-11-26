@@ -307,10 +307,10 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     public void initializeNewGame(int numOfPlayers) {
         gameState = STARTUP;
-        LoggingFrame.append("#####################################");
-        LoggingFrame.append("Starting new game");
-        LoggingFrame.append("    Number of continents: " + gameMap.getContinentsCount());
-        LoggingFrame.append("    Number of territories: " + gameMap.getTerritoriesCount());
+        log.append("#####################################");
+        log.append("Starting new game");
+        log.append("    Number of continents: " + gameMap.getContinentsCount());
+        log.append("    Number of territories: " + gameMap.getTerritoriesCount());
          /* Initialization of game attributes */
         Player.resetStaticNextID();
         initPlayers(numOfPlayers);
