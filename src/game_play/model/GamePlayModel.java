@@ -245,7 +245,7 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     public String getWinner() {
         if (gameState == VICTORY) {
-            return winner.getPlayerName();
+            return winner.getPlayerName() + " [" + winner.getPlayerType().getClass().getSimpleName() + "]";
         } else {
             return "Draw";
         }
@@ -1082,7 +1082,6 @@ public class GamePlayModel extends Observable implements Serializable {
             
             botsAttack();
         }
-        System.out.println("We reached max turns " + turnCounter);
     }
     
     // endregion

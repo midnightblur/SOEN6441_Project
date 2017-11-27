@@ -130,7 +130,7 @@ public class TournamentController {
                 gameToPlay.startTheGame();
                 gameToPlay.letBotsPlay();
                 // collect the winner of the game
-                resultLines[r][i + 1] = gameToPlay.getWinner();
+                resultLines[r][i + 1] = gameToPlay.getWinner() + " " + (gameToPlay.getTurnCounter() - 1) + " turns";
             }
             r++;
         }
@@ -155,6 +155,7 @@ public class TournamentController {
      */
     private void backToMainMenu() {
         tournamentFrame.dispose();
+        if (resultsFrame != null) resultsFrame.dispose();
         UIHelper.invokeFrame(callerController.getMainMenuFrame());
     }
     // endregion
