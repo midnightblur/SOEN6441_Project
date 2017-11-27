@@ -121,6 +121,8 @@ public class GamePlayController {
         gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions(gamePlayModel.getPlayers()));
         gamePlayFrame.addOpenDefendingDialogButtonListener(e -> openDefendingDialog());
         gamePlayFrame.addLetBotPlayButtonListener(e -> startBotTurn());
+        gamePlayFrame.addPopupVictoryDialogButtonListener(e -> announceVictoryIfPossible(
+                gamePlayModel.getCurrentPlayer().getPlayerName() + " is the winner"));
         
         /* Play button to start the game */
         gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> gameStartupPhase());
@@ -562,9 +564,10 @@ public class GamePlayController {
     private void announceVictoryIfPossible(String message) {
         // If outcome is victory
         if (gamePlayModel.getCurrentPlayer().getGameState() == VICTORY) {
+            gamePlayModel.setGameState(SETUP);
             UIHelper.displayMessage(gamePlayFrame, message);
-            UIHelper.closeFrame(gamePlayFrame);
             UIHelper.invokeFrame(callerController.getMainMenuFrame());
+            UIHelper.disableFrame(gamePlayFrame);
         }
         
         /* Declare draw if turns are used-up*/

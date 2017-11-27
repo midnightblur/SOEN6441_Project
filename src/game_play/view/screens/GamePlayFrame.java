@@ -52,6 +52,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     private MainMenuController callerController;
     private JButton openDefendingDialogButton; // invisible button to activate DefendingDialog for human player
     private JButton letBotPlayButton; // invisible button to activate a bot player's turn
+    private JButton popupVictoryDialogButton; // invisible button to activate victory dialog
     // endregion
     
     // region Constructors
@@ -109,6 +110,7 @@ public class GamePlayFrame extends JFrame implements Observer {
         /* Setup invisible components */
         openDefendingDialogButton = new JButton();
         letBotPlayButton = new JButton();
+        popupVictoryDialogButton = new JButton();
         
         /* Setup & Display frame */
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
@@ -232,7 +234,16 @@ public class GamePlayFrame extends JFrame implements Observer {
     public void addLetBotPlayButtonListener(ActionListener listenerForLetBotPlayButton) {
         letBotPlayButton.addActionListener(listenerForLetBotPlayButton);
     }
-// endregion
+    
+    /**
+     * Adds popup victory dialog button listener
+     *
+     * @param listenerForPopupVictoryDialogButton the listener for popup victory dialog button
+     */
+    public void addPopupVictoryDialogButtonListener(ActionListener listenerForPopupVictoryDialogButton) {
+        popupVictoryDialogButton.addActionListener(listenerForPopupVictoryDialogButton);
+    }
+    // endregion
     
     // region Public methods
     
@@ -333,9 +344,7 @@ public class GamePlayFrame extends JFrame implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.VICTORY) {
-                UIHelper.invokeFrame(callerController.getMainMenuFrame());
-                UIHelper.displayMessage(this, gamePlayModel.getCurrentPlayer().getPlayerName() + " is the winner");
-                UIHelper.closeFrame(this);
+                popupVictoryDialogButton.doClick();
             } else if (gamePlayModel.getCurrentPlayer() != null) {
                 if (gamePlayModel.isNeedDefenderReaction() && !gamePlayModel.getCurrentPlayer().isHuman()) {
                     gamePlayModel.setNeedDefenderReaction(false);
