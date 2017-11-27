@@ -63,7 +63,7 @@ public class GamePlayModel extends Observable implements Serializable {
     private Battle currentBattle;
     private boolean needDefenderReaction;
     private int maxTurns;
-    private int turnCounter;
+    private int turnCounter = 1;
     private Player winner;
     
     /**
@@ -633,12 +633,6 @@ public class GamePlayModel extends Observable implements Serializable {
         Player player = currentPlayer;
         do {
             int currPlayerIndex = players.indexOf(player);
-            
-            /* Increments the game turn counter */
-            if (currPlayerIndex == 1) {
-                turnCounter++;
-            }
-            
             if (currPlayerIndex == players.size() - 1) {
                 player = players.get(0);
             } else {
@@ -736,6 +730,11 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     public void nextPlayerTurn() {
         currentPlayer = getNextPlayer();
+        
+        /* increase the turn counter starting from the first reinforcement phase, and for every player's turn */
+        if (gameState == PLAY) {
+            turnCounter++;
+        }
         log.append("==============================================");
         log.append(currentPlayer.getPlayerName() + "'s turn begins [turn #" + turnCounter + "]");
         log.append("    " + currentPlayer.getPlayerName() + " is " + currentPlayer.getPlayerType().getClass().getSimpleName());
