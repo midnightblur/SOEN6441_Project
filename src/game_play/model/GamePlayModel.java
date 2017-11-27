@@ -8,6 +8,7 @@ package game_play.model;
 
 import game_play.view.screens.StrategyDialog;
 import shared_resources.game_entities.*;
+import shared_resources.strategy.CheaterBot;
 import shared_resources.strategy.PlayerType;
 
 import java.io.Serializable;
@@ -1113,9 +1114,12 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     public void botsFortification(boolean continueAttack) {
-        performBattleIfPossible();
-        decideBattleResultIfPossible();
-        conquerTerritoryIfPossible();
+        // Prevent normal rules from applying to Cheater Bot
+        if (!(currentPlayer.getPlayerType() instanceof CheaterBot)) {
+            performBattleIfPossible();
+            decideBattleResultIfPossible();
+            conquerTerritoryIfPossible();
+        }
         currentBattle = null;
         
         if (gameState == VICTORY) {

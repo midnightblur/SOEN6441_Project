@@ -333,9 +333,9 @@ public class GamePlayFrame extends JFrame implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.VICTORY) {
+                UIHelper.invokeFrame(callerController.getMainMenuFrame());
                 UIHelper.displayMessage(this, gamePlayModel.getCurrentPlayer().getPlayerName() + " is the winner");
                 UIHelper.closeFrame(this);
-                UIHelper.invokeFrame(callerController.getMainMenuFrame());
             } else if (gamePlayModel.getCurrentPlayer() != null) {
                 if (gamePlayModel.isNeedDefenderReaction() && !gamePlayModel.getCurrentPlayer().isHuman()) {
                     gamePlayModel.setNeedDefenderReaction(false);
