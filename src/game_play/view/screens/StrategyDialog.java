@@ -78,11 +78,11 @@ public class StrategyDialog extends JDialog {
      *
      * @param players the vector of players to populate the dialog
      */
-    public void populateOptions(Vector<Player> players) {
+    public void populateOptions(Vector<Player> players, boolean isTournament) {
         mainPanel.removeAll();
         playersOptions = new BehaviourOptions[players.size()];  // add the options in array for easier access
         for (int i = 0; i < players.size(); i++) {
-            BehaviourOptions opts = new BehaviourOptions(players.elementAt(i));
+            BehaviourOptions opts = new BehaviourOptions(players.elementAt(i), isTournament);
             playersOptions[i] = opts;
             mainPanel.add(opts);
         }
@@ -179,12 +179,15 @@ public class StrategyDialog extends JDialog {
          *
          * @param player the player object
          */
-        BehaviourOptions(Player player) {
+        BehaviourOptions(Player player, boolean isTournament) {
             player_label = new JLabel(player.getPlayerName());
             add(player_label);
             
             group = new ButtonGroup();
             for (Class<? extends PlayerType> strategyClass : getStrategies()) {
+                if (isTournament && strategyClass.getSimpleName().compareTo(Human.class.getSimpleName()) == 0) {
+                    continue;
+                }
                 String strategy = strategyClass.getSimpleName();
                 radioButton = new JRadioButton(strategy);
                 radioButton.setActionCommand(strategy);

@@ -223,7 +223,7 @@ public class TournamentController {
      * @param players the players to populate the strategy dialog
      */
     private void showStrategyOptions(Vector<Player> players) {
-        strategyDialog.populateOptions(players);
+        strategyDialog.populateOptions(players, true);
         strategyDialog.disableHumans();
         strategyDialog.revalidate();
         strategyDialog.repaint();
