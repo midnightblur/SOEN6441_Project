@@ -7,6 +7,7 @@
 package game_play.model;
 
 import org.junit.Test;
+import shared_resources.game_entities.Battle;
 import shared_resources.game_entities.Card;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
@@ -244,7 +245,11 @@ public class GamePlayModelTest {
         GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
         
         Player player1 = tempGamePlayModel.getPlayers().get(0);
+        Player player2 = tempGamePlayModel.getPlayers().get(1);
         Territory tempTerritory = player1.getTerritories().get(0);
+        Territory tempAtkTerritory = player2.getTerritories().get(0);
+        tempGamePlayModel.setCurrentBattle(new Battle(player2, tempAtkTerritory, 1,
+                player1, tempTerritory, 2));
         
         System.out.println("Testing maximum number of dice a Player 1 can use to defend Territory " +
                 tempTerritory.getName() + ":");

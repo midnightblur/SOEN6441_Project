@@ -1076,7 +1076,7 @@ public class GamePlayModel extends Observable implements Serializable {
     
     // region Private methods
     public void letBotsPlay() {
-        while (turnCounter <= maxTurns && gameState != VICTORY) {
+        if (turnCounter <= maxTurns && gameState != VICTORY) {
             // Bots reinforce and declare attack if it wants
             botsReinforcement();
             
