@@ -205,7 +205,7 @@ public class GamePlayController {
      * @param players the players to populate the strategy dialog
      */
     private void showStrategyOptions(Vector<Player> players) {
-        strategyDialog.populateOptions(players);
+        strategyDialog.populateOptions(players, false);
         strategyDialog.revalidate();
         strategyDialog.repaint();
         strategyDialog.setVisible(true);

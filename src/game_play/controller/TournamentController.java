@@ -116,7 +116,7 @@ public class TournamentController {
         }
         
         /* For each game model in the set, start the game */
-        GamePlayModel gameToPlay;
+        GamePlayModel gameToPlay = new GamePlayModel();
         String[][] resultLines = new String[tournamentSet.size()][enteredGames + 1];
         int r = 0;  // the result line number
         for (GamePlayModel gamePlayModel : tournamentSet) {
@@ -124,11 +124,11 @@ public class TournamentController {
             resultLines[r][0] = gamePlayModel.getGameMap().getMapName();
             for (int i = 0; i < enteredGames; i++) {
                 /* Play a copy of the game so we can replay from start if needed */
-                gameToPlay = gamePlayModel;
+                gameToPlay.setGamePlayModel(gamePlayModel);
                 gameToPlay.initializeNewGameForTournament();
                 gameToPlay.setMaxTurns(enteredMaxTurns);
                 gameToPlay.startTheGame();
-                
+                gameToPlay.letBotsPlay();
                 // collect the winner of the game
                 resultLines[r][i + 1] = gameToPlay.getWinner();
             }
@@ -223,7 +223,7 @@ public class TournamentController {
      * @param players the players to populate the strategy dialog
      */
     private void showStrategyOptions(Vector<Player> players) {
-        strategyDialog.populateOptions(players);
+        strategyDialog.populateOptions(players, true);
         strategyDialog.disableHumans();
         strategyDialog.revalidate();
         strategyDialog.repaint();
