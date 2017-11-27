@@ -436,14 +436,14 @@ public class Player implements Serializable {
                 gameState = Config.GAME_STATES.FORTIFICATION;
                 break;
             case FORTIFICATION:
-                if (playersHand.size() >= 5) {
+                if (isHuman() && playersHand.size() >= 5) {
                     gameState = Config.GAME_STATES.TRADE_CARDS;
                 } else {
                     gameState = Config.GAME_STATES.REINFORCEMENT;
                 }
                 break;
             default: // the player does not have a game state in his very first turn
-                if (playersHand.size() >= 5) {
+                if (isHuman() && playersHand.size() >= 5) {
                     gameState = Config.GAME_STATES.TRADE_CARDS;
                 } else {
                     gameState = Config.GAME_STATES.REINFORCEMENT;
