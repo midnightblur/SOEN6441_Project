@@ -219,6 +219,7 @@ public class GamePlayController {
         /* Yes, continue playing */
         if (result == JOptionPane.YES_OPTION) {
             gamePlayModel.setMaxTurns(0);
+            // TODO: what function to call here
         }
         
         /* Yes, continue playing */
