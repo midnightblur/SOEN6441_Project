@@ -151,14 +151,6 @@ public class StrategyDialog extends JDialog {
     private SortedSet<Class<? extends PlayerType>> getStrategies() {
         SortedSet<Class<? extends PlayerType>> sortedStrategySet = new TreeSet<>(new ClassNameComparator());
         strategyClasses.removeIf(strategy -> Modifier.isAbstract(strategy.getModifiers()));
-        
-        for (Class<? extends  PlayerType> classes : strategyClasses) {
-            if (classes.getSimpleName().compareTo(Human.class.getSimpleName()) == 0) {
-                strategyClasses.remove(classes);
-                break;
-            }
-        }
-        
         sortedStrategySet.addAll(strategyClasses);
         return sortedStrategySet;
     }
