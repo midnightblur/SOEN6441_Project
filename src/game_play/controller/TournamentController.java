@@ -114,25 +114,38 @@ public class TournamentController {
             tournamentFrame.dispose();
             showStrategyOptions(tournamentSet.firstElement().getPlayers());
         }
-    
-        /* Instantiate a result model */
-        tournamentResultsModel = new TournamentResultsModel(tournamentSet, enteredGames);
         
         /* For each game model in the set, start the game */
         GamePlayModel gameToPlay;
+        String[][] resultLines = new String[tournamentSet.size()][enteredGames + 1];
+        int r = 0;  // the result line number
         for (GamePlayModel gamePlayModel : tournamentSet) {
+            // collect the map name
+            resultLines[r][0] = gamePlayModel.getGameMap().getMapName();
             for (int i = 0; i < enteredGames; i++) {
                 /* Play a copy of the game so we can replay from start if needed */
                 gameToPlay = gamePlayModel;
                 gameToPlay.initializeNewGameForTournament();
                 gameToPlay.setMaxTurns(enteredMaxTurns);
                 gameToPlay.startTheGame();
+                
+                // collect the winner of the game
+                resultLines[r][i + 1] = gameToPlay.getWinner();
             }
+            r++;
         }
+        /* Instantiate a result model */
+        tournamentResultsModel = new TournamentResultsModel(enteredGames);
+        
+        /* Pop-up a Result Frame */
         resultsFrame = new ResultsFrame();
         tournamentResultsModel.addObserver(resultsFrame);
         resultsFrame.addOKButtonListener(e -> backToMainMenu());
+        
+        tournamentResultsModel.setRows(resultLines);
     }
+    
+    
     // endregion
     
     // region Starting the tournament

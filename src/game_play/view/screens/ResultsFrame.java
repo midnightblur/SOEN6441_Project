@@ -54,8 +54,6 @@ public class ResultsFrame extends JFrame implements Observer {
         contentPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
         resultsTable = new JTable();
-        resultsTable.setName("MAP SELECTION");
-        
         returnToMainButton = new JButton(BACK_BUTTON);
         
         JScrollPane scrollPane = new JScrollPane(resultsTable);
@@ -66,16 +64,6 @@ public class ResultsFrame extends JFrame implements Observer {
         
         this.setContentPane(contentPane);
     }
-    
-    /**
-     * Gets the map dropdown.
-     *
-     * @return the map dropdown
-     */
-    public JTable getResultsTable() {
-        return resultsTable;
-    }
-    
     
     // endregion
     
