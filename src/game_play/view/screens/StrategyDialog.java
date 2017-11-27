@@ -8,6 +8,7 @@ package game_play.view.screens;
 
 import org.reflections.Reflections;
 import shared_resources.game_entities.Player;
+import shared_resources.strategy.Human;
 import shared_resources.strategy.PlayerType;
 import shared_resources.utilities.ClassNameComparator;
 import shared_resources.utilities.Config;
@@ -150,6 +151,14 @@ public class StrategyDialog extends JDialog {
     private SortedSet<Class<? extends PlayerType>> getStrategies() {
         SortedSet<Class<? extends PlayerType>> sortedStrategySet = new TreeSet<>(new ClassNameComparator());
         strategyClasses.removeIf(strategy -> Modifier.isAbstract(strategy.getModifiers()));
+        
+        for (Class<? extends  PlayerType> classes : strategyClasses) {
+            if (classes.getSimpleName().compareTo(Human.class.getSimpleName()) == 0) {
+                strategyClasses.remove(classes);
+                break;
+            }
+        }
+        
         sortedStrategySet.addAll(strategyClasses);
         return sortedStrategySet;
     }
