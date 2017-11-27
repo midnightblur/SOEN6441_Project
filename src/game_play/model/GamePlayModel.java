@@ -882,18 +882,23 @@ public class GamePlayModel extends Observable implements Serializable {
             log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
                     ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
                     ", attacker wins");
-            defendingTerritory.reduceArmies(1);
+            if (defendingTerritory.getArmies() > 1) {
+                defendingTerritory.reduceArmies(1);
+            
             log.append("            " + currentBattle.getDefender().getPlayerName() + "'s " +
                     defendingTerritory.getName() + " loses 1 army");
             currentBattle.increaseDefenderLossCount();
+            }
         } else { // the defender wins
             log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
                     ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
                     ", defender wins");
-            attackingTerritory.reduceArmies(1);
+            if (defendingTerritory.getArmies() > 1) {
+                attackingTerritory.reduceArmies(1);
+            
             log.append("            " + currentBattle.getAttacker().getPlayerName() + "'s " +
                     attackingTerritory.getName() + " loses 1 army");
-            currentBattle.increaseAttackerLossCount();
+            currentBattle.increaseAttackerLossCount();}
         }
     }
     

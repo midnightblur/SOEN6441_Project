@@ -128,9 +128,10 @@ public class TournamentController {
                 gameToPlay.initializeNewGameForTournament();
                 gameToPlay.setMaxTurns(enteredMaxTurns);
                 gameToPlay.startTheGame();
+                System.out.println("game " + i + " map " + gameToPlay.getGameMap().getMapName() + " turns before start " + gameToPlay.getTurnCounter());
                 gameToPlay.letBotsPlay();
                 // collect the winner of the game
-                resultLines[r][i + 1] = gameToPlay.getWinner() + " " + (gameToPlay.getTurnCounter() - 1) + " turns";
+                resultLines[r][i + 1] = gameToPlay.getWinner() + " " + (gameToPlay.getTurnCounter()) + " turns";
             }
             r++;
         }
