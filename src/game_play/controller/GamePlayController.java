@@ -121,6 +121,9 @@ public class GamePlayController {
         gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions(gamePlayModel.getPlayers()));
         gamePlayFrame.addOpenDefendingDialogButtonListener(e -> openDefendingDialog());
         gamePlayFrame.addLetBotPlayButtonListener(e -> startBotTurn());
+        gamePlayFrame.addPopupVictoryDialogButtonListener(e -> announceVictoryIfPossible(
+                gamePlayModel.getCurrentPlayer().getPlayerName() + " is the winner"));
+        gamePlayFrame.addTurnCounterReachedMaxButtonListener(e -> askUserToContinue());
         
         /* Play button to start the game */
         gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> gameStartupPhase());
@@ -201,10 +204,43 @@ public class GamePlayController {
     }
     
     /**
+     * Once the maximum turns is reached we ask the user if they wish to continue playing
+     * If we continue, the turnCounter is reset
+     */
+    private void askUserToContinue() {
+        Object[] options = { "Continue", "Exit" };
+        
+        int result = JOptionPane.showOptionDialog(null, "Game reached maximum turns allotted (" + gamePlayModel.getMaxTurns() + ")\n" +
+                        "Do you want to continue playing another " + gamePlayModel.getMaxTurns() + " turns?",
+                "Max Turns Reached",
+                JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                null, options, null);
+        
+        /* Yes, continue playing */
+        if (result == JOptionPane.YES_OPTION) {
+            gamePlayModel.setMaxTurns(0);
+            // TODO: what function to call here
+        }
+        
+        /* Yes, continue playing */
+        else if (result == JOptionPane.NO_OPTION) {
+            UIHelper.invokeFrame(callerController.getMainMenuFrame());
+            UIHelper.disableFrame(gamePlayFrame);
+        }
+        
+    }
+    //endregion
+    
+    
+    // region For Setup Phase
+    
+    /**
      * Setting the player's strategy
+     *
      * @param players the players to populate the strategy dialog
      */
     private void showStrategyOptions(Vector<Player> players) {
+//TODO: clear the dialog each time is shown
         strategyDialog.populateOptions(players, false);
         strategyDialog.revalidate();
         strategyDialog.repaint();
@@ -237,8 +273,6 @@ public class GamePlayController {
                     "Entry Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    // region For Setup Phase
     
     /**
      * This function allows players to place their initial armies into their territories one-by-one.
@@ -397,7 +431,7 @@ public class GamePlayController {
             gamePlayModel.drawCardForWinner(gamePlayModel.getCurrentPlayer());
             gamePlayModel.getCurrentPlayer().setHasConqueredTerritories(false);
         }
-
+        
         gamePlayModel.setCurrentBattle(null);
         
         gamePlayModel.changePhaseOfCurrentPlayer(FORTIFICATION);
@@ -562,9 +596,10 @@ public class GamePlayController {
     private void announceVictoryIfPossible(String message) {
         // If outcome is victory
         if (gamePlayModel.getCurrentPlayer().getGameState() == VICTORY) {
+            gamePlayModel.setGameState(SETUP);
             UIHelper.displayMessage(gamePlayFrame, message);
-            UIHelper.closeFrame(gamePlayFrame);
             UIHelper.invokeFrame(callerController.getMainMenuFrame());
+            UIHelper.disableFrame(gamePlayFrame);
         }
         
         /* Declare draw if turns are used-up*/
@@ -609,7 +644,6 @@ public class GamePlayController {
     
     /**
      * Sets the player strategy as selected in StrategyDialog
-     *
      */
     private void setStrategy() {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
