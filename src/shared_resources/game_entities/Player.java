@@ -616,7 +616,6 @@ public class Player implements Serializable {
      * @return the number of dice to defend
      */
     public int botChooseDefendingDice(int maxDefendingDice) {
-        // TODO: implement Strategy pattern for this function
         int defendingDice = 1;
         if (this.isRandomBot()) {
             // Choose number of dice randomly
