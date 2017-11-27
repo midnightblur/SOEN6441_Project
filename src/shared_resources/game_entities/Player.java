@@ -50,7 +50,7 @@ public class Player implements Serializable {
     public Player() {
         playerID = ++Player.nextID;
         playerName = "Player " + playerID;
-        playerType = new Human();     // at the beginning of the game all players are Humans
+        playerType = new Human();     // at the beginning of the game all players are CheaterBot
         playersHand = new Vector<>();
         territories = new Vector<>();
         color = PLAYER_COLOR[playerID - 1];

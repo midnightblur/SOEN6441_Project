@@ -107,7 +107,7 @@ public class StrategyDialog extends JDialog {
     /**
      * Disable "Human" option
      */
-    public void disableHumans() {
+    public void selectHumanAsDefault() {
         for (int i = 0; i < playersOptions.length; i++) {
             Enumeration<AbstractButton> b = playersOptions[i].getGroup().getElements();
             while (b.hasMoreElements()) {
