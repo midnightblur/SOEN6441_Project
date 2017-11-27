@@ -201,8 +201,30 @@ public class GamePlayController {
         
     }
     
+    /**
+     * Once the maximum turns is reached we ask the user if they wish to continue playing
+     * If we continue, the turnCounter is reset
+     */
     private void askUserToContinue() {
-    
+        Object[] options = { "Continue", "Exit" };
+        
+        int result = JOptionPane.showOptionDialog(null, "Game reached maximum turns allotted (" + gamePlayModel.getMaxTurns() + ")\n" +
+                        "Do you want to continue playing another " + gamePlayModel.getMaxTurns() + " turns?",
+                "Max Turns Reached",
+                JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                null, options, null);
+        
+        /* Yes, continue playing */
+        if (result == JOptionPane.YES_OPTION) {
+            gamePlayModel.setMaxTurns(0);
+        }
+        
+        /* Yes, continue playing */
+        else if (result == JOptionPane.NO_OPTION) {
+            UIHelper.invokeFrame(callerController.getMainMenuFrame());
+            UIHelper.disableFrame(gamePlayFrame);
+        }
+        
     }
     //endregion
     
@@ -215,6 +237,7 @@ public class GamePlayController {
      * @param players the players to populate the strategy dialog
      */
     private void showStrategyOptions(Vector<Player> players) {
+//TODO: clear the dialog each time is shown
         strategyDialog.populateOptions(players, false);
         strategyDialog.revalidate();
         strategyDialog.repaint();
