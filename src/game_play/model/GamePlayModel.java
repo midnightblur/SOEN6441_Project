@@ -538,7 +538,7 @@ public class GamePlayModel extends Observable implements Serializable {
         log.append("The game starts");
         currentPlayer = players.firstElement();
         log.append("==============================================");
-        log.append(currentPlayer.getPlayerName() + "'s turn begins");
+        log.append(currentPlayer.getPlayerName() + "'s turn begins [turn #" + turnCounter + "]");
         log.append("    " + currentPlayer.getPlayerName() + " is " + currentPlayer.getPlayerType().getClass().getSimpleName());
         currentPlayer.nextPhase();
         addReinforcementForCurrPlayer();
@@ -737,7 +737,7 @@ public class GamePlayModel extends Observable implements Serializable {
     public void nextPlayerTurn() {
         currentPlayer = getNextPlayer();
         log.append("==============================================");
-        log.append(currentPlayer.getPlayerName() + "'s turn begins");
+        log.append(currentPlayer.getPlayerName() + "'s turn begins [turn #" + turnCounter + "]");
         log.append("    " + currentPlayer.getPlayerName() + " is " + currentPlayer.getPlayerType().getClass().getSimpleName());
         currentPlayer.nextPhase();
         addReinforcementForCurrPlayer();
