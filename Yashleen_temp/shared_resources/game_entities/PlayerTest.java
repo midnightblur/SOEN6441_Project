@@ -1,4 +1,4 @@
-/* 
+/*
  * Risk Game Team 2
  * PlayerTest.java
  * Version 1.0
@@ -21,7 +21,7 @@ import static shared_resources.utilities.Config.PLAYER_COLOR;
  */
 public class PlayerTest {
     private GamePlayModel fixedGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
-    
+
     /**
      * Tests the correct color of the players.
      */
@@ -31,14 +31,14 @@ public class PlayerTest {
         for (int i = 0; i < fixedGamePlayModel.getPlayers().size(); i++) {
             arrayOfPlayers[i] = fixedGamePlayModel.getPlayers().get(i);
         }
-        
+
         System.out.println("Testing if players colours are the designated ones...");
         for (int i = 0; i < fixedGamePlayModel.getPlayers().size(); i++) {
             System.out.println("Expected color: " + PLAYER_COLOR[i] + "Actual color: " + arrayOfPlayers[i].getColor());
             assertEquals(PLAYER_COLOR[i], arrayOfPlayers[i].getColor());
         }
     }
-    
+
     /**
      * Tests the correct number of armies that can be moved to the conquered country.
      */
@@ -49,9 +49,9 @@ public class PlayerTest {
         Player player = tempGamePlayModel.getPlayers().get(0);
         Territory attackingTerritory = tempGamePlayModel.getGameMap().getATerritory("1c");
         Territory defendingTerritory = tempGamePlayModel.getGameMap().getATerritory("1t");
-    
+
         System.out.println("Testing valid number of armies that can be moved to conquered territory:");
-        
+
         /* check validity when moving 1 army */
         int armiesToMove = 1;
         attackingTerritory.setArmies(3);
@@ -65,7 +65,7 @@ public class PlayerTest {
                 .getArmies() + "] army left, and Conquered territory will have [" +
                 defendingTerritory.getArmies() + "] army.");
         assertEquals(1, defendingTerritory.getArmies());
-    
+
         /* check validity when moving 2 armies */
         armiesToMove = 2;
         attackingTerritory.setArmies(3);
@@ -79,7 +79,7 @@ public class PlayerTest {
                 .getArmies() + "] army left, and Conquered territory will have [" +
                 defendingTerritory.getArmies() + "] army (No valid move was made).");
         assertEquals(0, defendingTerritory.getArmies());
-    
+
         /* check validity when moving 3 armies */
         armiesToMove = 3;
         attackingTerritory.setArmies(3);
@@ -93,10 +93,10 @@ public class PlayerTest {
                 .getArmies() + "] army left, and Conquered territory will have [" +
                 defendingTerritory.getArmies() + "] army (No valid move was made).");
         assertEquals(0, defendingTerritory.getArmies());
-        
+
         System.out.println();
     }
-    
+
     /**
      * Tests the correct number of armies that can be moved during Fortification Phase.
      */
@@ -107,9 +107,9 @@ public class PlayerTest {
         Player player = tempGamePlayModel.getPlayers().get(0);
         Territory sourceT = tempGamePlayModel.getGameMap().getATerritory("1c");
         Territory targetT = tempGamePlayModel.getGameMap().getATerritory("2c");
-    
+
         System.out.println("Testing valid number of armies that can be moved during Fortification Phase:");
-        
+
         /* check validity when moving 1 army */
         int noOfArmies = 1;
         sourceT.setArmies(2);
@@ -122,7 +122,7 @@ public class PlayerTest {
                 "] army left, and Target territory will have [" + targetT.getArmies() +
                 "] army.");
         assertEquals(11, targetT.getArmies());
-    
+
         /* check validity when moving 2 armies */
         noOfArmies = 2;
         sourceT.setArmies(2);
@@ -135,7 +135,7 @@ public class PlayerTest {
                 "] army left, and Target territory will have [" + targetT.getArmies() +
                 "] army (No valid move was made).");
         assertEquals(10, targetT.getArmies());
-    
+
         /* check validity when moving 2 armies */
         noOfArmies = 3;
         sourceT.setArmies(2);
@@ -148,7 +148,7 @@ public class PlayerTest {
                 "] army left, and Target territory will have [" + targetT.getArmies() +
                 "] army (No valid move was made).");
         assertEquals(10, targetT.getArmies());
-    
+
         System.out.println();
     }
 }

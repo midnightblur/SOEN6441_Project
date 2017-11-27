@@ -1,4 +1,4 @@
-/* 
+/*
  * Risk Game Team 2
  * DiceTest.java
  * Version 1.0
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class DiceTest {
     private Vector<Integer> inputResult;
-    
+
     /**
      * Set-up the context by creating a new vector
      * that holds a mock result of the dice while bypassing the rolling action
@@ -27,7 +27,7 @@ public class DiceTest {
     public void setup() {
         inputResult = new Vector<>();
     }
-    
+
     /**
      * Testing best and second best return for [1, 4 , 5]
      */
@@ -36,13 +36,13 @@ public class DiceTest {
         inputResult.add(1);
         inputResult.add(4);
         inputResult.add(5);
-        
+
         Dice dice = new Dice(3);
         dice.setRollsResult(inputResult);
         assertEquals(5, dice.getTheBestResult());
         assertEquals(4, dice.getSecondBestResult());
     }
-    
+
     /**
      * Testing best and second best return for [6, 4, 3]
      */
@@ -51,13 +51,13 @@ public class DiceTest {
         inputResult.add(6);
         inputResult.add(4);
         inputResult.add(3);
-        
+
         Dice dice = new Dice(3);
         dice.setRollsResult(inputResult);
         assertEquals(6, dice.getTheBestResult());
         assertEquals(4, dice.getSecondBestResult());
     }
-    
+
     /**
      * Testing best and second best return for [1, 5, 5]
      */
@@ -66,13 +66,13 @@ public class DiceTest {
         inputResult.add(1);
         inputResult.add(5);
         inputResult.add(5);
-        
+
         Dice dice = new Dice(3);
         dice.setRollsResult(inputResult);
         assertEquals(5, dice.getTheBestResult());
         assertEquals(5, dice.getSecondBestResult());
     }
-    
+
     /**
      * Testing best and second best return for [6, 6, 2]
      */
@@ -81,13 +81,13 @@ public class DiceTest {
         inputResult.add(6);
         inputResult.add(6);
         inputResult.add(2);
-        
+
         Dice dice = new Dice(3);
         dice.setRollsResult(inputResult);
         assertEquals(6, dice.getTheBestResult());
         assertEquals(6, dice.getSecondBestResult());
     }
-    
+
     /**
      * Testing best and second best return for [3, 3, 6]
      */
@@ -96,13 +96,13 @@ public class DiceTest {
         inputResult.add(3);
         inputResult.add(3);
         inputResult.add(6);
-        
+
         Dice dice = new Dice(3);
         dice.setRollsResult(inputResult);
         assertEquals(6, dice.getTheBestResult());
         assertEquals(3, dice.getSecondBestResult());
     }
-    
+
     /**
      * Testing best and second best return for [5, 2, 2]
      */
@@ -111,13 +111,13 @@ public class DiceTest {
         inputResult.add(5);
         inputResult.add(2);
         inputResult.add(2);
-        
+
         Dice dice = new Dice(3);
         dice.setRollsResult(inputResult);
         assertEquals(5, dice.getTheBestResult());
         assertEquals(2, dice.getSecondBestResult());
     }
-    
+
     /**
      * Testing best and second best return for [6, 6, 6]
      */
@@ -126,13 +126,13 @@ public class DiceTest {
         inputResult.add(6);
         inputResult.add(6);
         inputResult.add(6);
-        
+
         Dice dice = new Dice(3);
         dice.setRollsResult(inputResult);
         assertEquals(6, dice.getTheBestResult());
         assertEquals(6, dice.getSecondBestResult());
     }
-    
+
     /**
      * Testing best and second best return for [2, 5, 2]
      */
@@ -141,13 +141,13 @@ public class DiceTest {
         inputResult.add(2);
         inputResult.add(5);
         inputResult.add(2);
-        
+
         Dice dice = new Dice(3);
         dice.setRollsResult(inputResult);
         assertEquals(5, dice.getTheBestResult());
         assertEquals(2, dice.getSecondBestResult());
     }
-    
+
     /**
      * Testing best and second best return for [5, 2, 5]
      */
@@ -156,13 +156,13 @@ public class DiceTest {
         inputResult.add(5);
         inputResult.add(2);
         inputResult.add(5);
-        
+
         Dice dice = new Dice(3);
         dice.setRollsResult(inputResult);
         assertEquals(5, dice.getTheBestResult());
         assertEquals(5, dice.getSecondBestResult());
     }
-    
+
     /**
      * Testing best and second best return for [2, 6, 5]
      */
@@ -171,13 +171,13 @@ public class DiceTest {
         inputResult.add(2);
         inputResult.add(6);
         inputResult.add(5);
-        
+
         Dice dice = new Dice(3);
         dice.setRollsResult(inputResult);
         assertEquals(6, dice.getTheBestResult());
         assertEquals(5, dice.getSecondBestResult());
     }
-    
+
     /**
      * Testing best and second best return for [4, 6, 3]
      */
@@ -186,7 +186,7 @@ public class DiceTest {
         inputResult.add(4);
         inputResult.add(6);
         inputResult.add(3);
-        
+
         Dice dice = new Dice(3);
         dice.setRollsResult(inputResult);
         assertEquals(6, dice.getTheBestResult());

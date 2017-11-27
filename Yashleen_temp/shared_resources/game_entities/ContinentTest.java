@@ -1,4 +1,4 @@
-/* 
+/*
  * Risk Game Team 2
  * ContinentTest.java
  * Version 1.0
@@ -16,16 +16,16 @@ import static org.junit.Assert.assertTrue;
  * This test case is used to test the continent class.
  */
 public class ContinentTest {
-    
+
     /** The continent name. */
     private String continentName;
-    
+
     /** The control value. */
     private int controlValue;
-    
+
     /** The continent. */
     private Continent continent;
-    
+
     /**
      * Sets the up.
      */
@@ -35,7 +35,7 @@ public class ContinentTest {
         controlValue = 5;
         continent = new Continent(continentName, controlValue);
     }
-    
+
     /**
      * This test checks the name of continent.
      *
@@ -45,7 +45,7 @@ public class ContinentTest {
         System.out.println("\nTesting for the name of \"Asia\" continent");
         assertEquals(continentName, continent.getName());
     }
-    
+
     /**
      * This test checks the value of the control.
      *
@@ -56,5 +56,5 @@ public class ContinentTest {
         System.out.println("\nTesting for the control value of the continent. \nExpecting a value of " + controlValue);
         assertTrue(controlValue == continent.getControlValue());
     }
-    
+
 }
