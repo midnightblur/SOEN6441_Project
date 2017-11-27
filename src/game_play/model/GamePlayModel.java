@@ -70,7 +70,7 @@ public class GamePlayModel extends Observable implements Serializable {
      * Public GamePlayModel constructor.
      */
     public GamePlayModel() {
-        maxTurns = Integer.MAX_VALUE;
+        maxTurns = 50;
         armyValue = DEFAULT_ARMY_VALUE;
         mapTableModel = new MapTableModel();
         deck = new Vector<>();
@@ -1076,10 +1076,13 @@ public class GamePlayModel extends Observable implements Serializable {
     
     // region Private methods
     public void letBotsPlay() {
-        // Bots reinforce and declare attack if it wants
-        botsReinforcement();
-        
-        botsAttack();
+        while (turnCounter <= maxTurns && gameState != VICTORY) {
+            // Bots reinforce and declare attack if it wants
+            botsReinforcement();
+            
+            botsAttack();
+        }
+        System.out.println("We reached max turns " + turnCounter);
     }
     
     // endregion
