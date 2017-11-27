@@ -53,6 +53,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     private JButton openDefendingDialogButton; // invisible button to activate DefendingDialog for human player
     private JButton letBotPlayButton; // invisible button to activate a bot player's turn
     private JButton popupVictoryDialogButton; // invisible button to activate victory dialog
+    private JButton turnCounterReachedMaxButton; // invisible button to activate a bot player's turn
     // endregion
     
     // region Constructors
@@ -111,6 +112,7 @@ public class GamePlayFrame extends JFrame implements Observer {
         openDefendingDialogButton = new JButton();
         letBotPlayButton = new JButton();
         popupVictoryDialogButton = new JButton();
+        turnCounterReachedMaxButton = new JButton();
         
         /* Setup & Display frame */
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
@@ -118,6 +120,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     // endregion
     
     // region Private methods
+    
     /**
      * Setup the layout for the main screen.
      */
@@ -164,6 +167,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     // endregion
     
     // region Getters & Setters
+    
     /**
      * Gets the fortification panel.
      *
@@ -242,6 +246,15 @@ public class GamePlayFrame extends JFrame implements Observer {
      */
     public void addPopupVictoryDialogButtonListener(ActionListener listenerForPopupVictoryDialogButton) {
         popupVictoryDialogButton.addActionListener(listenerForPopupVictoryDialogButton);
+    }
+
+    /**
+     * Adds turn counter at maximum button listener
+     *
+     * @param listenerForTurnCounterReachedMaxButton the listener TurnCounterReachedMax button
+     */
+    public void addTurnCounterReachedMaxButtonListener(ActionListener listenerForTurnCounterReachedMaxButton) {
+        letBotPlayButton.addActionListener(listenerForTurnCounterReachedMaxButton);
     }
     // endregion
     
@@ -330,6 +343,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     // endregion
     
     // region MVC & Observer pattern methods
+    
     /**
      * This method is called whenever the observed object is changed. An
      * application calls an <tt>Observable</tt> object's
@@ -345,6 +359,8 @@ public class GamePlayFrame extends JFrame implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.VICTORY) {
                 popupVictoryDialogButton.doClick();
+            } else if (gamePlayModel.getTurnCounter() > gamePlayModel.getMaxTurns()) { /* If we reached allotted turns */
+                turnCounterReachedMaxButton.doClick();
             } else if (gamePlayModel.getCurrentPlayer() != null) {
                 if (gamePlayModel.isNeedDefenderReaction() && !gamePlayModel.getCurrentPlayer().isHuman()) {
                     gamePlayModel.setNeedDefenderReaction(false);
@@ -359,7 +375,7 @@ public class GamePlayFrame extends JFrame implements Observer {
                     if (gamePlayModel.getPlayers().size() > 0) {
                         strategy.setEnabled(true);
                     }
-        
+                    
                     CardLayout cardLayout = (CardLayout) controlArea.getLayout();
                     switch (gamePlayModel.getGameState()) {
                         case SETUP:
@@ -388,21 +404,21 @@ public class GamePlayFrame extends JFrame implements Observer {
                         default:
                             break;
                     }
-        
+                    
                     Vector<Player> oldPlayersList = new Vector<>();
                     for (Player player : playersList) {
                         if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
                             oldPlayersList.add(player);
                         }
                     }
-        
+                    
                     playersList.clear();
                     for (Player player : gamePlayModel.getPlayers()) {
                         if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
                             playersList.add(player);
                         }
                     }
-        
+                    
                     if (oldPlayersList.size() > playersList.size()) {
                         if (playersList.size() != 1) {
                             for (Player player : oldPlayersList) {

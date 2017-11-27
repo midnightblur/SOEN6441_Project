@@ -123,6 +123,7 @@ public class GamePlayController {
         gamePlayFrame.addLetBotPlayButtonListener(e -> startBotTurn());
         gamePlayFrame.addPopupVictoryDialogButtonListener(e -> announceVictoryIfPossible(
                 gamePlayModel.getCurrentPlayer().getPlayerName() + " is the winner"));
+        gamePlayFrame.addTurnCounterReachedMaxButtonListener(e -> askUserToContinue());
         
         /* Play button to start the game */
         gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> gameStartupPhase());
@@ -202,8 +203,17 @@ public class GamePlayController {
         
     }
     
+    private void askUserToContinue() {
+    
+    }
+    //endregion
+    
+    
+    // region For Setup Phase
+    
     /**
      * Setting the player's strategy
+     *
      * @param players the players to populate the strategy dialog
      */
     private void showStrategyOptions(Vector<Player> players) {
@@ -239,8 +249,6 @@ public class GamePlayController {
                     "Entry Error!", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    // region For Setup Phase
     
     /**
      * This function allows players to place their initial armies into their territories one-by-one.
@@ -399,7 +407,7 @@ public class GamePlayController {
             gamePlayModel.drawCardForWinner(gamePlayModel.getCurrentPlayer());
             gamePlayModel.getCurrentPlayer().setHasConqueredTerritories(false);
         }
-
+        
         gamePlayModel.setCurrentBattle(null);
         
         gamePlayModel.changePhaseOfCurrentPlayer(FORTIFICATION);
@@ -612,7 +620,6 @@ public class GamePlayController {
     
     /**
      * Sets the player strategy as selected in StrategyDialog
-     *
      */
     private void setStrategy() {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();

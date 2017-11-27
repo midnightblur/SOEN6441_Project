@@ -153,7 +153,8 @@ public class StartupPanel extends JPanel implements Observer {
                     
                     // If bots click the button
                     if (Bot.class.isAssignableFrom(gamePlayModel.getCurrentPlayer().getPlayerType().getClass())) {
-                        placeArmyButton.doClick();
+                        String randomTerritory = gamePlayModel.getCurrentPlayerTerritories().elementAt((int) (Math.random() * (gamePlayModel.getCurrentPlayerTerritories().size() - 1)));
+                        gamePlayModel.placeArmyStartup(randomTerritory);
                     }
                     
                 } else {
