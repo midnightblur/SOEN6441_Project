@@ -121,6 +121,7 @@ public class GamePlayController {
                 gamePlayModel.getCurrentPlayer().getPlayerName() + " is the winner"));
         gamePlayFrame.addTurnCounterReachedMaxButtonListener(e -> askUserToContinue());
         gamePlayFrame.addAttackCounterReachedMaxButtonListener(e -> askUserInteraction());
+        gamePlayFrame.addStartBotTurnButtonListener(e -> startBotTurn());
         
         /* Play button to start the game */
         gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> gameStartupPhase());
@@ -221,6 +222,10 @@ public class GamePlayController {
         ManualInteractionDialog manualInteractionDialog = new ManualInteractionDialog(gamePlayFrame, message);
         manualInteractionDialog.addNoButtonListener(e -> stopTheGame(manualInteractionDialog));
         manualInteractionDialog.addYesButtonListener(e -> continueTheGame(manualInteractionDialog, true));
+    }
+    
+    private void startBotTurn() {
+        gamePlayModel.letBotsPlay();
     }
     //endregion
     
