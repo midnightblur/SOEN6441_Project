@@ -9,7 +9,6 @@ package game_play.model;
 import game_play.view.screens.StrategyDialog;
 import shared_resources.game_entities.*;
 import shared_resources.strategy.Bot;
-import shared_resources.strategy.CheaterBot;
 import shared_resources.strategy.PlayerType;
 
 import java.io.Serializable;
@@ -1151,13 +1150,13 @@ public class GamePlayModel extends Observable implements Serializable {
      * Bots attacking, then fortifying
      */
     public void botsAttack() {
-        if (attackCounter == MAX_ATTACK_TURN) {
+        if (attackCounter >= MAX_ATTACK_TURN) {
             broadcastGamePlayChanges();
         } else {
             currentPlayer.attack(this);
             attackCounter++;
             // If bots declare new attack, let defender choose number of defending dice
-            if (currentBattle != null) {
+            if (currentBattle != null && !currentPlayer.isCheaterBot()) {
                 Player defender = currentBattle.getDefender();
                 if (defender.isHuman()) {
                     needDefenderReaction = true;
@@ -1191,7 +1190,7 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     public void botsFortification(boolean continueAttack) {
         // Prevent normal rules from applying to Cheater Bot
-        if (!(currentPlayer.getPlayerType() instanceof CheaterBot)) {
+        if (!currentPlayer.isCheaterBot()) {
             performBattleIfPossible();
             decideBattleResultIfPossible();
             conquerTerritoryIfPossible();
