@@ -17,7 +17,7 @@ import java.util.Observer;
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
- * TODO
+ * The Tournament UI allowing user to select the maps, game and player count, maximum turns
  *
  * @author Team 2
  * @version 3.0
