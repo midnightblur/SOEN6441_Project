@@ -16,10 +16,13 @@ import game_play.view.screens.TournamentFrame;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Player;
 import shared_resources.helper.UIHelper;
+import shared_resources.strategy.PlayerType;
 import shared_resources.utilities.Config;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import static shared_resources.helper.GameMapHelper.getMapsInFolder;
@@ -42,6 +45,8 @@ public class TournamentController {
     private StrategyDialog strategyDialog;
     private ResultsFrame resultsFrame;
     private TournamentResultsModel tournamentResultsModel;
+    private GamePlayModel tempGamePlayModel;
+    private Vector<String> strMapSet;
     // endregion
     
     // region Constructors
@@ -59,6 +64,7 @@ public class TournamentController {
         tournamentSet = new Vector<>();
         tournamentFrame.addPlayTournamentButtonListener(e -> startTournament());
         tournamentFrame.addBackButtonListener(e -> backToMainMenu());
+        strMapSet = new Vector<>();
         
         /* update map list and populate dropdown */
         tournamentFrame.getMapList().setModel(updateListOfMaps());
@@ -89,17 +95,17 @@ public class TournamentController {
         /* Load the maps first (we will determine the allowed number of players based on maps) */
         for (String selectedMap : tournamentFrame.getMapList().getSelectedValuesList()) {
             try {
+                strMapSet.add(selectedMap);                         // add the string game map to the strMapSet
                 GameMap gameMap = loadGameMap(selectedMap);         // load the selected map
-                GamePlayModel gamePlayModel = new GamePlayModel();  // make a new game model
-                gamePlayModel.setGameMap(gameMap);                  // set the map
+                GamePlayModel gamePlayModel = new GamePlayModel();  // make a new game model that copies the temp game model
+                gamePlayModel.setGameMap(gameMap);                  // set the game map
                 tournamentSet.add(gamePlayModel);                   // add the game model to the tournament set
             } catch (Exception e) {
                 UIHelper.displayMessage(tournamentFrame, e.getMessage());
                 return;
             }
         }
-        
-        
+
         /* determine max players across all games' maps */
         maxPlayers = tournamentSet.firstElement().getGameMap().getMaxPlayers();
         for (GamePlayModel gamePlayModel : tournamentSet) {
@@ -110,26 +116,45 @@ public class TournamentController {
         int enteredPlayers = validateEntry(tournamentFrame.getPlayers(), 2, maxPlayers);
         if (enteredPlayers > -1) {
             /* initialize each game */
-            for (GamePlayModel gamePlayModel : tournamentSet) {
-                gamePlayModel.setGameState(STARTUP);
-                Player.resetStaticNextID();
-                gamePlayModel.initPlayers(enteredPlayers);
+            // use a tempTournamentSet to set up the game to determine the player strategies
+            tempGamePlayModel = new GamePlayModel();
+            try {
+                tempGamePlayModel.setGameMap(loadGameMap(strMapSet.firstElement()));
+            } catch (Exception e) {
+                UIHelper.displayMessage(tournamentFrame, e.getMessage());
+                return;
             }
+            tempGamePlayModel.setGameState(STARTUP);
+            Player.resetStaticNextID();
+            tempGamePlayModel.initPlayers(enteredPlayers);
+
             /* Pop-up the strategy dialog that will set the strategy for each game */
             tournamentFrame.dispose();
-            showStrategyOptions(tournamentSet.firstElement().getPlayers());
+            showStrategyOptions(tempGamePlayModel.getPlayers());  // use tempTournamentSet to determine the strategies
         }
         
         /* For each game model in the set, start the game */
-        GamePlayModel gameToPlay = new GamePlayModel();
+        GamePlayModel gameToPlay;
         String[][] resultLines = new String[tournamentSet.size()][enteredGames + 1];
         int r = 0;  // the result line number
-        for (GamePlayModel gamePlayModel : tournamentSet) {
+        for (int n = 0; n < tournamentSet.size(); n++) {
             // collect the map name
-            resultLines[r][0] = gamePlayModel.getGameMap().getMapName();
+            resultLines[r][0] = tournamentSet.get(n).getGameMap().getMapName();
             for (int i = 0; i < enteredGames; i++) {
                 /* Play a copy of the game so we can replay from start if needed */
-                gameToPlay.setGamePlayModel(gamePlayModel);
+                gameToPlay = new GamePlayModel();
+                try {
+                    gameToPlay.setGameMap(loadGameMap(strMapSet.get(n)));
+                } catch (Exception e) {
+                    UIHelper.displayMessage(tournamentFrame, e.getMessage());
+                    return;
+                }
+                gameToPlay.setGameState(STARTUP);
+                Player.resetStaticNextID();
+                gameToPlay.initPlayers(enteredPlayers);
+                for (int j = 0; j < enteredPlayers; j++) {  // set the player strategies
+                    gameToPlay.getPlayers().get(j).setPlayerType(tempGamePlayModel.getPlayers().get(j).getPlayerType());
+                }
                 gameToPlay.initializeNewGameForTournament();
                 gameToPlay.setMaxTurns(enteredMaxTurns);
                 gameToPlay.startTheGame();
@@ -185,9 +210,7 @@ public class TournamentController {
     private void setStrategy() {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
         strategyDialog.dispose();
-        for (GamePlayModel gamePlayModel : tournamentSet) {
-            gamePlayModel.setPlayersType(opts);
-        }
+        tempGamePlayModel.setPlayersType(opts);
     }
     // endregion
     
