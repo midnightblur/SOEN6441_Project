@@ -16,13 +16,10 @@ import game_play.view.screens.TournamentFrame;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Player;
 import shared_resources.helper.UIHelper;
-import shared_resources.strategy.PlayerType;
 import shared_resources.utilities.Config;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
 import static shared_resources.helper.GameMapHelper.getMapsInFolder;
