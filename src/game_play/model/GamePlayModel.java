@@ -52,7 +52,7 @@ public class GamePlayModel extends Observable implements Serializable {
     // region Attributes declaration
     private static final long serialVersionUID = 42L;
     private static final int DEFAULT_ARMY_VALUE = 5;
-    private static final int MAX_ATTACK_TURN = 50;
+    private int maxAttackTurn;
     private GameMap gameMap;
     private MapTableModel mapTableModel;
     private GAME_STATES gameState;
@@ -65,7 +65,7 @@ public class GamePlayModel extends Observable implements Serializable {
     private Battle currentBattle;
     private boolean needDefenderReaction;
     private int maxTurns;
-    private int turnCounter = 1;
+    private int turnCounter;
     private Player winner;
     private int attackCounter;
 
@@ -78,6 +78,9 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     public GamePlayModel() {
         maxTurns = 50;
+        turnCounter = 0;
+        maxAttackTurn = 50;
+        attackCounter = 0;
         armyValue = DEFAULT_ARMY_VALUE;
         mapTableModel = new MapTableModel();
         deck = new Vector<>();
@@ -128,6 +131,7 @@ public class GamePlayModel extends Observable implements Serializable {
         this.currentBattle = gamePlayModel.currentBattle;
         this.maxTurns = gamePlayModel.maxTurns;
         this.turnCounter = gamePlayModel.turnCounter;
+        this.maxAttackTurn = gamePlayModel.maxAttackTurn;
         this.attackCounter = gamePlayModel.attackCounter;
         this.broadcastGamePlayChanges();
     }
@@ -149,7 +153,7 @@ public class GamePlayModel extends Observable implements Serializable {
      * @return the maximum number of attacks
      */
     public int getMaxAttackTurn() {
-        return MAX_ATTACK_TURN;
+        return maxAttackTurn;
     }
     
     /**
@@ -162,12 +166,12 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
-     * Sets the attack counter
+     * Sets the max attack turn
      *
-     * @param attackCounter the attack counter value to be set
+     * @param maxAttackTurn the max attack turn
      */
-    public void setAttackCounter(int attackCounter) {
-        this.attackCounter = attackCounter;
+    public void setMaxAttackTurn(int maxAttackTurn) {
+        this.maxAttackTurn = maxAttackTurn;
     }
     
     /**
@@ -1170,7 +1174,6 @@ public class GamePlayModel extends Observable implements Serializable {
         if (turnCounter <= maxTurns && gameState != VICTORY) {
             // Bots reinforce and declare attack if it wants
             botsReinforcement();
-            attackCounter = 0;
             botsAttack();
         }
     }
@@ -1181,11 +1184,12 @@ public class GamePlayModel extends Observable implements Serializable {
      * Bots attacking, then fortifying
      */
     public void botsAttack() {
-        if (attackCounter >= MAX_ATTACK_TURN) {
+        currentPlayer.setGameState(ATTACK_PREPARE);
+        if (attackCounter >= maxAttackTurn) {
             broadcastGamePlayChanges();
         } else {
-            currentPlayer.attack(this);
             attackCounter++;
+            currentPlayer.attack(this);
 
             // If the game has a victor
             if (gameState == VICTORY) {
@@ -1229,6 +1233,7 @@ public class GamePlayModel extends Observable implements Serializable {
     public void botsFortification(boolean continueAttack) {
         // Prevent normal rules from applying to Cheater Bot
         if (!currentPlayer.isCheaterBot()) {
+            currentPlayer.setGameState(ATTACK_BATTLE);
             performBattleIfPossible();
             decideBattleResultIfPossible();
             conquerTerritoryIfPossible();
@@ -1248,9 +1253,6 @@ public class GamePlayModel extends Observable implements Serializable {
         } else {
             botsAttack();
         }
-
-//        updateGameMapTableModel();
-//        broadcastGamePlayChanges();
     }
     
     /**

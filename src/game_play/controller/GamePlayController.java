@@ -333,7 +333,7 @@ public class GamePlayController {
     private void continueTheGame(ManualInteractionDialog dialog, boolean isMaxAttacking) {
         dialog.dispose();
         gamePlayModel.setMaxTurns(gamePlayModel.getMaxTurns() + gamePlayModel.getTurnCounter());
-        gamePlayModel.setAttackCounter(0);
+        gamePlayModel.setMaxAttackTurn(gamePlayModel.getMaxAttackTurn() + gamePlayModel.getAttackCounter());
         if (!isMaxAttacking) {
             gamePlayModel.letBotsPlay();
         } else {
