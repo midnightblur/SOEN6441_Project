@@ -127,22 +127,12 @@ public class GamePlayModel extends Observable implements Serializable {
         this.currentBattle = gamePlayModel.currentBattle;
         this.maxTurns = gamePlayModel.maxTurns;
         this.turnCounter = gamePlayModel.turnCounter;
+        this.attackCounter = gamePlayModel.attackCounter;
         this.broadcastGamePlayChanges();
     }
     // endregion
     
     // region Getters and Setters
-    public int getMaxAttackTurn() {
-        return MAX_ATTACK_TURN;
-    }
-    
-    public int getAttackCounter() {
-        return attackCounter;
-    }
-    
-    public void setAttackCounter(int attackCounter) {
-        this.attackCounter = attackCounter;
-    }
     
     /**
      * Method to update the GamePlayModel and notify the Observer.
@@ -150,6 +140,33 @@ public class GamePlayModel extends Observable implements Serializable {
     private void broadcastGamePlayChanges() {
         setChanged();
         notifyObservers(this);
+    }
+    
+    /**
+     * Gets the maximum number of attack turns
+     *
+     * @return the maximum number of attacks
+     */
+    public int getMaxAttackTurn() {
+        return MAX_ATTACK_TURN;
+    }
+    
+    /**
+     * Gets the attack counter
+     *
+     * @return the attack counter
+     */
+    public int getAttackCounter() {
+        return attackCounter;
+    }
+    
+    /**
+     * Sets the attack counter
+     *
+     * @param attackCounter the attack counter value to be set
+     */
+    public void setAttackCounter(int attackCounter) {
+        this.attackCounter = attackCounter;
     }
     
     /**
@@ -172,6 +189,8 @@ public class GamePlayModel extends Observable implements Serializable {
     
     /**
      * Gets the maximum turns a game can be played
+     *
+     * @return the maximum turns
      */
     public int getMaxTurns() {
         return maxTurns;
@@ -766,7 +785,7 @@ public class GamePlayModel extends Observable implements Serializable {
         if (!currentPlayer.ableToAttack(gameMap)) {
             log.append("        " + currentPlayer.getPlayerName() + " cannot attack anymore");
             currentPlayer.nextPhase();
-            if (!currentPlayer.ableToForitfy(gameMap)) {
+            if (!currentPlayer.ableToFortify(gameMap)) {
                 log.append("        " + currentPlayer.getPlayerName() + " cannot fortify");
                 nextPlayerTurn();
             }
@@ -859,6 +878,9 @@ public class GamePlayModel extends Observable implements Serializable {
         return message;
     }
     
+    /**
+     * Decides the battle results when possible
+     */
     private void decideBattleResultIfPossible() {
         if (currentBattle != null) {
             int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
@@ -1042,6 +1064,8 @@ public class GamePlayModel extends Observable implements Serializable {
     /**
      * Get the maximum number of attacking dice roll that attacker can use depending on the attacking territory's armies
      *
+     * @param attackingTerritoryName the territory from where attack originates
+     *
      * @return the maximum number of dice roll that attacker may use
      */
     public int getMaxAttackingRoll(String attackingTerritoryName) {
@@ -1069,6 +1093,9 @@ public class GamePlayModel extends Observable implements Serializable {
         broadcastGamePlayChanges();
     }
     
+    /**
+     * Do battle if possible once dice are rolled
+     */
     public void performBattleIfPossible() {
         if (currentBattle != null) {
             log.append("        Battle between " + currentBattle.getAttacker().getPlayerName() +
@@ -1126,6 +1153,10 @@ public class GamePlayModel extends Observable implements Serializable {
     // region Public methods
     
     // region Private methods
+    
+    /**
+     * Allows bots to play undisturbed until victory of maximum turns is reached
+     */
     public void letBotsPlay() {
         if (turnCounter <= maxTurns && gameState != VICTORY) {
             // Bots reinforce and declare attack if it wants
@@ -1137,6 +1168,9 @@ public class GamePlayModel extends Observable implements Serializable {
     
     // endregion
     
+    /**
+     * Bots attacking, then fortifying
+     */
     public void botsAttack() {
         if (attackCounter >= MAX_ATTACK_TURN) {
             broadcastGamePlayChanges();
@@ -1164,10 +1198,18 @@ public class GamePlayModel extends Observable implements Serializable {
         }
     }
     
+    /**
+     * Conquer territory by moving armies to it if possible
+     */
     private void conquerTerritoryIfPossible() {
         currentPlayer.moveArmiesToConqueredTerritory(this);
     }
     
+    /**
+     * Fortification used by bots
+     *
+     * @param continueAttack flag to determine if attack should continue after fortification
+     */
     public void botsFortification(boolean continueAttack) {
         // Prevent normal rules from applying to Cheater Bot
         if (!currentPlayer.isCheaterBot()) {
