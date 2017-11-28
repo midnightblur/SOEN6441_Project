@@ -8,10 +8,7 @@ package game_play.controller;
 
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
-import game_play.view.screens.ConquerDialog;
-import game_play.view.screens.DefendingDialog;
-import game_play.view.screens.GamePlayFrame;
-import game_play.view.screens.StrategyDialog;
+import game_play.view.screens.*;
 import game_play.view.ui_components.FortificationPanel;
 import shared_resources.game_entities.Battle;
 import shared_resources.game_entities.GameMap;
@@ -208,52 +205,22 @@ public class GamePlayController {
      * If we continue, the turnCounter is reset
      */
     private void askUserToContinue() {
-        Object[] options = { "Continue", "Exit" };
-        int result = JOptionPane.showOptionDialog(null, "Game reached maximum turns allotted (" + gamePlayModel.getMaxTurns() + ")\n" +
-                        "Do you want to continue playing another " + gamePlayModel.getMaxTurns() + " turns?",
-                "Max Turns Reached",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-                null, options, null);
-        
-        
-        
-        /* Yes, continue playing */
-        if (result == JOptionPane.YES_OPTION) {
-            gamePlayModel.setMaxTurns(gamePlayModel.getMaxTurns() + gamePlayModel.getTurnCounter());
-            gamePlayModel.letBotsPlay();
-            // TODO: what happens if we play with humans, what function do we call here?
-        }
-        
-        /* No, stop the game */
-        else if (result == JOptionPane.NO_OPTION) {
-            UIHelper.invokeFrame(callerController.getMainMenuFrame());
-            UIHelper.disableFrame(gamePlayFrame);
-        }
+        String message = "Game reached maximum turns allotted (" + gamePlayModel.getMaxTurns() + ")\n" +
+                "Do you want to continue playing another " + gamePlayModel.getMaxTurns() + " turns?";
+        ManualInteractionDialog manualInteractionDialog = new ManualInteractionDialog(gamePlayFrame, message);
+        manualInteractionDialog.addNoButtonListener(e -> stopTheGame(manualInteractionDialog));
+        manualInteractionDialog.addYesButtonListener(e -> continueTheGame(manualInteractionDialog, false));
     }
     
     /**
      * Asks user for a decision when maximum turns are reached
      */
     private void askUserInteraction() {
-        Object[] options = { "Continue", "Exit" };
-        int result = JOptionPane.showOptionDialog(null, "Game reached maximum attacks allotted (" + gamePlayModel.getMaxAttackTurn() + ")\n" +
-                        "Do you want to continue attacking?",
-                "Max Turns Reached",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-                null, options, null);
-        
-        /* Yes, continue playing */
-        if (result == JOptionPane.YES_OPTION) {
-            gamePlayModel.setAttackCounter(0);
-            gamePlayModel.botsAttack();
-            // TODO: what happens if we play with humans, what function do we call here?
-        }
-        
-        /* No, stop the game */
-        else if (result == JOptionPane.NO_OPTION) {
-            UIHelper.invokeFrame(callerController.getMainMenuFrame());
-            UIHelper.disableFrame(gamePlayFrame);
-        }
+        String message = "Game reached maximum attacks allotted (" + gamePlayModel.getMaxAttackTurn() + ")\n" +
+                "Do you want to continue attacking?";
+        ManualInteractionDialog manualInteractionDialog = new ManualInteractionDialog(gamePlayFrame, message);
+        manualInteractionDialog.addNoButtonListener(e -> stopTheGame(manualInteractionDialog));
+        manualInteractionDialog.addYesButtonListener(e -> continueTheGame(manualInteractionDialog, true));
     }
     //endregion
     
@@ -266,7 +233,7 @@ public class GamePlayController {
      * @param players the players to populate the strategy dialog
      */
     private void showStrategyOptions(Vector<Player> players) {
-//TODO: clear the dialog each time is shown
+        //TODO: clear the dialog each time is shown
         strategyDialog.populateOptions(players, false);
         strategyDialog.revalidate();
         strategyDialog.repaint();
@@ -361,6 +328,23 @@ public class GamePlayController {
         } else {
             gamePlayModel.changePhaseOfCurrentPlayer(ATTACK_PREPARE);
         }
+    }
+    
+    private void continueTheGame(ManualInteractionDialog dialog, boolean isMaxAttacking) {
+        dialog.dispose();
+        gamePlayModel.setMaxTurns(gamePlayModel.getMaxTurns() + gamePlayModel.getTurnCounter());
+        gamePlayModel.setAttackCounter(0);
+        if (!isMaxAttacking) {
+            gamePlayModel.letBotsPlay();
+        } else {
+            gamePlayModel.botsAttack();
+        }
+    }
+    
+    private void stopTheGame(ManualInteractionDialog dialog) {
+        dialog.dispose();
+        UIHelper.invokeFrame(callerController.getMainMenuFrame());
+        UIHelper.disableFrame(gamePlayFrame);
     }
     // endregion
     

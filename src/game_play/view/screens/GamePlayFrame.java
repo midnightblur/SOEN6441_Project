@@ -359,12 +359,10 @@ public class GamePlayFrame extends JFrame implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.VICTORY) { // If the game has a winner
                 popupVictoryDialogButton.doClick();
-            } else if (gamePlayModel.getAttackCounter() >= gamePlayModel.getMaxAttackTurn()) { // If a player reach allotted attacking turns
-                gamePlayModel.setAttackCounter(0);
-                attackCounterReachedMaxButton.doClick();
-            }  else if (gamePlayModel.getTurnCounter() > gamePlayModel.getMaxTurns()) { // If we reached allotted turns
-                gamePlayModel.setAttackCounter(0);
+            } else if (gamePlayModel.getTurnCounter() > gamePlayModel.getMaxTurns()) { // If we reached allotted turns
                 turnCounterReachedMaxButton.doClick();
+            } else if (gamePlayModel.getAttackCounter() >= gamePlayModel.getMaxAttackTurn()) { // If a player reach allotted attacking turns
+                attackCounterReachedMaxButton.doClick();
             } else if (gamePlayModel.getCurrentPlayer() != null) { // If the game is still running
                 if (gamePlayModel.isNeedDefenderReaction() && !gamePlayModel.getCurrentPlayer().isHuman()) { // A human attacked by a bot
                     gamePlayModel.setNeedDefenderReaction(false);
