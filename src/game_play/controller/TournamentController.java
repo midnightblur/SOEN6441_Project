@@ -25,6 +25,7 @@ import java.util.Vector;
 import static shared_resources.helper.GameMapHelper.getMapsInFolder;
 import static shared_resources.helper.GameMapHelper.loadGameMap;
 import static shared_resources.utilities.Config.GAME_STATES.STARTUP;
+import static shared_resources.utilities.Config.GAME_STATES.VICTORY;
 
 /**
  * TODO
@@ -132,7 +133,7 @@ public class TournamentController {
                 gameToPlay.initializeNewGameForTournament();
                 gameToPlay.setMaxTurns(enteredMaxTurns);
                 gameToPlay.startTheGame();
-                while (gameToPlay.getTurnCounter() < enteredMaxTurns) {
+                while (gameToPlay.getTurnCounter() < enteredMaxTurns && gameToPlay.getGameState() != VICTORY) {
                     gameToPlay.letBotsPlay();
                 }
                 // collect the winner of the game
