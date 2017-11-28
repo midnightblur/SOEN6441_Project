@@ -16,7 +16,7 @@ import game_play.controller.MainMenuController;
 public class Driver {
     
     /**
-     * Start the application by making a Main Game Controller.
+     * Start the application by making a Main Game Controller
      *
      * @param args CLI arguments
      *
