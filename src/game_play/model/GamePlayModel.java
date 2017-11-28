@@ -1116,7 +1116,7 @@ public class GamePlayModel extends Observable implements Serializable {
     // endregion
     
     public void botsAttack() {
-        if (attackCounter == MAX_ATTACK_TURN) {
+        if (attackCounter >= MAX_ATTACK_TURN) {
             broadcastGamePlayChanges();
         } else {
             currentPlayer.attack(this);
