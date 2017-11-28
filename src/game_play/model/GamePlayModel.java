@@ -8,6 +8,7 @@ package game_play.model;
 
 import game_play.view.screens.StrategyDialog;
 import shared_resources.game_entities.*;
+import shared_resources.strategy.Bot;
 import shared_resources.strategy.CheaterBot;
 import shared_resources.strategy.PlayerType;
 
@@ -479,9 +480,68 @@ public class GamePlayModel extends Observable implements Serializable {
         giveInitialArmies();
         currentPlayer = players.firstElement();
         assignOneArmyPerTerritory();
+        // Distribute one by one armies in Round-Robin fashion for bots
+        for (Player player : players) {
+            if (Bot.class.isAssignableFrom(player.getPlayerType().getClass())) {
+                String randomTerritory = player.getTerritories().elementAt((int) (Math.random() * (player.getTerritories().size() - 1))).getName();
+                placeArmyStartup(randomTerritory);
+            }
+        }
         updateGameMapTableModel();
         broadcastGamePlayChanges();
         log.append("    Deck size: " + deck.size());
+    }
+    
+    /**
+     * This method allows the players to allocate an unallocated army to a territory that
+     * the player owns.
+     *
+     * @param territory The name of the territory as String to place an army on
+     */
+    public void placeArmyStartup(String territory) {
+        currentPlayer.reduceUnallocatedArmies(1);
+        gameMap.getATerritory(territory).addArmies(1);
+        log.append("    " + currentPlayer.getPlayerName() + " placed 1 army on " + territory);
+        currentPlayer = getNextPlayer();
+        
+        /*
+         * Get next player if current player's unallocated army is 0
+         * Stop when current player still has unallocated army or all run out of army
+         */
+        int count = 1;
+        while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
+            log.append("    " + currentPlayer.getPlayerName() + " has no unallocated armies to place");
+            currentPlayer = getNextPlayer();
+            count++;
+        }
+        
+        /* If all player run out of unallocated army, move to the next phase */
+        if (count == players.size()) {
+            log.append("    All players placed all their unallocated armies");
+        }
+        
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+    }
+    
+    /**
+     * Gets the next player.
+     *
+     * @return the next player
+     */
+    private Player getNextPlayer() {
+        PLAYER_STATUS playerStatus;
+        Player player = currentPlayer;
+        do {
+            int currPlayerIndex = players.indexOf(player);
+            if (currPlayerIndex == players.size() - 1) {
+                player = players.get(0);
+            } else {
+                player = players.get(currPlayerIndex + 1);
+            }
+            playerStatus = player.getPlayerStatus();
+        } while (playerStatus == PLAYER_STATUS.ELIMINATED); // only get players who are still in the game
+        return player;
     }
     
     /**
@@ -595,58 +655,6 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
-     * This method allows the players to allocate an unallocated army to a territory that
-     * the player owns.
-     *
-     * @param territory The name of the territory as String to place an army on
-     */
-    public void placeArmyStartup(String territory) {
-        currentPlayer.reduceUnallocatedArmies(1);
-        gameMap.getATerritory(territory).addArmies(1);
-        log.append("    " + currentPlayer.getPlayerName() + " placed 1 army on " + territory);
-        currentPlayer = getNextPlayer();
-        
-        /*
-         * Get next player if current player's unallocated army is 0
-         * Stop when current player still has unallocated army or all run out of army
-         */
-        int count = 1;
-        while (currentPlayer.getUnallocatedArmies() == 0 && count < players.size()) {
-            log.append("    " + currentPlayer.getPlayerName() + " has no unallocated armies to place");
-            currentPlayer = getNextPlayer();
-            count++;
-        }
-        
-        /* If all player run out of unallocated army, move to the next phase */
-        if (count == players.size()) {
-            log.append("    All players placed all their unallocated armies");
-        }
-        
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
-    }
-    
-    /**
-     * Gets the next player.
-     *
-     * @return the next player
-     */
-    private Player getNextPlayer() {
-        PLAYER_STATUS playerStatus;
-        Player player = currentPlayer;
-        do {
-            int currPlayerIndex = players.indexOf(player);
-            if (currPlayerIndex == players.size() - 1) {
-                player = players.get(0);
-            } else {
-                player = players.get(currPlayerIndex + 1);
-            }
-            playerStatus = player.getPlayerStatus();
-        } while (playerStatus == PLAYER_STATUS.ELIMINATED); // only get players who are still in the game
-        return player;
-    }
-    
-    /**
      * Change players' type according to selection from the UI
      *
      * @param opts the users' selection
@@ -717,10 +725,10 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     private void moveToFortificationIfPossible() {
         if (!currentPlayer.ableToAttack(gameMap)) {
-            log.append("    " + currentPlayer.getPlayerName() + " cannot attack anymore");
+            log.append("        " + currentPlayer.getPlayerName() + " cannot attack anymore");
             currentPlayer.nextPhase();
             if (!currentPlayer.ableToForitfy(gameMap)) {
-                log.append("    " + currentPlayer.getPlayerName() + " cannot fortify");
+                log.append("        " + currentPlayer.getPlayerName() + " cannot fortify");
                 nextPlayerTurn();
             }
         }
@@ -884,22 +892,20 @@ public class GamePlayModel extends Observable implements Serializable {
             log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
                     ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
                     ", attacker wins");
-            if (defendingTerritory.getArmies() > 0) {
-                defendingTerritory.reduceArmies(1);
-                log.append("            " + currentBattle.getDefender().getPlayerName() + "'s " +
-                        defendingTerritory.getName() + " loses 1 army");
-                currentBattle.increaseDefenderLossCount();
-            }
+            defendingTerritory.reduceArmies(1);
+            log.append("            " + currentBattle.getDefender().getPlayerName() + "'s " +
+                    defendingTerritory.getName() + " loses 1 army");
+            currentBattle.increaseDefenderLossCount();
+            
         } else { // the defender wins
             log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
                     ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
                     ", defender wins");
-            if (attackingTerritory.getArmies() > 0) {
-                attackingTerritory.reduceArmies(1);
-                log.append("            " + currentBattle.getAttacker().getPlayerName() + "'s " +
-                        attackingTerritory.getName() + " loses 1 army");
-                currentBattle.increaseAttackerLossCount();
-            }
+            attackingTerritory.reduceArmies(1);
+            log.append("            " + currentBattle.getAttacker().getPlayerName() + "'s " +
+                    attackingTerritory.getName() + " loses 1 army");
+            currentBattle.increaseAttackerLossCount();
+            
         }
     }
     
@@ -1087,10 +1093,6 @@ public class GamePlayModel extends Observable implements Serializable {
             botsReinforcement();
             
             botsAttack();
-        } else {
-            // TODO: pop-up continue dialog and reset turnCounter
-            // view will observe this change and click an already existing invisible button
-            // this button is listened by controller that pops-up the frame
         }
     }
     
