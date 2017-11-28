@@ -368,22 +368,22 @@ public class GamePlayFrame extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
-            if (gamePlayModel.getGameState() == Config.GAME_STATES.VICTORY) {
+            if (gamePlayModel.getGameState() == Config.GAME_STATES.VICTORY) { // If the game has a winner
                 popupVictoryDialogButton.doClick();
-            } else if (gamePlayModel.getTurnCounter() > gamePlayModel.getMaxTurns()) { /* If we reached allotted turns */
+            } else if (gamePlayModel.getTurnCounter() > gamePlayModel.getMaxTurns()) { // If we reached allotted turns
                 gamePlayModel.setAttackCounter(0);
                 turnCounterReachedMaxButton.doClick();
-            } else if (gamePlayModel.getAttackCounter() >= gamePlayModel.getMaxAttackTurn()) {
+            } else if (gamePlayModel.getAttackCounter() >= gamePlayModel.getMaxAttackTurn()) { // If a player reach allotted attacking turns
                 gamePlayModel.setAttackCounter(0);
                 attackCounterReachedMaxButton.doClick();
-            } else if (gamePlayModel.getCurrentPlayer() != null) {
-                if (gamePlayModel.isNeedDefenderReaction() && !gamePlayModel.getCurrentPlayer().isHuman()) {
+            } else if (gamePlayModel.getCurrentPlayer() != null) { // If the game is still running
+                if (gamePlayModel.isNeedDefenderReaction() && !gamePlayModel.getCurrentPlayer().isHuman()) { // A human attacked by a bot
                     gamePlayModel.setNeedDefenderReaction(false);
                     openDefendingDialogButton.doClick();
                 } else if (!gamePlayModel.getCurrentPlayer().isHuman() &&
-                        gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.REINFORCEMENT) {
+                        gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.REINFORCEMENT) { // A new bot player takes turn
                     letBotPlayButton.doClick();
-                } else if (gamePlayModel.getCurrentPlayer().isHuman()) {
+                } else if (gamePlayModel.getCurrentPlayer().isHuman()) { // Current player is human
                     gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
             
                 /* Enable strategy menu item if players are set */
