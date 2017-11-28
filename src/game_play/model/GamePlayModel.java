@@ -68,7 +68,11 @@ public class GamePlayModel extends Observable implements Serializable {
     private int turnCounter = 1;
     private Player winner;
     private int attackCounter;
+
+    // endregion
     
+    // region Constructors
+
     /**
      * Public GamePlayModel constructor.
      */
@@ -83,9 +87,6 @@ public class GamePlayModel extends Observable implements Serializable {
         playerTerritoriesModel = new PlayerTerritoriesModel();
         needDefenderReaction = false;
     }
-    // endregion
-    
-    // region Constructors
     
     /**
      * Method to be used when restoring a saved game or making a copy of the game to play
