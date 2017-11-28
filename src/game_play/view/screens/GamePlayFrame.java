@@ -51,10 +51,10 @@ public class GamePlayFrame extends JFrame implements Observer {
     private Vector<Player> playersList;
     private MainMenuController callerController;
     private JButton openDefendingDialogButton; // invisible button to activate DefendingDialog for human player
-    private JButton letBotPlayButton; // invisible button to activate a bot player's turn
     private JButton popupVictoryDialogButton; // invisible button to activate victory dialog
     private JButton turnCounterReachedMaxButton; // invisible button to activate a bot player's turn
     private JButton attackCounterReachedMaxButton; // invisible button to activate a new attack turn of current player
+    private JButton startBotTurnButton; // invisible button to activate a new bot turn
     // endregion
     
     // region Constructors
@@ -111,10 +111,10 @@ public class GamePlayFrame extends JFrame implements Observer {
         
         /* Setup invisible components */
         openDefendingDialogButton = new JButton();
-        letBotPlayButton = new JButton();
         popupVictoryDialogButton = new JButton();
         turnCounterReachedMaxButton = new JButton();
         attackCounterReachedMaxButton = new JButton();
+        startBotTurnButton = new JButton();
         
         /* Setup & Display frame */
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
@@ -233,15 +233,6 @@ public class GamePlayFrame extends JFrame implements Observer {
     }
     
     /**
-     * Adds let bot player button listener
-     *
-     * @param listenerForLetBotPlayButton the listener for let bot play button
-     */
-    public void addLetBotPlayButtonListener(ActionListener listenerForLetBotPlayButton) {
-        letBotPlayButton.addActionListener(listenerForLetBotPlayButton);
-    }
-    
-    /**
      * Adds popup victory dialog button listener
      *
      * @param listenerForPopupVictoryDialogButton the listener for popup victory dialog button
@@ -266,6 +257,10 @@ public class GamePlayFrame extends JFrame implements Observer {
      */
     public void addAttackCounterReachedMaxButtonListener(ActionListener listenerForAttackCounterReachedMaxButton) {
         attackCounterReachedMaxButton.addActionListener(listenerForAttackCounterReachedMaxButton);
+    }
+    
+    public void addStartBotTurnButtonListener(ActionListener listenerForStartBotTurnButton) {
+        startBotTurnButton.addActionListener(listenerForStartBotTurnButton);
     }
     // endregion
     
@@ -370,19 +365,19 @@ public class GamePlayFrame extends JFrame implements Observer {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.VICTORY) { // If the game has a winner
                 popupVictoryDialogButton.doClick();
-            } else if (gamePlayModel.getTurnCounter() > gamePlayModel.getMaxTurns()) { // If we reached allotted turns
-                gamePlayModel.setAttackCounter(0);
-                turnCounterReachedMaxButton.doClick();
-            } else if (gamePlayModel.getAttackCounter() >= gamePlayModel.getMaxAttackTurn()) { // If a player reach allotted attacking turns
-                gamePlayModel.setAttackCounter(0);
-                attackCounterReachedMaxButton.doClick();
             } else if (gamePlayModel.getCurrentPlayer() != null) { // If the game is still running
-                if (gamePlayModel.isNeedDefenderReaction() && !gamePlayModel.getCurrentPlayer().isHuman()) { // A human attacked by a bot
+                if (gamePlayModel.getAttackCounter() >= gamePlayModel.getMaxAttackTurn() &&
+                        gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.ATTACK_PREPARE) { // If a player reach allotted attacking turns
+                    attackCounterReachedMaxButton.doClick();
+                } else if (gamePlayModel.getTurnCounter() >= gamePlayModel.getMaxTurns() &&
+                        gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.REINFORCEMENT) { // If a player reached allotted turns
+                    turnCounterReachedMaxButton.doClick();
+                } else if (gamePlayModel.isNeedDefenderReaction() && !gamePlayModel.getCurrentPlayer().isHuman()) { // A human attacked by a bot
                     gamePlayModel.setNeedDefenderReaction(false);
                     openDefendingDialogButton.doClick();
                 } else if (!gamePlayModel.getCurrentPlayer().isHuman() &&
-                        gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.REINFORCEMENT) { // A new bot player takes turn
-                    letBotPlayButton.doClick();
+                        gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.REINFORCEMENT) { // If a bot takes new turn
+                    startBotTurnButton.doClick();
                 } else if (gamePlayModel.getCurrentPlayer().isHuman()) { // Current player is human
                     gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
             
