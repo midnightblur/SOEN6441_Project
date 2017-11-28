@@ -236,17 +236,22 @@ public class TournamentController {
      */
     private int validateEntry(Component component, int min, int max) {
         int entry = -1;
-        if (component instanceof JTextField) {
-            entry = Integer.parseInt(((JTextField) component).getText());
-        } else if (component instanceof JList) {
-            entry = ((JList) component).getSelectedValuesList().size();
-        }
         try {
+            /* parse the field entries */
+            if (component instanceof JList) {
+                entry = ((JList) component).getSelectedValuesList().size();
+            } else if (component instanceof JTextField) {
+                entry = Integer.parseInt(((JTextField) component).getText());
+            }
+            
+            /* validate against the min-max */
             if (min <= entry && entry <= max) {
                 return entry;
             } else {
                 UIHelper.displayMessage(tournamentFrame, "Your entry for " + component.getName() + " must between " + min + " and " + max);
+                return -1;
             }
+            // catch any non integer entry where applicable
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(
                     null,
