@@ -1186,8 +1186,13 @@ public class GamePlayModel extends Observable implements Serializable {
         } else {
             currentPlayer.attack(this);
             attackCounter++;
+
+            // If the game has a victor
+            if (gameState == VICTORY) {
+                return;
+            }
             // If bots declare new attack, let defender choose number of defending dice
-            if (currentBattle != null && !currentPlayer.isCheaterBot()) {
+            else if (currentBattle != null && !currentPlayer.isCheaterBot()) {
                 Player defender = currentBattle.getDefender();
                 if (defender.isHuman()) {
                     needDefenderReaction = true;
@@ -1197,7 +1202,9 @@ public class GamePlayModel extends Observable implements Serializable {
                     currentBattle.setDefendingDice(defendingDice);
                     botsFortification(true);
                 }
-            } else { // If bots quits attacking or cannot attack anymore
+            }
+            // If bots quits attacking or cannot attack anymore
+            else {
                 if (currentPlayer.hasConqueredTerritories()) {
                     drawCardForWinner(currentPlayer);
                     currentPlayer.setHasConqueredTerritories(false);
