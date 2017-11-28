@@ -643,7 +643,10 @@ public class GamePlayModel extends Observable implements Serializable {
         // For logging display player's continent content
         log.append("    " + currentPlayer.getPlayerName() + " owns " + currentPlayer.getTerritories().size() + " territories: ");
         for (Territory territory : currentPlayer.getTerritories()) {
-            log.append("        " + territory.getName() + "\t\t\twith " + territory.getArmies() + " armies");
+            String format = "%-50s%-4s";
+            String firstColumn = "     " + territory.getName();
+            String secondColumn = "\twith " + territory.getArmies() + " armies";
+            log.append(String.format(format, firstColumn, secondColumn));
         }
         int continentCounter = 0;
         StringBuilder continentStr = new StringBuilder();
