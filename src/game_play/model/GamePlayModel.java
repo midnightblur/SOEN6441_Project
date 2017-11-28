@@ -52,6 +52,8 @@ public class GamePlayModel extends Observable implements Serializable {
     // region Attributes declaration
     private static final long serialVersionUID = 42L;
     private static final int DEFAULT_ARMY_VALUE = 5;
+    private static final int ORIGINAL_MAX_TURN = 50;
+    private static final int ORIGINAL_MAX_ATTACK_TURN = 50;
     private int maxAttackTurn;
     private GameMap gameMap;
     private MapTableModel mapTableModel;
@@ -68,18 +70,18 @@ public class GamePlayModel extends Observable implements Serializable {
     private int turnCounter;
     private Player winner;
     private int attackCounter;
-
+    
     // endregion
     
     // region Constructors
-
+    
     /**
      * Public GamePlayModel constructor.
      */
     public GamePlayModel() {
-        maxTurns = 50;
+        maxTurns = ORIGINAL_MAX_TURN;
         turnCounter = 0;
-        maxAttackTurn = 50;
+        maxAttackTurn = ORIGINAL_MAX_ATTACK_TURN;
         attackCounter = 0;
         armyValue = DEFAULT_ARMY_VALUE;
         mapTableModel = new MapTableModel();
@@ -116,6 +118,14 @@ public class GamePlayModel extends Observable implements Serializable {
     // endregion
     
     // region Getters and Setters
+    
+    public int getOriginalMaxTurn() {
+        return ORIGINAL_MAX_TURN;
+    }
+    
+    public int getOriginalMaxAttackTurn() {
+        return ORIGINAL_MAX_ATTACK_TURN;
+    }
     
     /**
      * Method to update the GamePlayModel and notify the Observer.
@@ -1160,13 +1170,14 @@ public class GamePlayModel extends Observable implements Serializable {
         } else {
             attackCounter++;
             currentPlayer.attack(this);
-
+            
             // If the game has a victor
             if (gameState == VICTORY) {
                 return;
             }
             // If bots declare new attack, let defender choose number of defending dice
-            else if (currentBattle != null && !currentPlayer.isCheaterBot()) {
+            else if (currentBattle != null && !currentPlayer.isCheaterBot() && attackCounter <= maxAttackTurn) {  // from 1 - 50
+                log.append("Battle #" + attackCounter + ":");
                 Player defender = currentBattle.getDefender();
                 if (defender.isHuman()) {
                     needDefenderReaction = true;
