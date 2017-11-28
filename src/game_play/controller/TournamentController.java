@@ -9,6 +9,7 @@ package game_play.controller;
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
 import game_play.model.TournamentResultsModel;
+import game_play.view.screens.GamePlayFrame;
 import game_play.view.screens.ResultsFrame;
 import game_play.view.screens.StrategyDialog;
 import game_play.view.screens.TournamentFrame;
@@ -35,6 +36,7 @@ public class TournamentController {
     // region Attribute declaration
     private TournamentFrame tournamentFrame;
     private MainMenuController callerController;
+    private GamePlayFrame gamePlayFrame;
     private Vector<GamePlayModel> tournamentSet;
     private StrategyDialog strategyDialog;
     private ResultsFrame resultsFrame;
@@ -50,6 +52,8 @@ public class TournamentController {
      */
     public TournamentController(MainMenuController callerController) {
         this.callerController = callerController;
+        gamePlayFrame = new GamePlayFrame(callerController);
+        gamePlayFrame.setVisible(false);
         tournamentFrame = new TournamentFrame();
         tournamentSet = new Vector<>();
         tournamentFrame.addPlayTournamentButtonListener(e -> startTournament());
@@ -128,8 +132,9 @@ public class TournamentController {
                 gameToPlay.initializeNewGameForTournament();
                 gameToPlay.setMaxTurns(enteredMaxTurns);
                 gameToPlay.startTheGame();
-                System.out.println("game " + i + " map " + gameToPlay.getGameMap().getMapName() + " turns before start " + gameToPlay.getTurnCounter());
-                gameToPlay.letBotsPlay();
+                while (gameToPlay.getTurnCounter() < enteredMaxTurns) {
+                    gameToPlay.letBotsPlay();
+                }
                 // collect the winner of the game
                 resultLines[r][i + 1] = gameToPlay.getWinner() + " " + (gameToPlay.getTurnCounter()) + " turns";
             }

@@ -102,6 +102,7 @@ public class GamePlayModel extends Observable implements Serializable {
         this.rand = gamePlayModel.rand;
         this.currentBattle = gamePlayModel.currentBattle;
         this.maxTurns = gamePlayModel.maxTurns;
+        this.turnCounter = gamePlayModel.turnCounter;
         this.broadcastGamePlayChanges();
     }
     // endregion
@@ -535,6 +536,7 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     public void startTheGame() {
         setGameState(PLAY);
+        
         log.append("==============================================");
         log.append("The game starts");
         currentPlayer = players.firstElement();
@@ -882,18 +884,22 @@ public class GamePlayModel extends Observable implements Serializable {
             log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
                     ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
                     ", attacker wins");
-            defendingTerritory.reduceArmies(1);
-            log.append("            " + currentBattle.getDefender().getPlayerName() + "'s " +
-                    defendingTerritory.getName() + " loses 1 army");
-            currentBattle.increaseDefenderLossCount();
+            if (defendingTerritory.getArmies() > 0) {
+                defendingTerritory.reduceArmies(1);
+                log.append("            " + currentBattle.getDefender().getPlayerName() + "'s " +
+                        defendingTerritory.getName() + " loses 1 army");
+                currentBattle.increaseDefenderLossCount();
+            }
         } else { // the defender wins
             log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
                     ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
                     ", defender wins");
-            attackingTerritory.reduceArmies(1);
-            log.append("            " + currentBattle.getAttacker().getPlayerName() + "'s " +
-                    attackingTerritory.getName() + " loses 1 army");
-            currentBattle.increaseAttackerLossCount();
+            if (attackingTerritory.getArmies() > 0) {
+                attackingTerritory.reduceArmies(1);
+                log.append("            " + currentBattle.getAttacker().getPlayerName() + "'s " +
+                        attackingTerritory.getName() + " loses 1 army");
+                currentBattle.increaseAttackerLossCount();
+            }
         }
     }
     

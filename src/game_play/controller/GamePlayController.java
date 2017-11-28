@@ -209,17 +209,17 @@ public class GamePlayController {
      */
     private void askUserToContinue() {
         Object[] options = { "Continue", "Exit" };
-        
         int result = JOptionPane.showOptionDialog(null, "Game reached maximum turns allotted (" + gamePlayModel.getMaxTurns() + ")\n" +
                         "Do you want to continue playing another " + gamePlayModel.getMaxTurns() + " turns?",
                 "Max Turns Reached",
-                JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, options, null);
         
         /* Yes, continue playing */
         if (result == JOptionPane.YES_OPTION) {
-            gamePlayModel.setMaxTurns(0);
-            // TODO: what function to call here
+            gamePlayModel.setMaxTurns(gamePlayModel.getMaxTurns() + gamePlayModel.getTurnCounter());
+            gamePlayModel.letBotsPlay();
+            // TODO: what happens if we play with humans, what function do we call here?
         }
         
         /* Yes, continue playing */
