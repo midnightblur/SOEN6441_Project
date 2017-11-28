@@ -27,7 +27,11 @@ public class CheaterBot extends Bot {
         // Double armies in all territories - fantastic @__@
         Player player = gamePlayModel.getCurrentPlayer();
         for (Territory territory : player.getTerritories()) {
-            territory.setArmies(territory.getArmies() * 2);
+            if (territory.getArmies() <= Integer.MAX_VALUE / 2) {
+                territory.setArmies(territory.getArmies() * 2);
+            } else {
+                territory.setArmies(Integer.MAX_VALUE);
+            }
             log.append("        " + player.getPlayerName() +
                     " doubles armies in " + territory.getName() + " to " + territory.getArmies());
         }
@@ -70,7 +74,11 @@ public class CheaterBot extends Bot {
                 Territory neighbor = gamePlayModel.getGameMap().getATerritory(neighborName);
                 if (neighbor.getOwner() != player) {
                     hasArmiesMoved = true;
-                    territory.setArmies(territory.getArmies() * 2);
+                    if (territory.getArmies() <= Integer.MAX_VALUE / 2) {
+                        territory.setArmies(territory.getArmies() * 2);
+                    } else {
+                        territory.setArmies(Integer.MAX_VALUE);
+                    }
                     log.append("        " + territory.getName() + " has neighbor " +
                             neighborName + " owned by " + neighbor.getOwner().getPlayerName());
                     log.append("            " + player.getPlayerName() +
