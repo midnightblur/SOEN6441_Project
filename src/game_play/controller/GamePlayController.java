@@ -556,19 +556,14 @@ public class GamePlayController {
         int defendingDice = (int) dialog.getDefendingDiceDropdown().getSelectedItem();
         dialog.getOwner().dispose();
         owner.setVisible(true);
-        if (gamePlayModel.getCurrentPlayer().isHuman()) {  // if human player
-            String message = gamePlayModel.declareAttack(
-                    String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem()),
-                    String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem()),
-                    (Integer) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem(),
-                    defendingDice
-            );
-            
-            announceVictoryIfPossible(message);
-        } else {  // if bot player
-            gamePlayModel.getCurrentBattle().setDefendingDice(defendingDice);
-            gamePlayModel.botsFortification(true);
-        }
+        String message = gamePlayModel.declareAttack(
+                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem()),
+                String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem()),
+                (Integer) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem(),
+                defendingDice
+        );
+        
+        announceVictoryIfPossible(message);
     }
     
     /**

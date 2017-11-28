@@ -717,10 +717,10 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     private void moveToFortificationIfPossible() {
         if (!currentPlayer.ableToAttack(gameMap)) {
-            log.append("    " + currentPlayer.getPlayerName() + " cannot attack anymore");
+            log.append("        " + currentPlayer.getPlayerName() + " cannot attack anymore");
             currentPlayer.nextPhase();
             if (!currentPlayer.ableToForitfy(gameMap)) {
-                log.append("    " + currentPlayer.getPlayerName() + " cannot fortify");
+                log.append("        " + currentPlayer.getPlayerName() + " cannot fortify");
                 nextPlayerTurn();
             }
         }
