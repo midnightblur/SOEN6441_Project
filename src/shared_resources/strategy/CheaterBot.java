@@ -10,6 +10,7 @@ import game_play.model.GamePlayModel;
 import shared_resources.game_entities.Battle;
 import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
+import shared_resources.utilities.Config;
 
 import java.util.Map;
 import java.util.Vector;
@@ -46,7 +47,7 @@ public class CheaterBot extends Bot {
         for (Territory territory : player.getTerritories()) {
             for (String neighborName : territory.getNeighbors()) {
                 Territory neighbor = gamePlayModel.getGameMap().getATerritory(neighborName);
-                if (neighbor.getOwner() != player) {
+                if (neighbor.getOwner() != player && !conqueredTerritories.contains(neighbor)) {
                     gamePlayModel.setCurrentBattle(new Battle(player, territory, 1,
                             neighbor.getOwner(), neighbor, 1));
                     conqueredTerritories.add(neighbor);
@@ -55,6 +56,9 @@ public class CheaterBot extends Bot {
                             " from " + territory.getName());
                     neighbor.getOwner().removeTerritory(neighborName);
                     gamePlayModel.eliminatePlayerIfPossible();
+                    if (gamePlayModel.getGameState() == Config.GAME_STATES.VICTORY) {
+                        return;
+                    }
                 }
             }
         }
