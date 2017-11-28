@@ -80,8 +80,8 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     public GamePlayModel() {
         maxTurns = ORIGINAL_MAX_TURN;
-        turnCounter = 0;
-        maxAttackTurn = ORIGINAL_MAX_ATTACK_TURN;
+        turnCounter = 1;
+        maxAttackTurn = maxTurns;
         attackCounter = 0;
         armyValue = DEFAULT_ARMY_VALUE;
         mapTableModel = new MapTableModel();
