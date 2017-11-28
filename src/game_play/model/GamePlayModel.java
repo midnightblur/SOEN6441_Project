@@ -1087,10 +1087,6 @@ public class GamePlayModel extends Observable implements Serializable {
             botsReinforcement();
             
             botsAttack();
-        } else {
-            // TODO: pop-up continue dialog and reset turnCounter
-            // view will observe this change and click an already existing invisible button
-            // this button is listened by controller that pops-up the frame
         }
     }
     
