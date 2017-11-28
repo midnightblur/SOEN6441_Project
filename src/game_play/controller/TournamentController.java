@@ -14,6 +14,7 @@ import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Player;
 import shared_resources.helper.GameMapHelper;
 import shared_resources.helper.UIHelper;
+import shared_resources.strategy.CheaterBot;
 import shared_resources.utilities.Config;
 
 import javax.swing.*;
@@ -27,7 +28,16 @@ import static shared_resources.utilities.Config.GAME_STATES.VICTORY;
 
 
 /**
- * TODO
+ * The controller for tournament mode
+ *
+ * <ul>
+ * <li> Load valid maps from folder
+ * <li> Validate user entries against predefined bounds
+ * <li> Make a vector of games to play
+ * <li> Determine the supported number of players against all maps to be played
+ * <li> Play each game from the vector of games and collect the result
+ * <li> Pop-up results for tournament
+ * </ul>
  *
  * @author Team 2
  * @version 3.0
@@ -268,6 +278,7 @@ public class TournamentController {
      */
     private void showStrategyOptions(Vector<Player> players) {
         strategyDialog.populateOptions(players, true);
+        strategyDialog.selectSpecificStrategy(CheaterBot.class.getSimpleName());
         strategyDialog.revalidate();
         strategyDialog.repaint();
         strategyDialog.setVisible(true);
