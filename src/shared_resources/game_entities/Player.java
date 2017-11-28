@@ -623,12 +623,9 @@ public class Player implements Serializable {
                 Random rand = new Random();
                 defendingDice = 1 + rand.nextInt(maxDefendingDice - 1);
             }
-        } else if (this.isAggressiveBot() || this.isBenevolentBot()) {
+        } else if (this.isAggressiveBot() || this.isBenevolentBot() || this.isCheaterBot()) {
             // Choose maximum number of dice possible
             defendingDice = maxDefendingDice;
-        } else if (this.isCheaterBot()) {
-            // Choose 10 dice
-            defendingDice = 10;
         }
         return defendingDice;
     }
