@@ -29,11 +29,11 @@ public class CheaterBot extends Bot {
         for (Territory territory : player.getTerritories()) {
             territory.setArmies(territory.getArmies() * 2);
             log.append("        " + player.getPlayerName() +
-                        " doubles armies in " + territory.getName() + " to " + territory.getArmies());
+                    " doubles armies in " + territory.getName() + " to " + territory.getArmies());
         }
         return "";
     }
-
+    
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         // Conquer all neighbors of all its territories without losing an army - awesome :))
@@ -47,17 +47,19 @@ public class CheaterBot extends Bot {
                             neighbor.getOwner(), neighbor, 1));
                     conqueredTerritories.add(neighbor);
                     log.append("        " + neighbor.getName() + " of " +
-                            neighbor.getOwner().getPlayerName() +" has been conquered by " + player.getPlayerName() +
+                            neighbor.getOwner().getPlayerName() + " has been conquered by " + player.getPlayerName() +
                             " from " + territory.getName());
                     neighbor.getOwner().removeTerritory(neighborName);
-                    neighbor.setOwner(player);
                     gamePlayModel.eliminatePlayerIfPossible();
                 }
             }
         }
         player.getTerritories().addAll(conqueredTerritories);
+        for (Territory justConqueredTerritory : conqueredTerritories) {
+            justConqueredTerritory.setOwner(player);
+        }
     }
-
+    
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
         // Double armies in all territories that have neighbors owned by other players
@@ -70,7 +72,7 @@ public class CheaterBot extends Bot {
                     hasArmiesMoved = true;
                     territory.setArmies(territory.getArmies() * 2);
                     log.append("        " + territory.getName() + " has neighbor " +
-                                neighborName + " owned by " + neighbor.getOwner().getPlayerName());
+                            neighborName + " owned by " + neighbor.getOwner().getPlayerName());
                     log.append("            " + player.getPlayerName() +
                             " doubles armies in " + territory.getName() + " to " + territory.getArmies());
                     break;
