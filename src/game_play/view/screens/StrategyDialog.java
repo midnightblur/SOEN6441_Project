@@ -76,7 +76,8 @@ public class StrategyDialog extends JDialog {
     /**
      * Populates the strategy dialog from a players vector once available
      *
-     * @param players the vector of players to populate the dialog
+     * @param players      the vector of players to populate the dialog
+     * @param isTournament flag to determine if the strategy window is used by tournament case in which humans are removed
      */
     public void populateOptions(Vector<Player> players, boolean isTournament) {
         mainPanel.removeAll();
@@ -107,9 +108,9 @@ public class StrategyDialog extends JDialog {
     /**
      * Disable "Human" option
      */
-    public void selectHumanAsDefault() {
-        for (int i = 0; i < playersOptions.length; i++) {
-            Enumeration<AbstractButton> b = playersOptions[i].getGroup().getElements();
+    public void disableHumanOption() {
+        for (BehaviourOptions playersOption : playersOptions) {
+            Enumeration<AbstractButton> b = playersOption.getGroup().getElements();
             while (b.hasMoreElements()) {
                 AbstractButton r = b.nextElement();
                 if (r.getText().contains("Human")) {
@@ -169,7 +170,8 @@ public class StrategyDialog extends JDialog {
         /**
          * Constructor that creates a set of option and a name label for each player
          *
-         * @param player the player object
+         * @param player       the player object
+         * @param isTournament flag to determine if the strategy window is used by tournament case in which humans are removed
          */
         BehaviourOptions(Player player, boolean isTournament) {
             player_label = new JLabel(player.getPlayerName());

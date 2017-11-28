@@ -61,22 +61,12 @@ public class Player implements Serializable {
     // endregion
     
     // region Getters & Setters
-    /**
-     * Gets the current phase of the player
-     *
-     * @return the game phase
-     */
-    public Config.GAME_STATES getGameState() {
-        return gameState;
-    }
     
     /**
-     * Set the game phase for the player
-     *
-     * @param gameState the next phase
+     * Resets the static counter, nextID, in Player class to zero.
      */
-    public void setGameState(Config.GAME_STATES gameState) {
-        this.gameState = gameState;
+    public static void resetStaticNextID() {
+        nextID = 0;
     }
     
     /**
@@ -207,9 +197,7 @@ public class Player implements Serializable {
     public void setHasConqueredTerritories(boolean hasConqueredTerritories) {
         this.hasConqueredTerritories = hasConqueredTerritories;
     }
-    // endregion
     
-    // region Public methods
     /**
      * Adds the territory.
      *
@@ -220,6 +208,9 @@ public class Player implements Serializable {
             territories.add(territory);
         }
     }
+    // endregion
+    
+    // region Public methods
     
     /**
      * Override equals method to check whether or not two Player objects are the same.
@@ -259,13 +250,6 @@ public class Player implements Serializable {
                 return;
             }
         }
-    }
-    
-    /**
-     * Resets the static counter, nextID, in Player class to zero.
-     */
-    public static void resetStaticNextID() {
-        nextID = 0;
     }
     
     /**
@@ -361,48 +345,21 @@ public class Player implements Serializable {
     }
     
     /**
-     * Check whether a player is human or bot
+     * Gets the current phase of the player
      *
-     * @return true if the player is human player, false if it is a bot
+     * @return the game phase
      */
-    public boolean isHuman() {
-        return (playerType instanceof Human);
+    public Config.GAME_STATES getGameState() {
+        return gameState;
     }
     
     /**
-     * Check whether a player is a random bot
+     * Set the game phase for the player
      *
-     * @return true if the player is random bot, false otherwise
+     * @param gameState the next phase
      */
-    public boolean isRandomBot() {
-        return (playerType instanceof RandomBot);
-    }
-    
-    /**
-     * Check whether a player is a benevolent bot
-     *
-     * @return true if the player is benevolent bot, false otherwise
-     */
-    public boolean isBenevolentBot() {
-        return (playerType instanceof BenevolentBot);
-    }
-    
-    /**
-     * Check whether a player is a aggressive bot
-     *
-     * @return true if the player is aggressive bot, false otherwise
-     */
-    public boolean isAggressiveBot() {
-        return (playerType instanceof AggressiveBot);
-    }
-    
-    /**
-     * Check whether a player is a cheater bot
-     *
-     * @return true if the player is cheater bot, false otherwise
-     */
-    public boolean isCheaterBot() {
-        return (playerType instanceof CheaterBot);
+    public void setGameState(Config.GAME_STATES gameState) {
+        this.gameState = gameState;
     }
     
     /**
@@ -452,7 +409,15 @@ public class Player implements Serializable {
         }
         log.append("    " + playerName + " move to " + gameState);
     }
-    // region Reinforcement Phase
+    
+    /**
+     * Check whether a player is human or bot
+     *
+     * @return true if the player is human player, false if it is a bot
+     */
+    public boolean isHuman() {
+        return (playerType instanceof Human);
+    }
     
     /**
      * Looping through view table, get the quantity of armies for each territory
@@ -478,7 +443,9 @@ public class Player implements Serializable {
     }
     
     /**
-     * Implement the Reinforcement Phase of a particular player
+     * {@inheritDoc}
+     *
+     * Implements the Reinforcement Phase of a particular player
      *
      * @param gamePlayModel the game play model
      * @param selectedCards the selected cards
@@ -498,6 +465,7 @@ public class Player implements Serializable {
     public int getUnallocatedArmies() {
         return this.unallocatedArmies;
     }
+    // region Reinforcement Phase
     
     /**
      * Sets the unallocated armies.
@@ -536,11 +504,10 @@ public class Player implements Serializable {
             return true;
         } else return (infantryCount >= 3 || cavalryCount >= 3 || artilleryCount >= 3);
     }
-    // endregion
-    
-    // region Attack Phase
     
     /**
+     * {@inheritDoc}
+     *
      * Implements the Attack Phase of particular player.
      *
      * This method allows a player to make an attack move with an opponent player based on the
@@ -609,9 +576,14 @@ public class Player implements Serializable {
         
         return false;
     }
+    // endregion
+    
+    // region Attack Phase
     
     /**
      * If the player is defender in a battle, gets the number of dice he wants to use to defend
+     *
+     * @param maxDefendingDice the maximum defending dice
      *
      * @return the number of dice to defend
      */
@@ -630,6 +602,49 @@ public class Player implements Serializable {
         return defendingDice;
     }
     
+    /**
+     * Check whether a player is a random bot
+     *
+     * @return true if the player is random bot, false otherwise
+     */
+    public boolean isRandomBot() {
+        return (playerType instanceof RandomBot);
+    }
+    
+    /**
+     * Check whether a player is a aggressive bot
+     *
+     * @return true if the player is aggressive bot, false otherwise
+     */
+    public boolean isAggressiveBot() {
+        return (playerType instanceof AggressiveBot);
+    }
+    
+    /**
+     * Check whether a player is a benevolent bot
+     *
+     * @return true if the player is benevolent bot, false otherwise
+     */
+    public boolean isBenevolentBot() {
+        return (playerType instanceof BenevolentBot);
+    }
+    
+    /**
+     * Check whether a player is a cheater bot
+     *
+     * @return true if the player is cheater bot, false otherwise
+     */
+    public boolean isCheaterBot() {
+        return (playerType instanceof CheaterBot);
+    }
+    
+    /**
+     * {@inheritDoc}
+     *
+     * Moves armies to conquered territory
+     *
+     * @param gamePlayModel the game model
+     */
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
         if (gamePlayModel.getCurrentBattle() != null) {
             playerType.moveArmiesToConqueredTerritory(gamePlayModel);
@@ -640,6 +655,8 @@ public class Player implements Serializable {
     // region Fortification Phase
     
     /**
+     * {@inheritDoc}
+     *
      * Implement the Fortification Phase of a particular player.
      *
      * The method gives a player an option to move any number of armies from one country to
@@ -668,7 +685,7 @@ public class Player implements Serializable {
      *
      * @return true if there is at least 1 valid territory, false if there's none
      */
-    public boolean ableToForitfy(GameMap gameMap) {
+    public boolean ableToFortify(GameMap gameMap) {
         for (Territory territory : territories) {
             if (territory.getArmies() >= 2) {
                 for (String neighborName : territory.getNeighbors()) {

@@ -237,6 +237,9 @@ public class TournamentController {
         strategyDialog.setVisible(true);
     }
     
+    /**
+     * Quits the game
+     */
     private void quit() {
         System.exit(0);
     }

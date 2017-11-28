@@ -103,6 +103,11 @@ public abstract class Bot implements PlayerType {
         }
     }
     
+    /**
+     * Base function for conquering territory by bots
+     *
+     * @param gamePlayModel the game model
+     */
     void conquerTerritoryForBots(GamePlayModel gamePlayModel) {
         Player winner = gamePlayModel.getCurrentPlayer();
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();

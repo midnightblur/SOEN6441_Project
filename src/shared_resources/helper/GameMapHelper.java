@@ -359,7 +359,7 @@ public class GameMapHelper {
      * Meaning there is a path from any territory to any another territory in the continent
      * A path is a collection of 1-way relationships from one territory to another
      * Using Depth-First-Search algorithm to check if there is a path from one territory to all others
-     * Run the algorithm with all the territories in the contient
+     * Run the algorithm with all the territories in the continent
      * If all territories can use DFS to reach all other nodes, the continent is strongly connected
      *
      * @param gameMap   the game map

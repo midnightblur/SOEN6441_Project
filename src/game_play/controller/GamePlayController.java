@@ -230,6 +230,9 @@ public class GamePlayController {
         }
     }
     
+    /**
+     * Asks user for a decision when maximum turns are reached
+     */
     private void askUserInteraction() {
         Object[] options = { "Continue", "Exit" };
         int result = JOptionPane.showOptionDialog(null, "Game reached maximum attacks allotted (" + gamePlayModel.getMaxAttackTurn() + ")\n" +
@@ -410,6 +413,9 @@ public class GamePlayController {
         }
     }
     
+    /**
+     * Sets up the battle resources
+     */
     private void setupTheBattle() {
         /* Prepare ingredients for the battle */
         String defendingTerritoryName = String.valueOf(
@@ -428,6 +434,9 @@ public class GamePlayController {
                 defender, defendingTerritory, 0));
     }
     
+    /**
+     * Opens the modal dialog for defender to roll dices when is attacked
+     */
     private void openDefendingDialog() {
         Battle currentBattle = gamePlayModel.getCurrentBattle();
         String situation = String.format("%s attacks from %s to %s's %s using %d dice",
@@ -459,6 +468,9 @@ public class GamePlayController {
         gamePlayModel.changePhaseOfCurrentPlayer(FORTIFICATION);
     }
     
+    /**
+     * Starts the bot turn
+     */
     private void startBotTurn() {
         gamePlayModel.letBotsPlay();
     }
@@ -637,6 +649,9 @@ public class GamePlayController {
         }
     }
     
+    /**
+     * Moves armies to conquered territories by asking user to decide where to place them
+     */
     private void moveArmiesToConqueredTerritoryIfPossible() {
         /* Display dialog to let the winning attacker to move armies to conquered territory */
         if (gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
