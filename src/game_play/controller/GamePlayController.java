@@ -547,6 +547,7 @@ public class GamePlayController {
     
     /**
      * Call appropriate function in GamePlayModel to perform a battle
+     * When defender is a human
      *
      * @param dialog the modal dialog for defender
      * @param owner  the owner of attacked territory
@@ -565,6 +566,7 @@ public class GamePlayController {
             );
             
             announceVictoryIfPossible(message);
+            moveArmiesToConqueredTerritoryIfPossible();
         } else {  // if bot attacker
             gamePlayModel.getCurrentBattle().setDefendingDice(defendingDice);
             gamePlayModel.botsFortification(true);
@@ -573,6 +575,7 @@ public class GamePlayController {
     
     /**
      * Call appropriate function in GamePlayModel to perform a battle
+     * When defender is a bot
      *
      * @param defendingDice the number of defender's dice
      */
@@ -586,6 +589,7 @@ public class GamePlayController {
         );
         
         announceVictoryIfPossible(message);
+        moveArmiesToConqueredTerritoryIfPossible();
     }
     
     /**
@@ -609,9 +613,11 @@ public class GamePlayController {
             UIHelper.closeFrame(gamePlayFrame);
             UIHelper.invokeFrame(callerController.getMainMenuFrame());
         }
-        
+    }
+    
+    private void moveArmiesToConqueredTerritoryIfPossible() {
         /* Display dialog to let the winning attacker to move armies to conquered territory */
-        else if (gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
+        if (gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
             openMoveArmiesToConqueredTerritoryDialog();
         }
     }
