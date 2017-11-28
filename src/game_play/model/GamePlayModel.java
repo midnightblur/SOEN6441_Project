@@ -119,10 +119,20 @@ public class GamePlayModel extends Observable implements Serializable {
     
     // region Getters and Setters
     
+    /**
+     * Gets original max turn
+     *
+     * @return the original max turn
+     */
     public int getOriginalMaxTurn() {
         return ORIGINAL_MAX_TURN;
     }
     
+    /**
+     * Gets the orignial max attack turns
+     *
+     * @return the original max attack turns
+     */
     public int getOriginalMaxAttackTurn() {
         return ORIGINAL_MAX_ATTACK_TURN;
     }
