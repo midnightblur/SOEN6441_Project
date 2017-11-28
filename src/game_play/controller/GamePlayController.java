@@ -617,7 +617,6 @@ public class GamePlayController {
     private void announceVictoryIfPossible(String message) {
         // If outcome is victory
         if (gamePlayModel.getCurrentPlayer().getGameState() == VICTORY) {
-            gamePlayModel.setGameState(SETUP);
             UIHelper.displayMessage(gamePlayFrame, message);
             UIHelper.invokeFrame(callerController.getMainMenuFrame());
             UIHelper.disableFrame(gamePlayFrame);

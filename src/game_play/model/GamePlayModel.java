@@ -1221,13 +1221,12 @@ public class GamePlayModel extends Observable implements Serializable {
             performBattleIfPossible();
             decideBattleResultIfPossible();
             conquerTerritoryIfPossible();
-        }
-        currentBattle = null;
-        
-        if (gameState == VICTORY) {
+        } else if (gameState == VICTORY) {
             broadcastGamePlayChanges();
             return;
         }
+        
+        currentBattle = null;
         
         if (!continueAttack) {
             // Fortification phase
