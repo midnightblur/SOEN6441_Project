@@ -931,8 +931,8 @@ public class GamePlayModel extends Observable implements Serializable {
      * @param attacker the attacker
      */
     public void drawCardForWinner(Player attacker) {
-        Card card = drawCard();
-        if (card != null) {
+        if (deck.size() != 0) {
+            Card card = drawCard();
             attacker.addCardToPlayersHand(card);
             log.append("        " + attacker.getPlayerName() + " received the " + card.getCardType().name() + " card");
         } else {
