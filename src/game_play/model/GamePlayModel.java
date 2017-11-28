@@ -53,6 +53,7 @@ public class GamePlayModel extends Observable implements Serializable {
     // region Attributes declaration
     private static final long serialVersionUID = 42L;
     private static final int DEFAULT_ARMY_VALUE = 5;
+    private static final int MAX_ATTACK_TURN = 50;
     private GameMap gameMap;
     private MapTableModel mapTableModel;
     private GAME_STATES gameState;
@@ -67,6 +68,7 @@ public class GamePlayModel extends Observable implements Serializable {
     private int maxTurns;
     private int turnCounter = 1;
     private Player winner;
+    private int attackCounter;
     
     /**
      * Public GamePlayModel constructor.
@@ -109,6 +111,17 @@ public class GamePlayModel extends Observable implements Serializable {
     // endregion
     
     // region Getters and Setters
+    public int getMaxAttackTurn() {
+        return MAX_ATTACK_TURN;
+    }
+    
+    public int getAttackCounter() {
+        return attackCounter;
+    }
+    
+    public void setAttackCounter(int attackCounter) {
+        this.attackCounter = attackCounter;
+    }
     
     /**
      * Method to update the GamePlayModel and notify the Observer.
@@ -1092,32 +1105,37 @@ public class GamePlayModel extends Observable implements Serializable {
         if (turnCounter <= maxTurns && gameState != VICTORY) {
             // Bots reinforce and declare attack if it wants
             botsReinforcement();
-            
+            attackCounter = 0;
             botsAttack();
         }
     }
     
     // endregion
     
-    private void botsAttack() {
-        currentPlayer.attack(this);
-        // If bots declare new attack, let defender choose number of defending dice
-        if (currentBattle != null) {
-            Player defender = currentBattle.getDefender();
-            if (defender.isHuman()) {
-                needDefenderReaction = true;
-                broadcastGamePlayChanges();
-            } else {
-                int defendingDice = defender.botChooseDefendingDice(currentBattle.getMaxDefendingRoll());
-                currentBattle.setDefendingDice(defendingDice);
-                botsFortification(true);
+    public void botsAttack() {
+        if (attackCounter == MAX_ATTACK_TURN) {
+            broadcastGamePlayChanges();
+        } else {
+            currentPlayer.attack(this);
+            attackCounter++;
+            // If bots declare new attack, let defender choose number of defending dice
+            if (currentBattle != null) {
+                Player defender = currentBattle.getDefender();
+                if (defender.isHuman()) {
+                    needDefenderReaction = true;
+                    broadcastGamePlayChanges();
+                } else {
+                    int defendingDice = defender.botChooseDefendingDice(currentBattle.getMaxDefendingRoll());
+                    currentBattle.setDefendingDice(defendingDice);
+                    botsFortification(true);
+                }
+            } else { // If bots quits attacking or cannot attack anymore
+                if (currentPlayer.hasConqueredTerritories()) {
+                    drawCardForWinner(currentPlayer);
+                    currentPlayer.setHasConqueredTerritories(false);
+                }
+                botsFortification(false);
             }
-        } else { // If bots quits attacking or cannot attack anymore
-            if (currentPlayer.hasConqueredTerritories()) {
-                drawCardForWinner(currentPlayer);
-                currentPlayer.setHasConqueredTerritories(false);
-            }
-            botsFortification(false);
         }
     }
     

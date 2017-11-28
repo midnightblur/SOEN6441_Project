@@ -124,6 +124,7 @@ public class GamePlayController {
         gamePlayFrame.addPopupVictoryDialogButtonListener(e -> announceVictoryIfPossible(
                 gamePlayModel.getCurrentPlayer().getPlayerName() + " is the winner"));
         gamePlayFrame.addTurnCounterReachedMaxButtonListener(e -> askUserToContinue());
+        gamePlayFrame.addAttackCounterReachedMaxButtonListener(e -> askUserInteraction());
         
         /* Play button to start the game */
         gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> gameStartupPhase());
@@ -227,7 +228,28 @@ public class GamePlayController {
             UIHelper.invokeFrame(callerController.getMainMenuFrame());
             UIHelper.disableFrame(gamePlayFrame);
         }
+    }
+    
+    private void askUserInteraction() {
+        Object[] options = { "Continue", "Exit" };
+        int result = JOptionPane.showOptionDialog(null, "Game reached maximum attacks allotted (" + gamePlayModel.getMaxAttackTurn() + ")\n" +
+                        "Do you want to continue attacking?",
+                "Max Turns Reached",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                null, options, null);
         
+        /* Yes, continue playing */
+        if (result == JOptionPane.YES_OPTION) {
+            gamePlayModel.setAttackCounter(0);
+            gamePlayModel.botsAttack();
+            // TODO: what happens if we play with humans, what function do we call here?
+        }
+        
+        /* Yes, continue playing */
+        else if (result == JOptionPane.NO_OPTION) {
+            UIHelper.invokeFrame(callerController.getMainMenuFrame());
+            UIHelper.disableFrame(gamePlayFrame);
+        }
     }
     //endregion
     
