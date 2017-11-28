@@ -9,12 +9,10 @@ package game_play.controller;
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
 import game_play.model.TournamentResultsModel;
-import game_play.view.screens.GamePlayFrame;
-import game_play.view.screens.ResultsFrame;
-import game_play.view.screens.StrategyDialog;
-import game_play.view.screens.TournamentFrame;
+import game_play.view.screens.*;
 import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Player;
+import shared_resources.helper.GameMapHelper;
 import shared_resources.helper.UIHelper;
 import shared_resources.utilities.Config;
 
@@ -27,6 +25,7 @@ import static shared_resources.helper.GameMapHelper.loadGameMap;
 import static shared_resources.utilities.Config.GAME_STATES.STARTUP;
 import static shared_resources.utilities.Config.GAME_STATES.VICTORY;
 
+
 /**
  * TODO
  *
@@ -34,6 +33,7 @@ import static shared_resources.utilities.Config.GAME_STATES.VICTORY;
  * @version 3.0
  */
 public class TournamentController {
+    private static LoggingFrame log = LoggingFrame.getInstance();
     // region Attribute declaration
     private TournamentFrame tournamentFrame;
     private MainMenuController callerController;
@@ -64,7 +64,7 @@ public class TournamentController {
         strMapSet = new Vector<>();
         
         /* update map list and populate dropdown */
-        tournamentFrame.getMapList().setModel(updateListOfMaps());
+        tournamentFrame.getMapList().setModel(validMapsFromFolder());
         
         strategyDialog = new StrategyDialog(tournamentFrame);
         strategyDialog.addSubmitButtonListener(e -> setStrategy());
@@ -183,6 +183,7 @@ public class TournamentController {
      * Close MapSelectorFrame, invoke MainMenuFrame.
      */
     private void backToMainMenu() {
+        LoggingFrame.getInstance().getLogArea().setText("");
         tournamentFrame.dispose();
         if (resultsFrame != null) resultsFrame.dispose();
         UIHelper.invokeFrame(callerController.getMainMenuFrame());
@@ -192,13 +193,23 @@ public class TournamentController {
     // region Methods to handle events from UI
     
     /**
-     * Show the list of map files to the JComboBox.
+     * Show the list of map files
      *
-     * @return the drop down game_entities
+     * @return the model for the map list
      */
-    private DropDownModel updateListOfMaps() {
-        Vector<String> mapList = new Vector<>(getMapsInFolder(Config.MAPS_FOLDER));
-        return new DropDownModel(mapList);
+    private DropDownModel validMapsFromFolder() {
+        Vector<String> mapsInFolder = new Vector<>(getMapsInFolder(Config.MAPS_FOLDER));
+        Vector<String> validMaps = new Vector<>();
+        /* Check to see if the maps are invalid and remove them from the list */
+        for (String mapFile : mapsInFolder) {
+            try {
+                GameMapHelper.validateMap(GameMapHelper.loadGameMap(mapFile));
+                validMaps.add(mapFile);
+            } catch (Exception e) {
+                log.append("Map discarded: " + mapFile + " [" + e.getMessage() + "]");
+            }
+        }
+        return new DropDownModel(validMaps);
     }
     
     /**
