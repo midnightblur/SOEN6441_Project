@@ -55,6 +55,7 @@ public class StrategyDialog extends JDialog {
         
         setContentPane(mainPanel);
         setTitle("Set players' strategy");
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         pack();
         setResizable(false);
         setLocationRelativeTo(gamePlayFrame);
@@ -106,15 +107,17 @@ public class StrategyDialog extends JDialog {
     }
     
     /**
-     * Disable "Human" option
+     * Select a specific strategy
+     *
+     * @param playerType the strategy class to be selected
      */
-    public void disableHumanOption() {
+    public void selectSpecificStrategy(String playerType) {
         for (BehaviourOptions playersOption : playersOptions) {
             Enumeration<AbstractButton> b = playersOption.getGroup().getElements();
             while (b.hasMoreElements()) {
                 AbstractButton r = b.nextElement();
-                if (r.getText().contains("Human")) {
-                    r.setEnabled(false);
+                if (r.getText().contains(playerType)) {
+                    r.setSelected(true);
                 }
             }
         }

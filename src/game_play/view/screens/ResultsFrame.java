@@ -17,7 +17,7 @@ import java.util.Observer;
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
 /**
- * TODO
+ * The results frame to hold the tournament reports
  *
  * @author Team 2
  * @version 3.0
