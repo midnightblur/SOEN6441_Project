@@ -427,6 +427,8 @@ public class Player implements Serializable {
      */
     public void distributeArmies(Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
+            log.append("        " + playerName + " wants to place " + entry.getValue() + " armies on " + entry.getKey().getName());
+    
             entry.getKey().addArmies(entry.getValue());
             log.append("        " + playerName + " placed " + entry.getValue() + " armies on " + entry.getKey().getName());
             reduceUnallocatedArmies(entry.getValue());

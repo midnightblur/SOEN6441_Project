@@ -88,26 +88,27 @@ public class GamePlayModel extends Observable implements Serializable {
         needDefenderReaction = false;
     }
 
-    /**
-     * Public GamePlayModel copy constructor (used in Tournament Mode game play).
-     *
-     * @param gamePlayModel
-     */
-    public GamePlayModel(GamePlayModel gamePlayModel) {
-        this.gameMap = gamePlayModel.gameMap;
-        this.mapTableModel = gamePlayModel.mapTableModel;
-        this.gameState = gamePlayModel.gameState;
-        this.currentPlayer = gamePlayModel.currentPlayer;
-        this.playerTerritoriesModel = gamePlayModel.playerTerritoriesModel;
-        this.armyValue = gamePlayModel.armyValue;
-        this.deck = gamePlayModel.deck;
-        this.players = gamePlayModel.players;
-        this.rand = gamePlayModel.rand;
-        this.currentBattle = gamePlayModel.currentBattle;
-        this.maxTurns = gamePlayModel.maxTurns;
-        this.turnCounter = gamePlayModel.turnCounter;
-        this.broadcastGamePlayChanges();
-    }
+    //TODO: remove the copy ctor since is not in use and is missing some other attributes
+//    /**
+//     * Public GamePlayModel copy constructor (used in Tournament Mode game play).
+//     *
+//     * @param gamePlayModel
+//     */
+//    public GamePlayModel(GamePlayModel gamePlayModel) {
+//        this.gameMap = gamePlayModel.gameMap;
+//        this.mapTableModel = gamePlayModel.mapTableModel;
+//        this.gameState = gamePlayModel.gameState;
+//        this.currentPlayer = gamePlayModel.currentPlayer;
+//        this.playerTerritoriesModel = gamePlayModel.playerTerritoriesModel;
+//        this.armyValue = gamePlayModel.armyValue;
+//        this.deck = gamePlayModel.deck;
+//        this.players = gamePlayModel.players;
+//        this.rand = gamePlayModel.rand;
+//        this.currentBattle = gamePlayModel.currentBattle;
+//        this.maxTurns = gamePlayModel.maxTurns;
+//        this.turnCounter = gamePlayModel.turnCounter;
+//        this.broadcastGamePlayChanges();
+//    }
 
     /**
      * Method to be used when restoring a saved game or making a copy of the game to play
