@@ -220,12 +220,11 @@ public class GamePlayController {
         /* Yes, continue playing */
         if (result == JOptionPane.YES_OPTION) {
             gamePlayModel.setMaxTurns(gamePlayModel.getMaxTurns() + gamePlayModel.getTurnCounter());
-//            gamePlayModel.addReinforcementForCurrPlayer();
             gamePlayModel.letBotsPlay();
             // TODO: what happens if we play with humans, what function do we call here?
         }
         
-        /* Yes, continue playing */
+        /* No, stop the game */
         else if (result == JOptionPane.NO_OPTION) {
             UIHelper.invokeFrame(callerController.getMainMenuFrame());
             UIHelper.disableFrame(gamePlayFrame);
@@ -250,7 +249,7 @@ public class GamePlayController {
             // TODO: what happens if we play with humans, what function do we call here?
         }
         
-        /* Yes, continue playing */
+        /* No, stop the game */
         else if (result == JOptionPane.NO_OPTION) {
             UIHelper.invokeFrame(callerController.getMainMenuFrame());
             UIHelper.disableFrame(gamePlayFrame);
