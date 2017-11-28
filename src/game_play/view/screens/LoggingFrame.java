@@ -26,11 +26,11 @@ import static shared_resources.utilities.Config.LOG_FILE_NAME;
  * @version 2.0
  */
 public class LoggingFrame extends JFrame {
-    private static LoggingFrame instance = null;
-    private static JTextArea logArea;
-    private static Path logPath = Paths.get(LOG_FILE_NAME);
     private static Charset charset = Charset.forName("UTF-8");
-    private static BufferedWriter bufferedWriter;
+    private static LoggingFrame instance = null;
+    private JTextArea logArea;
+    private Path logPath = Paths.get(LOG_FILE_NAME);
+    private BufferedWriter bufferedWriter;
     
     // region Constructors
     
@@ -74,7 +74,7 @@ public class LoggingFrame extends JFrame {
      *
      * @param text the text to be appended on the logging area
      */
-    public static void append(String text) {
+    public void append(String text) {
         dumpLog(text);
         
         if (logArea.getText().length() > 100000) {
@@ -91,7 +91,7 @@ public class LoggingFrame extends JFrame {
      *
      * @param text the text string to be appended to file
      */
-    private static void dumpLog(String text) {
+    private void dumpLog(String text) {
         try {
             bufferedWriter = Files.newBufferedWriter(logPath, charset, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             bufferedWriter.append(text);
