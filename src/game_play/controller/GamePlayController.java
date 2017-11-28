@@ -267,7 +267,6 @@ public class GamePlayController {
      * @param players the players to populate the strategy dialog
      */
     private void showStrategyOptions(Vector<Player> players) {
-//TODO: clear the dialog each time is shown
         strategyDialog.populateOptions(players, false);
         strategyDialog.revalidate();
         strategyDialog.repaint();
