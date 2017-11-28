@@ -485,8 +485,9 @@ public class GamePlayModel extends Observable implements Serializable {
      * @see GamePlayModel#initializeNewGame(int)
      */
     public void initializeNewGameForTournament() {
-        log.append("#####################################");
-        log.append("Starting new game");
+        log.append("\n##############################################");
+        log.append("=== STARTING NEW GAME ON MAP " + gameMap.getMapName() + " ===");
+        log.append("##############################################");
         log.append("    Number of continents: " + gameMap.getContinentsCount());
         log.append("    Number of territories: " + gameMap.getTerritoriesCount());
         initDeck();
