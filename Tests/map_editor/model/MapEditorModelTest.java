@@ -1,9 +1,4 @@
-/*
- * Risk Game Team 2
- * MapEditorModelTest.java
- * Version 1.0
- * Oct 18, 2017
- */
+
 package map_editor.model;
 
 import game_play.model.MapTableModel;
@@ -21,12 +16,7 @@ import java.nio.file.Paths;
 
 import static shared_resources.utilities.Config.MAPS_FOLDER;
 
-/**
- * The Class MapEditorModelTest.
- *
- * @author Team 2
- * @version 1.0
- */
+
 public class MapEditorModelTest {
 
     /** The file name. */
