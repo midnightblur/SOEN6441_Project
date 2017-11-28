@@ -215,6 +215,8 @@ public class GamePlayController {
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
                 null, options, null);
         
+        
+        
         /* Yes, continue playing */
         if (result == JOptionPane.YES_OPTION) {
             gamePlayModel.setMaxTurns(gamePlayModel.getMaxTurns() + gamePlayModel.getTurnCounter());

@@ -70,17 +70,21 @@ public class LoggingFrame extends JFrame {
     // region Public Methods
     
     /**
+     * Gets the text area for logging
+     *
+     * @return the text area
+     */
+    public JTextArea getLogArea() {
+        return logArea;
+    }
+    
+    /**
      * Appends text to logging text area
      *
      * @param text the text to be appended on the logging area
      */
     public void append(String text) {
         dumpLog(text);
-        
-        if (logArea.getText().length() > 100000) {
-            logArea.setText("");
-        }
-        
         logArea.append("\n" + text);
         logArea.repaint();
         logArea.setCaretPosition(logArea.getDocument().getLength());

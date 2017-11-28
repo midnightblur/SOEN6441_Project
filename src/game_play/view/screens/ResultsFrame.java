@@ -26,8 +26,8 @@ public class ResultsFrame extends JFrame implements Observer {
     // region Attributes declaration
     private static final String TITLE = "Results";
     private static final String BACK_BUTTON = "Return to main menu";
-    private static final int WIDTH = 1000;
-    private static final int HEIGHT = 500;
+    private static final int WIDTH = 1100;
+    private static final int HEIGHT = 250;
     private JTable resultsTable;
     private JButton returnToMainButton;
     // endregion
