@@ -51,7 +51,6 @@ public class GamePlayFrame extends JFrame implements Observer {
     private Vector<Player> playersList;
     private MainMenuController callerController;
     private JButton openDefendingDialogButton; // invisible button to activate DefendingDialog for human player
-    private JButton letBotPlayButton; // invisible button to activate a bot player's turn
     private JButton popupVictoryDialogButton; // invisible button to activate victory dialog
     private JButton turnCounterReachedMaxButton; // invisible button to activate a bot player's turn
     private JButton attackCounterReachedMaxButton; // invisible button to activate a new attack turn of current player
@@ -111,7 +110,6 @@ public class GamePlayFrame extends JFrame implements Observer {
         
         /* Setup invisible components */
         openDefendingDialogButton = new JButton();
-        letBotPlayButton = new JButton();
         popupVictoryDialogButton = new JButton();
         turnCounterReachedMaxButton = new JButton();
         attackCounterReachedMaxButton = new JButton();
@@ -230,15 +228,6 @@ public class GamePlayFrame extends JFrame implements Observer {
      */
     public void addOpenDefendingDialogButtonListener(ActionListener listenerForOpenDefendingDialogButton) {
         openDefendingDialogButton.addActionListener(listenerForOpenDefendingDialogButton);
-    }
-    
-    /**
-     * Adds let bot player button listener
-     *
-     * @param listenerForLetBotPlayButton the listener for let bot play button
-     */
-    public void addLetBotPlayButtonListener(ActionListener listenerForLetBotPlayButton) {
-        letBotPlayButton.addActionListener(listenerForLetBotPlayButton);
     }
     
     /**
@@ -380,9 +369,6 @@ public class GamePlayFrame extends JFrame implements Observer {
                 if (gamePlayModel.isNeedDefenderReaction() && !gamePlayModel.getCurrentPlayer().isHuman()) { // A human attacked by a bot
                     gamePlayModel.setNeedDefenderReaction(false);
                     openDefendingDialogButton.doClick();
-                } else if (!gamePlayModel.getCurrentPlayer().isHuman() &&
-                        gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.REINFORCEMENT) { // A new bot player takes turn
-                    letBotPlayButton.doClick();
                 } else if (gamePlayModel.getCurrentPlayer().isHuman()) { // Current player is human
                     gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
             

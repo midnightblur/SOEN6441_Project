@@ -120,7 +120,6 @@ public class GamePlayController {
         gamePlayFrame.addLoadMenuListener(e -> loadSavedGame());
         gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions(gamePlayModel.getPlayers()));
         gamePlayFrame.addOpenDefendingDialogButtonListener(e -> openDefendingDialog());
-        gamePlayFrame.addLetBotPlayButtonListener(e -> startBotTurn());
         gamePlayFrame.addPopupVictoryDialogButtonListener(e -> announceVictoryIfPossible(
                 gamePlayModel.getCurrentPlayer().getPlayerName() + " is the winner"));
         gamePlayFrame.addTurnCounterReachedMaxButtonListener(e -> askUserToContinue());
@@ -219,6 +218,7 @@ public class GamePlayController {
         /* Yes, continue playing */
         if (result == JOptionPane.YES_OPTION) {
             gamePlayModel.setMaxTurns(gamePlayModel.getMaxTurns() + gamePlayModel.getTurnCounter());
+//            gamePlayModel.addReinforcementForCurrPlayer();
             gamePlayModel.letBotsPlay();
             // TODO: what happens if we play with humans, what function do we call here?
         }
@@ -466,13 +466,6 @@ public class GamePlayController {
         gamePlayModel.setCurrentBattle(null);
         
         gamePlayModel.changePhaseOfCurrentPlayer(FORTIFICATION);
-    }
-    
-    /**
-     * Starts the bot turn
-     */
-    private void startBotTurn() {
-        gamePlayModel.letBotsPlay();
     }
     
     // endregion

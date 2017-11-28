@@ -663,6 +663,10 @@ public class GamePlayModel extends Observable implements Serializable {
         addReinforcementForCurrPlayer();
         updatePlayerTerritoriesModel();
         broadcastGamePlayChanges();
+        
+        if (!currentPlayer.isHuman()) {
+            letBotsPlay();
+        }
     }
     
     /**
@@ -812,6 +816,10 @@ public class GamePlayModel extends Observable implements Serializable {
         addReinforcementForCurrPlayer();
         updatePlayerTerritoriesModel();
         broadcastGamePlayChanges();
+        
+        if (!currentPlayer.isHuman()) {
+            letBotsPlay();
+        }
     }
     // endregion
     
