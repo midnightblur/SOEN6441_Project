@@ -148,8 +148,8 @@ public class Continent implements Serializable {
      *
      * @throws NullPointerException if territories are not yet allocated to players
      */
-    public int getContinentArmies(GameMap gameMap) throws NullPointerException {
-        int count = 0;
+    public long getContinentArmies(GameMap gameMap) throws NullPointerException {
+        long count = 0;
         for (String territoryName : territories) {
             count += gameMap.getATerritory(territoryName).getArmies();
         }
