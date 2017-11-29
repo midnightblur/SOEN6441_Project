@@ -80,8 +80,8 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     public GamePlayModel() {
         maxTurns = ORIGINAL_MAX_TURN;
-        turnCounter = 0;
-        maxAttackTurn = ORIGINAL_MAX_ATTACK_TURN;
+        turnCounter = 1;
+        maxAttackTurn = maxTurns;
         attackCounter = 0;
         armyValue = DEFAULT_ARMY_VALUE;
         mapTableModel = new MapTableModel();
@@ -119,10 +119,20 @@ public class GamePlayModel extends Observable implements Serializable {
     
     // region Getters and Setters
     
+    /**
+     * Gets original max turn
+     *
+     * @return the original max turn
+     */
     public int getOriginalMaxTurn() {
         return ORIGINAL_MAX_TURN;
     }
     
+    /**
+     * Gets the orignial max attack turns
+     *
+     * @return the original max attack turns
+     */
     public int getOriginalMaxAttackTurn() {
         return ORIGINAL_MAX_ATTACK_TURN;
     }
@@ -1221,13 +1231,12 @@ public class GamePlayModel extends Observable implements Serializable {
             performBattleIfPossible();
             decideBattleResultIfPossible();
             conquerTerritoryIfPossible();
-        }
-        currentBattle = null;
-        
-        if (gameState == VICTORY) {
+        } else if (gameState == VICTORY) {
             broadcastGamePlayChanges();
             return;
         }
+        
+        currentBattle = null;
         
         if (!continueAttack) {
             // Fortification phase

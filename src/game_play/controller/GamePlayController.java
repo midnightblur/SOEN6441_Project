@@ -224,6 +224,9 @@ public class GamePlayController {
         manualInteractionDialog.addYesButtonListener(e -> continueTheGame(manualInteractionDialog, true));
     }
     
+    /**
+     * Start new a new turn of bot player
+     */
     private void startBotTurn() {
         gamePlayModel.letBotsPlay();
     }
@@ -335,6 +338,12 @@ public class GamePlayController {
         }
     }
     
+    /**
+     * Continue the game after getting manual interaction
+     *
+     * @param dialog         the manual interaction dialog
+     * @param isMaxAttacking is called because of reaching max attacking turn
+     */
     private void continueTheGame(ManualInteractionDialog dialog, boolean isMaxAttacking) {
         dialog.dispose();
         gamePlayModel.setMaxTurns(gamePlayModel.getOriginalMaxTurn() + gamePlayModel.getTurnCounter());
@@ -346,6 +355,11 @@ public class GamePlayController {
         }
     }
     
+    /**
+     * Stop the game from manual interaction dialog
+     *
+     * @param dialog the manual interaction dialog
+     */
     private void stopTheGame(ManualInteractionDialog dialog) {
         dialog.dispose();
         UIHelper.invokeFrame(callerController.getMainMenuFrame());
@@ -617,7 +631,6 @@ public class GamePlayController {
     private void announceVictoryIfPossible(String message) {
         // If outcome is victory
         if (gamePlayModel.getCurrentPlayer().getGameState() == VICTORY) {
-            gamePlayModel.setGameState(SETUP);
             UIHelper.displayMessage(gamePlayFrame, message);
             UIHelper.invokeFrame(callerController.getMainMenuFrame());
             UIHelper.disableFrame(gamePlayFrame);

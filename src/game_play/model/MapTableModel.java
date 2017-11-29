@@ -88,7 +88,7 @@ public class MapTableModel implements Serializable {
                 } else {
                     rows[i][3] = continent.getContinentOwner(gameMap);
                 }
-                rows[i][4] = Integer.toString(continent.getContinentArmies(gameMap));
+                rows[i][4] = Long.toString(continent.getContinentArmies(gameMap));
             }
             i++;
         }

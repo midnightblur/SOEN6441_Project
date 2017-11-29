@@ -487,7 +487,7 @@ public class Player implements Serializable {
         int infantryCount = 0;
         int cavalryCount = 0;
         int artilleryCount = 0;
-        
+    
         for (Card card : playersHand) {
             switch (card.getCardType()) {
                 case INFANTRY:
@@ -501,10 +501,8 @@ public class Player implements Serializable {
                     break;
             }
         }
-        
-        if (infantryCount > 0 && cavalryCount > 0 && artilleryCount > 0) {
-            return true;
-        } else return (infantryCount >= 3 || cavalryCount >= 3 || artilleryCount >= 3);
+    
+        return infantryCount > 0 && cavalryCount > 0 && artilleryCount > 0 || (infantryCount >= 3 || cavalryCount >= 3 || artilleryCount >= 3);
     }
     
     /**

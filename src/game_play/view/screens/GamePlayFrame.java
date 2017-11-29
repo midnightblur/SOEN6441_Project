@@ -259,6 +259,11 @@ public class GamePlayFrame extends JFrame implements Observer {
         attackCounterReachedMaxButton.addActionListener(listenerForAttackCounterReachedMaxButton);
     }
     
+    /**
+     * Adds start bot turn button listener
+     *
+     * @param listenerForStartBotTurnButton the listener for start bot turn button
+     */
     public void addStartBotTurnButtonListener(ActionListener listenerForStartBotTurnButton) {
         startBotTurnButton.addActionListener(listenerForStartBotTurnButton);
     }
