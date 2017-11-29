@@ -11,6 +11,12 @@ import static shared_resources.helper.GameMapHelper.loadGameMap;
 import static shared_resources.utilities.Config.GAME_STATES.STARTUP;
 import static shared_resources.utilities.Config.GAME_STATES.VICTORY;
 
+/**
+ * Tournament model class is responsible for handling the logic for tournament mode
+ *
+ * @author Team 2
+ * @version 3.0
+ */
 public class TournamentModel {
     private TournamentResultsModel tournamentResultsModel;
     private GamePlayModel tempGamePlayModel;
@@ -20,20 +26,43 @@ public class TournamentModel {
     private int enteredPlayers;
     private int enteredMaxTurns;
     
+    /**
+     * Instantiate new tournament model
+     */
     public TournamentModel() {
         tempGamePlayModel = new GamePlayModel();
         strMapSet = new Vector<>();
         tournamentSet = new Vector<>();
     }
     
+    /**
+     * Gets the temporary game play model
+     *
+     * @return the temporary game play model
+     */
     public GamePlayModel getTempGamePlayModel() {
         return tempGamePlayModel;
     }
     
+    /**
+     * Gets the tournament result model
+     *
+     * @return the tournament result model
+     */
     public TournamentResultsModel getTournamentResultsModel() {
         return tournamentResultsModel;
     }
     
+    /**
+     * Setup & Validate input for tournament
+     *
+     * @param mapsList          the maps list
+     * @param gamesCountField   the games count field
+     * @param maxTurnField      the max turn field
+     * @param playersCountField the players count field
+     *
+     * @return the message
+     */
     public String setupTournament(JList<String> mapsList, JTextField gamesCountField,
                                   JTextField maxTurnField, JTextField playersCountField) {
         int maxPlayers; // will be set to the minimum allowed players based on the maps in the set of games
@@ -135,6 +164,11 @@ public class TournamentModel {
         return entry;
     }
     
+    /**
+     * Start the tournament
+     *
+     * @throws Exception invalid map exception
+     */
     public void startTournament() throws Exception {
         /* For each game model in the set, start the game */
         GamePlayModel gameToPlay;
