@@ -84,15 +84,20 @@ public class TournamentController {
         int maxPlayers; // will be set to the minimum allowed players based on the maps in the set of games
         /* Validate UI entries */
         int enteredMaps = validateEntry(tournamentFrame.getMapList(), 1, 5);
-        int enteredGames = validateEntry(tournamentFrame.getGameCount(), 1, 5);
-        int enteredMaxTurns = validateEntry(tournamentFrame.getMaxTurns(), 10, 50);
+        if (enteredMaps == -1) {
+            UIHelper.displayMessage(tournamentFrame, "Your entry for " + tournamentFrame.getMapList().getName() + " must between 1 and 5");
+            return;
+        }
         
-        /* If one of these entries is invalid return */
-        if (enteredMaps == -1 || enteredGames == -1 || enteredMaxTurns == -1) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Please validate your entries.",
-                    "Entry Error!", JOptionPane.ERROR_MESSAGE);
+        int enteredGames = validateEntry(tournamentFrame.getGameCount(), 1, 5);
+        if (enteredGames == -1) {
+            UIHelper.displayMessage(tournamentFrame, "Your entry for " + tournamentFrame.getGameCount().getName() + " must between 1 and 5");
+            return;
+        }
+        
+        int enteredMaxTurns = validateEntry(tournamentFrame.getMaxTurns(), 10, 50);
+        if (enteredMaxTurns == -1) {
+            UIHelper.displayMessage(tournamentFrame, "Your entry for " + tournamentFrame.getMaxTurns().getName() + " must between 10 and 50");
             return;
         }
         
@@ -118,24 +123,30 @@ public class TournamentController {
         
         /* Now validate the number of players against the maxPlayers across the games' maps*/
         int enteredPlayers = validateEntry(tournamentFrame.getPlayers(), 2, maxPlayers);
-        if (enteredPlayers > -1) {
-            /* initialize each game */
-            // use a tempTournamentSet to set up the game to determine the player strategies
-            tempGamePlayModel = new GamePlayModel();
-            try {
-                tempGamePlayModel.setGameMap(loadGameMap(strMapSet.firstElement()));
-            } catch (Exception e) {
-                UIHelper.displayMessage(tournamentFrame, e.getMessage());
-                return;
-            }
-            tempGamePlayModel.setGameState(STARTUP);
-            Player.resetStaticNextID();
-            tempGamePlayModel.initPlayers(enteredPlayers);
-
-            /* Pop-up the strategy dialog that will set the strategy for each game */
-            tournamentFrame.dispose();
-            showStrategyOptions(tempGamePlayModel.getPlayers());  // use tempTournamentSet to determine the strategies
+        if (enteredPlayers == -1) {
+            tournamentSet.clear();
+            UIHelper.displayMessage(tournamentFrame, "Your entry for " + tournamentFrame.getPlayers().getName() + " must between 2 and " + maxPlayers);
+            return;
         }
+        
+        /* initialize each game */
+        // use a tempTournamentSet to set up the game to determine the player strategies
+        tempGamePlayModel = new GamePlayModel();
+        try {
+            tempGamePlayModel.setGameMap(loadGameMap(strMapSet.firstElement()));
+        } catch (Exception e) {
+            tournamentSet.clear();
+            UIHelper.displayMessage(tournamentFrame, e.getMessage());
+            return;
+        }
+        
+        tempGamePlayModel.setGameState(STARTUP);
+        Player.resetStaticNextID();
+        tempGamePlayModel.initPlayers(enteredPlayers);
+
+        /* Pop-up the strategy dialog that will set the strategy for each game */
+        tournamentFrame.dispose();
+        showStrategyOptions(tempGamePlayModel.getPlayers());  // use tempTournamentSet to determine the strategies
         
         /* For each game model in the set, start the game */
         GamePlayModel gameToPlay;
@@ -255,7 +266,6 @@ public class TournamentController {
             if (min <= entry && entry <= max) {
                 return entry;
             } else {
-                UIHelper.displayMessage(tournamentFrame, "Your entry for " + component.getName() + " must between " + min + " and " + max);
                 return -1;
             }
             // catch any non integer entry where applicable
