@@ -24,7 +24,9 @@ import static shared_resources.utilities.Config.log;
  */
 public class CheaterBot extends Bot {
     /**
-     * @see PlayerType#reinforcement(GamePlayModel, Vector, Map)
+     * The reinforcement of the Cheater bot doubles the number of armies on all of its territories.
+     *
+     * @see shared_resources.strategy.PlayerType#reinforcement(GamePlayModel, Vector, Map)
      */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
@@ -41,9 +43,12 @@ public class CheaterBot extends Bot {
         }
         return "";
     }
-    
+
     /**
-     * @see PlayerType#attack(GamePlayModel)
+     * The attack of Cheater bot takes over ownership of all the territories owned by enemy players that are neighbors
+     * with the territories that the Cheater bot owns.
+     *
+     * @see shared_resources.strategy.PlayerType#attack(GamePlayModel)
      */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
@@ -73,9 +78,12 @@ public class CheaterBot extends Bot {
             justConqueredTerritory.setOwner(player);
         }
     }
-    
+
     /**
-     * @see PlayerType#fortification(GamePlayModel, String, String, int)
+     * The fortification method of Cheater bot doubles the number of armies on its territories that have neighbors
+     * that belong to other players.
+     *
+     * @see shared_resources.strategy.PlayerType#fortification(GamePlayModel, String, String, int)
      */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
@@ -105,9 +113,11 @@ public class CheaterBot extends Bot {
         }
         return "";
     }
-    
+
     /**
-     * @see PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+     * The moveArmiesToConqueredTerritory of Cheater bot.
+     *
+     * @see shared_resources.strategy.PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
      */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {

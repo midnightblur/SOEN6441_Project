@@ -24,7 +24,9 @@ import static shared_resources.utilities.Config.log;
  */
 public class AggressiveBot extends Bot {
     /**
-     * @see PlayerType#reinforcement(GamePlayModel, Vector, Map)
+     * The reinforcement of the Aggressive bot reinforces the strongest territory.
+     *
+     * @see shared_resources.strategy.PlayerType#reinforcement(GamePlayModel, Vector, Map)
      */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
@@ -46,9 +48,11 @@ public class AggressiveBot extends Bot {
         
         return null;
     }
-    
+
     /**
-     * @see PlayerType#attack(GamePlayModel)
+     * The attack of Aggressive bot attacks as long as it is allowed to with its strongest territory.
+     *
+     * @see shared_resources.strategy.PlayerType#attack(GamePlayModel)
      */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
@@ -82,9 +86,13 @@ public class AggressiveBot extends Bot {
             gamePlayModel.setCurrentBattle(null);
         }
     }
-    
+
     /**
-     * @see PlayerType#fortification(GamePlayModel, String, String, int)
+     * The fortification method of Aggressive bot fortifies its strongest territory from its strongest neighbor.
+     * If the strongest territory does not have any attackable neighbors (owned by other players), then it fortifies
+     * a random adjacent territory that is owned by it from the strongest territory.
+     *
+     * @see shared_resources.strategy.PlayerType#fortification(GamePlayModel, String, String, int)
      */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
@@ -197,9 +205,12 @@ public class AggressiveBot extends Bot {
         }
         return strongestTerritory;
     }
-    
+
     /**
-     * @see PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+     * The moveArmiesToConqueredTerritory of Aggressive bot move as little armies as possible to the conquered
+     * territory while respecting the game rules.
+     *
+     * @see shared_resources.strategy.PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
      */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {

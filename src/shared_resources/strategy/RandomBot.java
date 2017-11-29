@@ -23,7 +23,9 @@ import static shared_resources.utilities.Config.log;
  */
 public class RandomBot extends Bot {
     /**
-     * @see PlayerType#reinforcement(GamePlayModel, Vector, Map)
+     * The reinforcement of the Random bot reinforces a random country with the unallocated armies.
+     *
+     * @see shared_resources.strategy.PlayerType#reinforcement(GamePlayModel, Vector, Map)
      */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
@@ -41,9 +43,11 @@ public class RandomBot extends Bot {
         
         return "";
     }
-    
+
     /**
-     * @see PlayerType#attack(GamePlayModel)
+     * The attack of Random bot attacks a random country a random amount of times until it decides to quit.
+     *
+     * @see shared_resources.strategy.PlayerType#attack(GamePlayModel)
      */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
@@ -102,9 +106,11 @@ public class RandomBot extends Bot {
             gamePlayModel.setCurrentBattle(null);
         }
     }
-    
+
     /**
-     * @see PlayerType#fortification(GamePlayModel, String, String, int)
+     * The fortification method of Random bot fortifies a random territory with a random number of armies.
+     *
+     * @see shared_resources.strategy.PlayerType#fortification(GamePlayModel, String, String, int)
      */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
@@ -156,9 +162,12 @@ public class RandomBot extends Bot {
         
         return "";
     }
-    
+
     /**
-     * @see PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+     * The moveArmiesToConqueredTerritory of Random bot moves random number of armies to the conquered territory
+     * while respecting the game rules.
+     *
+     * @see shared_resources.strategy.PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
      */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
