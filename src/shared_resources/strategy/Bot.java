@@ -17,7 +17,7 @@ import java.util.Vector;
 import static shared_resources.utilities.Config.log;
 
 /**
- * This class is parent class of all AI bot's classes
+ * This class is parent class of all AI bot's class
  * Bot class is responsible for providing mutual functionality of all kind of bots
  */
 public abstract class Bot implements PlayerType {
