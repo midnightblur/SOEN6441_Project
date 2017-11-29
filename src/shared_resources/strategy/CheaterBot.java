@@ -20,7 +20,7 @@ import static shared_resources.utilities.Config.log;
 /**
  * The cheater AI strategy. Reinforcement doubles the number of armies on all its countries, attacks automatically
  * conquer all the neighbors of all its countries, and fortification doubles the number of armies on its countries
- * that have neighbors that belong to other players
+ * that have neighbors that belong to other players.
  */
 public class CheaterBot extends Bot {
     @Override
