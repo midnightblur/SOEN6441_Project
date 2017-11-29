@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * Human.java
+ * Version 3.0
+ * Nov 22, 2017
+ */
 package shared_resources.strategy;
 
 import game_play.model.GamePlayModel;
@@ -29,7 +35,7 @@ public class Human implements PlayerType {
     
     @Override
     public void attack(GamePlayModel gamePlayModel) {
-        attackForAllPlayers(gamePlayModel);
+        gamePlayModel.performBattleIfPossible();
     }
 
     @Override
@@ -54,5 +60,10 @@ public class Human implements PlayerType {
     
         log.append("    " + currentPlayer.getPlayerName() + " moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory);
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
+    }
+    
+    @Override
+    public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
+        // Do nothing
     }
 }

@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * AggressiveBot.java
+ * Version 3.0
+ * Nov 22, 2017
+ */
 package shared_resources.strategy;
 
 import game_play.model.GamePlayModel;
@@ -43,39 +49,31 @@ public class AggressiveBot extends Bot {
         Player player = gamePlayModel.getCurrentPlayer();
         Territory strongestTerritory = findStrongestTerritory(player.getTerritories());
         
-        if (hasAttackableNeighbors(strongestTerritory, gamePlayModel) && strongestTerritory.getArmies() >= 2) {
+        if (strongestTerritory.getArmies() < 2) {
+            log.append("        " + player.getPlayerName() + " cannot attack anymore (no more armies)");
+            gamePlayModel.setCurrentBattle(null);
+        } else {
             // Find one of its neighbor owned by another player
             for (String neighborName : strongestTerritory.getNeighbors()) {
                 Territory neighbor = gamePlayModel.getGameMap().getATerritory(neighborName);
-                // Continue attacking the neighboring country until it is conquered or until it no longer can
-                while (strongestTerritory.getArmies() >= 2 && !neighbor.isOwnedBy(player)) {
+                
+                if (!neighbor.isOwnedBy(player)) {
                     // Declare an attack using as many dice as possible
                     int attackerDice;
                     if (strongestTerritory.getArmies() > 3) {
                         attackerDice = 3;
-                    } else if (strongestTerritory.getArmies() > 2) {
+                    } else if (strongestTerritory.getArmies() > 2){
                         attackerDice = 2;
                     } else {
                         attackerDice = 1;
                     }
-                    
-                    //TODO: separate humans players' decision to determine the number of def dice
-                    Random rand = new Random();
-                    int maxDefenderDice = Math.min(2, neighbor.getArmies());
-                    int defenderDice = 1 + rand.nextInt(maxDefenderDice);
                     gamePlayModel.setCurrentBattle(new Battle(player, strongestTerritory, attackerDice,
-                            neighbor.getOwner(), neighbor, defenderDice));
-                    attackForBots(gamePlayModel);
-                }
-                
-                if (strongestTerritory.getArmies() < 2) {
-                    log.append("        " + player.getPlayerName() + " cannot attack anymore (no more armies)");
+                            neighbor.getOwner(), neighbor));
                     return;
                 }
             }
             log.append("        " + player.getPlayerName() + " cannot attack anymore (no more neighboring enemy territories)");
-        } else {
-            log.append("        " + player.getPlayerName() + " quits attacking phase (strongest territory cannot attack)");
+            gamePlayModel.setCurrentBattle(null);
         }
     }
     
@@ -192,22 +190,22 @@ public class AggressiveBot extends Bot {
     }
     
     @Override
-    void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
+    public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
         if (defendingTerritory.getArmies() == 0) {
             // Set player to be new owner of the conquered territory
             conquerTerritoryForBots(gamePlayModel);
             
-            // Move as little armies (1) as possible to the conquered territory
+            // Move as little armies as possible to the conquered territory (equal to the number of dice used for the attacker)
             Territory fromTerritory = gamePlayModel.getCurrentBattle().getAttackingTerritory();
             Territory toTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
-            int noOfArmies = 1;
+            int noOfArmies = gamePlayModel.getCurrentBattle().getAttackerDice().getRollsCount();
             fromTerritory.reduceArmies(noOfArmies);
             toTerritory.addArmies(noOfArmies);
             log.append("            " + fromTerritory.getOwner().getPlayerName() + " moves " + noOfArmies + " armies from " +
                     fromTerritory.getName() + " to " + toTerritory.getName());
             
-            gamePlayModel.eliminatePlayerIfCan();
+            gamePlayModel.eliminatePlayerIfPossible();
         }
     }
 }

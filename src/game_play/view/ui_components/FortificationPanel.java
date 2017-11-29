@@ -185,7 +185,8 @@ public class FortificationPanel extends JPanel implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAY &&
-                    gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.FORTIFICATION) {
+                    gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.FORTIFICATION &&
+                    gamePlayModel.getCurrentPlayer().isHuman()) {
                 moveArmiesButton.setEnabled(true);
                 sourceTerritoryDropdown.setEnabled(true);
                 targetTerritoryDropdown.setEnabled(true);

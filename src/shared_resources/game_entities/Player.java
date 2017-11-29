@@ -7,8 +7,7 @@
 package shared_resources.game_entities;
 
 import game_play.model.GamePlayModel;
-import shared_resources.strategy.Human;
-import shared_resources.strategy.PlayerType;
+import shared_resources.strategy.*;
 import shared_resources.utilities.Config;
 
 import java.awt.*;
@@ -51,7 +50,7 @@ public class Player implements Serializable {
     public Player() {
         playerID = ++Player.nextID;
         playerName = "Player " + playerID;
-        playerType = new Human();     // at the beginning of the game all players are human
+        playerType = new Human();     // at the beginning of the game all players are Humans
         playersHand = new Vector<>();
         territories = new Vector<>();
         color = PLAYER_COLOR[playerID - 1];
@@ -62,22 +61,12 @@ public class Player implements Serializable {
     // endregion
     
     // region Getters & Setters
-    /**
-     * Gets the current phase of the player
-     *
-     * @return the game phase
-     */
-    public Config.GAME_STATES getGameState() {
-        return gameState;
-    }
     
     /**
-     * Set the game phase for the player
-     *
-     * @param gameState the next phase
+     * Resets the static counter, nextID, in Player class to zero.
      */
-    public void setGameState(Config.GAME_STATES gameState) {
-        this.gameState = gameState;
+    public static void resetStaticNextID() {
+        nextID = 0;
     }
     
     /**
@@ -208,9 +197,7 @@ public class Player implements Serializable {
     public void setHasConqueredTerritories(boolean hasConqueredTerritories) {
         this.hasConqueredTerritories = hasConqueredTerritories;
     }
-    // endregion
     
-    // region Public methods
     /**
      * Adds the territory.
      *
@@ -221,6 +208,9 @@ public class Player implements Serializable {
             territories.add(territory);
         }
     }
+    // endregion
+    
+    // region Public methods
     
     /**
      * Override equals method to check whether or not two Player objects are the same.
@@ -260,13 +250,6 @@ public class Player implements Serializable {
                 return;
             }
         }
-    }
-    
-    /**
-     * Resets the static counter, nextID, in Player class to zero.
-     */
-    public static void resetStaticNextID() {
-        nextID = 0;
     }
     
     /**
@@ -362,12 +345,21 @@ public class Player implements Serializable {
     }
     
     /**
-     * Check whether a player is human or bot
+     * Gets the current phase of the player
      *
-     * @return true if the player is human player, false if it is a bot
+     * @return the game phase
      */
-    public boolean isHuman() {
-        return (playerType instanceof Human);
+    public Config.GAME_STATES getGameState() {
+        return gameState;
+    }
+    
+    /**
+     * Set the game phase for the player
+     *
+     * @param gameState the next phase
+     */
+    public void setGameState(Config.GAME_STATES gameState) {
+        this.gameState = gameState;
     }
     
     /**
@@ -401,14 +393,14 @@ public class Player implements Serializable {
                 gameState = Config.GAME_STATES.FORTIFICATION;
                 break;
             case FORTIFICATION:
-                if (playersHand.size() >= 5) {
+                if (isHuman() && playersHand.size() >= 5) {
                     gameState = Config.GAME_STATES.TRADE_CARDS;
                 } else {
                     gameState = Config.GAME_STATES.REINFORCEMENT;
                 }
                 break;
             default: // the player does not have a game state in his very first turn
-                if (playersHand.size() >= 5) {
+                if (isHuman() && playersHand.size() >= 5) {
                     gameState = Config.GAME_STATES.TRADE_CARDS;
                 } else {
                     gameState = Config.GAME_STATES.REINFORCEMENT;
@@ -417,7 +409,15 @@ public class Player implements Serializable {
         }
         log.append("    " + playerName + " move to " + gameState);
     }
-    // region Reinforcement Phase
+    
+    /**
+     * Check whether a player is human or bot
+     *
+     * @return true if the player is human player, false if it is a bot
+     */
+    public boolean isHuman() {
+        return (playerType instanceof Human);
+    }
     
     /**
      * Looping through view table, get the quantity of armies for each territory
@@ -427,6 +427,8 @@ public class Player implements Serializable {
      */
     public void distributeArmies(Map<Territory, Integer> armiesToPlace) {
         for (Map.Entry<Territory, Integer> entry : armiesToPlace.entrySet()) {
+            log.append("        " + playerName + " wants to place " + entry.getValue() + " armies on " + entry.getKey().getName());
+    
             entry.getKey().addArmies(entry.getValue());
             log.append("        " + playerName + " placed " + entry.getValue() + " armies on " + entry.getKey().getName());
             reduceUnallocatedArmies(entry.getValue());
@@ -443,7 +445,9 @@ public class Player implements Serializable {
     }
     
     /**
-     * Implement the Reinforcement Phase of a particular player
+     * {@inheritDoc}
+     *
+     * Implements the Reinforcement Phase of a particular player
      *
      * @param gamePlayModel the game play model
      * @param selectedCards the selected cards
@@ -463,6 +467,7 @@ public class Player implements Serializable {
     public int getUnallocatedArmies() {
         return this.unallocatedArmies;
     }
+    // region Reinforcement Phase
     
     /**
      * Sets the unallocated armies.
@@ -482,7 +487,7 @@ public class Player implements Serializable {
         int infantryCount = 0;
         int cavalryCount = 0;
         int artilleryCount = 0;
-        
+    
         for (Card card : playersHand) {
             switch (card.getCardType()) {
                 case INFANTRY:
@@ -496,20 +501,13 @@ public class Player implements Serializable {
                     break;
             }
         }
-        
-        if (infantryCount > 0 && cavalryCount > 0 && artilleryCount > 0) {
-            return true;
-        } else if (infantryCount >= 3 || cavalryCount >= 3 || artilleryCount >= 3) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    // endregion
     
-    // region Attack Phase
+        return infantryCount > 0 && cavalryCount > 0 && artilleryCount > 0 || (infantryCount >= 3 || cavalryCount >= 3 || artilleryCount >= 3);
+    }
     
     /**
+     * {@inheritDoc}
+     *
      * Implements the Attack Phase of particular player.
      *
      * This method allows a player to make an attack move with an opponent player based on the
@@ -580,9 +578,85 @@ public class Player implements Serializable {
     }
     // endregion
     
+    // region Attack Phase
+    
+    /**
+     * If the player is defender in a battle, gets the number of dice he wants to use to defend
+     *
+     * @param maxDefendingDice the maximum defending dice
+     *
+     * @return the number of dice to defend
+     */
+    public int botChooseDefendingDice(int maxDefendingDice) {
+        int defendingDice = 1;
+        if (this.isRandomBot()) {
+            // Choose number of dice randomly
+            if (maxDefendingDice > 1) {
+                Random rand = new Random();
+                defendingDice = 1 + rand.nextInt(maxDefendingDice - 1);
+            }
+        } else if (this.isAggressiveBot() || this.isBenevolentBot() || this.isCheaterBot()) {
+            // Choose maximum number of dice possible
+            defendingDice = maxDefendingDice;
+        }
+        return defendingDice;
+    }
+    
+    /**
+     * Check whether a player is a random bot
+     *
+     * @return true if the player is random bot, false otherwise
+     */
+    public boolean isRandomBot() {
+        return (playerType instanceof RandomBot);
+    }
+    
+    /**
+     * Check whether a player is a aggressive bot
+     *
+     * @return true if the player is aggressive bot, false otherwise
+     */
+    public boolean isAggressiveBot() {
+        return (playerType instanceof AggressiveBot);
+    }
+    
+    /**
+     * Check whether a player is a benevolent bot
+     *
+     * @return true if the player is benevolent bot, false otherwise
+     */
+    public boolean isBenevolentBot() {
+        return (playerType instanceof BenevolentBot);
+    }
+    
+    /**
+     * Check whether a player is a cheater bot
+     *
+     * @return true if the player is cheater bot, false otherwise
+     */
+    public boolean isCheaterBot() {
+        return (playerType instanceof CheaterBot);
+    }
+    
+    /**
+     * {@inheritDoc}
+     *
+     * Moves armies to conquered territory
+     *
+     * @param gamePlayModel the game model
+     */
+    public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
+        if (gamePlayModel.getCurrentBattle() != null) {
+            playerType.moveArmiesToConqueredTerritory(gamePlayModel);
+        }
+    }
+    // endregion
+    
     // region Fortification Phase
     
     /**
+     * {@inheritDoc}
+     *
      * Implement the Fortification Phase of a particular player.
      *
      * The method gives a player an option to move any number of armies from one country to
@@ -611,7 +685,7 @@ public class Player implements Serializable {
      *
      * @return true if there is at least 1 valid territory, false if there's none
      */
-    public boolean ableToForitfy(GameMap gameMap) {
+    public boolean ableToFortify(GameMap gameMap) {
         for (Territory territory : territories) {
             if (territory.getArmies() >= 2) {
                 for (String neighborName : territory.getNeighbors()) {

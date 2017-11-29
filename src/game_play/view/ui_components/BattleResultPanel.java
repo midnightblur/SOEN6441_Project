@@ -110,7 +110,8 @@ public class BattleResultPanel extends JPanel implements Observer {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
             if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAY &&
-                    gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.ATTACK_BATTLE) {
+                    gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.ATTACK_BATTLE &&
+                    gamePlayModel.getCurrentPlayer().isHuman()) {
     
                 // Don't let player to prepare another attack if there is no valid attacking territory
                 String[] validAttackTerritories = gamePlayModel.getValidAttackingTerritories(gamePlayModel.getCurrentPlayer());

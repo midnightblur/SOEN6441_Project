@@ -120,7 +120,7 @@ public class AttackingPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
-            if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAY) {
+            if (gamePlayModel.getGameState() == Config.GAME_STATES.PLAY && gamePlayModel.getCurrentPlayer().isHuman()) {
                 playerName.setForeground(gamePlayModel.getCurrentPlayer().getColor());
                 playerName.setText(gamePlayModel.getCurrentPlayer().getPlayerName());
                 gameState.setText(gamePlayModel.getCurrentPlayer().getGameState().name());

@@ -8,6 +8,7 @@ package game_play.model;
 
 import game_play.view.screens.StrategyDialog;
 import shared_resources.game_entities.*;
+import shared_resources.strategy.Bot;
 import shared_resources.strategy.PlayerType;
 
 import java.io.Serializable;
@@ -51,6 +52,9 @@ public class GamePlayModel extends Observable implements Serializable {
     // region Attributes declaration
     private static final long serialVersionUID = 42L;
     private static final int DEFAULT_ARMY_VALUE = 5;
+    private static final int ORIGINAL_MAX_TURN = 50;
+    private static final int ORIGINAL_MAX_ATTACK_TURN = ORIGINAL_MAX_TURN;
+    private int maxAttackTurn;
     private GameMap gameMap;
     private MapTableModel mapTableModel;
     private GAME_STATES gameState;
@@ -61,10 +65,24 @@ public class GamePlayModel extends Observable implements Serializable {
     private Vector<Player> players;
     private Random rand;
     private Battle currentBattle;
+    private boolean needDefenderReaction;
+    private int maxTurns;
+    private int turnCounter;
+    private Player winner;
+    private int attackCounter;
+    
+    // endregion
+    
+    // region Constructors
+    
     /**
      * Public GamePlayModel constructor.
      */
     public GamePlayModel() {
+        maxTurns = ORIGINAL_MAX_TURN;
+        turnCounter = 1;
+        maxAttackTurn = maxTurns;
+        attackCounter = 0;
         armyValue = DEFAULT_ARMY_VALUE;
         mapTableModel = new MapTableModel();
         deck = new Vector<>();
@@ -72,10 +90,11 @@ public class GamePlayModel extends Observable implements Serializable {
         gameState = ENTRY_MENU;
         rand = new Random();
         playerTerritoriesModel = new PlayerTerritoriesModel();
+        needDefenderReaction = false;
     }
     
     /**
-     * Copy constructor to be used when restoring a saved game
+     * Method to be used when restoring a saved game or making a copy of the game to play
      *
      * @param gamePlayModel the restored object
      */
@@ -90,7 +109,67 @@ public class GamePlayModel extends Observable implements Serializable {
         this.players = gamePlayModel.players;
         this.rand = gamePlayModel.rand;
         this.currentBattle = gamePlayModel.currentBattle;
+        this.maxTurns = gamePlayModel.maxTurns;
+        this.turnCounter = gamePlayModel.turnCounter;
+        this.maxAttackTurn = gamePlayModel.maxAttackTurn;
+        this.attackCounter = gamePlayModel.attackCounter;
         this.broadcastGamePlayChanges();
+    }
+    // endregion
+    
+    // region Getters and Setters
+    
+    /**
+     * Gets original max turn
+     *
+     * @return the original max turn
+     */
+    public int getOriginalMaxTurn() {
+        return ORIGINAL_MAX_TURN;
+    }
+    
+    /**
+     * Gets the orignial max attack turns
+     *
+     * @return the original max attack turns
+     */
+    public int getOriginalMaxAttackTurn() {
+        return ORIGINAL_MAX_ATTACK_TURN;
+    }
+    
+    /**
+     * Method to update the GamePlayModel and notify the Observer.
+     */
+    private void broadcastGamePlayChanges() {
+        setChanged();
+        notifyObservers(this);
+    }
+    
+    /**
+     * Gets the maximum number of attack turns
+     *
+     * @return the maximum number of attacks
+     */
+    public int getMaxAttackTurn() {
+        return maxAttackTurn;
+    }
+    
+    /**
+     * Gets the attack counter
+     *
+     * @return the attack counter
+     */
+    public int getAttackCounter() {
+        return attackCounter;
+    }
+    
+    /**
+     * Sets the max attack turn
+     *
+     * @param maxAttackTurn the max attack turn
+     */
+    public void setMaxAttackTurn(int maxAttackTurn) {
+        this.maxAttackTurn = maxAttackTurn;
     }
     
     /**
@@ -102,46 +181,40 @@ public class GamePlayModel extends Observable implements Serializable {
         return currentBattle;
     }
     
-    // endregion
-    
-    // region Constructors
-    
     /**
-     * Gets the game map.
+     * Set the current battle
      *
-     * @return the game map
+     * @param newBattle the new battle
      */
-    public GameMap getGameMap() {
-        return gameMap;
+    public void setCurrentBattle(Battle newBattle) {
+        this.currentBattle = newBattle;
     }
-    // endregion
-    
-    // region Getters and Setters
     
     /**
-     * Sets new gameMap.
+     * Gets the maximum turns a game can be played
      *
-     * @param gameMap New value of gameMap.
+     * @return the maximum turns
      */
-    public void setGameMap(GameMap gameMap) {
-        this.gameMap = gameMap;
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
+    public int getMaxTurns() {
+        return maxTurns;
     }
     
     /**
-     * Update the GameMapTableModel according to the newly updated GameMap object.
+     * Sets the maximum turns a game can be played
+     *
+     * @param maxTurns the value to be set as max
      */
-    private void updateGameMapTableModel() {
-        mapTableModel.updateMapTableModel(gameMap, gameState);
+    public void setMaxTurns(int maxTurns) {
+        this.maxTurns = maxTurns;
     }
     
     /**
-     * Method to update the GamePlayModel and notify the Observer.
+     * Gets the game turn counter
+     *
+     * @return how many turns the game run
      */
-    private void broadcastGamePlayChanges() {
-        setChanged();
-        notifyObservers(this);
+    public int getTurnCounter() {
+        return turnCounter;
     }
     
     /**
@@ -209,6 +282,53 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
+     * Gets a player by his name
+     *
+     * @param playerName the player name
+     *
+     * @return the player
+     */
+    public Player getAPlayer(String playerName) {
+        for (Player player : players) {
+            if (player.getPlayerName().compareTo(playerName) == 0) {
+                return player;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Obtain the game winner
+     *
+     * @return the name for the winner of the game
+     */
+    public String getWinner() {
+        if (gameState == VICTORY) {
+            return winner.getPlayerName() + " [" + winner.getPlayerType().getClass().getSimpleName() + "]";
+        } else {
+            return "Draw";
+        }
+    }
+    
+    /**
+     * Check whether the game need defender's reaction
+     *
+     * @return true if need to wait for defender reaction, false otherwise
+     */
+    public boolean isNeedDefenderReaction() {
+        return needDefenderReaction;
+    }
+    
+    /**
+     * Sets if the game play need defender reaction
+     *
+     * @param needDefenderReaction need defender reaction
+     */
+    public void setNeedDefenderReaction(boolean needDefenderReaction) {
+        this.needDefenderReaction = needDefenderReaction;
+    }
+    
+    /**
      * Gets the game state.
      *
      * @return the game state
@@ -249,19 +369,6 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
-     * Set the current battle
-     *
-     * @param currentBattle the current battle
-     */
-    public void setCurrentBattle(Battle currentBattle) {
-        this.currentBattle = currentBattle;
-    }
-    
-    // endregion
-    
-    // region For Startup Phase
-    
-    /**
      * Initializes a new game with the specified number of players. This method involves
      * initialization of the specified number of players, the size of the deck of cards depending
      * on the total number of territories, random (but fair) distribution of territories to the
@@ -272,7 +379,11 @@ public class GamePlayModel extends Observable implements Serializable {
      */
     public void initializeNewGame(int numOfPlayers) {
         gameState = STARTUP;
-
+        log.append("\n##############################################");
+        log.append("=== STARTING NEW GAME ON MAP " + gameMap.getMapName() + " ===");
+        log.append("##############################################");
+        log.append("    Number of continents: " + gameMap.getContinentsCount());
+        log.append("    Number of territories: " + gameMap.getTerritoriesCount());
          /* Initialization of game attributes */
         Player.resetStaticNextID();
         initPlayers(numOfPlayers);
@@ -290,14 +401,8 @@ public class GamePlayModel extends Observable implements Serializable {
         assignOneArmyPerTerritory();
         updateGameMapTableModel();
         broadcastGamePlayChanges();
-        log.append("Starting new game");
-        log.append("    Number of continents: " + gameMap.getContinentsCount());
-        log.append("    Number of territories: " + gameMap.getTerritoriesCount());
         log.append("    Deck size: " + deck.size());
     }
-    // endregion
-    
-    // region For Startup Phase
     
     /**
      * Private helper method to initialize the players according to
@@ -305,7 +410,7 @@ public class GamePlayModel extends Observable implements Serializable {
      *
      * @param numOfPlayers the num of players
      */
-    private void initPlayers(int numOfPlayers) {
+    public void initPlayers(int numOfPlayers) {
         log.append("Initializing " + numOfPlayers + " players...");
         
         for (int i = 0; i < numOfPlayers; i++) {
@@ -388,6 +493,10 @@ public class GamePlayModel extends Observable implements Serializable {
         }
     }
     
+    // endregion
+    
+    // region For Startup Phase
+    
     /**
      * For every player, this method automatically assigns one army to all of the territories
      * that player owns. The placed armies get spent from the players' initial given number of
@@ -401,71 +510,44 @@ public class GamePlayModel extends Observable implements Serializable {
             player.reduceUnallocatedArmies(gameMap.getTerritoriesOfPlayer(player).size());
         }
     }
+    // endregion
+    
+    // region For Startup Phase
     
     /**
-     * Initialization of a new game for the sole purposes of testing. This method utilizes the
-     * rigged (fixed) version of distributing armies to the players instead of the standard
-     * random distribution method.
-     *
-     * @param numOfPlayers The specified integer of the number of players that will play the game
+     * Update the GameMapTableModel according to the newly updated GameMap object.
      */
-    public void fixedInitializeNewGame(int numOfPlayers) {
-         /* Initialization of game attributes */
-        Player.resetStaticNextID();
-        initPlayers(numOfPlayers);
+    private void updateGameMapTableModel() {
+        mapTableModel.updateMapTableModel(gameMap, gameState);
+    }
+    
+    /**
+     * A subset of GamePlayModel#initializeNewGame(int) used to start the game
+     * once players are already allocated in Tournament mode
+     *
+     * @see GamePlayModel#initializeNewGame(int)
+     */
+    public void initializeNewGameForTournament() {
+        log.append("\n##############################################");
+        log.append("=== STARTING NEW GAME ON MAP " + gameMap.getMapName() + " ===");
+        log.append("##############################################");
+        log.append("    Number of continents: " + gameMap.getContinentsCount());
+        log.append("    Number of territories: " + gameMap.getTerritoriesCount());
         initDeck();
-        fixedDistributeTerritories();  // rigged and fixed distribution of the territories
+        distributeTerritories();
         giveInitialArmies();
         currentPlayer = players.firstElement();
-        
         assignOneArmyPerTerritory();
-    }
-    
-    /**
-     * Rigged version of distribution of territories for the sole purpose of testing. The
-     * territories are first sorted in alphanumerical order before being assigned to the
-     * players in round robin fashion from the top of the territory list.
-     */
-    private void fixedDistributeTerritories() {
-        ArrayList<String> territoryArrList = new ArrayList<>();
-        for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
-            territoryArrList.add(entry.getValue().getName());
-        }
-        
-        Collections.sort(territoryArrList);  // sort the territories in order
-        
-        int playerIndex = 0;
-        for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
-            if (playerIndex >= players.size()) {
-                playerIndex = 0;
+        // Distribute one by one armies in Round-Robin fashion for bots
+        for (Player player : players) {
+            if (Bot.class.isAssignableFrom(player.getPlayerType().getClass())) {
+                String randomTerritory = player.getTerritories().elementAt((int) (Math.random() * (player.getTerritories().size() - 1))).getName();
+                placeArmyStartup(randomTerritory);
             }
-            Territory territory = gameMap.getATerritory(territoryArrList.get(0));
-            Player player = players.elementAt(playerIndex);
-            territory.setOwner(player);
-            player.addTerritory(territory);
-            
-            playerIndex++;
-            territoryArrList.remove(0);
         }
-    }
-    
-    /**
-     * Change the phase of the game to PLAY phase and let the first player's turn begins.
-     */
-    public void startTheGame() {
-        setGameState(PLAY);
-        log.append("The game starts");
-        currentPlayer = players.firstElement();
-        log.append("==============================================");
-        log.append(currentPlayer.getPlayerName() + "'s turn begins");
-        log.append("    " + currentPlayer.getPlayerName() + " is " + currentPlayer.getPlayerType().getClass().getSimpleName());
-        currentPlayer.nextPhase();
-        addReinforcementForCurrPlayer();
-        updatePlayerTerritoriesModel();
+        updateGameMapTableModel();
         broadcastGamePlayChanges();
-        if (!currentPlayer.isHuman()) {
-            botsPlayGame();
-        }
+        log.append("    Deck size: " + deck.size());
     }
     
     /**
@@ -521,47 +603,68 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
-     * Change players' type according to selection from the UI
+     * Initialization of a new game for the sole purposes of testing. This method utilizes the
+     * rigged (fixed) version of distributing armies to the players instead of the standard
+     * random distribution method.
      *
-     * @param opts the users' selection
+     * @param numOfPlayers The specified integer of the number of players that will play the game
      */
-    public void setPlayersType(StrategyDialog.BehaviourOptions[] opts) {
-        String chosenStrategy;
-        for (int i = 0; i < opts.length; i++) {
-            chosenStrategy = opts[i].getGroup().getSelection().getActionCommand();
-            try {
-                Class<?> strategyClass = Class.forName(StrategyDialog.getSTRATEGY_PATH() + "." + chosenStrategy);
-                players.get(i).setPlayerType((PlayerType) strategyClass.newInstance());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    public void fixedInitializeNewGame(int numOfPlayers) {
+         /* Initialization of game attributes */
+        Player.resetStaticNextID();
+        initPlayers(numOfPlayers);
+        initDeck();
+        fixedDistributeTerritories();  // rigged and fixed distribution of the territories
+        giveInitialArmies();
+        currentPlayer = players.firstElement();
+        
+        assignOneArmyPerTerritory();
+    }
+    
+    /**
+     * Rigged version of distribution of territories for the sole purpose of testing. The
+     * territories are first sorted in alphanumerical order before being assigned to the
+     * players in round robin fashion from the top of the territory list.
+     */
+    private void fixedDistributeTerritories() {
+        ArrayList<String> territoryArrList = new ArrayList<>();
+        for (Map.Entry<String, Territory> entry : gameMap.getTerritories().entrySet()) {
+            territoryArrList.add(entry.getValue().getName());
         }
-        broadcastGamePlayChanges();
+        
+        Collections.sort(territoryArrList);  // sort the territories in order
+        
+        int playerIndex = 0;
+        for (int i = 0; i < gameMap.getTerritoriesCount(); i++) {
+            if (playerIndex >= players.size()) {
+                playerIndex = 0;
+            }
+            Territory territory = gameMap.getATerritory(territoryArrList.get(0));
+            Player player = players.elementAt(playerIndex);
+            territory.setOwner(player);
+            player.addTerritory(territory);
+            
+            playerIndex++;
+            territoryArrList.remove(0);
+        }
     }
-    // endregion
-    
-    // region For Reinforcement Phase
     
     /**
-     * Update player territories game_entities.
+     * Change the phase of the game to PLAY phase and let the first player's turn begins.
      */
-    private void updatePlayerTerritoriesModel() {
-        playerTerritoriesModel.updateMapTableModel(currentPlayer, this);
-    }
-    
-    /**
-     * Delegate the job to reinforcement() function of Player class
-     * Broadcast the change to Observers.
-     *
-     * @param selectedCards Vector of Strings that details the type of cards in the player's possession
-     *
-     * @return String for the error message to validate the result of the trade in
-     */
-    public String tradeInCards(Vector<String> selectedCards) {
-        log.append("    " + currentPlayer.getPlayerName() + " starts trading cards");
-        String message = currentPlayer.reinforcement(this, selectedCards, null);
+    public void startTheGame() {
+        setGameState(PLAY);
+        
+        log.append("==============================================");
+        log.append("The game starts");
+        currentPlayer = players.firstElement();
+        log.append("==============================================");
+        log.append(currentPlayer.getPlayerName() + "[turn #" + turnCounter + "]. Player type: " + currentPlayer.getPlayerType().getClass().getSimpleName());
+        log.append("    " + currentPlayer.getPlayerName() + " is " + currentPlayer.getPlayerType().getClass().getSimpleName());
+        currentPlayer.nextPhase();
+        addReinforcementForCurrPlayer();
+        updatePlayerTerritoriesModel();
         broadcastGamePlayChanges();
-        return message;
     }
     
     /**
@@ -584,7 +687,10 @@ public class GamePlayModel extends Observable implements Serializable {
         // For logging display player's continent content
         log.append("    " + currentPlayer.getPlayerName() + " owns " + currentPlayer.getTerritories().size() + " territories: ");
         for (Territory territory : currentPlayer.getTerritories()) {
-            log.append("        " + territory.getName());
+            String format = "%-50s%-4s";
+            String firstColumn = "     " + territory.getName();
+            String secondColumn = "\twith " + territory.getArmies() + " armies";
+            log.append(String.format(format, firstColumn, secondColumn));
         }
         int continentCounter = 0;
         StringBuilder continentStr = new StringBuilder();
@@ -601,6 +707,50 @@ public class GamePlayModel extends Observable implements Serializable {
         
         currentPlayer.addUnallocatedArmies(armiesToGive);
     }
+    
+    /**
+     * Update player territories game_entities.
+     */
+    private void updatePlayerTerritoriesModel() {
+        playerTerritoriesModel.updateMapTableModel(currentPlayer, this);
+    }
+    
+    /**
+     * Change players' type according to selection from the UI
+     *
+     * @param opts the users' selection
+     */
+    public void setPlayersType(StrategyDialog.BehaviourOptions[] opts) {
+        String chosenStrategy;
+        for (int i = 0; i < opts.length; i++) {
+            chosenStrategy = opts[i].getGroup().getSelection().getActionCommand();
+            try {
+                Class<?> strategyClass = Class.forName(StrategyDialog.getSTRATEGY_PATH() + "." + chosenStrategy);
+                players.get(i).setPlayerType((PlayerType) strategyClass.newInstance());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        broadcastGamePlayChanges();
+    }
+    
+    /**
+     * Delegate the job to reinforcement() function of Player class
+     * Broadcast the change to Observers.
+     *
+     * @param selectedCards Vector of Strings that details the type of cards in the player's possession
+     *
+     * @return String for the error message to validate the result of the trade in
+     */
+    public String tradeInCards(Vector<String> selectedCards) {
+        log.append("    " + currentPlayer.getPlayerName() + " starts trading cards");
+        String message = currentPlayer.reinforcement(this, selectedCards, null);
+        broadcastGamePlayChanges();
+        return message;
+    }
+    // endregion
+    
+    // region For Reinforcement Phase
     
     /**
      * Delegate the job to reinforcement() function of Player class
@@ -620,50 +770,13 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
-     * Get the maximum number of attacking dice roll that attacker can use depending on the attacking territory's armies
-     *
-     * @param territoryName the territory name
-     *
-     * @return the maximum number of dice roll that attacker may use
-     */
-    public int getMaxAttackingRoll(String territoryName) {
-        Territory territory = gameMap.getATerritory(territoryName);
-        int armies = territory.getArmies();
-        if (armies >= 4) {
-            return 3;
-        } else {
-            return armies - 1;
-        }
-    }
-    
-    /**
-     * Get the maximum number of defending dice roll that defender can use depending on the defending territory's armies
-     *
-     * @param territoryName the territory name
-     *
-     * @return the maximum number of dice roll that defender may use
-     */
-    public int getMaxDefendingRoll(String territoryName) {
-        Territory territory = gameMap.getATerritory(territoryName);
-        int armies = territory.getArmies();
-        if (armies >= 2) {
-            return 2;
-        } else {
-            return 1;
-        }
-    }
-    // endregion
-    
-    // region For Attack Phase
-    
-    /**
      * Delegate the job to conquer() function of Player class
      *
      * @param armiesToMove the number of armies to move
      */
     public void moveArmiesToConqueredTerritory(int armiesToMove) {
         currentPlayer.conquer(this, armiesToMove);
-        moveToFortificationIfCan();
+        moveToFortificationIfPossible();
         updateGameMapTableModel();
         broadcastGamePlayChanges();
     }
@@ -671,16 +784,40 @@ public class GamePlayModel extends Observable implements Serializable {
     /**
      * If current player cannot attack anymore, move to Fortification automatically
      */
-    private void moveToFortificationIfCan() {
+    private void moveToFortificationIfPossible() {
         if (!currentPlayer.ableToAttack(gameMap)) {
-            log.append("    " + currentPlayer.getPlayerName() + " cannot attack anymore");
+            log.append("        " + currentPlayer.getPlayerName() + " cannot attack anymore");
             currentPlayer.nextPhase();
-            if (!currentPlayer.ableToForitfy(gameMap)) {
-                log.append("    " + currentPlayer.getPlayerName() + " cannot fortify");
+            if (!currentPlayer.ableToFortify(gameMap)) {
+                log.append("        " + currentPlayer.getPlayerName() + " cannot fortify");
                 nextPlayerTurn();
             }
         }
     }
+    
+    /**
+     * Set the current player to be the next one in round-robin-fashion
+     * Change the phase of the current player to Reinforcement/TradeCard
+     * Broadcast the change to Observers.
+     */
+    public void nextPlayerTurn() {
+        currentPlayer = getNextPlayer();
+        
+        /* increase the turn counter starting from the first reinforcement phase, and for every player's turn */
+        if (gameState == PLAY) {
+            turnCounter++;
+        }
+        log.append("==============================================");
+        log.append(currentPlayer.getPlayerName() + "'s turn begins [turn #" + turnCounter + "]. Player type: " + currentPlayer.getPlayerType().getClass().getSimpleName());
+        log.append("    " + currentPlayer.getPlayerName() + " is " + currentPlayer.getPlayerType().getClass().getSimpleName());
+        currentPlayer.nextPhase();
+        addReinforcementForCurrPlayer();
+        updatePlayerTerritoriesModel();
+        broadcastGamePlayChanges();
+    }
+    // endregion
+    
+    // region For Attack Phase
     
     /**
      * Change the player's state to ATTACK_PREPARE
@@ -716,7 +853,12 @@ public class GamePlayModel extends Observable implements Serializable {
                 " to " + defendingTerritory.getName() + " of " + defender.getPlayerName());
         log.append("        " + currentBattle.getAttacker().getPlayerName() + " chooses " + numOfAtkDice + " dice");
         log.append("        " + currentBattle.getDefender().getPlayerName() + " chooses " + numOfDefDice + " dice");
+        
+        /* Let current human player does his part */
         currentPlayer.attack(this);
+        
+        /* Decide the battle */
+        decideBattleResultIfPossible();
         
         // If the defending territory has been conquered
         if (currentBattle.getDefendingTerritory().getArmies() == 0) {
@@ -729,10 +871,9 @@ public class GamePlayModel extends Observable implements Serializable {
             attacker.addTerritory(defendingTerritory);
             
             // Check if the defender has been eliminated
-            eliminatePlayerIfCan();
+            eliminatePlayerIfPossible();
         }
-        
-        moveToFortificationIfCan();
+        moveToFortificationIfPossible();
         
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -741,10 +882,32 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
+     * Decides the battle results when possible
+     */
+    private void decideBattleResultIfPossible() {
+        if (currentBattle != null) {
+            int numOfAtkDice = currentBattle.getAttackerDice().getRollsCount();
+            int numOfDefDice = currentBattle.getDefenderDice().getRollsCount();
+            
+            // Compare the best result of both players
+            int bestOfAttacker = currentBattle.getAttackerDice().getTheBestResult();
+            int bestOfDefender = currentBattle.getDefenderDice().getTheBestResult();
+            decideResult(bestOfAttacker, bestOfDefender);
+            
+            // If both players roll at least 2 dice
+            if (numOfAtkDice >= 2 && numOfDefDice >= 2) {
+                int secondBestOfAttacker = currentBattle.getAttackerDice().getSecondBestResult();
+                int secondBestOfDefender = currentBattle.getDefenderDice().getSecondBestResult();
+                decideResult(secondBestOfAttacker, secondBestOfDefender);
+            }
+        }
+    }
+    
+    /**
      * This method gives all of the current cards of the eliminated Player (from the latest attack) to the conquering
      * And remove defeated player from the game
      */
-    public void eliminatePlayerIfCan() {
+    public void eliminatePlayerIfPossible() {
         Player attacker = currentBattle.getAttacker();
         Player defender = currentBattle.getDefender();
         if (defender.getTerritories().size() == 0) {
@@ -764,9 +927,11 @@ public class GamePlayModel extends Observable implements Serializable {
                 }
             }
         }
-    
+        
         // Declare winner if there is only 1 player left
         if (gameVictory(attacker)) {
+            winner = attacker;
+            setGameState(VICTORY);
             String message = attacker.getPlayerName() + " wins the game!";
             log.append("\n");
             log.append("!!!!!!!!!!!!!!!!!! " + message + "!!!!!!!!!!!!!!!!!!");
@@ -774,6 +939,38 @@ public class GamePlayModel extends Observable implements Serializable {
         
         updateGameMapTableModel();
         broadcastGamePlayChanges();
+    }
+    
+    /**
+     * This method decides the outcome of the current battle by comparing the attacker's dice
+     * roll value and the defender's dice roll value. Depending on the result, the method
+     * increases the lose count for the player who rolled a lower value than the opponent.
+     *
+     * @param bestOfAttacker Integer value of the attacker's dice roll
+     * @param bestOfDefender Integer value of the defender's dice roll
+     */
+    public void decideResult(int bestOfAttacker, int bestOfDefender) {
+        Territory attackingTerritory = currentBattle.getAttackingTerritory();
+        Territory defendingTerritory = currentBattle.getDefendingTerritory();
+        if (bestOfAttacker > bestOfDefender) { // the attacker wins
+            log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
+                    ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
+                    ", attacker wins");
+            defendingTerritory.reduceArmies(1);
+            log.append("            " + currentBattle.getDefender().getPlayerName() + "'s " +
+                    defendingTerritory.getName() + " loses 1 army");
+            currentBattle.increaseDefenderLossCount();
+            
+        } else { // the defender wins
+            log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
+                    ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
+                    ", defender wins");
+            attackingTerritory.reduceArmies(1);
+            log.append("            " + currentBattle.getAttacker().getPlayerName() + "'s " +
+                    attackingTerritory.getName() + " loses 1 army");
+            currentBattle.increaseAttackerLossCount();
+            
+        }
     }
     
     /**
@@ -793,6 +990,7 @@ public class GamePlayModel extends Observable implements Serializable {
         }
         if (isVictory) {
             attackingPlayer.setGameState(VICTORY);
+            setGameState(VICTORY);
         }
         return isVictory;
     }
@@ -803,8 +1001,8 @@ public class GamePlayModel extends Observable implements Serializable {
      * @param attacker the attacker
      */
     public void drawCardForWinner(Player attacker) {
-        Card card = drawCard();
-        if (card != null) {
+        if (deck.size() != 0) {
+            Card card = drawCard();
             attacker.addCardToPlayersHand(card);
             log.append("        " + attacker.getPlayerName() + " received the " + card.getCardType().name() + " card");
         } else {
@@ -867,32 +1065,54 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
-     * This method decides the outcome of the current battle by comparing the attacker's dice
-     * roll value and the defender's dice roll value. Depending on the result, the method
-     * increases the lose count for the player who rolled a lower value than the opponent.
+     * Get the maximum number of attacking dice roll that attacker can use depending on the attacking territory's armies
      *
-     * @param bestOfAttacker Integer value of the attacker's dice roll
-     * @param bestOfDefender Integer value of the defender's dice roll
+     * @param attackingTerritoryName the territory from where attack originates
+     *
+     * @return the maximum number of dice roll that attacker may use
      */
-    public void decideResult(int bestOfAttacker, int bestOfDefender) {
-        Territory attackingTerritory = currentBattle.getAttackingTerritory();
-        Territory defendingTerritory = currentBattle.getDefendingTerritory();
-        if (bestOfAttacker > bestOfDefender) { // the attacker wins
-            log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
-                    ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
-                    ", attacker wins");
-            defendingTerritory.reduceArmies(1);
-            log.append("            " + currentBattle.getDefender().getPlayerName() + "'s " +
-                    defendingTerritory.getName() + " loses 1 army");
-            currentBattle.increaseDefenderLossCount();
-        } else { // the defender wins
-            log.append("            Attacker " + currentBattle.getAttacker().getPlayerName() + " has " + bestOfAttacker +
-                    ", defender " + currentBattle.getDefender().getPlayerName() + " has " + bestOfDefender +
-                    ", defender wins");
-            attackingTerritory.reduceArmies(1);
-            log.append("            " + currentBattle.getAttacker().getPlayerName() + "'s " +
-                    attackingTerritory.getName() + " loses 1 army");
-            currentBattle.increaseAttackerLossCount();
+    public int getMaxAttackingRoll(String attackingTerritoryName) {
+        Territory attackingTerritory = getGameMap().getATerritory(attackingTerritoryName);
+        return Math.min(3, attackingTerritory.getArmies() - 1);
+    }
+    
+    /**
+     * Gets the game map.
+     *
+     * @return the game map
+     */
+    public GameMap getGameMap() {
+        return gameMap;
+    }
+    
+    /**
+     * Sets new gameMap.
+     *
+     * @param gameMap New value of gameMap.
+     */
+    public void setGameMap(GameMap gameMap) {
+        this.gameMap = gameMap;
+        updateGameMapTableModel();
+        broadcastGamePlayChanges();
+    }
+    
+    /**
+     * Do battle if possible once dice are rolled
+     */
+    public void performBattleIfPossible() {
+        if (currentBattle != null) {
+            log.append("        Battle between " + currentBattle.getAttacker().getPlayerName() +
+                    "'s " + currentBattle.getAttackingTerritory().getName() +
+                    " and " + currentBattle.getDefender().getPlayerName() +
+                    "'s " + currentBattle.getDefendingTerritory().getName());
+        
+        /* Both players roll dice */
+            currentBattle.attackerRollDice();
+            log.append("            " + currentBattle.getAttacker().getPlayerName() + " roll dice: " +
+                    currentBattle.getAttackerDice().getRollsResult());
+            currentBattle.defenderRollDice();
+            log.append("            " + currentBattle.getDefender().getPlayerName() + " roll dice: " +
+                    currentBattle.getDefenderDice().getRollsResult());
         }
     }
     
@@ -908,7 +1128,9 @@ public class GamePlayModel extends Observable implements Serializable {
     public String moveArmiesFortification(String sourceTerritory, String targetTerritory, int noOfArmies) {
         String message = currentPlayer.fortification(this, sourceTerritory, targetTerritory, noOfArmies);
         if (message.contains("Successfully moved")) {
-            nextPlayerTurn();
+            if (gameState != VICTORY) {
+                nextPlayerTurn();
+            }
         }
         updateGameMapTableModel();
         broadcastGamePlayChanges();
@@ -920,29 +1142,6 @@ public class GamePlayModel extends Observable implements Serializable {
     // region For Fortification Phase
     
     /**
-     * Set the current player to be the next one in round-robin-fashion
-     * Change the phase of the current player to Reinforcement/TradeCard
-     * Broadcast the change to Observers.
-     */
-    public void nextPlayerTurn() {
-        currentPlayer = getNextPlayer();
-        log.append("==============================================");
-        log.append(currentPlayer.getPlayerName() + "'s turn begins");
-        log.append("    " + currentPlayer.getPlayerName() + " is " + currentPlayer.getPlayerType().getClass().getSimpleName());
-        currentPlayer.nextPhase();
-        addReinforcementForCurrPlayer();
-        updatePlayerTerritoriesModel();
-        broadcastGamePlayChanges();
-        
-        if (!currentPlayer.isHuman()) {
-            botsPlayGame();
-        }
-    }
-    // endregion
-    
-    // region Public methods
-    
-    /**
      * Change the game phase of the current player to other phase.
      *
      * @param newGameStates the game phase
@@ -952,35 +1151,111 @@ public class GamePlayModel extends Observable implements Serializable {
         log.append("    " + currentPlayer.getPlayerName() + " move to " + currentPlayer.getGameState() + " phase");
         broadcastGamePlayChanges();
     }
+    // endregion
+    
+    // region Public methods
+    
+    // region Private methods
     
     /**
-     * This function lets the game advance when the current player is a bot until a human player's turn
+     * Allows bots to play undisturbed until victory of maximum turns is reached
      */
-    private void botsPlayGame() {
-        while (!currentPlayer.isHuman() && currentPlayer.getGameState() != VICTORY) {
-            // Reinforcement phase
-            currentPlayer.reinforcement(this, null, null);
-            currentPlayer.nextPhase();
-            
-            // Attacking phase
-            currentPlayer.attack(this);
-            if (currentPlayer.getGameState() == VICTORY) {
-                break;
-            }
-            currentPlayer.nextPhase();
-            
-            // Fortification phase
-            currentPlayer.fortification(this, null, null, -1);
-            
-            nextPlayerTurn();
+    public void letBotsPlay() {
+        if (turnCounter <= maxTurns && gameState != VICTORY) {
+            // Bots reinforce and declare attack if it wants
+            attackCounter = 0;
+            botsReinforcement();
+            botsAttack();
         }
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
     }
     
     // endregion
     
-    // region Private methods
+    /**
+     * Bots attacking, then fortifying
+     */
+    public void botsAttack() {
+        currentPlayer.setGameState(ATTACK_PREPARE);
+        
+        if (attackCounter < maxAttackTurn) {  // from 0 - 49
+            attackCounter++;
+            currentPlayer.attack(this);
+        } else {
+            currentBattle = null;
+        }
+    
+        // If the game has a victor
+        if (gameState == VICTORY) {
+            return;
+        }
+        // If bots declare new attack, let defender choose number of defending dice
+        else if (currentBattle != null && !currentPlayer.isCheaterBot() && attackCounter <= maxAttackTurn) {  // from 1 - 50
+            log.append("Battle #" + attackCounter + ":");
+            Player defender = currentBattle.getDefender();
+            if (defender.isHuman()) {
+                needDefenderReaction = true;
+                broadcastGamePlayChanges();
+            } else {
+                int defendingDice = defender.botChooseDefendingDice(currentBattle.getMaxDefendingRoll());
+                currentBattle.setDefendingDice(defendingDice);
+                botsFortification(true);
+            }
+        }
+        // If bots quits attacking or cannot attack anymore
+        else {
+            if (currentPlayer.hasConqueredTerritories()) {
+                drawCardForWinner(currentPlayer);
+                currentPlayer.setHasConqueredTerritories(false);
+            }
+            botsFortification(false);
+        }
+    
+    }
+    
+    /**
+     * Conquer territory by moving armies to it if possible
+     */
+    private void conquerTerritoryIfPossible() {
+        currentPlayer.moveArmiesToConqueredTerritory(this);
+    }
+    
+    /**
+     * Fortification used by bots
+     *
+     * @param continueAttack flag to determine if attack should continue after fortification
+     */
+    public void botsFortification(boolean continueAttack) {
+        // Prevent normal rules from applying to Cheater Bot
+        if (!currentPlayer.isCheaterBot()) {
+            currentPlayer.setGameState(ATTACK_BATTLE);
+            performBattleIfPossible();
+            decideBattleResultIfPossible();
+            conquerTerritoryIfPossible();
+        } else if (gameState == VICTORY) {
+            broadcastGamePlayChanges();
+            return;
+        }
+        
+        currentBattle = null;
+        
+        if (!continueAttack) {
+            // Fortification phase
+            currentPlayer.nextPhase();
+            currentPlayer.fortification(this, null, null, -1);
+            nextPlayerTurn();
+        } else {
+            botsAttack();
+        }
+    }
+    
+    /**
+     * This function lets the game advance when the current player is a bot until a human player's turn
+     */
+    private void botsReinforcement() {
+        // Reinforcement phase
+        currentPlayer.reinforcement(this, null, null);
+        currentPlayer.nextPhase();
+    }
     
     /**
      * The player status

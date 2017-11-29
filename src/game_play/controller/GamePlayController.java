@@ -8,12 +8,11 @@ package game_play.controller;
 
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
-import game_play.view.screens.ConquerDialog;
-import game_play.view.screens.DefendingDialog;
-import game_play.view.screens.GamePlayFrame;
-import game_play.view.screens.StrategyDialog;
+import game_play.view.screens.*;
 import game_play.view.ui_components.FortificationPanel;
+import shared_resources.game_entities.Battle;
 import shared_resources.game_entities.GameMap;
+import shared_resources.game_entities.Player;
 import shared_resources.game_entities.Territory;
 import shared_resources.helper.UIHelper;
 import shared_resources.utilities.MapFilter;
@@ -31,7 +30,6 @@ import static shared_resources.utilities.Config.GAME_EXTENSION;
 import static shared_resources.utilities.Config.GAME_STATES.*;
 import static shared_resources.utilities.SavedState.loadGame;
 import static shared_resources.utilities.SavedState.saveGame;
-//import static shared_resources.utilities.SavedJSONState.*; //TODO: fix or remove JSON export
 
 /**
  * GamePlayController is responsible for coordinating the GamePlayModel and GamePlayFrame
@@ -64,12 +62,28 @@ public class GamePlayController {
         this.callerController = callerController;
         gamePlayModel = new GamePlayModel();
         gamePlayFrame = new GamePlayFrame(callerController);
+        strategyDialog = new StrategyDialog(gamePlayFrame);
         gamePlayFrame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
         registerObserversToObservable();
         registerToBeListener();
         gamePlayModel.setGameMap(gameMap);
         gamePlayModel.setGameState(SETUP);
         gamePlayFrame.getGameMapTable().setModel(gamePlayModel.getMapTableModel().getModel());
+    }
+    
+    /**
+     * Limited constructor to be used when loading a game before starting to play
+     *
+     * @param callerController The controller who calls this controller (to help go back to previous screen
+     */
+    public GamePlayController(MainMenuController callerController) {
+        this.callerController = callerController;
+        gamePlayModel = new GamePlayModel();
+        gamePlayFrame = new GamePlayFrame(callerController);
+        strategyDialog = new StrategyDialog(gamePlayFrame);
+        gamePlayFrame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+        registerObserversToObservable();
+        registerToBeListener();
     }
     
     /**
@@ -89,6 +103,9 @@ public class GamePlayController {
         gamePlayModel.addObserver(gamePlayFrame.getFortificationPanel());
         gamePlayModel.addObserver(gamePlayFrame.getPhaseViewPanel());
     }
+    // endregion
+    
+    // region Private methods
     
     /**
      * Register the controller to be the listener to all UI component of the views.
@@ -98,7 +115,13 @@ public class GamePlayController {
         
         gamePlayFrame.addSaveMenuListener(e -> saveGameState());
         gamePlayFrame.addLoadMenuListener(e -> loadSavedGame());
-        gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions());
+        gamePlayFrame.addStrategyMenuListener(e -> showStrategyOptions(gamePlayModel.getPlayers()));
+        gamePlayFrame.addOpenDefendingDialogButtonListener(e -> openDefendingDialog());
+        gamePlayFrame.addPopupVictoryDialogButtonListener(e -> announceVictoryIfPossible(
+                gamePlayModel.getCurrentPlayer().getPlayerName() + " is the winner"));
+        gamePlayFrame.addTurnCounterReachedMaxButtonListener(e -> askUserToContinue());
+        gamePlayFrame.addAttackCounterReachedMaxButtonListener(e -> askUserInteraction());
+        gamePlayFrame.addStartBotTurnButtonListener(e -> startBotTurn());
         
         /* Play button to start the game */
         gamePlayFrame.getGameSetupPanel().addPlayButtonListener(e -> gameStartupPhase());
@@ -130,10 +153,9 @@ public class GamePlayController {
         ));
         gamePlayFrame.getFortificationPanel().addNextPlayerButtonListener(e -> changeToNextPlayer());
         
+        /* For Strategy Panel */
+        strategyDialog.addSubmitButtonListener(e -> setStrategy());
     }
-    // endregion
-    
-    // region Private methods
     
     /**
      * Save the game state to file
@@ -180,10 +202,50 @@ public class GamePlayController {
     }
     
     /**
-     * Setting the player's strategy
+     * Once the maximum turns is reached we ask the user if they wish to continue playing
+     * If we continue, the turnCounter is reset
      */
-    private void showStrategyOptions() {
-        strategyDialog = new StrategyDialog(this, gamePlayFrame, gamePlayModel.getPlayers());
+    private void askUserToContinue() {
+        String message = "Game reached maximum turns allotted (" + gamePlayModel.getMaxTurns() + ")\n" +
+                "Do you want to continue playing another " + gamePlayModel.getMaxTurns() + " turns?";
+        ManualInteractionDialog manualInteractionDialog = new ManualInteractionDialog(gamePlayFrame, message);
+        manualInteractionDialog.addNoButtonListener(e -> stopTheGame(manualInteractionDialog));
+        manualInteractionDialog.addYesButtonListener(e -> continueTheGame(manualInteractionDialog, false));
+    }
+    
+    /**
+     * Asks user for a decision when maximum turns are reached
+     */
+    private void askUserInteraction() {
+        String message = "Game reached maximum attacks allotted (" + gamePlayModel.getMaxAttackTurn() + ")\n" +
+                "Do you want to continue attacking?";
+        ManualInteractionDialog manualInteractionDialog = new ManualInteractionDialog(gamePlayFrame, message);
+        manualInteractionDialog.addNoButtonListener(e -> stopTheGame(manualInteractionDialog));
+        manualInteractionDialog.addYesButtonListener(e -> continueTheGame(manualInteractionDialog, true));
+    }
+    
+    /**
+     * Start new a new turn of bot player
+     */
+    private void startBotTurn() {
+        gamePlayModel.letBotsPlay();
+    }
+    //endregion
+    
+    
+    // region For Setup Phase
+    
+    /**
+     * Setting the player's strategy
+     *
+     * @param players the players to populate the strategy dialog
+     */
+    private void showStrategyOptions(Vector<Player> players) {
+        //TODO: clear the dialog each time is shown
+        strategyDialog.populateOptions(players, false);
+        strategyDialog.revalidate();
+        strategyDialog.repaint();
+        strategyDialog.setVisible(true);
     }
     
     /**
@@ -195,7 +257,7 @@ public class GamePlayController {
             int enteredPlayers = Integer.parseInt(gamePlayFrame.getGameSetupPanel().getPlayerCount().getText());
             if ((enteredPlayers > 1) && (enteredPlayers <= gamePlayModel.getGameMap().getMaxPlayers())) {
                 gamePlayModel.initializeNewGame(enteredPlayers);
-                showStrategyOptions();
+                showStrategyOptions(gamePlayModel.getPlayers());
             } else if (enteredPlayers == 1) {
                 gamePlayModel.initializeNewGame(enteredPlayers);
                 UIHelper.displayMessage(gamePlayFrame, "Player 1 Wins!");
@@ -221,14 +283,15 @@ public class GamePlayController {
         gamePlayModel.placeArmyStartup(selectedTerritoryName);
     }
     
-    // region For Setup Phase
-    
     /**
      * This function change the game state to Play phase
      */
     private void startTheGame() {
         gamePlayModel.startTheGame();
     }
+    // endregion
+    
+    // region For Startup Phase
     
     /**
      * Looping through view table, get the quantity of armies for each territory
@@ -263,9 +326,6 @@ public class GamePlayController {
             UIHelper.displayMessage(gamePlayFrame, "The total armies to allocate must be lesser or equal to the indicated total armies to place");
         }
     }
-    // endregion
-    
-    // region For Startup Phase
     
     /**
      * Validate player's armies distributing and cards trading, then change the game state to Fortification Phase
@@ -277,6 +337,37 @@ public class GamePlayController {
             gamePlayModel.changePhaseOfCurrentPlayer(ATTACK_PREPARE);
         }
     }
+    
+    /**
+     * Continue the game after getting manual interaction
+     *
+     * @param dialog         the manual interaction dialog
+     * @param isMaxAttacking is called because of reaching max attacking turn
+     */
+    private void continueTheGame(ManualInteractionDialog dialog, boolean isMaxAttacking) {
+        dialog.dispose();
+        gamePlayModel.setMaxTurns(gamePlayModel.getOriginalMaxTurn() + gamePlayModel.getTurnCounter());
+        gamePlayModel.setMaxAttackTurn(gamePlayModel.getOriginalMaxAttackTurn() + gamePlayModel.getAttackCounter());
+        if (!isMaxAttacking) {
+            gamePlayModel.letBotsPlay();
+        } else {
+            gamePlayModel.botsAttack();
+        }
+    }
+    
+    /**
+     * Stop the game from manual interaction dialog
+     *
+     * @param dialog the manual interaction dialog
+     */
+    private void stopTheGame(ManualInteractionDialog dialog) {
+        dialog.dispose();
+        UIHelper.invokeFrame(callerController.getMainMenuFrame());
+        UIHelper.disableFrame(gamePlayFrame);
+    }
+    // endregion
+    
+    // region For Reinforcement Phase
     
     /**
      * Collect the selected cards from UI and trade them by calling the tradeInCards() from the game_entities.
@@ -295,9 +386,6 @@ public class GamePlayController {
         gamePlayFrame.getReinforcementPanel().getTradeCardsPanel().setGainedArmiesLabel(gainedArmies);
         UIHelper.displayMessage(gamePlayFrame, message);
     }
-    // endregion
-    
-    // region For Reinforcement Phase
     
     /**
      * Bring users from Reinforcement Panel to Trade Cards Panel
@@ -317,23 +405,54 @@ public class GamePlayController {
      * Call appropriate function in GamePlayModel to perform an attack from one territory to another
      */
     private void attackTerritory() {
-        /* Prepare ingredients for the battle */
-        String attackingPlayer = gamePlayModel.getCurrentPlayer().getPlayerName();
-        String attackingTerritory = String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem());
-        String defendingTerritory = String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem());
-        String defendingPlayer = gamePlayModel.getGameMap().getATerritory(defendingTerritory).getOwner().getPlayerName();
-        int attackingDice = (int) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem();
+        setupTheBattle();
+        Player defender = gamePlayModel.getCurrentBattle().getDefender();
         
+        if (defender.isHuman()) {
+            openDefendingDialog();
+        } else {
+            int maxDefendingDice = gamePlayModel.getCurrentBattle().getMaxDefendingRoll();
+            int defendingDice = defender.botChooseDefendingDice(maxDefendingDice);
+            startTheBattle(defendingDice);
+        }
+    }
+    
+    /**
+     * Sets up the battle resources
+     */
+    private void setupTheBattle() {
+        /* Prepare ingredients for the battle */
+        String defendingTerritoryName = String.valueOf(
+                gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem());
+        String attackingTerritoryName = String.valueOf(
+                gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem());
+        
+        Player attacker = gamePlayModel.getCurrentPlayer();
+        Player defender = gamePlayModel.getGameMap().getATerritory(defendingTerritoryName).getOwner();
+        
+        Territory attackingTerritory = gamePlayModel.getGameMap().getATerritory(attackingTerritoryName);
+        Territory defendingTerritory = gamePlayModel.getGameMap().getATerritory(defendingTerritoryName);
+        
+        int attackingDice = (int) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem();
+        gamePlayModel.setCurrentBattle(new Battle(attacker, attackingTerritory, attackingDice,
+                defender, defendingTerritory, 0));
+    }
+    
+    /**
+     * Opens the modal dialog for defender to roll dices when is attacked
+     */
+    private void openDefendingDialog() {
+        Battle currentBattle = gamePlayModel.getCurrentBattle();
         String situation = String.format("%s attacks from %s to %s's %s using %d dice",
-                attackingPlayer,
-                attackingTerritory,
-                defendingPlayer,
-                defendingTerritory,
-                attackingDice);
-        int maxDefendingDice = gamePlayModel.getMaxDefendingRoll(defendingTerritory);
-        gamePlayFrame.setVisible(false);
+                currentBattle.getAttacker().getPlayerName(),
+                currentBattle.getAttackingTerritory().getName(),
+                currentBattle.getDefender().getPlayerName(),
+                currentBattle.getDefendingTerritory().getName(),
+                currentBattle.getAttackerDice().getRollsCount());
+        int maxDefendingDice = gamePlayModel.getCurrentBattle().getMaxDefendingRoll();
         
         /* Let the defender choose number of dice to defence */
+        gamePlayFrame.setVisible(false);
         JFrame frame = new JFrame();
         DefendingDialog defendingDialog = new DefendingDialog(frame, situation, maxDefendingDice);
         defendingDialog.addDoneButtonListener(e -> startTheBattle(defendingDialog, gamePlayFrame));
@@ -348,8 +467,14 @@ public class GamePlayController {
             gamePlayModel.getCurrentPlayer().setHasConqueredTerritories(false);
         }
         
+        gamePlayModel.setCurrentBattle(null);
+        
         gamePlayModel.changePhaseOfCurrentPlayer(FORTIFICATION);
     }
+    
+    // endregion
+    
+    // region For Attacking Phase
     
     /**
      * Updates the defending territories dropdown and number
@@ -378,10 +503,6 @@ public class GamePlayController {
                     gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getItemCount() - 1);
         }
     }
-    
-    // endregion
-    
-    // region For Attacking Phase
     
     /**
      * Called when players want to prepare another attack
@@ -457,6 +578,7 @@ public class GamePlayController {
     
     /**
      * Call appropriate function in GamePlayModel to perform a battle
+     * When defender is a human
      *
      * @param dialog the modal dialog for defender
      * @param owner  the owner of attacked territory
@@ -466,6 +588,30 @@ public class GamePlayController {
         int defendingDice = (int) dialog.getDefendingDiceDropdown().getSelectedItem();
         dialog.getOwner().dispose();
         owner.setVisible(true);
+        if (gamePlayModel.getCurrentPlayer().isHuman()) {  // if human attacker
+            String message = gamePlayModel.declareAttack(
+                    String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem()),
+                    String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem()),
+                    (Integer) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem(),
+                    defendingDice
+            );
+            
+            announceVictoryIfPossible(message);
+            moveArmiesToConqueredTerritoryIfPossible();
+        } else {  // if bot attacker
+            gamePlayModel.getCurrentBattle().setDefendingDice(defendingDice);
+            gamePlayModel.botsFortification(true);
+        }
+    }
+    
+    /**
+     * Call appropriate function in GamePlayModel to perform a battle
+     * When defender is a bot
+     *
+     * @param defendingDice the number of defender's dice
+     */
+    private void startTheBattle(int defendingDice) {
+        /* Perform the battle */
         String message = gamePlayModel.declareAttack(
                 String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem()),
                 String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem()),
@@ -473,19 +619,44 @@ public class GamePlayController {
                 defendingDice
         );
         
+        announceVictoryIfPossible(message);
+        moveArmiesToConqueredTerritoryIfPossible();
+    }
+    
+    /**
+     * Pop out the dialog announcing the winner
+     *
+     * @param message the message
+     */
+    private void announceVictoryIfPossible(String message) {
         // If outcome is victory
         if (gamePlayModel.getCurrentPlayer().getGameState() == VICTORY) {
+            UIHelper.displayMessage(gamePlayFrame, message);
+            UIHelper.invokeFrame(callerController.getMainMenuFrame());
+            UIHelper.disableFrame(gamePlayFrame);
+        }
+        
+        /* Declare draw if turns are used-up*/
+        else if (gamePlayModel.getTurnCounter() >= gamePlayModel.getMaxTurns()) {
+            message = "Maximum turns reached. No winner. Game is a draw";
             UIHelper.displayMessage(gamePlayFrame, message);
             UIHelper.closeFrame(gamePlayFrame);
             UIHelper.invokeFrame(callerController.getMainMenuFrame());
         }
-        
+    }
+    
+    /**
+     * Moves armies to conquered territories by asking user to decide where to place them
+     */
+    private void moveArmiesToConqueredTerritoryIfPossible() {
         /* Display dialog to let the winning attacker to move armies to conquered territory */
-        else if (gamePlayModel.getCurrentPlayer().getGameState() == ATTACK_BATTLE &&
-                gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
+        if (gamePlayModel.getCurrentBattle().getDefendingTerritory().getArmies() == 0) {
             openMoveArmiesToConqueredTerritoryDialog();
         }
     }
+    
+    // endregion
+    // region For Fortification Phase
     
     /**
      * Hide the GamePlayFrame and display a dialog for player
@@ -497,9 +668,6 @@ public class GamePlayController {
         ConquerDialog conquerDialog = new ConquerDialog(frame, gamePlayModel.getCurrentBattle());
         conquerDialog.addMoveArmiesButtonListener(e -> moveArmiesToConqueredTerritory(conquerDialog, gamePlayFrame));
     }
-    
-    // endregion
-    // region For Fortification Phase
     
     /**
      * Call appropriate function in GamePlayModel to move a number of armies from attacking territory to the defending one
@@ -514,29 +682,14 @@ public class GamePlayController {
     }
     
     /**
-     * Limited constructor to be used when loading a game before starting to play
-     *
-     * @param callerController The controller who calls this controller (to help go back to previous screen
-     */
-    public GamePlayController(MainMenuController callerController) {
-        this.callerController = callerController;
-        gamePlayModel = new GamePlayModel();
-        gamePlayFrame = new GamePlayFrame(callerController);
-        gamePlayFrame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
-        registerObserversToObservable();
-        registerToBeListener();
-    }
-    
-    /**
      * Sets the player strategy as selected in StrategyDialog
-     *
-     * @param strategyDialog the strategy dialog
      */
-    public void setStrategy(StrategyDialog strategyDialog) {
+    private void setStrategy() {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
-        gamePlayModel.setPlayersType(opts);
         strategyDialog.dispose();
+        gamePlayModel.setPlayersType(opts);
     }
     
     // endregion
 }
+

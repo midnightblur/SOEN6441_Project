@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * Bot.java
+ * Version 3.0
+ * Nov 22, 2017
+ */
 package shared_resources.strategy;
 
 import game_play.model.GamePlayModel;
@@ -8,11 +14,13 @@ import shared_resources.utilities.Config;
 
 import java.util.Vector;
 
+import static shared_resources.utilities.Config.log;
+
 /**
  * This class is parent class of all AI bot's classes
  * Bot class is responsible for providing mutual functionality of all kind of bots
  */
-abstract class Bot implements PlayerType {
+public abstract class Bot implements PlayerType {
     /**
      * Let a bot player trade his cards as soon as he can
      *
@@ -26,8 +34,10 @@ abstract class Bot implements PlayerType {
         Vector<Card> cavalryCards = new Vector<>();
         Vector<Card> artilleryCards = new Vector<>();
         if (player.getPlayersHand().size() >= Config.MIN_CARDS_TO_TRADE) {
+            log.append("    " + player.getPlayerName() + "'s hand has");
             for (int i = 0; i < player.getPlayersHand().size(); i++) {
                 Card card = player.getPlayersHand().get(i);
+                log.append("        " + card.getCardType());
                 switch (card.getCardType()) {
                     case INFANTRY:
                         infantryCards.addElement(card);
@@ -85,6 +95,7 @@ abstract class Bot implements PlayerType {
             }
             /* if cannot trade anymore */
             else {
+                log.append("    " + player.getPlayerName() + " cannot trade anymore");
                 break;
             }
             
@@ -92,24 +103,23 @@ abstract class Bot implements PlayerType {
         }
     }
     
-    void attackForBots(GamePlayModel gamePlayModel) {
-        // Perform the battle
-        attackForAllPlayers(gamePlayModel);
-        
-        // If conquer any territory, move some armies to that territory
-        moveArmiesToConqueredTerritory(gamePlayModel);
-    }
-    
+    /**
+     * Base function for conquering territory by bots
+     *
+     * @param gamePlayModel the game model
+     */
     void conquerTerritoryForBots(GamePlayModel gamePlayModel) {
         Player winner = gamePlayModel.getCurrentPlayer();
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
         Player loser = defendingTerritory.getOwner();
         
         defendingTerritory.setOwner(winner);
+    
+        /* declare the winner as a conqueror for this turn (to give cards) */
+        log.append("        " + defendingTerritory.getName() + " has been conquered by " + winner.getPlayerName());
+        winner.setHasConqueredTerritories(true);
         
         loser.removeTerritory(defendingTerritory.getName());
         winner.addTerritory(defendingTerritory);
     }
-    
-    abstract void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel);
 }

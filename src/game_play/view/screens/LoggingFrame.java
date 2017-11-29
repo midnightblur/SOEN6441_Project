@@ -8,6 +8,16 @@ package game_play.view.screens;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+
+import static shared_resources.utilities.Config.LOG_FILE_NAME;
 
 /**
  * The window used to display the game progression
@@ -16,8 +26,11 @@ import java.awt.*;
  * @version 2.0
  */
 public class LoggingFrame extends JFrame {
+    private static Charset charset = Charset.forName("UTF-8");
     private static LoggingFrame instance = null;
     private JTextArea logArea;
+    private Path logPath = Paths.get(LOG_FILE_NAME);
+    private BufferedWriter bufferedWriter;
     
     // region Constructors
     
@@ -36,6 +49,9 @@ public class LoggingFrame extends JFrame {
         frame.pack();
         frame.setVisible(true);
         frame.setSize(500, 1000);
+        // delete log file if exists at beginning of game session
+        new File(LOG_FILE_NAME).delete();
+        
     }
     
     /**
@@ -51,14 +67,44 @@ public class LoggingFrame extends JFrame {
     }
     // endregion
     
+    // region Public Methods
+    
+    /**
+     * Gets the text area for logging
+     *
+     * @return the text area
+     */
+    public JTextArea getLogArea() {
+        return logArea;
+    }
+    
     /**
      * Appends text to logging text area
      *
      * @param text the text to be appended on the logging area
      */
     public void append(String text) {
+        dumpLog(text);
         logArea.append("\n" + text);
+        logArea.repaint();
         logArea.setCaretPosition(logArea.getDocument().getLength());
     }
     
+    /**
+     * Dumps the log to file if too large
+     *
+     * @param text the text string to be appended to file
+     */
+    private void dumpLog(String text) {
+        try {
+            bufferedWriter = Files.newBufferedWriter(logPath, charset, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            bufferedWriter.append(text);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    // endregion
 }

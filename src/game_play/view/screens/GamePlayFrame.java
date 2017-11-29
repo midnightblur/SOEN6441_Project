@@ -11,6 +11,7 @@ import game_play.model.GamePlayModel;
 import game_play.view.ui_components.*;
 import shared_resources.game_entities.Player;
 import shared_resources.helper.UIHelper;
+import shared_resources.utilities.Config;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,6 +50,11 @@ public class GamePlayFrame extends JFrame implements Observer {
     private AttackingPanel attackingPanel;
     private Vector<Player> playersList;
     private MainMenuController callerController;
+    private JButton openDefendingDialogButton; // invisible button to activate DefendingDialog for human player
+    private JButton popupVictoryDialogButton; // invisible button to activate victory dialog
+    private JButton turnCounterReachedMaxButton; // invisible button to activate a bot player's turn
+    private JButton attackCounterReachedMaxButton; // invisible button to activate a new attack turn of current player
+    private JButton startBotTurnButton; // invisible button to activate a new bot turn
     // endregion
     
     // region Constructors
@@ -61,14 +67,14 @@ public class GamePlayFrame extends JFrame implements Observer {
     public GamePlayFrame(MainMenuController callerController) {
         /* Setup the menu */
         JMenuBar menu = new JMenuBar();
-    
+        
         JMenu game = new JMenu("Game");
         save = new JMenuItem("Save game...", KeyEvent.VK_T);
         load = new JMenuItem("Load game...", KeyEvent.VK_T);
         game.add(save);
         game.add(load);
         menu.add(game);
-    
+        
         JMenu player = new JMenu("Player");
         strategy = new JMenuItem("Set Strategy...", KeyEvent.VK_T);
         strategy.setEnabled(false);
@@ -103,12 +109,19 @@ public class GamePlayFrame extends JFrame implements Observer {
         /* Setup control area */
         setupControlArea();
         
+        /* Setup invisible components */
+        openDefendingDialogButton = new JButton();
+        popupVictoryDialogButton = new JButton();
+        turnCounterReachedMaxButton = new JButton();
+        attackCounterReachedMaxButton = new JButton();
+        startBotTurnButton = new JButton();
+        
         /* Setup & Display frame */
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
     }
     // endregion
     
-    // region Getters & Setters
+    // region Private methods
     
     /**
      * Setup the layout for the main screen.
@@ -153,6 +166,9 @@ public class GamePlayFrame extends JFrame implements Observer {
         
         topArea.setRightComponent(controlArea);
     }
+    // endregion
+    
+    // region Getters & Setters
     
     /**
      * Gets the fortification panel.
@@ -206,7 +222,52 @@ public class GamePlayFrame extends JFrame implements Observer {
     public void addSaveMenuListener(ActionListener listenerForSaveMenu) {
         save.addActionListener(listenerForSaveMenu);
     }
-// endregion
+    
+    /**
+     * Adds open defending dialog button listener
+     *
+     * @param listenerForOpenDefendingDialogButton the listener for open defending dialog button
+     */
+    public void addOpenDefendingDialogButtonListener(ActionListener listenerForOpenDefendingDialogButton) {
+        openDefendingDialogButton.addActionListener(listenerForOpenDefendingDialogButton);
+    }
+    
+    /**
+     * Adds popup victory dialog button listener
+     *
+     * @param listenerForPopupVictoryDialogButton the listener for popup victory dialog button
+     */
+    public void addPopupVictoryDialogButtonListener(ActionListener listenerForPopupVictoryDialogButton) {
+        popupVictoryDialogButton.addActionListener(listenerForPopupVictoryDialogButton);
+    }
+
+    /**
+     * Adds turn counter at maximum button listener
+     *
+     * @param listenerForTurnCounterReachedMaxButton the listener TurnCounterReachedMax button
+     */
+    public void addTurnCounterReachedMaxButtonListener(ActionListener listenerForTurnCounterReachedMaxButton) {
+        turnCounterReachedMaxButton.addActionListener(listenerForTurnCounterReachedMaxButton);
+    }
+    
+    /**
+     * Adds attack counter at maximum button listener
+     *
+     * @param listenerForAttackCounterReachedMaxButton the listener AttackCounterReachedMax button
+     */
+    public void addAttackCounterReachedMaxButtonListener(ActionListener listenerForAttackCounterReachedMaxButton) {
+        attackCounterReachedMaxButton.addActionListener(listenerForAttackCounterReachedMaxButton);
+    }
+    
+    /**
+     * Adds start bot turn button listener
+     *
+     * @param listenerForStartBotTurnButton the listener for start bot turn button
+     */
+    public void addStartBotTurnButtonListener(ActionListener listenerForStartBotTurnButton) {
+        startBotTurnButton.addActionListener(listenerForStartBotTurnButton);
+    }
+    // endregion
     
     // region Public methods
     
@@ -282,11 +343,6 @@ public class GamePlayFrame extends JFrame implements Observer {
         return load;
     }
     
-    // endregion
-    
-    // region Private methods
-    
-    
     /**
      * Gets the attacking panel
      *
@@ -295,6 +351,9 @@ public class GamePlayFrame extends JFrame implements Observer {
     public AttackingPanel getAttackingPanel() {
         return attackingPanel;
     }
+    // endregion
+    
+    // region MVC & Observer pattern methods
     
     /**
      * This method is called whenever the observed object is changed. An
@@ -308,76 +367,90 @@ public class GamePlayFrame extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
-                GamePlayModel gamePlayModel = (GamePlayModel) o;
+            GamePlayModel gamePlayModel = (GamePlayModel) o;
+            if (gamePlayModel.getGameState() == Config.GAME_STATES.VICTORY) { // If the game has a winner
+                popupVictoryDialogButton.doClick();
+            } else if (gamePlayModel.getCurrentPlayer() != null) { // If the game is still running
+                if (gamePlayModel.getAttackCounter() >= gamePlayModel.getMaxAttackTurn() &&
+                        gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.ATTACK_PREPARE) { // If a player reach allotted attacking turns
+                    attackCounterReachedMaxButton.doClick();
+                } else if (gamePlayModel.getTurnCounter() >= gamePlayModel.getMaxTurns() &&
+                        gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.REINFORCEMENT) { // If a player reached allotted turns
+                    turnCounterReachedMaxButton.doClick();
+                } else if (gamePlayModel.isNeedDefenderReaction() && !gamePlayModel.getCurrentPlayer().isHuman()) { // A human attacked by a bot
+                    gamePlayModel.setNeedDefenderReaction(false);
+                    openDefendingDialogButton.doClick();
+                } else if (!gamePlayModel.getCurrentPlayer().isHuman() &&
+                        gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.REINFORCEMENT) { // If a bot takes new turn
+                    startBotTurnButton.doClick();
+                } else if (gamePlayModel.getCurrentPlayer().isHuman()) { // Current player is human
+                    gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
             
-            gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
-            
-            /* Enable strategy menu item if players are set */
-            if (gamePlayModel.getPlayers().size() > 0) {
-                strategy.setEnabled(true);
-            }
-            
-            CardLayout cardLayout = (CardLayout) controlArea.getLayout();
-            switch (gamePlayModel.getGameState()) {
-                case SETUP:
-                    cardLayout.show(controlArea, GameSetupPanel.class.getName());
-                    break;
-                case STARTUP:
-                    cardLayout.show(controlArea, StartupPanel.class.getName());
-                    break;
-                case PLAY:
-                    switch (gamePlayModel.getCurrentPlayer().getGameState()) {
-                        case REINFORCEMENT:
-                        case TRADE_CARDS:
-                            cardLayout.show(controlArea, ReinforcementPanel.class.getName());
+                /* Enable strategy menu item if players are set */
+                    if (gamePlayModel.getPlayers().size() > 0) {
+                        strategy.setEnabled(true);
+                    }
+                    
+                    CardLayout cardLayout = (CardLayout) controlArea.getLayout();
+                    switch (gamePlayModel.getGameState()) {
+                        case SETUP:
+                            cardLayout.show(controlArea, GameSetupPanel.class.getName());
                             break;
-                        case ATTACK_PREPARE:
-                        case ATTACK_BATTLE:
-                            cardLayout.show(controlArea, AttackingPanel.class.getName());
+                        case STARTUP:
+                            cardLayout.show(controlArea, StartupPanel.class.getName());
                             break;
-                        case FORTIFICATION:
-                            cardLayout.show(controlArea, FortificationPanel.class.getName());
+                        case PLAY:
+                            switch (gamePlayModel.getCurrentPlayer().getGameState()) {
+                                case REINFORCEMENT:
+                                case TRADE_CARDS:
+                                    cardLayout.show(controlArea, ReinforcementPanel.class.getName());
+                                    break;
+                                case ATTACK_PREPARE:
+                                case ATTACK_BATTLE:
+                                    cardLayout.show(controlArea, AttackingPanel.class.getName());
+                                    break;
+                                case FORTIFICATION:
+                                    cardLayout.show(controlArea, FortificationPanel.class.getName());
+                                    break;
+                                default:
+                                    break;
+                            }
                             break;
                         default:
                             break;
                     }
-                    break;
-                default:
-                    break;
-            }
-            
-            Vector<Player> oldPlayersList = new Vector<>();
-            for (Player player : playersList) {
-                if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
-                    oldPlayersList.add(player);
-                }
-            }
-            
-            playersList.clear();
-            for (Player player : gamePlayModel.getPlayers()) {
-                if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
-                    playersList.add(player);
-                }
-            }
-            
-            if (oldPlayersList.size() > playersList.size()) {
-                if (playersList.size() != 1) {
-                    for (Player player : oldPlayersList) {
-                        if (!playersList.contains(player)) {
-                            UIHelper.displayMessage(this, String.format("%s has been eliminated", player.getPlayerName()));
+                    
+                    Vector<Player> oldPlayersList = new Vector<>();
+                    for (Player player : playersList) {
+                        if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
+                            oldPlayersList.add(player);
                         }
                     }
-                } else {
-                    Player player = playersList.firstElement();
-                    UIHelper.displayMessage(this, String.format("%s is the winner", player.getPlayerName()));
-                    backToMainMenu();
+                    
+                    playersList.clear();
+                    for (Player player : gamePlayModel.getPlayers()) {
+                        if (player.getPlayerStatus() == GamePlayModel.PLAYER_STATUS.IN_GAME) {
+                            playersList.add(player);
+                        }
+                    }
+                    
+                    if (oldPlayersList.size() > playersList.size()) {
+                        if (playersList.size() != 1) {
+                            for (Player player : oldPlayersList) {
+                                if (!playersList.contains(player)) {
+                                    UIHelper.displayMessage(this, String.format("%s has been eliminated", player.getPlayerName()));
+                                }
+                            }
+                        } else {
+                            Player player = playersList.firstElement();
+                            UIHelper.displayMessage(this, String.format("%s is the winner", player.getPlayerName()));
+                            backToMainMenu();
+                        }
+                    }
                 }
             }
         }
     }
-    // endregion
-    
-    // region MVC & Observer pattern methods
     
     /**
      * Close GamePlayFrame, open MainMenuFrame

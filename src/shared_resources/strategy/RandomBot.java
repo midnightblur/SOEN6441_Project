@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * RandomBot.java
+ * Version 3.0
+ * Nov 22, 2017
+ */
 package shared_resources.strategy;
 
 import game_play.model.GamePlayModel;
@@ -37,53 +43,57 @@ public class RandomBot extends Bot {
     public void attack(GamePlayModel gamePlayModel) {
         Player player = gamePlayModel.getCurrentPlayer();
         
-        // The player attacks until he decides to stop or simply cannot attack anymore
-        while (true) {
-            // Make the choice whether to attack or not randomly
-            Random rand = new Random();
-            boolean doAttack = rand.nextBoolean();
-            
-            if (doAttack) {
-                Vector<Territory> territories = new Vector<>(player.getTerritories());
-                while (territories.size() > 0) {
-                    // Find a random territory
-                    int randIndex = 0;
-                    if (territories.size() > 1) {
-                        randIndex = rand.nextInt(territories.size() - 1);
-                    }
-                    Territory randomTerritory = territories.elementAt(randIndex);
-                    
-                    if (randomTerritory.getArmies() >= 2) {
-                        // Find one of its neighbor owned by another player
-                        for (String neighborName : randomTerritory.getNeighbors()) {
-                            Territory neighbor = gamePlayModel.getGameMap().getATerritory(neighborName);
-                            if (!neighbor.isOwnedBy(player)) {
-                                // Declare an attack using a random choice of number of dice
-                                int maxAttackerDice = Math.min(3, randomTerritory.getArmies());
-                                int attackerDice = 1 + rand.nextInt(maxAttackerDice);
-                                int maxDefenderDice = Math.min(2, neighbor.getArmies());
-                                int defenderDice = 1 + rand.nextInt(maxDefenderDice);
-                                gamePlayModel.setCurrentBattle(new Battle(player, randomTerritory, attackerDice,
-                                        neighbor.getOwner(), neighbor, defenderDice));
-                                attackForBots(gamePlayModel);
-                                break;
-                            }
+        // Make the choice whether to attack or not randomly
+        Random rand = new Random();
+        boolean doAttack = rand.nextBoolean();
+        
+        if (doAttack) {
+            boolean hasAttacked = false;
+            Vector<Territory> territories = new Vector<>(player.getTerritories());
+            while (territories.size() > 0) {
+                // Find a random territory
+                int randIndex = 0;
+                if (territories.size() > 1) {
+                    randIndex = rand.nextInt(territories.size() - 1);
+                }
+                Territory randomTerritory = territories.elementAt(randIndex);
+                
+                if (randomTerritory.getArmies() >= 2) {
+                    // Find one of its neighbor owned by another player
+                    for (String neighborName : randomTerritory.getNeighbors()) {
+                        if (hasAttacked) {
+                            break;
                         }
+                        
+                        Territory neighbor = gamePlayModel.getGameMap().getATerritory(neighborName);
+                        if (!neighbor.isOwnedBy(player)) {
+                            // Declare an attack using a random choice of number of dice
+                            int maxAttackerDice = Math.min(3, randomTerritory.getArmies() - 1);
+                            int attackerDice = 1 + rand.nextInt(maxAttackerDice);
+                            gamePlayModel.setCurrentBattle(new Battle(player, randomTerritory, attackerDice,
+                                    neighbor.getOwner(), neighbor));
+                            
+                            hasAttacked = true;
+                        }
+                    }
+                    
+                    if (hasAttacked) {
                         break;
                     }
-                    
-                    // If this territory choice cannot attack any territory, prevent it from being chosen again
-                    territories.remove(randomTerritory);
                 }
                 
-                if (territories.size() == 0) {
-                    log.append("        " + player.getPlayerName() + " cannot attack anymore");
-                    return;
-                }
-            } else {
-                log.append("        " + player.getPlayerName() + " quits attacking phase");
-                return;
+                // If this territory choice cannot attack any territory, prevent it from being chosen again
+                territories.remove(randomTerritory);
+                territories.trimToSize();
             }
+            
+            if (!hasAttacked) {
+                log.append("        " + player.getPlayerName() + " cannot attack anymore");
+                gamePlayModel.setCurrentBattle(null);
+            }
+        } else {
+            log.append("        " + player.getPlayerName() + " quits attacking phase");
+            gamePlayModel.setCurrentBattle(null);
         }
     }
     
@@ -149,13 +159,14 @@ public class RandomBot extends Bot {
             Random rand = new Random();
             Territory fromTerritory = gamePlayModel.getCurrentBattle().getAttackingTerritory();
             Territory toTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
-            int noOfArmies = 1 + rand.nextInt(fromTerritory.getArmies() - 1);
+            int noOfArmies = gamePlayModel.getCurrentBattle().getAttackerDice().getRollsCount()
+                    + rand.nextInt(fromTerritory.getArmies() - gamePlayModel.getCurrentBattle().getAttackerDice().getRollsCount());
             fromTerritory.reduceArmies(noOfArmies);
             toTerritory.addArmies(noOfArmies);
             log.append("            " + fromTerritory.getOwner().getPlayerName() + " moves " + noOfArmies + " armies from " +
                     fromTerritory.getName() + " to " + toTerritory.getName());
             
-            gamePlayModel.eliminatePlayerIfCan();
+            gamePlayModel.eliminatePlayerIfPossible();
         }
     }
 }

@@ -202,7 +202,7 @@ public class ReinforcementPanel extends JPanel implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof GamePlayModel) {
             GamePlayModel gamePlayModel = (GamePlayModel) o;
-            if (gamePlayModel.getGameState() == GAME_STATES.PLAY) {
+            if (gamePlayModel.getGameState() == GAME_STATES.PLAY && gamePlayModel.getCurrentPlayer().isHuman()) {
                 CardLayout cardLayout = (CardLayout) cardsPanel.getLayout();
                 if (gamePlayModel.getCurrentPlayer().getGameState() == GAME_STATES.REINFORCEMENT) {
                     playerName.setForeground(gamePlayModel.getCurrentPlayer().getColor());

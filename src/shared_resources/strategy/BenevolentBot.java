@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * BenevolentBot.java
+ * Version 3.0
+ * Nov 22, 2017
+ */
 package shared_resources.strategy;
 
 import game_play.model.GamePlayModel;
@@ -24,25 +30,26 @@ public class BenevolentBot extends Bot {
         Player player = gamePlayModel.getCurrentPlayer();
         Territory weakestTerritory = findWeakestNeighbor(player);
         log.append("    " + player.getPlayerName() + "'s weakest territory is " +
-                weakestTerritory.getName() +" having " + weakestTerritory.getArmies() + " armies");
+                weakestTerritory.getName() + " having " + weakestTerritory.getArmies() + " armies");
         if (armiesToPlace != null) {
             armiesToPlace.clear();
         } else {
             armiesToPlace = new HashMap<>();
         }
-    
+        
         armiesToPlace.put(weakestTerritory, player.getUnallocatedArmies());
         player.distributeArmies(armiesToPlace);
-    
+        
         return "";
     }
-
+    
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         Player currentPlayer = gamePlayModel.getCurrentPlayer();
         log.append("        " + currentPlayer.getPlayerName() + " quits attacking phase");
+        gamePlayModel.setCurrentBattle(null);
     }
-
+    
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
         Player player = gamePlayModel.getCurrentPlayer();
@@ -58,7 +65,7 @@ public class BenevolentBot extends Bot {
                 noOfArmies = (strongestTerritory.getArmies() - weakestNeighbor.getArmies()) / 2;
                 strongestTerritory.reduceArmies(noOfArmies);
                 weakestNeighbor.addArmies(noOfArmies);
-                log.append("        " + player.getPlayerName() + " moves " + noOfArmies +" armies from " +
+                log.append("        " + player.getPlayerName() + " moves " + noOfArmies + " armies from " +
                         strongestTerritory.getName() + " to " + weakestNeighbor.getName());
                 return "";
             } else {
@@ -71,24 +78,24 @@ public class BenevolentBot extends Bot {
     }
     
     /**
-     * Find the territory owned by a player having the least number of armies
+     * Find the territory owned by a player having the most number of armies
      *
-     * @param player the player
+     * @param territories the territories list
      *
      * @return the weakest territory
      */
-    private Territory findWeakestNeighbor(Player player) {
-        Territory weakestTerritory = null;
-        for (Territory territory : player.getTerritories()) {
-            if (weakestTerritory == null) {
-                weakestTerritory = territory;
+    private Territory findStrongestTerritory(Vector<Territory> territories) {
+        Territory strongestTerritory = null;
+        for (Territory territory : territories) {
+            if (strongestTerritory == null) {
+                strongestTerritory = territory;
             } else {
-                if (territory.getArmies() < weakestTerritory.getArmies()) {
-                    weakestTerritory = territory;
+                if (territory.getArmies() > strongestTerritory.getArmies()) {
+                    strongestTerritory = territory;
                 }
             }
         }
-        return weakestTerritory;
+        return strongestTerritory;
     }
     
     /**
@@ -116,29 +123,29 @@ public class BenevolentBot extends Bot {
         return weakestNeighbor;
     }
     
+    @Override
+    public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
+        // Do nothing
+    }
+    
     /**
-     * Find the territory owned by a player having the most number of armies
+     * Find the territory owned by a player having the least number of armies
      *
-     * @param territories the territories list
+     * @param player the player
      *
      * @return the weakest territory
      */
-    private Territory findStrongestTerritory(Vector<Territory> territories) {
-        Territory strongestTerritory = null;
-        for (Territory territory : territories) {
-            if (strongestTerritory == null) {
-                strongestTerritory = territory;
+    private Territory findWeakestNeighbor(Player player) {
+        Territory weakestTerritory = null;
+        for (Territory territory : player.getTerritories()) {
+            if (weakestTerritory == null) {
+                weakestTerritory = territory;
             } else {
-                if (territory.getArmies() > strongestTerritory.getArmies()) {
-                    strongestTerritory = territory;
+                if (territory.getArmies() < weakestTerritory.getArmies()) {
+                    weakestTerritory = territory;
                 }
             }
         }
-        return strongestTerritory;
-    }
-    
-    @Override
-    void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
-        // Do nothing
+        return weakestTerritory;
     }
 }
