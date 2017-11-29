@@ -1,9 +1,4 @@
-/*
- * Risk Game Team 2
- * PlayerTest.java
- * Version 1.0
- * Oct 18, 2017
- */
+
 package shared_resources.game_entities;
 
 import game_play.model.GamePlayModel;
