@@ -23,6 +23,9 @@ import static shared_resources.utilities.Config.log;
  * that have neighbors that belong to other players.
  */
 public class CheaterBot extends Bot {
+    /**
+     * @see PlayerType#reinforcement(GamePlayModel, Vector, Map)
+     */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         // Double armies in all territories - fantastic @__@
@@ -39,6 +42,9 @@ public class CheaterBot extends Bot {
         return "";
     }
     
+    /**
+     * @see PlayerType#attack(GamePlayModel)
+     */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         // Conquer all neighbors of all its territories without losing an army - awesome :))
@@ -68,6 +74,9 @@ public class CheaterBot extends Bot {
         }
     }
     
+    /**
+     * @see PlayerType#fortification(GamePlayModel, String, String, int)
+     */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
         // Double armies in all territories that have neighbors owned by other players
@@ -97,6 +106,9 @@ public class CheaterBot extends Bot {
         return "";
     }
     
+    /**
+     * @see PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+     */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
         // this Do nothing.

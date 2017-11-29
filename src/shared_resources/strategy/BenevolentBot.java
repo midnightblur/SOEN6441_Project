@@ -21,6 +21,9 @@ import static shared_resources.utilities.Config.log;
  * to move armies to weaker countries.
  */
 public class BenevolentBot extends Bot {
+    /**
+     * @see PlayerType#reinforcement(GamePlayModel, Vector, Map)
+     */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         /* trade cards as long as the bot can */
@@ -43,6 +46,9 @@ public class BenevolentBot extends Bot {
         return "";
     }
     
+    /**
+     * @see PlayerType#attack(GamePlayModel)
+     */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         Player currentPlayer = gamePlayModel.getCurrentPlayer();
@@ -50,6 +56,9 @@ public class BenevolentBot extends Bot {
         gamePlayModel.setCurrentBattle(null);
     }
     
+    /**
+     * @see PlayerType#fortification(GamePlayModel, String, String, int)
+     */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
         Player player = gamePlayModel.getCurrentPlayer();
@@ -123,6 +132,9 @@ public class BenevolentBot extends Bot {
         return weakestNeighbor;
     }
     
+    /**
+     * @see PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+     */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
         // Do nothing

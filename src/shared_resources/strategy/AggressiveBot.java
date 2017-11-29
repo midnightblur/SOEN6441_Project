@@ -23,6 +23,9 @@ import static shared_resources.utilities.Config.log;
  * cannot attack anymore, then fortifies in order to maximize aggregation of forces in one country.
  */
 public class AggressiveBot extends Bot {
+    /**
+     * @see PlayerType#reinforcement(GamePlayModel, Vector, Map)
+     */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         /* trade cards as long as the bot can */
@@ -44,6 +47,9 @@ public class AggressiveBot extends Bot {
         return null;
     }
     
+    /**
+     * @see PlayerType#attack(GamePlayModel)
+     */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         Player player = gamePlayModel.getCurrentPlayer();
@@ -77,6 +83,9 @@ public class AggressiveBot extends Bot {
         }
     }
     
+    /**
+     * @see PlayerType#fortification(GamePlayModel, String, String, int)
+     */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
         Player player = gamePlayModel.getCurrentPlayer();
@@ -189,6 +198,9 @@ public class AggressiveBot extends Bot {
         return strongestTerritory;
     }
     
+    /**
+     * @see PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+     */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();

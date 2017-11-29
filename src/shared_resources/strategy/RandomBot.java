@@ -22,6 +22,9 @@ import static shared_resources.utilities.Config.log;
  * fortifies a random country.
  */
 public class RandomBot extends Bot {
+    /**
+     * @see PlayerType#reinforcement(GamePlayModel, Vector, Map)
+     */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         /* trade cards as long as the bot can */
@@ -39,6 +42,9 @@ public class RandomBot extends Bot {
         return "";
     }
     
+    /**
+     * @see PlayerType#attack(GamePlayModel)
+     */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         Player player = gamePlayModel.getCurrentPlayer();
@@ -97,6 +103,9 @@ public class RandomBot extends Bot {
         }
     }
     
+    /**
+     * @see PlayerType#fortification(GamePlayModel, String, String, int)
+     */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
         Player player = gamePlayModel.getCurrentPlayer();
@@ -148,6 +157,9 @@ public class RandomBot extends Bot {
         return "";
     }
     
+    /**
+     * @see PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+     */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
