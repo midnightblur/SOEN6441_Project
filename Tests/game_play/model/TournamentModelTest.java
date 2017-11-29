@@ -30,7 +30,7 @@ import static shared_resources.utilities.Config.GAME_STATES.VICTORY;
  * @author Team 2
  * @version 3.0
  */
-public class TournamentResultsModelTest {
+public class TournamentModelTest {
     private static int maxTurns;
     private static Vector<Pair<String, Integer>> results;
     
