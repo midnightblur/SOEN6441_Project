@@ -40,6 +40,7 @@ public class ResultsFrame extends JFrame {
     public ResultsFrame(TournamentResultsModel tournamentResultsModel) {
         setupContentPane(tournamentResultsModel);
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
     // endregion
     

@@ -49,6 +49,7 @@ public class TournamentFrame extends JFrame implements Observer {
     public TournamentFrame() {
         setupContentPane();
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
     // endregion
     
@@ -61,7 +62,7 @@ public class TournamentFrame extends JFrame implements Observer {
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
         contentPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-    
+        
         JLabel selectMap = new JLabel(MAP_LIST_LABEL);
         mapList = new JList<>();
         mapList.setName("MAP SELECTION");
