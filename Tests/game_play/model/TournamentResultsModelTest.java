@@ -9,10 +9,9 @@ package game_play.model;
 import javafx.util.Pair;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import shared_resources.game_entities.GameMap;
 import shared_resources.game_entities.Player;
-import shared_resources.helper.GameMapHelper;
 import shared_resources.strategy.BenevolentBot;
+import tests_resources.FixedGamePlayModel;
 
 import java.util.Vector;
 
@@ -22,8 +21,8 @@ import static shared_resources.utilities.Config.GAME_STATES.VICTORY;
 
 /**
  * Testing the tournament mode
- * A specific map is used to test
- * The number of players is set to the maximum allowed by the map
+ * A fixed game is used to play multiple times
+ * The number of players is set to the maximum allowed by the map of the game
  * The players are all set to be of type Benevolent
  * We expect that there is no winner
  * We expect that we play as much as the maximum turns is set
@@ -32,11 +31,7 @@ import static shared_resources.utilities.Config.GAME_STATES.VICTORY;
  * @version 3.0
  */
 public class TournamentResultsModelTest {
-    private static Vector<GamePlayModel> gameSet;
     private static int maxTurns;
-    private static String mapFilePath;
-    private static int playerCount;
-    private static int gameCount;
     private static Vector<Pair<String, Integer>> results;
     
     /**
@@ -44,28 +39,16 @@ public class TournamentResultsModelTest {
      */
     @BeforeClass
     public static void setup() {
-        mapFilePath = "3D.map";
-        gameSet = new Vector<>();
+        Vector<GamePlayModel> gameSet = new Vector<>();
+        int gameCount = 3;
         results = new Vector<>();
         maxTurns = 20;
-        gameCount = 3;
-        
-        /* Add 5 games to the vector of games to play */
-        GameMap gameMap = null;
-        try {
-            gameMap = GameMapHelper.loadGameMap(mapFilePath);
-            playerCount = gameMap.getMaxPlayers();    // get the maximum players based on the game map
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
         
         /* Build a new game and set the players and their strategies */
-        GamePlayModel gamePlayModel = new GamePlayModel();
-        gamePlayModel.setGameMap(gameMap);
-        gamePlayModel.initPlayers(playerCount);
+        GamePlayModel gamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
         gamePlayModel.setMaxTurns(maxTurns);
+        
+        /* Make all players to be of type Benevolent */
         for (Player player : gamePlayModel.getPlayers()) {
             player.setPlayerType(new BenevolentBot());
         }
