@@ -20,13 +20,9 @@ import static shared_resources.utilities.Config.log;
  */
 public class Human implements PlayerType {
     /**
-<<<<<<< HEAD
      * The reinforcement of the Human gives control to the human player to reinforce the territories.
      *
      * @see shared_resources.strategy.PlayerType#reinforcement(GamePlayModel, Vector, Map)
-=======
-     * @see PlayerType#reinforcement(GamePlayModel, Vector, Map)
->>>>>>> d024efdaa0ebe578b5e771a9fc1ef6e986f1930f
      */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
@@ -41,34 +37,22 @@ public class Human implements PlayerType {
 
         return "";
     }
-<<<<<<< HEAD
 
     /**
      * The attack of Human gives control to the human player to attack as long as the player wants and is able to.
      *
      * @see shared_resources.strategy.PlayerType#attack(GamePlayModel)
-=======
-    
-    /**
-     * @see PlayerType#attack(GamePlayModel)
->>>>>>> d024efdaa0ebe578b5e771a9fc1ef6e986f1930f
      */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         gamePlayModel.performBattleIfPossible();
     }
-<<<<<<< HEAD
 
     /**
      * The fortification method of Human gives control to the human player to fortify a territory while respecting
      * the game rules.
      *
      * @see shared_resources.strategy.PlayerType#fortification(GamePlayModel, String, String, int)
-=======
-    
-    /**
-     * @see PlayerType#fortification(GamePlayModel, String, String, int)
->>>>>>> d024efdaa0ebe578b5e771a9fc1ef6e986f1930f
      */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
@@ -93,17 +77,11 @@ public class Human implements PlayerType {
         log.append("    " + currentPlayer.getPlayerName() + " moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory);
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
-<<<<<<< HEAD
 
     /**
      * The moveArmiesToConqueredTerritory of Human.
      *
      * @see shared_resources.strategy.PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
-=======
-    
-    /**
-     * @see PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
->>>>>>> d024efdaa0ebe578b5e771a9fc1ef6e986f1930f
      */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
