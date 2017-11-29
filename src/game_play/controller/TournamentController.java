@@ -133,6 +133,8 @@ public class TournamentController {
     
     /**
      * Sets the player strategy as selected in StrategyDialog
+     *
+     * @param gamePlayModel the game play model
      */
     private void setStrategy(GamePlayModel gamePlayModel) {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();

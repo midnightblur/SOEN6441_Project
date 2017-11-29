@@ -34,6 +34,8 @@ public class ResultsFrame extends JFrame {
     
     /**
      * Instantiates a new TournamentFrame.
+     *
+     * @param tournamentResultsModel the tournament result model
      */
     public ResultsFrame(TournamentResultsModel tournamentResultsModel) {
         setupContentPane(tournamentResultsModel);
@@ -45,6 +47,8 @@ public class ResultsFrame extends JFrame {
     
     /**
      * Setup ui components in the content pane.
+     *
+     * @param tournamentResultsModel the tournament result model
      */
     private void setupContentPane(TournamentResultsModel tournamentResultsModel) {
         JPanel contentPane = new JPanel();
