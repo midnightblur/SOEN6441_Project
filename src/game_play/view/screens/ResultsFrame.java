@@ -11,8 +11,6 @@ import shared_resources.helper.UIHelper;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.util.Observable;
-import java.util.Observer;
 
 import static shared_resources.helper.UIHelper.addVerticalSpacing;
 
@@ -22,7 +20,7 @@ import static shared_resources.helper.UIHelper.addVerticalSpacing;
  * @author Team 2
  * @version 3.0
  */
-public class ResultsFrame extends JFrame implements Observer {
+public class ResultsFrame extends JFrame {
     // region Attributes declaration
     private static final String TITLE = "Results";
     private static final String BACK_BUTTON = "Return to main menu";
@@ -37,8 +35,8 @@ public class ResultsFrame extends JFrame implements Observer {
     /**
      * Instantiates a new TournamentFrame.
      */
-    public ResultsFrame() {
-        setupContentPane();
+    public ResultsFrame(TournamentResultsModel tournamentResultsModel) {
+        setupContentPane(tournamentResultsModel);
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
     }
     // endregion
@@ -48,12 +46,13 @@ public class ResultsFrame extends JFrame implements Observer {
     /**
      * Setup ui components in the content pane.
      */
-    private void setupContentPane() {
+    private void setupContentPane(TournamentResultsModel tournamentResultsModel) {
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
         contentPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
         resultsTable = new JTable();
+        resultsTable.setModel(tournamentResultsModel.getResultsModel());
         returnToMainButton = new JButton(BACK_BUTTON);
         
         JScrollPane scrollPane = new JScrollPane(resultsTable);
@@ -76,23 +75,6 @@ public class ResultsFrame extends JFrame implements Observer {
      */
     public void addOKButtonListener(ActionListener listenerForOKButton) {
         returnToMainButton.addActionListener(listenerForOKButton);
-    }
-    
-    
-    /**
-     * This method is called whenever the observed object is changed. An
-     * application calls an <tt>Observable</tt> object's
-     * <code>notifyObservers</code> method to have all the object's
-     * observers notified of the change.
-     *
-     * @param o   the observable object.
-     * @param arg an argument passed to the <code>notifyObservers</code>
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof TournamentResultsModel) {
-            resultsTable.setModel(((TournamentResultsModel) o).getResultsModel());
-        }
     }
     // endregion
 }
