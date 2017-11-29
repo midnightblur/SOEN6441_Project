@@ -23,6 +23,11 @@ import static shared_resources.utilities.Config.log;
  * that have neighbors that belong to other players.
  */
 public class CheaterBot extends Bot {
+    /**
+     * The reinforcement of the Cheater bot doubles the number of armies on all of its territories.
+     *
+     * @see shared_resources.strategy.PlayerType#reinforcement(GamePlayModel, Vector, Map)
+     */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         // Double armies in all territories - fantastic @__@
@@ -38,7 +43,13 @@ public class CheaterBot extends Bot {
         }
         return "";
     }
-    
+
+    /**
+     * The attack of Cheater bot takes over ownership of all the territories owned by enemy players that are neighbors
+     * with the territories that the Cheater bot owns.
+     *
+     * @see shared_resources.strategy.PlayerType#attack(GamePlayModel)
+     */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         // Conquer all neighbors of all its territories without losing an army - awesome :))
@@ -67,7 +78,13 @@ public class CheaterBot extends Bot {
             justConqueredTerritory.setOwner(player);
         }
     }
-    
+
+    /**
+     * The fortification method of Cheater bot doubles the number of armies on its territories that have neighbors
+     * that belong to other players.
+     *
+     * @see shared_resources.strategy.PlayerType#fortification(GamePlayModel, String, String, int)
+     */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
         // Double armies in all territories that have neighbors owned by other players
@@ -96,7 +113,12 @@ public class CheaterBot extends Bot {
         }
         return "";
     }
-    
+
+    /**
+     * The moveArmiesToConqueredTerritory of Cheater bot.
+     *
+     * @see shared_resources.strategy.PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+     */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
         // this Do nothing.
