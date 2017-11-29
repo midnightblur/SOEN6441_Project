@@ -164,12 +164,5 @@ public class TournamentController {
         strategyDialog.repaint();
         strategyDialog.setVisible(true);
     }
-    
-    /**
-     * Quits the game
-     */
-    private void quit() {
-        System.exit(0);
-    }
-    // endregion
+
 }

@@ -22,7 +22,7 @@ import java.util.*;
 /**
  * ConquerDialog is responsible for the attacker choose the number of armies to place on the newly conquered territory
  *
- * @author Team 2
+ * @author Team
  * @version 2.0
  */
 public class StrategyDialog extends JDialog {

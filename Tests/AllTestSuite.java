@@ -8,6 +8,7 @@
 //import game_play.model.GamePlayModelTest;
 
 import game_play.model.GamePlayModelTest;
+import game_play.model.TournamentResultsModelTest;
 import map_editor.model.MapEditorModelTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -35,6 +36,7 @@ import shared_resources.utilities.SavedStateTest;
         TerritoryTest.class,
         GameMapHelperTest.class,
         SavedStateTest.class,
+        TournamentResultsModelTest.class,
 })
 
 public class AllTestSuite {
