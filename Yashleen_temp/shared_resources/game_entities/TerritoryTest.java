@@ -1,9 +1,4 @@
-/*
- * Risk Game Team 2
- * TerritoryTest.java
- * Version 1.0
- * Oct 18, 2017
- */
+
 package shared_resources.game_entities;
 
 import org.junit.Test;
