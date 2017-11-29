@@ -54,7 +54,7 @@ public class TournamentModel {
     }
     
     /**
-     * Setup & Validate input for tournament
+     * Setup and Validate input for tournament
      *
      * @param mapsList          the maps list
      * @param gamesCountField   the games count field
