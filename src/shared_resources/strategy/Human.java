@@ -19,6 +19,11 @@ import static shared_resources.utilities.Config.log;
  * The human strategy
  */
 public class Human implements PlayerType {
+    /**
+     * The reinforcement of the Human gives control to the human player to reinforce the territories.
+     *
+     * @see shared_resources.strategy.PlayerType#reinforcement(GamePlayModel, Vector, Map)
+     */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         Player player = gamePlayModel.getCurrentPlayer();
@@ -32,12 +37,23 @@ public class Human implements PlayerType {
 
         return "";
     }
-    
+
+    /**
+     * The attack of Human gives control to the human player to attack as long as the player wants and is able to.
+     *
+     * @see shared_resources.strategy.PlayerType#attack(GamePlayModel)
+     */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         gamePlayModel.performBattleIfPossible();
     }
 
+    /**
+     * The fortification method of Human gives control to the human player to fortify a territory while respecting
+     * the game rules.
+     *
+     * @see shared_resources.strategy.PlayerType#fortification(GamePlayModel, String, String, int)
+     */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
         Player currentPlayer = gamePlayModel.getCurrentPlayer();
@@ -61,7 +77,12 @@ public class Human implements PlayerType {
         log.append("    " + currentPlayer.getPlayerName() + " moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory);
         return "Successfully moved " + noOfArmies + " armies from " + sourceTerritory + " to " + targetTerritory + ".";
     }
-    
+
+    /**
+     * The moveArmiesToConqueredTerritory of Human.
+     *
+     * @see shared_resources.strategy.PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+     */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
         // Do nothing
