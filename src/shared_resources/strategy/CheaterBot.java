@@ -24,9 +24,13 @@ import static shared_resources.utilities.Config.log;
  */
 public class CheaterBot extends Bot {
     /**
+<<<<<<< HEAD
      * The reinforcement of the Cheater bot doubles the number of armies on all of its territories.
      *
      * @see shared_resources.strategy.PlayerType#reinforcement(GamePlayModel, Vector, Map)
+=======
+     * @see PlayerType#reinforcement(GamePlayModel, Vector, Map)
+>>>>>>> d024efdaa0ebe578b5e771a9fc1ef6e986f1930f
      */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
@@ -43,12 +47,18 @@ public class CheaterBot extends Bot {
         }
         return "";
     }
+<<<<<<< HEAD
 
     /**
      * The attack of Cheater bot takes over ownership of all the territories owned by enemy players that are neighbors
      * with the territories that the Cheater bot owns.
      *
      * @see shared_resources.strategy.PlayerType#attack(GamePlayModel)
+=======
+    
+    /**
+     * @see PlayerType#attack(GamePlayModel)
+>>>>>>> d024efdaa0ebe578b5e771a9fc1ef6e986f1930f
      */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
@@ -78,12 +88,18 @@ public class CheaterBot extends Bot {
             justConqueredTerritory.setOwner(player);
         }
     }
+<<<<<<< HEAD
 
     /**
      * The fortification method of Cheater bot doubles the number of armies on its territories that have neighbors
      * that belong to other players.
      *
      * @see shared_resources.strategy.PlayerType#fortification(GamePlayModel, String, String, int)
+=======
+    
+    /**
+     * @see PlayerType#fortification(GamePlayModel, String, String, int)
+>>>>>>> d024efdaa0ebe578b5e771a9fc1ef6e986f1930f
      */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
@@ -113,11 +129,17 @@ public class CheaterBot extends Bot {
         }
         return "";
     }
+<<<<<<< HEAD
 
     /**
      * The moveArmiesToConqueredTerritory of Cheater bot.
      *
      * @see shared_resources.strategy.PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+=======
+    
+    /**
+     * @see PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+>>>>>>> d024efdaa0ebe578b5e771a9fc1ef6e986f1930f
      */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {

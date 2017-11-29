@@ -8,23 +8,20 @@ package game_play.controller;
 
 import game_play.model.DropDownModel;
 import game_play.model.GamePlayModel;
-import game_play.model.TournamentResultsModel;
-import game_play.view.screens.*;
-import shared_resources.game_entities.GameMap;
-import shared_resources.game_entities.Player;
+import game_play.model.TournamentModel;
+import game_play.view.screens.LoggingFrame;
+import game_play.view.screens.ResultsFrame;
+import game_play.view.screens.StrategyDialog;
+import game_play.view.screens.TournamentFrame;
 import shared_resources.helper.GameMapHelper;
 import shared_resources.helper.UIHelper;
 import shared_resources.strategy.CheaterBot;
 import shared_resources.utilities.Config;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Vector;
 
 import static shared_resources.helper.GameMapHelper.getMapsInFolder;
-import static shared_resources.helper.GameMapHelper.loadGameMap;
-import static shared_resources.utilities.Config.GAME_STATES.STARTUP;
-import static shared_resources.utilities.Config.GAME_STATES.VICTORY;
 
 
 /**
@@ -43,16 +40,13 @@ import static shared_resources.utilities.Config.GAME_STATES.VICTORY;
  * @version 3.0
  */
 public class TournamentController {
-    private static LoggingFrame log = LoggingFrame.getInstance();
     // region Attribute declaration
+    private TournamentModel tournamentModel;
+    private static LoggingFrame log = LoggingFrame.getInstance();
     private TournamentFrame tournamentFrame;
     private MainMenuController callerController;
-    private Vector<GamePlayModel> tournamentSet;
     private StrategyDialog strategyDialog;
     private ResultsFrame resultsFrame;
-    private TournamentResultsModel tournamentResultsModel;
-    private GamePlayModel tempGamePlayModel;
-    private Vector<String> strMapSet;
     // endregion
     
     // region Constructors
@@ -64,132 +58,37 @@ public class TournamentController {
      */
     public TournamentController(MainMenuController callerController) {
         this.callerController = callerController;
+        tournamentModel = new TournamentModel();
         tournamentFrame = new TournamentFrame();
-        tournamentSet = new Vector<>();
+        
         tournamentFrame.addPlayTournamentButtonListener(e -> startTournament());
         tournamentFrame.addBackButtonListener(e -> backToMainMenu());
-        strMapSet = new Vector<>();
         
         /* update map list and populate dropdown */
         tournamentFrame.getMapList().setModel(validMapsFromFolder());
         
         strategyDialog = new StrategyDialog(tournamentFrame);
-        strategyDialog.addSubmitButtonListener(e -> setStrategy());
+        strategyDialog.addSubmitButtonListener(e -> setStrategy(tournamentModel.getTempGamePlayModel()));
     }
     
     /**
      * Validate the selected map, launch the game if it is valid, show a message if it is not.
      */
     private void startTournament() {
-        int maxPlayers; // will be set to the minimum allowed players based on the maps in the set of games
-        /* Validate UI entries */
-        int enteredMaps = validateEntry(tournamentFrame.getMapList(), 1, 5);
-        if (enteredMaps == -1) {
-            UIHelper.displayMessage(tournamentFrame, "Your entry for " + tournamentFrame.getMapList().getName() + " must between 1 and 5");
-            return;
+        JList<String> mapsList = tournamentFrame.getMapList();
+        JTextField gamesCountField = tournamentFrame.getGameCount();
+        JTextField maxTurnField = tournamentFrame.getMaxTurns();
+        JTextField playersCountField = tournamentFrame.getPlayers();
+        
+        String message = tournamentModel.setupTournament(mapsList, gamesCountField, maxTurnField, playersCountField);
+        
+        if (message.contains("successfully")) {
+            /* Pop-up the strategy dialog that will set the strategy for each game */
+            tournamentFrame.dispose();
+            showStrategyOptions(tournamentModel.getTempGamePlayModel());  // use tempTournamentSet to determine the strategies
+        } else {
+            UIHelper.displayMessage(tournamentFrame, message);
         }
-        
-        int enteredGames = validateEntry(tournamentFrame.getGameCount(), 1, 5);
-        if (enteredGames == -1) {
-            UIHelper.displayMessage(tournamentFrame, "Your entry for " + tournamentFrame.getGameCount().getName() + " must between 1 and 5");
-            return;
-        }
-        
-        int enteredMaxTurns = validateEntry(tournamentFrame.getMaxTurns(), 10, 50);
-        if (enteredMaxTurns == -1) {
-            UIHelper.displayMessage(tournamentFrame, "Your entry for " + tournamentFrame.getMaxTurns().getName() + " must between 10 and 50");
-            return;
-        }
-        
-        /* Load the maps first (we will determine the allowed number of players based on maps) */
-        for (String selectedMap : tournamentFrame.getMapList().getSelectedValuesList()) {
-            try {
-                strMapSet.add(selectedMap);                         // add the string game map to the strMapSet
-                GameMap gameMap = loadGameMap(selectedMap);         // load the selected map
-                GamePlayModel gamePlayModel = new GamePlayModel();  // make a new game model that copies the temp game model
-                gamePlayModel.setGameMap(gameMap);                  // set the game map
-                tournamentSet.add(gamePlayModel);                   // add the game model to the tournament set
-            } catch (Exception e) {
-                UIHelper.displayMessage(tournamentFrame, e.getMessage());
-                return;
-            }
-        }
-
-        /* determine max players across all games' maps */
-        maxPlayers = tournamentSet.firstElement().getGameMap().getMaxPlayers();
-        for (GamePlayModel gamePlayModel : tournamentSet) {
-            maxPlayers = Math.min(maxPlayers, gamePlayModel.getGameMap().getMaxPlayers());
-        }
-        
-        /* Now validate the number of players against the maxPlayers across the games' maps*/
-        int enteredPlayers = validateEntry(tournamentFrame.getPlayers(), 2, maxPlayers);
-        if (enteredPlayers == -1) {
-            tournamentSet.clear();
-            UIHelper.displayMessage(tournamentFrame, "Your entry for " + tournamentFrame.getPlayers().getName() + " must between 2 and " + maxPlayers);
-            return;
-        }
-        
-        /* initialize each game */
-        // use a tempTournamentSet to set up the game to determine the player strategies
-        tempGamePlayModel = new GamePlayModel();
-        try {
-            tempGamePlayModel.setGameMap(loadGameMap(strMapSet.firstElement()));
-        } catch (Exception e) {
-            tournamentSet.clear();
-            UIHelper.displayMessage(tournamentFrame, e.getMessage());
-            return;
-        }
-        
-        tempGamePlayModel.setGameState(STARTUP);
-        Player.resetStaticNextID();
-        tempGamePlayModel.initPlayers(enteredPlayers);
-
-        /* Pop-up the strategy dialog that will set the strategy for each game */
-        tournamentFrame.dispose();
-        showStrategyOptions(tempGamePlayModel.getPlayers());  // use tempTournamentSet to determine the strategies
-        
-        /* For each game model in the set, start the game */
-        GamePlayModel gameToPlay;
-        String[][] resultLines = new String[tournamentSet.size()][enteredGames + 1];
-        int r = 0;  // the result line number
-        for (int n = 0; n < tournamentSet.size(); n++) {
-            // collect the map name
-            resultLines[r][0] = tournamentSet.get(n).getGameMap().getMapName();
-            for (int i = 0; i < enteredGames; i++) {
-                /* Play a copy of the game so we can replay from start if needed */
-                gameToPlay = new GamePlayModel();
-                try {
-                    gameToPlay.setGameMap(loadGameMap(strMapSet.get(n)));
-                } catch (Exception e) {
-                    UIHelper.displayMessage(tournamentFrame, e.getMessage());
-                    return;
-                }
-                gameToPlay.setGameState(STARTUP);
-                Player.resetStaticNextID();
-                gameToPlay.initPlayers(enteredPlayers);
-                for (int j = 0; j < enteredPlayers; j++) {  // set the player strategies
-                    gameToPlay.getPlayers().get(j).setPlayerType(tempGamePlayModel.getPlayers().get(j).getPlayerType());
-                }
-                gameToPlay.initializeNewGameForTournament();
-                gameToPlay.setMaxTurns(enteredMaxTurns);
-                gameToPlay.startTheGame();
-                while (gameToPlay.getTurnCounter() < enteredMaxTurns && gameToPlay.getGameState() != VICTORY) {
-                    gameToPlay.letBotsPlay();
-                }
-                // collect the winner of the game
-                resultLines[r][i + 1] = gameToPlay.getWinner() + " " + (gameToPlay.getTurnCounter()) + " turns";
-            }
-            r++;
-        }
-        /* Instantiate a result model */
-        tournamentResultsModel = new TournamentResultsModel(enteredGames);
-        
-        /* Pop-up a Result Frame */
-        resultsFrame = new ResultsFrame();
-        tournamentResultsModel.addObserver(resultsFrame);
-        resultsFrame.addOKButtonListener(e -> backToMainMenu());
-        
-        tournamentResultsModel.setRows(resultLines);
     }
     
     
@@ -203,7 +102,9 @@ public class TournamentController {
     private void backToMainMenu() {
         LoggingFrame.getInstance().getLogArea().setText("");
         tournamentFrame.dispose();
-        if (resultsFrame != null) resultsFrame.dispose();
+        if (resultsFrame != null) {
+            resultsFrame.dispose();
+        }
         UIHelper.invokeFrame(callerController.getMainMenuFrame());
     }
     // endregion
@@ -232,59 +133,34 @@ public class TournamentController {
     
     /**
      * Sets the player strategy as selected in StrategyDialog
+     *
+     * @param gamePlayModel the game play model
      */
-    private void setStrategy() {
+    private void setStrategy(GamePlayModel gamePlayModel) {
         StrategyDialog.BehaviourOptions[] opts = strategyDialog.getPlayersOptions();
         strategyDialog.dispose();
-        tempGamePlayModel.setPlayersType(opts);
+        gamePlayModel.setPlayersType(opts);
+        try {
+            tournamentModel.startTournament();
+        } catch (Exception e) {
+            UIHelper.displayMessage(tournamentFrame, e.getMessage());
+        }
+        
+        /* Pop-up a Result Frame */
+        resultsFrame = new ResultsFrame(tournamentModel.getTournamentResultsModel());
+        resultsFrame.addOKButtonListener(e -> backToMainMenu());
     }
     // endregion
     
     // region for Tournament helpers
     
     /**
-     * Validate UI entries against a min and max values
-     * Method will throw messages to user if exceptions
-     *
-     * @param component the component that holds the user entry
-     * @param min       the minimum bound
-     * @param max       the maximum bound
-     *
-     * @return the valid entry or -1 otherwise
-     */
-    private int validateEntry(Component component, int min, int max) {
-        int entry = -1;
-        try {
-            /* parse the field entries */
-            if (component instanceof JList) {
-                entry = ((JList) component).getSelectedValuesList().size();
-            } else if (component instanceof JTextField) {
-                entry = Integer.parseInt(((JTextField) component).getText());
-            }
-            
-            /* validate against the min-max */
-            if (min <= entry && entry <= max) {
-                return entry;
-            } else {
-                return -1;
-            }
-            // catch any non integer entry where applicable
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Invalid entry for " + component.getName() + " . Please revise.",
-                    "Entry Error!", JOptionPane.ERROR_MESSAGE);
-        }
-        return entry;
-    }
-    
-    /**
      * Setting the player's strategy
      *
-     * @param players the players to populate the strategy dialog
+     * @param gamePlayModel the game play model
      */
-    private void showStrategyOptions(Vector<Player> players) {
-        strategyDialog.populateOptions(players, true);
+    private void showStrategyOptions(GamePlayModel gamePlayModel) {
+        strategyDialog.populateOptions(gamePlayModel.getPlayers(), true);
         strategyDialog.selectSpecificStrategy(CheaterBot.class.getSimpleName());
         strategyDialog.revalidate();
         strategyDialog.repaint();

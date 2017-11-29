@@ -24,9 +24,13 @@ import static shared_resources.utilities.Config.log;
  */
 public class AggressiveBot extends Bot {
     /**
+<<<<<<< HEAD
      * The reinforcement of the Aggressive bot reinforces the strongest territory.
      *
      * @see shared_resources.strategy.PlayerType#reinforcement(GamePlayModel, Vector, Map)
+=======
+     * @see PlayerType#reinforcement(GamePlayModel, Vector, Map)
+>>>>>>> d024efdaa0ebe578b5e771a9fc1ef6e986f1930f
      */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
@@ -48,11 +52,17 @@ public class AggressiveBot extends Bot {
         
         return null;
     }
+<<<<<<< HEAD
 
     /**
      * The attack of Aggressive bot attacks as long as it is allowed to with its strongest territory.
      *
      * @see shared_resources.strategy.PlayerType#attack(GamePlayModel)
+=======
+    
+    /**
+     * @see PlayerType#attack(GamePlayModel)
+>>>>>>> d024efdaa0ebe578b5e771a9fc1ef6e986f1930f
      */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
@@ -86,6 +96,7 @@ public class AggressiveBot extends Bot {
             gamePlayModel.setCurrentBattle(null);
         }
     }
+<<<<<<< HEAD
 
     /**
      * The fortification method of Aggressive bot fortifies its strongest territory from its strongest neighbor.
@@ -93,6 +104,11 @@ public class AggressiveBot extends Bot {
      * a random adjacent territory that is owned by it from the strongest territory.
      *
      * @see shared_resources.strategy.PlayerType#fortification(GamePlayModel, String, String, int)
+=======
+    
+    /**
+     * @see PlayerType#fortification(GamePlayModel, String, String, int)
+>>>>>>> d024efdaa0ebe578b5e771a9fc1ef6e986f1930f
      */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
@@ -205,12 +221,18 @@ public class AggressiveBot extends Bot {
         }
         return strongestTerritory;
     }
+<<<<<<< HEAD
 
     /**
      * The moveArmiesToConqueredTerritory of Aggressive bot move as little armies as possible to the conquered
      * territory while respecting the game rules.
      *
      * @see shared_resources.strategy.PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+=======
+    
+    /**
+     * @see PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+>>>>>>> d024efdaa0ebe578b5e771a9fc1ef6e986f1930f
      */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
