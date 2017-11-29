@@ -19,7 +19,7 @@ import java.util.Vector;
 import static shared_resources.utilities.Config.log;
 
 /**
- * The aggressive AI strategy. Reinforces its strongest country, then always attacks with it until it
+ * The aggressive AI strategy. Reinforces its strongest country, then always attacks with it until
  * cannot attack anymore, then fortifies in order to maximize aggregation of forces in one country.
  */
 public class AggressiveBot extends Bot {
