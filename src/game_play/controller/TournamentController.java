@@ -47,7 +47,6 @@ public class TournamentController {
     // region Attribute declaration
     private TournamentFrame tournamentFrame;
     private MainMenuController callerController;
-    private GamePlayFrame gamePlayFrame;
     private Vector<GamePlayModel> tournamentSet;
     private StrategyDialog strategyDialog;
     private ResultsFrame resultsFrame;
@@ -65,8 +64,6 @@ public class TournamentController {
      */
     public TournamentController(MainMenuController callerController) {
         this.callerController = callerController;
-        gamePlayFrame = new GamePlayFrame(callerController);
-        gamePlayFrame.setVisible(false);
         tournamentFrame = new TournamentFrame();
         tournamentSet = new Vector<>();
         tournamentFrame.addPlayTournamentButtonListener(e -> startTournament());
