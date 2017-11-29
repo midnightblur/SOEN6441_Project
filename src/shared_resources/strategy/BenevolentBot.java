@@ -61,7 +61,7 @@ public class BenevolentBot extends Bot {
     }
 
     /**
-     * The fortification method of Benevolent bot fortifies its weakest territory from its strongest territory.
+     * The fortification method of Benevolent bot fortifies its weakest neighbor from its strongest territory.
      *
      * @see shared_resources.strategy.PlayerType#fortification(GamePlayModel, String, String, int)
      */

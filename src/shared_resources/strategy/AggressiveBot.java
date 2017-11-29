@@ -23,6 +23,11 @@ import static shared_resources.utilities.Config.log;
  * cannot attack anymore, then fortifies in order to maximize aggregation of forces in one country.
  */
 public class AggressiveBot extends Bot {
+    /**
+     * The reinforcement of the Aggressive bot reinforces the strongest territory.
+     *
+     * @see shared_resources.strategy.PlayerType#reinforcement(GamePlayModel, Vector, Map)
+     */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         /* trade cards as long as the bot can */
@@ -43,7 +48,12 @@ public class AggressiveBot extends Bot {
         
         return null;
     }
-    
+
+    /**
+     * The attack of Aggressive bot attacks as long as it is allowed to with its strongest territory.
+     *
+     * @see shared_resources.strategy.PlayerType#attack(GamePlayModel)
+     */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         Player player = gamePlayModel.getCurrentPlayer();
@@ -76,7 +86,14 @@ public class AggressiveBot extends Bot {
             gamePlayModel.setCurrentBattle(null);
         }
     }
-    
+
+    /**
+     * The fortification method of Aggressive bot fortifies its strongest territory from its strongest neighbor.
+     * If the strongest territory does not have any attackable neighbors (owned by other players), then it fortifies
+     * a random adjacent territory that is owned by it from the strongest territory.
+     *
+     * @see shared_resources.strategy.PlayerType#fortification(GamePlayModel, String, String, int)
+     */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
         Player player = gamePlayModel.getCurrentPlayer();
@@ -188,7 +205,13 @@ public class AggressiveBot extends Bot {
         }
         return strongestTerritory;
     }
-    
+
+    /**
+     * The moveArmiesToConqueredTerritory of Aggressive bot move as little armies as possible to the conquered
+     * territory while respecting the game rules.
+     *
+     * @see shared_resources.strategy.PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+     */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
         Territory defendingTerritory = gamePlayModel.getCurrentBattle().getDefendingTerritory();
