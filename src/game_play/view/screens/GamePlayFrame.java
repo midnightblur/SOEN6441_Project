@@ -118,6 +118,14 @@ public class GamePlayFrame extends JFrame implements Observer {
         
         /* Setup & Display frame */
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
+        
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                backToMainMenu();
+            }
+        });
     }
     // endregion
     
@@ -169,6 +177,14 @@ public class GamePlayFrame extends JFrame implements Observer {
     // endregion
     
     // region Getters & Setters
+    
+    /**
+     * Close GamePlayFrame, open MainMenuFrame
+     */
+    private void backToMainMenu() {
+        this.dispose();
+        UIHelper.invokeFrame(callerController.getMainMenuFrame());
+    }
     
     /**
      * Gets the fortification panel.
@@ -240,7 +256,7 @@ public class GamePlayFrame extends JFrame implements Observer {
     public void addPopupVictoryDialogButtonListener(ActionListener listenerForPopupVictoryDialogButton) {
         popupVictoryDialogButton.addActionListener(listenerForPopupVictoryDialogButton);
     }
-
+    
     /**
      * Adds turn counter at maximum button listener
      *
@@ -258,6 +274,9 @@ public class GamePlayFrame extends JFrame implements Observer {
     public void addAttackCounterReachedMaxButtonListener(ActionListener listenerForAttackCounterReachedMaxButton) {
         attackCounterReachedMaxButton.addActionListener(listenerForAttackCounterReachedMaxButton);
     }
+    // endregion
+    
+    // region Public methods
     
     /**
      * Adds start bot turn button listener
@@ -267,9 +286,6 @@ public class GamePlayFrame extends JFrame implements Observer {
     public void addStartBotTurnButtonListener(ActionListener listenerForStartBotTurnButton) {
         startBotTurnButton.addActionListener(listenerForStartBotTurnButton);
     }
-    // endregion
-    
-    // region Public methods
     
     /**
      * Gets the game setup panel.
@@ -342,6 +358,9 @@ public class GamePlayFrame extends JFrame implements Observer {
     public JMenuItem getLoad() {
         return load;
     }
+    // endregion
+    
+    // region MVC & Observer pattern methods
     
     /**
      * Gets the attacking panel
@@ -351,9 +370,6 @@ public class GamePlayFrame extends JFrame implements Observer {
     public AttackingPanel getAttackingPanel() {
         return attackingPanel;
     }
-    // endregion
-    
-    // region MVC & Observer pattern methods
     
     /**
      * This method is called whenever the observed object is changed. An
@@ -450,14 +466,6 @@ public class GamePlayFrame extends JFrame implements Observer {
                 }
             }
         }
-    }
-    
-    /**
-     * Close GamePlayFrame, open MainMenuFrame
-     */
-    private void backToMainMenu() {
-        this.dispose();
-        UIHelper.invokeFrame(callerController.getMainMenuFrame());
     }
     // endregion
 }
