@@ -1,4 +1,9 @@
-
+/*
+ * Risk Game Team 2
+ * DiceTest.java
+ * Version 1.0
+ * Oct 18, 2017
+ */
 package shared_resources.game_entities;
 
 import org.junit.Before;
@@ -9,16 +14,23 @@ import java.util.Vector;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * The Class DiceTest.
  */
 public class DiceTest {
     private Vector<Integer> inputResult;
 
+    /**
+     * Set-up the context by creating a new vector
+     * that holds a mock result of the dice while bypassing the rolling action
+     */
     @Before
     public void setup() {
         inputResult = new Vector<>();
     }
 
-
+    /**
+     * Testing best and second best return for [1, 4 , 5]
+     */
     @Test
     public void testGetResult_1_4_5() {
         inputResult.add(1);
