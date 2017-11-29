@@ -56,10 +56,10 @@ public class GamePlayModel extends Observable implements Serializable {
     private static final int ORIGINAL_MAX_ATTACK_TURN = ORIGINAL_MAX_TURN;
     private int maxAttackTurn;
     private GameMap gameMap;
-    private MapTableModel mapTableModel;
+    private transient MapTableModel mapTableModel;
     private GAME_STATES gameState;
     private Player currentPlayer;
-    private PlayerTerritoriesModel playerTerritoriesModel;
+    private transient PlayerTerritoriesModel playerTerritoriesModel;
     private int armyValue;
     private Vector<Card> deck;
     private Vector<Player> players;
@@ -99,11 +99,11 @@ public class GamePlayModel extends Observable implements Serializable {
      * @param gamePlayModel the restored object
      */
     public void setGamePlayModel(GamePlayModel gamePlayModel) {
-        this.gameMap = gamePlayModel.gameMap;
-        this.mapTableModel = gamePlayModel.mapTableModel;
-        this.gameState = gamePlayModel.gameState;
+        this.gameMap = gamePlayModel.getGameMap();
+        this.gameState = gamePlayModel.getGameState();
+        this.mapTableModel.updateMapTableModel(gameMap, gameState);
         this.currentPlayer = gamePlayModel.currentPlayer;
-        this.playerTerritoriesModel = gamePlayModel.playerTerritoriesModel;
+        this.playerTerritoriesModel.updateMapTableModel(gamePlayModel.getCurrentPlayer(), gamePlayModel);
         this.armyValue = gamePlayModel.armyValue;
         this.deck = gamePlayModel.deck;
         this.players = gamePlayModel.players;
