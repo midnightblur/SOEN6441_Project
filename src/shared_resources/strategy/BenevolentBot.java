@@ -21,6 +21,11 @@ import static shared_resources.utilities.Config.log;
  * to move armies to weaker countries.
  */
 public class BenevolentBot extends Bot {
+    /**
+     * The reinforcement of the Benevolent bot reinforces its weakest territories.
+     *
+     * @see shared_resources.strategy.PlayerType#reinforcement(GamePlayModel, Vector, Map)
+     */
     @Override
     public String reinforcement(GamePlayModel gamePlayModel, Vector<String> selectedCards, Map<Territory, Integer> armiesToPlace) {
         /* trade cards as long as the bot can */
@@ -42,14 +47,24 @@ public class BenevolentBot extends Bot {
         
         return "";
     }
-    
+
+    /**
+     * The attack of Benevolent bot never attacks.
+     *
+     * @see shared_resources.strategy.PlayerType#attack(GamePlayModel)
+     */
     @Override
     public void attack(GamePlayModel gamePlayModel) {
         Player currentPlayer = gamePlayModel.getCurrentPlayer();
         log.append("        " + currentPlayer.getPlayerName() + " quits attacking phase");
         gamePlayModel.setCurrentBattle(null);
     }
-    
+
+    /**
+     * The fortification method of Benevolent bot fortifies its weakest territory from its strongest territory.
+     *
+     * @see shared_resources.strategy.PlayerType#fortification(GamePlayModel, String, String, int)
+     */
     @Override
     public String fortification(GamePlayModel gamePlayModel, String sourceTerritory, String targetTerritory, int noOfArmies) {
         Player player = gamePlayModel.getCurrentPlayer();
@@ -122,7 +137,12 @@ public class BenevolentBot extends Bot {
         }
         return weakestNeighbor;
     }
-    
+
+    /**
+     * The moveArmiesToConqueredTerritory of Benevolent bot.
+     *
+     * @see shared_resources.strategy.PlayerType#moveArmiesToConqueredTerritory(GamePlayModel)
+     */
     @Override
     public void moveArmiesToConqueredTerritory(GamePlayModel gamePlayModel) {
         // Do nothing
