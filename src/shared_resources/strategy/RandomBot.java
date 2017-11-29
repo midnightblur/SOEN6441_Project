@@ -19,7 +19,7 @@ import static shared_resources.utilities.Config.log;
 
 /**
  * The random AI strategy. Reinforces a random country, attacks random countries a random number of times, and
- * fortifieng a random country.
+ * fortifies a random country.
  */
 public class RandomBot extends Bot {
     @Override
