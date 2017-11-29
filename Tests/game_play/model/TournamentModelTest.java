@@ -60,16 +60,14 @@ public class TournamentModelTest {
         
         /* Play the games in the game set */
         for (GamePlayModel gameToPlay : gameSet) {      // for each game in the set of games
-            for (int i = 0; i < maxTurns; i++) {        // play as long as we reached maximum turns or get VICTORY
-                gameToPlay.setGameState(STARTUP);
-                gameToPlay.initializeNewGameForTournament();
-                gameToPlay.startTheGame();
-                while (gameToPlay.getTurnCounter() < maxTurns && gameToPlay.getGameState() != VICTORY) {
-                    gameToPlay.letBotsPlay();
-                }
-                // collect the winner of the game and the played turns
-                results.add(new Pair<>(gameToPlay.getWinner(), gameToPlay.getTurnCounter()));
+            gameToPlay.setGameState(STARTUP);
+            gameToPlay.initializeNewGameForTournament();
+            gameToPlay.startTheGame();
+            while (gameToPlay.getTurnCounter() < maxTurns && gameToPlay.getGameState() != VICTORY) {
+                gameToPlay.letBotsPlay();
             }
+            // collect the winner of the game and the played turns
+            results.add(new Pair<>(gameToPlay.getWinner(), gameToPlay.getTurnCounter()));
         }
     }
     
@@ -79,8 +77,9 @@ public class TournamentModelTest {
      */
     @Test
     public void testDraw() {
+        int i = 1;
         for (Pair<String, Integer> result : results) {
-            System.out.println("We expect a \"Draw\" result. We obtained a \"" + result.getKey() + "\" result.");
+            System.out.println("Game #" + (i++) + ": We expect a \"Draw\" result. We obtained a \"" + result.getKey() + "\" result.");
             assertEquals("Draw", result.getKey());
         }
     }
@@ -91,8 +90,9 @@ public class TournamentModelTest {
      */
     @Test
     public void testTurns() {
+        int i = 1;
         for (Pair<String, Integer> result : results) {
-            System.out.println("We expect " + maxTurns + " turns. We played for " + result.getValue() + " turns.");
+            System.out.println("Game #" + (i++) + ": We expect " + maxTurns + " turns. We played for " + result.getValue() + " turns.");
             assertEquals(maxTurns, (int) result.getValue());
         }
     }
