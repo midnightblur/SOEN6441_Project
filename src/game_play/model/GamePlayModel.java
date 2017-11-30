@@ -812,6 +812,7 @@ public class GamePlayModel extends Observable implements Serializable {
         log.append("    " + currentPlayer.getPlayerName() + " is " + currentPlayer.getPlayerType().getClass().getSimpleName());
         currentPlayer.nextPhase();
         addReinforcementForCurrPlayer();
+        updateGameMapTableModel();
         updatePlayerTerritoriesModel();
         broadcastGamePlayChanges();
     }
@@ -1131,7 +1132,7 @@ public class GamePlayModel extends Observable implements Serializable {
                     " and " + currentBattle.getDefender().getPlayerName() +
                     "'s " + currentBattle.getDefendingTerritory().getName());
         
-        /* Both players roll dice */
+            /* Both players roll dice */
             currentBattle.attackerRollDice();
             log.append("            " + currentBattle.getAttacker().getPlayerName() + " roll dice: " +
                     currentBattle.getAttackerDice().getRollsResult());
@@ -1206,7 +1207,7 @@ public class GamePlayModel extends Observable implements Serializable {
             attackCounter++;
             currentPlayer.attack(this);
         } else {
-            currentBattle = null;
+            currentBattle = null; // all bots give up attacking after 50 attacks
         }
     
         // If the game has a victor
