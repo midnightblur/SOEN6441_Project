@@ -197,7 +197,8 @@ public class GamePlayModelTest {
     }
 
     /**
-     *
+     * Test case for correct list of the defending territories for a given attacking territory of the player
+     * in turn (Player 1), that can be used to make valid defend moves from.
      */
     @Test
     public void getValidDefendingTerritoriesTestCase() {
@@ -213,7 +214,7 @@ public class GamePlayModelTest {
 
         System.out.print("\tThen, for territory " + player1.getTerritories().firstElement().getName()
                 + ", the list of valid defending territories are = ");
-        String[] strArrOfValidDefendingTerritories = tempGamePlayModel.getValidAttackingTerritories(player1);
+        String[] strArrOfValidDefendingTerritories = tempGamePlayModel.getValidDefendingTerritories(player1, player1.getTerritories().firstElement());
         for (int i = 0; i < strArrOfValidDefendingTerritories.length; i++) {
             if (i != 0) {
                 System.out.print(", ");
@@ -222,7 +223,7 @@ public class GamePlayModelTest {
         }
         System.out.println("\n");
 
-        assertEquals("1c", strArrOfValidDefendingTerritories[0]);
+        assertEquals("1t", strArrOfValidDefendingTerritories[0]);
     }
     
     /**
