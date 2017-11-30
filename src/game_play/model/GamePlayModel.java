@@ -875,10 +875,9 @@ public class GamePlayModel extends Observable implements Serializable {
         }
         if (gameState != VICTORY) {
             moveToFortificationIfPossible();
+            updateGameMapTableModel();
+            broadcastGamePlayChanges();
         }
-        
-        updateGameMapTableModel();
-        broadcastGamePlayChanges();
         
         return message;
     }
