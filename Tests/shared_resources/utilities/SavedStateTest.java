@@ -45,6 +45,7 @@ public class SavedStateTest {
         mockObject.setCurrentPlayer(mockObject.getPlayers().lastElement());
         mockObject.setArmyValue(999);
         SavedState.saveGame(mockObject, fileName);
+        System.out.println("A game was saved with an army value of \"999\" and current player as to \"Player 2\"");
     }
     
     /**
@@ -55,6 +56,7 @@ public class SavedStateTest {
     @Test
     public void loadGame() {
         GamePlayModel loadedObject = SavedState.loadGame(fileName);
+        System.out.println("We load the saved game from file and validate that the army value is \"999\" and current player is \"Player 2\"");
         assertEquals(loadedObject.getCurrentPlayer().getPlayerName(), "Player 2");
         assertEquals(loadedObject.getArmyValue(), 999);
     }
