@@ -195,6 +195,36 @@ public class GamePlayModelTest {
         
         assertEquals("1c", strArrOfValidAttackTerritories[0]);
     }
+
+    /**
+     * Test case for correct list of the defending territories for a given attacking territory of the player
+     * in turn (Player 1), that can be used to make valid defend moves from.
+     */
+    @Test
+    public void getValidDefendingTerritoriesTestCase() {
+        GamePlayModel tempGamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
+
+        Player player1 = tempGamePlayModel.getPlayers().get(0);
+
+        System.out.println("Testing the list of territories that can be used to make valid attack moves for Player 1:");
+        System.out.println("If Player 1 has the following territories...");
+        for (int i = 0; i < player1.getTerritories().size(); i++) {
+            System.out.println("\tTerritory " + player1.getTerritories().get(i).getName());
+        }
+
+        System.out.print("\tThen, for territory " + player1.getTerritories().firstElement().getName()
+                + ", the list of valid defending territories are = ");
+        String[] strArrOfValidDefendingTerritories = tempGamePlayModel.getValidDefendingTerritories(player1, player1.getTerritories().firstElement());
+        for (int i = 0; i < strArrOfValidDefendingTerritories.length; i++) {
+            if (i != 0) {
+                System.out.print(", ");
+            }
+            System.out.print(strArrOfValidDefendingTerritories[i]);
+        }
+        System.out.println("\n");
+
+        assertEquals("1t", strArrOfValidDefendingTerritories[0]);
+    }
     
     /**
      * Test case for correct number of maximum dice that can be used to attack for Player 1 with Territory 1c.

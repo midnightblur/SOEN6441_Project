@@ -1044,6 +1044,30 @@ public class GamePlayModel extends Observable implements Serializable {
         }
         return territoriesList.toArray(new String[territoriesList.size()]);
     }
+
+    /**
+     * Gets a list of territories owned by another player (that is not the specified player) that can defend
+     * against the attacking territory.
+     *
+     * A valid defending territory is a territory that is a neighbor of the attacking territory, which is not owned
+     * by the player.
+     *
+     * @param player the player
+     * @param territory the target territory to check the valid defending territories of
+     *
+     * @return a list of territories' names in form of an array of strings
+     */
+    public String[] getValidDefendingTerritories(Player player, Territory territory) {
+        Vector<String> territoriesList = new Vector<>();
+        if (territory.getOwner() == player) {
+            for (String neighbor : territory.getNeighbors()) {
+                if (gameMap.getATerritory(neighbor).getOwner() != player) {
+                    territoriesList.add(neighbor);
+                }
+            }
+        }
+        return territoriesList.toArray(new String[territoriesList.size()]);
+    }
     
     /**
      * Gets the list of all neighbors that are not owned by the same owner
