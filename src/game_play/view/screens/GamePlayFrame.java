@@ -402,9 +402,13 @@ public class GamePlayFrame extends JFrame implements Observer {
                 } else if (gamePlayModel.getCurrentPlayer().isHuman()) { // Current player is human
                     gameMapTable.setModel(gamePlayModel.getMapTableModel().getModel());
             
-                /* Enable strategy menu item if players are set */
-                    if (gamePlayModel.getPlayers().size() > 0) {
+                    /* Enable strategy menu item if players are set */
+                    if (gamePlayModel.getPlayers().size() > 0 &&
+                            (gamePlayModel.getGameState() == Config.GAME_STATES.STARTUP ||
+                                    gamePlayModel.getCurrentPlayer().getGameState() == Config.GAME_STATES.REINFORCEMENT)) {
                         strategy.setEnabled(true);
+                    } else {
+                        strategy.setEnabled(false);
                     }
                     
                     CardLayout cardLayout = (CardLayout) controlArea.getLayout();
