@@ -321,7 +321,7 @@ public class MapEditorController {
         Vector<String> neighborVector = new Vector<>();
         for (Component component : mapEditorFrame.getEditMapPanel().getEditTerritoryPanel().getCheckBoxPanel().getComponents()) {
             JCheckBox checkBox = (JCheckBox) component;
-            if (checkBox.isSelected()) {
+            if (checkBox.isSelected() && checkBox.getText().compareTo(newTerritoryName) != 0) {
                 neighborVector.add(checkBox.getText());
             }
         }
