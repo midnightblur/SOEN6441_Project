@@ -50,6 +50,7 @@ public class MapEditorFrame extends JFrame implements Observer {
         
         /* Setup & Display frame */
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
     // endregion
     

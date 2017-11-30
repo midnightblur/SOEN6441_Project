@@ -44,6 +44,7 @@ public class MapSelectorFrame extends JFrame implements Observer {
     public MapSelectorFrame() {
         setupContentPane();
         UIHelper.displayJFrame(this, TITLE, WIDTH, HEIGHT, true);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
     // endregion
     
