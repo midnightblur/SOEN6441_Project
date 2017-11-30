@@ -25,7 +25,7 @@ public class ResultsFrame extends JFrame {
     private static final String TITLE = "Results";
     private static final String BACK_BUTTON = "Return to main menu";
     private static final int WIDTH = 1100;
-    private static final int HEIGHT = 250;
+    private static final int HEIGHT = 300;
     private JTable resultsTable;
     private JButton returnToMainButton;
     // endregion
