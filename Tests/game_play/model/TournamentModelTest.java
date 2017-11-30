@@ -112,13 +112,12 @@ public class TournamentModelTest {
      * Testing for a larger than expected selection in a list
      */
     @Test
-    public void testInvalidStringEntries() {
-        JList listInput = new JList();
+    public void testLargerListSelection() {
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (int i = 0; i < 10; i++) {
             listModel.add(i, "list option");
         }
-        listInput.setModel(listModel);
+        JList listInput = new JList(listModel);
         int[] selection = { 0, 1, 2, 3, 4, 5 };
         listInput.setSelectedIndices(selection);
         System.out.println("We expect a selection of 2 to 4 list elements. We test a selection of 6 elements.");

@@ -129,7 +129,7 @@ public class GamePlayModel extends Observable implements Serializable {
     }
     
     /**
-     * Gets the orignial max attack turns
+     * Gets the original max attack turns
      *
      * @return the original max attack turns
      */
