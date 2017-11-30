@@ -1,9 +1,10 @@
-package tests_resources;/*
+/*
  * Risk Game Team 2
  * tests_resources.FixedGamePlayModel.java
  * Version 1.0
  * Nov 7, 2017
  */
+package tests_resources;
 
 import game_play.model.GamePlayModel;
 import shared_resources.helper.GameMapHelper;
@@ -26,6 +27,7 @@ public class FixedGamePlayModel {
     // endregion
     
     // region Public methods
+    
     /**
      * This static method creates an instance of a GamePlayMode object that is initialized with
      * a method to distribute territories in a fixed approach and returns it for the sole purpose

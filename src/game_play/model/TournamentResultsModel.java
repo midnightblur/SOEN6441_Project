@@ -1,3 +1,9 @@
+/*
+ * Risk Game Team 2
+ * TournamentResultsModel.java
+ * Version 3.0
+ * Nov 29, 2017
+ */
 package game_play.model;
 
 import javax.swing.table.DefaultTableModel;

@@ -445,7 +445,7 @@ public class Player implements Serializable {
     }
     
     /**
-     * {@inheritDoc}
+     *
      *
      * Implements the Reinforcement Phase of a particular player
      *
@@ -506,7 +506,7 @@ public class Player implements Serializable {
     }
     
     /**
-     * {@inheritDoc}
+     *
      *
      * Implements the Attack Phase of particular player.
      *
@@ -639,7 +639,7 @@ public class Player implements Serializable {
     }
     
     /**
-     * {@inheritDoc}
+     *
      *
      * Moves armies to conquered territory
      *
@@ -655,7 +655,7 @@ public class Player implements Serializable {
     // region Fortification Phase
     
     /**
-     * {@inheritDoc}
+     *
      *
      * Implement the Fortification Phase of a particular player.
      *
