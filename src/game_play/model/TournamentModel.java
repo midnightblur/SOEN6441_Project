@@ -144,7 +144,7 @@ public class TournamentModel {
      *
      * @return the valid entry or -1 otherwise
      */
-    private int validateEntry(Component component, int min, int max) {
+    public int validateEntry(Component component, int min, int max) {
         int entry = -1;
         try {
             /* parse the field entries */
@@ -207,5 +207,62 @@ public class TournamentModel {
         /* Instantiate a result model */
         tournamentResultsModel = new TournamentResultsModel(enteredGames);
         tournamentResultsModel.setRows(resultLines);
+    }
+    
+
+    /**
+     * Gets tournamentSet.
+     *
+     * @return Value of tournamentSet.
+     */
+    public Vector<GamePlayModel> getTournamentSet() {
+        return tournamentSet;
+    }
+    
+    
+    /**
+     * Sets new enteredPlayers.
+     *
+     * @param enteredPlayers New value of enteredPlayers.
+     */
+    public void setEnteredPlayers(int enteredPlayers) {
+        this.enteredPlayers = enteredPlayers;
+    }
+    
+    /**
+     * Sets new enteredMaxTurns.
+     *
+     * @param enteredMaxTurns New value of enteredMaxTurns.
+     */
+    public void setEnteredMaxTurns(int enteredMaxTurns) {
+        this.enteredMaxTurns = enteredMaxTurns;
+    }
+    
+    /**
+     * Sets new enteredGames.
+     *
+     * @param enteredGames New value of enteredGames.
+     */
+    public void setEnteredGames(int enteredGames) {
+        this.enteredGames = enteredGames;
+    }
+    
+    /**
+     * Sets new strMapSet.
+     *
+     * @param strMapSet New value of strMapSet.
+     */
+    public void setStrMapSet(Vector<String> strMapSet) {
+        this.strMapSet = strMapSet;
+    }
+    
+    
+    /**
+     * Sets new tempGamePlayModel.
+     *
+     * @param tempGamePlayModel New value of tempGamePlayModel.
+     */
+    public void setTempGamePlayModel(GamePlayModel tempGamePlayModel) {
+        this.tempGamePlayModel = tempGamePlayModel;
     }
 }

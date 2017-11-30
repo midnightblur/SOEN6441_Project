@@ -6,18 +6,17 @@
  */
 package game_play.model;
 
-import javafx.util.Pair;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import shared_resources.game_entities.Player;
 import shared_resources.strategy.BenevolentBot;
 import tests_resources.FixedGamePlayModel;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
 
 import static junit.framework.TestCase.assertEquals;
-import static shared_resources.utilities.Config.GAME_STATES.STARTUP;
-import static shared_resources.utilities.Config.GAME_STATES.VICTORY;
 
 /**
  * Testing the tournament mode
@@ -31,18 +30,24 @@ import static shared_resources.utilities.Config.GAME_STATES.VICTORY;
  * @version 3.0
  */
 public class TournamentModelTest {
+    private static int gameCount;
     private static int maxTurns;
-    private static Vector<Pair<String, Integer>> results;
+    private static Vector<String> mapSet;
+    private static TournamentModel tournamentModel;
+    
+    private static int minBound;
+    private static int maxBound;
     
     /**
      * Prepare the tournament context
      */
     @BeforeClass
     public static void setup() {
-        Vector<GamePlayModel> gameSet = new Vector<>();
-        int gameCount = 3;
-        results = new Vector<>();
-        maxTurns = 20;
+        tournamentModel = new TournamentModel();
+        gameCount = 2;
+        maxTurns = 10;
+        minBound = 2;
+        maxBound = 4;
         
         /* Build a new game and set the players and their strategies */
         GamePlayModel gamePlayModel = FixedGamePlayModel.getFixedGamePlayModel();
@@ -53,48 +58,71 @@ public class TournamentModelTest {
             player.setPlayerType(new BenevolentBot());
         }
         
-        /* Add the same game to the set of games as many times as the gameCount is set */
+        /* Add the same game to the set of games as many times as the gameCount is set. Same for the map. */
+        mapSet = new Vector<>();
         for (int i = 0; i < gameCount; i++) {
-            gameSet.add(gamePlayModel);
+            mapSet.add(gamePlayModel.getGameMap().getMapName());
+            tournamentModel.getTournamentSet().add(gamePlayModel);
         }
         
+        /* set attributes in the tournament model */
+        tournamentModel.setEnteredGames(gameCount);
+        tournamentModel.setEnteredMaxTurns(maxTurns);
+        tournamentModel.setEnteredPlayers(gamePlayModel.getPlayers().size());
+        tournamentModel.setStrMapSet(mapSet);
+        tournamentModel.setTempGamePlayModel(gamePlayModel);
+        
         /* Play the games in the game set */
-        for (GamePlayModel gameToPlay : gameSet) {      // for each game in the set of games
-            gameToPlay.setGameState(STARTUP);
-            gameToPlay.initializeNewGameForTournament();
-            gameToPlay.startTheGame();
-            while (gameToPlay.getTurnCounter() < maxTurns && gameToPlay.getGameState() != VICTORY) {
-                gameToPlay.letBotsPlay();
-            }
-            // collect the winner of the game and the played turns
-            results.add(new Pair<>(gameToPlay.getWinner(), gameToPlay.getTurnCounter()));
+        try {
+            tournamentModel.startTournament();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
     /**
      * Testing for game results
-     * We expect to always have a draw since players are all benevolent
+     * We expect to always have a draw after the maximum turns since players are all benevolent
      */
     @Test
-    public void testDraw() {
-        int i = 1;
-        for (Pair<String, Integer> result : results) {
-            System.out.println("Game #" + (i++) + ": We expect a \"Draw\" result. We obtained a \"" + result.getKey() + "\" result.");
-            assertEquals("Draw", result.getKey());
+    public void testResults() {
+        DefaultTableModel results = tournamentModel.getTournamentResultsModel().getResultsModel();
+        String resultText;
+        for (int row = 0; row < results.getRowCount(); row++) {
+            for (int column = 1; column < results.getColumnCount(); column++) { //first column is the map name so we skip it
+                resultText = (String) results.getValueAt(row, column);
+                System.out.println("Game #" + column + ": We expect a \"Draw " + maxTurns + " turns\" result. We obtained a \"" + resultText + "\" result.");
+                assertEquals("Draw " + maxTurns + " turns", resultText);
+            }
         }
     }
     
     /**
-     * Testing for turn counts
-     * We expect to always exhaust the turn counts
+     * Testing for out of bounds entry in a text field
      */
     @Test
-    public void testTurns() {
-        int i = 1;
-        for (Pair<String, Integer> result : results) {
-            System.out.println("Game #" + (i++) + ": We expect " + maxTurns + " turns. We played for " + result.getValue() + " turns.");
-            assertEquals(maxTurns, (int) result.getValue());
+    public void testInvalidIntegerEntries() {
+        JTextField textInput = new JTextField();
+        textInput.setText("50");
+        System.out.println("We expect an input between 2 and 4. We test 50 as invalid input.");
+        assertEquals(-1, tournamentModel.validateEntry(textInput, minBound, maxBound));
+    }
+    
+    /**
+     * Testing for a larger than expected selection in a list
+     */
+    @Test
+    public void testInvalidStringEntries() {
+        JList listInput = new JList();
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (int i = 0; i < 10; i++) {
+            listModel.add(i, "list option");
         }
+        listInput.setModel(listModel);
+        int[] selection = { 0, 1, 2, 3, 4, 5 };
+        listInput.setSelectedIndices(selection);
+        System.out.println("We expect a selection of 2 to 4 list elements. We test a selection of 6 elements.");
+        assertEquals(-1, tournamentModel.validateEntry(listInput, minBound, maxBound));
     }
     
 }
