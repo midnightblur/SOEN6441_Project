@@ -118,8 +118,8 @@ public class Player implements Serializable {
      *
      * @return the number of armies for this player
      */
-    public int getTotalArmiesCount() {
-        int armies = 0;
+    public long getTotalArmiesCount() {
+        long armies = 0L;
         for (Territory t : getTerritories()) {
             armies += t.getArmies();
         }

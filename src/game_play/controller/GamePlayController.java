@@ -207,8 +207,8 @@ public class GamePlayController {
      * If we continue, the turnCounter is reset
      */
     private void askUserToContinue() {
-        String message = "Game reached maximum turns allotted (" + gamePlayModel.getMaxTurns() + ")\n" +
-                "Do you want to continue playing another " + gamePlayModel.getMaxTurns() + " turns?";
+        String message = "Game reached maximum turns allotted (" + gamePlayModel.getMaxTurns() + ").\n" +
+                " Do you want to continue playing another " + gamePlayModel.getMaxTurns() + " turns?";
         ManualInteractionDialog manualInteractionDialog = new ManualInteractionDialog(gamePlayFrame, message);
         manualInteractionDialog.addNoButtonListener(e -> stopTheGame(manualInteractionDialog));
         manualInteractionDialog.addYesButtonListener(e -> continueTheGame(manualInteractionDialog, false));
@@ -218,8 +218,8 @@ public class GamePlayController {
      * Asks user for a decision when maximum turns are reached
      */
     private void askUserInteraction() {
-        String message = "Game reached maximum attacks allotted (" + gamePlayModel.getMaxAttackTurn() + ")\n" +
-                "Do you want to continue attacking?";
+        String message = "Game reached maximum attacks allotted (" + gamePlayModel.getMaxAttackTurn() + ").\n" +
+                " Do you want to continue attacking?";
         ManualInteractionDialog manualInteractionDialog = new ManualInteractionDialog(gamePlayFrame, message);
         manualInteractionDialog.addNoButtonListener(e -> stopTheGame(manualInteractionDialog));
         manualInteractionDialog.addYesButtonListener(e -> continueTheGame(manualInteractionDialog, true));
