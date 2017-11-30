@@ -28,6 +28,7 @@ import java.util.Vector;
 
 import static shared_resources.utilities.Config.GAME_EXTENSION;
 import static shared_resources.utilities.Config.GAME_STATES.*;
+import static shared_resources.utilities.Config.log;
 import static shared_resources.utilities.SavedState.loadGame;
 import static shared_resources.utilities.SavedState.saveGame;
 
@@ -470,6 +471,11 @@ public class GamePlayController {
         gamePlayModel.setCurrentBattle(null);
         
         gamePlayModel.changePhaseOfCurrentPlayer(FORTIFICATION);
+        Player currentPlayer = gamePlayModel.getCurrentPlayer();
+        if (!currentPlayer.ableToFortify(gamePlayModel.getGameMap())) {
+            log.append("        " + currentPlayer.getPlayerName() + " cannot fortify");
+            gamePlayModel.nextPlayerTurn();
+        }
     }
     
     // endregion
@@ -589,15 +595,16 @@ public class GamePlayController {
         dialog.getOwner().dispose();
         owner.setVisible(true);
         if (gamePlayModel.getCurrentPlayer().isHuman()) {  // if human attacker
-            String message = gamePlayModel.declareAttack(
+            gamePlayModel.declareAttack(
                     String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem()),
                     String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem()),
                     (Integer) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem(),
                     defendingDice
             );
             
-            announceVictoryIfPossible(message);
-            moveArmiesToConqueredTerritoryIfPossible();
+            if (gamePlayModel.getGameState() != VICTORY) {
+                moveArmiesToConqueredTerritoryIfPossible();
+            }
         } else {  // if bot attacker
             gamePlayModel.getCurrentBattle().setDefendingDice(defendingDice);
             gamePlayModel.botsFortification(true);
@@ -612,15 +619,16 @@ public class GamePlayController {
      */
     private void startTheBattle(int defendingDice) {
         /* Perform the battle */
-        String message = gamePlayModel.declareAttack(
+        gamePlayModel.declareAttack(
                 String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackingTerritoriesDropdown().getSelectedItem()),
                 String.valueOf(gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getDefendingTerritoriesDropdown().getSelectedItem()),
                 (Integer) gamePlayFrame.getAttackingPanel().getAttackPreparePanel().getAttackerNoOfDice().getSelectedItem(),
                 defendingDice
         );
         
-        announceVictoryIfPossible(message);
-        moveArmiesToConqueredTerritoryIfPossible();
+        if (gamePlayModel.getGameState() != VICTORY) {
+            moveArmiesToConqueredTerritoryIfPossible();
+        }
     }
     
     /**
